@@ -1,26 +1,21 @@
 plugins {
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.daggerHilt)
-    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.compose.compiler) // 추가
+    alias(libs.plugins.ksp)
+    id("kotlinx-serialization")
 }
 
 android {
-    namespace = "com.party.guam"
+    namespace = "com.party.di"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.party.guam"
         minSdk = 28
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -32,10 +27,6 @@ android {
             )
         }
     }
-    composeCompiler {
-        enableStrongSkippingMode = true
-        includeSourceInformation = true
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -43,34 +34,41 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    buildFeatures {
-        compose = true
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
 }
 
 dependencies {
-    implementation(project(":data"))
-    implementation(project(":domain"))
-    implementation(project(":presentation"))
-    implementation(project(":di"))
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.test.manifest)
 
     // hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+
+    // room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
+    // retrofit
+    implementation(libs.retrofit)
+
+    // Kotlin Serialization
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.kotlinx.serialization.json)
+
+    // kotlinx-serialization-converter
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
+
+    //Okhttp3
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+
+    // Sandwich
+    implementation(libs.sandwich.retrofit)
 }

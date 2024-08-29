@@ -21,4 +21,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "guam"
 include(":app")
- 
+include(":common")
+include(":data")
+include(":di")
+include(":domain")
+include(":navigation")
+include(":presentation")
