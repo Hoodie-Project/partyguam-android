@@ -1,4 +1,4 @@
-package com.party.presentation.ui.theme
+package com.party.common.ui.theme
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -8,11 +8,17 @@ val LARGE_BUTTON_HEIGHT = 48.dp
 val MEDIUM_BUTTON_HEIGHT = 36.dp
 val SMALL_BUTTON_HEIGHT = 24.dp
 
-val LARGE_FONT_SIZE = 16.sp
-val MEDIUM_FONT_SIZE = 14.sp
-val SMALL_FONT_SIZE = 12.sp
+// Font size
+val T1 = 20.sp
+val T2 = 18.sp
+val T3 = 16.sp
+val B1 = 16.sp
+val B2 = 14.sp
+val B3 = 12.sp
 
+// Corner size
 val LARGE_CORNER_SIZE = 16.dp
 val MEDIUM_CORNER_SIZE = 12.dp
 
+// Padding
 val MEDIUM_PADDING_SIZE = 20.dp

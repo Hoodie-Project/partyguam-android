@@ -1,4 +1,4 @@
-package com.party.presentation.ui.theme
+package com.party.common.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
@@ -16,7 +16,6 @@ val DARK300 = Color(0xFF096B59)
 val DARK200 = Color(0xFF0D9A80)
 val DARK100 = Color(0xFF11C9A7)
 
-val WHITE = Color(0xFFFFFFFF)
 val LIGHT400 = Color(0xFFDDFCF6)
 val LIGHT300 = Color(0xFFC5FAF0)
 val LIGHT200 = Color(0xFFAEF8EB)
@@ -29,6 +28,7 @@ val GRAY300 = Color(0xFFD4D4D4)
 val GRAY200 = Color(0xFFE5E5E5)
 val GRAY100 = Color(0xFFF1F1F5)
 
+val WHITE = Color(0xFFFFFFFF)
 val RED = Color(0xFFDC0000)
 val GREEN = Color(0xFF04B014)
 val YELLOW = Color(0xFFFFAA00)

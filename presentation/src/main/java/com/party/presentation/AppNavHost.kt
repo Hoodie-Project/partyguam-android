@@ -15,7 +15,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.party.navigation.CustomTopBar
 import com.party.navigation.Screens
+import com.party.navigation.fromRoute
+import com.party.navigation.isVisibleTopBar
 import com.party.presentation.screen.login.LoginScreen
 
 const val ANIMATION_DURATION = 500
@@ -24,6 +27,7 @@ const val ANIMATION_DURATION = 500
 fun AppNavHost() {
     val navController = rememberNavController()
     val backStackEntry = navController.currentBackStackEntryAsState()
+    val currentScreen = backStackEntry.value.fromRoute()
 
     val snackBarHostState = remember { SnackbarHostState() }
 
@@ -33,6 +37,15 @@ fun AppNavHost() {
         snackbarHost = {
             SnackbarHost(snackBarHostState)
         },
+        topBar = {
+            if (isVisibleTopBar(currentScreen)) {
+                CustomTopBar(
+                    currentScreen = currentScreen,
+                    navController = navController,
+                    title = currentScreen.title
+                )
+            }
+        }
     ){
         NavHost(
             navController = navController,
