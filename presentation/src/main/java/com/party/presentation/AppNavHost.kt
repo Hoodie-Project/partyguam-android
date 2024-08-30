@@ -2,6 +2,7 @@ package com.party.presentation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -15,6 +16,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
+import com.party.common.ui.theme.WHITE
 import com.party.navigation.CustomTopBar
 import com.party.navigation.Screens
 import com.party.navigation.fromRoute
@@ -52,7 +55,9 @@ fun AppNavHost() {
             startDestination = Screens.Login,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it),
+                .background(WHITE)
+                .padding(it)
+                .padding(horizontal = MEDIUM_PADDING_SIZE),
             enterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Left,

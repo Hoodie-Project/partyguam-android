@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">guam</string>
+
+    <!--Login Screen-->
+    <string name="login1">파티괌과 함께\n파티에 참여하실 준비가 되었나요?</string>
+    <string name="login2">소셜 로그인으로 편하게 이용해보세요.</string>
+    <string name="login3">카카오톡 로그인</string>
+    <string name="login4">구글 로그인</string>
+    <string name="login5">소셜 로그인 가입 시</string>
+    <string name="login6">이용약관 개인정보처리방침 전자금융거래약관 결제/환불약관</string>
+    <string name="login7">에 동의한 것으로 간주합니다.</string>
+    <string name="login8">문의하기</string>
+</resources>

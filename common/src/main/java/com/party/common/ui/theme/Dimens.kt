@@ -4,6 +4,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 val EXTRA_LARGE_BUTTON_HEIGHT = 56.dp
+val EXTRA_LARGE_BUTTON_HEIGHT2 = 52.dp
 val LARGE_BUTTON_HEIGHT = 48.dp
 val MEDIUM_BUTTON_HEIGHT = 36.dp
 val SMALL_BUTTON_HEIGHT = 24.dp

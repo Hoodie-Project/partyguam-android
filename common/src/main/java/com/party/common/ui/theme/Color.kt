@@ -32,3 +32,5 @@ val WHITE = Color(0xFFFFFFFF)
 val RED = Color(0xFFDC0000)
 val GREEN = Color(0xFF04B014)
 val YELLOW = Color(0xFFFFAA00)
+
+val KakaoLoginColor = Color(0xFFFEE500)
