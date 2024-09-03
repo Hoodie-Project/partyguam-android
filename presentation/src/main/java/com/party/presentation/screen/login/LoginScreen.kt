@@ -12,6 +12,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.party.common.AnnotatedTextComponent
 import com.party.common.HeightSpacer
 import com.party.common.TextComponent
@@ -27,7 +29,9 @@ import com.party.presentation.R
 
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    navController: NavHostController,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -54,7 +58,8 @@ fun LoginScreen() {
             containerColor = KakaoLoginColor,
             borderColor = KakaoLoginColor,
             painterImage = painterResource(id = R.drawable.kakao),
-            contentDescription = "kakao"
+            contentDescription = "kakao",
+            navHostController = navController,
         )
 
         HeightSpacer(heightDp = 8.dp)
@@ -64,7 +69,8 @@ fun LoginScreen() {
             containerColor = WHITE,
             borderColor = GRAY200,
             painterImage = painterResource(id = R.drawable.google),
-            contentDescription = "google"
+            contentDescription = "google",
+            navHostController = navController,
         )
 
         HeightSpacer(heightDp = 24.dp)
@@ -95,5 +101,5 @@ fun LoginScreen() {
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen()
+    LoginScreen(navController = rememberNavController())
 }

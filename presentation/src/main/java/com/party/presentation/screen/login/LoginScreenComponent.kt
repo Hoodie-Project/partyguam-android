@@ -26,11 +26,13 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.party.common.WidthSpacer
 import com.party.common.ui.theme.EXTRA_LARGE_BUTTON_HEIGHT2
 import com.party.common.ui.theme.GRAY600
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
+import com.party.navigation.Screens
 
 @Composable
 fun SocialLoginButton(
@@ -39,6 +41,7 @@ fun SocialLoginButton(
     borderColor: Color,
     painterImage: Painter,
     contentDescription: String,
+    navHostController: NavHostController,
 ) {
     Card(
         modifier = Modifier
@@ -49,7 +52,10 @@ fun SocialLoginButton(
         colors = CardDefaults.cardColors(
             containerColor = containerColor
         ),
-        border = BorderStroke(1.dp, borderColor)
+        border = BorderStroke(1.dp, borderColor),
+        onClick = {
+            navHostController.navigate(Screens.JoinEmail)
+        }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

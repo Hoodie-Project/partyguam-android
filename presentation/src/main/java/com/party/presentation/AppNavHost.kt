@@ -22,6 +22,8 @@ import com.party.navigation.CustomTopBar
 import com.party.navigation.Screens
 import com.party.navigation.fromRoute
 import com.party.navigation.isVisibleTopBar
+import com.party.presentation.screen.join.email.JoinEmailScreen
+import com.party.presentation.screen.join.nickname.JoinNickNameScreen
 import com.party.presentation.screen.login.LoginScreen
 
 const val ANIMATION_DURATION = 500
@@ -45,7 +47,6 @@ fun AppNavHost() {
                 CustomTopBar(
                     currentScreen = currentScreen,
                     navController = navController,
-                    title = currentScreen.title
                 )
             }
         }
@@ -84,7 +85,13 @@ fun AppNavHost() {
             },
         ){
             composable<Screens.Login> {
-                LoginScreen()
+                LoginScreen(navController = navController)
+            }
+            composable<Screens.JoinEmail> {
+                JoinEmailScreen(navController = navController)
+            }
+            composable<Screens.JoinNickName> {
+                JoinNickNameScreen(navController = navController)
             }
         }
     }

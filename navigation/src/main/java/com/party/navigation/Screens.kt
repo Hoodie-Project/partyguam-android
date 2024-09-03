@@ -14,4 +14,24 @@ sealed interface Screens : ArgInterface {
         override val title: String = NavigationTitle.LOGIN
         override val icon: ImageVector? = null
     }
+    @Serializable
+    data object JoinEmail: Screens {
+        override val title: String = NavigationTitle.JOIN_EMAIL
+        override val icon: ImageVector? = null
+    }
+    @Serializable
+    data object JoinNickName: Screens {
+        override val title: String = NavigationTitle.JOIN_NICK_NAME
+        override val icon: ImageVector? = null
+    }
+    @Serializable
+    data object JoinBirthDay: Screens {
+        override val title: String = NavigationTitle.JOIN_BIRTHDAY
+        override val icon: ImageVector? = null
+    }
+    @Serializable
+    data object JoinGender: Screens {
+        override val title: String = NavigationTitle.JOIN_GENDER
+        override val icon: ImageVector? = null
+    }
 }

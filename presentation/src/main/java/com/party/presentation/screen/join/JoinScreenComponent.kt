@@ -1,0 +1,160 @@
+package com.party.presentation.screen.join
+
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.party.common.WidthSpacer
+import com.party.common.ui.theme.BLACK
+import com.party.common.ui.theme.EXTRA_LARGE_BUTTON_HEIGHT2
+import com.party.common.ui.theme.GRAY100
+import com.party.common.ui.theme.GRAY200
+import com.party.common.ui.theme.GRAY400
+import com.party.common.ui.theme.GRAY500
+import com.party.common.ui.theme.LARGE_BUTTON_HEIGHT
+import com.party.common.ui.theme.LARGE_CORNER_SIZE
+import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
+import com.party.common.ui.theme.T3
+import com.party.navigation.Screens
+import com.party.presentation.R
+
+@Composable
+fun JoinScreenButton(
+    buttonText: String,
+    buttonTextColor: Color,
+    buttonContainerColor: Color,
+    buttonBorderColor: Color,
+    fontSize: TextUnit,
+    fontWeight: FontWeight,
+    navController: NavHostController,
+) {
+    Button(
+        onClick = {
+            navController.navigate(Screens.JoinNickName)
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(LARGE_BUTTON_HEIGHT),
+        shape = RoundedCornerShape(LARGE_CORNER_SIZE),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = buttonContainerColor,
+            contentColor = buttonTextColor
+        ),
+        border = BorderStroke(1.dp, buttonBorderColor),
+    ) {
+        Text(
+            text = buttonText,
+            fontSize = fontSize,
+            fontWeight = fontWeight
+        )
+    }
+}
+
+@Composable
+fun JoinScreenInputField(
+    inputText: String,
+    textColor: Color,
+    containerColor: Color,
+    borderColor: Color,
+    closeIcon: Painter?,
+    readOnly: Boolean,
+    onString: (String) -> Unit,
+) {
+    BasicTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(EXTRA_LARGE_BUTTON_HEIGHT2)
+            .clip(RoundedCornerShape(LARGE_CORNER_SIZE))
+            .border(BorderStroke(1.dp, borderColor), RoundedCornerShape(LARGE_CORNER_SIZE))
+            .background(containerColor),
+        value = inputText,
+        onValueChange = { onString(it) },
+        readOnly = readOnly,
+        maxLines = 1,
+        singleLine = true,
+        textStyle = TextStyle(
+            color = textColor,
+            fontSize = T3,
+        ),
+        cursorBrush = SolidColor(Color.Black),
+        decorationBox = { innerTextField ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                WidthSpacer(widthDp = MEDIUM_PADDING_SIZE)
+
+                Box(
+                    modifier = Modifier.weight(1f)
+                ){
+                    if(inputText.isEmpty()){
+                        Text(
+                            text = stringResource(id = R.string.join_nickname3),
+                            fontSize = T3,
+                            color = textColor,
+                        )
+                    }else{
+                        innerTextField()
+                    }
+                }
+
+                closeIcon?.let {
+                    IconButton(
+                        onClick = { onString("") }
+                    ) {
+                        Icon(
+                            painter = closeIcon,
+                            contentDescription = "close",
+                            modifier = Modifier.size(20.dp),
+                            tint = GRAY400
+                        )
+                    }
+                }
+            }
+
+        }
+    )
+}
+
+@Preview
+@Composable
+fun JoinScreenInputFieldPreview() {
+    JoinScreenInputField(
+        closeIcon = null,
+        readOnly = true,
+        inputText = "",
+        textColor = GRAY500,
+        containerColor = GRAY100,
+        borderColor = GRAY200,
+        onString = {  }
+    )
+}
