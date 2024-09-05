@@ -3,6 +3,7 @@
 
     <!--Common-->
     <string name="common1">다음</string>
+    <string name="common2">완료</string>
 
     <!--Login Screen-->
     <string name="login1">파티괌과 함께\n파티에 참여하실 준비가 되었나요?</string>
@@ -24,4 +25,15 @@
     <string name="join_nickname2">닉네임은 나중에 변경할 수 없어요.</string>
     <string name="join_nickname3">15자 이내로 입력해 주세요. (영문/숫자/한글)</string>
     <string name="join_nickname4">15</string>
+
+    <!--JoinBirthDay Screen-->
+    <string name="join_birthday1">***님의\n생년월일을 알려주세요.</string>
+    <string name="join_birthday2">프로필에서 노출 여부를 설정할 수 있어요.</string>
+    <string name="join_birthday3">8자리를 입력해 주세요. (ex. 1990-12-31)</string>
+
+    <!--JoinGender Screen-->
+    <string name="join_gender1">성별은\n어떻게 되시나요?</string>
+    <string name="join_gender2">프로필에서 노출 여부를 설정할 수 있어요.</string>
+    <string name="join_gender3">남자</string>
+    <string name="join_gender4">여자</string>
 </resources>

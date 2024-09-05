@@ -1,26 +1,26 @@
-package com.party.presentation.screen.join.email
+package com.party.presentation.screen.join.birthday
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.party.common.HeightSpacer
 import com.party.common.TextComponent
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.GRAY100
-import com.party.common.ui.theme.GRAY200
-import com.party.common.ui.theme.GRAY500
+import com.party.common.ui.theme.GRAY400
+import com.party.common.ui.theme.LIGHT200
+import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
@@ -29,16 +29,22 @@ import com.party.navigation.Screens
 import com.party.presentation.R
 import com.party.presentation.screen.join.JoinScreenButton
 import com.party.presentation.screen.join.JoinScreenInputField
+import com.party.presentation.screen.join.nickname.setInputFieldBorderColor
+import com.party.presentation.screen.join.nickname.validInputField
 
 @Composable
-fun JoinEmailScreen(
+fun JoinBirthDayScreen(
     navController: NavHostController,
 ) {
-    var userEmail by rememberSaveable { mutableStateOf("tmfrl1590@gmail.com") }
+    var userBirthDay by rememberSaveable { mutableStateOf("") }
+    val isValid by rememberSaveable {
+        mutableStateOf(validInputField(userBirthDay))
+    }.apply { value = validInputField(userBirthDay) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .imePadding()
     ) {
         Column(
             modifier = Modifier
@@ -47,7 +53,7 @@ fun JoinEmailScreen(
             HeightSpacer(heightDp = 32.dp)
 
             TextComponent(
-                text = stringResource(id = R.string.join_email1),
+                text = stringResource(id = R.string.join_birthday1),
                 fontWeight = FontWeight.Bold,
                 fontSize = T2,
             )
@@ -55,41 +61,33 @@ fun JoinEmailScreen(
             HeightSpacer(heightDp = 12.dp)
 
             TextComponent(
-                text = stringResource(id = R.string.join_email2),
+                text = stringResource(id = R.string.join_birthday2),
                 fontSize = T3,
             )
 
             HeightSpacer(heightDp = 40.dp)
 
             JoinScreenInputField(
-                textColor = GRAY500,
-                containerColor = GRAY100,
-                borderColor = GRAY100,
-                closeIcon = null,
-                readOnly = true,
-                inputText = userEmail,
-                placeHolder = "",
-                onString = { userEmail = it }
+                textColor = GRAY400,
+                containerColor = WHITE,
+                borderColor = setInputFieldBorderColor(text = userBirthDay),
+                closeIcon = if(userBirthDay.isNotEmpty()) { painterResource(id = R.drawable.close) } else null,
+                readOnly = false,
+                inputText = userBirthDay,
+                placeHolder = stringResource(id = R.string.join_birthday3),
+                onString = { userBirthDay = it }
             )
         }
 
         JoinScreenButton(
-            buttonText = stringResource(id = R.string.join_email3),
-            buttonTextColor = BLACK,
-            buttonContainerColor = PRIMARY,
-            buttonBorderColor = PRIMARY,
+            buttonText = stringResource(id = R.string.common1),
+            buttonTextColor = if(isValid) BLACK else GRAY400,
+            buttonContainerColor = if(isValid) PRIMARY else LIGHT400,
+            buttonBorderColor = if(isValid) PRIMARY else  LIGHT200,
             fontSize = B2,
             fontWeight = FontWeight.Bold,
             navController = navController,
-            routeScreen = Screens.JoinNickName
+            routeScreen = Screens.JoinGender
         )
-
-        HeightSpacer(heightDp = 12.dp)
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreview() {
-    JoinEmailScreen(navController = rememberNavController())
 }

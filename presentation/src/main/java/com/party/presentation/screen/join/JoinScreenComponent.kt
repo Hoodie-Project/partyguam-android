@@ -1,8 +1,11 @@
 package com.party.presentation.screen.join
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,6 +34,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.party.common.WidthSpacer
+import com.party.common.noRippleClickable
 import com.party.common.ui.theme.EXTRA_LARGE_BUTTON_HEIGHT2
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY200
@@ -41,8 +45,8 @@ import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.T3
 import com.party.navigation.Screens
-import com.party.presentation.R
 
+@SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun JoinScreenButton(
     buttonText: String,
@@ -52,10 +56,11 @@ fun JoinScreenButton(
     fontSize: TextUnit,
     fontWeight: FontWeight,
     navController: NavHostController,
+    routeScreen: Screens,
 ) {
     Button(
         onClick = {
-            navController.navigate(Screens.JoinNickName)
+            navController.navigate(routeScreen)
         },
         modifier = Modifier
             .fillMaxWidth()
@@ -66,6 +71,7 @@ fun JoinScreenButton(
             contentColor = buttonTextColor
         ),
         border = BorderStroke(1.dp, buttonBorderColor),
+        interactionSource = MutableInteractionSource(), // Button Ripple 효과 없애기
     ) {
         Text(
             text = buttonText,
@@ -83,6 +89,7 @@ fun JoinScreenInputField(
     borderColor: Color,
     closeIcon: Painter?,
     readOnly: Boolean,
+    placeHolder: String,
     onString: (String) -> Unit,
 ) {
     BasicTextField(
@@ -118,7 +125,7 @@ fun JoinScreenInputField(
                     innerTextField()
                     if(inputText.isEmpty()){
                         Text(
-                            text = stringResource(id = R.string.join_nickname3),
+                            text = placeHolder,
                             fontSize = T3,
                             color = textColor,
                         )
@@ -152,6 +159,7 @@ fun JoinScreenInputFieldPreview() {
         textColor = GRAY500,
         containerColor = GRAY100,
         borderColor = GRAY200,
+        placeHolder = "",
         onString = {  }
     )
 }

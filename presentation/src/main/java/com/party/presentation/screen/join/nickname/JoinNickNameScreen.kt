@@ -33,6 +33,7 @@ import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
+import com.party.navigation.Screens
 import com.party.presentation.R
 import com.party.presentation.screen.join.JoinScreenButton
 import com.party.presentation.screen.join.JoinScreenInputField
@@ -79,6 +80,7 @@ fun JoinNickNameScreen(
                 closeIcon = if(userNickName.isNotEmpty()) { painterResource(id = R.drawable.close) } else null,
                 readOnly = false,
                 inputText = userNickName,
+                placeHolder = stringResource(id = R.string.join_nickname3),
                 onString = { userNickName = it }
             )
 
@@ -101,6 +103,7 @@ fun JoinNickNameScreen(
             fontSize = B2,
             fontWeight = FontWeight.Bold,
             navController = navController,
+            routeScreen = Screens.JoinBirthDay
         )
 
         HeightSpacer(heightDp = 12.dp)

@@ -22,7 +22,9 @@ import com.party.navigation.CustomTopBar
 import com.party.navigation.Screens
 import com.party.navigation.fromRoute
 import com.party.navigation.isVisibleTopBar
+import com.party.presentation.screen.join.birthday.JoinBirthDayScreen
 import com.party.presentation.screen.join.email.JoinEmailScreen
+import com.party.presentation.screen.join.gender.JoinGenderScreen
 import com.party.presentation.screen.join.nickname.JoinNickNameScreen
 import com.party.presentation.screen.login.LoginScreen
 
@@ -92,6 +94,15 @@ fun AppNavHost() {
             }
             composable<Screens.JoinNickName> {
                 JoinNickNameScreen(navController = navController)
+            }
+            composable<Screens.JoinBirthDay> {
+                JoinBirthDayScreen(navController = navController)
+            }
+            composable<Screens.JoinGender> {
+                JoinGenderScreen(
+                    navController = navController,
+                    context = context,
+                )
             }
         }
     }
