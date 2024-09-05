@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -35,8 +36,13 @@ import com.party.presentation.screen.join.JoinScreenInputField
 @Composable
 fun JoinNickNameScreen(
     navController: NavHostController,
-    context: Context
+    context: Context,
+    setActionText: (String) -> Unit,
 ) {
+    LaunchedEffect(key1 = true) {
+        setActionText("2/4")
+    }
+
     var userNickName by rememberSaveable { mutableStateOf("") }
     val isValid by rememberSaveable {
         mutableStateOf(false)

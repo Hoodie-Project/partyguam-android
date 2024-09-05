@@ -9,7 +9,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
@@ -41,6 +44,10 @@ fun AppNavHost() {
 
     val context = LocalContext.current
 
+    var joinActionText by remember {
+        mutableStateOf("")
+    }
+
     Scaffold(
         snackbarHost = {
             SnackbarHost(snackBarHostState)
@@ -50,6 +57,7 @@ fun AppNavHost() {
                 CustomTopBar(
                     currentScreen = currentScreen,
                     navController = navController,
+                    joinActionText = joinActionText,
                 )
             }
         }
@@ -91,21 +99,37 @@ fun AppNavHost() {
                 LoginScreen(navController = navController)
             }
             composable<Screens.JoinEmail> {
-                JoinEmailScreen(navController = navController)
+                JoinEmailScreen(
+                    navController = navController,
+                    setActionText = { text ->
+                        joinActionText = text
+                    }
+                )
             }
             composable<Screens.JoinNickName> {
                 JoinNickNameScreen(
                     navController = navController,
                     context = context,
+                    setActionText = { text ->
+                        joinActionText = text
+                    }
                 )
             }
             composable<Screens.JoinBirthDay> {
-                JoinBirthDayScreen(navController = navController)
+                JoinBirthDayScreen(
+                    navController = navController,
+                    setActionText = { text ->
+                        joinActionText = text
+                    }
+                )
             }
             composable<Screens.JoinGender> {
                 JoinGenderScreen(
                     navController = navController,
                     context = context,
+                    setActionText = { text ->
+                        joinActionText = text
+                    }
                 )
             }
             composable<Screens.JoinComplete> {

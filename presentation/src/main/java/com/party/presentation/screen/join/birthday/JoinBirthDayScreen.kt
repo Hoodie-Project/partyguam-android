@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -34,12 +35,16 @@ import com.party.navigation.Screens
 import com.party.presentation.R
 import com.party.presentation.screen.join.JoinScreenButton
 import com.party.presentation.screen.join.JoinScreenInputField
-import com.party.presentation.screen.join.nickname.validNickNameInputField
 
 @Composable
 fun JoinBirthDayScreen(
     navController: NavHostController,
+    setActionText: (String) -> Unit,
 ) {
+    LaunchedEffect(key1 = true) {
+        setActionText("3/4")
+    }
+
     var userBirthDay by rememberSaveable { mutableStateOf("") }
     val isValid by rememberSaveable {
         mutableStateOf(false)

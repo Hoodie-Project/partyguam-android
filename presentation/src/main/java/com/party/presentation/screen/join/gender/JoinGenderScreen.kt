@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -32,7 +33,12 @@ import com.party.presentation.screen.join.JoinScreenButton
 fun JoinGenderScreen(
     navController: NavHostController,
     context: Context,
+    setActionText: (String) -> Unit,
 ) {
+    LaunchedEffect(key1 = true) {
+        setActionText("4/4")
+    }
+
     var selectedGender by rememberSaveable {
         mutableStateOf("")
     }
