@@ -61,7 +61,10 @@ fun WarningArea(
 
 @Composable
 fun setWarningText(userNickName: String, isValid: Boolean): String{
-    return if(userNickName.isEmpty()) "" else if(!isValid) stringResource(id = R.string.join_nickname5) else ""
+    return if(containsSpecialCharacters(userNickName)) stringResource(id = R.string.join_nickname6)
+    else if(userNickName.isEmpty()) ""
+    else if(!isValid) stringResource(id = R.string.join_nickname5)
+    else ""
 }
 
 fun setInputFieldBorderColor(text: String): Color {
@@ -95,4 +98,10 @@ fun makeAnnotatedStringValid(
         append("/")
         append(text2)
     }
+}
+
+fun containsSpecialCharacters(input: String): Boolean {
+    // 특수문자 확인을 위한 정규식
+    val regex = Regex("[^a-zA-Z0-9]") // 알파벳과 숫자가 아닌 문자를 찾음
+    return regex.containsMatchIn(input)
 }
