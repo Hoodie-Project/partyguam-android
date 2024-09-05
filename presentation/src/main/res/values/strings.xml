@@ -25,6 +25,7 @@
     <string name="join_nickname2">닉네임은 나중에 변경할 수 없어요.</string>
     <string name="join_nickname3">15자 이내로 입력해 주세요. (영문/숫자/한글)</string>
     <string name="join_nickname4">15</string>
+    <string name="join_nickname5">닉네임은 2자 이상 15자 이내로 입력해주세요.</string>
 
     <!--JoinBirthDay Screen-->
     <string name="join_birthday1">***님의\n생년월일을 알려주세요.</string>

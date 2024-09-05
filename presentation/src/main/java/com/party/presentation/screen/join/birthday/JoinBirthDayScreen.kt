@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
@@ -33,8 +34,7 @@ import com.party.navigation.Screens
 import com.party.presentation.R
 import com.party.presentation.screen.join.JoinScreenButton
 import com.party.presentation.screen.join.JoinScreenInputField
-import com.party.presentation.screen.join.nickname.setInputFieldBorderColor
-import com.party.presentation.screen.join.nickname.validInputField
+import com.party.presentation.screen.join.nickname.validNickNameInputField
 
 @Composable
 fun JoinBirthDayScreen(
@@ -42,8 +42,8 @@ fun JoinBirthDayScreen(
 ) {
     var userBirthDay by rememberSaveable { mutableStateOf("") }
     val isValid by rememberSaveable {
-        mutableStateOf(validInputField(userBirthDay))
-    }.apply { value = validInputField(userBirthDay) }
+        mutableStateOf(false)
+    }.apply { value = isValidBirthdate(userBirthDay) }
 
     Column(
         modifier = Modifier
@@ -72,6 +72,7 @@ fun JoinBirthDayScreen(
             HeightSpacer(heightDp = 40.dp)
 
             JoinScreenInputField(
+                keyboardType = KeyboardType.Number,
                 textColor = GRAY400,
                 containerColor = WHITE,
                 borderColor = if(userBirthDay.isEmpty()) GRAY200 else if(isValidBirthdate(userBirthDay)) DARK100 else RED,

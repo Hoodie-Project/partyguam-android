@@ -94,7 +94,10 @@ fun AppNavHost() {
                 JoinEmailScreen(navController = navController)
             }
             composable<Screens.JoinNickName> {
-                JoinNickNameScreen(navController = navController)
+                JoinNickNameScreen(
+                    navController = navController,
+                    context = context,
+                )
             }
             composable<Screens.JoinBirthDay> {
                 JoinBirthDayScreen(navController = navController)
