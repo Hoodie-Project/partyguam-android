@@ -19,10 +19,13 @@ import com.party.common.HeightSpacer
 import com.party.common.TextComponent
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
+import com.party.common.ui.theme.DARK100
+import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.LIGHT200
 import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.PRIMARY
+import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
@@ -71,7 +74,7 @@ fun JoinBirthDayScreen(
             JoinScreenInputField(
                 textColor = GRAY400,
                 containerColor = WHITE,
-                borderColor = setInputFieldBorderColor(text = userBirthDay),
+                borderColor = if(userBirthDay.isEmpty()) GRAY200 else if(isValidBirthdate(userBirthDay)) DARK100 else RED,
                 closeIcon = if(userBirthDay.isNotEmpty()) { painterResource(id = R.drawable.close) } else null,
                 readOnly = false,
                 inputText = userBirthDay,
@@ -92,4 +95,10 @@ fun JoinBirthDayScreen(
             routeScreen = Screens.JoinGender
         )
     }
+}
+
+fun isValidBirthdate(birthdate: String): Boolean {
+    // 생년월일 정규식 패턴
+    val regex = Regex("^(19|20)\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$")
+    return regex.matches(birthdate)
 }
