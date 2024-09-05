@@ -2,6 +2,7 @@ package com.party.presentation.screen.join.birthday
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -80,6 +81,7 @@ fun JoinBirthDayScreen(
         }
 
         JoinScreenButton(
+            modifier = Modifier.fillMaxWidth(),
             buttonText = stringResource(id = R.string.common1),
             buttonTextColor = if(isValid) BLACK else GRAY400,
             buttonContainerColor = if(isValid) PRIMARY else LIGHT400,

@@ -36,4 +36,9 @@
     <string name="join_gender2">프로필에서 노출 여부를 설정할 수 있어요.</string>
     <string name="join_gender3">남자</string>
     <string name="join_gender4">여자</string>
+
+    <!--JoinComplete Screen-->
+    <string name="join_complete1">가입을 축하합니다!\n세부 프로필을 작성해 볼까요?</string>
+    <string name="join_complete2">홈으로</string>
+    <string name="join_complete3">작성하기</string>
 </resources>

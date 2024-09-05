@@ -3,6 +3,7 @@ package com.party.presentation.screen.join.gender
 import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -71,6 +72,7 @@ fun JoinGenderScreen(
         }
 
         JoinScreenButton(
+            modifier = Modifier.fillMaxWidth(),
             buttonText = stringResource(id = R.string.common2),
             buttonTextColor = if(selectedGender.isNotEmpty()) BLACK else GRAY400,
             buttonContainerColor = if(selectedGender.isNotEmpty()) PRIMARY else LIGHT400,
@@ -78,7 +80,7 @@ fun JoinGenderScreen(
             fontSize = B2,
             fontWeight = FontWeight.Bold,
             navController = navController,
-            routeScreen = Screens.JoinBirthDay
+            routeScreen = Screens.JoinComplete
         )
 
         HeightSpacer(heightDp = 12.dp)

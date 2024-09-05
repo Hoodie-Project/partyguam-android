@@ -6,4 +6,5 @@ object NavigationTitle {
     const val JOIN_NICK_NAME = "회원가입"
     const val JOIN_BIRTHDAY = "회원가입"
     const val JOIN_GENDER = "회원가입"
+    const val JOIN_COMPLETE = "회원가입 완료"
 }

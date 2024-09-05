@@ -34,4 +34,9 @@ sealed interface Screens : ArgInterface {
         override val title: String = NavigationTitle.JOIN_GENDER
         override val icon: ImageVector? = null
     }
+    @Serializable
+    data object JoinComplete: Screens {
+        override val title: String = NavigationTitle.JOIN_COMPLETE
+        override val icon: ImageVector? = null
+    }
 }

@@ -23,6 +23,7 @@ import com.party.navigation.Screens
 import com.party.navigation.fromRoute
 import com.party.navigation.isVisibleTopBar
 import com.party.presentation.screen.join.birthday.JoinBirthDayScreen
+import com.party.presentation.screen.join.complete.JoinCompleteScreen
 import com.party.presentation.screen.join.email.JoinEmailScreen
 import com.party.presentation.screen.join.gender.JoinGenderScreen
 import com.party.presentation.screen.join.nickname.JoinNickNameScreen
@@ -103,6 +104,9 @@ fun AppNavHost() {
                     navController = navController,
                     context = context,
                 )
+            }
+            composable<Screens.JoinComplete> {
+                JoinCompleteScreen(navController = navController,)
             }
         }
     }

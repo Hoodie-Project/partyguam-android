@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -26,7 +25,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,7 +32,6 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.party.common.WidthSpacer
-import com.party.common.noRippleClickable
 import com.party.common.ui.theme.EXTRA_LARGE_BUTTON_HEIGHT2
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY200
@@ -49,6 +46,7 @@ import com.party.navigation.Screens
 @SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun JoinScreenButton(
+    modifier: Modifier,
     buttonText: String,
     buttonTextColor: Color,
     buttonContainerColor: Color,
@@ -62,8 +60,7 @@ fun JoinScreenButton(
         onClick = {
             navController.navigate(routeScreen)
         },
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .height(LARGE_BUTTON_HEIGHT),
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
         colors = ButtonDefaults.buttonColors(

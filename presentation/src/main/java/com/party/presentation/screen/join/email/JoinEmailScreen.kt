@@ -2,6 +2,7 @@ package com.party.presentation.screen.join.email
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -74,6 +75,7 @@ fun JoinEmailScreen(
         }
 
         JoinScreenButton(
+            modifier = Modifier.fillMaxWidth(),
             buttonText = stringResource(id = R.string.join_email3),
             buttonTextColor = BLACK,
             buttonContainerColor = PRIMARY,

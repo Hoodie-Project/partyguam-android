@@ -14,11 +14,9 @@ import com.party.common.ScaffoldTitle
 
 fun isVisibleTopBar(currentScreen: Screens): Boolean {
     return when (currentScreen) {
-        is Screens.Login,
-        is Screens.JoinEmail,
-        is Screens.JoinNickName,
-        is Screens.JoinBirthDay,
-        is Screens.JoinGender,
+        is Screens.JoinComplete
+        -> false
+        else
         -> true
     }
 }
@@ -38,6 +36,8 @@ fun CustomTopBar(
             currentScreen = currentScreen,
             navHostController = navController,
         )
+        is Screens.JoinComplete,
+            -> {}
     }
 }
 
@@ -77,6 +77,7 @@ fun SetNavigationIcon(
         -> BackNavigationIcon(navController = navController)
 
         is Screens.Login,
+        is Screens.JoinComplete,
         -> {}
     }
 }
