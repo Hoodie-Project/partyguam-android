@@ -25,7 +25,7 @@ import com.party.common.ui.theme.KakaoLoginColor
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
-import com.party.presentation.R
+import com.party.common.R
 
 
 @Composable

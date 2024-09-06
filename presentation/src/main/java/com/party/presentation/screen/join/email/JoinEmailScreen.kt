@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -17,7 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.party.common.HeightSpacer
+import com.party.common.R
 import com.party.common.TextComponent
+import com.party.common.WarningDialog
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
@@ -26,7 +29,6 @@ import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 import com.party.navigation.Screens
-import com.party.presentation.R
 import com.party.presentation.screen.join.JoinScreenButton
 import com.party.presentation.screen.join.JoinScreenInputField
 
@@ -39,6 +41,8 @@ fun JoinEmailScreen(
         setActionText("1/4")
     }
     var userEmail by rememberSaveable { mutableStateOf("tmfrl1590@gmail.com") }
+
+    var isShowDialog by remember { mutableStateOf(true) }
 
     Column(
         modifier = Modifier
@@ -91,7 +95,17 @@ fun JoinEmailScreen(
 
         HeightSpacer(heightDp = 12.dp)
     }
+
+    if(isShowDialog){
+        WarningDialog(
+            onClose = {
+                isShowDialog = false
+            }
+        )
+    }
 }
+
+
 
 @Preview(showBackground = true)
 @Composable

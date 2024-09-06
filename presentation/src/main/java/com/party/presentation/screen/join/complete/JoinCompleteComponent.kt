@@ -18,7 +18,7 @@ import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.Screens
-import com.party.presentation.R
+import com.party.common.R
 import com.party.presentation.screen.join.JoinScreenButton
 
 @Composable

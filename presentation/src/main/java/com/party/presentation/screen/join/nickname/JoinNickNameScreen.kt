@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
+import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
@@ -29,7 +30,6 @@ import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.Screens
-import com.party.presentation.R
 import com.party.presentation.screen.join.JoinScreenButton
 import com.party.presentation.screen.join.JoinScreenInputField
 

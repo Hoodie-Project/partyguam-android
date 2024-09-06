@@ -22,7 +22,7 @@ import com.party.common.ui.theme.DARK100
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.RED
-import com.party.presentation.R
+import com.party.common.R
 
 @Composable
 fun WarningArea(

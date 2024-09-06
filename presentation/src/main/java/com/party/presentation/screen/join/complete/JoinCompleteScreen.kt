@@ -14,7 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.party.common.HeightSpacer
 import com.party.common.TextComponent
 import com.party.common.ui.theme.T1
-import com.party.presentation.R
+import com.party.common.R
 
 @Composable
 fun JoinCompleteScreen(
