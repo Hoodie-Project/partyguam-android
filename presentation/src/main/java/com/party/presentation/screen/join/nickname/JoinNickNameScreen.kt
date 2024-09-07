@@ -20,6 +20,7 @@ import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
+import com.party.common.WarningDialog
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY400
@@ -38,6 +39,8 @@ fun JoinNickNameScreen(
     navController: NavHostController,
     context: Context,
     setActionText: (String) -> Unit,
+    isShowWarningDialog: Boolean,
+    onClose: (Boolean) -> Unit,
 ) {
     LaunchedEffect(key1 = true) {
         setActionText("2/4")
@@ -107,5 +110,11 @@ fun JoinNickNameScreen(
         )
 
         HeightSpacer(heightDp = 12.dp)
+    }
+
+    if(isShowWarningDialog){
+        WarningDialog(
+            onClose = { onClose(false) }
+        )
     }
 }

@@ -32,6 +32,7 @@ fun CustomTopBar(
     currentScreen: Screens,
     navController: NavHostController,
     joinActionText: String? = null,
+    onWarningDialog: (Boolean) -> Unit,
 ){
     when (currentScreen) {
         is Screens.Login,
@@ -43,6 +44,7 @@ fun CustomTopBar(
             currentScreen = currentScreen,
             navHostController = navController,
             joinActionText = joinActionText,
+            onWarningDialog = onWarningDialog,
         )
         is Screens.JoinComplete,
             -> {}
@@ -55,12 +57,14 @@ fun CenterTopBar(
     currentScreen: Screens,
     navHostController: NavHostController,
     joinActionText: String? = null,
+    onWarningDialog: (Boolean) -> Unit,
 ){
     CenterAlignedTopAppBar(
         navigationIcon = {
             SetNavigationIcon(
                 currentScreen = currentScreen,
                 navController = navHostController,
+                onWarningDialog = onWarningDialog,
             )
         },
         title = { ScaffoldTitle(title = currentScreen.title) },
@@ -111,13 +115,18 @@ fun ScaffoldActionAreaText(
 fun SetNavigationIcon(
     currentScreen: Screens,
     navController: NavHostController,
+    onWarningDialog: (Boolean) -> Unit,
 ){
     when (currentScreen) {
         is Screens.JoinEmail,
         is Screens.JoinNickName,
         is Screens.JoinBirthDay,
         is Screens.JoinGender,
-        -> BackNavigationIcon(navController = navController)
+        -> BackNavigationIcon(
+            currentScreen = currentScreen,
+            navController = navController,
+            onWarningDialog = onWarningDialog,
+        )
 
         is Screens.Login,
         is Screens.JoinComplete,
@@ -128,11 +137,16 @@ fun SetNavigationIcon(
 
 @Composable
 fun BackNavigationIcon(
+    currentScreen: Screens,
     navController: NavHostController,
+    onWarningDialog: (Boolean) -> Unit,
 ) {
     IconButton(
         onClick = {
-            navController.popBackStack()
+            when (currentScreen) {
+                is Screens.JoinNickName -> { onWarningDialog(true) }
+                else -> { navController.popBackStack() }
+            }
         }
     ) {
         Icon(

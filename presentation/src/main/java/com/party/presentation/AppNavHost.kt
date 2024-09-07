@@ -48,6 +48,10 @@ fun AppNavHost() {
         mutableStateOf("")
     }
 
+    var isShowWarningDialog by remember {
+        mutableStateOf(false)
+    }
+
     Scaffold(
         snackbarHost = {
             SnackbarHost(snackBarHostState)
@@ -58,6 +62,9 @@ fun AppNavHost() {
                     currentScreen = currentScreen,
                     navController = navController,
                     joinActionText = joinActionText,
+                    onWarningDialog = {
+                        isShowWarningDialog = it
+                    }
                 )
             }
         }
@@ -103,7 +110,7 @@ fun AppNavHost() {
                     navController = navController,
                     setActionText = { text ->
                         joinActionText = text
-                    }
+                    },
                 )
             }
             composable<Screens.JoinNickName> {
@@ -112,6 +119,10 @@ fun AppNavHost() {
                     context = context,
                     setActionText = { text ->
                         joinActionText = text
+                    },
+                    isShowWarningDialog = isShowWarningDialog,
+                    onClose = { close ->
+                        isShowWarningDialog = close
                     }
                 )
             }
