@@ -40,6 +40,7 @@ fun CustomTopBar(
         is Screens.JoinNickName,
         is Screens.JoinBirthDay,
         is Screens.JoinGender,
+        is Screens.DetailProfile,
         -> CenterTopBar(
             currentScreen = currentScreen,
             navHostController = navController,
@@ -127,9 +128,9 @@ fun SetNavigationIcon(
             navController = navController,
             onWarningDialog = onWarningDialog,
         )
-
         is Screens.Login,
         is Screens.JoinComplete,
+        is Screens.DetailProfile,
         -> {}
     }
 }

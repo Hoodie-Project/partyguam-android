@@ -25,6 +25,7 @@ import com.party.navigation.CustomTopBar
 import com.party.navigation.Screens
 import com.party.navigation.fromRoute
 import com.party.navigation.isVisibleTopBar
+import com.party.presentation.screen.detail_profile.DetailProfileScreen
 import com.party.presentation.screen.join.birthday.JoinBirthDayScreen
 import com.party.presentation.screen.join.complete.JoinCompleteScreen
 import com.party.presentation.screen.join.email.JoinEmailScreen
@@ -144,7 +145,10 @@ fun AppNavHost() {
                 )
             }
             composable<Screens.JoinComplete> {
-                JoinCompleteScreen(navController = navController,)
+                JoinCompleteScreen(navController = navController)
+            }
+            composable<Screens.DetailProfile> {
+                DetailProfileScreen(navController = navController)
             }
         }
     }

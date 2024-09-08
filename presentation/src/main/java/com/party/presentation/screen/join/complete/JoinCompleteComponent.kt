@@ -54,7 +54,7 @@ fun RowButtonArea(
             fontSize = B2,
             fontWeight = FontWeight.Bold,
             navController = navController,
-            routeScreen = Screens.JoinComplete
+            routeScreen = Screens.DetailProfile
         )
     }
 }
