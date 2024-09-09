@@ -1,7 +1,9 @@
 package com.party.presentation.screen.detail_profile
 
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -22,12 +24,14 @@ import com.party.common.ui.theme.T3
 @Composable
 fun DetailProfileScreen(
     navController: NavHostController,
+    snackBarHostState: SnackbarHostState,
+    context: Context,
 ) {
-    var selectedCityName by remember {
+    var selectedCity by remember {
         mutableStateOf("")
     }
 
-    val selectedCity2NameList by remember {
+    val selectedCountryList by remember {
         mutableStateOf(mutableStateListOf<String>())
     }
 
@@ -59,19 +63,22 @@ fun DetailProfileScreen(
             HeightSpacer(heightDp = 46.dp)
 
             SelectLocationArea(
-                selectedCityName = selectedCityName,
-                selectedCity2NameList = selectedCity2NameList,
-                onSelectCity = { selectedCityName = it },
-                onSelectCity2 = {
-                    selectedCity2NameList.add(it)
-                }
+                selectedCity = selectedCity,
+                selectedCountryList = selectedCountryList,
+                onSelectCity = { selectedCity = it },
+                onSelectCountry = {
+                    selectedCountryList.add(it)
+                },
+                onDeleteCountry = { selectedCountryList.remove(it) },
+                snackBarHostState = snackBarHostState,
+                context = context,
             )
         }
 
         BottomArea(
-            selectedCityName = selectedCityName,
-            selectedCity2NameList = selectedCity2NameList,
-            onDelete = { selectedCity2NameList.remove(it) },
+            selectedCity = selectedCity,
+            selectedCountryList = selectedCountryList,
+            onDelete = { selectedCountryList.remove(it) },
         )
 
     }

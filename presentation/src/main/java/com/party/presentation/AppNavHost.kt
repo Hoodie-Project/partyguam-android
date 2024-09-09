@@ -3,8 +3,12 @@ package com.party.presentation
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -15,10 +19,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.party.common.ui.theme.GRAY600
+import com.party.common.ui.theme.LARGE_BUTTON_HEIGHT
+import com.party.common.ui.theme.LARGE_CORNER_SIZE
+import com.party.common.ui.theme.MEDIUM_BUTTON_HEIGHT
+import com.party.common.ui.theme.MEDIUM_CORNER_SIZE
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.CustomTopBar
@@ -55,7 +65,9 @@ fun AppNavHost() {
 
     Scaffold(
         snackbarHost = {
-            SnackbarHost(snackBarHostState)
+            SnackbarHost(
+                hostState = snackBarHostState,
+            )
         },
         topBar = {
             if (isVisibleTopBar(currentScreen)) {
@@ -148,7 +160,11 @@ fun AppNavHost() {
                 JoinCompleteScreen(navController = navController)
             }
             composable<Screens.DetailProfile> {
-                DetailProfileScreen(navController = navController)
+                DetailProfileScreen(
+                    navController = navController,
+                    snackBarHostState = snackBarHostState,
+                    context = context
+                )
             }
         }
     }

@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -26,6 +27,10 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import com.party.common.ui.theme.T2
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun ScaffoldTitle(
@@ -112,5 +117,19 @@ inline fun Modifier.noRippleClickable(crossinline onClick: () -> Unit): Modifier
         interactionSource = remember { MutableInteractionSource() }
     ) {
         onClick()
+    }
+}
+
+fun snackBarMessage(
+    snackBarHostState: SnackbarHostState,
+    message: String,
+    durationTime: Long = 2000L
+) {
+    CoroutineScope(Dispatchers.Main).launch {
+        val job = launch {
+            snackBarHostState.showSnackbar(message)
+        }
+        delay(durationTime)
+        job.cancel()
     }
 }
