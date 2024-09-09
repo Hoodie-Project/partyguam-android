@@ -200,6 +200,8 @@ fun SelectCityArea(
             )
             .height(320.dp)
     ) {
+        val locationList = LocationTest.entries.map { it.city }
+
         itemsIndexed(
             items = locationList,
             key = { index, _ ->
@@ -233,7 +235,7 @@ fun SelectCountryArea(
         columns = GridCells.Fixed(2),
     ){
         itemsIndexed(
-            items = test(selectedCityName),
+            items = cityNameToCountList(selectedCityName),
             key = { index, _ ->
                 index
             }
@@ -478,13 +480,7 @@ fun DetailProfileNextButton(
     }
 }
 
-fun test(selectedCityName: String,): List<String>{
-    return when(selectedCityName){
-        "서울" -> seoulList.second
-        "경기" -> gyeonggiList.second
-        else -> {seoulList.second}
-    }
-}
+
 
 fun test1(
     context: Context,

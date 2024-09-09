@@ -3,6 +3,7 @@ package com.party.navigation
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -95,6 +96,10 @@ fun test(
             ScaffoldActionAreaText(text = joinActionText ?: "")
         }
 
+        is Screens.DetailProfile -> {
+            ScaffoldActionCloseIcon()
+        }
+
         else -> {}
     }
 }
@@ -110,6 +115,16 @@ fun ScaffoldActionAreaText(
         modifier = Modifier
             .padding(end = MEDIUM_PADDING_SIZE)
     )
+}
+
+@Composable
+fun ScaffoldActionCloseIcon() {
+    IconButton(onClick = { /*TODO*/ }) {
+        Icon(
+            imageVector = Icons.Default.Close,
+            contentDescription = "close",
+        )
+    }
 }
 
 @Composable
