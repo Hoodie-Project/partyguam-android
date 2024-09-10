@@ -44,4 +44,9 @@ sealed interface Screens : ArgInterface {
         override val title: String = NavigationTitle.DETAIL_PROFILE
         override val icon: ImageVector? = null
     }
+    @Serializable
+    data object DetailCarrier: Screens {
+        override val title: String = NavigationTitle.DETAIL_CARRIER
+        override val icon: ImageVector? = null
+    }
 }

@@ -1,4 +1,4 @@
-package com.party.presentation.screen.detail_profile
+package com.party.presentation.screen.detail.detail_profile
 
 fun cityNameToCountList(selectedCityName: String): List<String>{
     return when(selectedCityName){
@@ -19,7 +19,9 @@ fun cityNameToCountList(selectedCityName: String): List<String>{
         "울산" -> ulsanList
         "부산" -> busanList
         "제주" -> jejuList
-        else -> {seoulList}
+        else -> {
+            seoulList
+        }
     }
 }
 

@@ -1,4 +1,4 @@
-package com.party.presentation.screen.detail_profile
+package com.party.presentation.screen.detail.detail_profile
 
 import android.content.Context
 import androidx.compose.foundation.BorderStroke
@@ -45,6 +45,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
@@ -67,13 +68,20 @@ import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
+import com.party.navigation.Screens
+import com.party.presentation.screen.detail.DetailProfileNextButton
 
 @Composable
 fun ProfileIndicatorArea(
-    modifier: Modifier = Modifier
+    container1: Color,
+    container2: Color,
+    container3: Color,
+    textColor1: Color,
+    textColor2: Color,
+    textColor3: Color,
 ) {
     Row(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -81,8 +89,8 @@ fun ProfileIndicatorArea(
         IndicatorComponent(
             number = "1",
             title = stringResource(id = R.string.detail_profile1),
-            container = PRIMARY,
-            textColor = BLACK
+            container = container1,
+            textColor = textColor1
         )
         HorizontalDivider(
             modifier = Modifier
@@ -93,8 +101,8 @@ fun ProfileIndicatorArea(
         IndicatorComponent(
             number = "2",
             title = stringResource(id = R.string.detail_profile2),
-            container = GRAY100,
-            textColor = GRAY400
+            container = container2,
+            textColor = textColor2
         )
         HorizontalDivider(
             modifier = Modifier
@@ -105,8 +113,8 @@ fun ProfileIndicatorArea(
         IndicatorComponent(
             number = "3",
             title = stringResource(id = R.string.detail_profile3),
-            container = GRAY100,
-            textColor = GRAY400
+            container = container3,
+            textColor = textColor3
         )
     }
 }
@@ -340,6 +348,7 @@ fun CountryComponent(
 
 @Composable
 fun BottomArea(
+    navController: NavController,
     selectedCity: String,
     selectedCountryList: MutableList<String>,
     onDelete: (String) -> Unit,
@@ -358,6 +367,8 @@ fun BottomArea(
         HeightSpacer(heightDp = 12.dp)
 
         DetailProfileNextButton(
+            navController = navController,
+            routeScreens = Screens.DetailCarrier,
             text = stringResource(id = R.string.common1),
             textColor = if(selectedCountryList.size == 3) BLACK else GRAY400,
             containerColor = if(selectedCountryList.size == 3) PRIMARY else LIGHT400,
@@ -452,35 +463,6 @@ fun SelectCityComponent(
         }
     }
 }
-
-@Composable
-fun DetailProfileNextButton(
-    text: String,
-    textColor: Color,
-    containerColor: Color,
-) {
-    Button(
-        onClick = {
-
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(LARGE_BUTTON_HEIGHT),
-        shape = RoundedCornerShape(LARGE_CORNER_SIZE),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = containerColor
-        ),
-    ){
-        Text(
-            text = text,
-            color = textColor,
-            fontSize = B2,
-            fontWeight = FontWeight.Bold,
-        )
-    }
-}
-
-
 
 fun test1(
     context: Context,

@@ -8,4 +8,5 @@ object NavigationTitle {
     const val JOIN_GENDER = "회원가입"
     const val JOIN_COMPLETE = "회원가입 완료"
     const val DETAIL_PROFILE = "세부프로필"
+    const val DETAIL_CARRIER = "세부프로필"
 }

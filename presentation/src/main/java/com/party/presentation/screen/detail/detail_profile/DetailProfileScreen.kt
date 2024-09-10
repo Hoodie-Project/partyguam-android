@@ -1,4 +1,4 @@
-package com.party.presentation.screen.detail_profile
+package com.party.presentation.screen.detail.detail_profile
 
 import android.content.Context
 import androidx.compose.foundation.layout.Column
@@ -18,6 +18,10 @@ import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
+import com.party.common.ui.theme.BLACK
+import com.party.common.ui.theme.GRAY100
+import com.party.common.ui.theme.GRAY400
+import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 
@@ -43,7 +47,14 @@ fun DetailProfileScreen(
             modifier = Modifier
                 .weight(1f)
         ) {
-            ProfileIndicatorArea()
+            ProfileIndicatorArea(
+                container1 = PRIMARY,
+                container2 = GRAY100,
+                container3 = GRAY100,
+                textColor1 = BLACK,
+                textColor2 = GRAY400,
+                textColor3 = GRAY400,
+            )
 
             HeightSpacer(heightDp = 32.dp)
 
@@ -76,6 +87,7 @@ fun DetailProfileScreen(
         }
 
         BottomArea(
+            navController = navController,
             selectedCity = selectedCity,
             selectedCountryList = selectedCountryList,
             onDelete = { selectedCountryList.remove(it) },

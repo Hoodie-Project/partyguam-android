@@ -42,6 +42,7 @@ fun CustomTopBar(
         is Screens.JoinBirthDay,
         is Screens.JoinGender,
         is Screens.DetailProfile,
+        is Screens.DetailCarrier,
         -> CenterTopBar(
             currentScreen = currentScreen,
             navHostController = navController,
@@ -92,13 +93,11 @@ fun test(
         is Screens.JoinNickName,
         is Screens.JoinBirthDay,
         is Screens.JoinGender,
-        -> {
-            ScaffoldActionAreaText(text = joinActionText ?: "")
-        }
+        -> ScaffoldActionAreaText(text = joinActionText ?: "")
 
-        is Screens.DetailProfile -> {
-            ScaffoldActionCloseIcon()
-        }
+        is Screens.DetailProfile,
+        is Screens.DetailCarrier,
+        -> ScaffoldActionCloseIcon()
 
         else -> {}
     }
@@ -138,6 +137,7 @@ fun SetNavigationIcon(
         is Screens.JoinNickName,
         is Screens.JoinBirthDay,
         is Screens.JoinGender,
+        is Screens.DetailCarrier,
         -> BackNavigationIcon(
             currentScreen = currentScreen,
             navController = navController,

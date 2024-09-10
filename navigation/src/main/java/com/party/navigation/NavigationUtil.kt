@@ -12,6 +12,7 @@ fun NavBackStackEntry?.fromRoute(): Screens {
             Screens.JoinGender::class.simpleName -> Screens.JoinGender
             Screens.JoinComplete::class.simpleName -> Screens.JoinComplete
             Screens.DetailProfile::class.simpleName -> Screens.DetailProfile
+            Screens.DetailCarrier::class.simpleName -> Screens.DetailCarrier
             else -> Screens.Login
         }
     }
