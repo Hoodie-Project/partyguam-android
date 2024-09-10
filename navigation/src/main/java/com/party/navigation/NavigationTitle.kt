@@ -10,4 +10,5 @@ object NavigationTitle {
     const val DETAIL_PROFILE = "세부프로필"
     const val DETAIL_CARRIER = "세부프로필"
     const val CHOICE_CARRIER_POSITION = "경력/포지션 선택"
+    const val SELECT_TENDENCY = "세부프로필"
 }

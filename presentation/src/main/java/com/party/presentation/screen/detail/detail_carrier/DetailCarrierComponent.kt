@@ -136,7 +136,7 @@ fun DetailCarrierBottomArea(
     ) {
         DetailProfileNextButton(
             navController = navController,
-            routeScreens = Screens.DetailCarrier,
+            routeScreens = Screens.SelectTendency,
             text = stringResource(id = R.string.common1),
             textColor = GRAY400,
             containerColor = LIGHT400,

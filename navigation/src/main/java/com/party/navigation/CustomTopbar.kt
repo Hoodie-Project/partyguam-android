@@ -44,6 +44,7 @@ fun CustomTopBar(
         is Screens.DetailProfile,
         is Screens.DetailCarrier,
         is Screens.ChoiceCarrierPosition,
+        is Screens.SelectTendency,
         -> CenterTopBar(
             currentScreen = currentScreen,
             navHostController = navController,
@@ -76,7 +77,7 @@ fun CenterTopBar(
             containerColor = Color.White,
         ),
         actions = {
-            test(
+            SetScaffoldRightCloseIcon(
                 currentScreen = currentScreen,
                 joinActionText = joinActionText,
             )
@@ -85,7 +86,7 @@ fun CenterTopBar(
 }
 
 @Composable
-fun test(
+fun SetScaffoldRightCloseIcon(
     currentScreen: Screens,
     joinActionText: String?,
 ) {
@@ -98,6 +99,7 @@ fun test(
 
         is Screens.DetailProfile,
         is Screens.DetailCarrier,
+        is Screens.SelectTendency,
         -> ScaffoldActionCloseIcon()
 
         else -> {}
@@ -140,6 +142,7 @@ fun SetNavigationIcon(
         is Screens.JoinGender,
         is Screens.DetailCarrier,
         is Screens.ChoiceCarrierPosition,
+        is Screens.SelectTendency,
         -> BackNavigationIcon(
             currentScreen = currentScreen,
             navController = navController,
