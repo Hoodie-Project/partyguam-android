@@ -19,9 +19,7 @@ fun cityNameToCountList(selectedCityName: String): List<String>{
         "울산" -> ulsanList
         "부산" -> busanList
         "제주" -> jejuList
-        else -> {
-            seoulList
-        }
+        else -> emptyList()
     }
 }
 

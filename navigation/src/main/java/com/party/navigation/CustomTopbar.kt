@@ -43,6 +43,7 @@ fun CustomTopBar(
         is Screens.JoinGender,
         is Screens.DetailProfile,
         is Screens.DetailCarrier,
+        is Screens.ChoiceCarrierPosition,
         -> CenterTopBar(
             currentScreen = currentScreen,
             navHostController = navController,
@@ -138,6 +139,7 @@ fun SetNavigationIcon(
         is Screens.JoinBirthDay,
         is Screens.JoinGender,
         is Screens.DetailCarrier,
+        is Screens.ChoiceCarrierPosition,
         -> BackNavigationIcon(
             currentScreen = currentScreen,
             navController = navController,

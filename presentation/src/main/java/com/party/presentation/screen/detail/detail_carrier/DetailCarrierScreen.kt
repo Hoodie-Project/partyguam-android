@@ -59,7 +59,9 @@ fun DetailCarrierScreen(
 
             HeightSpacer(heightDp = 40.dp)
 
-            PositionArea()
+            PositionArea(
+                navController = navController
+            )
         }
 
         DetailCarrierBottomArea(

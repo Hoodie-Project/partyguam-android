@@ -13,6 +13,7 @@ fun NavBackStackEntry?.fromRoute(): Screens {
             Screens.JoinComplete::class.simpleName -> Screens.JoinComplete
             Screens.DetailProfile::class.simpleName -> Screens.DetailProfile
             Screens.DetailCarrier::class.simpleName -> Screens.DetailCarrier
+            Screens.ChoiceCarrierPosition::class.simpleName -> Screens.ChoiceCarrierPosition
             else -> Screens.Login
         }
     }

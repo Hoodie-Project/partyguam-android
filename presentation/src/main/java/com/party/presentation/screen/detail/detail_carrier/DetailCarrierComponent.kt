@@ -29,6 +29,7 @@ import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
+import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.GRAY400
@@ -42,24 +43,29 @@ import com.party.navigation.Screens
 import com.party.presentation.screen.detail.DetailProfileNextButton
 
 @Composable
-fun PositionArea() {
+fun PositionArea(
+    navController: NavController,
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
     ) {
         PositionAreaComponent(
-            title = stringResource(id = R.string.detail_carrier3)
+            title = stringResource(id = R.string.detail_carrier3),
+            navController = navController,
         )
         HeightSpacer(heightDp = 40.dp)
         PositionAreaComponent(
-            title = stringResource(id = R.string.detail_carrier4)
+            title = stringResource(id = R.string.detail_carrier4),
+            navController = navController,
         )
     }
 }
 
 @Composable
 fun PositionAreaComponent(
-    title: String
+    title: String,
+    navController: NavController,
 ) {
     Column(
         modifier = Modifier
@@ -70,16 +76,23 @@ fun PositionAreaComponent(
             fontSize = T3,
         )
         HeightSpacer(heightDp = 12.dp)
-        AddCarrierButtonCard()
+        AddCarrierButtonCard(
+            navController = navController
+        )
     }
 }
 
 @Composable
-fun AddCarrierButtonCard() {
+fun AddCarrierButtonCard(
+    navController: NavController,
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(LARGE_BUTTON_HEIGHT),
+            .height(LARGE_BUTTON_HEIGHT)
+            .noRippleClickable {
+                navController.navigate(Screens.ChoiceCarrierPosition)
+            },
         colors = CardDefaults.cardColors(
             containerColor = WHITE
         ),

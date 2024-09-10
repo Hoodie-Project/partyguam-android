@@ -19,14 +19,16 @@ import com.party.navigation.Screens
 @Composable
 fun DetailProfileNextButton(
     navController: NavController,
-    routeScreens: Screens,
+    routeScreens: Screens? = null,
+    onBackPressed: () -> Unit = {},
     text: String,
     textColor: Color,
     containerColor: Color,
 ) {
     Button(
         onClick = {
-            navController.navigate(routeScreens)
+            if(routeScreens != null) navController.navigate(routeScreens)
+            else onBackPressed()
         },
         modifier = Modifier
             .fillMaxWidth()

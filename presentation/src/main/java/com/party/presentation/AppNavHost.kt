@@ -35,6 +35,7 @@ import com.party.navigation.CustomTopBar
 import com.party.navigation.Screens
 import com.party.navigation.fromRoute
 import com.party.navigation.isVisibleTopBar
+import com.party.presentation.screen.detail.choice_carrier_position.ChoiceCarrierPositionScreen
 import com.party.presentation.screen.detail.detail_carrier.DetailCarrierScreen
 import com.party.presentation.screen.detail.detail_profile.DetailProfileScreen
 import com.party.presentation.screen.join.birthday.JoinBirthDayScreen
@@ -169,6 +170,11 @@ fun AppNavHost() {
             }
             composable<Screens.DetailCarrier> {
                 DetailCarrierScreen(
+                    navController = navController,
+                )
+            }
+            composable<Screens.ChoiceCarrierPosition> {
+                ChoiceCarrierPositionScreen(
                     navController = navController,
                 )
             }
