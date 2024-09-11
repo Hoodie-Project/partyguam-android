@@ -28,6 +28,7 @@ import com.party.navigation.isVisibleTopBar
 import com.party.presentation.screen.detail.choice_carrier_position.ChoiceCarrierPositionScreen
 import com.party.presentation.screen.detail.detail_carrier.DetailCarrierScreen
 import com.party.presentation.screen.detail.detail_profile.DetailProfileScreen
+import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen1
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen2
 import com.party.presentation.screen.join.birthday.JoinBirthDayScreen
@@ -179,6 +180,12 @@ fun AppNavHost() {
             composable<Screens.SelectTendency2> {
                 SelectTendencyScreen2(
                     navController = navController,
+                )
+            }
+            composable<Screens.SelectTendency3> {
+                SelectTendencyScreen(
+                    navController = navController,
+                    snackBarHostState = snackBarHostState
                 )
             }
         }
