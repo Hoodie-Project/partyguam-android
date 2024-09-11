@@ -33,7 +33,7 @@ import com.party.navigation.Screens
 import com.party.presentation.screen.detail.detail_profile.ProfileIndicatorArea
 
 @Composable
-fun SelectTendencyScreen3(
+fun SelectTendencyScreen4(
     navController: NavController,
     snackBarHostState: SnackbarHostState,
 ) {
@@ -60,13 +60,13 @@ fun SelectTendencyScreen3(
                 textColor1 = BLACK,
                 textColor2 = BLACK,
                 textColor3 = BLACK,
-                indicatorText = stringResource(id = R.string.detail_profile5),
+                indicatorText = stringResource(id = R.string.detail_profile6),
             )
 
             HeightSpacer(heightDp = 32.dp)
 
             TextComponent(
-                text = stringResource(id = R.string.select_tendency5),
+                text = stringResource(id = R.string.select_tendency7),
                 fontWeight = FontWeight.Bold,
                 fontSize = T2,
             )
@@ -80,7 +80,7 @@ fun SelectTendencyScreen3(
 
             HeightSpacer(heightDp = 40.dp)
 
-            SelectTendencyArea3(
+            SelectTendencyArea4(
                 selectedTendencyList = selectedTendencyList,
                 onSelect = {
                     if(selectedTendencyList.contains(it)) {
@@ -106,7 +106,7 @@ fun SelectTendencyScreen3(
 }
 
 @Composable
-fun SelectTendencyArea3(
+fun SelectTendencyArea4(
     selectedTendencyList: MutableList<String>,
     onSelect: (String) -> Unit,
 ) {
@@ -116,7 +116,7 @@ fun SelectTendencyArea3(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         itemsIndexed(
-            items = confidentList,
+            items = challengeList,
             key =  { index, _ ->
                 index
             }
