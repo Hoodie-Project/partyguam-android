@@ -14,7 +14,10 @@ fun NavBackStackEntry?.fromRoute(): Screens {
             Screens.DetailProfile::class.simpleName -> Screens.DetailProfile
             Screens.DetailCarrier::class.simpleName -> Screens.DetailCarrier
             Screens.ChoiceCarrierPosition::class.simpleName -> Screens.ChoiceCarrierPosition
-            Screens.SelectTendency::class.simpleName -> Screens.SelectTendency
+            Screens.SelectTendency1::class.simpleName -> Screens.SelectTendency1
+            Screens.SelectTendency2::class.simpleName -> Screens.SelectTendency2
+            Screens.SelectTendency3::class.simpleName -> Screens.SelectTendency3
+            Screens.SelectTendency4::class.simpleName -> Screens.SelectTendency4
             else -> Screens.Login
         }
     }

@@ -3,12 +3,8 @@ package com.party.presentation
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -19,16 +15,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.party.common.ui.theme.GRAY600
-import com.party.common.ui.theme.LARGE_BUTTON_HEIGHT
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.MEDIUM_BUTTON_HEIGHT
-import com.party.common.ui.theme.MEDIUM_CORNER_SIZE
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.CustomTopBar
@@ -38,8 +28,8 @@ import com.party.navigation.isVisibleTopBar
 import com.party.presentation.screen.detail.choice_carrier_position.ChoiceCarrierPositionScreen
 import com.party.presentation.screen.detail.detail_carrier.DetailCarrierScreen
 import com.party.presentation.screen.detail.detail_profile.DetailProfileScreen
-import com.party.presentation.screen.detail.select_tendency.SelectTendencyArea1
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen1
+import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen2
 import com.party.presentation.screen.join.birthday.JoinBirthDayScreen
 import com.party.presentation.screen.join.complete.JoinCompleteScreen
 import com.party.presentation.screen.join.email.JoinEmailScreen
@@ -180,10 +170,15 @@ fun AppNavHost() {
                     navController = navController,
                 )
             }
-            composable<Screens.SelectTendency> {
+            composable<Screens.SelectTendency1> {
                 SelectTendencyScreen1(
                     navController = navController,
                     snackBarHostState = snackBarHostState
+                )
+            }
+            composable<Screens.SelectTendency2> {
+                SelectTendencyScreen2(
+                    navController = navController,
                 )
             }
         }

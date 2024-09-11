@@ -7,3 +7,8 @@ val timeList = listOf(
     "새벽 (24시 - 6시)",
     "무관"
 )
+
+val tendencyList = listOf(
+    "계획에 따른 체계적인 실행이 중요해요",
+    "계획을 따르지만 유연한 실행이 중요해요"
+)

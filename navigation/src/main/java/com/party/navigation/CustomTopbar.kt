@@ -44,7 +44,10 @@ fun CustomTopBar(
         is Screens.DetailProfile,
         is Screens.DetailCarrier,
         is Screens.ChoiceCarrierPosition,
-        is Screens.SelectTendency,
+        is Screens.SelectTendency1,
+        is Screens.SelectTendency2,
+        is Screens.SelectTendency3,
+        is Screens.SelectTendency4,
         -> CenterTopBar(
             currentScreen = currentScreen,
             navHostController = navController,
@@ -99,7 +102,10 @@ fun SetScaffoldRightCloseIcon(
 
         is Screens.DetailProfile,
         is Screens.DetailCarrier,
-        is Screens.SelectTendency,
+        is Screens.SelectTendency1,
+        is Screens.SelectTendency2,
+        is Screens.SelectTendency3,
+        is Screens.SelectTendency4,
         -> ScaffoldActionCloseIcon()
 
         else -> {}
@@ -142,7 +148,10 @@ fun SetNavigationIcon(
         is Screens.JoinGender,
         is Screens.DetailCarrier,
         is Screens.ChoiceCarrierPosition,
-        is Screens.SelectTendency,
+        is Screens.SelectTendency1,
+        is Screens.SelectTendency2,
+        is Screens.SelectTendency3,
+        is Screens.SelectTendency4,
         -> BackNavigationIcon(
             currentScreen = currentScreen,
             navController = navController,

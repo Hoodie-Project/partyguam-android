@@ -79,6 +79,7 @@ fun ProfileIndicatorArea(
     textColor1: Color,
     textColor2: Color,
     textColor3: Color,
+    indicatorText: String,
 ) {
     Row(
         modifier = Modifier
@@ -112,7 +113,7 @@ fun ProfileIndicatorArea(
         )
         IndicatorComponent(
             number = "3",
-            title = stringResource(id = R.string.detail_profile3),
+            title = indicatorText,
             container = container3,
             textColor = textColor3
         )

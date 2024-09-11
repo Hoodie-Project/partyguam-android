@@ -40,6 +40,7 @@ fun DetailCarrierScreen(
                 textColor1 = BLACK,
                 textColor2 = BLACK,
                 textColor3 = GRAY400,
+                indicatorText = stringResource(id = R.string.detail_profile3),
             )
 
             HeightSpacer(heightDp = 32.dp)

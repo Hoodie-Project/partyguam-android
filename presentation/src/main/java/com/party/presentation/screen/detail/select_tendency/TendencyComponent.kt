@@ -1,12 +1,22 @@
 package com.party.presentation.screen.detail.select_tendency
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircleOutline
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,19 +25,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
+import com.party.common.WidthSpacer
+import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
+import com.party.common.ui.theme.EXTRA_LARGE_BUTTON_HEIGHT2
+import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.LARGE_BUTTON_HEIGHT
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.LIGHT100
 import com.party.common.ui.theme.PRIMARY
+import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.Screens
 
@@ -65,7 +81,9 @@ fun TendencyNextButton(
     borderColor: Color,
 ) {
     Button(
-        onClick = {},
+        onClick = {
+            navController.navigate(routeScreens)
+        },
         modifier = Modifier
             .fillMaxWidth()
             .height(LARGE_BUTTON_HEIGHT),
@@ -97,4 +115,66 @@ fun TendencyNextButton(
     )
 
     HeightSpacer(heightDp = 20.dp)
+}
+
+@Composable
+fun SelectTendencyAreaComponent(
+    containerColor: Color,
+    text: String,
+    fontWeight: FontWeight,
+    iconColor: Color,
+    onSelect: (String) -> Unit,
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(EXTRA_LARGE_BUTTON_HEIGHT2)
+            .noRippleClickable {
+                onSelect(text)
+            },
+        shape = RoundedCornerShape(LARGE_CORNER_SIZE),
+        border = BorderStroke(1.dp, GRAY200),
+        elevation = CardDefaults.cardElevation(2.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = containerColor
+        )
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+        ){
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 20.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    imageVector = Icons.Default.CheckCircleOutline,
+                    contentDescription = "check",
+                    tint = iconColor,
+                    modifier = Modifier
+                        .size(20.dp)
+                )
+                WidthSpacer(widthDp = 6.dp)
+                Text(
+                    text = text,
+                    fontWeight = fontWeight,
+                    fontSize = T3
+                )
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun SelectTendencyAreaComponentPreview() {
+    SelectTendencyAreaComponent(
+        containerColor = GRAY100,
+        text = "오전 (6시 - 12시)",
+        fontWeight = FontWeight.Normal,
+        iconColor = GRAY200,
+        onSelect = {}
+    )
 }

@@ -6,12 +6,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -20,7 +19,6 @@ import androidx.navigation.NavController
 import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
-import com.party.common.snackBarMessage
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.DARK100
 import com.party.common.ui.theme.GRAY200
@@ -33,17 +31,16 @@ import com.party.navigation.Screens
 import com.party.presentation.screen.detail.detail_profile.ProfileIndicatorArea
 
 @Composable
-fun SelectTendencyScreen1(
+fun SelectTendencyScreen2(
     navController: NavController,
-    snackBarHostState: SnackbarHostState,
 ) {
-    val selectedTendencyList by remember {
-        mutableStateOf(mutableStateListOf<String>())
+    var selectedTendency by remember {
+        mutableStateOf("")
     }
 
     val isValid by remember {
         mutableStateOf(false)
-    }.apply { value = selectedTendencyList.size == 2 }
+    }.apply { value = selectedTendency.isNotEmpty() }
 
     Column(
         modifier = Modifier
@@ -60,13 +57,13 @@ fun SelectTendencyScreen1(
                 textColor1 = BLACK,
                 textColor2 = BLACK,
                 textColor3 = BLACK,
-                indicatorText = stringResource(id = R.string.detail_profile3),
+                indicatorText = stringResource(id = R.string.detail_profile4),
             )
 
             HeightSpacer(heightDp = 32.dp)
 
             TextComponent(
-                text = stringResource(id = R.string.select_tendency1),
+                text = stringResource(id = R.string.select_tendency3),
                 fontWeight = FontWeight.Bold,
                 fontSize = T2,
             )
@@ -74,22 +71,16 @@ fun SelectTendencyScreen1(
             HeightSpacer(heightDp = 12.dp)
 
             TextComponent(
-                text = stringResource(id = R.string.select_tendency2),
+                text = stringResource(id = R.string.select_tendency4),
                 fontSize = T3,
             )
 
             HeightSpacer(heightDp = 40.dp)
 
-            SelectTendencyArea1(
-                selectedTendencyList = selectedTendencyList,
+            SelectTendencyArea2(
+                selectedTendency = selectedTendency,
                 onSelect = {
-                    if(selectedTendencyList.contains(it)) {
-                        selectedTendencyList.remove(it)
-                    } else if(selectedTendencyList.size == 2){
-                        snackBarMessage(snackBarHostState, "최대 2개까지 선택 가능합니다.")
-                    }else {
-                        selectedTendencyList.add(it)
-                    }
+                    selectedTendency = it
                 }
             )
         }
@@ -106,8 +97,8 @@ fun SelectTendencyScreen1(
 }
 
 @Composable
-fun SelectTendencyArea1(
-    selectedTendencyList: MutableList<String>,
+fun SelectTendencyArea2(
+    selectedTendency: String,
     onSelect: (String) -> Unit,
 ) {
     LazyColumn(
@@ -116,16 +107,16 @@ fun SelectTendencyArea1(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         itemsIndexed(
-            items = timeList,
+            items = tendencyList,
             key =  { index, _ ->
                 index
             }
-        ){_, item ->
+        ) { _, item ->
             SelectTendencyAreaComponent(
-                containerColor = if(selectedTendencyList.contains(item)) PRIMARY else WHITE,
+                containerColor = if(selectedTendency == item) PRIMARY else WHITE,
                 text = item,
-                fontWeight = if(selectedTendencyList.contains(item)) FontWeight.Bold else FontWeight.Normal,
-                iconColor = if(selectedTendencyList.contains(item)) DARK100 else GRAY200,
+                fontWeight = if(selectedTendency == item) FontWeight.Bold else FontWeight.Normal,
+                iconColor = if(selectedTendency == item) DARK100 else GRAY200,
                 onSelect = {
                     onSelect(it)
                 },
