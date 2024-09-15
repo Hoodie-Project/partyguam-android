@@ -74,4 +74,9 @@ sealed interface Screens : ArgInterface {
         override val title: String = NavigationTitle.SELECT_TENDENCY
         override val icon: ImageVector? = null
     }
+    @Serializable
+    data object SelectTendencyComplete: Screens {
+        override val title: String = NavigationTitle.SELECT_TENDENCY
+        override val icon: ImageVector? = null
+    }
 }

@@ -28,6 +28,7 @@ import com.party.navigation.isVisibleTopBar
 import com.party.presentation.screen.detail.choice_carrier_position.ChoiceCarrierPositionScreen
 import com.party.presentation.screen.detail.detail_carrier.DetailCarrierScreen
 import com.party.presentation.screen.detail.detail_profile.DetailProfileScreen
+import com.party.presentation.screen.detail.select_tendency.SelectTendencyCompleteScreen
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen1
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen2
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen3
@@ -112,7 +113,10 @@ fun AppNavHost() {
             },
         ){
             composable<Screens.Login> {
-                LoginScreen(navController = navController)
+                LoginScreen(
+                    navController = navController,
+                    context = context,
+                )
             }
             composable<Screens.JoinEmail> {
                 JoinEmailScreen(
@@ -193,6 +197,11 @@ fun AppNavHost() {
                 SelectTendencyScreen4(
                     navController = navController,
                     snackBarHostState = snackBarHostState
+                )
+            }
+            composable<Screens.SelectTendencyComplete> {
+                SelectTendencyCompleteScreen(
+                    navController = navController,
                 )
             }
         }

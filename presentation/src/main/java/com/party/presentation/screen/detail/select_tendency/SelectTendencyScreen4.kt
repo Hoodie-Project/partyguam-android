@@ -96,7 +96,7 @@ fun SelectTendencyScreen4(
 
         TendencyBottomArea(
             navController = navController,
-            routeScreens = Screens.SelectTendency4,
+            routeScreens = Screens.SelectTendencyComplete,
             buttonText = stringResource(id = R.string.common1),
             textColor = BLACK,
             borderColor = if(isValid) LIGHT100 else GRAY200,

@@ -1,6 +1,8 @@
 package com.party.presentation.screen.detail.select_tendency
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -58,21 +60,39 @@ fun TendencyBottomArea(
     containerColor: Color,
 ) {
     Column(
-        
+        modifier = Modifier
+            .fillMaxWidth()
     ) {
         TendencyNextButton(
-            navController = navController ,
+            navController = navController,
             routeScreens = routeScreens,
             text = buttonText,
             textColor = textColor,
             borderColor = borderColor,
             containerColor = containerColor
         )
+
+        HeightSpacer(heightDp = 20.dp)
+
+        TextComponent(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(40.dp),
+            text = stringResource(id = R.string.common3),
+            fontSize = B2,
+            textDecoration = TextDecoration.Underline,
+            textAlign = Alignment.Center,
+            textColor = GRAY500,
+        )
+
+        HeightSpacer(heightDp = 20.dp)
     }
     
 }
+@SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun TendencyNextButton(
+    modifier: Modifier = Modifier,
     navController: NavController,
     routeScreens: Screens,
     text: String,
@@ -84,7 +104,7 @@ fun TendencyNextButton(
         onClick = {
             navController.navigate(routeScreens)
         },
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(LARGE_BUTTON_HEIGHT),
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
@@ -92,6 +112,7 @@ fun TendencyNextButton(
             containerColor = containerColor
         ),
         border = BorderStroke(1.dp, borderColor),
+        interactionSource = MutableInteractionSource(), // Button Ripple 효과 없애기
     ){
         Text(
             text = text,
@@ -100,21 +121,6 @@ fun TendencyNextButton(
             fontWeight = FontWeight.Bold,
         )
     }
-
-    HeightSpacer(heightDp = 20.dp)
-    
-    TextComponent(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(40.dp),
-        text = stringResource(id = R.string.common3),
-        fontSize = B2,
-        textDecoration = TextDecoration.Underline,
-        textAlign = Alignment.Center,
-        textColor = GRAY500,
-    )
-
-    HeightSpacer(heightDp = 20.dp)
 }
 
 @Composable

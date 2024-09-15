@@ -1,11 +1,13 @@
 package com.party.presentation.screen.login
 
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -31,6 +33,7 @@ import com.party.common.R
 @Composable
 fun LoginScreen(
     navController: NavHostController,
+    context: Context,
 ) {
     Column(
         modifier = Modifier
@@ -60,6 +63,7 @@ fun LoginScreen(
             painterImage = painterResource(id = R.drawable.kakao),
             contentDescription = "kakao",
             navHostController = navController,
+            context = context,
         )
 
         HeightSpacer(heightDp = 8.dp)
@@ -71,6 +75,7 @@ fun LoginScreen(
             painterImage = painterResource(id = R.drawable.google),
             contentDescription = "google",
             navHostController = navController,
+            context = context,
         )
 
         HeightSpacer(heightDp = 24.dp)
@@ -101,5 +106,8 @@ fun LoginScreen(
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen(navController = rememberNavController())
+    LoginScreen(
+        navController = rememberNavController(),
+        context = LocalContext.current,
+    )
 }

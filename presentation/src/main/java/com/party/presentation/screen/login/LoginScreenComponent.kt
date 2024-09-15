@@ -1,5 +1,11 @@
 package com.party.presentation.screen.login
 
+import android.content.Context
+import android.content.Intent
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
@@ -26,13 +32,21 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.party.common.WidthSpacer
 import com.party.common.ui.theme.EXTRA_LARGE_BUTTON_HEIGHT2
 import com.party.common.ui.theme.GRAY600
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.navigation.Screens
+import com.party.presentation.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun SocialLoginButton(
@@ -42,7 +56,15 @@ fun SocialLoginButton(
     painterImage: Painter,
     contentDescription: String,
     navHostController: NavHostController,
+    context: Context,
+    loginViewModel: LoginViewModel = hiltViewModel()
 ) {
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) {
+        loginViewModel.loginGoogle(activityResult = it)
+    }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -54,7 +76,17 @@ fun SocialLoginButton(
         ),
         border = BorderStroke(1.dp, borderColor),
         onClick = {
-            navHostController.navigate(Screens.JoinEmail)
+            CoroutineScope(Dispatchers.IO).launch {
+                val googleSignInOptions = GoogleSignInOptions
+                    .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken("606792749750-61uarn8jqb51ht3pkpo3f9pc92skop0c.apps.googleusercontent.com")
+                    .requestEmail()
+                    .build()
+
+                val googleSignInClient = GoogleSignIn.getClient(context, googleSignInOptions)
+                launcher.launch(googleSignInClient.signInIntent)
+            }
+            //navHostController.navigate(Screens.JoinEmail)
         }
     ) {
         Row(
@@ -100,3 +132,14 @@ fun makeAnnotatedString(
         append(text3)
     }
 }
+
+@Composable
+fun aasd(
+    context: Context,
+    loginViewModel: LoginViewModel,
+    launcher: ManagedActivityResultLauncher<Intent, ActivityResult>
+){
+
+
+}
+

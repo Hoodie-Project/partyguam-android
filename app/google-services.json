@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "606792749750",
+    "project_id": "party-guam-app",
+    "storage_bucket": "party-guam-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:606792749750:android:b9e38251e703213b3d8c17",
+        "android_client_info": {
+          "package_name": "com.party.guam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "606792749750-hdm92ubmo6dfot1ccfureng21idjtckq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.party.guam",
+            "certificate_hash": "460ca57f3a0e68f56a8601f287572c0d8348f9e0"
+          }
+        },
+        {
+          "client_id": "606792749750-tioafr9chfpa3djelhq881t4phvd4so6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6Bjr7nWQdR6TE-K2B8qW4GkZgnSVfM2s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "606792749750-61uarn8jqb51ht3pkpo3f9pc92skop0c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

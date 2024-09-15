@@ -21,7 +21,8 @@ import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 
 fun isVisibleTopBar(currentScreen: Screens): Boolean {
     return when (currentScreen) {
-        is Screens.JoinComplete
+        is Screens.JoinComplete,
+        is Screens.SelectTendencyComplete,
         -> false
         else
         -> true
@@ -55,7 +56,8 @@ fun CustomTopBar(
             onWarningDialog = onWarningDialog,
         )
         is Screens.JoinComplete,
-            -> {}
+        is Screens.SelectTendencyComplete,
+        -> {}
     }
 }
 
@@ -160,6 +162,7 @@ fun SetNavigationIcon(
         is Screens.Login,
         is Screens.JoinComplete,
         is Screens.DetailProfile,
+        is Screens.SelectTendencyComplete,
         -> {}
     }
 }
