@@ -81,4 +81,6 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:22.0.0")
     implementation("com.google.firebase:firebase-bom:32.0.0")
     implementation("com.google.android.gms:play-services-auth:20.5.0")
+
+    implementation("com.kakao.sdk:v2-user:2.13.0")
 }

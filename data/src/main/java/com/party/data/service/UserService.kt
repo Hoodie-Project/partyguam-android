@@ -11,9 +11,9 @@ import javax.inject.Singleton
 @Singleton
 interface UserService {
 
-    @POST("/api/users/google/app/login")
+    @POST("api/users/kakao/app/login")
     suspend fun loginGoogle(@Body socialLoginRequest: SocialLoginRequest): ApiResponse<BaseSuccessResponse<SocialLoginEntity>>
 
-    @POST("/users/kakao/app/login")
+    @POST("api/users/kakao/app/login")
     suspend fun loginKakao(@Body socialLoginRequest: SocialLoginRequest): ApiResponse<BaseSuccessResponse<SocialLoginEntity>>
 }

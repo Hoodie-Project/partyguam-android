@@ -2,6 +2,7 @@ package com.party.presentation.screen.login
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
@@ -37,11 +38,18 @@ import androidx.navigation.NavHostController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.model.ClientError
+import com.kakao.sdk.common.model.ClientErrorCause
+import com.kakao.sdk.user.UserApi
+import com.kakao.sdk.user.UserApiClient
+import com.party.common.AESUtil
 import com.party.common.WidthSpacer
 import com.party.common.ui.theme.EXTRA_LARGE_BUTTON_HEIGHT2
 import com.party.common.ui.theme.GRAY600
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
+import com.party.domain.model.member.SocialLoginRequest
 import com.party.navigation.Screens
 import com.party.presentation.R
 import kotlinx.coroutines.CoroutineScope
@@ -65,6 +73,17 @@ fun SocialLoginButton(
         loginViewModel.loginGoogle(activityResult = it)
     }
 
+    val kakaoCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+        when {
+            error != null -> {
+                Log.e("KAKAO", "로그인 실패", error)
+            }
+            token != null -> {
+                loginWithKakaoNickName(token, loginViewModel)
+            }
+        }
+    }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -76,7 +95,7 @@ fun SocialLoginButton(
         ),
         border = BorderStroke(1.dp, borderColor),
         onClick = {
-            CoroutineScope(Dispatchers.IO).launch {
+            /*CoroutineScope(Dispatchers.IO).launch {
                 val googleSignInOptions = GoogleSignInOptions
                     .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestIdToken("606792749750-61uarn8jqb51ht3pkpo3f9pc92skop0c.apps.googleusercontent.com")
@@ -85,8 +104,13 @@ fun SocialLoginButton(
 
                 val googleSignInClient = GoogleSignIn.getClient(context, googleSignInOptions)
                 launcher.launch(googleSignInClient.signInIntent)
-            }
+            }*/
             //navHostController.navigate(Screens.JoinEmail)
+
+            CoroutineScope(Dispatchers.IO).launch {
+                loginWithKakao(context, kakaoCallback)
+
+            }
         }
     ) {
         Row(
@@ -133,13 +157,43 @@ fun makeAnnotatedString(
     }
 }
 
-@Composable
-fun aasd(
-    context: Context,
-    loginViewModel: LoginViewModel,
-    launcher: ManagedActivityResultLauncher<Intent, ActivityResult>
-){
 
+private fun loginWithKakao(context: Context, kakaoCallback: (OAuthToken?, Throwable?) -> Unit){
+    if(UserApiClient.instance.isKakaoTalkLoginAvailable(context)){
+        // 카카오톡 설치되있는거
+        UserApiClient.instance.loginWithKakaoTalk(context){ token, error ->
+            if(error != null){
+                Log.e("KAKAO", "로그인 실패", error)
+            }
+            if (error is ClientError && error.reason == ClientErrorCause.Cancelled){
+                return@loginWithKakaoTalk
+            }
 
+            UserApiClient.instance.loginWithKakaoAccount(context, callback = kakaoCallback)
+        }
+    }else {
+        // 카카오톡 설치 안 되있는거
+        UserApiClient.instance.loginWithKakaoAccount(context, callback = kakaoCallback)
+    }
 }
 
+private fun loginWithKakaoNickName(token: OAuthToken, loginViewModel: LoginViewModel){
+    UserApiClient.instance.me { user, error ->
+        when {
+            error != null -> {
+                Log.e("KAKAO", "사용자 정보 요청 실패", error)
+            }
+            user != null -> {
+
+                Log.i("KAKAO", "사용자 정보 요청 성공 ${token.accessToken} ${user.properties?.get("email").orEmpty()}")
+                Log.i("KAKAO", "사용자 정보 요청 성공 ${user.kakaoAccount?.email}")
+                loginViewModel.serveToLogin(
+                    socialLoginRequest = SocialLoginRequest(
+                        uid = AESUtil.encrypt("${user.kakaoAccount?.email}"),
+                        idToken = token.accessToken,
+                    )
+                )
+            }
+        }
+    }
+}

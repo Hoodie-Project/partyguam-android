@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
+import com.party.common.AESUtil
 import com.party.domain.model.member.SocialLoginRequest
 import com.party.domain.usecase.user.GoogleLoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,7 +33,7 @@ class LoginViewModel @Inject constructor(
 
                         serveToLogin(
                             socialLoginRequest = SocialLoginRequest(
-                                uid = account.email!!,
+                                uid = AESUtil.encrypt(account.email!!),
                                 idToken = idToken,
                             )
                         )
@@ -49,7 +50,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun serveToLogin(socialLoginRequest: SocialLoginRequest){
+    fun serveToLogin(socialLoginRequest: SocialLoginRequest){
         viewModelScope.launch(Dispatchers.IO) {
             val result = googleLoginUseCase(socialLoginRequest = socialLoginRequest)
 
