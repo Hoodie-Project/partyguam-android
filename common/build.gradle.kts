@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.compose.compiler) // 추가
+    id("kotlinx-serialization")
 }
 
 android {
@@ -52,6 +53,5 @@ dependencies {
     // Kotlin Serialization
     implementation(libs.kotlin.stdlib)
     implementation(libs.kotlinx.serialization.json)
-
 
 }

@@ -5,13 +5,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
+import com.party.domain.model.member.SocialLoginRequest
+import com.party.domain.usecase.user.GoogleLoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(): ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val googleLoginUseCase: GoogleLoginUseCase,
+): ViewModel() {
 
     fun loginGoogle(activityResult: ActivityResult){
         viewModelScope.launch(Dispatchers.IO) {
@@ -23,11 +27,16 @@ class LoginViewModel @Inject constructor(): ViewModel() {
                     if (idToken != null) {
                         println("idToken : $idToken")
                         println("account : ${account.email}")
-                        println("account : ${account.account}")
-                        println("account : ${account.id}")
                         println("account : ${account.displayName}")
                         println("account : ${account.isExpired}")
-                        //performLoginSocial(SignUpType.GOOGLE, idToken, "")
+
+                        serveToLogin(
+                            socialLoginRequest = SocialLoginRequest(
+                                uid = account.email!!,
+                                idToken = idToken,
+                            )
+                        )
+
                     } else {
                         //LogUtils.e("Google ID Token is null")
                         println("asdasdas")
@@ -37,6 +46,15 @@ class LoginViewModel @Inject constructor(): ViewModel() {
                     println("errro : " + e.statusCode)
                 }
             }
+        }
+    }
+
+    private fun serveToLogin(socialLoginRequest: SocialLoginRequest){
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = googleLoginUseCase(socialLoginRequest = socialLoginRequest)
+
+            println("result : $result")
+
         }
     }
 }
