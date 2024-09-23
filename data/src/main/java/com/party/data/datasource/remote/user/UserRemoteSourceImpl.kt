@@ -14,7 +14,7 @@ class UserRemoteSourceImpl @Inject constructor(
         return userService.loginGoogle(socialLoginRequest = socialLoginRequest)
     }
 
-    override suspend fun kakaoLogin(socialLoginRequest: SocialLoginRequest): ApiResponse<BaseSuccessResponse<SocialLoginEntity>> {
-        return userService.loginKakao(socialLoginRequest = socialLoginRequest)
+    override suspend fun kakaoLogin(accessToken: String): ApiResponse<BaseSuccessResponse<SocialLoginEntity>> {
+        return userService.loginKakao(accessToken = accessToken)
     }
 }

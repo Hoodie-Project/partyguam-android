@@ -38,12 +38,12 @@ import androidx.navigation.NavHostController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.gson.JsonObject
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApi
 import com.kakao.sdk.user.UserApiClient
-import com.party.common.AESUtil
 import com.party.common.WidthSpacer
 import com.party.common.ui.theme.EXTRA_LARGE_BUTTON_HEIGHT2
 import com.party.common.ui.theme.GRAY600
@@ -187,11 +187,9 @@ private fun loginWithKakaoNickName(token: OAuthToken, loginViewModel: LoginViewM
 
                 Log.i("KAKAO", "사용자 정보 요청 성공 ${token.accessToken} ${user.properties?.get("email").orEmpty()}")
                 Log.i("KAKAO", "사용자 정보 요청 성공 ${user.kakaoAccount?.email}")
+
                 loginViewModel.serveToLogin(
-                    socialLoginRequest = SocialLoginRequest(
-                        uid = AESUtil.encrypt("${user.kakaoAccount?.email}"),
-                        idToken = token.accessToken,
-                    )
+                    accessToken = "Bearer ${token.accessToken}",
                 )
             }
         }

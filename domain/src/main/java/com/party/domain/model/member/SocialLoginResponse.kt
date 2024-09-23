@@ -5,9 +5,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SocialLoginResponse(
     val accessToken: String,
-    val message: String? = null,
-    val error: String? = null,
-    val statusCode: String? = null,
-    val path: String? = null,
-    val timestamp: String? = null,
+    val refreshToken: String,
+)
+
+@Serializable
+data class SocialLoginErrorResponse(
+    val message: String,
+    val signupAccessToken: String,
 )

@@ -10,7 +10,7 @@ import javax.inject.Inject
 class GoogleLoginUseCase @Inject constructor(
     private val userRepository: UserRepository,
 ){
-    suspend operator fun invoke(socialLoginRequest: SocialLoginRequest): ServerApiResponse {
+    suspend operator fun invoke(accessToken: String, socialLoginRequest: SocialLoginRequest): ServerApiResponse {
         return userRepository.googleLogin(socialLoginRequest = socialLoginRequest)
     }
 }

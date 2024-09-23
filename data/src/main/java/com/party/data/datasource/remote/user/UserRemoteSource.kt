@@ -11,5 +11,5 @@ interface UserRemoteSource {
     suspend fun googleLogin(socialLoginRequest: SocialLoginRequest): ApiResponse<BaseSuccessResponse<SocialLoginEntity>>
 
     // 카카오 로그인
-    suspend fun kakaoLogin(socialLoginRequest: SocialLoginRequest): ApiResponse<BaseSuccessResponse<SocialLoginEntity>>
+    suspend fun kakaoLogin(accessToken: String): ApiResponse<BaseSuccessResponse<SocialLoginEntity>>
 }

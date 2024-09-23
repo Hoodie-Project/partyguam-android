@@ -5,6 +5,7 @@ import com.party.data.entity.user.SocialLoginEntity
 import com.party.domain.model.member.SocialLoginRequest
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.POST
 import javax.inject.Singleton
 
@@ -15,5 +16,7 @@ interface UserService {
     suspend fun loginGoogle(@Body socialLoginRequest: SocialLoginRequest): ApiResponse<BaseSuccessResponse<SocialLoginEntity>>
 
     @POST("api/users/kakao/app/login")
-    suspend fun loginKakao(@Body socialLoginRequest: SocialLoginRequest): ApiResponse<BaseSuccessResponse<SocialLoginEntity>>
+    suspend fun loginKakao(
+        @Header("authorization") accessToken: String
+    ): ApiResponse<BaseSuccessResponse<SocialLoginEntity>>
 }
