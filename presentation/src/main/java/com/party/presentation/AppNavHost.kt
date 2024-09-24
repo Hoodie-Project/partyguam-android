@@ -19,6 +19,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.CustomTopBar
@@ -116,11 +117,16 @@ fun AppNavHost() {
                 LoginScreen(
                     navController = navController,
                     context = context,
+                    snackBarHostState = snackBarHostState
                 )
             }
-            composable<Screens.JoinEmail> {
+            composable<Screens.JoinEmail> { backStackEntry ->
+                val userEmail = backStackEntry.toRoute<Screens.JoinEmail>().userEmail
+                val signupAccessToken = backStackEntry.toRoute<Screens.JoinEmail>().signupAccessToken
                 JoinEmailScreen(
                     navController = navController,
+                    userEmail = userEmail,
+                    signupAccessToken = signupAccessToken,
                     setActionText = { text ->
                         joinActionText = text
                     },

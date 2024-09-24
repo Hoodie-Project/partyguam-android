@@ -12,4 +12,5 @@ data class SocialLoginResponse(
 data class SocialLoginErrorResponse(
     val message: String,
     val signupAccessToken: String,
+    var userEmail: String? = null,
 )

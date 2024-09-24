@@ -33,12 +33,15 @@ import com.party.presentation.screen.join.JoinScreenInputField
 @Composable
 fun JoinEmailScreen(
     navController: NavHostController,
+    userEmail: String,
+    signupAccessToken: String,
     setActionText: (String) -> Unit,
 ) {
     LaunchedEffect(key1 = true) {
         setActionText("1/4")
     }
-    var userEmail by rememberSaveable { mutableStateOf("tmfrl1590@gmail.com") }
+    var email by rememberSaveable { mutableStateOf(userEmail) }
+    val signUpToken by rememberSaveable { mutableStateOf(signupAccessToken) }
 
     Column(
         modifier = Modifier
@@ -71,9 +74,9 @@ fun JoinEmailScreen(
                 borderColor = GRAY100,
                 closeIcon = null,
                 readOnly = true,
-                inputText = userEmail,
+                inputText = email,
                 placeHolder = "",
-                onString = { userEmail = it }
+                onString = { email = it }
             )
         }
 
@@ -99,6 +102,8 @@ fun JoinEmailScreen(
 fun LoginScreenPreview() {
     JoinEmailScreen(
         navController = rememberNavController(),
+        userEmail = "test123@gmail.com",
+        signupAccessToken = "123123",
         setActionText = {}
     )
 }

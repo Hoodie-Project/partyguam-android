@@ -21,7 +21,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 import com.party.common.ui.theme.T2
+import com.party.common.ui.theme.T3
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -127,4 +129,27 @@ fun snackBarMessage(
         delay(durationTime)
         job.cancel()
     }
+}
+
+@Composable
+fun ScreenExplainArea(
+    mainExplain: String,
+    subExplain: String,
+) {
+    HeightSpacer(heightDp = 32.dp)
+
+    TextComponent(
+        text = mainExplain,
+        fontWeight = FontWeight.Bold,
+        fontSize = T2,
+    )
+
+    HeightSpacer(heightDp = 12.dp)
+
+    TextComponent(
+        text = subExplain,
+        fontSize = T3,
+    )
+
+    HeightSpacer(heightDp = 40.dp)
 }

@@ -11,11 +11,11 @@ import com.party.common.BaseSuccessResponse
 import com.party.domain.model.member.SocialLoginErrorResponse
 import com.party.domain.usecase.user.GoogleLoginUseCase
 import com.party.domain.usecase.user.KakaoLoginUseCase
-import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.StatusCode
-import com.skydoves.sandwich.retrofit.errorBody
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,6 +24,9 @@ class LoginViewModel @Inject constructor(
     private val googleLoginUseCase: GoogleLoginUseCase,
     private val kakaoLoginUseCase: KakaoLoginUseCase,
 ): ViewModel() {
+
+    private val _nextScreen = MutableSharedFlow<SocialLoginErrorResponse>()
+    val nextScreen = _nextScreen.asSharedFlow()
 
     fun loginGoogle(activityResult: ActivityResult){
         viewModelScope.launch(Dispatchers.IO) {
@@ -50,14 +53,13 @@ class LoginViewModel @Inject constructor(
                         println("asdasdas")
                     }
                 } catch (e: ApiException) {
-                    println("errro : " + e.message)
-                    println("errro : " + e.statusCode)
+                    println("error : ${e.message} ${e.statusCode}")
                 }
             }
         }
     }
 
-    fun serveToLogin(accessToken: String){
+    fun serveToKakaoLogin(userEmail: String, accessToken: String){
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = kakaoLoginUseCase(accessToken = accessToken)){
                 is BaseSuccessResponse<*> -> {
@@ -66,10 +68,9 @@ class LoginViewModel @Inject constructor(
                 is BaseErrorResponse<*> -> {
                     when(result.statusCode){
                         StatusCode.Unauthorized.code -> { // 회원가입이 되어있지 않은 상태
-
-                            val a: SocialLoginErrorResponse = result.data as SocialLoginErrorResponse
-                            println("result123 Error : ${a.message}")
-                            println("result123 Error : ${a.signupAccessToken}")
+                            val socialLoginErrorResponse: SocialLoginErrorResponse = result.data as SocialLoginErrorResponse
+                            socialLoginErrorResponse.userEmail = userEmail
+                            _nextScreen.emit(socialLoginErrorResponse)
                         }
                         StatusCode.InternalServerError.code -> {
                             println("result123 Error : ${result.statusCode}")
