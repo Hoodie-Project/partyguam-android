@@ -1,6 +1,6 @@
 package com.party.data.datasource.remote.user
 
-import com.party.common.BaseSuccessResponse
+import com.party.common.ServerApiResponse.BaseSuccessResponse
 import com.party.data.entity.user.SocialLoginEntity
 import com.party.data.service.UserService
 import com.skydoves.sandwich.ApiResponse

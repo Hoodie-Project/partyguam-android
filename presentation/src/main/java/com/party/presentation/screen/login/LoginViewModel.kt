@@ -7,10 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
-import com.party.common.BaseErrorResponse
-import com.party.common.BaseExceptionResponse
-import com.party.common.BaseSuccessResponse
 import com.party.common.R
+import com.party.common.ServerApiResponse
+import com.party.common.ServerApiResponse.BaseSuccessResponse
+import com.party.common.ServerApiResponse.BaseExceptionResponse
+import com.party.common.ServerApiResponse.BaseErrorResponse
 import com.party.domain.model.member.SocialLoginErrorResponse
 import com.party.domain.usecase.user.GoogleLoginUseCase
 import com.party.domain.usecase.user.KakaoLoginUseCase

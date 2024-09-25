@@ -1,6 +1,6 @@
 package com.party.data.service
 
-import com.party.common.BaseSuccessResponse
+import com.party.common.ServerApiResponse.BaseSuccessResponse
 import com.party.data.entity.user.SocialLoginEntity
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.Header

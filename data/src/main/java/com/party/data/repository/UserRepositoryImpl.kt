@@ -1,13 +1,12 @@
 package com.party.data.repository
 
-import com.party.common.BaseErrorResponse
-import com.party.common.BaseExceptionResponse
-import com.party.common.BaseSuccessResponse
 import com.party.common.ServerApiResponse
+import com.party.common.ServerApiResponse.BaseErrorResponse
+import com.party.common.ServerApiResponse.BaseExceptionResponse
+import com.party.common.ServerApiResponse.BaseSuccessResponse
 import com.party.data.datasource.remote.user.UserRemoteSource
 import com.party.data.entity.user.SocialLoginErrorEntity
 import com.party.data.mapper.UserMapper
-import com.party.domain.model.member.SocialLoginRequest
 import com.party.domain.repository.UserRepository
 import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.StatusCode
