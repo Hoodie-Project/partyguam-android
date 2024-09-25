@@ -1,5 +1,7 @@
 package com.party.presentation.screen.login
 
+import android.content.Context
+import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,6 +10,7 @@ import com.google.android.gms.common.api.ApiException
 import com.party.common.BaseErrorResponse
 import com.party.common.BaseExceptionResponse
 import com.party.common.BaseSuccessResponse
+import com.party.common.R
 import com.party.domain.model.member.SocialLoginErrorResponse
 import com.party.domain.usecase.user.GoogleLoginUseCase
 import com.party.domain.usecase.user.KakaoLoginUseCase
@@ -28,7 +31,7 @@ class LoginViewModel @Inject constructor(
     private val _nextScreen = MutableSharedFlow<SocialLoginErrorResponse>()
     val nextScreen = _nextScreen.asSharedFlow()
 
-    fun loginGoogle(activityResult: ActivityResult){
+    fun googleSignIn(activityResult: ActivityResult, context: Context){
         viewModelScope.launch(Dispatchers.IO) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(activityResult.data)
             task.addOnCompleteListener { completedTask ->
@@ -41,19 +44,41 @@ class LoginViewModel @Inject constructor(
                         println("account : ${account.displayName}")
                         println("account : ${account.isExpired}")
 
-                        /*serveToLogin(
-                            socialLoginRequest = SocialLoginRequest(
-                                uid = AESUtil.encryptCBC(account.email!!),
-                                idToken = idToken,
-                            )
-                        )*/
+                        serverToGoogleLogin(
+                            userEmail = account.email.orEmpty(),
+                            accessToken = "${context.getString(R.string.common5)} $idToken",
+                        )
 
                     } else {
-                        //LogUtils.e("Google ID Token is null")
-                        println("asdasdas")
+                        Log.e("Google Login Error", "Google ID Token is null")
                     }
                 } catch (e: ApiException) {
-                    println("error : ${e.message} ${e.statusCode}")
+                    println("Google Login Exception : ${e.message} ${e.statusCode}")
+                }
+            }
+        }
+    }
+
+    fun serverToGoogleLogin(userEmail: String, accessToken: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = googleLoginUseCase(accessToken = accessToken)){
+                is BaseSuccessResponse<*> -> {
+                    println("result123 Success : ${result.data}")
+                }
+                is BaseErrorResponse<*> -> {
+                    when(result.statusCode){
+                        StatusCode.Unauthorized.code -> { // 회원가입이 되어있지 않은 상태
+                            val socialLoginErrorResponse: SocialLoginErrorResponse = result.data as SocialLoginErrorResponse
+                            socialLoginErrorResponse.userEmail = userEmail
+                            _nextScreen.emit(socialLoginErrorResponse)
+                        }
+                        StatusCode.InternalServerError.code -> {
+                            println("result123 Error : ${result.statusCode}")
+                        }
+                    }
+                }
+                is BaseExceptionResponse -> {
+                    println("result123 Exception : ${result.message}")
                 }
             }
         }

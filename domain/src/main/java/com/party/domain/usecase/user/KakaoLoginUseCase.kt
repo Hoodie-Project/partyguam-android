@@ -1,7 +1,6 @@
 package com.party.domain.usecase.user
 
 import com.party.common.ServerApiResponse
-import com.party.domain.model.member.SocialLoginRequest
 import com.party.domain.repository.UserRepository
 import javax.inject.Inject
 

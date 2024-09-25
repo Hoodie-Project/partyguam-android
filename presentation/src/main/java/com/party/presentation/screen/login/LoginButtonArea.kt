@@ -28,6 +28,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -55,6 +57,12 @@ fun LoginButtonArea(
         }
     }
 
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) {
+        loginViewModel.googleSignIn(activityResult = it, context = context)
+    }
+
     SocialLoginButton(
         context = context,
         navHostController = navController,
@@ -63,7 +71,6 @@ fun LoginButtonArea(
         borderColor = KakaoLoginColor,
         painterImage = painterResource(id = R.drawable.kakao),
         contentDescription = "kakao",
-        loginViewModel = loginViewModel,
         onClick = {
             loginWithKakao(context, kakaoCallback)
         }
@@ -79,9 +86,16 @@ fun LoginButtonArea(
         borderColor = GRAY200,
         painterImage = painterResource(id = R.drawable.google),
         contentDescription = "google",
-        loginViewModel = loginViewModel,
         onClick = {
             // google 로그인
+            val googleSignInOptions = GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("606792749750-61uarn8jqb51ht3pkpo3f9pc92skop0c.apps.googleusercontent.com")
+                .requestEmail()
+                .build()
+
+            val googleSignInClient = GoogleSignIn.getClient(context, googleSignInOptions)
+            launcher.launch(googleSignInClient.signInIntent)
         }
     )
 
@@ -97,15 +111,8 @@ fun SocialLoginButton(
     painterImage: Painter,
     contentDescription: String,
     navHostController: NavHostController,
-    loginViewModel: LoginViewModel,
     onClick: () -> Unit,
 ) {
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) {
-        loginViewModel.loginGoogle(activityResult = it)
-    }
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -127,7 +134,6 @@ fun SocialLoginButton(
                 val googleSignInClient = GoogleSignIn.getClient(context, googleSignInOptions)
                 launcher.launch(googleSignInClient.signInIntent)
             }*/
-            //navHostController.navigate(Screens.JoinEmail)
 
             onClick()
         }

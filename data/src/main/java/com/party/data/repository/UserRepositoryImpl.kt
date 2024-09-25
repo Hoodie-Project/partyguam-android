@@ -19,8 +19,8 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val userRemoteSource: UserRemoteSource,
 ): UserRepository{
-    override suspend fun googleLogin(socialLoginRequest: SocialLoginRequest): ServerApiResponse {
-        return when(val result = userRemoteSource.googleLogin(socialLoginRequest = socialLoginRequest)){
+    override suspend fun googleLogin(accessToken: String): ServerApiResponse {
+        return when(val result = userRemoteSource.googleLogin(accessToken = accessToken)){
             is ApiResponse.Success -> {
                 BaseSuccessResponse(
                     code = "",
@@ -30,13 +30,31 @@ class UserRepositoryImpl @Inject constructor(
             }
             is ApiResponse.Failure.Error-> {
                 val errorBody = result.errorBody?.string()
-                val errorResponse = Json.decodeFromString<BaseErrorResponse<SocialLoginErrorEntity>>(errorBody!!)
-                BaseSuccessResponse(
-                    code = "",
-                    message = "",
-                    data = null
-                    //data = UserMapper.mapperToSocialLoginResponse(result.data.data!!),
-                )
+                when(result.statusCode){
+                    StatusCode.Unauthorized -> { // 401
+                        val errorResponse = Json.decodeFromString<SocialLoginErrorEntity>(errorBody!!)
+                        BaseErrorResponse(
+                            statusCode = StatusCode.Unauthorized.code,
+                            data = UserMapper.mapperSocialLoginErrorResponse(errorResponse),
+                        )
+                    }
+                    StatusCode.InternalServerError -> { // 500
+                        val errorResponse = Json.decodeFromString<BaseErrorResponse<SocialLoginErrorEntity>>(errorBody!!)
+                        BaseErrorResponse(
+                            message = errorResponse.message,
+                            error = errorResponse.error,
+                            statusCode = errorResponse.statusCode,
+                            path = errorResponse.path,
+                            timestamp = errorResponse.timestamp,
+                            data = null,
+                        )
+                    }
+                    else -> {
+                        BaseErrorResponse(
+                            data = null,
+                        )
+                    }
+                }
             }
             is ApiResponse.Failure.Exception -> {
                 BaseExceptionResponse(
@@ -57,7 +75,7 @@ class UserRepositoryImpl @Inject constructor(
             }
             is ApiResponse.Failure.Error-> {
                 val errorBody = result.errorBody?.string()
-                return when(result.statusCode){
+                when(result.statusCode){
                     StatusCode.Unauthorized -> { // 401
                         val errorResponse = Json.decodeFromString<SocialLoginErrorEntity>(errorBody!!)
                         BaseErrorResponse(
