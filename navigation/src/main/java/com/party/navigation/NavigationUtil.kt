@@ -7,7 +7,7 @@ fun NavBackStackEntry?.fromRoute(): Screens {
         return when (it) {
             Screens.Login::class.simpleName -> Screens.Login
             Screens.JoinEmail::class.simpleName -> Screens.JoinEmail("", "")
-            Screens.JoinNickName::class.simpleName -> Screens.JoinNickName
+            Screens.JoinNickName::class.simpleName -> Screens.JoinNickName("", "")
             Screens.JoinBirthDay::class.simpleName -> Screens.JoinBirthDay
             Screens.JoinGender::class.simpleName -> Screens.JoinGender
             Screens.JoinComplete::class.simpleName -> Screens.JoinComplete

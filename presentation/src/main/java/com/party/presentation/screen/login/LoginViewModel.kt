@@ -40,7 +40,7 @@ class LoginViewModel @Inject constructor(
                     val account = completedTask.getResult(ApiException::class.java)
                     val idToken = account.idToken
                     if (idToken != null) {
-                        println("idToken : $idToken")
+                        println("account : $idToken")
                         println("account : ${account.email}")
                         println("account : ${account.displayName}")
                         println("account : ${account.isExpired}")

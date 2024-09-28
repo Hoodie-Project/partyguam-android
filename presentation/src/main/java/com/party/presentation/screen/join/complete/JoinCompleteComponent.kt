@@ -39,8 +39,9 @@ fun RowButtonArea(
             buttonBorderColor = PRIMARY,
             fontSize = B2,
             fontWeight = FontWeight.Bold,
-            navController = navController,
-            routeScreen = Screens.JoinComplete
+            onClick = {
+
+            }
         )
 
         WidthSpacer(widthDp = 8.dp)
@@ -53,8 +54,9 @@ fun RowButtonArea(
             buttonBorderColor = PRIMARY,
             fontSize = B2,
             fontWeight = FontWeight.Bold,
-            navController = navController,
-            routeScreen = Screens.DetailProfile
+            onClick = {
+
+            }
         )
     }
 }

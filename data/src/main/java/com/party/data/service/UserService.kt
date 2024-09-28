@@ -12,11 +12,11 @@ interface UserService {
 
     @POST("api/users/google/app/login")
     suspend fun loginGoogle(
-        @Header("authorization") accessToken: String
+        @Header("Authorization") accessToken: String
     ): ApiResponse<BaseSuccessResponse<SocialLoginEntity>>
 
     @POST("api/users/kakao/app/login")
     suspend fun loginKakao(
-        @Header("authorization") accessToken: String
+        @Header("Authorization") accessToken: String
     ): ApiResponse<BaseSuccessResponse<SocialLoginEntity>>
 }

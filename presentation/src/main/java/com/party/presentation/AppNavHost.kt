@@ -132,9 +132,13 @@ fun AppNavHost() {
                     },
                 )
             }
-            composable<Screens.JoinNickName> {
+            composable<Screens.JoinNickName> { backStackEntry ->
+                val userEmail = backStackEntry.toRoute<Screens.JoinEmail>().userEmail
+                val signupAccessToken = backStackEntry.toRoute<Screens.JoinEmail>().signupAccessToken
                 JoinNickNameScreen(
                     navController = navController,
+                    userEmail = userEmail,
+                    signupAccessToken = signupAccessToken,
                     context = context,
                     setActionText = { text ->
                         joinActionText = text

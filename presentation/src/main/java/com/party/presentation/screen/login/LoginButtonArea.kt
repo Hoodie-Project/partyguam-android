@@ -90,7 +90,7 @@ fun LoginButtonArea(
             // google 로그인
             val googleSignInOptions = GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("606792749750-61uarn8jqb51ht3pkpo3f9pc92skop0c.apps.googleusercontent.com")
+                .requestIdToken(("56497202633-2bojiu38389nu1es9c6p7h41ktb58uoc.apps.googleusercontent.com"))
                 .requestEmail()
                 .build()
 

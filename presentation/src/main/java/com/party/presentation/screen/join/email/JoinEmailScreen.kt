@@ -18,11 +18,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.party.common.HeightSpacer
 import com.party.common.R
+import com.party.common.ScreenExplainArea
 import com.party.common.TextComponent
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
+import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.GRAY500
+import com.party.common.ui.theme.LIGHT200
+import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
@@ -51,22 +55,10 @@ fun JoinEmailScreen(
             modifier = Modifier
                 .weight(1f)
         ) {
-            HeightSpacer(heightDp = 32.dp)
-
-            TextComponent(
-                text = stringResource(id = R.string.join_email1),
-                fontWeight = FontWeight.Bold,
-                fontSize = T2,
+            ScreenExplainArea(
+                mainExplain = stringResource(id = R.string.join_email1),
+                subExplain = stringResource(id = R.string.join_email2),
             )
-
-            HeightSpacer(heightDp = 12.dp)
-
-            TextComponent(
-                text = stringResource(id = R.string.join_email2),
-                fontSize = T3,
-            )
-
-            HeightSpacer(heightDp = 40.dp)
 
             JoinScreenInputField(
                 textColor = GRAY500,
@@ -83,27 +75,18 @@ fun JoinEmailScreen(
         JoinScreenButton(
             modifier = Modifier.fillMaxWidth(),
             buttonText = stringResource(id = R.string.join_email3),
-            buttonTextColor = BLACK,
-            buttonContainerColor = PRIMARY,
-            buttonBorderColor = PRIMARY,
+            buttonTextColor = if(email.isNotEmpty()) BLACK else GRAY400,
+            buttonContainerColor = if(email.isNotEmpty()) PRIMARY else LIGHT400,
+            buttonBorderColor = if(email.isNotEmpty()) PRIMARY else  LIGHT200,
             fontSize = B2,
             fontWeight = FontWeight.Bold,
-            navController = navController,
-            routeScreen = Screens.JoinNickName
+            onClick = {
+                navController.navigate(Screens.JoinNickName(
+                    userEmail = userEmail,
+                    signupAccessToken = signUpToken
+                ))
+            }
         )
         HeightSpacer(heightDp = 12.dp)
     }
-}
-
-
-
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreview() {
-    JoinEmailScreen(
-        navController = rememberNavController(),
-        userEmail = "test123@gmail.com",
-        signupAccessToken = "123123",
-        setActionText = {}
-    )
 }

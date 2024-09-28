@@ -56,13 +56,10 @@ fun JoinScreenButton(
     buttonBorderColor: Color,
     fontSize: TextUnit,
     fontWeight: FontWeight,
-    navController: NavHostController,
-    routeScreen: Screens,
+    onClick: () -> Unit,
 ) {
     Button(
-        onClick = {
-            navController.navigate(routeScreen)
-        },
+        onClick = { onClick() },
         modifier = modifier
             .height(LARGE_BUTTON_HEIGHT),
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),

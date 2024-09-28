@@ -97,8 +97,9 @@ fun JoinBirthDayScreen(
             buttonBorderColor = if(isValid) PRIMARY else  LIGHT200,
             fontSize = B2,
             fontWeight = FontWeight.Bold,
-            navController = navController,
-            routeScreen = Screens.JoinGender
+            onClick = {
+
+            }
         )
     }
 }

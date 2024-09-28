@@ -85,8 +85,9 @@ fun JoinGenderScreen(
             buttonBorderColor = if(selectedGender.isNotEmpty()) PRIMARY else  LIGHT200,
             fontSize = B2,
             fontWeight = FontWeight.Bold,
-            navController = navController,
-            routeScreen = Screens.JoinComplete
+            onClick = {
+
+            }
         )
 
         HeightSpacer(heightDp = 12.dp)

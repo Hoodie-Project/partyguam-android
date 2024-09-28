@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
 import com.party.common.R
+import com.party.common.ScreenExplainArea
 import com.party.common.TextComponent
 import com.party.common.WarningDialog
 import com.party.common.ui.theme.B2
@@ -30,7 +31,6 @@ import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
-import com.party.navigation.Screens
 import com.party.presentation.screen.join.JoinScreenButton
 import com.party.presentation.screen.join.JoinScreenInputField
 
@@ -38,6 +38,8 @@ import com.party.presentation.screen.join.JoinScreenInputField
 fun JoinNickNameScreen(
     navController: NavHostController,
     context: Context,
+    userEmail: String,
+    signupAccessToken: String,
     setActionText: (String) -> Unit,
     isShowWarningDialog: Boolean,
     onClose: (Boolean) -> Unit,
@@ -46,8 +48,10 @@ fun JoinNickNameScreen(
         setActionText("2/4")
     }
 
+    var email by rememberSaveable { mutableStateOf(userEmail) }
+    val signUpToken by rememberSaveable { mutableStateOf(signupAccessToken) }
     var userNickName by rememberSaveable { mutableStateOf("") }
-    val isValid by rememberSaveable {
+    val isValidUserNickName by rememberSaveable {
         mutableStateOf(false)
     }.apply { value = validNickNameInputField(userNickName) }
 
@@ -60,22 +64,10 @@ fun JoinNickNameScreen(
             modifier = Modifier
                 .weight(1f)
         ) {
-            HeightSpacer(heightDp = 32.dp)
-
-            TextComponent(
-                text = stringResource(id = R.string.join_nickname1),
-                fontWeight = FontWeight.Bold,
-                fontSize = T2,
+            ScreenExplainArea(
+                mainExplain = stringResource(id = R.string.join_nickname1),
+                subExplain = stringResource(id = R.string.join_nickname2),
             )
-
-            HeightSpacer(heightDp = 12.dp)
-
-            TextComponent(
-                text = stringResource(id = R.string.join_nickname2),
-                fontSize = T3,
-            )
-
-            HeightSpacer(heightDp = 40.dp)
 
             JoinScreenInputField(
                 textColor = GRAY400,
@@ -93,20 +85,21 @@ fun JoinNickNameScreen(
             WarningArea(
                 context = context,
                 userNickName = userNickName,
-                isValid = isValid
+                isValid = isValidUserNickName
             )
         }
 
         JoinScreenButton(
             modifier = Modifier.fillMaxWidth(),
             buttonText = stringResource(id = R.string.common1),
-            buttonTextColor = if(isValid) BLACK else GRAY400,
-            buttonContainerColor = if(isValid) PRIMARY else LIGHT400,
-            buttonBorderColor = if(isValid) PRIMARY else  LIGHT200,
+            buttonTextColor = if(isValidUserNickName) BLACK else GRAY400,
+            buttonContainerColor = if(isValidUserNickName) PRIMARY else LIGHT400,
+            buttonBorderColor = if(isValidUserNickName) PRIMARY else  LIGHT200,
             fontSize = B2,
             fontWeight = FontWeight.Bold,
-            navController = navController,
-            routeScreen = Screens.JoinBirthDay
+            onClick = {
+
+            }
         )
 
         HeightSpacer(heightDp = 12.dp)
