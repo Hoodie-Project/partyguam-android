@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -16,11 +17,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.ScreenExplainArea
 import com.party.common.TextComponent
+import com.party.common.UIState
 import com.party.common.WarningDialog
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
@@ -31,19 +34,26 @@ import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
+import com.party.domain.model.user.CheckNickNameResponse
+import com.party.domain.usecase.user.CheckNickNameUseCase
 import com.party.presentation.screen.join.JoinScreenButton
 import com.party.presentation.screen.join.JoinScreenInputField
+import com.party.presentation.screen.join.JoinViewModel
 
 @Composable
 fun JoinNickNameScreen(
-    navController: NavHostController,
     context: Context,
+    navController: NavHostController,
     userEmail: String,
     signupAccessToken: String,
     setActionText: (String) -> Unit,
     isShowWarningDialog: Boolean,
     onClose: (Boolean) -> Unit,
+    joinViewModel: JoinViewModel = hiltViewModel(),
 ) {
+    val checkUserNickNameState by joinViewModel.checkNickNameState.collectAsState()
+    val checkUserNickNameResult = checkUserNickNameState.data
+
     LaunchedEffect(key1 = true) {
         setActionText("2/4")
     }
@@ -54,6 +64,25 @@ fun JoinNickNameScreen(
     val isValidUserNickName by rememberSaveable {
         mutableStateOf(false)
     }.apply { value = validNickNameInputField(userNickName) }
+
+
+    when(checkUserNickNameState){
+        is UIState.Idle -> {
+            println("checkUserNickNameState Idle")
+        }
+        is UIState.Loading -> {
+            println("checkUserNickNameState Loading")
+        }
+        is UIState.Success -> {
+            println("checkUserNickNameState Success $checkUserNickNameResult")
+        }
+        is UIState.Error -> {
+            println("checkUserNickNameState Error $checkUserNickNameResult")
+        }
+        is UIState.Exception -> {
+            println("checkUserNickNameState Exception")
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -98,7 +127,10 @@ fun JoinNickNameScreen(
             fontSize = B2,
             fontWeight = FontWeight.Bold,
             onClick = {
-
+                joinViewModel.checkNickName(
+                    signupAccessToken = signUpToken,
+                    nickname = userNickName
+                )
             }
         )
 

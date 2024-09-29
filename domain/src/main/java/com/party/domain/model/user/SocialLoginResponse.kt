@@ -1,4 +1,4 @@
-package com.party.domain.model.member
+package com.party.domain.model.user
 
 import kotlinx.serialization.Serializable
 

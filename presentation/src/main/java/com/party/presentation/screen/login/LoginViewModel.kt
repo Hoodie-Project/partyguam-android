@@ -9,10 +9,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.party.common.R
 import com.party.common.ServerApiResponse
-import com.party.common.ServerApiResponse.BaseSuccessResponse
-import com.party.common.ServerApiResponse.BaseExceptionResponse
-import com.party.common.ServerApiResponse.BaseErrorResponse
-import com.party.domain.model.member.SocialLoginErrorResponse
+import com.party.domain.model.user.SocialLoginErrorResponse
 import com.party.domain.usecase.user.GoogleLoginUseCase
 import com.party.domain.usecase.user.KakaoLoginUseCase
 import com.skydoves.sandwich.StatusCode
@@ -60,13 +57,13 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun serverToGoogleLogin(userEmail: String, accessToken: String){
+    private fun serverToGoogleLogin(userEmail: String, accessToken: String){
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = googleLoginUseCase(accessToken = accessToken)){
-                is BaseSuccessResponse<*> -> {
+                is ServerApiResponse.SuccessResponse<*> -> {
                     println("result123 Success : ${result.data}")
                 }
-                is BaseErrorResponse<*> -> {
+                is ServerApiResponse.ErrorResponse<*> -> {
                     when(result.statusCode){
                         StatusCode.Unauthorized.code -> { // 회원가입이 되어있지 않은 상태
                             val socialLoginErrorResponse: SocialLoginErrorResponse = result.data as SocialLoginErrorResponse
@@ -78,7 +75,7 @@ class LoginViewModel @Inject constructor(
                         }
                     }
                 }
-                is BaseExceptionResponse -> {
+                is ServerApiResponse.ExceptionResponse -> {
                     println("result123 Exception : ${result.message}")
                 }
             }
@@ -88,10 +85,11 @@ class LoginViewModel @Inject constructor(
     fun serveToKakaoLogin(userEmail: String, accessToken: String){
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = kakaoLoginUseCase(accessToken = accessToken)){
-                is BaseSuccessResponse<*> -> {
+
+                is ServerApiResponse.SuccessResponse<*> -> {
                     println("result123 Success : ${result.data}")
                 }
-                is BaseErrorResponse<*> -> {
+                is ServerApiResponse.ErrorResponse<*> -> {
                     when(result.statusCode){
                         StatusCode.Unauthorized.code -> { // 회원가입이 되어있지 않은 상태
                             val socialLoginErrorResponse: SocialLoginErrorResponse = result.data as SocialLoginErrorResponse
@@ -103,7 +101,7 @@ class LoginViewModel @Inject constructor(
                         }
                     }
                 }
-                is BaseExceptionResponse -> {
+                is ServerApiResponse.ExceptionResponse -> {
                     println("result123 Exception : ${result.message}")
                 }
             }

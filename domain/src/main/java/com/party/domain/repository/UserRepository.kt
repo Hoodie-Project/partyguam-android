@@ -10,4 +10,7 @@ interface UserRepository {
     // 카카오 로그인
     suspend fun kakaoLogin(accessToken: String): ServerApiResponse
 
+    // 유저 닉네임 중복체크
+    suspend fun checkNickName(signupAccessToken: String, nickname: String): ServerApiResponse
+
 }
