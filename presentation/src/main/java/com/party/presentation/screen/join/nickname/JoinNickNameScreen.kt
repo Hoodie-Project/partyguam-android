@@ -22,7 +22,8 @@ import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.ScreenExplainArea
-import com.party.common.TextComponent
+import com.party.common.ServerApiResponse.SuccessResponse
+import com.party.common.ServerApiResponse.ErrorResponse
 import com.party.common.UIState
 import com.party.common.WarningDialog
 import com.party.common.ui.theme.B2
@@ -31,14 +32,11 @@ import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.LIGHT200
 import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.T2
-import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.user.CheckNickNameResponse
-import com.party.domain.usecase.user.CheckNickNameUseCase
 import com.party.presentation.screen.join.JoinScreenButton
 import com.party.presentation.screen.join.JoinScreenInputField
 import com.party.presentation.screen.join.JoinViewModel
+import com.skydoves.sandwich.StatusCode
 
 @Composable
 fun JoinNickNameScreen(
@@ -67,21 +65,20 @@ fun JoinNickNameScreen(
 
 
     when(checkUserNickNameState){
-        is UIState.Idle -> {
-            println("checkUserNickNameState Idle")
-        }
-        is UIState.Loading -> {
-            println("checkUserNickNameState Loading")
-        }
-        is UIState.Success -> {
-            println("checkUserNickNameState Success $checkUserNickNameResult")
+        is UIState.Idle -> { println("checkUserNickNameState Idle") }
+        is UIState.Loading -> { println("checkUserNickNameState Loading") }
+        is UIState.Success -> { // 중복체크 성공 - 다음 화면으로(이메일, 토큰, 닉네임)
+            val successResult = checkUserNickNameResult as SuccessResponse<Unit>
+            println("checkUserNickNameState Success $successResult")
         }
         is UIState.Error -> {
-            println("checkUserNickNameState Error $checkUserNickNameResult")
+            val errorResult = checkUserNickNameResult as ErrorResponse<Unit>
+            when(errorResult.statusCode){
+                StatusCode.Conflict.code -> {} // 닉네임 중복
+                else -> {} // 기타 에러
+            }
         }
-        is UIState.Exception -> {
-            println("checkUserNickNameState Exception")
-        }
+        is UIState.Exception -> println("checkUserNickNameState Exception")
     }
 
     Column(

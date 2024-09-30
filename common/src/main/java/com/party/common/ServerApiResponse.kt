@@ -3,12 +3,12 @@ package com.party.common
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed interface ServerApiResponse {
+sealed interface ServerApiResponse<T> {
 
     @Serializable
     data class SuccessResponse<T>(
         val data: T? = null,
-    ): ServerApiResponse
+    ): ServerApiResponse<T>
 
     @Serializable
     data class ErrorResponse<T>(
@@ -18,10 +18,10 @@ sealed interface ServerApiResponse {
         val statusCode: Int? = null,
         val path: String? = null,
         val timestamp: String? = null,
-    ): ServerApiResponse
+    ): ServerApiResponse<T>
 
     @Serializable
-    data class ExceptionResponse(
+    data class ExceptionResponse<T>(
         val message: String? = null,
-    ): ServerApiResponse
+    ): ServerApiResponse<T>
 }

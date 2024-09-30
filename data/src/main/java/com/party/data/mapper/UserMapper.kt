@@ -1,15 +1,14 @@
 package com.party.data.mapper
 
-import com.party.data.entity.user.CheckNickNameEntity
-import com.party.data.entity.user.SocialLoginEntity
 import com.party.data.entity.user.SocialLoginErrorEntity
-import com.party.domain.model.user.CheckNickNameResponse
+import com.party.data.entity.user.SocialLoginSuccessEntity
 import com.party.domain.model.user.SocialLoginErrorResponse
 import com.party.domain.model.user.SocialLoginResponse
+import com.party.domain.model.user.SocialLoginSuccessResponse
 
 object UserMapper {
-    fun mapperToSocialLoginResponse(socialLoginEntity: SocialLoginEntity): SocialLoginResponse {
-        return SocialLoginResponse(
+    fun mapperToSocialLoginResponse(socialLoginEntity: SocialLoginSuccessEntity): SocialLoginResponse {
+        return SocialLoginSuccessResponse(
             accessToken = socialLoginEntity.accessToken,
             refreshToken = socialLoginEntity.refreshToken
         )
@@ -19,12 +18,6 @@ object UserMapper {
         return SocialLoginErrorResponse(
             message = socialLoginErrorEntity.message,
             signupAccessToken = socialLoginErrorEntity.signupAccessToken
-        )
-    }
-
-    fun mapperToCheckNickNameResponse(checkNickNameEntity: CheckNickNameEntity): CheckNickNameResponse {
-        return CheckNickNameResponse(
-            message = checkNickNameEntity.message
         )
     }
 }

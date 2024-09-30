@@ -10,6 +10,7 @@ import com.google.android.gms.common.api.ApiException
 import com.party.common.R
 import com.party.common.ServerApiResponse
 import com.party.domain.model.user.SocialLoginErrorResponse
+import com.party.domain.model.user.SocialLoginSuccessResponse
 import com.party.domain.usecase.user.GoogleLoginUseCase
 import com.party.domain.usecase.user.KakaoLoginUseCase
 import com.skydoves.sandwich.StatusCode
@@ -37,16 +38,15 @@ class LoginViewModel @Inject constructor(
                     val account = completedTask.getResult(ApiException::class.java)
                     val idToken = account.idToken
                     if (idToken != null) {
-                        println("account : $idToken")
-                        println("account : ${account.email}")
-                        println("account : ${account.displayName}")
-                        println("account : ${account.isExpired}")
+                        //println("account : $idToken")
+                        //println("account : ${account.email}")
+                        //println("account : ${account.displayName}")
+                        //println("account : ${account.isExpired}")
 
                         serverToGoogleLogin(
                             userEmail = account.email.orEmpty(),
                             accessToken = "${context.getString(R.string.common5)} $idToken",
                         )
-
                     } else {
                         Log.e("Google Login Error", "Google ID Token is null")
                     }
@@ -101,7 +101,7 @@ class LoginViewModel @Inject constructor(
                         }
                     }
                 }
-                is ServerApiResponse.ExceptionResponse -> {
+                is ServerApiResponse.ExceptionResponse<*> -> {
                     println("result123 Exception : ${result.message}")
                 }
             }
