@@ -1,7 +1,9 @@
 package com.party.data.datasource.remote.user
 
 import com.party.data.entity.user.SocialLoginEntity
+import com.party.data.entity.user.UserSignUpEntity
 import com.party.data.service.UserService
+import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
 import javax.inject.Inject
 
@@ -21,5 +23,12 @@ class UserRemoteSourceImpl @Inject constructor(
         nickname: String
     ): ApiResponse<String> {
         return userService.checkNickName(signupAccessToken = signupAccessToken, nickname = nickname)
+    }
+
+    override suspend fun userSignUp(
+        signupAccessToken: String,
+        userSignUpRequest: UserSignUpRequest
+    ): ApiResponse<UserSignUpEntity> {
+        return userService.userSignUp(signupAccessToken = signupAccessToken, userSignUpRequest = userSignUpRequest)
     }
 }

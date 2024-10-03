@@ -8,7 +8,10 @@ import com.party.data.datasource.remote.user.UserRemoteSource
 import com.party.data.entity.user.SocialLoginErrorEntity
 import com.party.data.entity.user.SocialLoginSuccessEntity
 import com.party.data.mapper.UserMapper
+import com.party.data.mapper.UserMapper.mapperUserSignUpResponse
 import com.party.domain.model.user.SocialLoginResponse
+import com.party.domain.model.user.signup.UserSignUpRequest
+import com.party.domain.model.user.signup.UserSignUpResponse
 import com.party.domain.repository.UserRepository
 import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.StatusCode
@@ -118,5 +121,24 @@ class UserRepositoryImpl @Inject constructor(
                 ExceptionResponse(message = result.message)
             }
         }
+    }
+
+    override suspend fun userSignUp(
+        signupAccessToken: String,
+        userSignUpRequest: UserSignUpRequest
+    ): ServerApiResponse<UserSignUpResponse> {
+        val result = userRemoteSource.userSignUp(signupAccessToken = signupAccessToken, userSignUpRequest = userSignUpRequest)
+        return when(result){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = mapperUserSignUpResponse(result.data))
+            }
+            is ApiResponse.Failure.Error-> {
+                ErrorResponse()
+            }
+            is ApiResponse.Failure.Exception -> {
+                ExceptionResponse(message = result.message)
+            }
+        }
+
     }
 }

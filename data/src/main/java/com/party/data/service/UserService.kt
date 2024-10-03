@@ -1,7 +1,10 @@
 package com.party.data.service
 
 import com.party.data.entity.user.SocialLoginEntity
+import com.party.data.entity.user.UserSignUpEntity
+import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -25,6 +28,13 @@ interface UserService {
     @GET("api/users/check-nickname")
     suspend fun checkNickName(
         @Header("Authorization") signupAccessToken: String,
-        @Query("nickname") nickname: String
+        @Query("nickname") nickname: String,
     ): ApiResponse<String>
+
+    // 유저 회원가입
+    @POST("api/users")
+    suspend fun userSignUp(
+        @Header("Authorization") signupAccessToken: String,
+        @Body userSignUpRequest: UserSignUpRequest,
+    ): ApiResponse<UserSignUpEntity>
 }

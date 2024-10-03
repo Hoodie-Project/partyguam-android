@@ -170,8 +170,9 @@ fun AppNavHost() {
                 val userNickName = backStackEntry.toRoute<Screens.JoinGender>().userNickName
                 val userBirthDay = backStackEntry.toRoute<Screens.JoinGender>().userBirthDay
                 JoinGenderScreen(
-                    navController = navController,
                     context = context,
+                    navController = navController,
+                    snackBarHostState = snackBarHostState,
                     userEmail = userEmail,
                     signupAccessToken = signupAccessToken,
                     userNickName = userNickName,

@@ -53,8 +53,6 @@ fun JoinBirthDayScreen(
         mutableStateOf(false)
     }.apply { value = isValidBirthdate(userBirthDay) }
 
-    println("userBirthDay: $userBirthDay")
-
     Column(
         modifier = Modifier
             .fillMaxSize()
