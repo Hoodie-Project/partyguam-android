@@ -150,9 +150,15 @@ fun AppNavHost() {
                     }
                 )
             }
-            composable<Screens.JoinBirthDay> {
+            composable<Screens.JoinBirthDay> { backStackEntry ->
+                val userEmail = backStackEntry.toRoute<Screens.JoinBirthDay>().userEmail
+                val signupAccessToken = backStackEntry.toRoute<Screens.JoinBirthDay>().signupAccessToken
+                val userNickName = backStackEntry.toRoute<Screens.JoinBirthDay>().userNickName
                 JoinBirthDayScreen(
                     navController = navController,
+                    userEmail = userEmail,
+                    signupAccessToken = signupAccessToken,
+                    userNickName = userNickName,
                     setActionText = { text ->
                         joinActionText = text
                     }

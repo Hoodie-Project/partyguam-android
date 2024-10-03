@@ -33,18 +33,25 @@ import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.Screens
 import com.party.common.R
+import com.party.common.ScreenExplainArea
 import com.party.presentation.screen.join.JoinScreenButton
 import com.party.presentation.screen.join.JoinScreenInputField
 
 @Composable
 fun JoinBirthDayScreen(
     navController: NavHostController,
+    userEmail: String,
+    signupAccessToken: String,
+    userNickName: String,
     setActionText: (String) -> Unit,
 ) {
     LaunchedEffect(key1 = true) {
         setActionText("3/4")
     }
 
+    var email by rememberSaveable { mutableStateOf(userEmail) }
+    val signUpToken by rememberSaveable { mutableStateOf(signupAccessToken) }
+    var nickName by rememberSaveable { mutableStateOf(userNickName) }
     var userBirthDay by rememberSaveable { mutableStateOf("") }
     val isValid by rememberSaveable {
         mutableStateOf(false)
@@ -59,22 +66,10 @@ fun JoinBirthDayScreen(
             modifier = Modifier
                 .weight(1f)
         ) {
-            HeightSpacer(heightDp = 32.dp)
-
-            TextComponent(
-                text = stringResource(id = R.string.join_birthday1),
-                fontWeight = FontWeight.Bold,
-                fontSize = T2,
+            ScreenExplainArea(
+                mainExplain = stringResource(id = R.string.join_birthday1),
+                subExplain = stringResource(id = R.string.join_birthday2),
             )
-
-            HeightSpacer(heightDp = 12.dp)
-
-            TextComponent(
-                text = stringResource(id = R.string.join_birthday2),
-                fontSize = T3,
-            )
-
-            HeightSpacer(heightDp = 40.dp)
 
             JoinScreenInputField(
                 keyboardType = KeyboardType.Number,

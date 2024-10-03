@@ -25,9 +25,9 @@ sealed interface Screens : ArgInterface {
         override val icon: ImageVector? get() = null
     }
     @Serializable
-    data object JoinBirthDay: Screens {
+    data class JoinBirthDay(val userEmail: String, val signupAccessToken: String, val userNickName: String): Screens {
         override val title: String = NavigationTitle.JOIN_BIRTHDAY
-        override val icon: ImageVector? = null
+        override val icon: ImageVector? get() = null
     }
     @Serializable
     data object JoinGender: Screens {

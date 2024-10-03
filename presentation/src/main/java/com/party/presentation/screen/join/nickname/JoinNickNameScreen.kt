@@ -64,7 +64,7 @@ fun JoinNickNameScreen(
         setActionText("2/4")
     }
 
-    var email by rememberSaveable { mutableStateOf(userEmail) }
+    val email by rememberSaveable { mutableStateOf(userEmail) }
     val signUpToken by rememberSaveable { mutableStateOf(signupAccessToken) }
     var userNickName by rememberSaveable { mutableStateOf("") }
     val isValidUserNickName by rememberSaveable {
@@ -151,7 +151,7 @@ fun JoinNickNameScreen(
                 if(aaa(isValidUserNickNameServerResponse, isValidUserNickName)){
                     joinViewModel.resetCheckNickNameState()
                     isValidUserNickNameServerResponse = false
-                    navController.navigate(Screens.JoinBirthDay)
+                    navController.navigate(Screens.JoinBirthDay(userEmail = email, signupAccessToken = signUpToken, userNickName = userNickName))
                 }else {
                     if(isValidUserNickName){
                         // 키보드 내리기
