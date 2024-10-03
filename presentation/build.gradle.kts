@@ -81,9 +81,6 @@ dependencies {
     // Gson
     implementation(libs.gson)
 
-    // Custom Progress Indicator
-    implementation(libs.msz.progress.indicator)
-
     debugImplementation(libs.ui.tooling)
 
     // Google Play services

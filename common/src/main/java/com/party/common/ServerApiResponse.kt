@@ -2,7 +2,6 @@ package com.party.common
 
 import kotlinx.serialization.Serializable
 
-@Serializable
 sealed interface ServerApiResponse<T> {
 
     @Serializable

@@ -1,10 +1,12 @@
 package com.party.common
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -22,6 +24,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import com.ehsanmsz.mszprogressindicator.progressindicator.BallPulseSyncProgressIndicator
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 import kotlinx.coroutines.CoroutineScope
@@ -152,4 +155,25 @@ fun ScreenExplainArea(
     )
 
     HeightSpacer(heightDp = 40.dp)
+}
+
+@Composable
+fun LoadingProgressBar() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
+        contentAlignment = Alignment.Center
+    ) {
+        BallPulseSyncProgressIndicator(
+            modifier = Modifier,
+            color = Color.Gray,
+            animationDuration = 800,
+            animationDelay = 200,
+            startDelay = 0,
+            ballDiameter = 12.dp,
+            ballJumpHeight = 42.dp,
+            ballCount = 4
+        )
+    }
 }

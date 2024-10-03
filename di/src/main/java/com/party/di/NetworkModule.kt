@@ -13,10 +13,11 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-const val TIME_OUT_VALUE: Long = 3000
+const val TIME_OUT_VALUE: Long = 5000
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -49,6 +50,7 @@ object NetworkModule {
         return Retrofit.Builder()
             .baseUrl("https://partyguam.net/dev/")
             .client(tokenLogging())
+            .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(
                 json.asConverterFactory("application/json".toMediaType())
             )

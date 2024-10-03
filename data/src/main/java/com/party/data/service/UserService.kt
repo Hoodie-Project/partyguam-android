@@ -1,7 +1,5 @@
 package com.party.data.service
 
-import com.party.common.ServerApiResponse
-import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.data.entity.user.SocialLoginEntity
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.GET
@@ -16,17 +14,17 @@ interface UserService {
     @POST("api/users/google/app/login")
     suspend fun loginGoogle(
         @Header("Authorization") accessToken: String
-    ): ApiResponse<ServerApiResponse<SocialLoginEntity>>
+    ): ApiResponse<SocialLoginEntity>
 
     @POST("api/users/kakao/app/login")
     suspend fun loginKakao(
         @Header("Authorization") accessToken: String
-    ): ApiResponse<ServerApiResponse<SocialLoginEntity>>
+    ): ApiResponse<SocialLoginEntity>
 
     // 유저 닉네임 중복체크
     @GET("api/users/check-nickname")
     suspend fun checkNickName(
-        @Header("signupAccessToken") signupAccessToken: String,
+        @Header("Authorization") signupAccessToken: String,
         @Query("nickname") nickname: String
-    ): ApiResponse<ServerApiResponse<Unit>>
+    ): ApiResponse<String>
 }

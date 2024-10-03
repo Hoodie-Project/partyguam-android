@@ -54,4 +54,6 @@ dependencies {
     implementation(libs.kotlin.stdlib)
     implementation(libs.kotlinx.serialization.json)
 
+    // Custom Progress Indicator
+    implementation(libs.msz.progress.indicator)
 }

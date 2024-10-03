@@ -136,10 +136,11 @@ fun AppNavHost() {
                 val userEmail = backStackEntry.toRoute<Screens.JoinEmail>().userEmail
                 val signupAccessToken = backStackEntry.toRoute<Screens.JoinEmail>().signupAccessToken
                 JoinNickNameScreen(
+                    context = context,
                     navController = navController,
+                    snackBarHostState = snackBarHostState,
                     userEmail = userEmail,
                     signupAccessToken = signupAccessToken,
-                    context = context,
                     setActionText = { text ->
                         joinActionText = text
                     },

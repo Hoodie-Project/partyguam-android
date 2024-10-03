@@ -51,6 +51,7 @@ dependencies {
 
     // retrofit
     implementation(libs.retrofit)
+    implementation("com.squareup.retrofit2:converter-scalars:2.5.0")
 
     // kotlinx-serialization-converter
     implementation(libs.retrofit2.kotlinx.serialization.converter)

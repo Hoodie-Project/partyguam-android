@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.common.UIState
+import com.party.domain.model.user.CheckNickNameResponse
 import com.party.domain.usecase.user.CheckNickNameUseCase
 import com.skydoves.sandwich.StatusCode
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,8 +19,8 @@ class JoinViewModel @Inject constructor(
     private val checkNickNameUseCase: CheckNickNameUseCase,
 ): ViewModel() {
 
-    private val _checkNickNameState = MutableStateFlow<UIState<ServerApiResponse<Unit>>>(UIState.Idle)
-    val checkNickNameState: StateFlow<UIState<ServerApiResponse<Unit>>> = _checkNickNameState
+    private val _checkNickNameState = MutableStateFlow<UIState<ServerApiResponse<String>>>(UIState.Idle)
+    val checkNickNameState: StateFlow<UIState<ServerApiResponse<String>>> = _checkNickNameState
 
     fun checkNickName(
         signupAccessToken: String,
@@ -28,16 +29,18 @@ class JoinViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _checkNickNameState.value = UIState.Loading
             when (val result = checkNickNameUseCase(signupAccessToken = signupAccessToken, nickname = nickname)) {
-                is ServerApiResponse.SuccessResponse<Unit> -> {
-                    //println("checkUserNickNameState 성공!!")
+                is ServerApiResponse.SuccessResponse<String> -> {
                     _checkNickNameState.value = UIState.Success(result)
                 }
                 is ServerApiResponse.ErrorResponse<*> -> {
-                    //println("checkUserNickNameState 실패!! ${result.message}")
                     _checkNickNameState.value = UIState.Error(result)
                 }
                 is ServerApiResponse.ExceptionResponse -> { _checkNickNameState.value = UIState.Exception }
             }
         }
+    }
+
+    fun resetCheckNickNameState(){
+        _checkNickNameState.value = UIState.Idle
     }
 }

@@ -101,9 +101,12 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun checkNickName(
         signupAccessToken: String,
         nickname: String
-    ): ServerApiResponse<Unit> {
-        return when(val result = userRemoteSource.checkNickName(signupAccessToken = signupAccessToken, nickname = nickname)){
-            is ApiResponse.Success -> SuccessResponse()
+    ): ServerApiResponse<String> {
+        val result = userRemoteSource.checkNickName(signupAccessToken = signupAccessToken, nickname = nickname)
+        return when(result){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = result.data)
+            }
             is ApiResponse.Failure.Error-> {
                 when(result.statusCode){
                     StatusCode.Conflict -> ErrorResponse(statusCode = StatusCode.Unauthorized.code)
@@ -111,7 +114,9 @@ class UserRepositoryImpl @Inject constructor(
                     else -> ErrorResponse(statusCode = StatusCode.InternalServerError.code)
                 }
             }
-            is ApiResponse.Failure.Exception -> ExceptionResponse(message = result.message)
+            is ApiResponse.Failure.Exception -> {
+                ExceptionResponse(message = result.message)
+            }
         }
     }
 }
