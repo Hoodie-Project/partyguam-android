@@ -26,14 +26,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.party.common.WidthSpacer
 import com.party.common.ui.theme.EXTRA_LARGE_BUTTON_HEIGHT2
 import com.party.common.ui.theme.GRAY100
@@ -44,7 +47,6 @@ import com.party.common.ui.theme.LARGE_BUTTON_HEIGHT
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.T3
-import com.party.navigation.Screens
 
 @SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
@@ -89,9 +91,11 @@ fun JoinScreenInputField(
     closeIcon: Painter?,
     readOnly: Boolean,
     placeHolder: String,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     onString: (String) -> Unit,
 ) {
     BasicTextField(
+        visualTransformation = visualTransformation,
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType,
             imeAction = imeAction
@@ -165,4 +169,37 @@ fun JoinScreenInputFieldPreview() {
         placeHolder = "",
         onString = {  }
     )
+}
+
+class TimeTransFormation : VisualTransformation {
+    override fun filter(text: AnnotatedString): TransformedText {
+        return dateFilter(text)
+    }
+}
+
+fun dateFilter(text: AnnotatedString): TransformedText {
+    val trimmed = if (text.text.length >= 8) text.text.substring(0..7) else text.text
+    var out = ""
+    for (i in trimmed.indices) {
+        out += trimmed[i]
+        if (i == 3 || i == 5) out += "-"
+    }
+
+    val numberOffsetTranslator = object : OffsetMapping {
+        override fun originalToTransformed(offset: Int): Int {
+            if (offset <= 4) return offset
+            if (offset <= 5) return offset + 1
+            if (offset <= 8) return offset + 2
+            return 10
+        }
+
+        override fun transformedToOriginal(offset: Int): Int {
+            if (offset <= 2) return offset
+            if (offset <= 5) return offset - 1
+            if (offset <= 10) return offset - 2
+            return 8
+        }
+    }
+
+    return TransformedText(AnnotatedString(out), numberOffsetTranslator)
 }

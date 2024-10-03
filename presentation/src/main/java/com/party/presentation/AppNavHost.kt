@@ -164,10 +164,18 @@ fun AppNavHost() {
                     }
                 )
             }
-            composable<Screens.JoinGender> {
+            composable<Screens.JoinGender> { backStackEntry ->
+                val userEmail = backStackEntry.toRoute<Screens.JoinGender>().userEmail
+                val signupAccessToken = backStackEntry.toRoute<Screens.JoinGender>().signupAccessToken
+                val userNickName = backStackEntry.toRoute<Screens.JoinGender>().userNickName
+                val userBirthDay = backStackEntry.toRoute<Screens.JoinGender>().userBirthDay
                 JoinGenderScreen(
                     navController = navController,
                     context = context,
+                    userEmail = userEmail,
+                    signupAccessToken = signupAccessToken,
+                    userNickName = userNickName,
+                    userBirthDay = userBirthDay,
                     setActionText = { text ->
                         joinActionText = text
                     }

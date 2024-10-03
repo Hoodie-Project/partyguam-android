@@ -33,11 +33,20 @@ import com.party.presentation.screen.join.JoinScreenButton
 fun JoinGenderScreen(
     navController: NavHostController,
     context: Context,
+    userEmail: String,
+    signupAccessToken: String,
+    userNickName: String,
+    userBirthDay: String,
     setActionText: (String) -> Unit,
 ) {
     LaunchedEffect(key1 = true) {
         setActionText("4/4")
     }
+
+    val email by rememberSaveable { mutableStateOf(userEmail) }
+    val signUpToken by rememberSaveable { mutableStateOf(signupAccessToken) }
+    val nickName by rememberSaveable { mutableStateOf(userNickName) }
+    var birthday by rememberSaveable { mutableStateOf(userBirthDay) }
 
     var selectedGender by rememberSaveable {
         mutableStateOf("")

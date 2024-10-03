@@ -15,10 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.party.common.HeightSpacer
-import com.party.common.TextComponent
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.DARK100
@@ -28,14 +25,13 @@ import com.party.common.ui.theme.LIGHT200
 import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.RED
-import com.party.common.ui.theme.T2
-import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
-import com.party.navigation.Screens
 import com.party.common.R
 import com.party.common.ScreenExplainArea
+import com.party.navigation.Screens
 import com.party.presentation.screen.join.JoinScreenButton
 import com.party.presentation.screen.join.JoinScreenInputField
+import com.party.presentation.screen.join.TimeTransFormation
 
 @Composable
 fun JoinBirthDayScreen(
@@ -49,13 +45,15 @@ fun JoinBirthDayScreen(
         setActionText("3/4")
     }
 
-    var email by rememberSaveable { mutableStateOf(userEmail) }
+    val email by rememberSaveable { mutableStateOf(userEmail) }
     val signUpToken by rememberSaveable { mutableStateOf(signupAccessToken) }
-    var nickName by rememberSaveable { mutableStateOf(userNickName) }
+    val nickName by rememberSaveable { mutableStateOf(userNickName) }
     var userBirthDay by rememberSaveable { mutableStateOf("") }
-    val isValid by rememberSaveable {
+    val isValidUserBirthDay by rememberSaveable {
         mutableStateOf(false)
     }.apply { value = isValidBirthdate(userBirthDay) }
+
+    println("userBirthDay: $userBirthDay")
 
     Column(
         modifier = Modifier
@@ -72,6 +70,7 @@ fun JoinBirthDayScreen(
             )
 
             JoinScreenInputField(
+                visualTransformation = TimeTransFormation(),
                 keyboardType = KeyboardType.Number,
                 textColor = GRAY400,
                 containerColor = WHITE,
@@ -80,20 +79,24 @@ fun JoinBirthDayScreen(
                 readOnly = false,
                 inputText = userBirthDay,
                 placeHolder = stringResource(id = R.string.join_birthday3),
-                onString = { userBirthDay = it }
+                onString = {
+                    userBirthDay = it
+                }
             )
         }
 
         JoinScreenButton(
             modifier = Modifier.fillMaxWidth(),
             buttonText = stringResource(id = R.string.common1),
-            buttonTextColor = if(isValid) BLACK else GRAY400,
-            buttonContainerColor = if(isValid) PRIMARY else LIGHT400,
-            buttonBorderColor = if(isValid) PRIMARY else  LIGHT200,
+            buttonTextColor = if(isValidUserBirthDay) BLACK else GRAY400,
+            buttonContainerColor = if(isValidUserBirthDay) PRIMARY else LIGHT400,
+            buttonBorderColor = if(isValidUserBirthDay) PRIMARY else  LIGHT200,
             fontSize = B2,
             fontWeight = FontWeight.Bold,
             onClick = {
-
+                if(isValidUserBirthDay){
+                    navController.navigate(Screens.JoinGender(userEmail = email, signupAccessToken = signUpToken, userNickName = nickName, userBirthDay = userBirthDay))
+                }
             }
         )
     }
@@ -101,6 +104,6 @@ fun JoinBirthDayScreen(
 
 fun isValidBirthdate(birthdate: String): Boolean {
     // 생년월일 정규식 패턴
-    val regex = Regex("^(19|20)\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$")
+    val regex = Regex("^(19|20)\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])$")
     return regex.matches(birthdate)
 }
