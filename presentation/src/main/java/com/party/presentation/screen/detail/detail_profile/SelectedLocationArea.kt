@@ -45,6 +45,7 @@ import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
+import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.InterestLocationRequest
 import com.party.navigation.Screens
 import com.party.presentation.screen.detail.DetailProfileNextButton
@@ -64,7 +65,9 @@ fun SelectedLocationArea(
         detailProfileViewModel.saveSuccess.collectLatest {
             navController.navigate(Screens.DetailCarrier)
         }
+    }
 
+    LaunchedEffect(key1 = Unit) {
         detailProfileViewModel.saveFail.collectLatest {
             snackBarMessage(snackBarHostState, it)
         }
@@ -93,9 +96,11 @@ fun SelectedLocationArea(
                 if((1..SELECTED_LOCATION_COUNT).contains(selectedLocationList.size)) {
                     detailProfileViewModel.saveInterestLocation(
                         accessToken = accessToken,
-                        locations = selectedLocationList.map {
-                            InterestLocationRequest(id = it.second)
-                        }
+                        locations = InterestLocationList(
+                            locations = selectedLocationList.map {
+                                InterestLocationRequest(id = it.second)
+                            }
+                        )
                     )
                 }
             }

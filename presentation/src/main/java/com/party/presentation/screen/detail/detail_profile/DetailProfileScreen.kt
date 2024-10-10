@@ -45,8 +45,13 @@ fun DetailProfileScreen(
         mutableStateOf("서울")
     }
 
-    LaunchedEffect (key1 = selectedProvince){
-        detailProfileViewModel.getLocationList(accessToken = "Bearer $accessToken", province = selectedProvince)
+    if (accessToken.isNotEmpty()) {
+        LaunchedEffect(key1 = selectedProvince, key2 = accessToken) {
+            detailProfileViewModel.getLocationList(
+                accessToken = "Bearer $accessToken",
+                province = selectedProvince
+            )
+        }
     }
 
     val selectedLocationList by remember {

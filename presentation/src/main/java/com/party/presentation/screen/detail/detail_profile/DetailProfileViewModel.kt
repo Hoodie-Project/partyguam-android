@@ -4,15 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.common.UIState
-import com.party.domain.model.user.detail.InterestLocationRequest
+import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.LocationResponse
 import com.party.domain.model.user.detail.SaveInterestLocationResponse
 import com.party.domain.usecase.datastore.GetAccessTokenUseCase
 import com.party.domain.usecase.user.detail.GetLocationListUseCase
 import com.party.domain.usecase.user.detail.SaveInterestLocationUseCase
+import com.skydoves.sandwich.StatusCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -57,18 +57,17 @@ class DetailProfileViewModel @Inject constructor(
         }
     }
 
-    fun saveInterestLocation(accessToken: String, locations: List<InterestLocationRequest>){
+    fun saveInterestLocation(accessToken: String, locations: InterestLocationList){
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = saveInterestLocationUseCase(accessToken = accessToken, locations = locations)){
-                is ServerApiResponse.SuccessResponse<*> -> {
-                    _saveSuccess.emit(Unit)
-                }
+                is ServerApiResponse.SuccessResponse<List<SaveInterestLocationResponse>> -> _saveSuccess.emit(Unit)
                 is ServerApiResponse.ErrorResponse<*> -> {
-                    _saveFail.emit("저장에 실패했습니다.")
+                    when(result.statusCode){
+                        StatusCode.Conflict.code -> _saveFail.emit(result.message ?: "")
+                        StatusCode.InternalServerError.code -> {}
+                    }
                 }
-                is ServerApiResponse.ExceptionResponse -> {
-                    _saveFail.emit("알 수 없는 오류가 발생했습니다.")
-                }
+                is ServerApiResponse.ExceptionResponse -> _saveFail.emit("알 수 없는 오류가 발생했습니다.")
             }
         }
     }

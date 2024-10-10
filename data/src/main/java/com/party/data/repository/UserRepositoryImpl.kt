@@ -11,7 +11,7 @@ import com.party.data.mapper.UserMapper
 import com.party.data.mapper.UserMapper.mapperUserSignUpResponse
 import com.party.domain.model.user.detail.LocationResponse
 import com.party.domain.model.user.SocialLoginResponse
-import com.party.domain.model.user.detail.InterestLocationRequest
+import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.SaveInterestLocationResponse
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.model.user.signup.UserSignUpResponse
@@ -163,15 +163,27 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun saveInterestLocation(
         accessToken: String,
-        locations: List<InterestLocationRequest>
-    ): ServerApiResponse<SaveInterestLocationResponse> {
+        locations: InterestLocationList,
+    ): ServerApiResponse<List<SaveInterestLocationResponse>> {
         return when(val result = userRemoteSource.saveInterestLocation(accessToken = accessToken, locations = locations)) {
             is ApiResponse.Success -> {
-                SuccessResponse(data = UserMapper.mapperToSaveInterestLocationResponse(result.data))
+                SuccessResponse(
+                    data = result.data.map { UserMapper.mapperToSaveInterestLocationResponse(it) }
+                )
             }
 
             is ApiResponse.Failure.Error -> {
-                ErrorResponse()
+                val errorBody = result.errorBody?.string()
+                when(result.statusCode){
+                    StatusCode.Conflict -> {
+                        val errorResponse = Json.decodeFromString<ErrorResponse<SaveInterestLocationResponse>>(errorBody!!)
+                        ErrorResponse(
+                            statusCode = StatusCode.Conflict.code,
+                            message = errorResponse.message,
+                        )
+                    }
+                    else -> ErrorResponse(statusCode = StatusCode.InternalServerError.code)
+                }
             }
 
             is ApiResponse.Failure.Exception -> {

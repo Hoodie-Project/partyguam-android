@@ -5,7 +5,7 @@ import com.party.data.entity.user.SaveInterestLocationEntity
 import com.party.data.entity.user.auth.SocialLoginEntity
 import com.party.data.entity.user.auth.UserSignUpEntity
 import com.party.data.service.UserService
-import com.party.domain.model.user.detail.InterestLocationRequest
+import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
 import javax.inject.Inject
@@ -41,8 +41,8 @@ class UserRemoteSourceImpl @Inject constructor(
 
     override suspend fun saveInterestLocation(
         accessToken: String,
-        locations: List<InterestLocationRequest>
-    ): ApiResponse<SaveInterestLocationEntity> {
+        locations: InterestLocationList,
+    ): ApiResponse<List<SaveInterestLocationEntity>> {
         return userService.saveInterestLocation(accessToken = accessToken, locations = locations)
     }
 }

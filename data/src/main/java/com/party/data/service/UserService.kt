@@ -2,10 +2,9 @@ package com.party.data.service
 
 import com.party.data.entity.user.LocationEntity
 import com.party.data.entity.user.SaveInterestLocationEntity
-import com.party.data.entity.user.auth.SocialLoginEntity
 import com.party.data.entity.user.auth.SocialLoginSuccessEntity
 import com.party.data.entity.user.auth.UserSignUpEntity
-import com.party.domain.model.user.detail.InterestLocationRequest
+import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.Body
@@ -53,6 +52,6 @@ interface UserService {
     @POST("api/users/me/locations")
     suspend fun saveInterestLocation(
         @Header("Authorization") accessToken: String,
-        @Body locations: List<InterestLocationRequest>,
-    ): ApiResponse<SaveInterestLocationEntity>
+        @Body locations: InterestLocationList,
+    ): ApiResponse<List<SaveInterestLocationEntity>>
 }

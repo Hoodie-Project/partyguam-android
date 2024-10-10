@@ -3,7 +3,7 @@ package com.party.domain.repository
 import com.party.common.ServerApiResponse
 import com.party.domain.model.user.detail.LocationResponse
 import com.party.domain.model.user.SocialLoginResponse
-import com.party.domain.model.user.detail.InterestLocationRequest
+import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.SaveInterestLocationResponse
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.model.user.signup.UserSignUpResponse
@@ -26,6 +26,6 @@ interface UserRepository {
     suspend fun getLocations(accessToken: String, province: String): ServerApiResponse<List<LocationResponse>>
 
     // 관심지역 저장
-    suspend fun saveInterestLocation(accessToken: String, locations: List<InterestLocationRequest>): ServerApiResponse<SaveInterestLocationResponse>
+    suspend fun saveInterestLocation(accessToken: String, locations: InterestLocationList): ServerApiResponse<List<SaveInterestLocationResponse>>
 
 }

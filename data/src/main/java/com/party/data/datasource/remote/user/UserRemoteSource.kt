@@ -4,7 +4,7 @@ import com.party.data.entity.user.LocationEntity
 import com.party.data.entity.user.SaveInterestLocationEntity
 import com.party.data.entity.user.auth.SocialLoginEntity
 import com.party.data.entity.user.auth.UserSignUpEntity
-import com.party.domain.model.user.detail.InterestLocationRequest
+import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
 
@@ -26,5 +26,5 @@ interface UserRemoteSource {
     suspend fun getLocations(accessToken: String, province: String): ApiResponse<List<LocationEntity>>
 
     // 관심지역 저장
-    suspend fun saveInterestLocation(accessToken: String, locations: List<InterestLocationRequest>): ApiResponse<SaveInterestLocationEntity>
+    suspend fun saveInterestLocation(accessToken: String, locations: InterestLocationList): ApiResponse<List<SaveInterestLocationEntity>>
 }
