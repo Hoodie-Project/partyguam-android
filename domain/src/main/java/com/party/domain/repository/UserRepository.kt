@@ -23,7 +23,7 @@ interface UserRepository {
     suspend fun userSignUp(signupAccessToken: String, userSignUpRequest: UserSignUpRequest): ServerApiResponse<UserSignUpResponse>
 
     // 특정 지역의 지역 리스트 조회
-    suspend fun getLocations(province: String): ServerApiResponse<List<LocationResponse>>
+    suspend fun getLocations(accessToken: String, province: String): ServerApiResponse<List<LocationResponse>>
 
     // 관심지역 저장
     suspend fun saveInterestLocation(accessToken: String, locations: List<InterestLocationRequest>): ServerApiResponse<SaveInterestLocationResponse>

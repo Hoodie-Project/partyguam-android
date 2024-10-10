@@ -5,8 +5,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -31,8 +35,18 @@ fun DetailProfileScreen(
     navController: NavHostController,
     detailProfileViewModel: DetailProfileViewModel = hiltViewModel(),
 ) {
+    LaunchedEffect(Unit) {
+        detailProfileViewModel.getAccessToken().join()
+    }
+
+    val accessToken by detailProfileViewModel.accessToken.collectAsState()
+
     var selectedProvince by remember {
-        mutableStateOf("")
+        mutableStateOf("서울")
+    }
+
+    LaunchedEffect (key1 = selectedProvince){
+        detailProfileViewModel.getLocationList(accessToken = "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZTVmUyL1VFRWpaQ2pYcW5wY3AyS3c9PSIsImlhdCI6MTcyODU1NzE3MCwiZXhwIjoxNzYwMTE0NzcwfQ.H9Q5nYOwCUrIijOR1g0t3YmdUQm403MsmxdeyOUXDlQLBreXNbj7z5od6csVjo8Xr4jidHeILQTOVINDsJoFiQ", province = selectedProvince)
     }
 
     val selectedLocationList by remember {
@@ -67,7 +81,6 @@ fun DetailProfileScreen(
                 selectedLocationList = selectedLocationList,
                 onSelectProvince = {
                     selectedProvince = it
-                    detailProfileViewModel.getLocationList(province = it)
                 },
                 onSelectLocation = { selectedLocationList.add(it) },
                 onDeleteLocation = { selectedLocationList.remove(it) },
@@ -78,12 +91,13 @@ fun DetailProfileScreen(
         }
 
         SelectedLocationArea(
+            snackBarHostState = snackBarHostState,
             navController = navController,
             selectedProvince = selectedProvince,
             selectedLocationList = selectedLocationList,
             onDelete = { selectedLocationList.remove(it) },
             detailProfileViewModel = detailProfileViewModel,
-            accessToken = ""
+            accessToken = "Bearer $accessToken",
         )
     }
 }

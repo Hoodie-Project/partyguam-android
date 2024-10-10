@@ -19,6 +19,7 @@ fun NavBackStackEntry?.fromRoute(): Screens {
             Screens.SelectTendency3::class.simpleName -> Screens.SelectTendency3
             Screens.SelectTendency4::class.simpleName -> Screens.SelectTendency4
             Screens.SelectTendencyComplete::class.simpleName -> Screens.SelectTendencyComplete
+            Screens.Home::class.simpleName -> Screens.Home
             else -> Screens.Login
         }
     }

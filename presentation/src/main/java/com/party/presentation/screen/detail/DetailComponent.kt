@@ -177,11 +177,11 @@ fun componentClick(
     if (selectedProvinceName.isEmpty())
         snackBarMessage(snackBarHostState, context.getString(R.string.snackbar1))
     else
-        if( isContainProvinceAndSetLamda(selectedCountryList, selectedProvinceName) ) onDeleteCountry(Pair(locationResponse.city, locationResponse.id))
+        if( isContainLocation(selectedCountryList, locationResponse.city) ) onDeleteCountry(Pair(locationResponse.city, locationResponse.id))
         else if(selectedCountryList.size == SELECTED_LOCATION_COUNT) snackBarMessage(snackBarHostState, context.getString(R.string.snackbar2))
         else onSelectCountry(Pair(locationResponse.city, locationResponse.id))
 }
 
-private fun isContainProvinceAndSetLamda(selectedLocationList: MutableList<Pair<String, Int>>, selectedProvince: String): Boolean{
-    return selectedLocationList.any { it.first.contains(selectedProvince) }
+private fun isContainLocation(selectedLocationList: MutableList<Pair<String, Int>>, selectedLocation: String): Boolean{
+    return selectedLocationList.any { it.first.contains(selectedLocation) }
 }

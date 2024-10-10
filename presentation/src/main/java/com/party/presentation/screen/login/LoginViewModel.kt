@@ -29,6 +29,9 @@ class LoginViewModel @Inject constructor(
     private val _nextScreen = MutableSharedFlow<SocialLoginErrorResponse>()
     val nextScreen = _nextScreen.asSharedFlow()
 
+    private val _goToHomeScreen = MutableSharedFlow<Unit>()
+    val goToHomeScreen = _goToHomeScreen.asSharedFlow()
+
     fun googleSignIn(activityResult: ActivityResult, context: Context){
         viewModelScope.launch(Dispatchers.IO) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(activityResult.data)
@@ -86,7 +89,8 @@ class LoginViewModel @Inject constructor(
             when(val result = kakaoLoginUseCase(accessToken = accessToken)){
 
                 is ServerApiResponse.SuccessResponse<*> -> {
-                    println("result123 Success : ${result.data}")
+                    //println("result123 Success : ${result.data}")
+                    _goToHomeScreen.emit(Unit)
                 }
                 is ServerApiResponse.ErrorResponse<*> -> {
                     when(result.statusCode){

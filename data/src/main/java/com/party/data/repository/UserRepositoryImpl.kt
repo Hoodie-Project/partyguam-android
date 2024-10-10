@@ -68,7 +68,9 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun kakaoLogin(accessToken: String): ServerApiResponse<SocialLoginResponse> {
         return when(val result = userRemoteSource.kakaoLogin(accessToken = accessToken)){
             is ApiResponse.Success -> {
-                val resultSuccess = Json.decodeFromString<SocialLoginSuccessEntity>(result.data.toString())
+                //val resultSuccess = Json.decodeFromString<SocialLoginSuccessEntity>(result.data)
+                val resultSuccess = result.data as SocialLoginSuccessEntity
+
                 SuccessResponse(
                     data = UserMapper.mapperToSocialLoginResponse(resultSuccess),
                 )
@@ -145,8 +147,8 @@ class UserRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun getLocations(province: String): ServerApiResponse<List<LocationResponse>> {
-        return when(val result = userRemoteSource.getLocations(province = province)){
+    override suspend fun getLocations(accessToken: String, province: String): ServerApiResponse<List<LocationResponse>> {
+        return when(val result = userRemoteSource.getLocations(accessToken = accessToken, province = province)){
             is ApiResponse.Success -> {
                 SuccessResponse(data = result.data.map { UserMapper.mapperToLocationResponse(it) })
             }

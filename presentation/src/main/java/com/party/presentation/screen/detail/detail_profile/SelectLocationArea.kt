@@ -73,7 +73,7 @@ fun SelectLocationArea(
             context = context,
             snackBarHostState = snackBarHostState,
             modifier = Modifier.weight(2f),
-            selectedLocationName = selectedProvince,
+            selectedProvinceName = selectedProvince,
             selectedLocationList = selectedLocationList,
             onSelectLocation = onSelectLocation,
             onDeleteLocation = onDeleteLocation,
@@ -119,14 +119,14 @@ fun SelectLocationArea(
     context: Context,
     snackBarHostState: SnackbarHostState,
     modifier: Modifier,
-    selectedLocationName: String,
+    selectedProvinceName: String,
     selectedLocationList: MutableList<Pair<String, Int>>,
     onSelectLocation: (Pair<String, Int>) -> Unit,
     onDeleteLocation: (Pair<String, Int>) -> Unit,
     detailProfileViewModel: DetailProfileViewModel,
 ) {
     val locationListState by detailProfileViewModel.getLocationListState.collectAsState()
-    val locationListResult = locationListState.data as SuccessResponse<List<LocationResponse>>
+    val locationListResult = locationListState.data as? SuccessResponse<List<LocationResponse>>
 
     when(locationListState){
         is UIState.Idle -> {}
@@ -142,16 +142,16 @@ fun SelectLocationArea(
                 columns = GridCells.Fixed(2),
             ){
                 itemsIndexed(
-                    items = locationListResult.data!!,
+                    items = locationListResult?.data ?: emptyList(),
                     key = { index, _ ->
                         index
                     }
                 ){ _, item ->
                     LocationComponent(
                         locationResponse = item,
-                        textColor = isContainProvinceAndSetTextColor(selectedLocationList, item.province),
-                        border = isContainProvinceAndSetBorder(selectedLocationList, item.province),
-                        selectedCityName = selectedLocationName,
+                        textColor = isContainProvinceAndSetTextColor(selectedLocationList, item.city),
+                        border = isContainProvinceAndSetBorder(selectedLocationList, item.city),
+                        selectedCityName = selectedProvinceName,
                         onSelectLocation = { onSelectLocation(it) },
                         onDeleteLocation = { onDeleteLocation(it) },
                         snackBarHostState = snackBarHostState,
@@ -166,13 +166,13 @@ fun SelectLocationArea(
     }
 }
 
-fun isContainProvinceAndSetTextColor(selectedLocationList: MutableList<Pair<String, Int>>, selectedProvince: String): Color{
-    val isContain = selectedLocationList.any { it.first.contains(selectedProvince) }
+fun isContainProvinceAndSetTextColor(selectedLocationList: MutableList<Pair<String, Int>>, selectedLocation: String): Color{
+    val isContain = selectedLocationList.any { it.first.contains(selectedLocation) }
     return if(isContain) DARK200 else GRAY600
 }
 
-fun isContainProvinceAndSetBorder(selectedLocationList: MutableList<Pair<String, Int>>, selectedProvince: String): BorderStroke?{
-    val isContain = selectedLocationList.any { it.first.contains(selectedProvince) }
+fun isContainProvinceAndSetBorder(selectedLocationList: MutableList<Pair<String, Int>>, selectedLocation: String): BorderStroke?{
+    val isContain = selectedLocationList.any { it.first.contains(selectedLocation) }
     return if(isContain) BorderStroke(1.dp, PRIMARY) else null
 }
 

@@ -23,7 +23,7 @@ interface UserRemoteSource {
     suspend fun userSignUp(signupAccessToken: String, userSignUpRequest: UserSignUpRequest): ApiResponse<UserSignUpEntity>
 
     // 특정 지역의 지역 리스트 조회
-    suspend fun getLocations(province: String): ApiResponse<List<LocationEntity>>
+    suspend fun getLocations(accessToken: String, province: String): ApiResponse<List<LocationEntity>>
 
     // 관심지역 저장
     suspend fun saveInterestLocation(accessToken: String, locations: List<InterestLocationRequest>): ApiResponse<SaveInterestLocationEntity>

@@ -49,6 +49,7 @@ fun CustomTopBar(
         is Screens.SelectTendency2,
         is Screens.SelectTendency3,
         is Screens.SelectTendency4,
+        is Screens.Home,
         -> CenterTopBar(
             currentScreen = currentScreen,
             navHostController = navController,
@@ -154,6 +155,7 @@ fun SetNavigationIcon(
         is Screens.SelectTendency2,
         is Screens.SelectTendency3,
         is Screens.SelectTendency4,
+        is Screens.Home,
         -> BackNavigationIcon(
             currentScreen = currentScreen,
             navController = navController,

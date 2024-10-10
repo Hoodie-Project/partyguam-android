@@ -22,6 +22,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,6 +36,7 @@ import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
+import com.party.common.snackBarMessage
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY400
@@ -50,6 +52,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SelectedLocationArea(
+    snackBarHostState: SnackbarHostState,
     navController: NavController,
     selectedProvince: String,
     selectedLocationList: MutableList<Pair<String, Int>>,
@@ -60,6 +63,10 @@ fun SelectedLocationArea(
     LaunchedEffect(key1 = Unit) {
         detailProfileViewModel.saveSuccess.collectLatest {
             navController.navigate(Screens.DetailCarrier)
+        }
+
+        detailProfileViewModel.saveFail.collectLatest {
+            snackBarMessage(snackBarHostState, it)
         }
     }
 
@@ -165,7 +172,7 @@ fun SelectLocationComponent(
             ) {
                 Text(
                     modifier = Modifier.padding(start = 12.dp),
-                    text = "$selectedProvinceName. ${item.first}",
+                    text = "$selectedProvinceName ${item.first}",
                     color = BLACK,
                     fontSize = B2,
                 )

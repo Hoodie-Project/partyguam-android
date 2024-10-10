@@ -35,8 +35,8 @@ class UserRemoteSourceImpl @Inject constructor(
         return userService.userSignUp(signupAccessToken = signupAccessToken, userSignUpRequest = userSignUpRequest)
     }
 
-    override suspend fun getLocations(province: String): ApiResponse<List<LocationEntity>> {
-        return userService.getLocations(province = province)
+    override suspend fun getLocations(accessToken: String, province: String): ApiResponse<List<LocationEntity>> {
+        return userService.getLocations(accessToken = accessToken, province = province)
     }
 
     override suspend fun saveInterestLocation(

@@ -6,6 +6,7 @@ import com.party.common.ServerApiResponse
 import com.party.common.UIState
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.model.user.signup.UserSignUpResponse
+import com.party.domain.usecase.datastore.SaveAccessTokenUseCase
 import com.party.domain.usecase.user.auth.CheckNickNameUseCase
 import com.party.domain.usecase.user.auth.UserSignUpUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +20,7 @@ import javax.inject.Inject
 class JoinViewModel @Inject constructor(
     private val checkNickNameUseCase: CheckNickNameUseCase,
     private val userSignUpUseCase: UserSignUpUseCase,
+    private val saveAccessTokenUseCase: SaveAccessTokenUseCase,
 ): ViewModel() {
 
     private val _checkNickNameState = MutableStateFlow<UIState<ServerApiResponse<String>>>(UIState.Idle)
@@ -57,6 +59,7 @@ class JoinViewModel @Inject constructor(
             _userSignUpState.value = UIState.Loading
             when(val result = userSignUpUseCase(signupAccessToken = signupAccessToken, userSignUpRequest = userSignUpRequest)){
                 is ServerApiResponse.SuccessResponse<UserSignUpResponse> -> {
+                    saveAccessToken(token = result.data?.accessToken!!)
                     _userSignUpState.value = UIState.Success(result)
                 }
                 is ServerApiResponse.ErrorResponse<*> -> {
@@ -64,6 +67,12 @@ class JoinViewModel @Inject constructor(
                 }
                 is ServerApiResponse.ExceptionResponse -> { _userSignUpState.value = UIState.Exception }
             }
+        }
+    }
+
+    private fun saveAccessToken(token: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            saveAccessTokenUseCase(token = token)
         }
     }
 }

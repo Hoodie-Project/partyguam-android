@@ -34,6 +34,7 @@ import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen2
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen3
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen4
+import com.party.presentation.screen.home.HomeScreen
 import com.party.presentation.screen.join.birthday.JoinBirthDayScreen
 import com.party.presentation.screen.join.complete.JoinCompleteScreen
 import com.party.presentation.screen.join.email.JoinEmailScreen
@@ -229,6 +230,9 @@ fun AppNavHost() {
                 SelectTendencyCompleteScreen(
                     navController = navController,
                 )
+            }
+            composable<Screens.Home> {
+                HomeScreen()
             }
         }
     }

@@ -80,7 +80,7 @@ fun TextComponent(
     onClick: () -> Unit = {},
 ) {
     Box(
-        modifier = modifier,
+        modifier = modifier.noRippleClickable { onClick() },
         contentAlignment = textAlign,
     ){
         Text(
