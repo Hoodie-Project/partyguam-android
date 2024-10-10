@@ -1,7 +1,7 @@
-package com.party.domain.usecase.user
+package com.party.domain.usecase.user.detail
 
 import com.party.common.ServerApiResponse
-import com.party.domain.model.user.LocationResponse
+import com.party.domain.model.user.detail.LocationResponse
 import com.party.domain.repository.UserRepository
 import javax.inject.Inject
 

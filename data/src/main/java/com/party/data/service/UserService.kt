@@ -1,8 +1,10 @@
 package com.party.data.service
 
 import com.party.data.entity.user.LocationEntity
-import com.party.data.entity.user.SocialLoginEntity
-import com.party.data.entity.user.UserSignUpEntity
+import com.party.data.entity.user.SaveInterestLocationEntity
+import com.party.data.entity.user.auth.SocialLoginEntity
+import com.party.data.entity.user.auth.UserSignUpEntity
+import com.party.domain.model.user.detail.InterestLocationRequest
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.Body
@@ -44,4 +46,11 @@ interface UserService {
     suspend fun getLocations(
         @Query("province") province: String,
     ): ApiResponse<List<LocationEntity>>
+
+    // 관심지역 저장
+    @POST("api/users/me/locations")
+    suspend fun saveInterestLocation(
+        @Header("Authorization") accessToken: String,
+        @Body locations: List<InterestLocationRequest>,
+    ): ApiResponse<SaveInterestLocationEntity>
 }

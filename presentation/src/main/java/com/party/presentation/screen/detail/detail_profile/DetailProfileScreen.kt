@@ -29,6 +29,7 @@ fun DetailProfileScreen(
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
     context: Context,
+    accessToken: String,
     detailProfileViewModel: DetailProfileViewModel = hiltViewModel(),
 ) {
     var selectedProvince by remember {
@@ -36,7 +37,7 @@ fun DetailProfileScreen(
     }
 
     val selectedLocationList by remember {
-        mutableStateOf(mutableStateListOf<String>())
+        mutableStateOf(mutableStateListOf<Pair<String, Int>>())
     }
 
     Column(
@@ -65,11 +66,12 @@ fun DetailProfileScreen(
             SelectLocationArea(
                 selectedProvince = selectedProvince,
                 selectedLocationList = selectedLocationList,
-                onSelectLocation = { selectedProvince = it },
-                onSelectCountry = {
-                    selectedLocationList.add(it)
+                onSelectProvince = {
+                    selectedProvince = it
+                    detailProfileViewModel.getLocationList(province = it)
                 },
-                onDeleteCountry = { selectedLocationList.remove(it) },
+                onSelectLocation = { selectedLocationList.add(it) },
+                onDeleteLocation = { selectedLocationList.remove(it) },
                 snackBarHostState = snackBarHostState,
                 context = context,
                 detailProfileViewModel = detailProfileViewModel,
@@ -81,6 +83,8 @@ fun DetailProfileScreen(
             selectedProvince = selectedProvince,
             selectedLocationList = selectedLocationList,
             onDelete = { selectedLocationList.remove(it) },
+            detailProfileViewModel = detailProfileViewModel,
+            accessToken = accessToken
         )
     }
 }

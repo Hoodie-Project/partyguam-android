@@ -1,4 +1,4 @@
-package com.party.domain.usecase.user
+package com.party.domain.usecase.user.auth
 
 import com.party.common.ServerApiResponse
 import com.party.domain.model.user.signup.UserSignUpRequest

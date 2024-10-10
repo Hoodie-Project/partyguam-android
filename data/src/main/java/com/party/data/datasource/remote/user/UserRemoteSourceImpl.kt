@@ -1,9 +1,11 @@
 package com.party.data.datasource.remote.user
 
 import com.party.data.entity.user.LocationEntity
-import com.party.data.entity.user.SocialLoginEntity
-import com.party.data.entity.user.UserSignUpEntity
+import com.party.data.entity.user.SaveInterestLocationEntity
+import com.party.data.entity.user.auth.SocialLoginEntity
+import com.party.data.entity.user.auth.UserSignUpEntity
 import com.party.data.service.UserService
+import com.party.domain.model.user.detail.InterestLocationRequest
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
 import javax.inject.Inject
@@ -35,5 +37,12 @@ class UserRemoteSourceImpl @Inject constructor(
 
     override suspend fun getLocations(province: String): ApiResponse<List<LocationEntity>> {
         return userService.getLocations(province = province)
+    }
+
+    override suspend fun saveInterestLocation(
+        accessToken: String,
+        locations: List<InterestLocationRequest>
+    ): ApiResponse<SaveInterestLocationEntity> {
+        return userService.saveInterestLocation(accessToken = accessToken, locations = locations)
     }
 }

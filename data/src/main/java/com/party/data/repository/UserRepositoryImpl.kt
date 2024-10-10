@@ -5,12 +5,14 @@ import com.party.common.ServerApiResponse.ErrorResponse
 import com.party.common.ServerApiResponse.ExceptionResponse
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.data.datasource.remote.user.UserRemoteSource
-import com.party.data.entity.user.SocialLoginErrorEntity
-import com.party.data.entity.user.SocialLoginSuccessEntity
+import com.party.data.entity.user.auth.SocialLoginErrorEntity
+import com.party.data.entity.user.auth.SocialLoginSuccessEntity
 import com.party.data.mapper.UserMapper
 import com.party.data.mapper.UserMapper.mapperUserSignUpResponse
-import com.party.domain.model.user.LocationResponse
+import com.party.domain.model.user.detail.LocationResponse
 import com.party.domain.model.user.SocialLoginResponse
+import com.party.domain.model.user.detail.InterestLocationRequest
+import com.party.domain.model.user.detail.SaveInterestLocationResponse
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.model.user.signup.UserSignUpResponse
 import com.party.domain.repository.UserRepository
@@ -151,6 +153,25 @@ class UserRepositoryImpl @Inject constructor(
             is ApiResponse.Failure.Error-> {
                 ErrorResponse()
             }
+            is ApiResponse.Failure.Exception -> {
+                ExceptionResponse(message = result.message)
+            }
+        }
+    }
+
+    override suspend fun saveInterestLocation(
+        accessToken: String,
+        locations: List<InterestLocationRequest>
+    ): ServerApiResponse<SaveInterestLocationResponse> {
+        return when(val result = userRemoteSource.saveInterestLocation(accessToken = accessToken, locations = locations)) {
+            is ApiResponse.Success -> {
+                SuccessResponse(data = UserMapper.mapperToSaveInterestLocationResponse(result.data))
+            }
+
+            is ApiResponse.Failure.Error -> {
+                ErrorResponse()
+            }
+
             is ApiResponse.Failure.Exception -> {
                 ExceptionResponse(message = result.message)
             }

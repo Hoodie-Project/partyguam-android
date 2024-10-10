@@ -24,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -42,16 +43,26 @@ import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
+import com.party.domain.model.user.detail.InterestLocationRequest
 import com.party.navigation.Screens
 import com.party.presentation.screen.detail.DetailProfileNextButton
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SelectedLocationArea(
     navController: NavController,
     selectedProvince: String,
-    selectedLocationList: MutableList<String>,
-    onDelete: (String) -> Unit,
+    selectedLocationList: MutableList<Pair<String, Int>>,
+    onDelete: (Pair<String, Int>) -> Unit,
+    accessToken: String,
+    detailProfileViewModel: DetailProfileViewModel,
 ) {
+    LaunchedEffect(key1 = Unit) {
+        detailProfileViewModel.saveSuccess.collectLatest {
+            navController.navigate(Screens.DetailCarrier)
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -69,9 +80,18 @@ fun SelectedLocationArea(
             navController = navController,
             routeScreens = Screens.DetailCarrier,
             text = stringResource(id = R.string.common1),
-            textColor = if(selectedLocationList.size == SELECTED_LOCATION_COUNT) BLACK else GRAY400,
-            containerColor = if(selectedLocationList.size == SELECTED_LOCATION_COUNT) PRIMARY else LIGHT400,
-            onClick = {}
+            textColor = if((1..SELECTED_LOCATION_COUNT).contains(selectedLocationList.size)) BLACK else GRAY400,
+            containerColor = if((1..SELECTED_LOCATION_COUNT).contains(selectedLocationList.size)) PRIMARY else LIGHT400,
+            onClick = {
+                if((1..SELECTED_LOCATION_COUNT).contains(selectedLocationList.size)) {
+                    detailProfileViewModel.saveInterestLocation(
+                        accessToken = accessToken,
+                        locations = selectedLocationList.map {
+                            InterestLocationRequest(id = it.second)
+                        }
+                    )
+                }
+            }
         )
 
         HeightSpacer(heightDp = 12.dp)
@@ -93,8 +113,8 @@ fun SelectedLocationArea(
 @Composable
 fun SelectedLocationList(
     selectedProvince: String,
-    selectedLocationList: MutableList<String>,
-    onDelete: (String) -> Unit,
+    selectedLocationList: MutableList<Pair<String, Int>>,
+    onDelete: (Pair<String, Int>) -> Unit,
 ) {
     LazyRow(
         modifier = Modifier
@@ -107,8 +127,8 @@ fun SelectedLocationList(
             }
         ) { _, item ->
             SelectLocationComponent(
-                selectedCityName = selectedProvince,
-                selectedCity2Name = item,
+                item = item,
+                selectedProvinceName = selectedProvince,
                 onDelete = { onDelete(it) }
             )
             WidthSpacer(widthDp = 8.dp)
@@ -119,9 +139,9 @@ fun SelectedLocationList(
 @SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun SelectLocationComponent(
-    selectedCityName: String,
-    selectedCity2Name: String,
-    onDelete: (String) -> Unit,
+    item: Pair<String, Int>,
+    selectedProvinceName: String,
+    onDelete: (Pair<String, Int>) -> Unit,
 ) {
     Card(
         modifier = Modifier
@@ -145,12 +165,12 @@ fun SelectLocationComponent(
             ) {
                 Text(
                     modifier = Modifier.padding(start = 12.dp),
-                    text = "$selectedCityName $selectedCity2Name",
+                    text = "$selectedProvinceName. ${item.first}",
                     color = BLACK,
                     fontSize = B2,
                 )
                 IconButton(
-                    onClick = { onDelete(selectedCity2Name) },
+                    onClick = { onDelete(item) },
                     interactionSource = MutableInteractionSource(),
                 ) {
                     Icon(

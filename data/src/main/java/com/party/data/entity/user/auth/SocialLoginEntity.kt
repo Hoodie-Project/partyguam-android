@@ -1,4 +1,4 @@
-package com.party.data.entity.user
+package com.party.data.entity.user.auth
 
 import kotlinx.serialization.Serializable
 

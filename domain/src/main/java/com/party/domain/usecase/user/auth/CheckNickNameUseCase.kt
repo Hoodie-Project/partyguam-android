@@ -1,7 +1,6 @@
-package com.party.domain.usecase.user
+package com.party.domain.usecase.user.auth
 
 import com.party.common.ServerApiResponse
-import com.party.domain.model.user.CheckNickNameResponse
 import com.party.domain.repository.UserRepository
 import javax.inject.Inject
 

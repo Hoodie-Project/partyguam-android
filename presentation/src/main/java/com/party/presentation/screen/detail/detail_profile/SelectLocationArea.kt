@@ -44,16 +44,16 @@ import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.user.LocationResponse
+import com.party.domain.model.user.detail.LocationResponse
 import com.party.presentation.screen.detail.componentClick
 
 @Composable
 fun SelectLocationArea(
     selectedProvince: String,
-    selectedLocationList: MutableList<String>,
-    onSelectLocation: (String) -> Unit,
-    onSelectCountry: (String) -> Unit,
-    onDeleteCountry: (String) -> Unit,
+    selectedLocationList: MutableList<Pair<String, Int>>,
+    onSelectProvince: (String) -> Unit,
+    onSelectLocation: (Pair<String, Int>) -> Unit,
+    onDeleteLocation: (Pair<String, Int>) -> Unit,
     snackBarHostState: SnackbarHostState,
     context: Context,
     detailProfileViewModel: DetailProfileViewModel?,
@@ -64,7 +64,7 @@ fun SelectLocationArea(
         SelectProvinceArea(
             modifier = Modifier.weight(1f),
             selectedProvince = selectedProvince,
-            onSelectLocation = onSelectLocation,
+            onSelectProvince = onSelectProvince,
         )
 
         WidthSpacer(widthDp = 12.dp)
@@ -75,8 +75,8 @@ fun SelectLocationArea(
             modifier = Modifier.weight(2f),
             selectedLocationName = selectedProvince,
             selectedLocationList = selectedLocationList,
-            onSelectLocation = onSelectCountry,
-            onDeleteLocation = onDeleteCountry,
+            onSelectLocation = onSelectLocation,
+            onDeleteLocation = onDeleteLocation,
             detailProfileViewModel = detailProfileViewModel!!,
         )
     }
@@ -86,7 +86,7 @@ fun SelectLocationArea(
 fun SelectProvinceArea(
     modifier: Modifier,
     selectedProvince: String,
-    onSelectLocation: (String) -> Unit,
+    onSelectProvince: (String) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier
@@ -108,7 +108,7 @@ fun SelectProvinceArea(
                 containerColor = if(selectedProvince == item) LIGHT400 else WHITE,
                 text = item,
                 textColor = if(selectedProvince == item) DARK200 else GRAY400,
-                onSelectCity = { onSelectLocation(it) }
+                onSelectCity = { onSelectProvince(it) }
             )
         }
     }
@@ -120,9 +120,9 @@ fun SelectLocationArea(
     snackBarHostState: SnackbarHostState,
     modifier: Modifier,
     selectedLocationName: String,
-    selectedLocationList: MutableList<String>,
-    onSelectLocation: (String) -> Unit,
-    onDeleteLocation: (String) -> Unit,
+    selectedLocationList: MutableList<Pair<String, Int>>,
+    onSelectLocation: (Pair<String, Int>) -> Unit,
+    onDeleteLocation: (Pair<String, Int>) -> Unit,
     detailProfileViewModel: DetailProfileViewModel,
 ) {
     val locationListState by detailProfileViewModel.getLocationListState.collectAsState()
@@ -134,7 +134,10 @@ fun SelectLocationArea(
         is UIState.Success -> {
             LazyVerticalGrid(
                 modifier = modifier
-                    .border(BorderStroke(1.dp, GRAY200), shape = RoundedCornerShape(LARGE_CORNER_SIZE))
+                    .border(
+                        BorderStroke(1.dp, GRAY200),
+                        shape = RoundedCornerShape(LARGE_CORNER_SIZE)
+                    )
                     .height(320.dp),
                 columns = GridCells.Fixed(2),
             ){
@@ -145,12 +148,12 @@ fun SelectLocationArea(
                     }
                 ){ _, item ->
                     LocationComponent(
-                        countryName = item.city,
-                        textColor = if(selectedLocationList.contains(item.province)) PRIMARY else GRAY600,
-                        border = if(selectedLocationList.contains(item.province)) BorderStroke(1.dp, PRIMARY) else null,
+                        locationResponse = item,
+                        textColor = isContainProvinceAndSetTextColor(selectedLocationList, item.province),
+                        border = isContainProvinceAndSetBorder(selectedLocationList, item.province),
                         selectedCityName = selectedLocationName,
-                        onSelectCountry = { onSelectLocation(it) },
-                        onDeleteCountry = { onDeleteLocation(it) },
+                        onSelectLocation = { onSelectLocation(it) },
+                        onDeleteLocation = { onDeleteLocation(it) },
                         snackBarHostState = snackBarHostState,
                         context = context,
                         selectedCountryList = selectedLocationList
@@ -161,6 +164,16 @@ fun SelectLocationArea(
         is UIState.Error -> snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState)
         is UIState.Exception -> snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState)
     }
+}
+
+fun isContainProvinceAndSetTextColor(selectedLocationList: MutableList<Pair<String, Int>>, selectedProvince: String): Color{
+    val isContain = selectedLocationList.any { it.first.contains(selectedProvince) }
+    return if(isContain) DARK200 else GRAY600
+}
+
+fun isContainProvinceAndSetBorder(selectedLocationList: MutableList<Pair<String, Int>>, selectedProvince: String): BorderStroke?{
+    val isContain = selectedLocationList.any { it.first.contains(selectedProvince) }
+    return if(isContain) BorderStroke(1.dp, PRIMARY) else null
 }
 
 @Composable
@@ -200,12 +213,12 @@ fun LocationComponent(
     context: Context,
     snackBarHostState: SnackbarHostState,
     selectedCityName: String,
-    countryName: String,
-    selectedCountryList: MutableList<String>,
+    locationResponse: LocationResponse,
+    selectedCountryList: MutableList<Pair<String, Int>>,
     textColor: Color,
     border: BorderStroke? = null,
-    onSelectCountry: (String) -> Unit,
-    onDeleteCountry: (String) -> Unit,
+    onSelectLocation: (Pair<String, Int>) -> Unit,
+    onDeleteLocation: (Pair<String, Int>) -> Unit,
 ) {
     Card(
         modifier = Modifier
@@ -214,11 +227,11 @@ fun LocationComponent(
                 componentClick(
                     context = context,
                     snackBarHostState = snackBarHostState,
-                    selectedCityName = selectedCityName,
-                    countryName = countryName,
+                    selectedProvinceName = selectedCityName,
+                    locationResponse = locationResponse,
                     selectedCountryList = selectedCountryList,
-                    onSelectCountry = onSelectCountry,
-                    onDeleteCountry = onDeleteCountry,
+                    onSelectCountry = onSelectLocation,
+                    onDeleteCountry = onDeleteLocation,
                 )
             }
             .padding(1.dp),
@@ -233,7 +246,7 @@ fun LocationComponent(
             contentAlignment = Alignment.Center,
         ){
             Text(
-                text = countryName,
+                text = locationResponse.city,
                 color = textColor,
                 fontSize = T3,
                 fontWeight = FontWeight.Bold,

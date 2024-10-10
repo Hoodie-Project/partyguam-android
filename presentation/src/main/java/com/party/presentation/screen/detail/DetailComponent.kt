@@ -37,6 +37,7 @@ import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.LARGE_BUTTON_HEIGHT
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
+import com.party.domain.model.user.detail.LocationResponse
 import com.party.navigation.Screens
 import com.party.presentation.screen.detail.detail_profile.SELECTED_LOCATION_COUNT
 
@@ -167,17 +168,20 @@ fun IndicatorCircle(
 fun componentClick(
     context: Context,
     snackBarHostState: SnackbarHostState,
-    selectedCityName: String,
-    countryName: String,
-    selectedCountryList: MutableList<String>,
-    onSelectCountry: (String) -> Unit,
-    onDeleteCountry: (String) -> Unit,
+    selectedProvinceName: String,
+    locationResponse: LocationResponse,
+    selectedCountryList: MutableList<Pair<String, Int>>,
+    onSelectCountry: (Pair<String, Int>) -> Unit,
+    onDeleteCountry: (Pair<String, Int>) -> Unit,
 ){
-    if (selectedCityName.isEmpty())
+    if (selectedProvinceName.isEmpty())
         snackBarMessage(snackBarHostState, context.getString(R.string.snackbar1))
     else
-        if(selectedCountryList.contains(countryName)) onDeleteCountry(countryName)
+        if( isContainProvinceAndSetLamda(selectedCountryList, selectedProvinceName) ) onDeleteCountry(Pair(locationResponse.city, locationResponse.id))
         else if(selectedCountryList.size == SELECTED_LOCATION_COUNT) snackBarMessage(snackBarHostState, context.getString(R.string.snackbar2))
-        else onSelectCountry(countryName)
+        else onSelectCountry(Pair(locationResponse.city, locationResponse.id))
+}
 
+private fun isContainProvinceAndSetLamda(selectedLocationList: MutableList<Pair<String, Int>>, selectedProvince: String): Boolean{
+    return selectedLocationList.any { it.first.contains(selectedProvince) }
 }

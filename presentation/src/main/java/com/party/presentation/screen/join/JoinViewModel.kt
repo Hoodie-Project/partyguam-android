@@ -4,12 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.common.UIState
-import com.party.domain.model.user.CheckNickNameResponse
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.model.user.signup.UserSignUpResponse
-import com.party.domain.usecase.user.CheckNickNameUseCase
-import com.party.domain.usecase.user.UserSignUpUseCase
-import com.skydoves.sandwich.StatusCode
+import com.party.domain.usecase.user.auth.CheckNickNameUseCase
+import com.party.domain.usecase.user.auth.UserSignUpUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

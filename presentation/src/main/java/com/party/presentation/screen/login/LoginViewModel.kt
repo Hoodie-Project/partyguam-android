@@ -10,9 +10,8 @@ import com.google.android.gms.common.api.ApiException
 import com.party.common.R
 import com.party.common.ServerApiResponse
 import com.party.domain.model.user.SocialLoginErrorResponse
-import com.party.domain.model.user.SocialLoginSuccessResponse
-import com.party.domain.usecase.user.GoogleLoginUseCase
-import com.party.domain.usecase.user.KakaoLoginUseCase
+import com.party.domain.usecase.user.auth.GoogleLoginUseCase
+import com.party.domain.usecase.user.auth.KakaoLoginUseCase
 import com.skydoves.sandwich.StatusCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
