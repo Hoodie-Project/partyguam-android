@@ -46,7 +46,7 @@ fun DetailProfileScreen(
     }
 
     LaunchedEffect (key1 = selectedProvince){
-        detailProfileViewModel.getLocationList(accessToken = "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZTVmUyL1VFRWpaQ2pYcW5wY3AyS3c9PSIsImlhdCI6MTcyODU1NzE3MCwiZXhwIjoxNzYwMTE0NzcwfQ.H9Q5nYOwCUrIijOR1g0t3YmdUQm403MsmxdeyOUXDlQLBreXNbj7z5od6csVjo8Xr4jidHeILQTOVINDsJoFiQ", province = selectedProvince)
+        detailProfileViewModel.getLocationList(accessToken = "Bearer $accessToken", province = selectedProvince)
     }
 
     val selectedLocationList by remember {

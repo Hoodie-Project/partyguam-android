@@ -11,8 +11,10 @@ import com.party.domain.usecase.user.auth.CheckNickNameUseCase
 import com.party.domain.usecase.user.auth.UserSignUpUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,6 +30,9 @@ class JoinViewModel @Inject constructor(
 
     private val _userSignUpState =  MutableStateFlow<UIState<ServerApiResponse<UserSignUpResponse>>>(UIState.Idle)
     val userSignUpState: StateFlow<UIState<ServerApiResponse<UserSignUpResponse>>> = _userSignUpState
+
+    private val _joinSuccessState = MutableSharedFlow<Unit>()
+    val joinSuccessState = _joinSuccessState.asSharedFlow()
 
     fun checkNickName(
         signupAccessToken: String,
@@ -60,13 +65,19 @@ class JoinViewModel @Inject constructor(
             when(val result = userSignUpUseCase(signupAccessToken = signupAccessToken, userSignUpRequest = userSignUpRequest)){
                 is ServerApiResponse.SuccessResponse<UserSignUpResponse> -> {
                     saveAccessToken(token = result.data?.accessToken!!)
-                    _userSignUpState.value = UIState.Success(result)
+                    _joinSuccessState.emit(Unit)
+                    //_userSignUpState.value = UIState.Success(result)
                 }
                 is ServerApiResponse.ErrorResponse<*> -> {
                     _userSignUpState.value = UIState.Error(result)
                 }
                 is ServerApiResponse.ExceptionResponse -> { _userSignUpState.value = UIState.Exception }
             }
+        }
+    }
+    fun joinSuccess(){
+        viewModelScope.launch {
+
         }
     }
 

@@ -34,6 +34,7 @@ import com.party.common.snackBarMessage
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.presentation.screen.join.JoinScreenButton
 import com.party.presentation.screen.join.JoinViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun JoinGenderScreen(
@@ -52,12 +53,17 @@ fun JoinGenderScreen(
     }
 
     val userSignUpState by joinViewModel.userSignUpState.collectAsState()
-    val userSignUpResult = userSignUpState.data
+
+    LaunchedEffect(Unit) {
+        joinViewModel.joinSuccessState.collectLatest {
+            navController.navigate(Screens.JoinComplete)
+        }
+    }
 
     val email by rememberSaveable { mutableStateOf(userEmail) }
     val signUpToken by rememberSaveable { mutableStateOf(signupAccessToken) }
     val nickName by rememberSaveable { mutableStateOf(userNickName) }
-    var birthday by rememberSaveable { mutableStateOf(userBirthDay) }
+    val birthday by rememberSaveable { mutableStateOf(userBirthDay) }
 
     var selectedGender by rememberSaveable {
         mutableStateOf("")
@@ -66,12 +72,8 @@ fun JoinGenderScreen(
     when(userSignUpState){
         is UIState.Idle -> {}
         is UIState.Loading -> { LoadingProgressBar() }
-        is UIState.Success -> {
-            navController.navigate(Screens.JoinComplete)
-        }
-        is UIState.Error -> {
-
-        }
+        is UIState.Success -> {}
+        is UIState.Error -> {}
         is UIState.Exception -> {
             snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState)
         }
