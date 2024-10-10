@@ -19,9 +19,9 @@ import com.party.presentation.screen.detail.detail_profile.SelectProvinceArea
 @Composable
 fun DetailProfileScreenPreview() {
     DetailProfileScreen(
-        navController = NavHostController(LocalContext.current),
-        snackBarHostState = SnackbarHostState(),
         context = LocalContext.current,
+        snackBarHostState = SnackbarHostState(),
+        navController = NavHostController(LocalContext.current),
     )
 }
 
@@ -63,8 +63,8 @@ fun UnSelectedCityComponentPreview(){
 @Composable
 fun SelectCityComponentPreview() {
     SelectLocationComponent(
-        selectedProvinceName = "서울",
-        selectedCity2Name = "강남구",
-        onDelete = {}
+        item = Pair("강남구", 1),
+        selectedProvinceName = "강남구",
+        onDelete = {},
     )
 }

@@ -187,9 +187,9 @@ fun AppNavHost() {
             }
             composable<Screens.DetailProfile> {
                 DetailProfileScreen(
-                    navController = navController,
+                    context = context,
                     snackBarHostState = snackBarHostState,
-                    context = context
+                    navController = navController
                 )
             }
             composable<Screens.DetailCarrier> {

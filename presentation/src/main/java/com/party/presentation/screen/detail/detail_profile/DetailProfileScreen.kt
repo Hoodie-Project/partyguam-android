@@ -26,10 +26,9 @@ const val SELECTED_LOCATION_COUNT = 3
 
 @Composable
 fun DetailProfileScreen(
-    navController: NavHostController,
-    snackBarHostState: SnackbarHostState,
     context: Context,
-    accessToken: String,
+    snackBarHostState: SnackbarHostState,
+    navController: NavHostController,
     detailProfileViewModel: DetailProfileViewModel = hiltViewModel(),
 ) {
     var selectedProvince by remember {
@@ -84,7 +83,7 @@ fun DetailProfileScreen(
             selectedLocationList = selectedLocationList,
             onDelete = { selectedLocationList.remove(it) },
             detailProfileViewModel = detailProfileViewModel,
-            accessToken = accessToken
+            accessToken = ""
         )
     }
 }
