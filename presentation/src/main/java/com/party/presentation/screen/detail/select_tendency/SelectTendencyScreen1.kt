@@ -30,7 +30,7 @@ import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.Screens
-import com.party.presentation.screen.detail.detail_profile.ProfileIndicatorArea
+import com.party.presentation.screen.detail.ProfileIndicatorArea
 
 @Composable
 fun SelectTendencyScreen1(

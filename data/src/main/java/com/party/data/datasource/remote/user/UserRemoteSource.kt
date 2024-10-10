@@ -1,5 +1,6 @@
 package com.party.data.datasource.remote.user
 
+import com.party.data.entity.user.LocationEntity
 import com.party.data.entity.user.SocialLoginEntity
 import com.party.data.entity.user.UserSignUpEntity
 import com.party.domain.model.user.signup.UserSignUpRequest
@@ -18,4 +19,7 @@ interface UserRemoteSource {
 
     // 유저 회원가입
     suspend fun userSignUp(signupAccessToken: String, userSignUpRequest: UserSignUpRequest): ApiResponse<UserSignUpEntity>
+
+    // 특정 지역의 지역 리스트 조회
+    suspend fun getLocations(province: String): ApiResponse<List<LocationEntity>>
 }

@@ -19,7 +19,7 @@ import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
-import com.party.presentation.screen.detail.detail_profile.ProfileIndicatorArea
+import com.party.presentation.screen.detail.ProfileIndicatorArea
 
 @Composable
 fun DetailCarrierScreen(

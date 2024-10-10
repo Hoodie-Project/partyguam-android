@@ -77,6 +77,7 @@ fun TextComponent(
     fontWeight: FontWeight = FontWeight.Normal,
     fontSize: TextUnit,
     textDecoration: TextDecoration? = null,
+    onClick: () -> Unit = {},
 ) {
     Box(
         modifier = modifier,

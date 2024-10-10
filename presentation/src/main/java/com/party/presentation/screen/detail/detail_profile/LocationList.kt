@@ -24,7 +24,7 @@ fun cityNameToCountList(selectedCityName: String): List<String>{
 }
 
 
-enum class LocationTest(
+enum class ProvinceList(
     val city: String,
 ){
     SEOUL("서울"),

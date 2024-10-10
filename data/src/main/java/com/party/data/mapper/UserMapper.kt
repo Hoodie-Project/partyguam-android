@@ -1,8 +1,10 @@
 package com.party.data.mapper
 
+import com.party.data.entity.user.LocationEntity
 import com.party.data.entity.user.SocialLoginErrorEntity
 import com.party.data.entity.user.SocialLoginSuccessEntity
 import com.party.data.entity.user.UserSignUpEntity
+import com.party.domain.model.user.LocationResponse
 import com.party.domain.model.user.SocialLoginErrorResponse
 import com.party.domain.model.user.SocialLoginResponse
 import com.party.domain.model.user.SocialLoginSuccessResponse
@@ -26,6 +28,14 @@ object UserMapper {
     fun mapperUserSignUpResponse(userSignUpEntity: UserSignUpEntity): UserSignUpResponse {
         return UserSignUpResponse(
             accessToken = userSignUpEntity.accessToken
+        )
+    }
+
+    fun mapperToLocationResponse(locationEntity: LocationEntity): LocationResponse {
+        return LocationResponse(
+            id = locationEntity.id,
+            province = locationEntity.province,
+            city = locationEntity.city
         )
     }
 }

@@ -1,5 +1,6 @@
 package com.party.data.service
 
+import com.party.data.entity.user.LocationEntity
 import com.party.data.entity.user.SocialLoginEntity
 import com.party.data.entity.user.UserSignUpEntity
 import com.party.domain.model.user.signup.UserSignUpRequest
@@ -37,4 +38,10 @@ interface UserService {
         @Header("Authorization") signupAccessToken: String,
         @Body userSignUpRequest: UserSignUpRequest,
     ): ApiResponse<UserSignUpEntity>
+
+    // 특정 지역의 지역 리스트 조회
+    @GET("api/locations")
+    suspend fun getLocations(
+        @Query("province") province: String,
+    ): ApiResponse<List<LocationEntity>>
 }

@@ -9,6 +9,7 @@ import com.party.data.entity.user.SocialLoginErrorEntity
 import com.party.data.entity.user.SocialLoginSuccessEntity
 import com.party.data.mapper.UserMapper
 import com.party.data.mapper.UserMapper.mapperUserSignUpResponse
+import com.party.domain.model.user.LocationResponse
 import com.party.domain.model.user.SocialLoginResponse
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.model.user.signup.UserSignUpResponse
@@ -140,5 +141,19 @@ class UserRepositoryImpl @Inject constructor(
             }
         }
 
+    }
+
+    override suspend fun getLocations(province: String): ServerApiResponse<List<LocationResponse>> {
+        return when(val result = userRemoteSource.getLocations(province = province)){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = result.data.map { UserMapper.mapperToLocationResponse(it) })
+            }
+            is ApiResponse.Failure.Error-> {
+                ErrorResponse()
+            }
+            is ApiResponse.Failure.Exception -> {
+                ExceptionResponse(message = result.message)
+            }
+        }
     }
 }

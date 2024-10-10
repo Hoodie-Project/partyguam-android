@@ -2,6 +2,7 @@ package com.party.domain.repository
 
 import com.party.common.ServerApiResponse
 import com.party.domain.model.user.CheckNickNameResponse
+import com.party.domain.model.user.LocationResponse
 import com.party.domain.model.user.SocialLoginResponse
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.model.user.signup.UserSignUpResponse
@@ -19,5 +20,8 @@ interface UserRepository {
 
     // 유저 회원가입
     suspend fun userSignUp(signupAccessToken: String, userSignUpRequest: UserSignUpRequest): ServerApiResponse<UserSignUpResponse>
+
+    // 특정 지역의 지역 리스트 조회
+    suspend fun getLocations(province: String): ServerApiResponse<List<LocationResponse>>
 
 }

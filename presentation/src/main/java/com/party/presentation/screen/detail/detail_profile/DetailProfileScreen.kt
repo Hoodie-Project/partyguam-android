@@ -12,30 +12,30 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.party.common.HeightSpacer
 import com.party.common.R
-import com.party.common.TextComponent
+import com.party.common.ScreenExplainArea
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.T2
-import com.party.common.ui.theme.T3
+import com.party.presentation.screen.detail.ProfileIndicatorArea
+
+const val SELECTED_LOCATION_COUNT = 3
 
 @Composable
 fun DetailProfileScreen(
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
     context: Context,
+    detailProfileViewModel: DetailProfileViewModel = hiltViewModel(),
 ) {
-    var selectedCity by remember {
+    var selectedProvince by remember {
         mutableStateOf("")
     }
 
-    val selectedCountryList by remember {
+    val selectedLocationList by remember {
         mutableStateOf(mutableStateListOf<String>())
     }
 
@@ -57,42 +57,30 @@ fun DetailProfileScreen(
                 indicatorText = stringResource(id = R.string.detail_profile3),
             )
 
-            HeightSpacer(heightDp = 32.dp)
-
-            TextComponent(
-                text = stringResource(id = R.string.detail_profile7),
-                fontWeight = FontWeight.Bold,
-                fontSize = T2,
+            ScreenExplainArea(
+                mainExplain = stringResource(id = R.string.detail_profile7),
+                subExplain = stringResource(id = R.string.detail_profile8),
             )
-
-            HeightSpacer(heightDp = 12.dp)
-
-            TextComponent(
-                text = stringResource(id = R.string.detail_profile8),
-                fontSize = T3,
-            )
-
-            HeightSpacer(heightDp = 46.dp)
 
             SelectLocationArea(
-                selectedCity = selectedCity,
-                selectedCountryList = selectedCountryList,
-                onSelectCity = { selectedCity = it },
+                selectedProvince = selectedProvince,
+                selectedLocationList = selectedLocationList,
+                onSelectLocation = { selectedProvince = it },
                 onSelectCountry = {
-                    selectedCountryList.add(it)
+                    selectedLocationList.add(it)
                 },
-                onDeleteCountry = { selectedCountryList.remove(it) },
+                onDeleteCountry = { selectedLocationList.remove(it) },
                 snackBarHostState = snackBarHostState,
                 context = context,
+                detailProfileViewModel = detailProfileViewModel,
             )
         }
 
-        BottomArea(
+        SelectedLocationArea(
             navController = navController,
-            selectedCity = selectedCity,
-            selectedCountryList = selectedCountryList,
-            onDelete = { selectedCountryList.remove(it) },
+            selectedProvince = selectedProvince,
+            selectedLocationList = selectedLocationList,
+            onDelete = { selectedLocationList.remove(it) },
         )
-
     }
 }

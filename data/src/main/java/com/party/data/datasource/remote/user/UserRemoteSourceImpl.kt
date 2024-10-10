@@ -1,5 +1,6 @@
 package com.party.data.datasource.remote.user
 
+import com.party.data.entity.user.LocationEntity
 import com.party.data.entity.user.SocialLoginEntity
 import com.party.data.entity.user.UserSignUpEntity
 import com.party.data.service.UserService
@@ -30,5 +31,9 @@ class UserRemoteSourceImpl @Inject constructor(
         userSignUpRequest: UserSignUpRequest
     ): ApiResponse<UserSignUpEntity> {
         return userService.userSignUp(signupAccessToken = signupAccessToken, userSignUpRequest = userSignUpRequest)
+    }
+
+    override suspend fun getLocations(province: String): ApiResponse<List<LocationEntity>> {
+        return userService.getLocations(province = province)
     }
 }

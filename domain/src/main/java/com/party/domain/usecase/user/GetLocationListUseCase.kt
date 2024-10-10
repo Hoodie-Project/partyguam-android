@@ -1,0 +1,14 @@
+package com.party.domain.usecase.user
+
+import com.party.common.ServerApiResponse
+import com.party.domain.model.user.LocationResponse
+import com.party.domain.repository.UserRepository
+import javax.inject.Inject
+
+class GetLocationListUseCase @Inject constructor(
+    private val userRepository: UserRepository,
+){
+    suspend operator fun invoke(province: String): ServerApiResponse<List<LocationResponse>> {
+        return userRepository.getLocations(province = province)
+    }
+}
