@@ -34,6 +34,9 @@ class JoinViewModel @Inject constructor(
     private val _joinSuccessState = MutableSharedFlow<Unit>()
     val joinSuccessState = _joinSuccessState.asSharedFlow()
 
+    private val _joinFailState = MutableSharedFlow<String>()
+    val joinFailState = _joinFailState.asSharedFlow()
+
     fun checkNickName(
         signupAccessToken: String,
         nickname: String
@@ -45,9 +48,9 @@ class JoinViewModel @Inject constructor(
                     _checkNickNameState.value = UIState.Success(result)
                 }
                 is ServerApiResponse.ErrorResponse<*> -> {
-                    _checkNickNameState.value = UIState.Error(result)
+                    _joinFailState.emit("회원가입에 실패했습니다.")
                 }
-                is ServerApiResponse.ExceptionResponse -> { _checkNickNameState.value = UIState.Exception }
+                is ServerApiResponse.ExceptionResponse -> { _joinFailState.emit("알 수 없는 오류가 발생했습니다.") }
             }
         }
     }
@@ -66,7 +69,6 @@ class JoinViewModel @Inject constructor(
                 is ServerApiResponse.SuccessResponse<UserSignUpResponse> -> {
                     saveAccessToken(token = result.data?.accessToken!!)
                     _joinSuccessState.emit(Unit)
-                    //_userSignUpState.value = UIState.Success(result)
                 }
                 is ServerApiResponse.ErrorResponse<*> -> {
                     _userSignUpState.value = UIState.Error(result)

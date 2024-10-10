@@ -60,6 +60,12 @@ fun JoinGenderScreen(
         }
     }
 
+    LaunchedEffect(Unit) {
+        joinViewModel.joinFailState.collectLatest {
+            snackBarMessage(message = it, snackBarHostState = snackBarHostState)
+        }
+    }
+
     val email by rememberSaveable { mutableStateOf(userEmail) }
     val signUpToken by rememberSaveable { mutableStateOf(signupAccessToken) }
     val nickName by rememberSaveable { mutableStateOf(userNickName) }

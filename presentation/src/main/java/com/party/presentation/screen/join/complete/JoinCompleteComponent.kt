@@ -39,9 +39,7 @@ fun RowButtonArea(
             buttonBorderColor = PRIMARY,
             fontSize = B2,
             fontWeight = FontWeight.Bold,
-            onClick = {
-
-            }
+            onClick = { navController.navigate(Screens.Home) }
         )
 
         WidthSpacer(widthDp = 8.dp)
@@ -54,9 +52,7 @@ fun RowButtonArea(
             buttonBorderColor = PRIMARY,
             fontSize = B2,
             fontWeight = FontWeight.Bold,
-            onClick = {
-
-            }
+            onClick = { navController.navigate(Screens.DetailProfile) }
         )
     }
 }
