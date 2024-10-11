@@ -20,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.party.common.R
 import com.party.common.ScreenExplainArea
+import com.party.common.makeAccessToken
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY400
@@ -48,7 +49,7 @@ fun DetailProfileScreen(
     if (accessToken.isNotEmpty()) {
         LaunchedEffect(key1 = selectedProvince, key2 = accessToken) {
             detailProfileViewModel.getLocationList(
-                accessToken = "Bearer $accessToken",
+                accessToken = makeAccessToken(context = context, token = accessToken),
                 province = selectedProvince
             )
         }
@@ -102,7 +103,7 @@ fun DetailProfileScreen(
             selectedLocationList = selectedLocationList,
             onDelete = { selectedLocationList.remove(it) },
             detailProfileViewModel = detailProfileViewModel,
-            accessToken = "Bearer $accessToken",
+            accessToken = makeAccessToken(context = context, token = accessToken),
         )
     }
 }

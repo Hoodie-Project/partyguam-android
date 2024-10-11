@@ -29,6 +29,7 @@ import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.ServerApiResponse.ErrorResponse
 import com.party.common.UIState
 import com.party.common.WarningDialog
+import com.party.common.makeAccessToken
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
@@ -42,6 +43,7 @@ import com.party.presentation.screen.join.JoinScreenButton
 import com.party.presentation.screen.join.JoinScreenInputField
 import com.party.presentation.screen.join.JoinViewModel
 import com.skydoves.sandwich.StatusCode
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun JoinNickNameScreen(
@@ -62,6 +64,12 @@ fun JoinNickNameScreen(
 
     LaunchedEffect(key1 = true) {
         setActionText("2/4")
+    }
+
+    LaunchedEffect(Unit) {
+        joinViewModel.joinFailState.collectLatest {
+            snackBarMessage(message = it, snackBarHostState = snackBarHostState)
+        }
     }
 
     val email by rememberSaveable { mutableStateOf(userEmail) }
@@ -157,7 +165,7 @@ fun JoinNickNameScreen(
                         // 키보드 내리기
                         keyboardController?.hide()
                         joinViewModel.checkNickName(
-                            signupAccessToken = "${context.getString(R.string.common5)} $signUpToken",
+                            signupAccessToken = makeAccessToken(context = context, token = signupAccessToken),
                             nickname = userNickName
                         )
                     }

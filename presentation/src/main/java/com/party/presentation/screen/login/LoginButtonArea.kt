@@ -37,6 +37,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.WidthSpacer
+import com.party.common.makeAccessToken
 import com.party.common.ui.theme.EXTRA_LARGE_BUTTON_HEIGHT2
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.KakaoLoginColor
@@ -191,7 +192,7 @@ private fun loginWithKakaoNickName(context: Context, token: OAuthToken, loginVie
                 //Log.i("KAKAO", "사용자 정보 요청 성공 ${user.kakaoAccount?.email}")
                 loginViewModel.serveToKakaoLogin(
                     userEmail = user.kakaoAccount?.email.orEmpty(),
-                    accessToken = "${context.getString(R.string.common5)} ${token.accessToken}",
+                    accessToken = makeAccessToken(context = context, token = token.accessToken),
                 )
             }
         }

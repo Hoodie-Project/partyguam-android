@@ -116,10 +116,14 @@ class UserRepositoryImpl @Inject constructor(
                 SuccessResponse(data = result.data)
             }
             is ApiResponse.Failure.Error-> {
+                val errorBody = result.errorBody?.string()
                 when(result.statusCode){
-                    StatusCode.Conflict -> ErrorResponse(statusCode = StatusCode.Unauthorized.code)
+                    StatusCode.Conflict -> {
+                        val errorResponse = Json.decodeFromString<ErrorResponse<String>>(errorBody!!)
+                        ErrorResponse(statusCode = StatusCode.Conflict.code, message = errorResponse.message)
+                    }
                     StatusCode.Unauthorized -> ErrorResponse(statusCode = StatusCode.Unauthorized.code)
-                    else -> ErrorResponse(statusCode = StatusCode.InternalServerError.code)
+                    else -> ErrorResponse(statusCode = StatusCode.Unauthorized.code)
                 }
             }
             is ApiResponse.Failure.Exception -> {

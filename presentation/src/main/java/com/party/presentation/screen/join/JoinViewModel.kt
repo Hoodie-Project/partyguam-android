@@ -9,6 +9,7 @@ import com.party.domain.model.user.signup.UserSignUpResponse
 import com.party.domain.usecase.datastore.SaveAccessTokenUseCase
 import com.party.domain.usecase.user.auth.CheckNickNameUseCase
 import com.party.domain.usecase.user.auth.UserSignUpUseCase
+import com.skydoves.sandwich.StatusCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -47,10 +48,18 @@ class JoinViewModel @Inject constructor(
                 is ServerApiResponse.SuccessResponse<String> -> {
                     _checkNickNameState.value = UIState.Success(result)
                 }
-                is ServerApiResponse.ErrorResponse<*> -> {
-                    _joinFailState.emit("회원가입에 실패했습니다.")
+                is ServerApiResponse.ErrorResponse<String> -> {
+                    _checkNickNameState.value = UIState.Idle
+                    when(result.statusCode){
+                        StatusCode.Conflict.code -> { _joinFailState.emit(result.message!!) }
+                        StatusCode.Unauthorized.code -> { _joinFailState.emit("알 수 없는 오류가 발생했습니다.") }
+                        else -> { _joinFailState.emit("알 수 없는 오류가 발생했습니다.") }
+                    }
                 }
-                is ServerApiResponse.ExceptionResponse -> { _joinFailState.emit("알 수 없는 오류가 발생했습니다.") }
+                is ServerApiResponse.ExceptionResponse -> {
+                    _checkNickNameState.value = UIState.Idle
+                    _joinFailState.emit("알 수 없는 오류가 발생했습니다.")
+                }
             }
         }
     }

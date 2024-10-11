@@ -9,6 +9,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.party.common.R
 import com.party.common.ServerApiResponse
+import com.party.common.makeAccessToken
 import com.party.domain.model.user.SocialLoginErrorResponse
 import com.party.domain.usecase.user.auth.GoogleLoginUseCase
 import com.party.domain.usecase.user.auth.KakaoLoginUseCase
@@ -47,7 +48,7 @@ class LoginViewModel @Inject constructor(
 
                         serverToGoogleLogin(
                             userEmail = account.email.orEmpty(),
-                            accessToken = "${context.getString(R.string.common5)} $idToken",
+                            accessToken = makeAccessToken(context = context, token = idToken),
                         )
                     } else {
                         Log.e("Google Login Error", "Google ID Token is null")

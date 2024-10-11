@@ -30,6 +30,7 @@ import com.party.navigation.Screens
 import com.party.common.R
 import com.party.common.ScreenExplainArea
 import com.party.common.UIState
+import com.party.common.makeAccessToken
 import com.party.common.snackBarMessage
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.presentation.screen.join.JoinScreenButton
@@ -118,7 +119,7 @@ fun JoinGenderScreen(
             onClick = {
                 if(selectedGender.isNotEmpty()){
                     joinViewModel.userSignUp(
-                        signupAccessToken = "${context.getString(R.string.common5)} $signUpToken",
+                        signupAccessToken = makeAccessToken(context = context, token = signupAccessToken),
                         userSignUpRequest = UserSignUpRequest(
                             email = email,
                             nickname = nickName,

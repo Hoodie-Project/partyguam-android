@@ -1,6 +1,7 @@
 package com.party.common
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -18,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -177,4 +179,8 @@ fun LoadingProgressBar() {
             ballCount = 4
         )
     }
+}
+
+fun makeAccessToken(context: Context, token: String): String {
+    return "${context.getString(R.string.common5)} $token"
 }
