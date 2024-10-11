@@ -12,9 +12,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.party.common.DetailCarrierData.mainSelectedDetailPosition
 import com.party.common.DetailCarrierData.mainSelectedCarrier
+import com.party.common.DetailCarrierData.mainSelectedDetailPositionId
 import com.party.common.DetailCarrierData.mainSelectedMainPosition
 import com.party.common.DetailCarrierData.subSelectedCarrier
 import com.party.common.DetailCarrierData.subSelectedDetailPosition
+import com.party.common.DetailCarrierData.subSelectedDetailPositionId
 import com.party.common.DetailCarrierData.subSelectedMainPosition
 import com.party.common.HeightSpacer
 import com.party.common.R
@@ -61,12 +63,18 @@ fun ChoiceCarrierPositionScreen(
             )
             HeightSpacer(heightDp = 20.dp)
             DetailPositionArea(
-                context = context,
                 snackBarHostState = snackBarHostState,
-                selectedPosition = if(isMain) mainSelectedMainPosition else subSelectedMainPosition,
                 selectedDetailPosition = if(isMain) mainSelectedDetailPosition else subSelectedDetailPosition,
                 detailCarrierViewModel = detailCarrierViewModel,
-                onSelect = { if(isMain) mainSelectedDetailPosition = it else subSelectedDetailPosition = it },
+                onSelect = {
+                    if(isMain) {
+                        mainSelectedDetailPosition = it.sub
+                        mainSelectedDetailPositionId = it.id
+                    } else {
+                        subSelectedDetailPosition = it.sub
+                        subSelectedDetailPositionId = it.id
+                    }
+                },
             )
         }
 

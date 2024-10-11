@@ -5,7 +5,10 @@ import com.party.data.entity.user.detail.SaveInterestLocationEntity
 import com.party.data.entity.user.auth.SocialLoginEntity
 import com.party.data.entity.user.auth.UserSignUpEntity
 import com.party.data.entity.user.detail.PositionListEntity
+import com.party.data.entity.user.detail.SaveCarrierEntity
+import com.party.data.entity.user.detail.SaveCarrierEntity1
 import com.party.domain.model.user.detail.InterestLocationList
+import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
 
@@ -31,4 +34,7 @@ interface UserRemoteSource {
 
     // 특정 직군의 포지션 리스트 조회
     suspend fun getPositions(accessToken: String, main: String): ApiResponse<List<PositionListEntity>>
+
+    // 유저 경력 저장
+    suspend fun saveCarrier(accessToken: String, career: SaveCarrierList): ApiResponse<SaveCarrierEntity1>
 }

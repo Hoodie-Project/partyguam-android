@@ -151,12 +151,10 @@ fun SelectCarrierAndPositionComponent(
 
 @Composable
 fun DetailPositionArea(
-    context: Context,
     snackBarHostState: SnackbarHostState,
-    selectedPosition: String,
     selectedDetailPosition: String,
     detailCarrierViewModel: DetailCarrierViewModel,
-    onSelect: (String) -> Unit,
+    onSelect: (PositionListResponse) -> Unit,
 ) {
     val detailPositionListState by detailCarrierViewModel.positionsState.collectAsState()
     val detailPositionListResult = detailPositionListState.data
@@ -177,7 +175,7 @@ fun DetailPositionArea(
                     }
                 ){ _, item ->
                     SubPositionAreaComponent(
-                        text = item.sub,
+                        item = item,
                         selected = item.sub == selectedDetailPosition,
                         onSelect = {onSelect(it)}
                     )
@@ -193,9 +191,9 @@ fun DetailPositionArea(
 
 @Composable
 fun SubPositionAreaComponent(
-    text: String,
+    item: PositionListResponse,
     selected: Boolean,
-    onSelect: (String) -> Unit,
+    onSelect: (PositionListResponse) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -205,7 +203,7 @@ fun SubPositionAreaComponent(
         RadioButton(
             modifier = Modifier.size(16.dp),
             selected = selected,
-            onClick = { onSelect(text) },
+            onClick = { onSelect(item) },
             colors = RadioButtonDefaults.colors(
                 selectedColor = PRIMARY,
                 unselectedColor = GRAY200,
@@ -213,7 +211,7 @@ fun SubPositionAreaComponent(
         )
         WidthSpacer(widthDp = 6.dp)
         Text(
-            text = text,
+            text = item.sub,
             fontSize = B2,
             color = BLACK
         )

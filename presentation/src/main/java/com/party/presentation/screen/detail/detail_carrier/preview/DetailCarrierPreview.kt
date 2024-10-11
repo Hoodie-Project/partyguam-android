@@ -1,5 +1,6 @@
 package com.party.presentation.screen.detail.detail_carrier.preview
 
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -15,6 +16,7 @@ import com.party.presentation.screen.detail.detail_carrier.PositionArea
 fun PreviewDetailCarrierScreen() {
     DetailCarrierScreen(
         context = LocalContext.current,
+        snackBarHostState = SnackbarHostState(),
         navController = rememberNavController()
     )
 }

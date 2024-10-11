@@ -86,11 +86,6 @@ class JoinViewModel @Inject constructor(
             }
         }
     }
-    fun joinSuccess(){
-        viewModelScope.launch {
-
-        }
-    }
 
     private fun saveAccessToken(token: String){
         viewModelScope.launch(Dispatchers.IO) {

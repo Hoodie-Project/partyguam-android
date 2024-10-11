@@ -5,6 +5,8 @@ import com.party.domain.model.user.detail.LocationResponse
 import com.party.domain.model.user.SocialLoginResponse
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PositionListResponse
+import com.party.domain.model.user.detail.SaveCarrierList
+import com.party.domain.model.user.detail.SaveCarrierResponse
 import com.party.domain.model.user.detail.SaveInterestLocationResponse
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.model.user.signup.UserSignUpResponse
@@ -31,5 +33,8 @@ interface UserRepository {
 
     // 특정 직군의 포지션 리스트 조회
     suspend fun getPositions(accessToken: String, main: String): ServerApiResponse<List<PositionListResponse>>
+
+    // 유저 경력 저장
+    suspend fun saveCarrier(accessToken: String, career: SaveCarrierList): ServerApiResponse<List<SaveCarrierResponse>>
 
 }

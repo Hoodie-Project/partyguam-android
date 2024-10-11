@@ -3,6 +3,7 @@ package com.party.presentation.screen.detail.detail_carrier
 import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -22,6 +23,7 @@ import com.party.presentation.screen.detail.ProfileIndicatorArea
 @Composable
 fun DetailCarrierScreen(
     context: Context,
+    snackBarHostState: SnackbarHostState,
     navController: NavController,
     detailCarrierViewModel: DetailCarrierViewModel = hiltViewModel()
 ) {
@@ -61,7 +63,11 @@ fun DetailCarrierScreen(
         }
 
         DetailCarrierBottomArea(
-            navController = navController
+            context = context,
+            snackBarHostState = snackBarHostState,
+            navController = navController,
+            detailCarrierViewModel = detailCarrierViewModel,
+            accessToken = accessToken,
         )
     }
 }

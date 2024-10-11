@@ -5,7 +5,10 @@ import com.party.data.entity.user.detail.SaveInterestLocationEntity
 import com.party.data.entity.user.auth.SocialLoginSuccessEntity
 import com.party.data.entity.user.auth.UserSignUpEntity
 import com.party.data.entity.user.detail.PositionListEntity
+import com.party.data.entity.user.detail.SaveCarrierEntity
+import com.party.data.entity.user.detail.SaveCarrierEntity1
 import com.party.domain.model.user.detail.InterestLocationList
+import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.Body
@@ -62,4 +65,11 @@ interface UserService {
         @Header("Authorization") accessToken: String,
         @Query("main") main: String,
     ): ApiResponse<List<PositionListEntity>>
+
+    // 유저 경력 저장
+    @POST("api/users/me/careers")
+    suspend fun saveCareer(
+        @Header("Authorization") accessToken: String,
+        @Body career: SaveCarrierList,
+    ): ApiResponse<SaveCarrierEntity1>
 }

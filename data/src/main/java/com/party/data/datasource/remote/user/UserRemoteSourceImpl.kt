@@ -5,8 +5,11 @@ import com.party.data.entity.user.detail.SaveInterestLocationEntity
 import com.party.data.entity.user.auth.SocialLoginEntity
 import com.party.data.entity.user.auth.UserSignUpEntity
 import com.party.data.entity.user.detail.PositionListEntity
+import com.party.data.entity.user.detail.SaveCarrierEntity
+import com.party.data.entity.user.detail.SaveCarrierEntity1
 import com.party.data.service.UserService
 import com.party.domain.model.user.detail.InterestLocationList
+import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
 import javax.inject.Inject
@@ -52,5 +55,12 @@ class UserRemoteSourceImpl @Inject constructor(
         main: String
     ): ApiResponse<List<PositionListEntity>> {
         return userService.getPositions(accessToken = accessToken, main = main)
+    }
+
+    override suspend fun saveCarrier(
+        accessToken: String,
+        career: SaveCarrierList
+    ): ApiResponse<SaveCarrierEntity1> {
+        return userService.saveCareer(accessToken = accessToken, career = career)
     }
 }

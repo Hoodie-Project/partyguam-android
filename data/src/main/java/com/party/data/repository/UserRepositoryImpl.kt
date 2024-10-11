@@ -13,6 +13,8 @@ import com.party.domain.model.user.detail.LocationResponse
 import com.party.domain.model.user.SocialLoginResponse
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PositionListResponse
+import com.party.domain.model.user.detail.SaveCarrierList
+import com.party.domain.model.user.detail.SaveCarrierResponse
 import com.party.domain.model.user.detail.SaveInterestLocationResponse
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.model.user.signup.UserSignUpResponse
@@ -211,6 +213,37 @@ class UserRepositoryImpl @Inject constructor(
             is ApiResponse.Failure.Exception -> {
                 ExceptionResponse(message = result.message)
             }
+        }
+    }
+
+    override suspend fun saveCarrier(
+        accessToken: String,
+        career: SaveCarrierList
+    ): ServerApiResponse<List<SaveCarrierResponse>> {
+        return when(val result = userRemoteSource.saveCarrier(accessToken = accessToken, career = career)){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = result.data.career.map { UserMapper.mapperToSaveCarrierResponse(it) })
+            }
+            is ApiResponse.Failure.Error -> {
+                val errorBody = result.errorBody?.string()
+                when(result.statusCode){
+                    StatusCode.Conflict -> {
+                        val errorResponse = Json.decodeFromString<ErrorResponse<SaveCarrierResponse>>(errorBody!!)
+                        ErrorResponse(
+                            statusCode = StatusCode.Conflict.code,
+                            message = errorResponse.message,
+                        )
+                    }
+                    else -> ErrorResponse(
+                        statusCode = StatusCode.InternalServerError.code,
+                        message = "알 수 없는 오류가 발생했습니다."
+                    )
+                }
+            }
+            is ApiResponse.Failure.Exception -> {
+                ExceptionResponse(message = result.message)
+            }
+
         }
     }
 }
