@@ -1,41 +1,40 @@
 package com.party.presentation.screen.detail.choice_carrier_position
 
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.party.common.DetailCarrierData.mainSelectedDetailPosition
+import com.party.common.DetailCarrierData.mainSelectedCarrier
+import com.party.common.DetailCarrierData.mainSelectedMainPosition
+import com.party.common.DetailCarrierData.subSelectedCarrier
+import com.party.common.DetailCarrierData.subSelectedDetailPosition
+import com.party.common.DetailCarrierData.subSelectedMainPosition
 import com.party.common.HeightSpacer
 import com.party.common.R
+import com.party.common.makeAccessToken
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.LIGHT200
 import com.party.common.ui.theme.PRIMARY
-import com.party.navigation.Screens
 import com.party.presentation.screen.detail.DetailProfileNextButton
+import com.party.presentation.screen.detail.detail_carrier.DetailCarrierViewModel
 
 @Composable
 fun ChoiceCarrierPositionScreen(
+    context: Context,
+    snackBarHostState: SnackbarHostState,
     navController: NavController,
+    accessToken: String,
+    isMain: Boolean,
+    detailCarrierViewModel: DetailCarrierViewModel = hiltViewModel(),
 ) {
-    var selectedCarrier by remember {
-        mutableStateOf("")
-    }
-
-    var selectedPosition by remember {
-        mutableStateOf("")
-    }
-
-    var selectedDetailPosition by remember {
-        mutableStateOf("")
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -47,41 +46,45 @@ fun ChoiceCarrierPositionScreen(
             SelectCarrierArea(
                 title = stringResource(id = R.string.choice_carrier_position1),
                 list = carrierList,
-                selectedCarrier = selectedCarrier,
-                onSelect = {
-                    selectedCarrier = it
-                },
+                selectedCarrier = if(isMain) mainSelectedCarrier else subSelectedCarrier,
+                onSelect = { if(isMain) mainSelectedCarrier = it else subSelectedCarrier = it },
             )
             HeightSpacer(heightDp = 20.dp)
             SelectPositionArea(
                 title = stringResource(id = R.string.choice_carrier_position2),
                 list = positionList,
-                selectedPosition = selectedPosition,
+                selectedPosition = if(isMain) mainSelectedMainPosition else subSelectedMainPosition,
                 onSelect = {
-                    selectedPosition = it
+                    if(isMain) mainSelectedMainPosition = it else subSelectedMainPosition = it
+                    detailCarrierViewModel.getPositions(accessToken = makeAccessToken(context, accessToken))
                 },
             )
             HeightSpacer(heightDp = 20.dp)
             DetailPositionArea(
-                selectedPosition = selectedPosition,
-                selectedDetailPosition = selectedDetailPosition,
-                onSelect = {
-                    selectedDetailPosition = it
-                },
+                context = context,
+                snackBarHostState = snackBarHostState,
+                selectedPosition = if(isMain) mainSelectedMainPosition else subSelectedMainPosition,
+                selectedDetailPosition = if(isMain) mainSelectedDetailPosition else subSelectedDetailPosition,
+                detailCarrierViewModel = detailCarrierViewModel,
+                onSelect = { if(isMain) mainSelectedDetailPosition = it else subSelectedDetailPosition = it },
             )
         }
 
         HeightSpacer(heightDp = 12.dp)
 
         DetailProfileNextButton(
-            navController = navController,
-            routeScreens = null,
             text = stringResource(id = R.string.choice_carrier_position3),
-            textColor = nextButtonContainerAndTextColor(selectedCarrier, selectedPosition, selectedDetailPosition).second,
-            containerColor = nextButtonContainerAndTextColor(selectedCarrier, selectedPosition, selectedDetailPosition).first,
-            onBackPressed = {
-                navController.popBackStack()
-            }
+            textColor = nextButtonContainerAndTextColor(
+                if(isMain) mainSelectedCarrier else subSelectedCarrier,
+                if(isMain) mainSelectedMainPosition else subSelectedMainPosition,
+                if(isMain) mainSelectedDetailPosition else subSelectedDetailPosition,
+            ).second,
+            containerColor = nextButtonContainerAndTextColor(
+                if(isMain) mainSelectedCarrier else subSelectedCarrier,
+                if(isMain) mainSelectedMainPosition else subSelectedMainPosition,
+                if(isMain) mainSelectedDetailPosition else subSelectedDetailPosition,
+            ).first,
+            onClick = { navController.popBackStack() },
         )
     }
 }

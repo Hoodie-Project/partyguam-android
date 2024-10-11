@@ -40,7 +40,7 @@ fun LoginScreen(
     LaunchedEffect(key1 = Unit) {
         loginViewModel.goToHomeScreen.collectLatest {
             //navController.navigate(Screens.Home)
-            navController.navigate(Screens.DetailProfile)
+            navController.navigate(Screens.DetailCarrier)
         }
     }
 

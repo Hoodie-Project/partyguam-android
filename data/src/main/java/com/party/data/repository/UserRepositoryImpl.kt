@@ -12,6 +12,7 @@ import com.party.data.mapper.UserMapper.mapperUserSignUpResponse
 import com.party.domain.model.user.detail.LocationResponse
 import com.party.domain.model.user.SocialLoginResponse
 import com.party.domain.model.user.detail.InterestLocationList
+import com.party.domain.model.user.detail.PositionListResponse
 import com.party.domain.model.user.detail.SaveInterestLocationResponse
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.model.user.signup.UserSignUpResponse
@@ -190,6 +191,23 @@ class UserRepositoryImpl @Inject constructor(
                 }
             }
 
+            is ApiResponse.Failure.Exception -> {
+                ExceptionResponse(message = result.message)
+            }
+        }
+    }
+
+    override suspend fun getPositions(
+        accessToken: String,
+        main: String
+    ): ServerApiResponse<List<PositionListResponse>> {
+        return when(val result = userRemoteSource.getPositions(accessToken = accessToken, main = main)){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = result.data.map { UserMapper.mapperToPositionListResponse(it) })
+            }
+            is ApiResponse.Failure.Error -> {
+                ErrorResponse()
+            }
             is ApiResponse.Failure.Exception -> {
                 ExceptionResponse(message = result.message)
             }

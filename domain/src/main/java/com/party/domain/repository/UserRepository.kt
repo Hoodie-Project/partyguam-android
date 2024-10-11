@@ -4,6 +4,7 @@ import com.party.common.ServerApiResponse
 import com.party.domain.model.user.detail.LocationResponse
 import com.party.domain.model.user.SocialLoginResponse
 import com.party.domain.model.user.detail.InterestLocationList
+import com.party.domain.model.user.detail.PositionListResponse
 import com.party.domain.model.user.detail.SaveInterestLocationResponse
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.model.user.signup.UserSignUpResponse
@@ -27,5 +28,8 @@ interface UserRepository {
 
     // 관심지역 저장
     suspend fun saveInterestLocation(accessToken: String, locations: InterestLocationList): ServerApiResponse<List<SaveInterestLocationResponse>>
+
+    // 특정 직군의 포지션 리스트 조회
+    suspend fun getPositions(accessToken: String, main: String): ServerApiResponse<List<PositionListResponse>>
 
 }

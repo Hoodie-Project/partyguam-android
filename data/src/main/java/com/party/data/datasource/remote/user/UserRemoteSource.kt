@@ -1,9 +1,10 @@
 package com.party.data.datasource.remote.user
 
-import com.party.data.entity.user.LocationEntity
-import com.party.data.entity.user.SaveInterestLocationEntity
+import com.party.data.entity.user.detail.LocationEntity
+import com.party.data.entity.user.detail.SaveInterestLocationEntity
 import com.party.data.entity.user.auth.SocialLoginEntity
 import com.party.data.entity.user.auth.UserSignUpEntity
+import com.party.data.entity.user.detail.PositionListEntity
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
@@ -27,4 +28,7 @@ interface UserRemoteSource {
 
     // 관심지역 저장
     suspend fun saveInterestLocation(accessToken: String, locations: InterestLocationList): ApiResponse<List<SaveInterestLocationEntity>>
+
+    // 특정 직군의 포지션 리스트 조회
+    suspend fun getPositions(accessToken: String, main: String): ApiResponse<List<PositionListEntity>>
 }

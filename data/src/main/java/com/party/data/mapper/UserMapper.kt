@@ -1,14 +1,16 @@
 package com.party.data.mapper
 
-import com.party.data.entity.user.LocationEntity
-import com.party.data.entity.user.SaveInterestLocationEntity
+import com.party.data.entity.user.detail.LocationEntity
+import com.party.data.entity.user.detail.SaveInterestLocationEntity
 import com.party.data.entity.user.auth.SocialLoginErrorEntity
 import com.party.data.entity.user.auth.SocialLoginSuccessEntity
 import com.party.data.entity.user.auth.UserSignUpEntity
+import com.party.data.entity.user.detail.PositionListEntity
 import com.party.domain.model.user.detail.LocationResponse
 import com.party.domain.model.user.SocialLoginErrorResponse
 import com.party.domain.model.user.SocialLoginResponse
 import com.party.domain.model.user.SocialLoginSuccessResponse
+import com.party.domain.model.user.detail.PositionListResponse
 import com.party.domain.model.user.detail.SaveInterestLocationResponse
 import com.party.domain.model.user.signup.UserSignUpResponse
 
@@ -46,6 +48,14 @@ object UserMapper {
             id = saveInterestLocationEntity.id,
             userId = saveInterestLocationEntity.userId,
             locationId = saveInterestLocationEntity.locationId,
+        )
+    }
+
+    fun mapperToPositionListResponse(positionListEntity: PositionListEntity): PositionListResponse {
+        return PositionListResponse(
+            id = positionListEntity.id,
+            main = positionListEntity.main,
+            sub = positionListEntity.sub,
         )
     }
 }

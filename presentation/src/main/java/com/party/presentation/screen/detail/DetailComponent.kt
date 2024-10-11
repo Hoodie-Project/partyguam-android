@@ -43,20 +43,13 @@ import com.party.presentation.screen.detail.detail_profile.SELECTED_LOCATION_COU
 
 @Composable
 fun DetailProfileNextButton(
-    navController: NavController,
-    routeScreens: Screens? = null,
-    onBackPressed: () -> Unit = {},
     onClick: () -> Unit = {},
     text: String,
     textColor: Color,
     containerColor: Color,
 ) {
     Button(
-        onClick = {
-            onClick()
-            //if(routeScreens != null) navController.navigate(routeScreens)
-            //else onBackPressed()
-        },
+        onClick = { onClick() },
         modifier = Modifier
             .fillMaxWidth()
             .height(LARGE_BUTTON_HEIGHT),

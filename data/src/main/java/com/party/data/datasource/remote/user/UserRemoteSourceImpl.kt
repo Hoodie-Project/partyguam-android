@@ -1,9 +1,10 @@
 package com.party.data.datasource.remote.user
 
-import com.party.data.entity.user.LocationEntity
-import com.party.data.entity.user.SaveInterestLocationEntity
+import com.party.data.entity.user.detail.LocationEntity
+import com.party.data.entity.user.detail.SaveInterestLocationEntity
 import com.party.data.entity.user.auth.SocialLoginEntity
 import com.party.data.entity.user.auth.UserSignUpEntity
+import com.party.data.entity.user.detail.PositionListEntity
 import com.party.data.service.UserService
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.signup.UserSignUpRequest
@@ -44,5 +45,12 @@ class UserRemoteSourceImpl @Inject constructor(
         locations: InterestLocationList,
     ): ApiResponse<List<SaveInterestLocationEntity>> {
         return userService.saveInterestLocation(accessToken = accessToken, locations = locations)
+    }
+
+    override suspend fun getPositions(
+        accessToken: String,
+        main: String
+    ): ApiResponse<List<PositionListEntity>> {
+        return userService.getPositions(accessToken = accessToken, main = main)
     }
 }

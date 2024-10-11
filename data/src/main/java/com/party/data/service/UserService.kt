@@ -1,9 +1,10 @@
 package com.party.data.service
 
-import com.party.data.entity.user.LocationEntity
-import com.party.data.entity.user.SaveInterestLocationEntity
+import com.party.data.entity.user.detail.LocationEntity
+import com.party.data.entity.user.detail.SaveInterestLocationEntity
 import com.party.data.entity.user.auth.SocialLoginSuccessEntity
 import com.party.data.entity.user.auth.UserSignUpEntity
+import com.party.data.entity.user.detail.PositionListEntity
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
@@ -54,4 +55,11 @@ interface UserService {
         @Header("Authorization") accessToken: String,
         @Body locations: InterestLocationList,
     ): ApiResponse<List<SaveInterestLocationEntity>>
+
+    // 특정 직군의 포지션 리스트 조회
+    @GET("api/positions")
+    suspend fun getPositions(
+        @Header("Authorization") accessToken: String,
+        @Query("main") main: String,
+    ): ApiResponse<List<PositionListEntity>>
 }

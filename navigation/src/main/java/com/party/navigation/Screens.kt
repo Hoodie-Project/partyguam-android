@@ -50,9 +50,9 @@ sealed interface Screens : ArgInterface {
         override val icon: ImageVector? = null
     }
     @Serializable
-    data object ChoiceCarrierPosition: Screens {
+    data class ChoiceCarrierPosition(val accessToken: String, val isMain: Boolean): Screens {
         override val title: String = NavigationTitle.CHOICE_CARRIER_POSITION
-        override val icon: ImageVector? = null
+        override val icon: ImageVector? get() = null
     }
     @Serializable
     data object SelectTendency1: Screens {

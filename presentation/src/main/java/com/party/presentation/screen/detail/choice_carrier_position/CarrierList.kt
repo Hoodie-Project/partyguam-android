@@ -21,7 +21,7 @@ val positionList = listOf(
     "마케터/광고",
 )
 
-fun positionToDetailList(selectedPosition: String): List<String>{
+/*fun positionToDetailList(selectedPosition: String): List<String>{
     return when(selectedPosition){
         "기획자" -> planningList
         "디자이너" -> designList
@@ -30,8 +30,9 @@ fun positionToDetailList(selectedPosition: String): List<String>{
         else -> emptyList()
 
     }
-}
+}*/
 
+/*
 val planningList = listOf(
     "UI/UX 기획자",
     "PM (프로젝트 매니저)",
@@ -76,4 +77,4 @@ val marketerList = listOf(
     "브랜드 마케터",
     "퍼포먼스 마케터",
     "컨텐츠 마케터"
-)
+)*/

@@ -87,8 +87,6 @@ fun SelectedLocationArea(
         HeightSpacer(heightDp = 12.dp)
 
         DetailProfileNextButton(
-            navController = navController,
-            routeScreens = Screens.DetailCarrier,
             text = stringResource(id = R.string.common1),
             textColor = if((1..SELECTED_LOCATION_COUNT).contains(selectedLocationList.size)) BLACK else GRAY400,
             containerColor = if((1..SELECTED_LOCATION_COUNT).contains(selectedLocationList.size)) PRIMARY else LIGHT400,

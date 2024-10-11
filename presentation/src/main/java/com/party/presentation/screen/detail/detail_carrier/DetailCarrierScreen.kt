@@ -1,30 +1,35 @@
 package com.party.presentation.screen.detail.detail_carrier
 
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.party.common.HeightSpacer
 import com.party.common.R
-import com.party.common.TextComponent
+import com.party.common.ScreenExplainArea
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.T2
-import com.party.common.ui.theme.T3
 import com.party.presentation.screen.detail.ProfileIndicatorArea
 
 @Composable
 fun DetailCarrierScreen(
+    context: Context,
     navController: NavController,
+    detailCarrierViewModel: DetailCarrierViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(Unit) {
+        detailCarrierViewModel.getAccessToken().join()
+    }
+    val accessToken by detailCarrierViewModel.accessToken.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -43,25 +48,15 @@ fun DetailCarrierScreen(
                 indicatorText = stringResource(id = R.string.detail_profile3),
             )
 
-            HeightSpacer(heightDp = 32.dp)
-
-            TextComponent(
-                text = stringResource(id = R.string.detail_carrier1),
-                fontWeight = FontWeight.Bold,
-                fontSize = T2,
+            ScreenExplainArea(
+                mainExplain = stringResource(id = R.string.detail_carrier1),
+                subExplain = stringResource(id = R.string.detail_carrier2),
             )
-
-            HeightSpacer(heightDp = 12.dp)
-
-            TextComponent(
-                text = stringResource(id = R.string.detail_carrier2),
-                fontSize = T3,
-            )
-
-            HeightSpacer(heightDp = 40.dp)
 
             PositionArea(
-                navController = navController
+                context = context,
+                navController = navController,
+                accessToken = accessToken,
             )
         }
 
@@ -69,12 +64,4 @@ fun DetailCarrierScreen(
             navController = navController
         )
     }
-}
-
-@Preview
-@Composable
-fun PreviewDetailCarrierScreen() {
-    DetailCarrierScreen(
-        navController = rememberNavController()
-    )
 }
