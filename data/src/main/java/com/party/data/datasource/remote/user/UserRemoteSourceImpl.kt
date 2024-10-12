@@ -4,6 +4,7 @@ import com.party.data.entity.user.detail.LocationEntity
 import com.party.data.entity.user.detail.SaveInterestLocationEntity
 import com.party.data.entity.user.auth.SocialLoginEntity
 import com.party.data.entity.user.auth.UserSignUpEntity
+import com.party.data.entity.user.detail.PersonalityListEntity
 import com.party.data.entity.user.detail.PositionListEntity
 import com.party.data.entity.user.detail.SaveCarrierEntity
 import com.party.data.entity.user.detail.SaveCarrierEntity1
@@ -62,5 +63,9 @@ class UserRemoteSourceImpl @Inject constructor(
         career: SaveCarrierList
     ): ApiResponse<SaveCarrierEntity1> {
         return userService.saveCareer(accessToken = accessToken, career = career)
+    }
+
+    override suspend fun getPersonalities(accessToken: String): ApiResponse<List<PersonalityListEntity>> {
+        return userService.getPersonalities(accessToken = accessToken)
     }
 }

@@ -4,6 +4,7 @@ import com.party.data.entity.user.detail.LocationEntity
 import com.party.data.entity.user.detail.SaveInterestLocationEntity
 import com.party.data.entity.user.auth.SocialLoginSuccessEntity
 import com.party.data.entity.user.auth.UserSignUpEntity
+import com.party.data.entity.user.detail.PersonalityListEntity
 import com.party.data.entity.user.detail.PositionListEntity
 import com.party.data.entity.user.detail.SaveCarrierEntity
 import com.party.data.entity.user.detail.SaveCarrierEntity1
@@ -72,4 +73,10 @@ interface UserService {
         @Header("Authorization") accessToken: String,
         @Body career: SaveCarrierList,
     ): ApiResponse<SaveCarrierEntity1>
+
+    // 성향 질문 리스트 전체 조회
+    @GET("api/personalities")
+    suspend fun getPersonalities(
+        @Header("Authorization") accessToken: String,
+    ): ApiResponse<List<PersonalityListEntity>>
 }

@@ -27,6 +27,7 @@ import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
+import com.party.domain.model.user.detail.PersonalityListOptionResponse
 import com.party.navigation.Screens
 import com.party.presentation.screen.detail.ProfileIndicatorArea
 
@@ -77,12 +78,12 @@ fun SelectTendencyScreen2(
 
             HeightSpacer(heightDp = 40.dp)
 
-            SelectTendencyArea2(
+            /*SelectTendencyArea2(
                 selectedTendency = selectedTendency,
                 onSelect = {
                     selectedTendency = it
                 }
-            )
+            )*/
         }
 
         TendencyBottomArea(
@@ -92,14 +93,16 @@ fun SelectTendencyScreen2(
             textColor = BLACK,
             borderColor = if(isValid) LIGHT100 else GRAY200,
             containerColor = if(isValid) PRIMARY else WHITE,
+            onClick = {}
         )
     }
 }
 
 @Composable
 fun SelectTendencyArea2(
-    selectedTendency: String,
-    onSelect: (String) -> Unit,
+    selectedTendencyList: MutableList<PersonalityListOptionResponse>,
+    getPersonalityList: List<PersonalityListOptionResponse>,
+    onSelect: (PersonalityListOptionResponse) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -107,16 +110,16 @@ fun SelectTendencyArea2(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         itemsIndexed(
-            items = tendencyList,
+            items = getPersonalityList,
             key =  { index, _ ->
                 index
             }
         ) { _, item ->
             SelectTendencyAreaComponent(
-                containerColor = if(selectedTendency == item) PRIMARY else WHITE,
-                text = item,
-                fontWeight = if(selectedTendency == item) FontWeight.Bold else FontWeight.Normal,
-                iconColor = if(selectedTendency == item) DARK100 else GRAY200,
+                containerColor = if(selectedTendencyList.contains(item)) PRIMARY else WHITE,
+                item = item,
+                fontWeight = if(selectedTendencyList.contains(item)) FontWeight.Bold else FontWeight.Normal,
+                iconColor = if(selectedTendencyList.contains(item)) DARK100 else GRAY200,
                 onSelect = {
                     onSelect(it)
                 },

@@ -36,17 +36,14 @@ import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.EXTRA_LARGE_BUTTON_HEIGHT2
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.LARGE_BUTTON_HEIGHT
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.LIGHT100
-import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T3
-import com.party.common.ui.theme.WHITE
+import com.party.domain.model.user.detail.PersonalityListOptionResponse
 import com.party.navigation.Screens
 
 
@@ -58,18 +55,18 @@ fun TendencyBottomArea(
     textColor: Color,
     borderColor: Color,
     containerColor: Color,
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
     ) {
         TendencyNextButton(
-            navController = navController,
-            routeScreens = routeScreens,
             text = buttonText,
             textColor = textColor,
             borderColor = borderColor,
-            containerColor = containerColor
+            containerColor = containerColor,
+            onClick = onClick
         )
 
         HeightSpacer(heightDp = 20.dp)
@@ -83,26 +80,25 @@ fun TendencyBottomArea(
             textDecoration = TextDecoration.Underline,
             textAlign = Alignment.Center,
             textColor = GRAY500,
+            onClick = { navController.navigate(routeScreens) }
         )
 
         HeightSpacer(heightDp = 20.dp)
     }
-    
 }
 @SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun TendencyNextButton(
     modifier: Modifier = Modifier,
-    navController: NavController,
-    routeScreens: Screens,
     text: String,
     textColor: Color,
     containerColor: Color,
     borderColor: Color,
+    onClick: () -> Unit = {},
 ) {
     Button(
         onClick = {
-            navController.navigate(routeScreens)
+            onClick()
         },
         modifier = modifier
             .fillMaxWidth()
@@ -126,17 +122,17 @@ fun TendencyNextButton(
 @Composable
 fun SelectTendencyAreaComponent(
     containerColor: Color,
-    text: String,
+    item: PersonalityListOptionResponse,
     fontWeight: FontWeight,
     iconColor: Color,
-    onSelect: (String) -> Unit,
+    onSelect: (PersonalityListOptionResponse) -> Unit,
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(EXTRA_LARGE_BUTTON_HEIGHT2)
             .noRippleClickable {
-                onSelect(text)
+                onSelect(item)
             },
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
         border = BorderStroke(1.dp, GRAY200),
@@ -164,23 +160,11 @@ fun SelectTendencyAreaComponent(
                 )
                 WidthSpacer(widthDp = 6.dp)
                 Text(
-                    text = text,
+                    text = item.content,
                     fontWeight = fontWeight,
                     fontSize = T3
                 )
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun SelectTendencyAreaComponentPreview() {
-    SelectTendencyAreaComponent(
-        containerColor = GRAY100,
-        text = "오전 (6시 - 12시)",
-        fontWeight = FontWeight.Normal,
-        iconColor = GRAY200,
-        onSelect = {}
-    )
 }

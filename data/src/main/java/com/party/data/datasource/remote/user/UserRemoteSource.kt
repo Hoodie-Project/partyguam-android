@@ -4,6 +4,7 @@ import com.party.data.entity.user.detail.LocationEntity
 import com.party.data.entity.user.detail.SaveInterestLocationEntity
 import com.party.data.entity.user.auth.SocialLoginEntity
 import com.party.data.entity.user.auth.UserSignUpEntity
+import com.party.data.entity.user.detail.PersonalityListEntity
 import com.party.data.entity.user.detail.PositionListEntity
 import com.party.data.entity.user.detail.SaveCarrierEntity
 import com.party.data.entity.user.detail.SaveCarrierEntity1
@@ -37,4 +38,7 @@ interface UserRemoteSource {
 
     // 유저 경력 저장
     suspend fun saveCarrier(accessToken: String, career: SaveCarrierList): ApiResponse<SaveCarrierEntity1>
+
+    // 성향 질문 리스트 전체 조회
+    suspend fun getPersonalities(accessToken: String): ApiResponse<List<PersonalityListEntity>>
 }

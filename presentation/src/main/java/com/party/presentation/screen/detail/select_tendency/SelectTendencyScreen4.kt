@@ -101,6 +101,7 @@ fun SelectTendencyScreen4(
             textColor = BLACK,
             borderColor = if(isValid) LIGHT100 else GRAY200,
             containerColor = if(isValid) PRIMARY else WHITE,
+            onClick = {}
         )
     }
 }
@@ -121,15 +122,15 @@ fun SelectTendencyArea4(
                 index
             }
         ){_, item ->
-            SelectTendencyAreaComponent(
+            /*SelectTendencyAreaComponent(
                 containerColor = if(selectedTendencyList.contains(item)) PRIMARY else WHITE,
-                text = item,
+                item = item,
                 fontWeight = if(selectedTendencyList.contains(item)) FontWeight.Bold else FontWeight.Normal,
                 iconColor = if(selectedTendencyList.contains(item)) DARK100 else GRAY200,
                 onSelect = {
                     onSelect(it)
                 },
-            )
+            )*/
         }
     }
 }

@@ -12,6 +12,7 @@ import com.party.data.mapper.UserMapper.mapperUserSignUpResponse
 import com.party.domain.model.user.detail.LocationResponse
 import com.party.domain.model.user.SocialLoginResponse
 import com.party.domain.model.user.detail.InterestLocationList
+import com.party.domain.model.user.detail.PersonalityListResponse
 import com.party.domain.model.user.detail.PositionListResponse
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.detail.SaveCarrierResponse
@@ -244,6 +245,20 @@ class UserRepositoryImpl @Inject constructor(
                 ExceptionResponse(message = result.message)
             }
 
+        }
+    }
+
+    override suspend fun getPersonalities(accessToken: String): ServerApiResponse<List<PersonalityListResponse>> {
+        return when(val result = userRemoteSource.getPersonalities(accessToken = accessToken)){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = result.data.map { UserMapper.mapperToPersonalityListResponse(it) })
+            }
+            is ApiResponse.Failure.Error -> {
+                ErrorResponse()
+            }
+            is ApiResponse.Failure.Exception -> {
+                ExceptionResponse(message = result.message)
+            }
         }
     }
 }

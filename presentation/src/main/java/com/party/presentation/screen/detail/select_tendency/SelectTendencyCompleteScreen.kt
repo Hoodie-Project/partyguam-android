@@ -77,37 +77,26 @@ fun FinishButtonArea(
     ) {
         TendencyNextButton(
             modifier = Modifier.weight(0.5f),
-            navController = navController,
-            routeScreens = Screens.SelectTendency2,
+            //navController = navController,
+            //routeScreens = Screens.SelectTendency2,
             text = stringResource(id = R.string.select_tendency9),
             textColor = BLACK,
             containerColor = WHITE,
-            borderColor = PRIMARY
+            borderColor = PRIMARY,
+            onClick = {}
         )
 
         WidthSpacer(widthDp = 8.dp)
 
         TendencyNextButton(
             modifier = Modifier.weight(0.5f),
-            navController = navController,
-            routeScreens = Screens.SelectTendency2,
+            //navController = navController,
+            //routeScreens = Screens.SelectTendency2,
             text = stringResource(id = R.string.common4),
             textColor = BLACK,
             containerColor = PRIMARY,
-            borderColor = PRIMARY
+            borderColor = PRIMARY,
+            onClick = {}
         )
     }
-}
-
-
-@Preview
-@Composable
-fun SelectTendencyCompleteScreenPreview() {
-    SelectTendencyCompleteScreen(navController = rememberNavController())
-}
-
-@Preview
-@Composable
-fun FinishButtonAreaPreview() {
-    FinishButtonArea(navController = rememberNavController())
 }

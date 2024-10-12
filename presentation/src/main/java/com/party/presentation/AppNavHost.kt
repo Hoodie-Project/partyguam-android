@@ -213,6 +213,7 @@ fun AppNavHost() {
             }
             composable<Screens.SelectTendency1> {
                 SelectTendencyScreen1(
+                    context = context,
                     navController = navController,
                     snackBarHostState = snackBarHostState
                 )
