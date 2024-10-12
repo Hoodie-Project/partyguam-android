@@ -75,7 +75,7 @@ fun SelectTendencyScreen4(
 
     val isValid by remember {
         mutableStateOf(false)
-    }.apply { value = selectedTendencyList.size == 2 }
+    }.apply { value = selectedTendencyList.size in 1..2 }
 
     Column(
         modifier = Modifier
@@ -128,11 +128,15 @@ fun SelectTendencyScreen4(
         TendencyBottomArea(
             navController = navController,
             routeScreens = Screens.SelectTendencyComplete,
-            buttonText = stringResource(id = R.string.common1),
+            buttonText = stringResource(id = R.string.common2),
             textColor = if(isValid) BLACK else GRAY400,
             borderColor = if(isValid) PRIMARY else LIGHT200,
             containerColor = if(isValid) PRIMARY else LIGHT400,
-            onClick = {}
+            onClick = {
+                if(isValid){
+                    navController.navigate(Screens.SelectTendencyComplete)
+                }
+            }
         )
     }
 }

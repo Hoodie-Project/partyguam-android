@@ -75,7 +75,7 @@ fun SelectTendencyScreen3(
 
     val isValid by remember {
         mutableStateOf(false)
-    }.apply { value = selectedTendencyList.size == 2 }
+    }.apply { value = selectedTendencyList.size in 1..2 }
 
     Column(
         modifier = Modifier
@@ -132,7 +132,11 @@ fun SelectTendencyScreen3(
             textColor = if(isValid) BLACK else GRAY400,
             borderColor = if(isValid) PRIMARY else LIGHT200,
             containerColor = if(isValid) PRIMARY else LIGHT400,
-            onClick = {navController.navigate(Screens.SelectTendency4)}
+            onClick = {
+                if(isValid){
+                    navController.navigate(Screens.SelectTendency4)
+                }
+            }
         )
     }
 }

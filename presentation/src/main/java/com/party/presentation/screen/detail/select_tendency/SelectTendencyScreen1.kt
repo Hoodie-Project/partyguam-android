@@ -127,7 +127,11 @@ fun SelectTendencyScreen1(
             textColor = if(isValid) BLACK else GRAY400,
             borderColor = if(isValid) PRIMARY else LIGHT200,
             containerColor = if(isValid) PRIMARY else LIGHT400,
-            onClick = {navController.navigate(Screens.SelectTendency2)}
+            onClick = {
+                if(isValid){
+                    navController.navigate(Screens.SelectTendency2)
+                }
+            }
         )
     }
 }
