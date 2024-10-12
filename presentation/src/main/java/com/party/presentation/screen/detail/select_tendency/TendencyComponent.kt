@@ -125,6 +125,7 @@ fun SelectTendencyAreaComponent(
     item: PersonalityListOptionResponse,
     fontWeight: FontWeight,
     iconColor: Color,
+    textColor: Color,
     onSelect: (PersonalityListOptionResponse) -> Unit,
 ) {
     Card(
@@ -162,7 +163,8 @@ fun SelectTendencyAreaComponent(
                 Text(
                     text = item.content,
                     fontWeight = fontWeight,
-                    fontSize = T3
+                    fontSize = T3,
+                    color = textColor
                 )
             }
         }

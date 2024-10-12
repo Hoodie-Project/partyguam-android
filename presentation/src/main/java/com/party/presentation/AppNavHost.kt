@@ -220,17 +220,21 @@ fun AppNavHost() {
             }
             composable<Screens.SelectTendency2> {
                 SelectTendencyScreen2(
+                    context = context,
                     navController = navController,
+                    snackBarHostState = snackBarHostState
                 )
             }
             composable<Screens.SelectTendency3> {
                 SelectTendencyScreen3(
+                    context = context,
                     navController = navController,
                     snackBarHostState = snackBarHostState
                 )
             }
             composable<Screens.SelectTendency4> {
                 SelectTendencyScreen4(
+                    context = context,
                     navController = navController,
                     snackBarHostState = snackBarHostState
                 )

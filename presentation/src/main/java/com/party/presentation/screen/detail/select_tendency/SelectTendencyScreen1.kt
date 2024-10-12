@@ -30,9 +30,11 @@ import com.party.common.makeAccessToken
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.DARK100
+import com.party.common.ui.theme.DARK400
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.LIGHT200
+import com.party.common.ui.theme.LIGHT300
 import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
@@ -61,7 +63,6 @@ fun SelectTendencyScreen1(
 
     val personalityListState by selectTendencyViewModel.personalityState.collectAsState()
     val personalityListResult = personalityListState.data
-
 
     val selectedTendencyList by remember {
         mutableStateOf(mutableStateListOf<PersonalityListOptionResponse>())
@@ -93,7 +94,6 @@ fun SelectTendencyScreen1(
                 mainExplain = stringResource(id = R.string.select_tendency1),
                 subExplain = stringResource(id = R.string.select_tendency2),
             )
-
 
             when(personalityListState){
                 is UIState.Idle -> {}
@@ -127,7 +127,7 @@ fun SelectTendencyScreen1(
             textColor = if(isValid) BLACK else GRAY400,
             borderColor = if(isValid) PRIMARY else LIGHT200,
             containerColor = if(isValid) PRIMARY else LIGHT400,
-            onClick = {}
+            onClick = {navController.navigate(Screens.SelectTendency2)}
         )
     }
 }
@@ -150,11 +150,12 @@ fun SelectTendencyArea1(
             }
         ){_, item ->
             SelectTendencyAreaComponent(
-                containerColor = if(selectedTendencyList.contains(item)) PRIMARY else WHITE,
+                containerColor = if(selectedTendencyList.contains(item)) LIGHT300 else WHITE,
                 item = item,
                 fontWeight = if(selectedTendencyList.contains(item)) FontWeight.SemiBold else FontWeight.Normal,
-                iconColor = if(selectedTendencyList.contains(item)) DARK100 else GRAY200,
+                iconColor = if(selectedTendencyList.contains(item)) PRIMARY else GRAY200,
                 onSelect = { onSelect(it) },
+                textColor = if(selectedTendencyList.contains(item)) DARK400 else BLACK,
             )
         }
     }
