@@ -49,7 +49,6 @@ fun CustomTopBar(
         is Screens.SelectTendency2,
         is Screens.SelectTendency3,
         is Screens.SelectTendency4,
-        is Screens.Home,
         -> CenterTopBar(
             currentScreen = currentScreen,
             navHostController = navController,
@@ -58,6 +57,9 @@ fun CustomTopBar(
         )
         is Screens.JoinComplete,
         is Screens.SelectTendencyComplete,
+        is Screens.Home,
+        is Screens.State,
+        is Screens.Profile,
         -> {}
     }
 }
@@ -155,7 +157,6 @@ fun SetNavigationIcon(
         is Screens.SelectTendency2,
         is Screens.SelectTendency3,
         is Screens.SelectTendency4,
-        is Screens.Home,
         -> BackNavigationIcon(
             currentScreen = currentScreen,
             navController = navController,
@@ -165,6 +166,9 @@ fun SetNavigationIcon(
         is Screens.JoinComplete,
         is Screens.DetailProfile,
         is Screens.SelectTendencyComplete,
+        is Screens.Home,
+        is Screens.State,
+        is Screens.Profile,
         -> {}
     }
 }

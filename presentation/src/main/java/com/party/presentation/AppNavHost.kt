@@ -22,6 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
+import com.party.navigation.BottomNavigationBar
 import com.party.navigation.CustomTopBar
 import com.party.navigation.Screens
 import com.party.navigation.fromRoute
@@ -41,18 +42,19 @@ import com.party.presentation.screen.join.email.JoinEmailScreen
 import com.party.presentation.screen.join.gender.JoinGenderScreen
 import com.party.presentation.screen.join.nickname.JoinNickNameScreen
 import com.party.presentation.screen.login.LoginScreen
+import com.party.presentation.screen.profile.ProfileScreen
+import com.party.presentation.screen.state.StateScreen
 
 const val ANIMATION_DURATION = 500
 
 @Composable
 fun AppNavHost() {
+    val context = LocalContext.current
     val navController = rememberNavController()
     val backStackEntry = navController.currentBackStackEntryAsState()
     val currentScreen = backStackEntry.value.fromRoute()
 
     val snackBarHostState = remember { SnackbarHostState() }
-
-    val context = LocalContext.current
 
     var joinActionText by remember {
         mutableStateOf("")
@@ -79,6 +81,12 @@ fun AppNavHost() {
                     }
                 )
             }
+        },
+        bottomBar = {
+            BottomNavigationBar(
+                context = context,
+                navController = navController
+            )
         }
     ){
         NavHost(
@@ -245,7 +253,16 @@ fun AppNavHost() {
                 )
             }
             composable<Screens.Home> {
-                HomeScreen()
+                HomeScreen(
+                    context = context,
+                    navController = navController,
+                )
+            }
+            composable<Screens.State> {
+                StateScreen()
+            }
+            composable<Screens.Profile> {
+                ProfileScreen()
             }
         }
     }

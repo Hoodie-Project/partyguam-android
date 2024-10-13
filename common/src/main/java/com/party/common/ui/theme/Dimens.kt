@@ -23,3 +23,6 @@ val MEDIUM_CORNER_SIZE = 12.dp
 
 // Padding
 val MEDIUM_PADDING_SIZE = 20.dp
+
+// Icon size
+val ICON_SIZE = 24.dp
