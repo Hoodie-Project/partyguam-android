@@ -8,6 +8,10 @@ interface ArgInterface {
 
 sealed interface Screens: ArgInterface {
     @Serializable
+    data object Splash: Screens {
+        override val title: String = NavigationTitle.SPLASH
+    }
+    @Serializable
     data object Login: Screens {
         override val title: String = NavigationTitle.LOGIN
     }

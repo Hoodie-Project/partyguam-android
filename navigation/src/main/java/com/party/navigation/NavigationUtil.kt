@@ -5,6 +5,7 @@ import androidx.navigation.NavBackStackEntry
 fun NavBackStackEntry?.fromRoute(): Screens {
     this?.destination?.route?.substringBefore("?")?.substringBefore("/")?.substringAfterLast(".")?.let {
         return when (it) {
+            Screens.Splash::class.simpleName -> Screens.Splash
             Screens.Login::class.simpleName -> Screens.Login
             Screens.JoinEmail::class.simpleName -> Screens.JoinEmail("", "")
             Screens.JoinNickName::class.simpleName -> Screens.JoinNickName("", "")
@@ -25,5 +26,5 @@ fun NavBackStackEntry?.fromRoute(): Screens {
             else -> Screens.Login
         }
     }
-    return Screens.Login
+    return Screens.Splash
 }

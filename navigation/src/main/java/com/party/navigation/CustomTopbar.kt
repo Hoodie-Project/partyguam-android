@@ -55,6 +55,7 @@ fun CustomTopBar(
             joinActionText = joinActionText,
             onWarningDialog = onWarningDialog,
         )
+        is Screens.Splash,
         is Screens.JoinComplete,
         is Screens.SelectTendencyComplete,
         is Screens.Home,
@@ -162,6 +163,7 @@ fun SetNavigationIcon(
             navController = navController,
             onWarningDialog = onWarningDialog,
         )
+        is Screens.Splash,
         is Screens.Login,
         is Screens.JoinComplete,
         is Screens.DetailProfile,

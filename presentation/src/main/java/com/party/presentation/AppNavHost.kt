@@ -43,6 +43,7 @@ import com.party.presentation.screen.join.gender.JoinGenderScreen
 import com.party.presentation.screen.join.nickname.JoinNickNameScreen
 import com.party.presentation.screen.login.LoginScreen
 import com.party.presentation.screen.profile.ProfileScreen
+import com.party.presentation.screen.splash.SplashScreen
 import com.party.presentation.screen.state.StateScreen
 
 const val ANIMATION_DURATION = 500
@@ -91,7 +92,7 @@ fun AppNavHost() {
     ){
         NavHost(
             navController = navController,
-            startDestination = Screens.Login,
+            startDestination = Screens.Splash,
             modifier = Modifier
                 .fillMaxSize()
                 .background(WHITE)
@@ -122,6 +123,11 @@ fun AppNavHost() {
                 )
             },
         ){
+            composable<Screens.Splash> {
+                SplashScreen(
+                    navController = navController,
+                )
+            }
             composable<Screens.Login> {
                 LoginScreen(
                     navController = navController,
