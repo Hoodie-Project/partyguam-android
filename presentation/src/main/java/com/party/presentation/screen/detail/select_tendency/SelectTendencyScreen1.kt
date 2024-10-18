@@ -29,7 +29,6 @@ import com.party.common.UIState
 import com.party.common.makeAccessToken
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.DARK100
 import com.party.common.ui.theme.DARK400
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.GRAY400
@@ -39,10 +38,10 @@ import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.PersonalityListOptionResponse
-import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.PersonalitySaveRequest2
 import com.party.navigation.Screens
 import com.party.presentation.screen.detail.ProfileIndicatorArea
+import com.party.presentation.screen.detail.select_tendency.SavePersonalityData.personalitySaveRequest1
 
 @Composable
 fun SelectTendencyScreen1(
@@ -124,25 +123,18 @@ fun SelectTendencyScreen1(
 
         TendencyBottomArea(
             navController = navController,
-            routeScreens = Screens.SelectTendency2(personalitySaveRequest = PersonalitySaveRequest(personality = emptyList())),
+            routeScreens = Screens.SelectTendency2,
             buttonText = stringResource(id = R.string.common1),
             textColor = if(isValid) BLACK else GRAY400,
             borderColor = if(isValid) PRIMARY else LIGHT200,
             containerColor = if(isValid) PRIMARY else LIGHT400,
             onClick = {
                 if(isValid){
-                    val personalitySaveRequest2 = PersonalitySaveRequest2(
+                    personalitySaveRequest1 = PersonalitySaveRequest2(
                         personalityQuestionId = selectedTendencyList[0].personalityQuestionId,
                         personalityOptionId = selectedTendencyList.map { it.id }
                     )
-
-                    navController.navigate(
-                        Screens.SelectTendency2(
-                            personalitySaveRequest = PersonalitySaveRequest(
-                                personality = listOf(personalitySaveRequest2)
-                            )
-                        )
-                    )
+                    navController.navigate(Screens.SelectTendency2)
                 }
             }
         )

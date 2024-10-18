@@ -45,8 +45,11 @@ import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.PersonalityListOptionResponse
 import com.party.domain.model.user.detail.PersonalitySaveRequest
+import com.party.domain.model.user.detail.PersonalitySaveRequest2
 import com.party.navigation.Screens
 import com.party.presentation.screen.detail.ProfileIndicatorArea
+import com.party.presentation.screen.detail.select_tendency.SavePersonalityData.personalitySaveRequest1
+import com.party.presentation.screen.detail.select_tendency.SavePersonalityData.personalitySaveRequest3
 
 @Composable
 fun SelectTendencyScreen3(
@@ -54,7 +57,6 @@ fun SelectTendencyScreen3(
     navController: NavController,
     snackBarHostState: SnackbarHostState,
     selectTendencyViewModel: SelectTendencyViewModel = hiltViewModel(),
-    personalitySaveRequest: PersonalitySaveRequest,
 ) {
     LaunchedEffect(Unit) {
         selectTendencyViewModel.getAccessToken().join()
@@ -129,13 +131,17 @@ fun SelectTendencyScreen3(
 
         TendencyBottomArea(
             navController = navController,
-            routeScreens = Screens.SelectTendency4(personalitySaveRequest = PersonalitySaveRequest(personality = emptyList())),
+            routeScreens = Screens.SelectTendency4,
             buttonText = stringResource(id = R.string.common1),
             textColor = if(isValid) BLACK else GRAY400,
             borderColor = if(isValid) PRIMARY else LIGHT200,
             containerColor = if(isValid) PRIMARY else LIGHT400,
             onClick = {
                 if(isValid){
+                    personalitySaveRequest3 = PersonalitySaveRequest2(
+                        personalityQuestionId = selectedTendencyList[0].personalityQuestionId,
+                        personalityOptionId = selectedTendencyList.map { it.id }
+                    )
                     navController.navigate(Screens.SelectTendency4)
                 }
             }

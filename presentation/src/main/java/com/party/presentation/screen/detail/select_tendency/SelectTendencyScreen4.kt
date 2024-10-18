@@ -25,6 +25,7 @@ import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
 import com.party.common.R
 import com.party.common.ScreenExplainArea
+import com.party.common.ServerApiResponse.ErrorResponse
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.TextComponent
 import com.party.common.UIState
@@ -44,9 +45,18 @@ import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.PersonalityListOptionResponse
+import com.party.domain.model.user.detail.PersonalityListResponse
 import com.party.domain.model.user.detail.PersonalitySaveRequest
+import com.party.domain.model.user.detail.PersonalitySaveRequest2
+import com.party.domain.model.user.detail.PersonalitySaveResponse
 import com.party.navigation.Screens
 import com.party.presentation.screen.detail.ProfileIndicatorArea
+import com.party.presentation.screen.detail.select_tendency.SavePersonalityData.personalitySaveRequest1
+import com.party.presentation.screen.detail.select_tendency.SavePersonalityData.personalitySaveRequest2
+import com.party.presentation.screen.detail.select_tendency.SavePersonalityData.personalitySaveRequest3
+import com.party.presentation.screen.detail.select_tendency.SavePersonalityData.personalitySaveRequest4
+import com.skydoves.sandwich.StatusCode
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SelectTendencyScreen4(
@@ -54,10 +64,21 @@ fun SelectTendencyScreen4(
     navController: NavController,
     snackBarHostState: SnackbarHostState,
     selectTendencyViewModel: SelectTendencyViewModel = hiltViewModel(),
-    personalitySaveRequest: PersonalitySaveRequest,
 ) {
     LaunchedEffect(Unit) {
         selectTendencyViewModel.getAccessToken().join()
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        selectTendencyViewModel.saveSuccess.collectLatest {
+            navController.navigate(Screens.SelectTendencyComplete)
+        }
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        selectTendencyViewModel.saveConflict.collectLatest {
+            snackBarMessage(snackBarHostState, it)
+        }
     }
 
     val accessToken by selectTendencyViewModel.accessToken.collectAsState()
@@ -83,6 +104,14 @@ fun SelectTendencyScreen4(
     val isValid by remember {
         mutableStateOf(false)
     }.apply { value = selectedTendencyList.size in 1..2 }
+
+    when(personalitySaveState){
+        is UIState.Idle -> {}
+        is UIState.Loading -> { LoadingProgressBar() }
+        is UIState.Success -> {}
+        is UIState.Error -> {}
+        is UIState.Exception -> {}
+    }
 
     Column(
         modifier = Modifier
@@ -141,7 +170,19 @@ fun SelectTendencyScreen4(
             containerColor = if(isValid) PRIMARY else LIGHT400,
             onClick = {
                 if(isValid){
-                    //navController.navigate(Screens.SelectTendencyComplete)
+                    personalitySaveRequest4 = PersonalitySaveRequest2(
+                        personalityQuestionId = selectedTendencyList[0].personalityQuestionId,
+                        personalityOptionId = selectedTendencyList.map { it.id }
+                    )
+
+                    val personalitySaveRequest = PersonalitySaveRequest(
+                        personality = listOf(
+                            personalitySaveRequest1,
+                            personalitySaveRequest2,
+                            personalitySaveRequest3,
+                            personalitySaveRequest4
+                        )
+                    )
                     selectTendencyViewModel.savePersonality(
                         accessToken = makeAccessToken(context = context, token = accessToken),
                         personalitySaveRequest = personalitySaveRequest

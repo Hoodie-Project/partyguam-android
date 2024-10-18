@@ -10,10 +10,13 @@ import com.party.domain.model.user.detail.PersonalitySaveResponse
 import com.party.domain.usecase.datastore.GetAccessTokenUseCase
 import com.party.domain.usecase.user.detail.GetPersonalityUseCase
 import com.party.domain.usecase.user.detail.SavePersonalityUseCase
+import com.skydoves.sandwich.StatusCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -33,6 +36,12 @@ class SelectTendencyViewModel @Inject constructor(
 
     private val _accessToken = MutableStateFlow("")
     val accessToken: StateFlow<String> = _accessToken
+
+    private val _saveSuccess = MutableSharedFlow<Unit>()
+    val saveSuccess = _saveSuccess.asSharedFlow()
+
+    private val _saveConflict = MutableSharedFlow<String>()
+    val saveConflict = _saveConflict.asSharedFlow()
 
     fun getPersonalityList(accessToken: String){
         viewModelScope.launch(Dispatchers.IO) {
@@ -62,10 +71,13 @@ class SelectTendencyViewModel @Inject constructor(
             _personalitySaveState.value = UIState.Loading
             when(val result = savePersonalityUseCase(accessToken = accessToken, personalitySaveRequest = personalitySaveRequest)){
                 is ServerApiResponse.SuccessResponse<List<PersonalitySaveResponse>> -> {
-                    _personalitySaveState.value = UIState.Success(result)
+                    _saveSuccess.emit(Unit)
                 }
                 is ServerApiResponse.ErrorResponse<List<PersonalitySaveResponse>> -> {
                     _personalitySaveState.value = UIState.Idle
+                    when(result.statusCode){
+                        StatusCode.Conflict.code -> { _saveConflict.emit(result.message!!) }
+                    }
                 }
                 is ServerApiResponse.ExceptionResponse -> {
                     _personalitySaveState.value = UIState.Idle

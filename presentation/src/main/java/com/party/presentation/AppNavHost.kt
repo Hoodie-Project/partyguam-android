@@ -22,13 +22,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.navigation.BottomNavigationBar
 import com.party.navigation.CustomTopBar
 import com.party.navigation.Screens
 import com.party.navigation.fromRoute
 import com.party.navigation.isVisibleTopBar
-import com.party.navigation.parcelableType
 import com.party.presentation.screen.detail.choice_carrier_position.ChoiceCarrierPositionScreen
 import com.party.presentation.screen.detail.detail_carrier.DetailCarrierScreen
 import com.party.presentation.screen.detail.detail_profile.DetailProfileScreen
@@ -47,7 +45,6 @@ import com.party.presentation.screen.login.LoginScreen
 import com.party.presentation.screen.profile.ProfileScreen
 import com.party.presentation.screen.splash.SplashScreen
 import com.party.presentation.screen.state.StateScreen
-import kotlin.reflect.typeOf
 
 const val ANIMATION_DURATION = 500
 
@@ -235,31 +232,25 @@ fun AppNavHost() {
                     snackBarHostState = snackBarHostState
                 )
             }
-            composable<Screens.SelectTendency2>(typeMap = mapOf(typeOf<PersonalitySaveRequest>() to parcelableType<PersonalitySaveRequest>())) { backStackEntry ->
-                val personalitySaveRequest = backStackEntry.toRoute<Screens.SelectTendency2>().personalitySaveRequest
+            composable<Screens.SelectTendency2> {
                 SelectTendencyScreen2(
                     context = context,
                     navController = navController,
                     snackBarHostState = snackBarHostState,
-                    personalitySaveRequest = personalitySaveRequest
                 )
             }
-            composable<Screens.SelectTendency3>(typeMap = mapOf(typeOf<PersonalitySaveRequest>() to parcelableType<PersonalitySaveRequest>())) { backStackEntry ->
-                val personalitySaveRequest = backStackEntry.toRoute<Screens.SelectTendency3>().personalitySaveRequest
+            composable<Screens.SelectTendency3> {
                 SelectTendencyScreen3(
                     context = context,
                     navController = navController,
                     snackBarHostState = snackBarHostState,
-                    personalitySaveRequest = personalitySaveRequest
                 )
             }
-            composable<Screens.SelectTendency4>(typeMap = mapOf(typeOf<PersonalitySaveRequest>() to parcelableType<PersonalitySaveRequest>())) { backStackEntry ->
-                val personalitySaveRequest = backStackEntry.toRoute<Screens.SelectTendency4>().personalitySaveRequest
+            composable<Screens.SelectTendency4> {
                 SelectTendencyScreen4(
                     context = context,
                     navController = navController,
                     snackBarHostState = snackBarHostState,
-                    personalitySaveRequest = personalitySaveRequest
                 )
             }
             composable<Screens.SelectTendencyComplete> {

@@ -273,7 +273,20 @@ class UserRepositoryImpl @Inject constructor(
                 SuccessResponse(data = result.data.map { UserMapper.mapperToPersonalitySaveResponse(it) })
             }
             is ApiResponse.Failure.Error -> {
-                ErrorResponse()
+                val errorBody = result.errorBody?.string()
+                when(result.statusCode){
+                    StatusCode.Conflict -> {
+                        val errorResponse = Json.decodeFromString<ErrorResponse<PersonalitySaveResponse>>(errorBody!!)
+                        ErrorResponse(
+                            statusCode = StatusCode.Conflict.code,
+                            message = errorResponse.message,
+                        )
+                    }
+                    else -> ErrorResponse(
+                        statusCode = StatusCode.InternalServerError.code,
+                        message = ""
+                    )
+                }
             }
             is ApiResponse.Failure.Exception -> {
                 ExceptionResponse(message = result.message)

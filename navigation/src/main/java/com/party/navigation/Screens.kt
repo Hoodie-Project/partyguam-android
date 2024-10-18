@@ -53,15 +53,15 @@ sealed interface Screens: ArgInterface {
         override val title: String = NavigationTitle.SELECT_TENDENCY
     }
     @Serializable
-    data class SelectTendency2(val personalitySaveRequest: PersonalitySaveRequest): Screens {
+    data object SelectTendency2: Screens {
         override val title: String = NavigationTitle.SELECT_TENDENCY
     }
     @Serializable
-    data class SelectTendency3(val personalitySaveRequest: PersonalitySaveRequest): Screens {
+    data object SelectTendency3: Screens {
         override val title: String = NavigationTitle.SELECT_TENDENCY
     }
     @Serializable
-    data class SelectTendency4(val personalitySaveRequest: PersonalitySaveRequest): Screens {
+    data object SelectTendency4: Screens {
         override val title: String = NavigationTitle.SELECT_TENDENCY
     }
     @Serializable
