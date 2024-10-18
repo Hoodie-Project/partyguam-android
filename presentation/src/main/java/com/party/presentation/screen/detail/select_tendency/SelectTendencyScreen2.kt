@@ -45,6 +45,7 @@ import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.PersonalityListOptionResponse
+import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.navigation.Screens
 import com.party.presentation.screen.detail.ProfileIndicatorArea
 
@@ -53,11 +54,14 @@ fun SelectTendencyScreen2(
     context: Context,
     navController: NavController,
     snackBarHostState: SnackbarHostState,
-    selectTendencyViewModel: SelectTendencyViewModel = hiltViewModel()
+    selectTendencyViewModel: SelectTendencyViewModel = hiltViewModel(),
+    personalitySaveRequest: PersonalitySaveRequest,
 ) {
     LaunchedEffect(Unit) {
         selectTendencyViewModel.getAccessToken().join()
     }
+
+    println("personalitySaveRequest: $personalitySaveRequest")
 
     val accessToken by selectTendencyViewModel.accessToken.collectAsState()
 
@@ -128,7 +132,7 @@ fun SelectTendencyScreen2(
 
         TendencyBottomArea(
             navController = navController,
-            routeScreens = Screens.SelectTendency3,
+            routeScreens = Screens.SelectTendency3(personalitySaveRequest = PersonalitySaveRequest(personality = emptyList())),
             buttonText = stringResource(id = R.string.common1),
             textColor = if(isValid) BLACK else GRAY400,
             borderColor = if(isValid) PRIMARY else LIGHT200,

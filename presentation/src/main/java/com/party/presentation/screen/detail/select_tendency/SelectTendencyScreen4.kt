@@ -44,6 +44,7 @@ import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.PersonalityListOptionResponse
+import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.navigation.Screens
 import com.party.presentation.screen.detail.ProfileIndicatorArea
 
@@ -52,7 +53,8 @@ fun SelectTendencyScreen4(
     context: Context,
     navController: NavController,
     snackBarHostState: SnackbarHostState,
-    selectTendencyViewModel: SelectTendencyViewModel = hiltViewModel()
+    selectTendencyViewModel: SelectTendencyViewModel = hiltViewModel(),
+    personalitySaveRequest: PersonalitySaveRequest,
 ) {
     LaunchedEffect(Unit) {
         selectTendencyViewModel.getAccessToken().join()
@@ -66,8 +68,13 @@ fun SelectTendencyScreen4(
         }
     }
 
+    // Get Personality
     val personalityListState by selectTendencyViewModel.personalityState.collectAsState()
     val personalityListResult = personalityListState.data
+
+    // Save Personality
+    val personalitySaveState by selectTendencyViewModel.personalitySaveState.collectAsState()
+    val personalitySaveResult = personalitySaveState.data
 
     val selectedTendencyList by remember {
         mutableStateOf(mutableStateListOf<PersonalityListOptionResponse>())
@@ -134,7 +141,11 @@ fun SelectTendencyScreen4(
             containerColor = if(isValid) PRIMARY else LIGHT400,
             onClick = {
                 if(isValid){
-                    navController.navigate(Screens.SelectTendencyComplete)
+                    //navController.navigate(Screens.SelectTendencyComplete)
+                    selectTendencyViewModel.savePersonality(
+                        accessToken = makeAccessToken(context = context, token = accessToken),
+                        personalitySaveRequest = personalitySaveRequest
+                    )
                 }
             }
         )

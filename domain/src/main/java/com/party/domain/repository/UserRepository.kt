@@ -5,6 +5,8 @@ import com.party.domain.model.user.detail.LocationResponse
 import com.party.domain.model.user.SocialLoginResponse
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PersonalityListResponse
+import com.party.domain.model.user.detail.PersonalitySaveRequest
+import com.party.domain.model.user.detail.PersonalitySaveResponse
 import com.party.domain.model.user.detail.PositionListResponse
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.detail.SaveCarrierResponse
@@ -40,5 +42,8 @@ interface UserRepository {
 
     // 성향 질문 리스트 전체 조회
     suspend fun getPersonalities(accessToken: String): ServerApiResponse<List<PersonalityListResponse>>
+
+    // 성향 질문 리스트 전체 저장
+    suspend fun savePersonalities(accessToken: String, personalitySaveRequest: PersonalitySaveRequest): ServerApiResponse<List<PersonalitySaveResponse>>
 
 }

@@ -5,10 +5,12 @@ import com.party.data.entity.user.detail.SaveInterestLocationEntity
 import com.party.data.entity.user.auth.SocialLoginEntity
 import com.party.data.entity.user.auth.UserSignUpEntity
 import com.party.data.entity.user.detail.PersonalityListEntity
+import com.party.data.entity.user.detail.PersonalitySaveEntity
 import com.party.data.entity.user.detail.PositionListEntity
 import com.party.data.entity.user.detail.SaveCarrierEntity
 import com.party.data.entity.user.detail.SaveCarrierEntity1
 import com.party.domain.model.user.detail.InterestLocationList
+import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
@@ -41,4 +43,7 @@ interface UserRemoteSource {
 
     // 성향 질문 리스트 전체 조회
     suspend fun getPersonalities(accessToken: String): ApiResponse<List<PersonalityListEntity>>
+
+    // 성향 질문 리스트 전체 저장
+    suspend fun savePersonalities(accessToken: String, personalitySaveRequest: PersonalitySaveRequest): ApiResponse<List<PersonalitySaveEntity>>
 }

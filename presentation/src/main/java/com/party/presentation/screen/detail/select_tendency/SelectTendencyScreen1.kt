@@ -39,6 +39,8 @@ import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.PersonalityListOptionResponse
+import com.party.domain.model.user.detail.PersonalitySaveRequest
+import com.party.domain.model.user.detail.PersonalitySaveRequest2
 import com.party.navigation.Screens
 import com.party.presentation.screen.detail.ProfileIndicatorArea
 
@@ -122,14 +124,25 @@ fun SelectTendencyScreen1(
 
         TendencyBottomArea(
             navController = navController,
-            routeScreens = Screens.SelectTendency2,
+            routeScreens = Screens.SelectTendency2(personalitySaveRequest = PersonalitySaveRequest(personality = emptyList())),
             buttonText = stringResource(id = R.string.common1),
             textColor = if(isValid) BLACK else GRAY400,
             borderColor = if(isValid) PRIMARY else LIGHT200,
             containerColor = if(isValid) PRIMARY else LIGHT400,
             onClick = {
                 if(isValid){
-                    navController.navigate(Screens.SelectTendency2)
+                    val personalitySaveRequest2 = PersonalitySaveRequest2(
+                        personalityQuestionId = selectedTendencyList[0].personalityQuestionId,
+                        personalityOptionId = selectedTendencyList.map { it.id }
+                    )
+
+                    navController.navigate(
+                        Screens.SelectTendency2(
+                            personalitySaveRequest = PersonalitySaveRequest(
+                                personality = listOf(personalitySaveRequest2)
+                            )
+                        )
+                    )
                 }
             }
         )

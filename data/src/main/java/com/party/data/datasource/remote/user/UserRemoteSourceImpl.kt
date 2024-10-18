@@ -5,11 +5,13 @@ import com.party.data.entity.user.detail.SaveInterestLocationEntity
 import com.party.data.entity.user.auth.SocialLoginEntity
 import com.party.data.entity.user.auth.UserSignUpEntity
 import com.party.data.entity.user.detail.PersonalityListEntity
+import com.party.data.entity.user.detail.PersonalitySaveEntity
 import com.party.data.entity.user.detail.PositionListEntity
 import com.party.data.entity.user.detail.SaveCarrierEntity
 import com.party.data.entity.user.detail.SaveCarrierEntity1
 import com.party.data.service.UserService
 import com.party.domain.model.user.detail.InterestLocationList
+import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
@@ -67,5 +69,12 @@ class UserRemoteSourceImpl @Inject constructor(
 
     override suspend fun getPersonalities(accessToken: String): ApiResponse<List<PersonalityListEntity>> {
         return userService.getPersonalities(accessToken = accessToken)
+    }
+
+    override suspend fun savePersonalities(
+        accessToken: String,
+        personalitySaveRequest: PersonalitySaveRequest
+    ): ApiResponse<List<PersonalitySaveEntity>> {
+        return userService.savePersonalities(accessToken = accessToken, personalitySaveRequest = personalitySaveRequest)
     }
 }

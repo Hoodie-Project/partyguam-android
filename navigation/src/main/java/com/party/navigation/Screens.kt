@@ -1,5 +1,6 @@
 package com.party.navigation
 
+import com.party.domain.model.user.detail.PersonalitySaveRequest
 import kotlinx.serialization.Serializable
 
 interface ArgInterface {
@@ -52,15 +53,15 @@ sealed interface Screens: ArgInterface {
         override val title: String = NavigationTitle.SELECT_TENDENCY
     }
     @Serializable
-    data object SelectTendency2: Screens {
+    data class SelectTendency2(val personalitySaveRequest: PersonalitySaveRequest): Screens {
         override val title: String = NavigationTitle.SELECT_TENDENCY
     }
     @Serializable
-    data object SelectTendency3: Screens {
+    data class SelectTendency3(val personalitySaveRequest: PersonalitySaveRequest): Screens {
         override val title: String = NavigationTitle.SELECT_TENDENCY
     }
     @Serializable
-    data object SelectTendency4: Screens {
+    data class SelectTendency4(val personalitySaveRequest: PersonalitySaveRequest): Screens {
         override val title: String = NavigationTitle.SELECT_TENDENCY
     }
     @Serializable
