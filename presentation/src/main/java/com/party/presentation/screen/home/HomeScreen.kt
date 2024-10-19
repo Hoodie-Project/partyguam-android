@@ -43,6 +43,9 @@ fun HomeScreen(
             selectedTabText = selectedTabText,
             onClick = { selectedTabText = it }
         )
+
+        BannerArea()
+
         when(selectedTabText){
             homeTopTabList[0] -> {
                 println("HomeScreen: 0")
