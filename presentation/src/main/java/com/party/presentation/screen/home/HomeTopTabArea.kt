@@ -13,13 +13,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.party.common.HeightSpacer
 import com.party.common.WidthSpacer
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.COMPONENT_AREA_HEIGHT
+import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T3
@@ -33,21 +40,44 @@ fun HomeTopTabArea(
     selectedTabText: String,
     onClick: (String) -> Unit,
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(COMPONENT_AREA_HEIGHT),
-        horizontalArrangement = Arrangement.Start
-    ) {
-        homeTopTabList.forEachIndexed { index, title ->
-            HomeTopTabAreaItem(
-                text = title,
-                textColor = if (selectedTabText == title) BLACK else GRAY400,
-                isShowSelectedIndicate = selectedTabText == title,
-                onClick = { onClick(it) }
-            )
-            WidthSpacer(widthDp = 20.dp)
+    Column {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(COMPONENT_AREA_HEIGHT),
+            horizontalArrangement = Arrangement.Start
+        ) {
+            homeTopTabList.forEachIndexed { index, title ->
+                HomeTopTabAreaItem(
+                    text = title,
+                    textColor = if (selectedTabText == title) BLACK else GRAY400,
+                    isShowSelectedIndicate = selectedTabText == title,
+                    onClick = { onClick(it) }
+                )
+                WidthSpacer(widthDp = 20.dp)
+            }
         }
+        HeightSpacer(heightDp = 4.dp)
+        HorizontalDivider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .drawBehind {
+                    // 그림자를 아래 방향으로만 적용 (offsetX = 0, offsetY = 20.dp)
+                    val offsetX = 0f // X축 이동 없음
+                    val offsetY = 2.dp.toPx() // Y축으로 그림자 이동
+                    val shadowPaint = Paint().asFrameworkPaint().apply {
+                        color = android.graphics.Color.DKGRAY
+                        setShadowLayer(8f, offsetX, offsetY, android.graphics.Color.DKGRAY)
+                    }
+                    drawIntoCanvas {
+                        it.nativeCanvas.drawRoundRect(
+                            0f, 0f, size.width, size.height, 30f, 30f, shadowPaint
+                        )
+                    }
+                },
+            thickness = 0.5.dp,
+            color = GRAY100
+        )
     }
 }
 
@@ -79,8 +109,8 @@ fun HomeTopTabAreaItem(
         if (isShowSelectedIndicate) {
             HorizontalDivider(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(20.dp),
+                    .fillMaxWidth(),
+                thickness = 4.dp,
                 color = PRIMARY
             )
         }
