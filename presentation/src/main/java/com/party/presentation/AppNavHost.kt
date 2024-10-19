@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -24,6 +25,7 @@ import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.BottomNavigationBar
 import com.party.navigation.CustomTopBar
+import com.party.navigation.FloatingButton
 import com.party.navigation.Screens
 import com.party.navigation.fromRoute
 import com.party.navigation.isVisibleTopBar
@@ -88,7 +90,8 @@ fun AppNavHost() {
                 context = context,
                 navController = navController
             )
-        }
+        },
+        floatingActionButton = { if(currentScreen == Screens.Home) FloatingButton() }
     ){
         NavHost(
             navController = navController,

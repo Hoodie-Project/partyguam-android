@@ -80,7 +80,7 @@ fun HomeTopTabAreaItem(
             HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(4.dp),
+                    .height(20.dp),
                 color = PRIMARY
             )
         }
