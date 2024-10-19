@@ -20,7 +20,7 @@ fun SplashScreen(
     LaunchedEffect(key1 = Unit) {
         delay(3000L)
 
-        navController.navigate(Screens.Login)
+        navController.navigate(Screens.Home)
     }
 
     Column(

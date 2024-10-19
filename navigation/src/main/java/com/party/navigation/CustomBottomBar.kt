@@ -32,8 +32,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.party.common.R
-import com.party.common.ui.theme.BOTTOM_NAVIGATION_SELECTED
-import com.party.common.ui.theme.BOTTOM_NAVIGATION_UNSELECTED
+import com.party.common.ui.theme.BOTTOM_NAVIGATION_SELECTED_TEXT
+import com.party.common.ui.theme.BOTTOM_NAVIGATION_SELECTED_TINT
+import com.party.common.ui.theme.BOTTOM_NAVIGATION_UNSELECTED_TEXT
+import com.party.common.ui.theme.BOTTOM_NAVIGATION_UNSELECTED_TINT
 import com.party.common.ui.theme.ICON_SIZE
 
 @Composable
@@ -135,14 +137,14 @@ fun RowScope.AppBottomNavigationBarItem(
             modifier = Modifier.size(ICON_SIZE),
             painter = icon,
             contentDescription = "",
-            tint = if (selected) BOTTOM_NAVIGATION_SELECTED else BOTTOM_NAVIGATION_UNSELECTED
+            tint = if (selected) BOTTOM_NAVIGATION_SELECTED_TINT else BOTTOM_NAVIGATION_UNSELECTED_TINT
         )
 
         Text(
             text = label,
             fontSize = 12.sp,
             fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
-            color = if (selected) BOTTOM_NAVIGATION_SELECTED else BOTTOM_NAVIGATION_UNSELECTED,
+            color = if (selected) BOTTOM_NAVIGATION_SELECTED_TEXT else BOTTOM_NAVIGATION_UNSELECTED_TEXT,
             style = MaterialTheme.typography.bodyMedium
         )
     }
