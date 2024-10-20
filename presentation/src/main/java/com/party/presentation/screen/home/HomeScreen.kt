@@ -13,6 +13,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.party.common.R
+import com.party.presentation.screen.home.tab_main.BannerArea
+import com.party.presentation.screen.home.tab_main.MainArea
+import com.party.presentation.screen.home.tab_party.PartyArea
+import com.party.presentation.screen.home.tab_recruitment.RecruitmentArea
 
 @Composable
 fun HomeScreen(
@@ -44,18 +48,10 @@ fun HomeScreen(
             onClick = { selectedTabText = it }
         )
 
-        BannerArea()
-
         when(selectedTabText){
-            homeTopTabList[0] -> {
-                println("HomeScreen: 0")
-            }
-            homeTopTabList[1] -> {
-                println("HomeScreen: 1")
-            }
-            homeTopTabList[2] -> {
-                println("HomeScreen: 2")
-            }
+            homeTopTabList[0] -> { MainArea(homeViewModel = homeViewModel) }
+            homeTopTabList[1] -> { PartyArea() }
+            homeTopTabList[2] -> { RecruitmentArea() }
         }
     }
 }

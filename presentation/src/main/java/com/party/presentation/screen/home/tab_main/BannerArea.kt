@@ -1,4 +1,4 @@
-package com.party.presentation.screen.home
+package com.party.presentation.screen.home.tab_main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
