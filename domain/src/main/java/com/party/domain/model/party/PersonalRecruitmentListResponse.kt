@@ -4,19 +4,18 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PersonalRecruitmentListResponse(
-    val parties: List<PersonalRecruitmentItemResponse>,
+    val partyRecruitments: List<PersonalRecruitmentItemResponse>,
     val total: Int,
 )
 
 @Serializable
 data class PersonalRecruitmentItemResponse(
-    val partyRecruitmentId: Int,
-    val main: String,
-    val sub: String,
-    val content: String,
+    val id: Int,
+    val partyId: Int,
+    val positionId: Int,
     val recruitingCount: Int,
     val recruitedCount: Int,
-    val applicationCount: Int,
+    val content: String,
     val createdAt: String,
     val party: PersonalRecruitmentPartyResponse,
     val position: PersonalRecruitmentPositionResponse,
@@ -25,7 +24,7 @@ data class PersonalRecruitmentItemResponse(
 @Serializable
 data class PersonalRecruitmentPartyResponse(
     val title: String,
-    val image: String,
+    val image: String?,
 )
 
 @Serializable

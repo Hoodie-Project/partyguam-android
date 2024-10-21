@@ -43,7 +43,6 @@ object NetworkModule {
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
         return OkHttpClient.Builder()
-            //.addInterceptor(authInterceptor)
             .addNetworkInterceptor(httpLoggingInterceptor)
             .connectTimeout(TIME_OUT_VALUE, TimeUnit.SECONDS)
             .readTimeout(TIME_OUT_VALUE, TimeUnit.SECONDS)
@@ -51,8 +50,8 @@ object NetworkModule {
             .build()
     }
 
-    //@Singleton
-    //@Provides
+    @Singleton
+    @Provides
     fun tokenLogging2(accessTokenInterceptor: AccessTokenInterceptor): OkHttpClient{
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -89,16 +88,12 @@ object NetworkModule {
     @OptIn(ExperimentalSerializationApi::class)
     @Singleton
     @Provides
-    fun providePartyServiceApi(
-        accessTokenInterceptor: AccessTokenInterceptor,
-    ): PartyService {
+    fun providePartyServiceApi(accessTokenInterceptor: AccessTokenInterceptor): PartyService {
         return Retrofit.Builder()
             .baseUrl("https://partyguam.net/dev/")
             .client(tokenLogging2(accessTokenInterceptor))
             .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(
-                json.asConverterFactory("application/json".toMediaType())
-            )
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .build()
             .create(PartyService::class.java)
@@ -109,10 +104,7 @@ object NetworkModule {
     ): Interceptor {
         @Throws(IOException::class)
         override fun intercept(chain: Interceptor.Chain): Response = with(chain) {
-            val token = runBlocking {
-                getAccessTokenUseCase.invoke().first()
-            }
-
+            val token = runBlocking { getAccessTokenUseCase.invoke().first() }
             val request = chain
                 .request()
                 .newBuilder()

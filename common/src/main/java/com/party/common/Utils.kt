@@ -2,15 +2,18 @@ package com.party.common
 
 import android.annotation.SuppressLint
 import android.content.Context
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +22,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -26,6 +31,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import coil.compose.SubcomposeAsyncImage
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallPulseSyncProgressIndicator
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
@@ -183,4 +189,38 @@ fun LoadingProgressBar() {
 
 fun makeAccessToken(context: Context, token: String): String {
     return "${context.getString(R.string.common5)} $token"
+}
+
+@Composable
+fun NetworkImageLoad(
+    modifier: Modifier = Modifier,
+    url: String? = null,
+) {
+    SubcomposeAsyncImage(
+        model = url,
+        contentDescription = "image",
+        contentScale = ContentScale.Inside,
+        loading = {
+            CircularProgressIndicator(
+                modifier = Modifier.fillMaxSize(fraction = 0.2f)
+            )
+        },
+        error = {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ){
+                Text(text = "이미지 로딩 실패!")
+
+            }
+            /*Image(
+                painter = painterResource(id = R.drawable.login_onder_logo),
+                contentDescription = "error",
+                modifier = Modifier
+            )*/
+        },
+        modifier = modifier
+            //.fillMaxSize()
+            .aspectRatio(1f)
+    )
 }

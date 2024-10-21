@@ -56,4 +56,7 @@ dependencies {
 
     // Custom Progress Indicator
     implementation(libs.msz.progress.indicator)
+
+    // Coil
+    implementation(libs.coil.compose)
 }

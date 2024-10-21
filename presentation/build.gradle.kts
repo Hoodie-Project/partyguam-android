@@ -62,8 +62,7 @@ dependencies {
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
-    // Coil
-    implementation(libs.coil.compose)
+
 
     // Material Icons Extended
     implementation(libs.androidx.material.icons.extended)

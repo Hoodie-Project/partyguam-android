@@ -8,21 +8,25 @@ import com.party.domain.model.party.PersonalRecruitmentPositionResponse
 
 object PartyMapper {
 
+    private fun convertToImageUrl(image: String?): String{
+        return "https://partyguam.net/$image"
+    }
+
     fun mapperPersonalRecruitmentResponse(personalRecruitmentListEntity: PersonalRecruitmentListEntity): PersonalRecruitmentListResponse{
         return PersonalRecruitmentListResponse(
-            parties = personalRecruitmentListEntity.parties.map {
+            total = personalRecruitmentListEntity.total,
+            partyRecruitments = personalRecruitmentListEntity.partyRecruitments.map {
                 PersonalRecruitmentItemResponse(
-                    partyRecruitmentId = it.partyRecruitmentId,
-                    main = it.main,
-                    sub = it.sub,
-                    content = it.content,
+                    id = it.id,
+                    partyId = it.partyId,
+                    positionId = it.positionId,
                     recruitingCount = it.recruitingCount,
                     recruitedCount = it.recruitedCount,
-                    applicationCount = it.applicationCount,
+                    content = it.content,
                     createdAt = it.createdAt,
                     party = PersonalRecruitmentPartyResponse(
                         title = it.party.title,
-                        image = it.party.image
+                        image = convertToImageUrl(it.party.image)
                     ),
                     position = PersonalRecruitmentPositionResponse(
                         id = it.position.id,
@@ -30,8 +34,8 @@ object PartyMapper {
                         sub = it.position.sub
                     )
                 )
-            },
-            total = personalRecruitmentListEntity.total
+            }
         )
     }
+
 }
