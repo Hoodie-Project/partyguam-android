@@ -1,7 +1,11 @@
 package com.party.data.mapper
 
+import com.party.data.entity.party.PartyListEntity
 import com.party.data.entity.party.PersonalRecruitmentListEntity
 import com.party.data.entity.party.RecruitmentListEntity
+import com.party.domain.model.party.PartyItemResponse
+import com.party.domain.model.party.PartyListResponse
+import com.party.domain.model.party.PartyTypeItemResponse
 import com.party.domain.model.party.PersonalRecruitmentItemResponse
 import com.party.domain.model.party.PersonalRecruitmentListResponse
 import com.party.domain.model.party.PersonalRecruitmentPartyResponse
@@ -79,4 +83,25 @@ object PartyMapper {
         )
     }
 
+    fun mapperPartyResponse(partyListEntity: PartyListEntity): PartyListResponse {
+        return PartyListResponse(
+            total = partyListEntity.total,
+            parties = partyListEntity.parties.map {
+                PartyItemResponse(
+                    id = it.id,
+                    partyType = PartyTypeItemResponse(
+                        id = it.partyType.id,
+                        type = it.partyType.type
+                    ),
+                    tag = it.tag,
+                    title = it.title,
+                    content = it.content,
+                    image = convertToImageUrl(it.image),
+                    status = it.status,
+                    createdAt = it.createdAt,
+                    updatedAt = it.updatedAt
+                )
+            }
+        )
+    }
 }

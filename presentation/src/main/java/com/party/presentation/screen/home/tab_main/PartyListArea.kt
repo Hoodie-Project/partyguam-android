@@ -33,41 +33,44 @@ import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.TextComponent
 import com.party.common.UIState
 import com.party.common.snackBarMessage
+import com.party.common.ui.theme.B3
+import com.party.common.ui.theme.DARK100
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
+import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.party.RecruitmentItemResponse
-import com.party.domain.model.party.RecruitmentListResponse
+import com.party.domain.model.party.PartyItemResponse
+import com.party.domain.model.party.PartyListResponse
 import com.party.presentation.screen.home.HomeListTitleArea
 import com.party.presentation.screen.home.HomeViewModel
-import com.party.presentation.screen.home.PositionArea
-import com.party.presentation.screen.home.RecruitmentCountArea
 
 @Composable
-fun NewRecruitmentArea(
+fun PartyListArea(
     homeViewModel: HomeViewModel,
     snackBarHostState: SnackbarHostState,
 ) {
-    val getRecruitmentListState by homeViewModel.getRecruitmentListState.collectAsState()
-    val recruitmentListResponse = getRecruitmentListState.data
+    val getPartyListState by homeViewModel.getPartyListState.collectAsState()
+    val partyListResponse = getPartyListState.data
 
     LaunchedEffect(Unit) {
-        homeViewModel.getRecruitmentList(page = 1, size = 10, sort = "createdAt", order = "DESC")
+        homeViewModel.getPartyList(page = 1, size = 10, sort = "createdAt", order = "DESC")
     }
 
     HomeListTitleArea(
-        title = stringResource(id = R.string.home_list_new_title),
+        title = stringResource(id = R.string.home_list_party_title),
         titleIcon = painterResource(id = R.drawable.arrow_right_icon),
-        description = stringResource(id = R.string.home_list_new_description),
+        description = stringResource(id = R.string.home_list_party_description),
     )
 
-    when (getRecruitmentListState) {
+    when(getPartyListState){
         is UIState.Idle -> {}
         is UIState.Loading -> { LoadingProgressBar() }
         is UIState.Success -> {
-            val successResult = recruitmentListResponse as SuccessResponse<RecruitmentListResponse>
-            RecruitmentListArea(successResult.data)
+            val successResult = partyListResponse as SuccessResponse<PartyListResponse>
+            PartyListArea(
+                partyListResponse = successResult.data,
+            )
         }
         is UIState.Error -> {}
         is UIState.Exception -> { snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState) }
@@ -75,8 +78,8 @@ fun NewRecruitmentArea(
 }
 
 @Composable
-fun RecruitmentListArea(
-    recruitmentListResponse: RecruitmentListResponse?,
+fun PartyListArea(
+    partyListResponse: PartyListResponse?,
 ) {
     HeightSpacer(heightDp = 20.dp)
 
@@ -86,23 +89,22 @@ fun RecruitmentListArea(
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         itemsIndexed(
-            items = recruitmentListResponse?.partyRecruitments ?: emptyList(),
+            items = partyListResponse?.parties ?: emptyList(),
             key = { index, _ ->
                 index
             }
         ) { _, item ->
-            RecruitmentItem(
-                recruitmentLisItemResponse = item,
+            PartyItem(
+                partyItemResponse = item,
                 onClick = {},
             )
         }
     }
 }
 
-
 @Composable
-fun RecruitmentItem(
-    recruitmentLisItemResponse: RecruitmentItemResponse,
+fun PartyItem(
+    partyItemResponse: PartyItemResponse,
     onClick: () -> Unit,
 ) {
     Card(
@@ -120,22 +122,18 @@ fun RecruitmentItem(
                 .width(200.dp)
                 .height(271.dp),
         ) {
-            RecruitmentItemTopArea(
-                imageUrl = recruitmentLisItemResponse.party.image,
+            PartyItemTopArea(
+                imageUrl = partyItemResponse.image,
             )
-            RecruitmentItemBottomArea(
-                title = recruitmentLisItemResponse.party.title,
-                main = recruitmentLisItemResponse.position.main,
-                sub = recruitmentLisItemResponse.position.sub,
-                recruitingCount = recruitmentLisItemResponse.recruitingCount,
-                recruitedCount = recruitmentLisItemResponse.recruitedCount,
+            PartyItemBottomArea(
+                title = partyItemResponse.title,
             )
         }
     }
 }
 
 @Composable
-fun RecruitmentItemTopArea(
+fun PartyItemTopArea(
     imageUrl: String? = null,
 ) {
     Box(
@@ -152,12 +150,8 @@ fun RecruitmentItemTopArea(
 }
 
 @Composable
-fun RecruitmentItemBottomArea(
+fun PartyItemBottomArea(
     title: String,
-    main: String,
-    sub: String,
-    recruitingCount: Int,
-    recruitedCount: Int,
 ) {
     Column(
         modifier = Modifier
@@ -173,18 +167,23 @@ fun RecruitmentItemBottomArea(
             fontSize = T3,
             fontWeight = FontWeight.Bold,
         )
+        HeightSpacer(heightDp = 16.dp)
 
-        HeightSpacer(heightDp = 4.dp)
-        PositionArea(
-            modifier = Modifier
-                .height(20.dp),
-            main = main,
-            sub = sub,
-        )
-        HeightSpacer(heightDp = 12.dp)
-        RecruitmentCountArea(
-            recruitingCount = recruitingCount,
-            recruitedCount = recruitedCount,
-        )
+        PartyItemBottomAreaDescription()
     }
+}
+
+@Composable
+fun PartyItemBottomAreaDescription(
+    modifier: Modifier = Modifier
+) {
+    TextComponent(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(44.dp),
+        text = "지금 4개 포지션 모집 중",
+        fontSize = B3,
+        textColor = PRIMARY,
+        fontWeight = FontWeight.SemiBold,
+    )
 }

@@ -31,5 +31,14 @@ fun MainArea(
             homeViewModel = homeViewModel,
             snackBarHostState = snackBarHostState
         )
+
+        HeightSpacer(heightDp = 60.dp)
+
+        PartyListArea(
+            homeViewModel = homeViewModel,
+            snackBarHostState = snackBarHostState
+        )
+
+        HeightSpacer(heightDp = 60.dp)
     }
 }

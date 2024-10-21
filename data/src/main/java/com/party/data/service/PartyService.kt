@@ -1,5 +1,6 @@
 package com.party.data.service
 
+import com.party.data.entity.party.PartyListEntity
 import com.party.data.entity.party.PersonalRecruitmentListEntity
 import com.party.data.entity.party.RecruitmentListEntity
 import com.skydoves.sandwich.ApiResponse
@@ -27,4 +28,13 @@ interface PartyService {
         @Query("sort") sort: String,
         @Query("order") order: String,
     ): ApiResponse<RecruitmentListEntity>
+
+    // 파티 리스트 조회
+    @GET("api/parties")
+    suspend fun getPartyList(
+        @Query("page") page: Int,
+        @Query("limit") size: Int,
+        @Query("sort") sort: String,
+        @Query("order") order: String,
+    ): ApiResponse<PartyListEntity>
 }

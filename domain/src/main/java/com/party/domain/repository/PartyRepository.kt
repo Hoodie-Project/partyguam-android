@@ -1,6 +1,7 @@
 package com.party.domain.repository
 
 import com.party.common.ServerApiResponse
+import com.party.domain.model.party.PartyListResponse
 import com.party.domain.model.party.PersonalRecruitmentListResponse
 import com.party.domain.model.party.RecruitmentListResponse
 
@@ -21,4 +22,12 @@ interface PartyRepository {
         sort: String,
         order: String
     ): ServerApiResponse<RecruitmentListResponse>
+
+    // 파티 리스트 조회
+    suspend fun getPartyList(
+        page: Int,
+        size: Int,
+        sort: String,
+        order: String
+    ): ServerApiResponse<PartyListResponse>
 }
