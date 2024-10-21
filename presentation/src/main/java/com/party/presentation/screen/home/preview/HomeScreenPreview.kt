@@ -7,6 +7,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.party.domain.model.party.PersonalRecruitmentItemResponse
 import com.party.domain.model.party.PersonalRecruitmentPartyResponse
+import com.party.domain.model.party.PersonalRecruitmentPartyTypeResponse
 import com.party.domain.model.party.PersonalRecruitmentPositionResponse
 import com.party.presentation.screen.home.HomeScreen
 import com.party.presentation.screen.home.tab_main.PersonalRecruitmentItem
@@ -35,14 +36,19 @@ fun PersonalRecruitmentItemPreview() {
             createdAt = "2021-09-01",
             party = PersonalRecruitmentPartyResponse(
                 title = "파티 제목",
-                image = "https://picsum.photos/200/300"
+                image = "https://picsum.photos/200/300",
+                partyType = PersonalRecruitmentPartyTypeResponse(
+                    id = 1,
+                    type = "타입"
+                )
             ),
             position = PersonalRecruitmentPositionResponse(
                 id = 1,
                 main = "메인",
                 sub = "서브"
             )
-        )
+        ),
+        onClick = {}
     )
 }
 
@@ -60,13 +66,18 @@ fun PersonalRecruitmentItemPreview2() {
             createdAt = "2021-09-01",
             party = PersonalRecruitmentPartyResponse(
                 title = "파티 제목파티 제목파티 제목파티 제목파티 제목파티 제목파티 제목123",
-                image = "https://picsum.photos/200/300"
+                image = "https://picsum.photos/200/300",
+                partyType = PersonalRecruitmentPartyTypeResponse(
+                    id = 1,
+                    type = "타입"
+                )
             ),
             position = PersonalRecruitmentPositionResponse(
                 id = 1,
                 main = "메인",
                 sub = "서브"
             )
-        )
+        ),
+        onClick = {}
     )
 }

@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.common.UIState
 import com.party.domain.model.party.PersonalRecruitmentListResponse
+import com.party.domain.model.party.RecruitmentListResponse
 import com.party.domain.usecase.party.GetPersonalRecruitmentListUseCase
+import com.party.domain.usecase.party.GetRecruitmentListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,11 +17,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getPersonalRecruitmentListUseCase: GetPersonalRecruitmentListUseCase
+    private val getPersonalRecruitmentListUseCase: GetPersonalRecruitmentListUseCase,
+    private val getRecruitmentListUseCase: GetRecruitmentListUseCase,
 ): ViewModel(){
 
     private val _getPersonalRecruitmentListState = MutableStateFlow<UIState<ServerApiResponse<PersonalRecruitmentListResponse>>>(UIState.Idle)
     val getPersonalRecruitmentListState: StateFlow<UIState<ServerApiResponse<PersonalRecruitmentListResponse>>> = _getPersonalRecruitmentListState
+
+    private val _getRecruitmentListState = MutableStateFlow<UIState<ServerApiResponse<RecruitmentListResponse>>>(UIState.Idle)
+    val getRecruitmentListState: StateFlow<UIState<ServerApiResponse<RecruitmentListResponse>>> = _getRecruitmentListState
 
     fun getPersonalRecruitmentList(
         page: Int,
@@ -39,6 +45,29 @@ class HomeViewModel @Inject constructor(
                 is ServerApiResponse.ExceptionResponse -> {
                     _getPersonalRecruitmentListState.value = UIState.Idle
                 }
+            }
+        }
+    }
+
+    fun getRecruitmentList(
+        page: Int,
+        size: Int,
+        sort: String,
+        order: String
+    ){
+        viewModelScope.launch(Dispatchers.IO) {
+            _getRecruitmentListState.value = UIState.Loading
+            when(val result = getRecruitmentListUseCase(page = page, size = size, sort = sort, order = order)){
+                is ServerApiResponse.SuccessResponse<RecruitmentListResponse> -> {
+                    _getRecruitmentListState.value = UIState.Success(result)
+                }
+                is ServerApiResponse.ErrorResponse<RecruitmentListResponse> -> {
+                    _getRecruitmentListState.value = UIState.Idle
+                }
+                is ServerApiResponse.ExceptionResponse -> {
+                    _getRecruitmentListState.value = UIState.Idle
+                }
+
             }
         }
     }

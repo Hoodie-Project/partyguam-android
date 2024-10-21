@@ -36,49 +36,50 @@ import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.party.PersonalRecruitmentItemResponse
-import com.party.domain.model.party.PersonalRecruitmentListResponse
+import com.party.domain.model.party.RecruitmentItemResponse
+import com.party.domain.model.party.RecruitmentListResponse
 import com.party.presentation.screen.home.HomeListTitleArea
 import com.party.presentation.screen.home.HomeViewModel
 import com.party.presentation.screen.home.PositionArea
 import com.party.presentation.screen.home.RecruitmentCountArea
 
 @Composable
-fun PersonalRecruitmentArea(
+fun NewRecruitmentArea(
     homeViewModel: HomeViewModel,
     snackBarHostState: SnackbarHostState,
 ) {
-    val getPersonalRecruitmentListState by homeViewModel.getPersonalRecruitmentListState.collectAsState()
-    val personalRecruitmentListResponse = getPersonalRecruitmentListState.data
+    val getRecruitmentListState by homeViewModel.getRecruitmentListState.collectAsState()
+    val recruitmentListResponse = getRecruitmentListState.data
 
     LaunchedEffect(Unit) {
-        homeViewModel.getPersonalRecruitmentList(page = 1, size = 10, sort = "createdAt", order = "DESC")
+        homeViewModel.getRecruitmentList(page = 1, size = 10, sort = "createdAt", order = "DESC")
     }
 
-    HeightSpacer(heightDp = 40.dp)
-
     HomeListTitleArea(
-        title = stringResource(id = R.string.home_list_personal_title),
-        titleIcon = painterResource(id = R.drawable.reload),
-        description = stringResource(id = R.string.home_list_personal_description),
+        title = stringResource(id = R.string.home_list_new_title),
+        titleIcon = painterResource(id = R.drawable.arrow_right_icon),
+        description = stringResource(id = R.string.home_list_new_description),
     )
 
-    when(getPersonalRecruitmentListState){
+    when (getRecruitmentListState) {
         is UIState.Idle -> {}
-        is UIState.Loading -> { LoadingProgressBar() }
-        is UIState.Success -> {
-            val successResult = personalRecruitmentListResponse as SuccessResponse<PersonalRecruitmentListResponse>
-            PersonalRecruitmentListArea(successResult.data)
+        is UIState.Loading -> {
+            LoadingProgressBar()
         }
+
+        is UIState.Success -> {
+            val successResult = recruitmentListResponse as SuccessResponse<RecruitmentListResponse>
+            RecruitmentListArea(successResult.data)
+        }
+
         is UIState.Error -> {}
         is UIState.Exception -> { snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState) }
     }
-
 }
 
 @Composable
-fun PersonalRecruitmentListArea(
-    personalRecruitmentListResponse: PersonalRecruitmentListResponse?,
+fun RecruitmentListArea(
+    recruitmentListResponse: RecruitmentListResponse?,
 ) {
     HeightSpacer(heightDp = 20.dp)
 
@@ -88,22 +89,23 @@ fun PersonalRecruitmentListArea(
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         itemsIndexed(
-            items = personalRecruitmentListResponse?.partyRecruitments ?: emptyList(),
+            items = recruitmentListResponse?.partyRecruitments ?: emptyList(),
             key = { index, _ ->
                 index
             }
         ) { _, item ->
-            PersonalRecruitmentItem(
-                personalRecruitmentLisItemResponse = item,
-                onClick = { /*TODO*/ }
+            RecruitmentItem(
+                recruitmentLisItemResponse = item,
+                onClick = {},
             )
         }
     }
 }
 
+
 @Composable
-fun PersonalRecruitmentItem(
-    personalRecruitmentLisItemResponse: PersonalRecruitmentItemResponse,
+fun RecruitmentItem(
+    recruitmentLisItemResponse: RecruitmentItemResponse,
     onClick: () -> Unit,
 ) {
     Card(
@@ -121,22 +123,22 @@ fun PersonalRecruitmentItem(
                 .width(200.dp)
                 .height(271.dp),
         ) {
-            PersonalRecruitmentItemTopArea(
-                imageUrl = personalRecruitmentLisItemResponse.party.image,
+            RecruitmentItemTopArea(
+                imageUrl = recruitmentLisItemResponse.party.image,
             )
-            PersonalRecruitmentItemBottomArea(
-                title = personalRecruitmentLisItemResponse.party.title,
-                main = personalRecruitmentLisItemResponse.position.main,
-                sub = personalRecruitmentLisItemResponse.position.sub,
-                recruitingCount = personalRecruitmentLisItemResponse.recruitingCount,
-                recruitedCount = personalRecruitmentLisItemResponse.recruitedCount,
+            RecruitmentItemBottomArea(
+                title = recruitmentLisItemResponse.party.title,
+                main = recruitmentLisItemResponse.position.main,
+                sub = recruitmentLisItemResponse.position.sub,
+                recruitingCount = recruitmentLisItemResponse.recruitingCount,
+                recruitedCount = recruitmentLisItemResponse.recruitedCount,
             )
         }
     }
 }
 
 @Composable
-fun PersonalRecruitmentItemTopArea(
+fun RecruitmentItemTopArea(
     imageUrl: String? = null,
 ) {
     Box(
@@ -144,6 +146,7 @@ fun PersonalRecruitmentItemTopArea(
             .fillMaxWidth()
             .height(150.dp)
     ){
+        println("imageUrl: $imageUrl")
         NetworkImageLoad(
             url = imageUrl,
             modifier = Modifier
@@ -153,7 +156,7 @@ fun PersonalRecruitmentItemTopArea(
 }
 
 @Composable
-fun PersonalRecruitmentItemBottomArea(
+fun RecruitmentItemBottomArea(
     title: String,
     main: String,
     sub: String,

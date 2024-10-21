@@ -1,6 +1,7 @@
 package com.party.data.datasource.remote.party
 
 import com.party.data.entity.party.PersonalRecruitmentListEntity
+import com.party.data.entity.party.RecruitmentListEntity
 import com.party.data.service.PartyService
 import com.skydoves.sandwich.ApiResponse
 import javax.inject.Inject
@@ -15,5 +16,14 @@ class PartyRemoteSourceImpl @Inject constructor(
         order: String
     ): ApiResponse<PersonalRecruitmentListEntity> {
         return partyService.getPersonalizedParties(page = page, size = size, sort = sort, order = order)
+    }
+
+    override suspend fun getRecruitmentList(
+        page: Int,
+        size: Int,
+        sort: String,
+        order: String
+    ): ApiResponse<RecruitmentListEntity> {
+        return partyService.getRecruitmentList(page = page, size = size, sort = sort, order = order)
     }
 }
