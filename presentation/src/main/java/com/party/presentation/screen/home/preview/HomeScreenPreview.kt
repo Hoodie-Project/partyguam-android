@@ -21,7 +21,7 @@ fun HomeScreenPreview() {
     HomeScreen(
         context = LocalContext.current,
         snackBarHostState = SnackbarHostState(),
-        navController = rememberNavController()
+        navController = rememberNavController(),
     )
 }
 

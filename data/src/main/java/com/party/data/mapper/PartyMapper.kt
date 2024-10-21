@@ -20,7 +20,7 @@ import com.party.domain.model.party.RecruitmentPositionResponse
 object PartyMapper {
 
     private fun convertToImageUrl(image: String?): String{
-        return "https://partyguam.net/$image"
+        return "https://partyguam.net/dev/api/$image"
     }
 
     fun mapperPersonalRecruitmentResponse(personalRecruitmentListEntity: PersonalRecruitmentListEntity): PersonalRecruitmentListResponse{

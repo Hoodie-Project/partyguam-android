@@ -3,11 +3,14 @@ package com.party.navigation
 import android.app.Activity
 import android.content.Context
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -22,28 +25,31 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.party.common.R
+import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B3
+import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.BOTTOM_NAVIGATION_SELECTED_TEXT
 import com.party.common.ui.theme.BOTTOM_NAVIGATION_SELECTED_TINT
 import com.party.common.ui.theme.BOTTOM_NAVIGATION_UNSELECTED_TEXT
 import com.party.common.ui.theme.BOTTOM_NAVIGATION_UNSELECTED_TINT
 import com.party.common.ui.theme.ICON_SIZE
-import com.party.common.ui.theme.T3
+import com.party.common.ui.theme.WHITE
 
 @Composable
 fun BottomNavigationBar(
     context: Context,
     navController: NavHostController,
+    isExpandedFloatingButton: Boolean,
+    onUnExpandedFloatingButton: (Boolean) -> Unit,
 ){
     val screenList = listOf(
         Screens.Home,
@@ -55,11 +61,13 @@ fun BottomNavigationBar(
     val currentScreen = backStackEntry.value.fromRoute()
 
     AppBottomNavigationBar(
-        show = navController.shouldShowBottomBar
+        isExpandedFloatingButton = isExpandedFloatingButton,
+        show = navController.shouldShowBottomBar,
+        onUnExpandedFloatingButton = onUnExpandedFloatingButton,
     ) {
         screenList.forEach { screenItem ->
             AppBottomNavigationBarItem(
-                icon = BottomIconSetting(screenItem),
+                icon = bottomIconSetting(screenItem),
                 label = screenItem.title,
                 onClick = {
                     if (currentScreen != screenItem) {
@@ -69,13 +77,7 @@ fun BottomNavigationBar(
                     }
                 },
                 selected = currentScreen == screenItem,
-                onBack = {
-                    if (currentScreen == Screens.Home) {
-                        (context as Activity).finish()
-                    } else {
-                        navController.navigate(Screens.Home)
-                    }
-                }
+                onBack = { if (currentScreen == Screens.Home) (context as Activity).finish() else navController.navigate(Screens.Home) },
             )
         }
     }
@@ -85,29 +87,43 @@ fun BottomNavigationBar(
 fun AppBottomNavigationBar(
     modifier: Modifier = Modifier,
     show: Boolean,
-    content: @Composable (RowScope.() -> Unit),
+    isExpandedFloatingButton: Boolean,
+    onUnExpandedFloatingButton: (Boolean) -> Unit,
+    content: @Composable (RowScope.() -> Unit)
 ) {
     Surface(
-        color = Color.White,
-        modifier = modifier.windowInsetsPadding(BottomAppBarDefaults.windowInsets)
+        color = WHITE,
+        modifier = modifier
+            .fillMaxWidth()
+            .height(86.dp)
+            .windowInsetsPadding(BottomAppBarDefaults.windowInsets)
+            .blur(
+                radiusX = if(isExpandedFloatingButton) 10.dp else 0.dp,
+                radiusY = if(isExpandedFloatingButton) 10.dp else 0.dp,
+            ),
     ) {
         if (show) {
-            Column {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
                 HorizontalDivider(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(1.dp),
+                        .height(if(isExpandedFloatingButton) 0.dp else 1.dp),
                     color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)
                 )
-
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(68.dp)
+                        .height(85.dp)
                         .selectableGroup(),
                     verticalAlignment = Alignment.CenterVertically,
                     content = content
                 )
+            }
+            if(isExpandedFloatingButton){
+                Box(modifier = Modifier.fillMaxSize().background(BLACK.copy(alpha = 0.7f)).noRippleClickable {onUnExpandedFloatingButton(false)})
             }
         }
     }
@@ -162,7 +178,7 @@ private val NavController.shouldShowBottomBar
     }
 
 @Composable
-private fun BottomIconSetting(screens: Screens): Painter {
+private fun bottomIconSetting(screens: Screens): Painter {
     return when (screens) {
         Screens.Home -> painterResource(id = R.drawable.home_icon)
         Screens.State -> painterResource(id = R.drawable.state_icon)

@@ -3,9 +3,9 @@ package com.party.presentation
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -15,12 +15,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.party.common.noRippleClickable
+import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.BottomNavigationBar
@@ -67,6 +71,10 @@ fun AppNavHost() {
         mutableStateOf(false)
     }
 
+    var isExpandedFloatingButton by remember {
+        mutableStateOf(false)
+    }
+
     Scaffold(
         snackbarHost = {
             SnackbarHost(
@@ -88,19 +96,26 @@ fun AppNavHost() {
         bottomBar = {
             BottomNavigationBar(
                 context = context,
-                navController = navController
+                navController = navController,
+                isExpandedFloatingButton = isExpandedFloatingButton,
+                onUnExpandedFloatingButton = { isExpandedFloatingButton = it }
             )
         },
-        floatingActionButton = { if(currentScreen == Screens.Home) FloatingButton() }
+        floatingActionButton = { if(currentScreen == Screens.Home) FloatingButton(isExpandedFloatingButton = isExpandedFloatingButton, onExpanded = { isExpandedFloatingButton = it }) }
     ){
         NavHost(
             navController = navController,
             startDestination = Screens.Splash,
             modifier = Modifier
                 .fillMaxSize()
+                .blur(
+                    radiusX = if (isExpandedFloatingButton) 10.dp else 0.dp,
+                    radiusY = if (isExpandedFloatingButton) 10.dp else 0.dp,
+                )
                 .background(WHITE)
                 .padding(it)
                 .padding(horizontal = MEDIUM_PADDING_SIZE),
+
             enterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Left,
@@ -274,6 +289,10 @@ fun AppNavHost() {
             composable<Screens.Profile> {
                 ProfileScreen()
             }
+        }
+
+        if(isExpandedFloatingButton){
+            Box(modifier = Modifier.fillMaxSize().background(BLACK.copy(alpha = 0.7f)).noRippleClickable { isExpandedFloatingButton = false })
         }
     }
 }
