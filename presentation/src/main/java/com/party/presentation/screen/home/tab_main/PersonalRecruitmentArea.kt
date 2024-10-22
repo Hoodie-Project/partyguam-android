@@ -49,12 +49,12 @@ fun PersonalRecruitmentArea(
     homeViewModel: HomeViewModel,
     snackBarHostState: SnackbarHostState,
 ) {
-    val getPersonalRecruitmentListState by homeViewModel.getPersonalRecruitmentListState.collectAsState()
-    val personalRecruitmentListResponse = getPersonalRecruitmentListState.data
-
     LaunchedEffect(Unit) {
         homeViewModel.getPersonalRecruitmentList(page = 1, size = 10, sort = "createdAt", order = "DESC")
     }
+
+    val getPersonalRecruitmentListState by homeViewModel.getPersonalRecruitmentListState.collectAsState()
+    val personalRecruitmentListResponse = getPersonalRecruitmentListState.data
 
     HeightSpacer(heightDp = 40.dp)
 
@@ -62,6 +62,9 @@ fun PersonalRecruitmentArea(
         title = stringResource(id = R.string.home_list_personal_title),
         titleIcon = painterResource(id = R.drawable.reload),
         description = stringResource(id = R.string.home_list_personal_description),
+        onClick = {
+            homeViewModel.getPersonalRecruitmentList(page = 1, size = 10, sort = "createdAt", order = "DESC")
+        },
     )
 
     when(getPersonalRecruitmentListState){
@@ -74,7 +77,6 @@ fun PersonalRecruitmentArea(
         is UIState.Error -> {}
         is UIState.Exception -> { snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState) }
     }
-
 }
 
 @Composable

@@ -32,13 +32,18 @@ fun HomeListTitleArea(
     title: String,
     titleIcon: Painter,
     description: String,
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
-        HomeListTitleArea(title = title, icon = titleIcon)
+        HomeListTitleArea(
+            title = title,
+            icon = titleIcon,
+            onClick = onClick,
+        )
 
         HeightSpacer(heightDp = 8.dp)
 
@@ -50,6 +55,7 @@ fun HomeListTitleArea(
 fun HomeListTitleArea(
     title: String,
     icon: Painter,
+    onClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -64,7 +70,7 @@ fun HomeListTitleArea(
         )
 
         IconButton(
-            onClick = { /*TODO*/ },
+            onClick = { onClick() },
         ) {
             Icon(
                 modifier = Modifier.size(ICON_SIZE),

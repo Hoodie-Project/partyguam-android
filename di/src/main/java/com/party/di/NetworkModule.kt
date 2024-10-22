@@ -56,11 +56,6 @@ object NetworkModule {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         return OkHttpClient.Builder()
-            .addInterceptor(
-                HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BODY
-                }
-            )
             .addInterceptor(accessTokenInterceptor)
             .addNetworkInterceptor(httpLoggingInterceptor)
             .connectTimeout(TIME_OUT_VALUE, TimeUnit.SECONDS)
