@@ -56,13 +56,15 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
 
     // hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
-
-
 
     // Material Icons Extended
     implementation(libs.androidx.material.icons.extended)
@@ -90,6 +92,5 @@ dependencies {
 
     // kakao login
     implementation("com.kakao.sdk:v2-user:2.13.0")
-
 
 }

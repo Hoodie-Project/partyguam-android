@@ -1,6 +1,5 @@
 package com.party.presentation.screen.home
 
-import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
@@ -22,7 +21,6 @@ import com.party.presentation.screen.home.tab_recruitment.RecruitmentArea
 
 @Composable
 fun HomeScreen(
-    context: Context,
     snackBarHostState: SnackbarHostState,
     navController: NavController,
     homeViewModel: HomeViewModel = hiltViewModel()

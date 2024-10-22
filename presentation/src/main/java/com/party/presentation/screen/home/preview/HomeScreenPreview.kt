@@ -19,7 +19,6 @@ import com.party.presentation.screen.home.tab_main.PersonalRecruitmentItem
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(
-        context = LocalContext.current,
         snackBarHostState = SnackbarHostState(),
         navController = rememberNavController(),
     )

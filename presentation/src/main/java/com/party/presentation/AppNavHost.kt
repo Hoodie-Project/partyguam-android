@@ -278,7 +278,6 @@ fun AppNavHost() {
             }
             composable<Screens.Home> {
                 HomeScreen(
-                    context = context,
                     snackBarHostState = snackBarHostState,
                     navController = navController,
                 )

@@ -45,6 +45,8 @@ fun FloatingButton(
         }
         HeightSpacer(12.dp)
         FloatingActionButton(
+            modifier = Modifier
+                ,
             onClick = { onExpanded(!isExpandedFloatingButton) },
             shape = CircleShape,
             containerColor = if (isExpandedFloatingButton) WHITE else PRIMARY
