@@ -19,6 +19,7 @@ data class PartyItemEntity(
     val status: String,
     val createdAt: String,
     val updatedAt: String,
+    val recruitmentCount: Int,
 )
 
 @Serializable

@@ -101,7 +101,8 @@ fun PartyItemPreview() {
             image = "https://picsum.photos/200/300",
             status = "상태",
             createdAt = "2021-09-01",
-            updatedAt = "2021-09-01"
+            updatedAt = "2021-09-01",
+            recruitmentCount = 2
         ),
         onClick = {}
     )

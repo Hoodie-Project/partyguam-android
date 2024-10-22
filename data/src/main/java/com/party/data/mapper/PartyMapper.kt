@@ -99,7 +99,8 @@ object PartyMapper {
                     image = convertToImageUrl(it.image),
                     status = it.status,
                     createdAt = it.createdAt,
-                    updatedAt = it.updatedAt
+                    updatedAt = it.updatedAt,
+                    recruitmentCount = it.recruitmentCount,
                 )
             }
         )

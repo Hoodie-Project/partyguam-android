@@ -127,6 +127,7 @@ fun PartyItem(
             )
             PartyItemBottomArea(
                 title = partyItemResponse.title,
+                recruitmentCount = partyItemResponse.recruitmentCount,
             )
         }
     }
@@ -152,6 +153,7 @@ fun PartyItemTopArea(
 @Composable
 fun PartyItemBottomArea(
     title: String,
+    recruitmentCount: Int,
 ) {
     Column(
         modifier = Modifier
@@ -169,19 +171,21 @@ fun PartyItemBottomArea(
         )
         HeightSpacer(heightDp = 16.dp)
 
-        PartyItemBottomAreaDescription()
+        PartyItemBottomAreaDescription(
+            recruitmentCount = recruitmentCount
+        )
     }
 }
 
 @Composable
 fun PartyItemBottomAreaDescription(
-    modifier: Modifier = Modifier
+    recruitmentCount: Int,
 ) {
     TextComponent(
         modifier = Modifier
             .fillMaxWidth()
             .height(44.dp),
-        text = "지금 4개 포지션 모집 중",
+        text = stringResource(id = R.string.home_list_party_recruitment_count, recruitmentCount),
         fontSize = B3,
         textColor = PRIMARY,
         fontWeight = FontWeight.SemiBold,
