@@ -12,10 +12,13 @@ import com.party.domain.model.party.PersonalRecruitmentItemResponse
 import com.party.domain.model.party.PersonalRecruitmentPartyResponse
 import com.party.domain.model.party.PersonalRecruitmentPartyTypeResponse
 import com.party.domain.model.party.PersonalRecruitmentPositionResponse
+import com.party.domain.model.party.RecruitmentItemResponse
+import com.party.domain.model.party.RecruitmentListResponse
 import com.party.presentation.screen.home.HomeScreen
 import com.party.presentation.screen.home.PartyCategory
 import com.party.presentation.screen.home.tab_main.PartyItem
 import com.party.presentation.screen.home.tab_main.PersonalRecruitmentItem
+import com.party.presentation.screen.home.tab_main.RecruitmentItem
 
 @Preview(showBackground = true)
 @Composable

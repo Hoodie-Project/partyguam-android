@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -123,7 +124,8 @@ fun PersonalRecruitmentItem(
         Column(
             modifier = Modifier
                 .width(200.dp)
-                .height(311.dp),
+                .height(300.dp)
+                .padding(12.dp),
         ) {
             PersonalRecruitmentItemTopArea(
                 imageUrl = personalRecruitmentLisItemResponse.party.image,
@@ -153,7 +155,6 @@ fun PersonalRecruitmentItemTopArea(
             url = imageUrl,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(12.dp)
         )
     }
 }
@@ -171,7 +172,6 @@ fun PersonalRecruitmentItemBottomArea(
         modifier = Modifier
             .fillMaxWidth()
             .height(142.dp)
-            .padding(8.dp)
     ) {
         PartyCategory(category = category)
         HeightSpacer(heightDp = 4.dp)
@@ -182,6 +182,7 @@ fun PersonalRecruitmentItemBottomArea(
             text = title,
             fontSize = T3,
             fontWeight = FontWeight.Bold,
+            textAlign = Alignment.TopStart,
         )
 
         HeightSpacer(heightDp = 4.dp)

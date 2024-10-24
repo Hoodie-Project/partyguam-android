@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -122,7 +123,8 @@ fun PartyItem(
         Column(
             modifier = Modifier
                 .width(200.dp)
-                .height(287.dp),
+                .height(280.dp)
+                .padding(12.dp),
         ) {
             PartyItemTopArea(
                 imageUrl = partyItemResponse.image,
@@ -149,7 +151,6 @@ fun PartyItemTopArea(
             url = imageUrl,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(12.dp)
         )
     }
 }
@@ -164,7 +165,6 @@ fun PartyItemBottomArea(
         modifier = Modifier
             .fillMaxWidth()
             .height(142.dp)
-            .padding(8.dp)
     ) {
         PartyCategory(category = category)
         HeightSpacer(heightDp = 4.dp)
@@ -175,8 +175,9 @@ fun PartyItemBottomArea(
             text = title,
             fontSize = T3,
             fontWeight = FontWeight.Bold,
+            textAlign = Alignment.TopStart,
         )
-        HeightSpacer(heightDp = 16.dp)
+        HeightSpacer(heightDp = 12.dp)
 
         PartyItemBottomAreaDescription(
             recruitmentCount = recruitmentCount
@@ -191,7 +192,8 @@ fun PartyItemBottomAreaDescription(
     TextComponent(
         modifier = Modifier
             .fillMaxWidth()
-            .height(44.dp),
+            .height(44.dp)
+            .padding(horizontal = 4.dp),
         text = stringResource(id = R.string.home_list_party_recruitment_count, recruitmentCount),
         fontSize = B3,
         textColor = PRIMARY,

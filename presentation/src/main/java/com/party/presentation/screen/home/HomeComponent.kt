@@ -35,6 +35,7 @@ import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
+import com.party.common.ui.theme.DARK200
 import com.party.common.ui.theme.DARK400
 import com.party.common.ui.theme.HOME_PARTY_LIST_CATEGORY_BACKGROUND
 import com.party.common.ui.theme.HOME_PARTY_LIST_CATEGORY_TEXT
@@ -56,28 +57,31 @@ fun HomeListTitleArea(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight()
+            .height(55.dp),
     ) {
         HomeListTitleArea(
+            modifier = Modifier.height(25.dp),
             title = title,
             icon = titleIcon,
             onClick = onClick,
         )
-
         HeightSpacer(heightDp = 8.dp)
-
-        HomeListDescriptionArea(description = description)
+        HomeListDescriptionArea(
+            modifier = Modifier.height(22.dp),
+            description = description
+        )
     }
 }
 
 @Composable
 fun HomeListTitleArea(
+    modifier: Modifier,
     title: String,
     icon: Painter,
     onClick: () -> Unit,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -102,10 +106,11 @@ fun HomeListTitleArea(
 
 @Composable
 fun HomeListDescriptionArea(
+    modifier: Modifier,
     description: String,
 ) {
     TextComponent(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         text = description,
         fontSize = T3,
     )
@@ -169,8 +174,8 @@ fun PartyCategory(
         Box(
             modifier = Modifier
                 .wrapContentWidth()
-                .height(24.dp)
-                .padding(horizontal = 8.dp, vertical = 0.dp),
+                .fillMaxHeight()
+                .padding(horizontal = 8.dp),
             contentAlignment = Alignment.Center
         ){
             Text(
