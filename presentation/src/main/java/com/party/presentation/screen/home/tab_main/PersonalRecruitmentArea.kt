@@ -41,6 +41,7 @@ import com.party.domain.model.party.PersonalRecruitmentItemResponse
 import com.party.domain.model.party.PersonalRecruitmentListResponse
 import com.party.presentation.screen.home.HomeListTitleArea
 import com.party.presentation.screen.home.HomeViewModel
+import com.party.presentation.screen.home.PartyCategory
 import com.party.presentation.screen.home.PositionArea
 import com.party.presentation.screen.home.RecruitmentCountArea
 
@@ -110,7 +111,7 @@ fun PersonalRecruitmentItem(
     onClick: () -> Unit,
 ) {
     Card(
-        onClick = {},
+        onClick = { onClick() },
         modifier = Modifier.wrapContentSize(),
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
         colors = CardDefaults.cardColors(
@@ -122,12 +123,13 @@ fun PersonalRecruitmentItem(
         Column(
             modifier = Modifier
                 .width(200.dp)
-                .height(271.dp),
+                .height(311.dp),
         ) {
             PersonalRecruitmentItemTopArea(
                 imageUrl = personalRecruitmentLisItemResponse.party.image,
             )
             PersonalRecruitmentItemBottomArea(
+                category = personalRecruitmentLisItemResponse.party.partyType.type,
                 title = personalRecruitmentLisItemResponse.party.title,
                 main = personalRecruitmentLisItemResponse.position.main,
                 sub = personalRecruitmentLisItemResponse.position.sub,
@@ -151,12 +153,14 @@ fun PersonalRecruitmentItemTopArea(
             url = imageUrl,
             modifier = Modifier
                 .fillMaxSize()
+                .padding(12.dp)
         )
     }
 }
 
 @Composable
 fun PersonalRecruitmentItemBottomArea(
+    category: String,
     title: String,
     main: String,
     sub: String,
@@ -166,9 +170,11 @@ fun PersonalRecruitmentItemBottomArea(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(121.dp)
+            .height(142.dp)
             .padding(8.dp)
     ) {
+        PartyCategory(category = category)
+        HeightSpacer(heightDp = 4.dp)
         TextComponent(
             modifier = Modifier
                 .fillMaxWidth()

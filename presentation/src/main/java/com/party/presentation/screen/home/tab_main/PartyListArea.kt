@@ -44,6 +44,7 @@ import com.party.domain.model.party.PartyItemResponse
 import com.party.domain.model.party.PartyListResponse
 import com.party.presentation.screen.home.HomeListTitleArea
 import com.party.presentation.screen.home.HomeViewModel
+import com.party.presentation.screen.home.PartyCategory
 
 @Composable
 fun PartyListArea(
@@ -121,12 +122,13 @@ fun PartyItem(
         Column(
             modifier = Modifier
                 .width(200.dp)
-                .height(271.dp),
+                .height(287.dp),
         ) {
             PartyItemTopArea(
                 imageUrl = partyItemResponse.image,
             )
             PartyItemBottomArea(
+                category = partyItemResponse.partyType.type,
                 title = partyItemResponse.title,
                 recruitmentCount = partyItemResponse.recruitmentCount,
             )
@@ -147,21 +149,25 @@ fun PartyItemTopArea(
             url = imageUrl,
             modifier = Modifier
                 .fillMaxSize()
+                .padding(12.dp)
         )
     }
 }
 
 @Composable
 fun PartyItemBottomArea(
+    category: String,
     title: String,
     recruitmentCount: Int,
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(121.dp)
+            .height(142.dp)
             .padding(8.dp)
     ) {
+        PartyCategory(category = category)
+        HeightSpacer(heightDp = 4.dp)
         TextComponent(
             modifier = Modifier
                 .fillMaxWidth()

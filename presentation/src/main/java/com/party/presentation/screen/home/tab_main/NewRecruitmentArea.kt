@@ -41,6 +41,7 @@ import com.party.domain.model.party.RecruitmentItemResponse
 import com.party.domain.model.party.RecruitmentListResponse
 import com.party.presentation.screen.home.HomeListTitleArea
 import com.party.presentation.screen.home.HomeViewModel
+import com.party.presentation.screen.home.PartyCategory
 import com.party.presentation.screen.home.PositionArea
 import com.party.presentation.screen.home.RecruitmentCountArea
 
@@ -119,12 +120,13 @@ fun RecruitmentItem(
         Column(
             modifier = Modifier
                 .width(200.dp)
-                .height(271.dp),
+                .height(311.dp),
         ) {
             RecruitmentItemTopArea(
                 imageUrl = recruitmentLisItemResponse.party.image,
             )
             RecruitmentItemBottomArea(
+                category = recruitmentLisItemResponse.party.partyType.type,
                 title = recruitmentLisItemResponse.party.title,
                 main = recruitmentLisItemResponse.position.main,
                 sub = recruitmentLisItemResponse.position.sub,
@@ -148,12 +150,14 @@ fun RecruitmentItemTopArea(
             url = imageUrl,
             modifier = Modifier
                 .fillMaxSize()
+                .padding(12.dp)
         )
     }
 }
 
 @Composable
 fun RecruitmentItemBottomArea(
+    category: String,
     title: String,
     main: String,
     sub: String,
@@ -163,9 +167,11 @@ fun RecruitmentItemBottomArea(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(121.dp)
+            .height(142.dp)
             .padding(8.dp)
     ) {
+        PartyCategory(category = category)
+        HeightSpacer(heightDp = 4.dp)
         TextComponent(
             modifier = Modifier
                 .fillMaxWidth()

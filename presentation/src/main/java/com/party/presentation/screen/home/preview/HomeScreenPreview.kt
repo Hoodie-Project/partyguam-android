@@ -2,6 +2,7 @@ package com.party.presentation.screen.home.preview
 
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
@@ -12,6 +13,7 @@ import com.party.domain.model.party.PersonalRecruitmentPartyResponse
 import com.party.domain.model.party.PersonalRecruitmentPartyTypeResponse
 import com.party.domain.model.party.PersonalRecruitmentPositionResponse
 import com.party.presentation.screen.home.HomeScreen
+import com.party.presentation.screen.home.PartyCategory
 import com.party.presentation.screen.home.tab_main.PartyItem
 import com.party.presentation.screen.home.tab_main.PersonalRecruitmentItem
 
@@ -105,4 +107,12 @@ fun PartyItemPreview() {
         ),
         onClick = {}
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PartyCategoryPreview(
+    modifier: Modifier = Modifier
+) {
+    PartyCategory(category = "미정")
 }
