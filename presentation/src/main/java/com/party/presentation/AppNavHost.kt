@@ -17,12 +17,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.party.common.R
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
@@ -75,6 +77,16 @@ fun AppNavHost() {
         mutableStateOf(false)
     }
 
+    val homeTopTabList = listOf(
+        stringResource(id = R.string.home_top_tab1),
+        stringResource(id = R.string.home_top_tab2),
+        stringResource(id = R.string.home_top_tab3)
+    )
+
+    var selectedTabText by remember {
+        mutableStateOf(homeTopTabList[0])
+    }
+
     Scaffold(
         snackbarHost = {
             SnackbarHost(
@@ -101,7 +113,12 @@ fun AppNavHost() {
                 onUnExpandedFloatingButton = { isExpandedFloatingButton = it }
             )
         },
-        floatingActionButton = { if(currentScreen == Screens.Home) FloatingButton(isExpandedFloatingButton = isExpandedFloatingButton, onExpanded = { isExpandedFloatingButton = it }) }
+        floatingActionButton = { if(currentScreen == Screens.Home)
+            FloatingButton(
+                isExpandedFloatingButton = isExpandedFloatingButton,
+                selectedTabText = selectedTabText,
+                onExpanded = { isExpandedFloatingButton = it })
+        }
     ){
         NavHost(
             navController = navController,
@@ -280,6 +297,9 @@ fun AppNavHost() {
                 HomeScreen(
                     snackBarHostState = snackBarHostState,
                     navController = navController,
+                    selectedTabText = selectedTabText,
+                    homeTopTabList = homeTopTabList,
+                    onTabClick = { selectedText -> selectedTabText = selectedText }
                 )
             }
             composable<Screens.State> {

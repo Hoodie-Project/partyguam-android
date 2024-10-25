@@ -34,31 +34,35 @@ import com.party.common.ui.theme.WHITE
 @Composable
 fun FloatingButton(
     isExpandedFloatingButton: Boolean,
+    selectedTabText: String,
     onExpanded: (Boolean) -> Unit,
 ) {
-    Column(horizontalAlignment = Alignment.End) {
-        if (isExpandedFloatingButton) {
-            FabItem(
-                title = stringResource(id = R.string.common8),
-                onClicked = { } // 페이지 이동
-            )
-        }
-        HeightSpacer(12.dp)
-        FloatingActionButton(
-            modifier = Modifier
+    if(selectedTabText == "메인"){
+        Column(horizontalAlignment = Alignment.End) {
+            if (isExpandedFloatingButton) {
+                FabItem(
+                    title = stringResource(id = R.string.common8),
+                    onClicked = { } // 페이지 이동
+                )
+            }
+            HeightSpacer(12.dp)
+            FloatingActionButton(
+                modifier = Modifier
                 ,
-            onClick = { onExpanded(!isExpandedFloatingButton) },
-            shape = CircleShape,
-            containerColor = if (isExpandedFloatingButton) WHITE else PRIMARY
-        ) {
-            Icon(
-                modifier = Modifier.size(32.dp),
-                imageVector = if(isExpandedFloatingButton) Icons.Rounded.Close else Icons.Rounded.Add,
-                tint = if (isExpandedFloatingButton) BLACK else WHITE,
-                contentDescription = "This is Expand Button",
-            )
+                onClick = { onExpanded(!isExpandedFloatingButton) },
+                shape = CircleShape,
+                containerColor = if (isExpandedFloatingButton) WHITE else PRIMARY
+            ) {
+                Icon(
+                    modifier = Modifier.size(32.dp),
+                    imageVector = if(isExpandedFloatingButton) Icons.Rounded.Close else Icons.Rounded.Add,
+                    tint = if (isExpandedFloatingButton) BLACK else WHITE,
+                    contentDescription = "This is Expand Button",
+                )
+            }
         }
     }
+
 }
 
 @Composable

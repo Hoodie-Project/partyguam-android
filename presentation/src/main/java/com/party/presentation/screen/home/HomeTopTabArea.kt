@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
@@ -38,7 +37,7 @@ val HOME_TOP_TAB_AREA_ITEM_MAX_WIDTH = 80.dp
 fun HomeTopTabArea(
     homeTopTabList: List<String>,
     selectedTabText: String,
-    onClick: (String) -> Unit,
+    onTabClick: (String) -> Unit,
 ) {
     Column {
         Row(
@@ -52,7 +51,7 @@ fun HomeTopTabArea(
                     text = title,
                     textColor = if (selectedTabText == title) BLACK else GRAY400,
                     isShowSelectedIndicate = selectedTabText == title,
-                    onClick = { onClick(it) }
+                    onTabClick = { onTabClick(it) }
                 )
                 WidthSpacer(widthDp = 20.dp)
             }
@@ -86,13 +85,13 @@ fun HomeTopTabAreaItem(
     text: String,
     textColor: Color,
     isShowSelectedIndicate: Boolean,
-    onClick: (String) -> Unit,
+    onTabClick: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier
             .widthIn(min = HOME_TOP_TAB_AREA_ITEM_MIN_WIDTH, max = HOME_TOP_TAB_AREA_ITEM_MAX_WIDTH)
             .height(COMPONENT_AREA_HEIGHT)
-            .noRippleClickable { onClick(text) }
+            .noRippleClickable { onTabClick(text) }
     ) {
         Box(
             modifier = Modifier

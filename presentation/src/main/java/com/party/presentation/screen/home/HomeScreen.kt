@@ -6,15 +6,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.party.common.R
 import com.party.presentation.screen.home.tab_main.MainArea
 import com.party.presentation.screen.home.tab_party.PartyArea
 import com.party.presentation.screen.home.tab_recruitment.RecruitmentArea
@@ -23,19 +17,12 @@ import com.party.presentation.screen.home.tab_recruitment.RecruitmentArea
 fun HomeScreen(
     snackBarHostState: SnackbarHostState,
     navController: NavController,
-    homeViewModel: HomeViewModel = hiltViewModel()
+    selectedTabText: String,
+    homeTopTabList: List<String>,
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    onTabClick: (String) -> Unit,
 ) {
     val scrollState = rememberScrollState()
-
-    val homeTopTabList = listOf(
-        stringResource(id = R.string.home_top_tab1),
-        stringResource(id = R.string.home_top_tab2),
-        stringResource(id = R.string.home_top_tab3)
-    )
-
-    var selectedTabText by remember {
-        mutableStateOf(homeTopTabList[0])
-    }
 
     Column(
         modifier = Modifier
@@ -49,7 +36,7 @@ fun HomeScreen(
         HomeTopTabArea(
             homeTopTabList = homeTopTabList,
             selectedTabText = selectedTabText,
-            onClick = { selectedTabText = it }
+            onTabClick = { onTabClick(it) }
         )
 
         when(selectedTabText){

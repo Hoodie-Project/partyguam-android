@@ -26,6 +26,9 @@ fun HomeScreenPreview() {
     HomeScreen(
         snackBarHostState = SnackbarHostState(),
         navController = rememberNavController(),
+        selectedTabText = "메인",
+        homeTopTabList = listOf("메인", "파티", "모집"),
+        onTabClick = {},
     )
 }
 

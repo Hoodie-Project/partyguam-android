@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.R
@@ -29,11 +28,14 @@ import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.MEDIUM_CORNER_SIZE
 import com.party.common.ui.theme.WHITE
 
 @Composable
-fun SelectFilterArea() {
+fun SelectFilterArea(
+    filterName1: String,
+    filterName2: String,
+    filterName3: String,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -47,9 +49,9 @@ fun SelectFilterArea() {
                 .fillMaxHeight(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            SelectFilterItem(stringResource(id = R.string.recruitment_filter1))
+            SelectFilterItem(filterName1)
             WidthSpacer(widthDp = 8.dp)
-            SelectFilterItem(stringResource(id = R.string.recruitment_filter2))
+            SelectFilterItem(filterName2)
         }
 
         Row(
@@ -59,7 +61,7 @@ fun SelectFilterArea() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = stringResource(id = R.string.recruitment_filter3),
+                text = filterName3,
                 color = BLACK,
                 fontSize = B2
             )
@@ -114,7 +116,11 @@ fun SelectFilterItem(
 @Preview(showBackground = true)
 @Composable
 fun SelectFilterAreaPreview() {
-    SelectFilterArea()
+    SelectFilterArea(
+        filterName1 = "직무1",
+        filterName2 = "파티유형",
+        filterName3 = "등록일순",
+    )
 }
 
 @Preview(showBackground = true)
