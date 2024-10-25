@@ -24,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -35,6 +36,7 @@ import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
+import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.DARK200
 import com.party.common.ui.theme.DARK400
 import com.party.common.ui.theme.HOME_PARTY_LIST_CATEGORY_BACKGROUND
@@ -121,26 +123,29 @@ fun PositionArea(
     modifier: Modifier,
     main: String,
     sub: String,
+    textColor: Color = BLACK,
 ) {
     TextComponent(
         modifier = modifier
             .fillMaxWidth(),
         text = "$main | $sub",
         fontSize = B2,
+        textColor = textColor,
     )
 }
 
 @Composable
 fun RecruitmentCountArea(
+    modifier: Modifier,
     recruitingCount: Int,
     recruitedCount: Int,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.End,
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(20.dp),
+        modifier = modifier
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.End,
+        horizontalArrangement = horizontalArrangement,
     ) {
         TextComponent(
             text = stringResource(id = R.string.home_common),

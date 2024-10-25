@@ -22,12 +22,10 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel(),
     onTabClick: (String) -> Unit,
 ) {
-    val scrollState = rememberScrollState()
-
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(scrollState)
+
     ) {
         HomeTopBar(
             navController = navController,
@@ -42,7 +40,7 @@ fun HomeScreen(
         when(selectedTabText){
             homeTopTabList[0] -> { MainArea(homeViewModel = homeViewModel, snackBarHostState = snackBarHostState) }
             homeTopTabList[1] -> { PartyArea() }
-            homeTopTabList[2] -> { RecruitmentArea(homeViewModel = homeViewModel) }
+            homeTopTabList[2] -> { RecruitmentArea(homeViewModel = homeViewModel, snackBarHostState = snackBarHostState) }
         }
     }
 }

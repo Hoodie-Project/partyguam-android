@@ -206,6 +206,8 @@ fun RecruitmentItemBottomArea(
         )
         HeightSpacer(heightDp = 12.dp)
         RecruitmentCountArea(
+            modifier = Modifier
+                .height(20.dp),
             recruitingCount = recruitingCount,
             recruitedCount = recruitedCount,
         )
