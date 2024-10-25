@@ -38,6 +38,7 @@ import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.DARK100
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
+import com.party.common.ui.theme.MEDIUM_CORNER_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
@@ -123,12 +124,13 @@ fun PartyItem(
         Column(
             modifier = Modifier
                 .width(200.dp)
-                .height(280.dp)
+                .height(295.dp)
                 .padding(12.dp),
         ) {
             PartyItemTopArea(
                 imageUrl = partyItemResponse.image,
             )
+            HeightSpacer(heightDp = 12.dp)
             PartyItemBottomArea(
                 category = partyItemResponse.partyType.type,
                 title = partyItemResponse.title,
@@ -142,17 +144,26 @@ fun PartyItem(
 fun PartyItemTopArea(
     imageUrl: String? = null,
 ) {
-    Box(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp)
-    ){
-        NetworkImageLoad(
-            url = imageUrl,
+            .height(150.dp),
+        border = BorderStroke(1.dp, GRAY100),
+        shape = RoundedCornerShape(MEDIUM_CORNER_SIZE),
+    ) {
+        Box(
             modifier = Modifier
-                .fillMaxSize()
-        )
+                .fillMaxWidth()
+                .height(150.dp)
+        ){
+            NetworkImageLoad(
+                url = imageUrl,
+                modifier = Modifier
+                    .fillMaxSize()
+            )
+        }
     }
+
 }
 
 @Composable

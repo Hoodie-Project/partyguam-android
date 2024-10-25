@@ -40,6 +40,7 @@ import com.party.common.ui.theme.DARK100
 import com.party.common.ui.theme.DARK200
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
+import com.party.common.ui.theme.MEDIUM_CORNER_SIZE
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.RecruitmentItemResponse
@@ -125,12 +126,13 @@ fun RecruitmentItem(
         Column(
             modifier = Modifier
                 .width(200.dp)
-                .height(300.dp)
+                .height(315.dp)
                 .padding(12.dp),
         ) {
             RecruitmentItemTopArea(
                 imageUrl = recruitmentLisItemResponse.party.image,
             )
+            HeightSpacer(heightDp = 12.dp)
             RecruitmentItemBottomArea(
                 category = recruitmentLisItemResponse.party.partyType.type,
                 title = recruitmentLisItemResponse.party.title,
@@ -147,16 +149,24 @@ fun RecruitmentItem(
 fun RecruitmentItemTopArea(
     imageUrl: String? = null,
 ) {
-    Box(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp)
-    ){
-        NetworkImageLoad(
-            url = imageUrl,
+            .height(150.dp),
+        border = BorderStroke(1.dp, GRAY100),
+        shape = RoundedCornerShape(MEDIUM_CORNER_SIZE),
+    ) {
+        Box(
             modifier = Modifier
-                .fillMaxSize(),
-        )
+                .fillMaxWidth()
+                .height(150.dp)
+        ){
+            NetworkImageLoad(
+                url = imageUrl,
+                modifier = Modifier
+                    .fillMaxSize(),
+            )
+        }
     }
 }
 

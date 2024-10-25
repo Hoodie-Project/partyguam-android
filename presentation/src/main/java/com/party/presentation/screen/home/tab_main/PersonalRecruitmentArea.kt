@@ -35,7 +35,9 @@ import com.party.common.TextComponent
 import com.party.common.UIState
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.GRAY100
+import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
+import com.party.common.ui.theme.MEDIUM_CORNER_SIZE
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PersonalRecruitmentItemResponse
@@ -124,12 +126,13 @@ fun PersonalRecruitmentItem(
         Column(
             modifier = Modifier
                 .width(200.dp)
-                .height(300.dp)
+                .height(315.dp)
                 .padding(12.dp),
         ) {
             PersonalRecruitmentItemTopArea(
                 imageUrl = personalRecruitmentLisItemResponse.party.image,
             )
+            HeightSpacer(heightDp = 12.dp)
             PersonalRecruitmentItemBottomArea(
                 category = personalRecruitmentLisItemResponse.party.partyType.type,
                 title = personalRecruitmentLisItemResponse.party.title,
@@ -146,16 +149,24 @@ fun PersonalRecruitmentItem(
 fun PersonalRecruitmentItemTopArea(
     imageUrl: String? = null,
 ) {
-    Box(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp)
-    ){
-        NetworkImageLoad(
-            url = imageUrl,
+            .height(150.dp),
+        border = BorderStroke(1.dp, GRAY100),
+        shape = RoundedCornerShape(MEDIUM_CORNER_SIZE),
+    ) {
+        Box(
             modifier = Modifier
-                .fillMaxSize()
-        )
+                .fillMaxWidth()
+                .height(150.dp)
+        ){
+            NetworkImageLoad(
+                url = imageUrl,
+                modifier = Modifier
+                    .fillMaxSize()
+            )
+        }
     }
 }
 
