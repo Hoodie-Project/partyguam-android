@@ -1,26 +1,23 @@
 package com.party.presentation.screen.home.tab_recruitment
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.party.common.HeightSpacer
+import com.party.presentation.screen.home.HomeViewModel
 
 @Composable
 fun RecruitmentArea(
-    modifier: Modifier = Modifier
+    homeViewModel: HomeViewModel,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center,
-        ){
-            Text(text = "모집공고 관련")
-        }
+        HeightSpacer(heightDp = 20.dp)
+        SelectFilterArea()
+        HeightSpacer(heightDp = 16.dp)
     }
 }

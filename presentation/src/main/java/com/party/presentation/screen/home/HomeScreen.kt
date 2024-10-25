@@ -55,7 +55,7 @@ fun HomeScreen(
         when(selectedTabText){
             homeTopTabList[0] -> { MainArea(homeViewModel = homeViewModel, snackBarHostState = snackBarHostState) }
             homeTopTabList[1] -> { PartyArea() }
-            homeTopTabList[2] -> { RecruitmentArea() }
+            homeTopTabList[2] -> { RecruitmentArea(homeViewModel = homeViewModel) }
         }
     }
 }
