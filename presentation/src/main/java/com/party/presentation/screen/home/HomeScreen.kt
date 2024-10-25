@@ -2,8 +2,6 @@ package com.party.presentation.screen.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -25,7 +23,6 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-
     ) {
         HomeTopBar(
             navController = navController,
@@ -36,7 +33,6 @@ fun HomeScreen(
             selectedTabText = selectedTabText,
             onTabClick = { onTabClick(it) }
         )
-
         when(selectedTabText){
             homeTopTabList[0] -> { MainArea(homeViewModel = homeViewModel, snackBarHostState = snackBarHostState) }
             homeTopTabList[1] -> { PartyArea() }
