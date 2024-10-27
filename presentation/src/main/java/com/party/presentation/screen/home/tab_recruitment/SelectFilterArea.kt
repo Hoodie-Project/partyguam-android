@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.WidthSpacer
+import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY200
@@ -35,6 +36,10 @@ fun SelectFilterArea(
     filterName1: String,
     filterName2: String,
     filterName3: String,
+    isPositionSheetOpen: Boolean,
+    isPartyTypeSheetOpen: Boolean,
+    isPositionFilterClick: (Boolean) -> Unit,
+    isPartyTypeFilterClick: (Boolean) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -49,15 +54,26 @@ fun SelectFilterArea(
                 .fillMaxHeight(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            SelectFilterItem(filterName1)
+            SelectFilterItem(
+                filterName = filterName1,
+                isSheetOpen = isPositionSheetOpen,
+                onClick = { isPositionFilterClick(it) }
+            )
             WidthSpacer(widthDp = 8.dp)
-            SelectFilterItem(filterName2)
+            SelectFilterItem(
+                filterName = filterName2,
+                isSheetOpen = isPartyTypeSheetOpen,
+                onClick = { isPartyTypeFilterClick(it)}
+            )
         }
 
         Row(
             modifier = Modifier
                 .wrapContentWidth()
-                .fillMaxHeight(),
+                .fillMaxHeight()
+                .noRippleClickable {
+
+                },
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
@@ -78,9 +94,12 @@ fun SelectFilterArea(
 
 @Composable
 fun SelectFilterItem(
-    filterName: String
+    filterName: String,
+    isSheetOpen: Boolean,
+    onClick: (Boolean) -> Unit,
 ) {
     Card(
+        onClick = { onClick(!isSheetOpen) },
         modifier = Modifier
             .wrapContentWidth()
             .height(36.dp),
@@ -120,11 +139,20 @@ fun SelectFilterAreaPreview() {
         filterName1 = "직무1",
         filterName2 = "파티유형",
         filterName3 = "등록일순",
+        isPositionSheetOpen = false,
+        isPartyTypeSheetOpen = false,
+        isPositionFilterClick = {},
+        isPartyTypeFilterClick = {},
     )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun SelectFilterItemPreview() {
-    SelectFilterItem("직무")
+    SelectFilterItem(
+        filterName = "직무",
+        isSheetOpen = false,
+        onClick = {},
+    )
 }
+
