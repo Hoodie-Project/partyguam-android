@@ -43,10 +43,10 @@ class SelectTendencyViewModel @Inject constructor(
     private val _saveConflict = MutableSharedFlow<String>()
     val saveConflict = _saveConflict.asSharedFlow()
 
-    fun getPersonalityList(accessToken: String){
+    fun getPersonalityList(){
         viewModelScope.launch(Dispatchers.IO) {
             _personalityState.value = UIState.Loading
-            when(val result = getPersonalityUseCase(accessToken = accessToken)){
+            when(val result = getPersonalityUseCase()){
                 is ServerApiResponse.SuccessResponse<List<PersonalityListResponse>> -> {
                     _personalityState.value = UIState.Success(result)
                 }
@@ -66,10 +66,10 @@ class SelectTendencyViewModel @Inject constructor(
         }
     }
 
-    fun savePersonality(accessToken: String, personalitySaveRequest: PersonalitySaveRequest){
+    fun savePersonality(personalitySaveRequest: PersonalitySaveRequest){
         viewModelScope.launch(Dispatchers.IO) {
             _personalitySaveState.value = UIState.Loading
-            when(val result = savePersonalityUseCase(accessToken = accessToken, personalitySaveRequest = personalitySaveRequest)){
+            when(val result = savePersonalityUseCase(personalitySaveRequest = personalitySaveRequest)){
                 is ServerApiResponse.SuccessResponse<List<PersonalitySaveResponse>> -> {
                     _saveSuccess.emit(Unit)
                 }

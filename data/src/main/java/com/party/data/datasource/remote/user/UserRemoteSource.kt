@@ -1,14 +1,13 @@
 package com.party.data.datasource.remote.user
 
-import com.party.data.entity.user.detail.LocationEntity
-import com.party.data.entity.user.detail.SaveInterestLocationEntity
 import com.party.data.entity.user.auth.SocialLoginEntity
 import com.party.data.entity.user.auth.UserSignUpEntity
+import com.party.data.entity.user.detail.LocationEntity
 import com.party.data.entity.user.detail.PersonalityListEntity
 import com.party.data.entity.user.detail.PersonalitySaveEntity
 import com.party.data.entity.user.detail.PositionListEntity
-import com.party.data.entity.user.detail.SaveCarrierEntity
 import com.party.data.entity.user.detail.SaveCarrierEntity1
+import com.party.data.entity.user.detail.SaveInterestLocationEntity
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
@@ -30,20 +29,20 @@ interface UserRemoteSource {
     suspend fun userSignUp(signupAccessToken: String, userSignUpRequest: UserSignUpRequest): ApiResponse<UserSignUpEntity>
 
     // 특정 지역의 지역 리스트 조회
-    suspend fun getLocations(accessToken: String, province: String): ApiResponse<List<LocationEntity>>
+    suspend fun getLocations(province: String): ApiResponse<List<LocationEntity>>
 
     // 관심지역 저장
-    suspend fun saveInterestLocation(accessToken: String, locations: InterestLocationList): ApiResponse<List<SaveInterestLocationEntity>>
+    suspend fun saveInterestLocation(locations: InterestLocationList): ApiResponse<List<SaveInterestLocationEntity>>
 
     // 특정 직군의 포지션 리스트 조회
-    suspend fun getPositions(accessToken: String, main: String): ApiResponse<List<PositionListEntity>>
+    suspend fun getPositions(main: String): ApiResponse<List<PositionListEntity>>
 
     // 유저 경력 저장
-    suspend fun saveCarrier(accessToken: String, career: SaveCarrierList): ApiResponse<SaveCarrierEntity1>
+    suspend fun saveCarrier(career: SaveCarrierList): ApiResponse<SaveCarrierEntity1>
 
     // 성향 질문 리스트 전체 조회
-    suspend fun getPersonalities(accessToken: String): ApiResponse<List<PersonalityListEntity>>
+    suspend fun getPersonalities(): ApiResponse<List<PersonalityListEntity>>
 
     // 성향 질문 리스트 전체 저장
-    suspend fun savePersonalities(accessToken: String, personalitySaveRequest: PersonalitySaveRequest): ApiResponse<List<PersonalitySaveEntity>>
+    suspend fun savePersonalities(personalitySaveRequest: PersonalitySaveRequest): ApiResponse<List<PersonalitySaveEntity>>
 }

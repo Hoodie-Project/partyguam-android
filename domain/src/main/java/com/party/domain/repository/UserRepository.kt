@@ -29,21 +29,21 @@ interface UserRepository {
     suspend fun userSignUp(signupAccessToken: String, userSignUpRequest: UserSignUpRequest): ServerApiResponse<UserSignUpResponse>
 
     // 특정 지역의 지역 리스트 조회
-    suspend fun getLocations(accessToken: String, province: String): ServerApiResponse<List<LocationResponse>>
+    suspend fun getLocations(province: String): ServerApiResponse<List<LocationResponse>>
 
     // 관심지역 저장
-    suspend fun saveInterestLocation(accessToken: String, locations: InterestLocationList): ServerApiResponse<List<SaveInterestLocationResponse>>
+    suspend fun saveInterestLocation(locations: InterestLocationList): ServerApiResponse<List<SaveInterestLocationResponse>>
 
     // 특정 직군의 포지션 리스트 조회
-    suspend fun getPositions(accessToken: String, main: String): ServerApiResponse<List<PositionListResponse>>
+    suspend fun getPositions(main: String): ServerApiResponse<List<PositionListResponse>>
 
     // 유저 경력 저장
-    suspend fun saveCarrier(accessToken: String, career: SaveCarrierList): ServerApiResponse<List<SaveCarrierResponse>>
+    suspend fun saveCarrier(career: SaveCarrierList): ServerApiResponse<List<SaveCarrierResponse>>
 
     // 성향 질문 리스트 전체 조회
-    suspend fun getPersonalities(accessToken: String): ServerApiResponse<List<PersonalityListResponse>>
+    suspend fun getPersonalities(): ServerApiResponse<List<PersonalityListResponse>>
 
     // 성향 질문 리스트 전체 저장
-    suspend fun savePersonalities(accessToken: String, personalitySaveRequest: PersonalitySaveRequest): ServerApiResponse<List<PersonalitySaveResponse>>
+    suspend fun savePersonalities(personalitySaveRequest: PersonalitySaveRequest): ServerApiResponse<List<PersonalitySaveResponse>>
 
 }

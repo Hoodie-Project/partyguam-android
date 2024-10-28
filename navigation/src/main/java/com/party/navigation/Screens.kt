@@ -45,7 +45,7 @@ sealed interface Screens: ArgInterface {
         override val title: String = NavigationTitle.DETAIL_CARRIER
     }
     @Serializable
-    data class ChoiceCarrierPosition(val accessToken: String, val isMain: Boolean): Screens {
+    data class ChoiceCarrierPosition(val isMain: Boolean): Screens {
         override val title: String = NavigationTitle.CHOICE_CARRIER_POSITION
     }
     @Serializable

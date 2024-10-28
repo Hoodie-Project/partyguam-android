@@ -27,11 +27,6 @@ fun DetailCarrierScreen(
     navController: NavController,
     detailCarrierViewModel: DetailCarrierViewModel = hiltViewModel()
 ) {
-    LaunchedEffect(Unit) {
-        detailCarrierViewModel.getAccessToken().join()
-    }
-    val accessToken by detailCarrierViewModel.accessToken.collectAsState()
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -58,7 +53,6 @@ fun DetailCarrierScreen(
             PositionArea(
                 context = context,
                 navController = navController,
-                accessToken = accessToken,
             )
         }
 
@@ -67,7 +61,6 @@ fun DetailCarrierScreen(
             snackBarHostState = snackBarHostState,
             navController = navController,
             detailCarrierViewModel = detailCarrierViewModel,
-            accessToken = accessToken,
         )
     }
 }

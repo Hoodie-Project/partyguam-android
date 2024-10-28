@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetPersonalityUseCase @Inject constructor(
     private val userRepository: UserRepository,
 ) {
-    suspend operator fun invoke(accessToken: String): ServerApiResponse<List<PersonalityListResponse>> {
-        return userRepository.getPersonalities(accessToken = accessToken)
+    suspend operator fun invoke(): ServerApiResponse<List<PersonalityListResponse>> {
+        return userRepository.getPersonalities()
     }
 }

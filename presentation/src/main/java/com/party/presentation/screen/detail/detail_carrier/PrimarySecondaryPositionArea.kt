@@ -41,7 +41,6 @@ import com.party.navigation.Screens
 fun PositionArea(
     context: Context,
     navController: NavController,
-    accessToken: String,
 ) {
     Column(
         modifier = Modifier
@@ -51,7 +50,6 @@ fun PositionArea(
             context = context,
             title = stringResource(id = R.string.detail_carrier3),
             navController = navController,
-            accessToken = accessToken,
             selectedCarrier = mainSelectedCarrier,
             selectedPosition = mainSelectedMainPosition,
             selectedDetailPosition = mainSelectedDetailPosition,
@@ -62,7 +60,6 @@ fun PositionArea(
             context = context,
             title = stringResource(id = R.string.detail_carrier4),
             navController = navController,
-            accessToken = accessToken,
             selectedCarrier = subSelectedCarrier,
             selectedPosition = subSelectedMainPosition,
             selectedDetailPosition = subSelectedDetailPosition,
@@ -76,7 +73,6 @@ fun PositionAreaComponent(
     context: Context,
     title: String,
     navController: NavController,
-    accessToken: String,
     selectedCarrier: String,
     selectedPosition: String,
     selectedDetailPosition: String,
@@ -94,7 +90,6 @@ fun PositionAreaComponent(
         AddCarrierCard(
             context = context,
             navController = navController,
-            accessToken = accessToken,
             selectedCarrier = selectedCarrier,
             selectedPosition = selectedPosition,
             selectedDetailPosition = selectedDetailPosition,
@@ -107,7 +102,6 @@ fun PositionAreaComponent(
 fun AddCarrierCard(
     context: Context,
     navController: NavController,
-    accessToken: String,
     selectedCarrier: String,
     selectedPosition: String,
     selectedDetailPosition: String,
@@ -117,7 +111,7 @@ fun AddCarrierCard(
         modifier = Modifier
             .fillMaxWidth()
             .height(LARGE_BUTTON_HEIGHT)
-            .noRippleClickable { navController.navigate(Screens.ChoiceCarrierPosition(accessToken = accessToken, isMain = isMain)) },
+            .noRippleClickable { navController.navigate(Screens.ChoiceCarrierPosition(isMain = isMain)) },
         colors = CardDefaults.cardColors(
             containerColor = WHITE
         ),

@@ -24,68 +24,37 @@ import javax.inject.Singleton
 @Singleton
 interface UserService {
 
-    @POST("api/users/google/app/login")
-    suspend fun loginGoogle(
-        @Header("Authorization") accessToken: String
-    ): ApiResponse<SocialLoginSuccessEntity>
-
-    @POST("api/users/kakao/app/login")
-    suspend fun loginKakao(
-        @Header("Authorization") accessToken: String
-    ): ApiResponse<SocialLoginSuccessEntity>
-
-    // 유저 닉네임 중복체크
-    @GET("api/users/check-nickname")
-    suspend fun checkNickName(
-        @Header("Authorization") signupAccessToken: String,
-        @Query("nickname") nickname: String,
-    ): ApiResponse<String>
-
-    // 유저 회원가입
-    @POST("api/users")
-    suspend fun userSignUp(
-        @Header("Authorization") signupAccessToken: String,
-        @Body userSignUpRequest: UserSignUpRequest,
-    ): ApiResponse<UserSignUpEntity>
-
     // 특정 지역의 지역 리스트 조회
     @GET("api/locations")
     suspend fun getLocations(
-        @Header("Authorization") accessToken: String,
         @Query("province") province: String,
     ): ApiResponse<List<LocationEntity>>
 
     // 관심지역 저장
     @POST("api/users/me/locations")
     suspend fun saveInterestLocation(
-        @Header("Authorization") accessToken: String,
         @Body locations: InterestLocationList,
     ): ApiResponse<List<SaveInterestLocationEntity>>
 
     // 특정 직군의 포지션 리스트 조회
     @GET("api/positions")
     suspend fun getPositions(
-        @Header("Authorization") accessToken: String,
         @Query("main") main: String,
     ): ApiResponse<List<PositionListEntity>>
 
     // 유저 경력 저장
     @POST("api/users/me/careers")
     suspend fun saveCareer(
-        @Header("Authorization") accessToken: String,
         @Body career: SaveCarrierList,
     ): ApiResponse<SaveCarrierEntity1>
 
     // 성향 질문 리스트 전체 조회
     @GET("api/personalities")
-    suspend fun getPersonalities(
-        @Header("Authorization") accessToken: String,
-    ): ApiResponse<List<PersonalityListEntity>>
+    suspend fun getPersonalities(): ApiResponse<List<PersonalityListEntity>>
 
     // 성향 질문 리스트 전체 저장
     @POST("api/users/me/personalities")
     suspend fun savePersonalities(
-        @Header("Authorization") accessToken: String,
         @Body personalitySaveRequest: PersonalitySaveRequest,
     ): ApiResponse<List<PersonalitySaveEntity>>
 }

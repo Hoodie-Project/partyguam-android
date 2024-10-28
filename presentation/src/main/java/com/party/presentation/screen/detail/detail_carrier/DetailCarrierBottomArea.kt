@@ -47,7 +47,6 @@ fun DetailCarrierBottomArea(
     snackBarHostState: SnackbarHostState,
     navController: NavController,
     detailCarrierViewModel: DetailCarrierViewModel,
-    accessToken: String
 ) {
     val saveCarrierState by detailCarrierViewModel.saveCarrierState.collectAsState()
 
@@ -94,7 +93,7 @@ fun DetailCarrierBottomArea(
                             )
                         )
                     )
-                    detailCarrierViewModel.saveCarrier(makeAccessToken(context, accessToken), career = career)
+                    detailCarrierViewModel.saveCarrier(career = career)
 
                 }
             }

@@ -2,7 +2,9 @@ package com.party.presentation.screen.detail.detail_profile
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.party.common.HeightSpacer
@@ -58,7 +61,6 @@ fun SelectedLocationArea(
     selectedProvince: String,
     selectedLocationList: MutableList<Pair<String, Int>>,
     onDelete: (Pair<String, Int>) -> Unit,
-    accessToken: String,
     detailProfileViewModel: DetailProfileViewModel,
 ) {
     LaunchedEffect(key1 = Unit) {
@@ -93,7 +95,6 @@ fun SelectedLocationArea(
             onClick = {
                 if((1..SELECTED_LOCATION_COUNT).contains(selectedLocationList.size)) {
                     detailProfileViewModel.saveInterestLocation(
-                        accessToken = accessToken,
                         locations = InterestLocationList(
                             locations = selectedLocationList.map {
                                 InterestLocationRequest(id = it.second)
@@ -126,9 +127,12 @@ fun SelectedLocationList(
     selectedLocationList: MutableList<Pair<String, Int>>,
     onDelete: (Pair<String, Int>) -> Unit,
 ) {
+    HeightSpacer(heightDp = 16.dp)
+
     LazyRow(
         modifier = Modifier
             .fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         itemsIndexed(
             items = selectedLocationList,
@@ -141,7 +145,6 @@ fun SelectedLocationList(
                 selectedProvinceName = selectedProvince,
                 onDelete = { onDelete(it) }
             )
-            WidthSpacer(widthDp = 8.dp)
         }
     }
 }
@@ -155,7 +158,6 @@ fun SelectLocationComponent(
 ) {
     Card(
         modifier = Modifier
-            .wrapContentWidth()
             .height(36.dp),
         colors = CardDefaults.cardColors(
             containerColor = WHITE
@@ -163,33 +165,38 @@ fun SelectLocationComponent(
         border = BorderStroke(1.dp, PRIMARY),
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
     ) {
-        Box(
+        Row(
             modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center,
-        ){
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
+                .padding(start = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "$selectedProvinceName ${item.first}",
+                color = BLACK,
+                fontSize = B2,
+            )
+            IconButton(
+                modifier = Modifier.size(36.dp),
+                onClick = { onDelete(item) },
+                interactionSource = MutableInteractionSource(),
             ) {
-                Text(
-                    modifier = Modifier.padding(start = 12.dp),
-                    text = "$selectedProvinceName ${item.first}",
-                    color = BLACK,
-                    fontSize = B2,
+                Icon(
+                    modifier = Modifier
+                        .size(12.dp),
+                    imageVector = Icons.Default.Close,
+                    contentDescription = "close",
                 )
-                IconButton(
-                    onClick = { onDelete(item) },
-                    interactionSource = MutableInteractionSource(),
-                ) {
-                    Icon(
-                        modifier = Modifier.size(12.dp),
-                        imageVector = Icons.Default.Close,
-                        contentDescription = "close",
-                    )
-                }
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun SelectLocationComponentPreview(modifier: Modifier = Modifier) {
+    SelectLocationComponent(
+        item = Pair("강남구", 1),
+        selectedProvinceName = "서울",
+        onDelete = {}
+    )
 }

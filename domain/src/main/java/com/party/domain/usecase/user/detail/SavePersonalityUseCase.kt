@@ -7,5 +7,5 @@ import javax.inject.Inject
 class SavePersonalityUseCase @Inject constructor(
     private val userRepository: UserRepository,
 ) {
-    suspend operator fun invoke(accessToken: String, personalitySaveRequest: PersonalitySaveRequest) = userRepository.savePersonalities(accessToken = accessToken, personalitySaveRequest = personalitySaveRequest)
+    suspend operator fun invoke(personalitySaveRequest: PersonalitySaveRequest) = userRepository.savePersonalities(personalitySaveRequest = personalitySaveRequest)
 }

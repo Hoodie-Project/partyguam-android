@@ -67,7 +67,7 @@ fun SelectTendencyScreen2(
 
     if(accessToken.isNotEmpty()){
         LaunchedEffect(Unit) {
-            selectTendencyViewModel.getPersonalityList(accessToken = makeAccessToken(context = context, token = accessToken))
+            selectTendencyViewModel.getPersonalityList()
         }
     }
 

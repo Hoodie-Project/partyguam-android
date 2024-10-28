@@ -1,6 +1,7 @@
 package com.party.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.party.data.service.NoTokenService
 import com.party.data.service.PartyService
 import com.party.data.service.UserService
 import com.party.domain.usecase.datastore.GetAccessTokenUseCase
@@ -41,7 +42,6 @@ object NetworkModule {
     fun tokenLogging(): OkHttpClient {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-
         return OkHttpClient.Builder()
             .addNetworkInterceptor(httpLoggingInterceptor)
             .connectTimeout(TIME_OUT_VALUE, TimeUnit.SECONDS)
@@ -67,14 +67,26 @@ object NetworkModule {
     @OptIn(ExperimentalSerializationApi::class)
     @Singleton
     @Provides
-    fun provideUserServiceApi(): UserService {
+    fun provideNoTokenApi(): NoTokenService {
         return Retrofit.Builder()
             .baseUrl("https://partyguam.net/dev/")
             .client(tokenLogging())
             .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(
-                json.asConverterFactory("application/json".toMediaType())
-            )
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
+            .build()
+            .create(NoTokenService::class.java)
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    @Singleton
+    @Provides
+    fun provideUserServiceApi(accessTokenInterceptor: AccessTokenInterceptor): UserService {
+        return Retrofit.Builder()
+            .baseUrl("https://partyguam.net/dev/")
+            .client(tokenLogging2(accessTokenInterceptor))
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .build()
             .create(UserService::class.java)

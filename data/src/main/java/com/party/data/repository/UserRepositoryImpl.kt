@@ -9,9 +9,9 @@ import com.party.data.entity.user.auth.SocialLoginErrorEntity
 import com.party.data.entity.user.auth.SocialLoginSuccessEntity
 import com.party.data.mapper.UserMapper
 import com.party.data.mapper.UserMapper.mapperUserSignUpResponse
-import com.party.domain.model.user.detail.LocationResponse
 import com.party.domain.model.user.SocialLoginResponse
 import com.party.domain.model.user.detail.InterestLocationList
+import com.party.domain.model.user.detail.LocationResponse
 import com.party.domain.model.user.detail.PersonalityListResponse
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.PersonalitySaveResponse
@@ -157,8 +157,8 @@ class UserRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun getLocations(accessToken: String, province: String): ServerApiResponse<List<LocationResponse>> {
-        return when(val result = userRemoteSource.getLocations(accessToken = accessToken, province = province)){
+    override suspend fun getLocations(province: String): ServerApiResponse<List<LocationResponse>> {
+        return when(val result = userRemoteSource.getLocations(province = province)){
             is ApiResponse.Success -> {
                 SuccessResponse(data = result.data.map { UserMapper.mapperToLocationResponse(it) })
             }
@@ -172,10 +172,9 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveInterestLocation(
-        accessToken: String,
         locations: InterestLocationList,
     ): ServerApiResponse<List<SaveInterestLocationResponse>> {
-        return when(val result = userRemoteSource.saveInterestLocation(accessToken = accessToken, locations = locations)) {
+        return when(val result = userRemoteSource.saveInterestLocation(locations = locations)) {
             is ApiResponse.Success -> {
                 SuccessResponse(
                     data = result.data.map { UserMapper.mapperToSaveInterestLocationResponse(it) }
@@ -203,10 +202,9 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getPositions(
-        accessToken: String,
         main: String
     ): ServerApiResponse<List<PositionListResponse>> {
-        return when(val result = userRemoteSource.getPositions(accessToken = accessToken, main = main)){
+        return when(val result = userRemoteSource.getPositions(main = main)){
             is ApiResponse.Success -> {
                 SuccessResponse(data = result.data.map { UserMapper.mapperToPositionListResponse(it) })
             }
@@ -220,10 +218,9 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveCarrier(
-        accessToken: String,
         career: SaveCarrierList
     ): ServerApiResponse<List<SaveCarrierResponse>> {
-        return when(val result = userRemoteSource.saveCarrier(accessToken = accessToken, career = career)){
+        return when(val result = userRemoteSource.saveCarrier(career = career)){
             is ApiResponse.Success -> {
                 SuccessResponse(data = result.data.career.map { UserMapper.mapperToSaveCarrierResponse(it) })
             }
@@ -250,8 +247,8 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getPersonalities(accessToken: String): ServerApiResponse<List<PersonalityListResponse>> {
-        return when(val result = userRemoteSource.getPersonalities(accessToken = accessToken)){
+    override suspend fun getPersonalities(): ServerApiResponse<List<PersonalityListResponse>> {
+        return when(val result = userRemoteSource.getPersonalities()){
             is ApiResponse.Success -> {
                 SuccessResponse(data = result.data.map { UserMapper.mapperToPersonalityListResponse(it) })
             }
@@ -265,10 +262,9 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun savePersonalities(
-        accessToken: String,
         personalitySaveRequest: PersonalitySaveRequest
     ): ServerApiResponse<List<PersonalitySaveResponse>> {
-        return when(val result = userRemoteSource.savePersonalities(accessToken = accessToken, personalitySaveRequest = personalitySaveRequest)){
+        return when(val result = userRemoteSource.savePersonalities(personalitySaveRequest = personalitySaveRequest)){
             is ApiResponse.Success -> {
                 SuccessResponse(data = result.data.map { UserMapper.mapperToPersonalitySaveResponse(it) })
             }

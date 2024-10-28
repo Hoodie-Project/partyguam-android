@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetPositionsUseCase @Inject constructor(
     private val userRepository: UserRepository,
 ) {
-    suspend operator fun invoke(accessToken: String, main: String): ServerApiResponse<List<PositionListResponse>> {
-        return userRepository.getPositions(accessToken = accessToken, main = main)
+    suspend operator fun invoke(main: String): ServerApiResponse<List<PositionListResponse>> {
+        return userRepository.getPositions(main = main)
     }
 }

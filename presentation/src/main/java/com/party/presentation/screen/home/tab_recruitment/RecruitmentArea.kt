@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -15,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
 import com.party.common.R
+import com.party.presentation.screen.detail.choice_carrier_position.positionList
 import com.party.presentation.screen.home.HomeViewModel
 
 @Composable
@@ -25,8 +27,24 @@ fun RecruitmentArea(
     var isPositionSheetOpen by rememberSaveable { mutableStateOf(false) }
     var isPartyTypeSheetOpen by rememberSaveable { mutableStateOf(false) }
 
+    var selectedMainPosition by rememberSaveable {
+        mutableStateOf(positionList[0])
+    }
+
+    var selectedSubPositionList by remember {
+        mutableStateOf(mutableStateListOf<String>())
+    }
+
+    var selectedPositionList by remember {
+        mutableStateOf(mutableStateListOf<Pair<String, String>>())
+    }
+
     val selectedPartyType by remember {
         mutableStateOf(mutableStateListOf<String>())
+    }
+
+    LaunchedEffect(key1 = selectedMainPosition) {
+        homeViewModel.getSubPositionList(main = selectedMainPosition)
     }
 
     Column(
@@ -47,6 +65,39 @@ fun RecruitmentArea(
         RecruitmentColumnListArea(
             homeViewModel = homeViewModel,
             snackBarHostState = snackBarHostState
+        )
+    }
+
+    if(isPositionSheetOpen){
+        PositionModal(
+            snackBarHostState = snackBarHostState,
+            titleText = stringResource(id = R.string.recruitment_filter1),
+            selectedMainPosition = selectedMainPosition,
+            selectedSubPositionList = selectedSubPositionList,
+            selectedPositionList = selectedPositionList,
+            homeViewModel = homeViewModel,
+            onMainPositionClick = {
+                selectedMainPosition = it
+            },
+            onModelClose = { isPositionSheetOpen = false },
+            onReset = {
+                selectedMainPosition = positionList[0]
+                selectedSubPositionList.clear()
+            },
+            onApply = {},
+            onSelectSubPosition = {
+                if (selectedSubPositionList.contains(it)) {
+                    selectedSubPositionList.remove(it)
+                    selectedPositionList.remove(Pair(selectedMainPosition, it))
+                }else{
+                    selectedSubPositionList.add(it)
+                    selectedPositionList.add(Pair(selectedMainPosition, it))
+                }
+            },
+            onDelete = {
+                selectedSubPositionList.remove(it.second)
+                selectedPositionList.remove(it)
+            }
         )
     }
 

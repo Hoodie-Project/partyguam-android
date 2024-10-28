@@ -37,13 +37,10 @@ class DetailProfileViewModel @Inject constructor(
     private val _saveFail = MutableSharedFlow<String>()
     val saveFail = _saveFail.asSharedFlow()
 
-    private val _accessToken = MutableStateFlow("")
-    val accessToken: StateFlow<String> = _accessToken
-
-    fun getLocationList(accessToken: String, province: String){
+    fun getLocationList(province: String){
         viewModelScope.launch(Dispatchers.IO) {
             _getLocationListState.value = UIState.Loading
-            when(val result = getLocationListUseCase(accessToken = accessToken, province = province)){
+            when(val result = getLocationListUseCase(province = province)){
                 is ServerApiResponse.SuccessResponse<*> -> {
                     _getLocationListState.value = UIState.Success(result)
                 }
@@ -57,9 +54,9 @@ class DetailProfileViewModel @Inject constructor(
         }
     }
 
-    fun saveInterestLocation(accessToken: String, locations: InterestLocationList){
+    fun saveInterestLocation(locations: InterestLocationList){
         viewModelScope.launch(Dispatchers.IO) {
-            when(val result = saveInterestLocationUseCase(accessToken = accessToken, locations = locations)){
+            when(val result = saveInterestLocationUseCase(locations = locations)){
                 is ServerApiResponse.SuccessResponse<List<SaveInterestLocationResponse>> -> _saveSuccess.emit(Unit)
                 is ServerApiResponse.ErrorResponse<*> -> {
                     when(result.statusCode){
@@ -69,12 +66,6 @@ class DetailProfileViewModel @Inject constructor(
                 }
                 is ServerApiResponse.ExceptionResponse -> _saveFail.emit("알 수 없는 오류가 발생했습니다.")
             }
-        }
-    }
-
-    fun getAccessToken() = viewModelScope.launch(Dispatchers.IO) {
-        getAccessTokenUseCase().collectLatest { accessToken ->
-            _accessToken.emit(accessToken)
         }
     }
 }

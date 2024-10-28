@@ -169,7 +169,7 @@ fun DetailPositionArea(
                 columns = GridCells.Fixed(2),
             ) {
                 itemsIndexed(
-                    items = successResult.data ?: emptyList() , //positionToDetailList(selectedPosition),
+                    items = successResult.data ?: emptyList(),
                     key = { index, _ ->
                         index
                     }

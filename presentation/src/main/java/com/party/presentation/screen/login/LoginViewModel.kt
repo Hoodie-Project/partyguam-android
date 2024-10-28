@@ -88,7 +88,6 @@ class LoginViewModel @Inject constructor(
     fun serveToKakaoLogin(userEmail: String, accessToken: String){
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = kakaoLoginUseCase(accessToken = accessToken)){
-
                 is ServerApiResponse.SuccessResponse<*> -> {
                     //println("result123 Success : ${result.data}")
                     _goToHomeScreen.emit(Unit)

@@ -27,7 +27,6 @@ fun PositionAreaPreview() {
     PositionArea(
         context = LocalContext.current,
         navController = rememberNavController(),
-        accessToken = "",
     )
 }
 
@@ -37,7 +36,6 @@ fun AddCarrierButtonCardPreview() {
     AddCarrierCard(
         context = LocalContext.current,
         navController = rememberNavController(),
-        accessToken = "",
         selectedCarrier = "신입",
         selectedPosition = "개발자",
         selectedDetailPosition = "안드로이드",

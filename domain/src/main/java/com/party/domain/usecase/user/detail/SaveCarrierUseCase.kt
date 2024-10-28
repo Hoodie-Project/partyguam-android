@@ -7,5 +7,5 @@ import javax.inject.Inject
 class SaveCarrierUseCase @Inject constructor(
     private val userRepository: UserRepository,
 ){
-    suspend operator fun invoke(accessToken: String, career: SaveCarrierList) = userRepository.saveCarrier(accessToken = accessToken, career = career)
+    suspend operator fun invoke(career: SaveCarrierList) = userRepository.saveCarrier(career = career)
 }

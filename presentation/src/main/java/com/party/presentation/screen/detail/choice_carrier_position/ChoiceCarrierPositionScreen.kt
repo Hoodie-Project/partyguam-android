@@ -1,6 +1,5 @@
 package com.party.presentation.screen.detail.choice_carrier_position
 
-import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.SnackbarHostState
@@ -10,8 +9,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.party.common.DetailCarrierData.mainSelectedDetailPosition
 import com.party.common.DetailCarrierData.mainSelectedCarrier
+import com.party.common.DetailCarrierData.mainSelectedDetailPosition
 import com.party.common.DetailCarrierData.mainSelectedDetailPositionId
 import com.party.common.DetailCarrierData.mainSelectedMainPosition
 import com.party.common.DetailCarrierData.subSelectedCarrier
@@ -20,7 +19,6 @@ import com.party.common.DetailCarrierData.subSelectedDetailPositionId
 import com.party.common.DetailCarrierData.subSelectedMainPosition
 import com.party.common.HeightSpacer
 import com.party.common.R
-import com.party.common.makeAccessToken
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.LIGHT200
@@ -30,10 +28,8 @@ import com.party.presentation.screen.detail.detail_carrier.DetailCarrierViewMode
 
 @Composable
 fun ChoiceCarrierPositionScreen(
-    context: Context,
     snackBarHostState: SnackbarHostState,
     navController: NavController,
-    accessToken: String,
     isMain: Boolean,
     detailCarrierViewModel: DetailCarrierViewModel = hiltViewModel(),
 ) {
@@ -58,7 +54,7 @@ fun ChoiceCarrierPositionScreen(
                 selectedPosition = if(isMain) mainSelectedMainPosition else subSelectedMainPosition,
                 onSelect = {
                     if(isMain) mainSelectedMainPosition = it else subSelectedMainPosition = it
-                    detailCarrierViewModel.getPositions(accessToken = makeAccessToken(context, accessToken))
+                    detailCarrierViewModel.getPositions()
                 },
             )
             HeightSpacer(heightDp = 20.dp)

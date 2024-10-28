@@ -60,15 +60,10 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SelectTendencyScreen4(
-    context: Context,
     navController: NavController,
     snackBarHostState: SnackbarHostState,
     selectTendencyViewModel: SelectTendencyViewModel = hiltViewModel(),
 ) {
-    LaunchedEffect(Unit) {
-        selectTendencyViewModel.getAccessToken().join()
-    }
-
     LaunchedEffect(key1 = Unit) {
         selectTendencyViewModel.saveSuccess.collectLatest {
             navController.navigate(Screens.SelectTendencyComplete)
@@ -81,12 +76,8 @@ fun SelectTendencyScreen4(
         }
     }
 
-    val accessToken by selectTendencyViewModel.accessToken.collectAsState()
-
-    if(accessToken.isNotEmpty()){
-        LaunchedEffect(Unit) {
-            selectTendencyViewModel.getPersonalityList(accessToken = makeAccessToken(context = context, token = accessToken))
-        }
+    LaunchedEffect(Unit) {
+        selectTendencyViewModel.getPersonalityList()
     }
 
     // Get Personality
@@ -184,7 +175,6 @@ fun SelectTendencyScreen4(
                         )
                     )
                     selectTendencyViewModel.savePersonality(
-                        accessToken = makeAccessToken(context = context, token = accessToken),
                         personalitySaveRequest = personalitySaveRequest
                     )
                 }

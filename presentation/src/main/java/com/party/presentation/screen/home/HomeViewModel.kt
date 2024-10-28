@@ -2,14 +2,17 @@ package com.party.presentation.screen.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.party.common.DetailCarrierData.mainSelectedMainPosition
 import com.party.common.ServerApiResponse
 import com.party.common.UIState
 import com.party.domain.model.party.PartyListResponse
 import com.party.domain.model.party.PersonalRecruitmentListResponse
 import com.party.domain.model.party.RecruitmentListResponse
+import com.party.domain.model.user.detail.PositionListResponse
 import com.party.domain.usecase.party.GetPartyListUseCase
 import com.party.domain.usecase.party.GetPersonalRecruitmentListUseCase
 import com.party.domain.usecase.party.GetRecruitmentListUseCase
+import com.party.domain.usecase.user.detail.GetPositionsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,6 +25,7 @@ class HomeViewModel @Inject constructor(
     private val getPersonalRecruitmentListUseCase: GetPersonalRecruitmentListUseCase,
     private val getRecruitmentListUseCase: GetRecruitmentListUseCase,
     private val getPartyListUseCase: GetPartyListUseCase,
+    private val getPositionsUseCase: GetPositionsUseCase
 ): ViewModel(){
 
     private val _getPersonalRecruitmentListState = MutableStateFlow<UIState<ServerApiResponse<PersonalRecruitmentListResponse>>>(UIState.Idle)
@@ -32,6 +36,9 @@ class HomeViewModel @Inject constructor(
 
     private val _getPartyListState = MutableStateFlow<UIState<ServerApiResponse<PartyListResponse>>>(UIState.Idle)
     val getPartyListState: StateFlow<UIState<ServerApiResponse<PartyListResponse>>> = _getPartyListState
+
+    private val _positionsState = MutableStateFlow<UIState<ServerApiResponse<List<PositionListResponse>>>>(UIState.Idle)
+    val positionsState: StateFlow<UIState<ServerApiResponse<List<PositionListResponse>>>> = _positionsState
 
     fun getPersonalRecruitmentList(
         page: Int,
@@ -94,6 +101,25 @@ class HomeViewModel @Inject constructor(
                 }
                 is ServerApiResponse.ExceptionResponse -> {
                     _getPartyListState.value = UIState.Idle
+                }
+            }
+        }
+    }
+
+    fun getSubPositionList(
+        main: String,
+    ){
+        viewModelScope.launch(Dispatchers.IO) {
+            _positionsState.value = UIState.Loading
+            when(val result = getPositionsUseCase(main = main)){
+                is ServerApiResponse.SuccessResponse<List<PositionListResponse>> -> {
+                    _positionsState.value = UIState.Success(result)
+                }
+                is ServerApiResponse.ErrorResponse<List<PositionListResponse>> -> {
+                    _positionsState.value = UIState.Idle
+                }
+                is ServerApiResponse.ExceptionResponse -> {
+                    _positionsState.value = UIState.Idle
                 }
             }
         }

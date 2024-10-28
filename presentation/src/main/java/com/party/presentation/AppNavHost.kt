@@ -250,13 +250,10 @@ fun AppNavHost() {
                 )
             }
             composable<Screens.ChoiceCarrierPosition> { backStackEntry ->
-                val accessToken = backStackEntry.toRoute<Screens.ChoiceCarrierPosition>().accessToken
                 val isMain = backStackEntry.toRoute<Screens.ChoiceCarrierPosition>().isMain
                 ChoiceCarrierPositionScreen(
-                    context = context,
                     snackBarHostState = snackBarHostState,
                     navController = navController,
-                    accessToken = accessToken,
                     isMain = isMain,
                 )
             }
@@ -276,14 +273,12 @@ fun AppNavHost() {
             }
             composable<Screens.SelectTendency3> {
                 SelectTendencyScreen3(
-                    context = context,
                     navController = navController,
                     snackBarHostState = snackBarHostState,
                 )
             }
             composable<Screens.SelectTendency4> {
                 SelectTendencyScreen4(
-                    context = context,
                     navController = navController,
                     snackBarHostState = snackBarHostState,
                 )

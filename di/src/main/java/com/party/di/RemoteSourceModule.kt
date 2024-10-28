@@ -5,6 +5,7 @@ import com.party.data.datasource.remote.party.PartyRemoteSourceImpl
 import com.party.data.datasource.remote.user.UserRemoteSource
 import com.party.data.datasource.remote.user.UserRemoteSourceImpl
 import com.party.data.repository.PartyRepositoryImpl
+import com.party.data.service.NoTokenService
 import com.party.data.service.PartyService
 import com.party.data.service.UserService
 import dagger.Module
@@ -19,8 +20,8 @@ object RemoteSourceModule {
 
     @Provides
     @Singleton
-    fun provideUserRemoteSource(userService: UserService): UserRemoteSource {
-        return UserRemoteSourceImpl(userService = userService)
+    fun provideUserRemoteSource(noTokenService: NoTokenService, userService: UserService): UserRemoteSource {
+        return UserRemoteSourceImpl(noTokenService = noTokenService, userService = userService)
     }
 
     @Provides

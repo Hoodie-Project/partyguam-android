@@ -84,8 +84,6 @@ fun TendencyBottomArea(
             textColor = GRAY500,
             onClick = { navController.navigate(routeScreens) }
         )
-
-        HeightSpacer(heightDp = 20.dp)
     }
 }
 @SuppressLint("UnrememberedMutableInteractionSource")
