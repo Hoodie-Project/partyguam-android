@@ -26,6 +26,9 @@ import com.party.common.R
 import com.party.common.WidthSpacer
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B1
+import com.party.common.ui.theme.BLACK
+import com.party.common.ui.theme.PRIMARY
+import com.party.common.ui.theme.WHITE
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,7 +68,13 @@ fun PartyTypeModal(
             )
             ModalBottomArea(
                 buttonText1 = stringResource(id = R.string.recruitment_modal1),
+                buttonTextColor1 = BLACK,
+                buttonContainerColor1 = WHITE,
+                buttonBorderColor1 = PRIMARY,
                 buttonText2 = stringResource(id = R.string.recruitment_modal2),
+                buttonTextColor2 = BLACK,
+                buttonContainerColor2 = PRIMARY,
+                buttonBorderColor2 = PRIMARY,
                 onReset = onReset,
                 onApply = onApply,
             )

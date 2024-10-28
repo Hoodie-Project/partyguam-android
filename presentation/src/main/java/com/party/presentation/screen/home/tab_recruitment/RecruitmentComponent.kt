@@ -66,7 +66,13 @@ fun ModalTitleArea(
 fun ModalBottomArea(
     modifier: Modifier = Modifier,
     buttonText1: String,
+    buttonTextColor1: Color,
+    buttonContainerColor1: Color,
+    buttonBorderColor1: Color,
     buttonText2: String,
+    buttonTextColor2: Color,
+    buttonContainerColor2: Color,
+    buttonBorderColor2: Color,
     onReset: () -> Unit,
     onApply: () -> Unit,
 ) {
@@ -80,16 +86,18 @@ fun ModalBottomArea(
         ModalBottomAreaItem(
             modifier = Modifier.weight(1f),
             buttonText = buttonText1,
-            buttonContainerColor = WHITE,
-            buttonBorderColor = PRIMARY,
+            buttonTextColor = buttonTextColor1,
+            buttonContainerColor = buttonContainerColor1,
+            buttonBorderColor = buttonBorderColor1,
             onClick = onReset,
         )
         WidthSpacer(widthDp = 8.dp)
         ModalBottomAreaItem(
             modifier = Modifier.weight(2f),
             buttonText = buttonText2,
-            buttonContainerColor = PRIMARY,
-            buttonBorderColor = PRIMARY,
+            buttonTextColor = buttonTextColor2,
+            buttonContainerColor = buttonContainerColor2,
+            buttonBorderColor = buttonBorderColor2,
             onClick = onApply,
         )
     }
@@ -99,6 +107,7 @@ fun ModalBottomArea(
 fun ModalBottomAreaItem(
     modifier: Modifier,
     buttonText: String,
+    buttonTextColor: Color = BLACK,
     buttonContainerColor: Color,
     buttonBorderColor: Color,
     onClick: () -> Unit,
@@ -117,7 +126,7 @@ fun ModalBottomAreaItem(
             text = buttonText,
             fontWeight = FontWeight.Bold,
             fontSize = B2,
-            color = BLACK,
+            color = buttonTextColor,
         )
     }
 }
@@ -151,7 +160,13 @@ fun ModalBottomAreaPreview(
 ) {
     ModalBottomArea(
         buttonText1 = "초기화",
+        buttonTextColor1 = BLACK,
+        buttonContainerColor1 = PRIMARY,
+        buttonBorderColor1 = PRIMARY,
         buttonText2 = "적용하기",
+        buttonTextColor2 = BLACK,
+        buttonContainerColor2 = PRIMARY,
+        buttonBorderColor2 = PRIMARY,
         onReset = {},
         onApply = {},
     )

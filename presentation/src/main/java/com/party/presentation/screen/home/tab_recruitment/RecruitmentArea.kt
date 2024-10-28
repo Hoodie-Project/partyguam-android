@@ -83,6 +83,7 @@ fun RecruitmentArea(
             onReset = {
                 selectedMainPosition = positionList[0]
                 selectedSubPositionList.clear()
+                selectedPositionList.clear()
             },
             onApply = {},
             onSelectSubPosition = {

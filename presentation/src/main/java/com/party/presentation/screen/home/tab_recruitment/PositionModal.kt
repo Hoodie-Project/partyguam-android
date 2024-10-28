@@ -51,7 +51,11 @@ import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
+import com.party.common.ui.theme.GRAY400
+import com.party.common.ui.theme.LIGHT200
 import com.party.common.ui.theme.LIGHT400
+import com.party.common.ui.theme.PRIMARY
+import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.PositionListResponse
 import com.party.presentation.screen.detail.choice_carrier_position.positionList
 import com.party.presentation.screen.home.HomeViewModel
@@ -118,7 +122,13 @@ fun PositionModal(
                     .padding(horizontal = 20.dp)
                     .padding(bottom = 20.dp),
                 buttonText1 = stringResource(id = R.string.recruitment_modal1),
+                buttonTextColor1 = selectedPositionList.size.let { if (it > 0) BLACK else GRAY400 },
+                buttonContainerColor1 = WHITE,
+                buttonBorderColor1 = selectedPositionList.size.let { if (it > 0) PRIMARY else LIGHT200 },
                 buttonText2 = stringResource(id = R.string.recruitment_modal2),
+                buttonTextColor2 = selectedPositionList.size.let { if (it > 0) BLACK else GRAY400 },
+                buttonContainerColor2 = selectedPositionList.size.let { if (it > 0) PRIMARY else LIGHT400 },
+                buttonBorderColor2 = selectedPositionList.size.let { if (it > 0) PRIMARY else LIGHT200 },
                 onReset = onReset,
                 onApply = onApply,
             )
