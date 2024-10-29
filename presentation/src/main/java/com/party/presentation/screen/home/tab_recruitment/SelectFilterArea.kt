@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDownward
+import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -40,6 +43,8 @@ fun SelectFilterArea(
     isPartyTypeSheetOpen: Boolean,
     isPositionFilterClick: (Boolean) -> Unit,
     isPartyTypeFilterClick: (Boolean) -> Unit,
+    selectedCreateDataOrderByDesc: Boolean,
+    onChangeOrderBy: (Boolean) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -72,7 +77,7 @@ fun SelectFilterArea(
                 .wrapContentWidth()
                 .fillMaxHeight()
                 .noRippleClickable {
-
+                    onChangeOrderBy(!selectedCreateDataOrderByDesc)
                 },
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -83,13 +88,11 @@ fun SelectFilterArea(
             )
             Icon(
                 modifier = Modifier.size(16.dp),
-                painter = painterResource(id = R.drawable.arrow_down_long_icon),
-                contentDescription = "Arrow Down",
-                tint = BLACK
+                imageVector = if(selectedCreateDataOrderByDesc) Icons.Default.ArrowDownward else Icons.Default.ArrowUpward,
+                contentDescription = "Arrow",
             )
         }
     }
-
 }
 
 @Composable
@@ -143,6 +146,8 @@ fun SelectFilterAreaPreview() {
         isPartyTypeSheetOpen = false,
         isPositionFilterClick = {},
         isPartyTypeFilterClick = {},
+        selectedCreateDataOrderByDesc = false,
+        onChangeOrderBy = {},
     )
 }
 

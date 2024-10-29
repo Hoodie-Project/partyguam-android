@@ -35,12 +35,16 @@ fun RecruitmentArea(
         mutableStateOf(mutableStateListOf<String>())
     }
 
-    var selectedPositionList by remember {
+    val selectedPositionList by remember {
         mutableStateOf(mutableStateListOf<Pair<String, String>>())
     }
 
     val selectedPartyType by remember {
         mutableStateOf(mutableStateListOf<String>())
+    }
+
+    var selectedCreateDataOrderByDesc by remember {
+        mutableStateOf(true)
     }
 
     LaunchedEffect(key1 = selectedMainPosition) {
@@ -59,12 +63,15 @@ fun RecruitmentArea(
             isPositionFilterClick = { isPositionSheetOpen = it },
             isPartyTypeFilterClick = { isPartyTypeSheetOpen = it },
             isPositionSheetOpen = isPositionSheetOpen,
-            isPartyTypeSheetOpen = isPartyTypeSheetOpen
+            isPartyTypeSheetOpen = isPartyTypeSheetOpen,
+            selectedCreateDataOrderByDesc = selectedCreateDataOrderByDesc,
+            onChangeOrderBy = { selectedCreateDataOrderByDesc = it }
         )
         HeightSpacer(heightDp = 16.dp)
         RecruitmentColumnListArea(
             homeViewModel = homeViewModel,
-            snackBarHostState = snackBarHostState
+            snackBarHostState = snackBarHostState,
+            selectedCreateDataOrderByDesc = selectedCreateDataOrderByDesc
         )
     }
 

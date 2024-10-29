@@ -55,6 +55,7 @@ import com.party.presentation.screen.home.RecruitmentCountArea
 fun RecruitmentColumnListArea(
     homeViewModel: HomeViewModel,
     snackBarHostState: SnackbarHostState,
+    selectedCreateDataOrderByDesc: Boolean,
 ) {
     LaunchedEffect(Unit) {
         homeViewModel.getRecruitmentList(page = 1, size = 10, sort = "createdAt", order = "DESC")
@@ -65,20 +66,19 @@ fun RecruitmentColumnListArea(
 
     when (getRecruitmentListState) {
         is UIState.Idle -> {}
-        is UIState.Loading -> {
-            LoadingProgressBar()
-        }
-
+        is UIState.Loading -> { LoadingProgressBar() }
         is UIState.Success -> {
             val successResult = recruitmentListResponse as SuccessResponse<RecruitmentListResponse>
+            val resultList = successResult.data?.partyRecruitments
+            val sortedList = if(selectedCreateDataOrderByDesc) resultList?.sortedByDescending { it.createdAt } else resultList?.sortedBy { it.createdAt }
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 itemsIndexed(
-                    items = successResult.data?.partyRecruitments ?: emptyList(),
+                    items = sortedList ?: emptyList(),
                     key = { index, _ ->
                         index
                     }
@@ -91,15 +91,8 @@ fun RecruitmentColumnListArea(
         }
 
         is UIState.Error -> {}
-        is UIState.Exception -> {
-            snackBarMessage(
-                message = stringResource(id = R.string.common6),
-                snackBarHostState = snackBarHostState
-            )
-        }
+        is UIState.Exception -> snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState)
     }
-
-
 }
 
 @Composable
