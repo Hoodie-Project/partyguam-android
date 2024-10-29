@@ -14,7 +14,8 @@ import com.party.presentation.screen.home.HomeViewModel
 @Composable
 fun MainArea(
     homeViewModel: HomeViewModel,
-    snackBarHostState: SnackbarHostState
+    snackBarHostState: SnackbarHostState,
+    onGoRecruitment: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -34,7 +35,8 @@ fun MainArea(
 
         NewRecruitmentArea(
             homeViewModel = homeViewModel,
-            snackBarHostState = snackBarHostState
+            snackBarHostState = snackBarHostState,
+            onGoRecruitment = { onGoRecruitment() }
         )
 
         HeightSpacer(heightDp = 60.dp)

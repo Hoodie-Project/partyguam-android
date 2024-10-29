@@ -1,7 +1,6 @@
 package com.party.presentation.screen.home.tab_main
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -36,8 +34,6 @@ import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.TextComponent
 import com.party.common.UIState
 import com.party.common.snackBarMessage
-import com.party.common.ui.theme.DARK100
-import com.party.common.ui.theme.DARK200
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.MEDIUM_CORNER_SIZE
@@ -55,6 +51,7 @@ import com.party.presentation.screen.home.RecruitmentCountArea
 fun NewRecruitmentArea(
     homeViewModel: HomeViewModel,
     snackBarHostState: SnackbarHostState,
+    onGoRecruitment: () -> Unit,
 ) {
     val getRecruitmentListState by homeViewModel.getRecruitmentListState.collectAsState()
     val recruitmentListResponse = getRecruitmentListState.data
@@ -67,7 +64,7 @@ fun NewRecruitmentArea(
         title = stringResource(id = R.string.home_list_new_title),
         titleIcon = painterResource(id = R.drawable.arrow_right_icon),
         description = stringResource(id = R.string.home_list_new_description),
-        onClick = {},
+        onClick = { onGoRecruitment() },
     )
 
     when (getRecruitmentListState) {

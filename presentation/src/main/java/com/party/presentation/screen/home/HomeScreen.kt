@@ -19,6 +19,7 @@ fun HomeScreen(
     homeTopTabList: List<String>,
     homeViewModel: HomeViewModel = hiltViewModel(),
     onTabClick: (String) -> Unit,
+    onGoRecruitment: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -34,7 +35,7 @@ fun HomeScreen(
             onTabClick = { onTabClick(it) }
         )
         when(selectedTabText){
-            homeTopTabList[0] -> { MainArea(homeViewModel = homeViewModel, snackBarHostState = snackBarHostState) }
+            homeTopTabList[0] -> { MainArea(homeViewModel = homeViewModel, snackBarHostState = snackBarHostState, onGoRecruitment = onGoRecruitment )}
             homeTopTabList[1] -> { PartyArea() }
             homeTopTabList[2] -> { RecruitmentArea(homeViewModel = homeViewModel, snackBarHostState = snackBarHostState) }
         }

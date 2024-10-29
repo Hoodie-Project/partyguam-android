@@ -294,7 +294,8 @@ fun AppNavHost() {
                     navController = navController,
                     selectedTabText = selectedTabText,
                     homeTopTabList = homeTopTabList,
-                    onTabClick = { selectedText -> selectedTabText = selectedText }
+                    onTabClick = { selectedText -> selectedTabText = selectedText },
+                    onGoRecruitment = { selectedTabText = homeTopTabList[2] }
                 )
             }
             composable<Screens.State> {

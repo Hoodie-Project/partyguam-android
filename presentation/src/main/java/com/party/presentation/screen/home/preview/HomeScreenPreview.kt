@@ -29,6 +29,7 @@ fun HomeScreenPreview() {
         selectedTabText = "메인",
         homeTopTabList = listOf("메인", "파티", "모집"),
         onTabClick = {},
+        onGoRecruitment = {},
     )
 }
 
