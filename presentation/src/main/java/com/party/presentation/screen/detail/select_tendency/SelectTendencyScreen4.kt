@@ -1,6 +1,5 @@
 package com.party.presentation.screen.detail.select_tendency
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,41 +20,30 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
 import com.party.common.R
 import com.party.common.ScreenExplainArea
-import com.party.common.ServerApiResponse.ErrorResponse
 import com.party.common.ServerApiResponse.SuccessResponse
-import com.party.common.TextComponent
 import com.party.common.UIState
-import com.party.common.makeAccessToken
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.DARK100
 import com.party.common.ui.theme.DARK400
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.GRAY400
-import com.party.common.ui.theme.LIGHT100
 import com.party.common.ui.theme.LIGHT200
 import com.party.common.ui.theme.LIGHT300
 import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.T2
-import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.PersonalityListOptionResponse
-import com.party.domain.model.user.detail.PersonalityListResponse
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.PersonalitySaveRequest2
-import com.party.domain.model.user.detail.PersonalitySaveResponse
 import com.party.navigation.Screens
 import com.party.presentation.screen.detail.ProfileIndicatorArea
 import com.party.presentation.screen.detail.select_tendency.SavePersonalityData.personalitySaveRequest1
 import com.party.presentation.screen.detail.select_tendency.SavePersonalityData.personalitySaveRequest2
 import com.party.presentation.screen.detail.select_tendency.SavePersonalityData.personalitySaveRequest3
 import com.party.presentation.screen.detail.select_tendency.SavePersonalityData.personalitySaveRequest4
-import com.skydoves.sandwich.StatusCode
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable

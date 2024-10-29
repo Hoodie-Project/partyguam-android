@@ -1,7 +1,6 @@
 package com.party.presentation.screen.home.tab_recruitment
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,9 +36,7 @@ import com.party.common.TextComponent
 import com.party.common.UIState
 import com.party.common.WidthSpacer
 import com.party.common.snackBarMessage
-import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.DARK400
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.T3
@@ -175,14 +172,12 @@ fun RecruitmentContentImage(
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
         border = BorderStroke(1.dp, GRAY100),
     ) {
-        Box(
+       Box(
             modifier = Modifier
                 .fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) {
             NetworkImageLoad(
-                modifier = Modifier
-                    .fillMaxSize(),
                 url = imageUrl,
             )
         }
