@@ -53,7 +53,7 @@ class HomeViewModel @Inject constructor(
                     _getPersonalRecruitmentListState.value = UIState.Success(result)
                 }
                 is ServerApiResponse.ErrorResponse<PersonalRecruitmentListResponse> -> {
-                    _getPersonalRecruitmentListState.value = UIState.Idle
+                    _getPersonalRecruitmentListState.value = UIState.Error()
                 }
                 is ServerApiResponse.ExceptionResponse -> {
                     _getPersonalRecruitmentListState.value = UIState.Idle

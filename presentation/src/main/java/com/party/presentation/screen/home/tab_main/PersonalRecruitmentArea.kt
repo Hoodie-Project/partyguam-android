@@ -1,13 +1,16 @@
 package com.party.presentation.screen.home.tab_main
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
@@ -15,7 +18,9 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -34,6 +39,9 @@ import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.TextComponent
 import com.party.common.UIState
 import com.party.common.snackBarMessage
+import com.party.common.ui.theme.B1
+import com.party.common.ui.theme.B3
+import com.party.common.ui.theme.DARK100
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
@@ -78,9 +86,45 @@ fun PersonalRecruitmentArea(
             val successResult = personalRecruitmentListResponse as SuccessResponse<PersonalRecruitmentListResponse>
             PersonalRecruitmentListArea(successResult.data)
         }
-        is UIState.Error -> {}
+        is UIState.Error -> {ErrorArea()}
         is UIState.Exception -> { snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState) }
     }
+}
+
+@Composable
+fun ErrorArea() {
+    HeightSpacer(heightDp = 20.dp)
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(1f),
+        shape = RoundedCornerShape(LARGE_CORNER_SIZE),
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(GRAY100),
+            contentAlignment = Alignment.Center
+        ){
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    modifier = Modifier.size(24.dp),
+                    painter = painterResource(id = R.drawable.icon_error),
+                    contentDescription = "error",
+                    tint = DARK100
+                )
+                Text(
+                    text = "모집공고를 불러오는 데 실패했어요\n다시 시도해주세요",
+                    fontSize = B1,
+                    color = DARK100,
+                )
+            }
+        }
+    }
+
 }
 
 @Composable
