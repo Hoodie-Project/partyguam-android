@@ -11,6 +11,9 @@ import com.party.common.R
 import com.party.common.ServerApiResponse
 import com.party.common.makeAccessToken
 import com.party.domain.model.user.SocialLoginErrorResponse
+import com.party.domain.model.user.SocialLoginResponse
+import com.party.domain.model.user.SocialLoginSuccessResponse
+import com.party.domain.usecase.datastore.SaveAccessTokenUseCase
 import com.party.domain.usecase.user.auth.GoogleLoginUseCase
 import com.party.domain.usecase.user.auth.KakaoLoginUseCase
 import com.skydoves.sandwich.StatusCode
@@ -25,6 +28,7 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val googleLoginUseCase: GoogleLoginUseCase,
     private val kakaoLoginUseCase: KakaoLoginUseCase,
+    private val saveAccessTokenUseCase: SaveAccessTokenUseCase,
 ): ViewModel() {
 
     private val _nextScreen = MutableSharedFlow<SocialLoginErrorResponse>()
@@ -88,8 +92,10 @@ class LoginViewModel @Inject constructor(
     fun serveToKakaoLogin(userEmail: String, accessToken: String){
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = kakaoLoginUseCase(accessToken = accessToken)){
-                is ServerApiResponse.SuccessResponse<*> -> {
+                is ServerApiResponse.SuccessResponse<SocialLoginResponse> -> {
                     //println("result123 Success : ${result.data}")
+                    val socialLoginResponse = result.data as SocialLoginSuccessResponse
+                    saveAccessToken(token = socialLoginResponse.accessToken)
                     _goToHomeScreen.emit(Unit)
                 }
                 is ServerApiResponse.ErrorResponse<*> -> {
@@ -108,6 +114,12 @@ class LoginViewModel @Inject constructor(
                     println("result123 Exception : ${result.message}")
                 }
             }
+        }
+    }
+
+    private fun saveAccessToken(token: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            saveAccessTokenUseCase(token = token)
         }
     }
 }

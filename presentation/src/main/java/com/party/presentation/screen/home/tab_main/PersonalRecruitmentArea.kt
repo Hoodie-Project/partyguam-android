@@ -116,9 +116,11 @@ fun ErrorArea() {
                     contentDescription = "error",
                     tint = DARK100
                 )
+                HeightSpacer(heightDp = 6.dp)
                 Text(
-                    text = "모집공고를 불러오는 데 실패했어요\n다시 시도해주세요",
+                    text = "모집공고를 불러오는 데 실패했어요\n            다시 시도해주세요",
                     fontSize = B1,
+                    fontWeight = FontWeight.SemiBold,
                     color = DARK100,
                 )
             }

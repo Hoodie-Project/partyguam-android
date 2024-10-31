@@ -39,7 +39,7 @@ fun LoginScreen(
 
     LaunchedEffect(key1 = Unit) {
         loginViewModel.goToHomeScreen.collectLatest {
-            //navController.navigate(Screens.SelectTendency1)
+            navController.navigate(Screens.Home)
         }
     }
 
