@@ -13,6 +13,7 @@ object NavigationTitle {
     const val CHOICE_CARRIER_POSITION = "경력/포지션 선택"
     const val SELECT_TENDENCY = "세부프로필"
     const val HOME = "홈"
-    const val STATE = "상태창"
+    const val STATE = "활동"
     const val PROFILE = "프로필"
+    const val RECRUITMENT_DETAIL = ""
 }

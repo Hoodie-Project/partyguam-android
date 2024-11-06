@@ -4,6 +4,7 @@ import com.party.common.ServerApiResponse
 import com.party.domain.model.party.PartyListResponse
 import com.party.domain.model.party.PersonalRecruitmentListResponse
 import com.party.domain.model.party.RecruitmentListResponse
+import com.party.domain.model.party.RecruitmentDetail
 
 interface PartyRepository {
 
@@ -30,4 +31,9 @@ interface PartyRepository {
         sort: String,
         order: String
     ): ServerApiResponse<PartyListResponse>
+
+    // 모집공고 상세 조회
+    suspend fun getRecruitmentDetail(
+        partyRecruitmentId: Int
+    ): ServerApiResponse<RecruitmentDetail>
 }

@@ -1,6 +1,5 @@
 package com.party.navigation
 
-import com.party.domain.model.user.detail.PersonalitySaveRequest
 import kotlinx.serialization.Serializable
 
 interface ArgInterface {
@@ -79,5 +78,9 @@ sealed interface Screens: ArgInterface {
     @Serializable
     data object Profile: Screens {
         override val title: String = NavigationTitle.PROFILE
+    }
+    @Serializable
+    data class RecruitmentDetail(val partyRecruitmentId: Int): Screens {
+        override val title: String = NavigationTitle.RECRUITMENT_DETAIL
     }
 }

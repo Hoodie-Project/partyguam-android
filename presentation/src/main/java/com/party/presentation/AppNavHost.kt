@@ -51,6 +51,7 @@ import com.party.presentation.screen.join.gender.JoinGenderScreen
 import com.party.presentation.screen.join.nickname.JoinNickNameScreen
 import com.party.presentation.screen.login.LoginScreen
 import com.party.presentation.screen.profile.ProfileScreen
+import com.party.presentation.screen.recruitment_detail.RecruitmentDetailScreen
 import com.party.presentation.screen.splash.SplashScreen
 import com.party.presentation.screen.state.StateScreen
 
@@ -295,7 +296,10 @@ fun AppNavHost() {
                     selectedTabText = selectedTabText,
                     homeTopTabList = homeTopTabList,
                     onTabClick = { selectedText -> selectedTabText = selectedText },
-                    onGoRecruitment = { selectedTabText = homeTopTabList[2] }
+                    onGoRecruitment = { selectedTabText = homeTopTabList[2] },
+                    onRecruitmentItemClick = { partyRecruitmentId ->
+                        navController.navigate(Screens.RecruitmentDetail(partyRecruitmentId = partyRecruitmentId))
+                    }
                 )
             }
             composable<Screens.State> {
@@ -303,6 +307,13 @@ fun AppNavHost() {
             }
             composable<Screens.Profile> {
                 ProfileScreen()
+            }
+            composable<Screens.RecruitmentDetail> { backStackEntry ->
+                val partyRecruitmentId = backStackEntry.toRoute<Screens.RecruitmentDetail>().partyRecruitmentId
+                RecruitmentDetailScreen(
+                    context = context,
+                    partyRecruitmentId = partyRecruitmentId,
+                )
             }
         }
 

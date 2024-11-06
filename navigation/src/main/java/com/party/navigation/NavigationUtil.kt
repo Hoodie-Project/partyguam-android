@@ -23,6 +23,7 @@ fun NavBackStackEntry?.fromRoute(): Screens {
             Screens.Home::class.simpleName -> Screens.Home
             Screens.State::class.simpleName -> Screens.State
             Screens.Profile::class.simpleName -> Screens.Profile
+            Screens.RecruitmentDetail::class.simpleName -> Screens.RecruitmentDetail(partyRecruitmentId = 1)
             else -> Screens.Login
         }
     }

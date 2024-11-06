@@ -2,6 +2,7 @@ package com.party.data.mapper
 
 import com.party.data.entity.party.PartyListEntity
 import com.party.data.entity.party.PersonalRecruitmentListEntity
+import com.party.data.entity.party.RecruitmentDetailDto
 import com.party.data.entity.party.RecruitmentListEntity
 import com.party.domain.model.party.PartyItemResponse
 import com.party.domain.model.party.PartyListResponse
@@ -11,11 +12,15 @@ import com.party.domain.model.party.PersonalRecruitmentListResponse
 import com.party.domain.model.party.PersonalRecruitmentPartyResponse
 import com.party.domain.model.party.PersonalRecruitmentPartyTypeResponse
 import com.party.domain.model.party.PersonalRecruitmentPositionResponse
+import com.party.domain.model.party.RecruitmentDetailParty
+import com.party.domain.model.party.RecruitmentDetailPartyType
+import com.party.domain.model.party.RecruitmentDetailPosition
 import com.party.domain.model.party.RecruitmentItemResponse
 import com.party.domain.model.party.RecruitmentListResponse
 import com.party.domain.model.party.RecruitmentPartyResponse
 import com.party.domain.model.party.RecruitmentPartyTypeResponse
 import com.party.domain.model.party.RecruitmentPositionResponse
+import com.party.domain.model.party.RecruitmentDetail
 
 object PartyMapper {
 
@@ -53,7 +58,7 @@ object PartyMapper {
         )
     }
 
-    fun mapperRecruitmentResponse(recruitmentListEntity: RecruitmentListEntity): RecruitmentListResponse{
+    fun mapperRecruitmentDetailResponse(recruitmentListEntity: RecruitmentListEntity): RecruitmentListResponse{
         return RecruitmentListResponse(
             total = recruitmentListEntity.total,
             partyRecruitments = recruitmentListEntity.partyRecruitments.map {
@@ -103,6 +108,29 @@ object PartyMapper {
                     recruitmentCount = it.recruitmentCount,
                 )
             }
+        )
+    }
+
+    fun mapperRecruitmentDetailResponse(recruitmentDetailEntity: RecruitmentDetailDto): RecruitmentDetail{
+        return RecruitmentDetail(
+            party = RecruitmentDetailParty(
+                title = recruitmentDetailEntity.party.title,
+                image = convertToImageUrl(recruitmentDetailEntity.party.image),
+                tag = recruitmentDetailEntity.party.tag,
+                partyType = RecruitmentDetailPartyType(
+                    type = recruitmentDetailEntity.party.partyType.type
+                )
+            ),
+            position = RecruitmentDetailPosition(
+                main = recruitmentDetailEntity.position.main,
+                sub = recruitmentDetailEntity.position.sub
+            ),
+            content = recruitmentDetailEntity.content,
+            recruitingCount = recruitmentDetailEntity.recruitingCount,
+            recruitedCount = recruitmentDetailEntity.recruitedCount,
+            applicationCount = recruitmentDetailEntity.applicationCount,
+            createdAt = recruitmentDetailEntity.createdAt,
+            isJoined = recruitmentDetailEntity.isJoined,
         )
     }
 }

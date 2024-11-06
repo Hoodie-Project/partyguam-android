@@ -56,9 +56,11 @@ fun RecruitmentColumnListArea(
     homeViewModel: HomeViewModel,
     snackBarHostState: SnackbarHostState,
     selectedCreateDataOrderByDesc: Boolean,
+    selectedPartyType: MutableList<String>,
+    onRecruitmentItemClick: (Int) -> Unit,
 ) {
     LaunchedEffect(Unit) {
-        homeViewModel.getRecruitmentList(page = 1, size = 10, sort = "createdAt", order = "DESC")
+        homeViewModel.getRecruitmentList(page = 1, size = 20, sort = "createdAt", order = "DESC")
     }
 
     val getRecruitmentListState by homeViewModel.getRecruitmentListState.collectAsState()
@@ -78,13 +80,14 @@ fun RecruitmentColumnListArea(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 itemsIndexed(
-                    items = sortedList ?: emptyList(),
+                    items = test(sortedList, selectedPartyType) ?: emptyList() ,
                     key = { index, _ ->
                         index
                     }
                 ){_, item ->
                     RecruitmentColumnListItem(
-                        recruitmentItemResponse = item
+                        recruitmentItemResponse = item,
+                        onRecruitmentItemClick = onRecruitmentItemClick
                     )
                 }
             }
@@ -95,11 +98,24 @@ fun RecruitmentColumnListArea(
     }
 }
 
+fun test(
+    sortedList: List<RecruitmentItemResponse>?,
+    selectedPartyType: MutableList<String>,
+): List<RecruitmentItemResponse>? {
+    return if(selectedPartyType.isNotEmpty()){
+        sortedList?.filter { selectedPartyType.contains(it.party.partyType.type) }
+    } else {
+        sortedList
+    }
+}
+
 @Composable
 fun RecruitmentColumnListItem(
     recruitmentItemResponse: RecruitmentItemResponse,
+    onRecruitmentItemClick: (Int) -> Unit,
 ) {
     Card(
+        onClick = {onRecruitmentItemClick(recruitmentItemResponse.id)},
         modifier = Modifier
             .fillMaxWidth()
             .height(136.dp),
@@ -243,6 +259,7 @@ fun RecruitmentColumnListItemPreview() {
                 main = "개발자",
                 sub = "Android"
             )
-        )
+        ),
+        onRecruitmentItemClick = {}
     )
 }

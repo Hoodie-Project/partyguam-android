@@ -1,9 +1,13 @@
 package com.party.navigation
 
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -11,8 +15,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.party.common.ScaffoldTitle
 import com.party.common.ui.theme.B2
@@ -49,6 +56,7 @@ fun CustomTopBar(
         is Screens.SelectTendency2,
         is Screens.SelectTendency3,
         is Screens.SelectTendency4,
+        is Screens.RecruitmentDetail,
         -> CenterTopBar(
             currentScreen = currentScreen,
             navHostController = navController,
@@ -113,10 +121,26 @@ fun SetScaffoldRightCloseIcon(
         is Screens.SelectTendency3,
         is Screens.SelectTendency4,
         -> ScaffoldActionCloseIcon()
+        
+        is Screens.RecruitmentDetail,
+        -> aaa()
 
         else -> {}
     }
 }
+
+@Composable
+fun aaa() {
+    IconButton(onClick = { /*TODO*/ }) {
+        Icon(
+            modifier = Modifier
+                .size(24.dp),
+            painter = painterResource(id = com.party.common.R.drawable.icon_share),
+            contentDescription = "share",
+        )
+    }
+}
+
 
 @Composable
 fun ScaffoldActionAreaText(
@@ -158,6 +182,7 @@ fun SetNavigationIcon(
         is Screens.SelectTendency2,
         is Screens.SelectTendency3,
         is Screens.SelectTendency4,
+        is Screens.RecruitmentDetail,
         -> BackNavigationIcon(
             currentScreen = currentScreen,
             navController = navController,

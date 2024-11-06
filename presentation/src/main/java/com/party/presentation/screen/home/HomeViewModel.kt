@@ -1,5 +1,6 @@
 package com.party.presentation.screen.home
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.DetailCarrierData.mainSelectedMainPosition
@@ -7,6 +8,7 @@ import com.party.common.ServerApiResponse
 import com.party.common.UIState
 import com.party.domain.model.party.PartyListResponse
 import com.party.domain.model.party.PersonalRecruitmentListResponse
+import com.party.domain.model.party.RecruitmentItemResponse
 import com.party.domain.model.party.RecruitmentListResponse
 import com.party.domain.model.user.detail.PositionListResponse
 import com.party.domain.usecase.party.GetPartyListUseCase
@@ -123,5 +125,19 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    // 상태값을 유지하기 위한 리스트
+    private val _itemList = MutableStateFlow<List<String>>(emptyList())
+    val itemList: StateFlow<List<String>> = _itemList
+
+    // 리스트 추가 함수
+    fun addItem(item: String) {
+        _itemList.value.plus(item)
+    }
+
+    // 리스트 제거 함수
+    fun removeItem(item: String) {
+        _itemList.value.minus(item)
     }
 }

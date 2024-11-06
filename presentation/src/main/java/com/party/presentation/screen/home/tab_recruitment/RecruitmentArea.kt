@@ -23,26 +23,32 @@ import com.party.presentation.screen.home.HomeViewModel
 fun RecruitmentArea(
     homeViewModel: HomeViewModel,
     snackBarHostState: SnackbarHostState,
+    onRecruitmentItemClick: (Int) -> Unit,
 ) {
     var isPositionSheetOpen by rememberSaveable { mutableStateOf(false) }
     var isPartyTypeSheetOpen by rememberSaveable { mutableStateOf(false) }
 
+    // 선택된 메인 포지션
     var selectedMainPosition by rememberSaveable {
         mutableStateOf(positionList[0])
     }
 
+    // 선택된 서브 포지션 리스트
     var selectedSubPositionList by remember {
         mutableStateOf(mutableStateListOf<String>())
     }
 
+    // 선택된 포지션 리스트 (메인 + 서브 합친 것)
     val selectedPositionList by remember {
         mutableStateOf(mutableStateListOf<Pair<String, String>>())
     }
 
-    val selectedPartyType by remember {
+    // 선택된 파티 타입 리스트
+    val selectedPartyTypeList by remember {
         mutableStateOf(mutableStateListOf<String>())
     }
 
+    // 등록일 순 내림 차순
     var selectedCreateDataOrderByDesc by remember {
         mutableStateOf(true)
     }
@@ -65,13 +71,16 @@ fun RecruitmentArea(
             isPositionSheetOpen = isPositionSheetOpen,
             isPartyTypeSheetOpen = isPartyTypeSheetOpen,
             selectedCreateDataOrderByDesc = selectedCreateDataOrderByDesc,
-            onChangeOrderBy = { selectedCreateDataOrderByDesc = it }
+            onChangeOrderBy = { selectedCreateDataOrderByDesc = it },
+            selectedPartyTypeList = selectedPartyTypeList
         )
         HeightSpacer(heightDp = 16.dp)
         RecruitmentColumnListArea(
             homeViewModel = homeViewModel,
             snackBarHostState = snackBarHostState,
-            selectedCreateDataOrderByDesc = selectedCreateDataOrderByDesc
+            selectedCreateDataOrderByDesc = selectedCreateDataOrderByDesc,
+            selectedPartyType = selectedPartyTypeList,
+            onRecruitmentItemClick = onRecruitmentItemClick
         )
     }
 
@@ -112,11 +121,13 @@ fun RecruitmentArea(
     if(isPartyTypeSheetOpen){
         PartyTypeModal(
             titleText = stringResource(id = R.string.recruitment_filter2),
-            selectedPartyType = selectedPartyType,
-            onClick = { validSelectedPartyType(selectedPartyType, it) },
+            selectedPartyType = selectedPartyTypeList,
+            onClick = { validSelectedPartyType(selectedPartyTypeList, it) },
             onModelClose = { isPartyTypeSheetOpen = false },
-            onReset = { selectedPartyType.clear() },
-            onApply = {}
+            onReset = { selectedPartyTypeList.clear() },
+            onApply = {
+
+            }
         )
     }
 }

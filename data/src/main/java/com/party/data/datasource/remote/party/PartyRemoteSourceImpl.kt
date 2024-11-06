@@ -2,6 +2,7 @@ package com.party.data.datasource.remote.party
 
 import com.party.data.entity.party.PartyListEntity
 import com.party.data.entity.party.PersonalRecruitmentListEntity
+import com.party.data.entity.party.RecruitmentDetailDto
 import com.party.data.entity.party.RecruitmentListEntity
 import com.party.data.service.PartyService
 import com.skydoves.sandwich.ApiResponse
@@ -35,5 +36,9 @@ class PartyRemoteSourceImpl @Inject constructor(
         order: String
     ): ApiResponse<PartyListEntity> {
         return partyService.getPartyList(page = page, size = size, sort = sort, order = order)
+    }
+
+    override suspend fun getRecruitmentDetail(partyRecruitmentId: Int): ApiResponse<RecruitmentDetailDto> {
+        return partyService.getRecruitmentDetail(partyRecruitmentId = partyRecruitmentId)
     }
 }

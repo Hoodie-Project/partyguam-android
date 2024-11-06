@@ -173,6 +173,7 @@ private val NavController.shouldShowBottomBar
         Screens.Home,
         Screens.State,
         Screens.Profile,
+        Screens.RecruitmentDetail(1),
         -> true
         else -> false
     }
