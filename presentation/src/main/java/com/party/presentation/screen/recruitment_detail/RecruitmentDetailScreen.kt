@@ -1,6 +1,5 @@
 package com.party.presentation.screen.recruitment_detail
 
-import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,13 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.party.common.ApplyButtonArea
 import com.party.common.HeightSpacer
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.UIState
 import com.party.common.convertToText
 import com.party.common.ui.theme.GRAY100
 import com.party.domain.model.party.RecruitmentDetail
-import com.party.presentation.screen.recruitment_detail.component.ApplyButtonArea
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentCurrentInfoArea
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentDescription
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentImageArea
@@ -29,9 +28,9 @@ import com.party.presentation.screen.recruitment_detail.viewmodel.RecruitmentDet
 
 @Composable
 fun RecruitmentDetailScreen(
-    context: Context,
     partyRecruitmentId: Int,
-    recruitmentDetailViewModel: RecruitmentDetailViewModel = hiltViewModel()
+    recruitmentDetailViewModel: RecruitmentDetailViewModel = hiltViewModel(),
+    onClick: () -> Unit,
 ) {
 
     LaunchedEffect(Unit) {
@@ -46,7 +45,8 @@ fun RecruitmentDetailScreen(
         is UIState.Success -> {
             val resultData = result.data as SuccessResponse
             RecruitmentDetailScreenContent(
-                recruitmentDetail = resultData.data ?: return
+                recruitmentDetail = resultData.data ?: return,
+                onClick = onClick
             )
         }
         is UIState.Error -> {}
@@ -56,13 +56,13 @@ fun RecruitmentDetailScreen(
 
 @Composable
 fun RecruitmentDetailScreenContent(
-    recruitmentDetail: RecruitmentDetail
+    recruitmentDetail: RecruitmentDetail,
+    onClick: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()
-
     ) {
         Column(
             modifier = Modifier
@@ -101,7 +101,7 @@ fun RecruitmentDetailScreenContent(
 
         HeightSpacer(heightDp = 24.dp)
         ApplyButtonArea(
-            onClick = {}
+            onClick = onClick
         )
         HeightSpacer(heightDp = 12.dp)
 

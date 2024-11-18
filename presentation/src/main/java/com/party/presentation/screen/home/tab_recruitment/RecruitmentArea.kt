@@ -23,7 +23,7 @@ import com.party.presentation.screen.home.HomeViewModel
 fun RecruitmentArea(
     homeViewModel: HomeViewModel,
     snackBarHostState: SnackbarHostState,
-    onRecruitmentItemClick: (Int) -> Unit,
+    onRecruitmentItemClick: (Int, Int) -> Unit,
 ) {
     var isPositionSheetOpen by rememberSaveable { mutableStateOf(false) }
     var isPartyTypeSheetOpen by rememberSaveable { mutableStateOf(false) }

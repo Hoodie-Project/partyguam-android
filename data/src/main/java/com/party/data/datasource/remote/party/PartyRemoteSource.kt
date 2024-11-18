@@ -15,7 +15,7 @@ interface PartyRemoteSource {
     suspend fun getRecruitmentList(page: Int, size: Int, sort: String, order: String): ApiResponse<RecruitmentListEntity>
 
     // 홈화면 - 파티 리스트 조회
-    suspend fun getPartyList(page: Int, size: Int, sort: String, order: String): ApiResponse<PartyListEntity>
+    suspend fun getPartyList(page: Int, size: Int, sort: String, order: String, partyTypes: List<Int>): ApiResponse<PartyListEntity>
 
     // 모집공고 상세 조회
     suspend fun getRecruitmentDetail(partyRecruitmentId: Int): ApiResponse<RecruitmentDetailDto>

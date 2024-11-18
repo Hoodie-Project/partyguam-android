@@ -57,6 +57,7 @@ fun CustomTopBar(
         is Screens.SelectTendency3,
         is Screens.SelectTendency4,
         is Screens.RecruitmentDetail,
+        is Screens.PartyApply,
         -> CenterTopBar(
             currentScreen = currentScreen,
             navHostController = navController,
@@ -183,6 +184,7 @@ fun SetNavigationIcon(
         is Screens.SelectTendency3,
         is Screens.SelectTendency4,
         is Screens.RecruitmentDetail,
+        is Screens.PartyApply,
         -> BackNavigationIcon(
             currentScreen = currentScreen,
             navController = navController,

@@ -57,7 +57,7 @@ fun RecruitmentColumnListArea(
     snackBarHostState: SnackbarHostState,
     selectedCreateDataOrderByDesc: Boolean,
     selectedPartyType: MutableList<String>,
-    onRecruitmentItemClick: (Int) -> Unit,
+    onRecruitmentItemClick: (Int, Int) -> Unit,
 ) {
     LaunchedEffect(Unit) {
         homeViewModel.getRecruitmentList(page = 1, size = 20, sort = "createdAt", order = "DESC")
@@ -112,10 +112,10 @@ fun test(
 @Composable
 fun RecruitmentColumnListItem(
     recruitmentItemResponse: RecruitmentItemResponse,
-    onRecruitmentItemClick: (Int) -> Unit,
+    onRecruitmentItemClick: (Int, Int) -> Unit,
 ) {
     Card(
-        onClick = {onRecruitmentItemClick(recruitmentItemResponse.id)},
+        onClick = {onRecruitmentItemClick(recruitmentItemResponse.id, recruitmentItemResponse.partyId)},
         modifier = Modifier
             .fillMaxWidth()
             .height(136.dp),
@@ -260,6 +260,6 @@ fun RecruitmentColumnListItemPreview() {
                 sub = "Android"
             )
         ),
-        onRecruitmentItemClick = {}
+        onRecruitmentItemClick = { _, _ -> }
     )
 }

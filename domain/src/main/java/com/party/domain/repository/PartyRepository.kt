@@ -29,7 +29,8 @@ interface PartyRepository {
         page: Int,
         size: Int,
         sort: String,
-        order: String
+        order: String,
+        partyTypes: List<Int>,
     ): ServerApiResponse<PartyListResponse>
 
     // 모집공고 상세 조회

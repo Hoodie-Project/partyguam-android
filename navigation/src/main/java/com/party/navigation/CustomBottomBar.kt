@@ -51,6 +51,7 @@ fun BottomNavigationBar(
     isExpandedFloatingButton: Boolean,
     onUnExpandedFloatingButton: (Boolean) -> Unit,
 ){
+
     val screenList = listOf(
         Screens.Home,
         Screens.State,
@@ -60,27 +61,32 @@ fun BottomNavigationBar(
     val backStackEntry = navController.currentBackStackEntryAsState()
     val currentScreen = backStackEntry.value.fromRoute()
 
-    AppBottomNavigationBar(
-        isExpandedFloatingButton = isExpandedFloatingButton,
-        show = navController.shouldShowBottomBar,
-        onUnExpandedFloatingButton = onUnExpandedFloatingButton,
-    ) {
-        screenList.forEach { screenItem ->
-            AppBottomNavigationBarItem(
-                icon = bottomIconSetting(screenItem),
-                label = screenItem.title,
-                onClick = {
-                    if (currentScreen != screenItem) {
-                        navController.navigate(screenItem) {
-                            popUpTo(navController.currentBackStackEntry.fromRoute())
+    // shouldShowBottomBar 에 속하는 스크린만
+    if (navController.shouldShowBottomBar){
+        AppBottomNavigationBar(
+            isExpandedFloatingButton = isExpandedFloatingButton,
+            show = navController.shouldShowBottomBar,
+            onUnExpandedFloatingButton = onUnExpandedFloatingButton,
+        ) {
+            screenList.forEach { screenItem ->
+                AppBottomNavigationBarItem(
+                    icon = bottomIconSetting(screenItem),
+                    label = screenItem.title,
+                    onClick = {
+                        if (currentScreen != screenItem) {
+                            navController.navigate(screenItem) {
+                                popUpTo(navController.currentBackStackEntry.fromRoute())
+                            }
                         }
-                    }
-                },
-                selected = currentScreen == screenItem,
-                onBack = { if (currentScreen == Screens.Home) (context as Activity).finish() else navController.navigate(Screens.Home) },
-            )
+                    },
+                    selected = currentScreen == screenItem,
+                    onBack = { if (currentScreen == Screens.Home) (context as Activity).finish() else navController.navigate(Screens.Home) },
+                )
+            }
         }
     }
+
+
 }
 
 @Composable
@@ -173,7 +179,7 @@ private val NavController.shouldShowBottomBar
         Screens.Home,
         Screens.State,
         Screens.Profile,
-        Screens.RecruitmentDetail(1),
+        Screens.RecruitmentDetail(1, 1)
         -> true
         else -> false
     }

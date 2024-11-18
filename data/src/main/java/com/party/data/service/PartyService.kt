@@ -38,6 +38,7 @@ interface PartyService {
         @Query("limit") size: Int,
         @Query("sort") sort: String,
         @Query("order") order: String,
+        @Query("partyType") partyTypes: List<Int> // 리스트로 처리
     ): ApiResponse<PartyListEntity>
 
     // 모집공고 상세 조회

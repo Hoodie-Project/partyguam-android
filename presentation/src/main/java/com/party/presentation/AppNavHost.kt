@@ -50,6 +50,7 @@ import com.party.presentation.screen.join.email.JoinEmailScreen
 import com.party.presentation.screen.join.gender.JoinGenderScreen
 import com.party.presentation.screen.join.nickname.JoinNickNameScreen
 import com.party.presentation.screen.login.LoginScreen
+import com.party.presentation.screen.party_apply.PartyApplyScreen
 import com.party.presentation.screen.profile.ProfileScreen
 import com.party.presentation.screen.recruitment_detail.RecruitmentDetailScreen
 import com.party.presentation.screen.splash.SplashScreen
@@ -297,8 +298,8 @@ fun AppNavHost() {
                     homeTopTabList = homeTopTabList,
                     onTabClick = { selectedText -> selectedTabText = selectedText },
                     onGoRecruitment = { selectedTabText = homeTopTabList[2] },
-                    onRecruitmentItemClick = { partyRecruitmentId ->
-                        navController.navigate(Screens.RecruitmentDetail(partyRecruitmentId = partyRecruitmentId))
+                    onRecruitmentItemClick = { partyRecruitmentId, partyId ->
+                        navController.navigate(Screens.RecruitmentDetail(partyRecruitmentId = partyRecruitmentId, partyId = partyId))
                     }
                 )
             }
@@ -309,16 +310,30 @@ fun AppNavHost() {
                 ProfileScreen()
             }
             composable<Screens.RecruitmentDetail> { backStackEntry ->
+                val partyId = backStackEntry.toRoute<Screens.RecruitmentDetail>().partyId
                 val partyRecruitmentId = backStackEntry.toRoute<Screens.RecruitmentDetail>().partyRecruitmentId
                 RecruitmentDetailScreen(
-                    context = context,
+                    partyRecruitmentId = partyRecruitmentId,
+                    onClick = {
+                        navController.navigate(Screens.PartyApply(partyId = partyId, partyRecruitmentId = partyRecruitmentId))
+                    }
+                )
+            }
+            composable<Screens.PartyApply> { backStackEntry ->
+                val partyId = backStackEntry.toRoute<Screens.PartyApply>().partyId
+                val partyRecruitmentId = backStackEntry.toRoute<Screens.RecruitmentDetail>().partyRecruitmentId
+                PartyApplyScreen(
+                    partyId = partyId,
                     partyRecruitmentId = partyRecruitmentId,
                 )
             }
         }
 
         if(isExpandedFloatingButton){
-            Box(modifier = Modifier.fillMaxSize().background(BLACK.copy(alpha = 0.7f)).noRippleClickable { isExpandedFloatingButton = false })
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .background(BLACK.copy(alpha = 0.7f))
+                .noRippleClickable { isExpandedFloatingButton = false })
         }
     }
 }

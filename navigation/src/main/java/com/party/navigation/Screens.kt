@@ -80,7 +80,11 @@ sealed interface Screens: ArgInterface {
         override val title: String = NavigationTitle.PROFILE
     }
     @Serializable
-    data class RecruitmentDetail(val partyRecruitmentId: Int): Screens {
+    data class RecruitmentDetail(val partyRecruitmentId: Int, val partyId: Int): Screens {
         override val title: String = NavigationTitle.RECRUITMENT_DETAIL
+    }
+    @Serializable
+    data class PartyApply(val partyId: Int, val partyRecruitmentId: Int): Screens {
+        override val title: String = NavigationTitle.PARTY_APPLY
     }
 }

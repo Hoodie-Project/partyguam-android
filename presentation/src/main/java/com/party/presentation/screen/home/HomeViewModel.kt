@@ -19,6 +19,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -90,11 +91,12 @@ class HomeViewModel @Inject constructor(
         page: Int,
         size: Int,
         sort: String,
-        order: String
+        order: String,
+        partyTypes: List<Int> = emptyList()
     ){
         viewModelScope.launch(Dispatchers.IO) {
-            _getRecruitmentListState.value = UIState.Loading
-            when(val result = getPartyListUseCase(page = page, size = size, sort = sort, order = order)){
+            _getPartyListState.value = UIState.Loading
+            when(val result = getPartyListUseCase(page = page, size = size, sort = sort, order = order, partyTypes = partyTypes)){
                 is ServerApiResponse.SuccessResponse<PartyListResponse> -> {
                     _getPartyListState.value = UIState.Success(result)
                 }
@@ -125,19 +127,5 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    // 상태값을 유지하기 위한 리스트
-    private val _itemList = MutableStateFlow<List<String>>(emptyList())
-    val itemList: StateFlow<List<String>> = _itemList
-
-    // 리스트 추가 함수
-    fun addItem(item: String) {
-        _itemList.value.plus(item)
-    }
-
-    // 리스트 제거 함수
-    fun removeItem(item: String) {
-        _itemList.value.minus(item)
     }
 }

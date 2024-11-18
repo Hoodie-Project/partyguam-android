@@ -12,8 +12,9 @@ class GetPartyListUseCase @Inject constructor(
         page: Int,
         size: Int,
         sort: String,
-        order: String
+        order: String,
+        partyTypes: List<Int>,
     ): ServerApiResponse<PartyListResponse>{
-        return partyRepository.getPartyList(page = page, size = size, sort = sort, order = order)
+        return partyRepository.getPartyList(page = page, size = size, sort = sort, order = order, partyTypes = partyTypes)
     }
 }

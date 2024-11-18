@@ -2,6 +2,7 @@ package com.party.common
 
 import android.annotation.SuppressLint
 import android.content.Context
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -12,6 +13,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -30,6 +34,10 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallPulseSyncProgressIndicator
+import com.party.common.ui.theme.B2
+import com.party.common.ui.theme.BLACK
+import com.party.common.ui.theme.LARGE_CORNER_SIZE
+import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 import kotlinx.coroutines.CoroutineScope
@@ -233,4 +241,31 @@ fun convertIsoToCustomDateFormat(isoString: String): String {
     // ISO 문자열을 ZonedDateTime으로 변환 후, 원하는 형식으로 변환
     val zonedDateTime = ZonedDateTime.parse(isoString, isoFormatter)
     return outputFormatter.format(zonedDateTime)
+}
+
+@Composable
+fun ApplyButtonArea(
+    onClick: () -> Unit,
+    containerColor: Color = PRIMARY,
+    contentColor: Color = BLACK,
+    borderColor: Color = PRIMARY,
+) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(48.dp),
+        shape = RoundedCornerShape(LARGE_CORNER_SIZE),
+        border = BorderStroke(1.dp, borderColor),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = containerColor,
+            contentColor = contentColor,
+        ),
+    ){
+        Text(
+            text = "지원하기",
+            fontSize = B2,
+            fontWeight = FontWeight.Bold,
+        )
+    }
 }

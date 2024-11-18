@@ -119,7 +119,7 @@ fun PartyItem(
             containerColor = WHITE
         ),
         border = BorderStroke(1.dp, GRAY100),
-        elevation = CardDefaults.cardElevation(4.dp),
+        elevation = CardDefaults.cardElevation(2.dp),
     ) {
         Column(
             modifier = Modifier
@@ -163,7 +163,6 @@ fun PartyItemTopArea(
             )
         }
     }
-
 }
 
 @Composable
@@ -203,8 +202,7 @@ fun PartyItemBottomAreaDescription(
     TextComponent(
         modifier = Modifier
             .fillMaxWidth()
-            .height(44.dp)
-            .padding(horizontal = 4.dp),
+            .height(44.dp),
         text = stringResource(id = R.string.home_list_party_recruitment_count, recruitmentCount),
         fontSize = B3,
         textColor = PRIMARY,
