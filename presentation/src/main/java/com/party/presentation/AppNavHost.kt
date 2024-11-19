@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -31,7 +32,7 @@ import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.BottomNavigationBar
 import com.party.navigation.CustomTopBar
-import com.party.navigation.FloatingButton
+import com.party.presentation.component.FloatingButtonArea
 import com.party.navigation.Screens
 import com.party.navigation.fromRoute
 import com.party.navigation.isVisibleTopBar
@@ -55,6 +56,7 @@ import com.party.presentation.screen.profile.ProfileScreen
 import com.party.presentation.screen.recruitment_detail.RecruitmentDetailScreen
 import com.party.presentation.screen.splash.SplashScreen
 import com.party.presentation.screen.state.StateScreen
+import com.party.presentation.shared.SharedViewModel
 
 const val ANIMATION_DURATION = 500
 
@@ -89,6 +91,8 @@ fun AppNavHost() {
         mutableStateOf(homeTopTabList[0])
     }
 
+    val sharedViewModel = hiltViewModel<SharedViewModel>()
+
     Scaffold(
         snackbarHost = {
             SnackbarHost(
@@ -115,11 +119,20 @@ fun AppNavHost() {
                 onUnExpandedFloatingButton = { isExpandedFloatingButton = it }
             )
         },
-        floatingActionButton = { if(currentScreen == Screens.Home)
+        /*floatingActionButton = { if(currentScreen == Screens.Home)
             FloatingButton(
                 isExpandedFloatingButton = isExpandedFloatingButton,
                 selectedTabText = selectedTabText,
                 onExpanded = { isExpandedFloatingButton = it })
+        }*/
+        floatingActionButton = {
+            FloatingButtonArea(
+                isExpandedFloatingButton = isExpandedFloatingButton,
+                selectedTabText = selectedTabText,
+                currentScreens = currentScreen,
+                onExpanded = { isExpandedFloatingButton = it },
+                sharedViewModel = sharedViewModel
+            )
         }
     ){
         NavHost(
@@ -300,7 +313,8 @@ fun AppNavHost() {
                     onGoRecruitment = { selectedTabText = homeTopTabList[2] },
                     onRecruitmentItemClick = { partyRecruitmentId, partyId ->
                         navController.navigate(Screens.RecruitmentDetail(partyRecruitmentId = partyRecruitmentId, partyId = partyId))
-                    }
+                    },
+                    sharedViewModel = sharedViewModel
                 )
             }
             composable<Screens.State> {

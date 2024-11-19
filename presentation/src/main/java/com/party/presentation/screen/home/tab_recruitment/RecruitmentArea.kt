@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -18,13 +19,22 @@ import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.presentation.screen.detail.choice_carrier_position.positionList
 import com.party.presentation.screen.home.HomeViewModel
+import com.party.presentation.shared.SharedViewModel
 
 @Composable
 fun RecruitmentArea(
     homeViewModel: HomeViewModel,
     snackBarHostState: SnackbarHostState,
     onRecruitmentItemClick: (Int, Int) -> Unit,
+    sharedViewModel: SharedViewModel,
 ) {
+
+    DisposableEffect(Unit) {
+        onDispose {
+            sharedViewModel.isScrollRecruitmentArea = false
+        }
+    }
+
     var isPositionSheetOpen by rememberSaveable { mutableStateOf(false) }
     var isPartyTypeSheetOpen by rememberSaveable { mutableStateOf(false) }
 
@@ -80,7 +90,8 @@ fun RecruitmentArea(
             snackBarHostState = snackBarHostState,
             selectedCreateDataOrderByDesc = selectedCreateDataOrderByDesc,
             selectedPartyType = selectedPartyTypeList,
-            onRecruitmentItemClick = onRecruitmentItemClick
+            onRecruitmentItemClick = onRecruitmentItemClick,
+            sharedViewModel = sharedViewModel
         )
     }
 

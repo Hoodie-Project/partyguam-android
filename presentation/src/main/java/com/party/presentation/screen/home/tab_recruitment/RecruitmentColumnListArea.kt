@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -20,7 +21,9 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -50,6 +53,8 @@ import com.party.presentation.screen.home.HomeViewModel
 import com.party.presentation.screen.home.PartyCategory
 import com.party.presentation.screen.home.PositionArea
 import com.party.presentation.screen.home.RecruitmentCountArea
+import com.party.presentation.shared.SharedViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun RecruitmentColumnListArea(
@@ -58,9 +63,20 @@ fun RecruitmentColumnListArea(
     selectedCreateDataOrderByDesc: Boolean,
     selectedPartyType: MutableList<String>,
     onRecruitmentItemClick: (Int, Int) -> Unit,
+    sharedViewModel: SharedViewModel,
 ) {
+    val listState = rememberLazyListState()
+    val isFabVisible = remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
+    sharedViewModel.isScrollRecruitmentArea = isFabVisible.value
+
     LaunchedEffect(Unit) {
         homeViewModel.getRecruitmentList(page = 1, size = 20, sort = "createdAt", order = "DESC")
+    }
+
+    LaunchedEffect(Unit) {
+        sharedViewModel.scrollToUp.collectLatest {
+            listState.animateScrollToItem(0)
+        }
     }
 
     val getRecruitmentListState by homeViewModel.getRecruitmentListState.collectAsState()
@@ -74,6 +90,7 @@ fun RecruitmentColumnListArea(
             val resultList = successResult.data?.partyRecruitments
             val sortedList = if(selectedCreateDataOrderByDesc) resultList?.sortedByDescending { it.createdAt } else resultList?.sortedBy { it.createdAt }
             LazyColumn(
+                state = listState,
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(),

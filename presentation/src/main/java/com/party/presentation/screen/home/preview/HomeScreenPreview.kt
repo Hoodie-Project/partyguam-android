@@ -19,6 +19,7 @@ import com.party.presentation.screen.home.PartyCategory
 import com.party.presentation.screen.home.tab_main.PartyItem
 import com.party.presentation.screen.home.tab_main.PersonalRecruitmentItem
 import com.party.presentation.screen.home.tab_main.RecruitmentItem
+import com.party.presentation.shared.SharedViewModel
 
 @Preview(showBackground = true)
 @Composable
@@ -31,6 +32,7 @@ fun HomeScreenPreview() {
         onTabClick = {},
         onGoRecruitment = {},
         onRecruitmentItemClick = { _, _ -> },
+        sharedViewModel = SharedViewModel()
     )
 }
 

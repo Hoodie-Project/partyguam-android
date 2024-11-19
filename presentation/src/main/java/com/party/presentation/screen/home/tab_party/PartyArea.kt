@@ -16,14 +16,17 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -63,12 +66,21 @@ import com.party.presentation.screen.home.tab_party.component.FilterArea
 import com.party.presentation.screen.home.tab_party.component.FilterDate
 import com.party.presentation.screen.home.tab_recruitment.PartyTypeModal
 import com.party.presentation.screen.home.tab_recruitment.validSelectedPartyType
+import com.party.presentation.shared.SharedViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun PartyArea(
     homeViewModel: HomeViewModel,
     snackBarHostState: SnackbarHostState,
+    sharedViewModel: SharedViewModel,
 ) {
+    DisposableEffect(Unit) {
+        onDispose {
+            sharedViewModel.isScrollPartyArea = false
+        }
+    }
+
     var isPartyTypeSheetOpen by rememberSaveable { mutableStateOf(false) }
 
     // 선택된 파티 타입 리스트
@@ -117,6 +129,7 @@ fun PartyArea(
                     partyListResponse = successResult.data,
                     selectedCreateDataOrderByDesc = selectedCreateDataOrderByDesc,
                     checked = checked,
+                    sharedViewModel = sharedViewModel
                 )
             }
             is UIState.Error -> {}
@@ -156,7 +169,18 @@ private fun PartyListArea(
     partyListResponse: PartyListResponse?,
     selectedCreateDataOrderByDesc: Boolean,
     checked: Boolean,
+    sharedViewModel: SharedViewModel,
 ) {
+    val listState = rememberLazyGridState()
+    val isFabVisible = remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
+    sharedViewModel.isScrollPartyArea = isFabVisible.value
+
+    LaunchedEffect(Unit) {
+        sharedViewModel.scrollToUp.collectLatest {
+            listState.animateScrollToItem(0)
+        }
+    }
+
     val list = partyListResponse?.parties?.let { parties ->
         if (selectedCreateDataOrderByDesc) {
             parties.sortedByDescending { it.createdAt } // 내림차순 정렬
@@ -174,6 +198,7 @@ private fun PartyListArea(
     }
 
     LazyVerticalGrid(
+        state = listState,
         columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),

@@ -2,6 +2,7 @@ package com.party.presentation.screen.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,6 +11,7 @@ import androidx.navigation.NavController
 import com.party.presentation.screen.home.tab_main.MainArea
 import com.party.presentation.screen.home.tab_party.PartyArea
 import com.party.presentation.screen.home.tab_recruitment.RecruitmentArea
+import com.party.presentation.shared.SharedViewModel
 
 @Composable
 fun HomeScreen(
@@ -21,7 +23,8 @@ fun HomeScreen(
     onTabClick: (String) -> Unit,
     onGoRecruitment: () -> Unit,
     onRecruitmentItemClick: (Int, Int) -> Unit,
-) {
+    sharedViewModel: SharedViewModel,
+){
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -37,8 +40,8 @@ fun HomeScreen(
         )
         when(selectedTabText){
             homeTopTabList[0] -> { MainArea(homeViewModel = homeViewModel, snackBarHostState = snackBarHostState, onGoRecruitment = onGoRecruitment )}
-            homeTopTabList[1] -> { PartyArea(homeViewModel = homeViewModel, snackBarHostState = snackBarHostState) }
-            homeTopTabList[2] -> { RecruitmentArea(homeViewModel = homeViewModel, snackBarHostState = snackBarHostState, onRecruitmentItemClick = onRecruitmentItemClick) }
+            homeTopTabList[1] -> { PartyArea(homeViewModel = homeViewModel, snackBarHostState = snackBarHostState, sharedViewModel = sharedViewModel) }
+            homeTopTabList[2] -> { RecruitmentArea(homeViewModel = homeViewModel, snackBarHostState = snackBarHostState, onRecruitmentItemClick = onRecruitmentItemClick, sharedViewModel = sharedViewModel) }
         }
     }
 }
