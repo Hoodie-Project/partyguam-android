@@ -73,38 +73,40 @@ fun FloatingButton(
         HeightSpacer(12.dp)
         if(selectedTabText == "파티" || selectedTabText == "모집공고") {
             if(sharedViewModel.isScrollPartyArea){
-                FloatingActionButton(
-                    modifier = Modifier,
-                    onClick = {
-                        sharedViewModel.scrollToTopFun()
-                    },
-                    shape = CircleShape,
-                    containerColor = WHITE
-                ) {
-                    Icon(
-                        modifier = Modifier.size(32.dp),
-                        imageVector = if(isExpandedFloatingButton) Icons.Rounded.Close else Icons.Rounded.ArrowUpward,
-                        tint = GRAY500,
-                        contentDescription = "This is Expand Button",
-                    )
+                if(!isExpandedFloatingButton){
+                    FloatingActionButton(
+                        modifier = Modifier,
+                        onClick = { sharedViewModel.scrollToTopFun() },
+                        shape = CircleShape,
+                        containerColor = WHITE
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(32.dp),
+                            imageVector = Icons.Rounded.ArrowUpward,
+                            tint = GRAY500,
+                            contentDescription = "This is Expand Button",
+                        )
+                    }
                 }
+
             }
             if(sharedViewModel.isScrollRecruitmentArea){
-                FloatingActionButton(
-                    modifier = Modifier,
-                    onClick = {
-                        sharedViewModel.scrollToTopFun()
-                    },
-                    shape = CircleShape,
-                    containerColor = WHITE
-                ) {
-                    Icon(
-                        modifier = Modifier.size(32.dp),
-                        imageVector = if(isExpandedFloatingButton) Icons.Rounded.Close else Icons.Rounded.ArrowUpward,
-                        tint = GRAY500,
-                        contentDescription = "This is Expand Button",
-                    )
+                if(!isExpandedFloatingButton){
+                    FloatingActionButton(
+                        modifier = Modifier,
+                        onClick = { sharedViewModel.scrollToTopFun() },
+                        shape = CircleShape,
+                        containerColor = WHITE
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(32.dp),
+                            imageVector = Icons.Rounded.ArrowUpward,
+                            tint = GRAY500,
+                            contentDescription = "This is Expand Button",
+                        )
+                    }
                 }
+
             }
 
         }
@@ -112,8 +114,7 @@ fun FloatingButton(
         HeightSpacer(12.dp)
         if(selectedTabText == "메인" || selectedTabText == "파티") {
             FloatingActionButton(
-                modifier = Modifier
-                ,
+                modifier = Modifier,
                 onClick = { onExpanded(!isExpandedFloatingButton) },
                 shape = CircleShape,
                 containerColor = if (isExpandedFloatingButton) WHITE else PRIMARY
