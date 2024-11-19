@@ -4,6 +4,7 @@ import com.party.data.entity.party.PartyListEntity
 import com.party.data.entity.party.PersonalRecruitmentListEntity
 import com.party.data.entity.party.RecruitmentDetailDto
 import com.party.data.entity.party.RecruitmentListEntity
+import com.party.data.util.convertToImageUrl
 import com.party.domain.model.party.PartyItemResponse
 import com.party.domain.model.party.PartyListResponse
 import com.party.domain.model.party.PartyTypeItemResponse
@@ -12,6 +13,7 @@ import com.party.domain.model.party.PersonalRecruitmentListResponse
 import com.party.domain.model.party.PersonalRecruitmentPartyResponse
 import com.party.domain.model.party.PersonalRecruitmentPartyTypeResponse
 import com.party.domain.model.party.PersonalRecruitmentPositionResponse
+import com.party.domain.model.party.RecruitmentDetail
 import com.party.domain.model.party.RecruitmentDetailParty
 import com.party.domain.model.party.RecruitmentDetailPartyType
 import com.party.domain.model.party.RecruitmentDetailPosition
@@ -20,14 +22,8 @@ import com.party.domain.model.party.RecruitmentListResponse
 import com.party.domain.model.party.RecruitmentPartyResponse
 import com.party.domain.model.party.RecruitmentPartyTypeResponse
 import com.party.domain.model.party.RecruitmentPositionResponse
-import com.party.domain.model.party.RecruitmentDetail
 
 object PartyMapper {
-
-    private fun convertToImageUrl(image: String?): String{
-        return "https://partyguam.net/dev/api/$image"
-    }
-
     fun mapperPersonalRecruitmentResponse(personalRecruitmentListEntity: PersonalRecruitmentListEntity): PersonalRecruitmentListResponse{
         return PersonalRecruitmentListResponse(
             total = personalRecruitmentListEntity.total,

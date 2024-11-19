@@ -69,7 +69,7 @@ object NetworkModule {
     @Provides
     fun provideNoTokenApi(): NoTokenService {
         return Retrofit.Builder()
-            .baseUrl("https://partyguam.net/dev/")
+            .baseUrl(BuildConfig.BASE_URL)
             .client(tokenLogging())
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))

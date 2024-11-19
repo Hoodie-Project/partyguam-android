@@ -18,12 +18,18 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "IMAGE_URL", "\"https://partyguam.net/dev/api/\"")
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            buildConfigField("String", "IMAGE_URL", "\"https://partyguam.net/api/\"")
         }
     }
     compileOptions {
@@ -32,6 +38,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 
