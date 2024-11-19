@@ -1,5 +1,6 @@
 package com.party.data.service
 
+import com.party.data.entity.banner.BannerDto
 import com.party.data.entity.user.auth.SocialLoginSuccessEntity
 import com.party.data.entity.user.auth.UserSignUpEntity
 import com.party.domain.model.user.signup.UserSignUpRequest
@@ -37,4 +38,8 @@ interface NoTokenService {
         @Header("Authorization") signupAccessToken: String,
         @Body userSignUpRequest: UserSignUpRequest,
     ): ApiResponse<UserSignUpEntity>
+
+    // 홈 - 배너 리스트 조회
+    @GET("api/banner")
+    suspend fun getBannerList(): ApiResponse<BannerDto>
 }

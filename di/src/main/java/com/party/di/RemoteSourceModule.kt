@@ -1,5 +1,7 @@
 package com.party.di
 
+import com.party.data.datasource.remote.banner.BannerRemoteSource
+import com.party.data.datasource.remote.banner.BannerRemoteSourceImpl
 import com.party.data.datasource.remote.party.PartyRemoteSource
 import com.party.data.datasource.remote.party.PartyRemoteSourceImpl
 import com.party.data.datasource.remote.user.UserRemoteSource
@@ -28,5 +30,11 @@ object RemoteSourceModule {
     @Singleton
     fun providePartyRemoteSource(partyService: PartyService): PartyRemoteSource{
         return PartyRemoteSourceImpl(partyService = partyService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideBannerRemoteSource(noTokenService: NoTokenService): BannerRemoteSource{
+        return BannerRemoteSourceImpl(noTokenService = noTokenService)
     }
 }

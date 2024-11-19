@@ -24,7 +24,10 @@ fun MainArea(
             .fillMaxSize()
             .verticalScroll(scrollState)
     ) {
-        BannerArea()
+        BannerArea(
+            homeViewModel = homeViewModel,
+            snackBarHostState = snackBarHostState
+        )
 
         PersonalRecruitmentArea(
             homeViewModel = homeViewModel,
