@@ -2,11 +2,9 @@ package com.party.presentation.screen.home.tab_recruitment
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -32,12 +30,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
-import com.party.common.NetworkImageLoad
 import com.party.common.R
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.TextComponent
 import com.party.common.UIState
 import com.party.common.WidthSpacer
+import com.party.common.component.ImageLoading
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
@@ -49,10 +47,10 @@ import com.party.domain.model.party.RecruitmentListResponse
 import com.party.domain.model.party.RecruitmentPartyResponse
 import com.party.domain.model.party.RecruitmentPartyTypeResponse
 import com.party.domain.model.party.RecruitmentPositionResponse
-import com.party.presentation.screen.home.HomeViewModel
 import com.party.presentation.screen.home.PartyCategory
 import com.party.presentation.screen.home.PositionArea
 import com.party.presentation.screen.home.RecruitmentCountArea
+import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import com.party.presentation.shared.SharedViewModel
 import kotlinx.coroutines.flow.collectLatest
 
@@ -191,23 +189,13 @@ fun RecruitmentContentArea(
 fun RecruitmentContentImage(
     imageUrl: String?,
 ) {
-    Card(
+    ImageLoading(
         modifier = Modifier
             .width(96.dp)
             .height(72.dp),
-        shape = RoundedCornerShape(LARGE_CORNER_SIZE),
-        border = BorderStroke(1.dp, GRAY100),
-    ) {
-       Box(
-            modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center,
-        ) {
-            NetworkImageLoad(
-                url = imageUrl,
-            )
-        }
-    }
+        imageUrl = imageUrl,
+        roundedCornerShape = LARGE_CORNER_SIZE
+    )
 }
 
 @Composable

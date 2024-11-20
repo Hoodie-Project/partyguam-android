@@ -28,9 +28,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.ApplyButtonArea
 import com.party.common.HeightSpacer
-import com.party.common.NetworkImageLoad
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
+import com.party.common.component.NetworkImageLoad
 import com.party.common.convertIsoToCustomDateFormat
 import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.B3

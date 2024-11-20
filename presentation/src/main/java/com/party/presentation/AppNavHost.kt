@@ -32,10 +32,10 @@ import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.BottomNavigationBar
 import com.party.navigation.CustomTopBar
-import com.party.presentation.component.FloatingButtonArea
 import com.party.navigation.Screens
 import com.party.navigation.fromRoute
 import com.party.navigation.isVisibleTopBar
+import com.party.presentation.component.FloatingButtonArea
 import com.party.presentation.screen.detail.choice_carrier_position.ChoiceCarrierPositionScreen
 import com.party.presentation.screen.detail.detail_carrier.DetailCarrierScreen
 import com.party.presentation.screen.detail.detail_profile.DetailProfileScreen
@@ -52,6 +52,8 @@ import com.party.presentation.screen.join.gender.JoinGenderScreen
 import com.party.presentation.screen.join.nickname.JoinNickNameScreen
 import com.party.presentation.screen.login.LoginScreen
 import com.party.presentation.screen.party_apply.PartyApplyScreen
+import com.party.presentation.screen.party_detail.PartyDetailScreen
+import com.party.presentation.screen.party_detail.viewmodel.PartyViewModel
 import com.party.presentation.screen.profile.ProfileScreen
 import com.party.presentation.screen.recruitment_detail.RecruitmentDetailScreen
 import com.party.presentation.screen.splash.SplashScreen
@@ -119,12 +121,6 @@ fun AppNavHost() {
                 onUnExpandedFloatingButton = { isExpandedFloatingButton = it }
             )
         },
-        /*floatingActionButton = { if(currentScreen == Screens.Home)
-            FloatingButton(
-                isExpandedFloatingButton = isExpandedFloatingButton,
-                selectedTabText = selectedTabText,
-                onExpanded = { isExpandedFloatingButton = it })
-        }*/
         floatingActionButton = {
             FloatingButtonArea(
                 isExpandedFloatingButton = isExpandedFloatingButton,
@@ -339,6 +335,15 @@ fun AppNavHost() {
                 PartyApplyScreen(
                     partyId = partyId,
                     partyRecruitmentId = partyRecruitmentId,
+                )
+            }
+            composable<Screens.PartyDetail> { backStackEntry ->
+                val partyId = backStackEntry.toRoute<Screens.PartyDetail>().partyId
+                val partyViewModel = hiltViewModel<PartyViewModel>()
+                PartyDetailScreen(
+                    snackBarHostState = snackBarHostState,
+                    partyViewModel = partyViewModel,
+                    partyId = partyId,
                 )
             }
         }

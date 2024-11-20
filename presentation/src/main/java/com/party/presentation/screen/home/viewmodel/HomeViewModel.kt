@@ -1,15 +1,12 @@
-package com.party.presentation.screen.home
+package com.party.presentation.screen.home.viewmodel
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.party.common.DetailCarrierData.mainSelectedMainPosition
 import com.party.common.ServerApiResponse
 import com.party.common.UIState
 import com.party.domain.model.banner.Banner
 import com.party.domain.model.party.PartyListResponse
 import com.party.domain.model.party.PersonalRecruitmentListResponse
-import com.party.domain.model.party.RecruitmentItemResponse
 import com.party.domain.model.party.RecruitmentListResponse
 import com.party.domain.model.user.detail.PositionListResponse
 import com.party.domain.usecase.banner.GetBannerListUseCase
@@ -21,7 +18,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

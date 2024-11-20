@@ -1,5 +1,6 @@
 package com.party.data.service
 
+import com.party.data.entity.party.PartyDetailDto
 import com.party.data.entity.party.PartyListEntity
 import com.party.data.entity.party.PersonalRecruitmentListEntity
 import com.party.data.entity.party.RecruitmentDetailDto
@@ -46,4 +47,10 @@ interface PartyService {
     suspend fun getRecruitmentDetail(
         @Path(value = "partyRecruitmentId") partyRecruitmentId: Int,
     ): ApiResponse<RecruitmentDetailDto>
+
+    // 파티 상세 조회
+    @GET("api/parties/{partyId}")
+    suspend fun getPartyDetail(
+        @Path(value = "partyId") partyId: Int,
+    ): ApiResponse<PartyDetailDto>
 }

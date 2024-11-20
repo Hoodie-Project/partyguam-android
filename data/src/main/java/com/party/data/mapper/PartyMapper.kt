@@ -1,12 +1,16 @@
 package com.party.data.mapper
 
+import com.party.data.entity.party.PartyDetailDto
 import com.party.data.entity.party.PartyListEntity
+import com.party.data.entity.party.PartyTypeDto
 import com.party.data.entity.party.PersonalRecruitmentListEntity
 import com.party.data.entity.party.RecruitmentDetailDto
 import com.party.data.entity.party.RecruitmentListEntity
 import com.party.data.util.convertToImageUrl
+import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyItemResponse
 import com.party.domain.model.party.PartyListResponse
+import com.party.domain.model.party.PartyType
 import com.party.domain.model.party.PartyTypeItemResponse
 import com.party.domain.model.party.PersonalRecruitmentItemResponse
 import com.party.domain.model.party.PersonalRecruitmentListResponse
@@ -129,4 +133,43 @@ object PartyMapper {
             isJoined = recruitmentDetailEntity.isJoined,
         )
     }
+
+    fun mapperPartyDetail(partyDetailDto: PartyDetailDto): PartyDetail {
+        return PartyDetail(
+            id = partyDetailDto.id,
+            partyType = mapperPartyType(partyDetailDto.partyType),
+            tag = partyDetailDto.tag,
+            title = partyDetailDto.title,
+            content = partyDetailDto.content,
+            image = convertToImageUrl(partyDetailDto.image),
+            status = partyDetailDto.status,
+            createdAt = partyDetailDto.createdAt,
+            updatedAt = partyDetailDto.updatedAt,
+            //userId = partyDetailDto.userId,
+            //partyId = partyDetailDto.partyId,
+            //positionId = partyDetailDto.positionId,
+            //authority = partyDetailDto.authority,
+            //myInfo = mapperMyInfo(partyDetailDto.myInfo)
+        )
+    }
+
+    private fun mapperPartyType(partyTypeDto: PartyTypeDto): PartyType{
+        return PartyType(
+            id = partyTypeDto.id,
+            type = partyTypeDto.type
+        )
+    }
+
+    /*private fun mapperMyInfo(myInfoDto: MyInfoDto): MyInfo{
+        return MyInfo(
+            status = myInfoDto.status,
+            createdAt = myInfoDto.createdAt,
+            updatedAt = myInfoDto.updatedAt,
+            id = myInfoDto.id,
+            userId = myInfoDto.userId,
+            partyId = myInfoDto.partyId,
+            positionId = myInfoDto.positionId,
+            authority = myInfoDto.authority
+        )
+    }*/
 }

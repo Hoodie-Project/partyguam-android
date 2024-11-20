@@ -2,9 +2,7 @@ package com.party.presentation.screen.home.tab_main
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,11 +26,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
-import com.party.common.NetworkImageLoad
 import com.party.common.R
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.TextComponent
 import com.party.common.UIState
+import com.party.common.component.ImageLoading
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
@@ -42,10 +40,10 @@ import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.RecruitmentItemResponse
 import com.party.domain.model.party.RecruitmentListResponse
 import com.party.presentation.screen.home.HomeListTitleArea
-import com.party.presentation.screen.home.HomeViewModel
 import com.party.presentation.screen.home.PartyCategory
 import com.party.presentation.screen.home.PositionArea
 import com.party.presentation.screen.home.RecruitmentCountArea
+import com.party.presentation.screen.home.viewmodel.HomeViewModel
 
 @Composable
 fun NewRecruitmentArea(
@@ -146,25 +144,13 @@ fun RecruitmentItem(
 fun RecruitmentItemTopArea(
     imageUrl: String? = null,
 ) {
-    Card(
+    ImageLoading(
         modifier = Modifier
             .fillMaxWidth()
             .height(150.dp),
-        border = BorderStroke(1.dp, GRAY100),
-        shape = RoundedCornerShape(MEDIUM_CORNER_SIZE),
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(150.dp)
-        ){
-            NetworkImageLoad(
-                url = imageUrl,
-                modifier = Modifier
-                    .fillMaxSize(),
-            )
-        }
-    }
+        imageUrl = imageUrl,
+        roundedCornerShape = MEDIUM_CORNER_SIZE
+    )
 }
 
 @Composable

@@ -30,10 +30,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
-import com.party.common.NetworkImageLoad
 import com.party.common.R
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.UIState
+import com.party.common.component.ImageLoading
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY300
@@ -41,7 +41,7 @@ import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.domain.model.banner.Banner
 import com.party.domain.model.banner.BannerItem
-import com.party.presentation.screen.home.HomeViewModel
+import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import kotlinx.coroutines.delay
 
 val contentPadding = 16.dp
@@ -91,23 +91,12 @@ fun BannerArea(
 
 @Composable
 fun BannerItemImage(bannerItem: BannerItem) {
-    Card(
+    ImageLoading(
         modifier = Modifier
             .fillMaxWidth()
             .height(175.dp),
-        shape = RoundedCornerShape(LARGE_CORNER_SIZE),
-        border = BorderStroke(1.dp, GRAY100),
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center,
-        ) {
-            NetworkImageLoad(
-                url = bannerItem.image,
-            )
-        }
-    }
+        imageUrl = bannerItem.image,
+    )
 }
 
 @Composable

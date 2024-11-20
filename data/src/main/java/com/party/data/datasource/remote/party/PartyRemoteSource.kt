@@ -1,5 +1,6 @@
 package com.party.data.datasource.remote.party
 
+import com.party.data.entity.party.PartyDetailDto
 import com.party.data.entity.party.PartyListEntity
 import com.party.data.entity.party.PersonalRecruitmentListEntity
 import com.party.data.entity.party.RecruitmentDetailDto
@@ -19,4 +20,7 @@ interface PartyRemoteSource {
 
     // 모집공고 상세 조회
     suspend fun getRecruitmentDetail(partyRecruitmentId: Int): ApiResponse<RecruitmentDetailDto>
+
+    // 파티 상세 조회
+    suspend fun getPartyDetail(partyId: Int): ApiResponse<PartyDetailDto>
 }

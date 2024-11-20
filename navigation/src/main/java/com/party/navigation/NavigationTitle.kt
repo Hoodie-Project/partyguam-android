@@ -17,4 +17,5 @@ object NavigationTitle {
     const val PROFILE = "프로필"
     const val RECRUITMENT_DETAIL = ""
     const val PARTY_APPLY = "파티 지원"
+    const val PARTY_DETAIL = ""
 }

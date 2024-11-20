@@ -41,12 +41,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
-import com.party.common.NetworkImageLoad
 import com.party.common.R
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.TextComponent
 import com.party.common.UIState
 import com.party.common.WidthSpacer
+import com.party.common.component.ImageLoading
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.GRAY100
@@ -60,12 +60,12 @@ import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyItemResponse
 import com.party.domain.model.party.PartyListResponse
 import com.party.presentation.enum.PartyType
-import com.party.presentation.screen.home.HomeViewModel
 import com.party.presentation.screen.home.tab_main.PartyItemBottomAreaDescription
 import com.party.presentation.screen.home.tab_party.component.FilterArea
 import com.party.presentation.screen.home.tab_party.component.FilterDate
 import com.party.presentation.screen.home.tab_recruitment.PartyTypeModal
 import com.party.presentation.screen.home.tab_recruitment.validSelectedPartyType
+import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import com.party.presentation.shared.SharedViewModel
 import kotlinx.coroutines.flow.collectLatest
 
@@ -74,6 +74,7 @@ fun PartyArea(
     homeViewModel: HomeViewModel,
     snackBarHostState: SnackbarHostState,
     sharedViewModel: SharedViewModel,
+    onClick: (Int) -> Unit,
 ) {
     DisposableEffect(Unit) {
         onDispose {
@@ -129,7 +130,8 @@ fun PartyArea(
                     partyListResponse = successResult.data,
                     selectedCreateDataOrderByDesc = selectedCreateDataOrderByDesc,
                     checked = checked,
-                    sharedViewModel = sharedViewModel
+                    sharedViewModel = sharedViewModel,
+                    onClick = onClick
                 )
             }
             is UIState.Error -> {}
@@ -170,6 +172,7 @@ private fun PartyListArea(
     selectedCreateDataOrderByDesc: Boolean,
     checked: Boolean,
     sharedViewModel: SharedViewModel,
+    onClick: (Int) -> Unit,
 ) {
     val listState = rememberLazyGridState()
     val isFabVisible = remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
@@ -210,7 +213,8 @@ private fun PartyListArea(
             }
         ){_, item ->
             PartyItem(
-                partyItemResponse = item
+                partyItemResponse = item,
+                onClick = onClick
             )
         }
     }
@@ -219,9 +223,10 @@ private fun PartyListArea(
 @Composable
 private fun PartyItem(
     partyItemResponse: PartyItemResponse,
+    onClick: (Int) -> Unit,
 ){
     Card(
-        onClick = {},
+        onClick = {onClick(partyItemResponse.id)},
         modifier = Modifier.wrapContentSize(),
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
         colors = CardDefaults.cardColors(
@@ -278,25 +283,13 @@ private fun PartyItem(
 private fun PartyItemTopArea(
     imageUrl: String? = null,
 ) {
-    Card(
+    ImageLoading(
         modifier = Modifier
             .fillMaxWidth()
             .height(107.dp),
-        border = BorderStroke(1.dp, GRAY100),
-        shape = RoundedCornerShape(MEDIUM_CORNER_SIZE),
-    ) {
-        Box(
-            modifier = Modifier
-                .width(137.dp)
-                .height(107.dp)
-        ){
-            NetworkImageLoad(
-                url = imageUrl,
-                modifier = Modifier
-                    .fillMaxSize()
-            )
-        }
-    }
+        imageUrl = imageUrl,
+        roundedCornerShape = MEDIUM_CORNER_SIZE
+    )
 }
 
 @Composable

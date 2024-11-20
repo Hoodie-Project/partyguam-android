@@ -1,5 +1,6 @@
 package com.party.data.datasource.remote.party
 
+import com.party.data.entity.party.PartyDetailDto
 import com.party.data.entity.party.PartyListEntity
 import com.party.data.entity.party.PersonalRecruitmentListEntity
 import com.party.data.entity.party.RecruitmentDetailDto
@@ -41,5 +42,9 @@ class PartyRemoteSourceImpl @Inject constructor(
 
     override suspend fun getRecruitmentDetail(partyRecruitmentId: Int): ApiResponse<RecruitmentDetailDto> {
         return partyService.getRecruitmentDetail(partyRecruitmentId = partyRecruitmentId)
+    }
+
+    override suspend fun getPartyDetail(partyId: Int): ApiResponse<PartyDetailDto> {
+        return partyService.getPartyDetail(partyId = partyId)
     }
 }

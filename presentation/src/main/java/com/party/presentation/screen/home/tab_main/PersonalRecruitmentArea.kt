@@ -33,17 +33,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
-import com.party.common.NetworkImageLoad
 import com.party.common.R
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.TextComponent
 import com.party.common.UIState
+import com.party.common.component.ImageLoading
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.B1
-import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.DARK100
 import com.party.common.ui.theme.GRAY100
-import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.MEDIUM_CORNER_SIZE
 import com.party.common.ui.theme.T3
@@ -51,10 +49,10 @@ import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PersonalRecruitmentItemResponse
 import com.party.domain.model.party.PersonalRecruitmentListResponse
 import com.party.presentation.screen.home.HomeListTitleArea
-import com.party.presentation.screen.home.HomeViewModel
 import com.party.presentation.screen.home.PartyCategory
 import com.party.presentation.screen.home.PositionArea
 import com.party.presentation.screen.home.RecruitmentCountArea
+import com.party.presentation.screen.home.viewmodel.HomeViewModel
 
 @Composable
 fun PersonalRecruitmentArea(
@@ -195,25 +193,13 @@ fun PersonalRecruitmentItem(
 fun PersonalRecruitmentItemTopArea(
     imageUrl: String? = null,
 ) {
-    Card(
+    ImageLoading(
         modifier = Modifier
             .fillMaxWidth()
             .height(150.dp),
-        border = BorderStroke(1.dp, GRAY100),
-        shape = RoundedCornerShape(MEDIUM_CORNER_SIZE),
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(150.dp)
-        ){
-            NetworkImageLoad(
-                modifier = Modifier
-                    .fillMaxSize(),
-                url = imageUrl,
-            )
-        }
-    }
+        imageUrl = imageUrl,
+        roundedCornerShape = MEDIUM_CORNER_SIZE
+    )
 }
 
 @Composable

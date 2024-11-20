@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.presentation.screen.detail.choice_carrier_position.positionList
-import com.party.presentation.screen.home.HomeViewModel
+import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import com.party.presentation.shared.SharedViewModel
 
 @Composable
