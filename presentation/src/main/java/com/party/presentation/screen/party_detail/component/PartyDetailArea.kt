@@ -54,10 +54,15 @@ fun PartyDetailArea(
             selectedTabText = selectedTabText,
             onTabClick = {onTabClick(it)}
         )
-
+        HeightSpacer(heightDp = 24.dp)
         when (selectedTabText) {
-
+            partyDetailTabList[0] -> {
+                PartyDetailDescriptionArea(
+                    content = partyDetail.content
+                )
+            }
         }
+        HeightSpacer(heightDp = 60.dp)
     }
 }
 
@@ -69,7 +74,7 @@ fun PartyDetailAreaPreview() {
         partyType = PartyType(id = 9282, type = "포트폴리오"),
         tag = "모집중",
         title = "파티 제목 입니다~~~~~~~",
-        content = "tellus",
+        content = "새로운 프로젝트를 위해 모여 함께 아이디어를 나누고 계획을 세우는 파티를 개최합니다!. 새로운 프로젝트를 위해 모여 함께 아이디어를 나눕시다!",
         image = "viris",
         status = "error",
         createdAt = "recteque",
