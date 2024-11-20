@@ -1,26 +1,13 @@
 package com.party.presentation.screen.home
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,26 +15,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
+import com.party.common.component.Category
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.DARK200
-import com.party.common.ui.theme.DARK400
-import com.party.common.ui.theme.HOME_PARTY_LIST_CATEGORY_BACKGROUND
-import com.party.common.ui.theme.HOME_PARTY_LIST_CATEGORY_TEXT
 import com.party.common.ui.theme.ICON_SIZE
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.MEDIUM_CORNER_SIZE
 import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
-import com.party.common.ui.theme.WHITE
+import com.party.common.ui.theme.TYPE_COLOR_BACKGROUND
+import com.party.common.ui.theme.TYPE_COLOR_TEXT
 
 @Composable
 fun HomeListTitleArea(
@@ -166,28 +148,9 @@ fun RecruitmentCountArea(
 fun PartyCategory(
     category: String,
 ) {
-    Card(
-        modifier = Modifier
-            .wrapContentWidth()
-            .height(24.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = HOME_PARTY_LIST_CATEGORY_BACKGROUND,
-            contentColor = HOME_PARTY_LIST_CATEGORY_TEXT
-        ),
-        shape = RoundedCornerShape(LARGE_CORNER_SIZE),
-    ) {
-        Box(
-            modifier = Modifier
-                .wrapContentWidth()
-                .fillMaxHeight()
-                .padding(horizontal = 8.dp),
-            contentAlignment = Alignment.Center
-        ){
-            Text(
-                text = category,
-                fontSize = B3,
-                fontWeight = FontWeight.SemiBold,
-            )
-        }
-    }
+    Category(
+        containerColor = TYPE_COLOR_BACKGROUND,
+        contentColor = TYPE_COLOR_TEXT,
+        text = category,
+    )
 }

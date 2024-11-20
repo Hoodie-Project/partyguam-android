@@ -46,16 +46,18 @@ import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.TextComponent
 import com.party.common.UIState
 import com.party.common.WidthSpacer
+import com.party.common.component.Category
 import com.party.common.component.ImageLoading
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY600
-import com.party.common.ui.theme.HOME_PARTY_LIST_CATEGORY_BACKGROUND
-import com.party.common.ui.theme.HOME_PARTY_LIST_CATEGORY_TEXT
+import com.party.common.ui.theme.TYPE_COLOR_BACKGROUND
+import com.party.common.ui.theme.TAG_COLOR_TEXT
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.MEDIUM_CORNER_SIZE
 import com.party.common.ui.theme.T3
+import com.party.common.ui.theme.TYPE_COLOR_TEXT
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyItemResponse
 import com.party.domain.model.party.PartyListResponse
@@ -257,8 +259,8 @@ private fun PartyItem(
                 WidthSpacer(widthDp = 4.dp)
                 CategoryState(
                     category = partyItemResponse.partyType.type,
-                    containerColor = HOME_PARTY_LIST_CATEGORY_BACKGROUND,
-                    contentColor = HOME_PARTY_LIST_CATEGORY_TEXT
+                    containerColor = TYPE_COLOR_BACKGROUND,
+                    contentColor = TYPE_COLOR_TEXT
                 )
             }
             HeightSpacer(heightDp = 4.dp)
@@ -298,28 +300,9 @@ private fun CategoryState(
     containerColor: Color,
     contentColor: Color,
 ) {
-    Card(
-        modifier = Modifier
-            .wrapContentWidth()
-            .height(24.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = containerColor,
-            contentColor = contentColor
-        ),
-        shape = RoundedCornerShape(LARGE_CORNER_SIZE),
-    ) {
-        Box(
-            modifier = Modifier
-                .wrapContentWidth()
-                .fillMaxHeight()
-                .padding(horizontal = 8.dp),
-            contentAlignment = Alignment.Center
-        ){
-            Text(
-                text = category,
-                fontSize = B3,
-                fontWeight = FontWeight.SemiBold,
-            )
-        }
-    }
+    Category(
+        containerColor = containerColor,
+        contentColor = contentColor,
+        text = category,
+    )
 }

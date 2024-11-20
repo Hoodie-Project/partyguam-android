@@ -25,7 +25,7 @@ fun HomeScreen(
     onGoRecruitment: () -> Unit,
     onRecruitmentItemClick: (Int, Int) -> Unit,
     sharedViewModel: SharedViewModel,
-){
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -39,12 +39,15 @@ fun HomeScreen(
             selectedTabText = selectedTabText,
             onTabClick = { onTabClick(it) }
         )
-        when(selectedTabText){
-            homeTopTabList[0] -> { MainArea(
-                homeViewModel = homeViewModel,
-                snackBarHostState = snackBarHostState,
-                onGoRecruitment = onGoRecruitment
-            )}
+        when (selectedTabText) {
+            homeTopTabList[0] -> {
+                MainArea(
+                    homeViewModel = homeViewModel,
+                    snackBarHostState = snackBarHostState,
+                    onGoRecruitment = onGoRecruitment
+                )
+            }
+
             homeTopTabList[1] -> {
                 PartyArea(
                     homeViewModel = homeViewModel,
@@ -53,12 +56,15 @@ fun HomeScreen(
                     onClick = { navController.navigate(Screens.PartyDetail(partyId = it)) }
                 )
             }
-            homeTopTabList[2] -> { RecruitmentArea(
-                homeViewModel = homeViewModel,
-                snackBarHostState = snackBarHostState,
-                onRecruitmentItemClick = onRecruitmentItemClick,
-                sharedViewModel = sharedViewModel
-            ) }
+
+            homeTopTabList[2] -> {
+                RecruitmentArea(
+                    homeViewModel = homeViewModel,
+                    snackBarHostState = snackBarHostState,
+                    onRecruitmentItemClick = onRecruitmentItemClick,
+                    sharedViewModel = sharedViewModel
+                )
+            }
         }
     }
 }
