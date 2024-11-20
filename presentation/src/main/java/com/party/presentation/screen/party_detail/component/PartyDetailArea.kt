@@ -2,19 +2,25 @@ package com.party.presentation.screen.party_detail.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
+import com.party.common.ui.theme.GRAY100
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyType
 
 @Composable
 fun PartyDetailArea(
+    partyDetailTabList: List<String>,
     partyDetail: PartyDetail,
+    selectedTabText: String,
+    onTabClick: (String) -> Unit,
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -37,6 +43,21 @@ fun PartyDetailArea(
             title = partyDetail.title
         )
         HeightSpacer(heightDp = 32.dp)
+        HorizontalDivider(
+            modifier = Modifier
+                .fillMaxWidth(),
+            color = GRAY100,
+            thickness = 12.dp
+        )
+        PartyDetailTabArea(
+            partyDetailTabList = partyDetailTabList,
+            selectedTabText = selectedTabText,
+            onTabClick = {onTabClick(it)}
+        )
+
+        when (selectedTabText) {
+
+        }
     }
 }
 
@@ -56,6 +77,9 @@ fun PartyDetailAreaPreview() {
     )
 
     PartyDetailArea(
-        partyDetail = partyDetail
+        partyDetailTabList = listOf("홈", "파티원", "모집공고"),
+        partyDetail = partyDetail,
+        selectedTabText = "홈",
+        onTabClick = {}
     )
 }

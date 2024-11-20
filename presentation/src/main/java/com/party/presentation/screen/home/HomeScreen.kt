@@ -30,9 +30,7 @@ fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        HomeTopBar(
-            navController = navController,
-        )
+        HomeTopBar()
 
         HomeTopTabArea(
             homeTopTabList = homeTopTabList,

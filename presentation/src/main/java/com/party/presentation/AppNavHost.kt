@@ -26,6 +26,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.party.common.R
+import com.party.common.component.homeTopTabList
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
@@ -82,12 +83,6 @@ fun AppNavHost() {
     var isExpandedFloatingButton by remember {
         mutableStateOf(false)
     }
-
-    val homeTopTabList = listOf(
-        stringResource(id = R.string.home_top_tab1),
-        stringResource(id = R.string.home_top_tab2),
-        stringResource(id = R.string.home_top_tab3)
-    )
 
     var selectedTabText by remember {
         mutableStateOf(homeTopTabList[0])

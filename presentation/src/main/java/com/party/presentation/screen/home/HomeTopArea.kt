@@ -16,7 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.party.common.R
 import com.party.common.WidthSpacer
 import com.party.common.ui.theme.BLACK
@@ -25,9 +24,7 @@ import com.party.common.ui.theme.LOGO_COLOR_END
 import com.party.common.ui.theme.LOGO_COLOR_START
 
 @Composable
-fun HomeTopBar(
-    navController: NavController,
-) {
+fun HomeTopBar() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
