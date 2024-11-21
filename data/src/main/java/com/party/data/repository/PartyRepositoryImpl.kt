@@ -6,11 +6,13 @@ import com.party.common.ServerApiResponse.ExceptionResponse
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.data.datasource.remote.party.PartyRemoteSource
 import com.party.data.mapper.PartyMapper.mapperPartyDetail
+import com.party.data.mapper.PartyMapper.mapperPartyRecruitment
 import com.party.data.mapper.PartyMapper.mapperPartyResponse
 import com.party.data.mapper.PartyMapper.mapperPersonalRecruitmentResponse
 import com.party.data.mapper.PartyMapper.mapperRecruitmentDetailResponse
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyListResponse
+import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PersonalRecruitmentListResponse
 import com.party.domain.model.party.RecruitmentDetail
 import com.party.domain.model.party.RecruitmentListResponse
@@ -119,11 +121,31 @@ class PartyRepositoryImpl @Inject constructor(
                 SuccessResponse(data = mapperPartyDetail(result.data))
             }
             is ApiResponse.Failure.Error -> { ErrorResponse() }
-
             is ApiResponse.Failure.Exception -> {
                 result.throwable.printStackTrace()
                 ExceptionResponse()
             }
+        }
+    }
+
+    override suspend fun getPartyRecruitmentList(
+        partyId: Int,
+        sort: String,
+        order: String,
+        main: String?,
+    ): ServerApiResponse<List<PartyRecruitment>> {
+        return when(val result = partyRemoteSource.getPartyRecruitmentList(partyId = partyId, sort = sort, order = order, main = main)){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = result.data.map {
+                    mapperPartyRecruitment(it)
+                })
+            }
+            is ApiResponse.Failure.Error -> { ErrorResponse() }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse()
+            }
+
         }
     }
 }

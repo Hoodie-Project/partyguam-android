@@ -1,4 +1,4 @@
-package com.party.common.component
+package com.party.common.component.chip
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -26,7 +26,7 @@ import com.party.common.ui.theme.TAG_COLOR_BACKGROUND
 import com.party.common.ui.theme.TYPE_COLOR_TEXT
 
 @Composable
-fun Category(
+fun Chip(
     containerColor: Color = TYPE_COLOR_BACKGROUND,
     contentColor: Color = TYPE_COLOR_TEXT,
     roundedCornerShape: Dp = LARGE_CORNER_SIZE,
@@ -63,7 +63,7 @@ fun Category(
 @Preview(showBackground = true)
 @Composable
 fun Category1Preview() {
-    Category(
+    Chip(
         text = "포트폴리오"
     )
 }
@@ -71,7 +71,7 @@ fun Category1Preview() {
 @Preview(showBackground = true)
 @Composable
 fun Category2Preview() {
-    Category(
+    Chip(
         containerColor = TAG_COLOR_BACKGROUND,
         contentColor = TAG_COLOR_TEXT,
         text = "모집중"

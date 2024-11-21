@@ -1,4 +1,4 @@
-package com.party.presentation.screen.party_detail.component
+package com.party.presentation.screen.party_detail.tab.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
 import com.party.common.TextComponent
 import com.party.common.ui.theme.B1
+import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY600
 import com.party.common.ui.theme.T2
 
@@ -21,7 +22,7 @@ fun PartyDetailDescriptionArea(
         TextComponent(
             text = "파티 소개",
             fontSize = T2,
-            textColor = GRAY600,
+            textColor = BLACK,
             fontWeight = FontWeight.Bold
         )
         HeightSpacer(heightDp = 16.dp)

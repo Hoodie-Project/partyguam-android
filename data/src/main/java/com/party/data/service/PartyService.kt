@@ -2,9 +2,11 @@ package com.party.data.service
 
 import com.party.data.entity.party.PartyDetailDto
 import com.party.data.entity.party.PartyListEntity
+import com.party.data.entity.party.PartyRecruitmentDto
 import com.party.data.entity.party.PersonalRecruitmentListEntity
 import com.party.data.entity.party.RecruitmentDetailDto
 import com.party.data.entity.party.RecruitmentListEntity
+import com.party.domain.model.party.PartyRecruitment
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -53,4 +55,13 @@ interface PartyService {
     suspend fun getPartyDetail(
         @Path(value = "partyId") partyId: Int,
     ): ApiResponse<PartyDetailDto>
+
+    // 파티 상세 조회 - 모집 공고 리스트 조회
+    @GET("api/parties/{partyId}/recruitments")
+    suspend fun getPartyRecruitmentList(
+        @Path(value = "partyId") partyId: Int,
+        @Query("sort") sort: String,
+        @Query("order") order: String,
+        @Query("main") main: String? = null,
+    ): ApiResponse<List<PartyRecruitmentDto>>
 }

@@ -20,7 +20,7 @@ import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
-import com.party.common.component.Category
+import com.party.common.component.chip.Chip
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.BLACK
@@ -148,7 +148,7 @@ fun RecruitmentCountArea(
 fun PartyCategory(
     category: String,
 ) {
-    Category(
+    Chip(
         containerColor = TYPE_COLOR_BACKGROUND,
         contentColor = TYPE_COLOR_TEXT,
         text = category,

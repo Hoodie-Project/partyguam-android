@@ -1,4 +1,4 @@
-package com.party.presentation.screen.party_detail.component
+package com.party.presentation.screen.party_detail.tab
 
 import androidx.compose.runtime.Composable
 import com.party.common.component.TabArea

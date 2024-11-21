@@ -2,6 +2,7 @@ package com.party.data.mapper
 
 import com.party.data.entity.party.PartyDetailDto
 import com.party.data.entity.party.PartyListEntity
+import com.party.data.entity.party.PartyRecruitmentDto
 import com.party.data.entity.party.PartyTypeDto
 import com.party.data.entity.party.PersonalRecruitmentListEntity
 import com.party.data.entity.party.RecruitmentDetailDto
@@ -10,6 +11,7 @@ import com.party.data.util.convertToImageUrl
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyItemResponse
 import com.party.domain.model.party.PartyListResponse
+import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PartyType
 import com.party.domain.model.party.PartyTypeItemResponse
 import com.party.domain.model.party.PersonalRecruitmentItemResponse
@@ -130,7 +132,6 @@ object PartyMapper {
             recruitedCount = recruitmentDetailEntity.recruitedCount,
             applicationCount = recruitmentDetailEntity.applicationCount,
             createdAt = recruitmentDetailEntity.createdAt,
-            isJoined = recruitmentDetailEntity.isJoined,
         )
     }
 
@@ -172,4 +173,17 @@ object PartyMapper {
             authority = myInfoDto.authority
         )
     }*/
+
+    fun mapperPartyRecruitment(partyRecruitmentDto: PartyRecruitmentDto): PartyRecruitment {
+        return PartyRecruitment(
+            partyRecruitmentId = partyRecruitmentDto.partyRecruitmentId,
+            main = partyRecruitmentDto.main,
+            sub = partyRecruitmentDto.sub,
+            content = partyRecruitmentDto.content,
+            recruitingCount = partyRecruitmentDto.recruitingCount,
+            recruitedCount = partyRecruitmentDto.recruitedCount,
+            applicationCount = partyRecruitmentDto.applicationCount,
+            createdAt = partyRecruitmentDto.createdAt,
+        )
+    }
 }

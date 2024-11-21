@@ -3,6 +3,7 @@ package com.party.domain.repository
 import com.party.common.ServerApiResponse
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyListResponse
+import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PersonalRecruitmentListResponse
 import com.party.domain.model.party.RecruitmentListResponse
 import com.party.domain.model.party.RecruitmentDetail
@@ -41,4 +42,7 @@ interface PartyRepository {
 
     // 파티 상세 조회
     suspend fun getPartyDetail(partyId: Int): ServerApiResponse<PartyDetail>
+
+    // 파티 상세 조회 - 모집 공고 리스트 조회
+    suspend fun getPartyRecruitmentList(partyId: Int, sort: String, order: String, main: String?): ServerApiResponse<List<PartyRecruitment>>
 }

@@ -75,7 +75,7 @@ fun RecruitmentArea(
         SelectFilterArea(
             stringResource(id = R.string.recruitment_filter1),
             stringResource(id = R.string.recruitment_filter2),
-            stringResource(id = R.string.recruitment_filter3),
+            stringResource(id = R.string.filter1),
             isPositionFilterClick = { isPositionSheetOpen = it },
             isPartyTypeFilterClick = { isPartyTypeSheetOpen = it },
             isPositionSheetOpen = isPositionSheetOpen,

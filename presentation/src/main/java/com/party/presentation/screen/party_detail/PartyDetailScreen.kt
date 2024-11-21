@@ -20,6 +20,7 @@ import com.party.common.UIState
 import com.party.common.component.partyDetailTabList
 import com.party.common.snackBarMessage
 import com.party.domain.model.party.PartyDetail
+import com.party.domain.model.party.PartyRecruitment
 import com.party.presentation.screen.home.tab_main.ErrorArea
 import com.party.presentation.screen.party_detail.component.PartyDetailArea
 import com.party.presentation.screen.party_detail.viewmodel.PartyViewModel
@@ -30,15 +31,29 @@ fun PartyDetailScreen(
     partyViewModel: PartyViewModel,
     partyId: Int,
 ) {
+    // 선택된 필터 (전체, 기획자, 디자이너, 개발자, 마케터)
+    var selectedPosition by remember {
+        mutableStateOf("전체")
+    }
+
     LaunchedEffect(Unit) {
         partyViewModel.getPartyDetail(partyId = partyId)
+        partyViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = null)
     }
 
     val partyDetailState by partyViewModel.getPartyDetailState.collectAsStateWithLifecycle()
+    val partyRecruitmentState by partyViewModel.getPartyRecruitmentState.collectAsStateWithLifecycle()
 
     PartyDetailContent(
         snackBarHostState = snackBarHostState,
         partyDetailState = partyDetailState,
+        partyRecruitmentState = partyRecruitmentState,
+        selectedPosition = selectedPosition,
+        onReset = { selectedPosition = ""},
+        onApply = {
+            selectedPosition = it
+            partyViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = if (selectedPosition == "전체") null else selectedPosition)
+        },
     )
 }
 
@@ -46,6 +61,10 @@ fun PartyDetailScreen(
 fun PartyDetailContent(
     snackBarHostState: SnackbarHostState,
     partyDetailState: UIState<ServerApiResponse<PartyDetail>>,
+    partyRecruitmentState: UIState<ServerApiResponse<List<PartyRecruitment>>>,
+    selectedPosition: String,
+    onReset: () -> Unit,
+    onApply: (String) -> Unit,
 ){
     var selectedTabText by remember {
         mutableStateOf(partyDetailTabList[0])
@@ -61,10 +80,15 @@ fun PartyDetailContent(
             is UIState.Success -> {
                 val successResult = partyDetailState.data as SuccessResponse<PartyDetail>
                 PartyDetailArea(
+                    snackBarHostState = snackBarHostState,
                     partyDetailTabList = partyDetailTabList,
                     partyDetail = successResult.data ?: return,
                     selectedTabText = selectedTabText,
                     onTabClick = { selectedTabText = it },
+                    partyRecruitmentState = partyRecruitmentState,
+                    selectedPosition = selectedPosition,
+                    onReset = onReset,
+                    onApply = onApply,
                 )
             }
             is UIState.Error -> { ErrorArea() }

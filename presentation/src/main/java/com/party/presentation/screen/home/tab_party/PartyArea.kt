@@ -2,17 +2,14 @@ package com.party.presentation.screen.home.tab_party
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
@@ -21,7 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -46,14 +42,12 @@ import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.TextComponent
 import com.party.common.UIState
 import com.party.common.WidthSpacer
-import com.party.common.component.Category
+import com.party.common.component.chip.Chip
 import com.party.common.component.ImageLoading
 import com.party.common.snackBarMessage
-import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY600
 import com.party.common.ui.theme.TYPE_COLOR_BACKGROUND
-import com.party.common.ui.theme.TAG_COLOR_TEXT
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.MEDIUM_CORNER_SIZE
 import com.party.common.ui.theme.T3
@@ -300,7 +294,7 @@ private fun CategoryState(
     containerColor: Color,
     contentColor: Color,
 ) {
-    Category(
+    Chip(
         containerColor = containerColor,
         contentColor = contentColor,
         text = category,

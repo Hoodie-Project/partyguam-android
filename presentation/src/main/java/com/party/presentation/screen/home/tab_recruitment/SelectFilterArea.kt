@@ -11,9 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDownward
-import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -22,14 +19,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.WidthSpacer
-import com.party.common.noRippleClickable
+import com.party.common.component.chip.OrderByCreateDtChip
 import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.GRAY500
@@ -78,26 +75,11 @@ fun SelectFilterArea(
             )
         }
 
-        Row(
-            modifier = Modifier
-                .wrapContentWidth()
-                .fillMaxHeight()
-                .noRippleClickable {
-                    onChangeOrderBy(!selectedCreateDataOrderByDesc)
-                },
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = filterName3,
-                color = BLACK,
-                fontSize = B2
-            )
-            Icon(
-                modifier = Modifier.size(16.dp),
-                imageVector = if(selectedCreateDataOrderByDesc) Icons.Default.ArrowDownward else Icons.Default.ArrowUpward,
-                contentDescription = "Arrow",
-            )
-        }
+        OrderByCreateDtChip(
+            text = stringResource(id = R.string.filter1),
+            orderByDesc = selectedCreateDataOrderByDesc,
+            onChangeSelected = { onChangeOrderBy(it) }
+        )
     }
 }
 
@@ -157,7 +139,7 @@ fun SelectFilterAreaPreview() {
     SelectFilterArea(
         filterName1 = "직무1",
         filterName2 = "파티유형",
-        filterName3 = "등록일순",
+        filterName3 = stringResource(id = R.string.filter1),
         isPositionSheetOpen = false,
         isPartyTypeSheetOpen = false,
         isPositionFilterClick = {},

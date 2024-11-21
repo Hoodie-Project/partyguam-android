@@ -8,7 +8,6 @@ data class RecruitmentDetail(
     val recruitedCount: Int,
     val applicationCount: Int,
     val createdAt: String,
-    val isJoined: Boolean,
 )
 
 data class RecruitmentDetailParty(
