@@ -1,6 +1,7 @@
 package com.party.presentation.screen.party_detail.tab.recruitment.component
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,10 +29,13 @@ import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
+import com.party.common.component.icon.DrawableIcon
 import com.party.common.convertIsoToCustomDateFormat
 import com.party.common.ui.theme.B1
+import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.GRAY100
+import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.PRIMARY
@@ -39,9 +43,12 @@ import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyRecruitment
+import com.party.domain.model.user.PartyAuthority
+import com.party.presentation.enum.PartyAuthorityType
 
 @Composable
 fun PartyDetailRecruitmentListArea(
+    authority: PartyAuthority,
     selectedCreateDataOrderByDesc: Boolean,
     list: List<PartyRecruitment>,
 ) {
@@ -50,6 +57,8 @@ fun PartyDetailRecruitmentListArea(
     } else {
         list.sortedBy { it.createdAt }
     }
+
+    println("sortedList: $sortedList")
 
     if(sortedList.isNotEmpty()){
         LazyColumn(
@@ -62,44 +71,103 @@ fun PartyDetailRecruitmentListArea(
                 key = { index, _ ->
                     index
                 }
-            ){_, item ->
+            ){ index, item ->
                 PartyDetailRecruitmentListItem(
                     partyRecruitment = item
                 )
+
+                if(index == sortedList.size-1){
+                    if(authority.authority == PartyAuthorityType.MASTER.authority){
+
+                        PartyDetailAddRecruitCard()
+                    }
+                }
             }
         }
     }else {
         HeightSpacer(heightDp = 60.dp)
-        NoRecruitmentArea()
+        NoRecruitmentArea(
+            authority = authority
+        )
     }
 }
 
 @Composable
-fun NoRecruitmentArea() {
-    Box(
+fun NoRecruitmentArea(
+    authority: PartyAuthority
+) {
+    if (authority.authority == PartyAuthorityType.MASTER.authority) {
+        PartyDetailAddRecruitCard()
+    } else {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(500.dp),
+            contentAlignment = Alignment.TopCenter
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                DrawableIcon(
+                    icon = painterResource(id = R.drawable.info),
+                    contentDescription = "info",
+                    modifier = Modifier
+                        .size(24.dp),
+                    tintColor = GRAY500
+                )
+                HeightSpacer(heightDp = 6.dp)
+                TextComponent(
+                    text = "모집 공고가 없습니다.",
+                    fontSize = B1,
+                    fontWeight = FontWeight.SemiBold,
+                    textColor = GRAY500,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun PartyDetailAddRecruitCard() {
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(500.dp),
-        contentAlignment = Alignment.TopCenter
+            .height(127.dp),
+        border = BorderStroke(1.dp, GRAY100),
+        shape = RoundedCornerShape(LARGE_CORNER_SIZE),
+        elevation = CardDefaults.cardElevation(4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = WHITE
+        ),
     ) {
-        Column(
+        Box(
             modifier = Modifier
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.info),
-                contentDescription = "",
-                modifier = Modifier.size(24.dp),
-                tint = GRAY500
-            )
-            HeightSpacer(heightDp = 6.dp)
-            TextComponent(
-                text = "모집 공고가 없습니다.",
-                fontSize = B1,
-                fontWeight = FontWeight.SemiBold,
-                textColor = GRAY500,
-            )
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ){
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                DrawableIcon(
+                    icon = painterResource(id = R.drawable.add_circle),
+                    contentDescription = "add_circle",
+                    modifier = Modifier
+                        .size(32.dp),
+                    tintColor = GRAY400
+                )
+                HeightSpacer(heightDp = 4.dp)
+                TextComponent(
+                    text = "모집공고 추가하기",
+                    fontSize = B2,
+                    fontWeight = FontWeight.Bold,
+                    textColor = GRAY500
+                )
+            }
         }
     }
 }
@@ -107,7 +175,12 @@ fun NoRecruitmentArea() {
 @Preview(showBackground = true)
 @Composable
 fun NoRecruitmentAreaPreview() {
-    NoRecruitmentArea()
+    NoRecruitmentArea(
+        authority = PartyAuthority(
+            userId = 1,
+            authority = "master"
+        )
+    )
 }
 
 @Composable
@@ -216,6 +289,10 @@ fun PartyDetailRecruitmentListItemPreview(){
 @Composable
 fun PartyDetailRecruitmentListAreaPreview() {
     PartyDetailRecruitmentListArea(
+        authority = PartyAuthority(
+            userId = 1,
+            authority = "master"
+        ),
         selectedCreateDataOrderByDesc = true,
         list = listOf(
             PartyRecruitment(

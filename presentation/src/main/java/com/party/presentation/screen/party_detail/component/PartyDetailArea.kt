@@ -98,6 +98,7 @@ fun PartyDetailArea(
                     PartyDetailRecruitmentArea(
                         snackBarHostState = snackBarHostState,
                         partyRecruitmentState = partyRecruitmentState,
+                        partyAuthorityState = partyAuthorityState,
                         selectedPosition = selectedPosition,
                         onReset = onReset,
                         onApply = onApply,

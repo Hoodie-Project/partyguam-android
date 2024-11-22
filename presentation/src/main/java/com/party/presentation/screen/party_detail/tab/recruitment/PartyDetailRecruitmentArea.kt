@@ -20,6 +20,7 @@ import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.UIState
 import com.party.common.snackBarMessage
 import com.party.domain.model.party.PartyRecruitment
+import com.party.domain.model.user.PartyAuthority
 import com.party.presentation.screen.home.tab_main.ErrorArea
 import com.party.presentation.screen.party_detail.component.PartyDetailTitleArea
 import com.party.presentation.screen.party_detail.tab.recruitment.component.PartyDetailRecruitmentFilterArea
@@ -29,6 +30,7 @@ import com.party.presentation.screen.party_detail.tab.recruitment.component.Part
 fun PartyDetailRecruitmentArea(
     snackBarHostState: SnackbarHostState,
     partyRecruitmentState: UIState<ServerApiResponse<List<PartyRecruitment>>>,
+    partyAuthorityState: UIState<ServerApiResponse<PartyAuthority>>,
     selectedPosition: String,
     onReset: () -> Unit,
     onApply: (String) -> Unit,
@@ -38,12 +40,36 @@ fun PartyDetailRecruitmentArea(
         mutableStateOf(true)
     }
 
+    var authority by remember {
+        mutableStateOf(
+            PartyAuthority(
+                userId = 0,
+                authority = ""
+            )
+        )
+    }
+
+    when(partyAuthorityState){
+        is UIState.Idle -> {}
+        is UIState.Loading -> { LoadingProgressBar() }
+        is UIState.Success -> {
+            val successResult = partyAuthorityState.data as SuccessResponse<PartyAuthority>
+            authority = successResult.data ?: PartyAuthority(
+                userId = 0,
+                authority = ""
+            )
+        }
+        is UIState.Error -> { }
+        is UIState.Exception -> { snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState) }
+    }
+
     when(partyRecruitmentState){
         is UIState.Idle -> {}
         is UIState.Loading -> { LoadingProgressBar() }
         is UIState.Success -> {
             val successResult = partyRecruitmentState.data as SuccessResponse<List<PartyRecruitment>>
             PartyDetailRecruitmentAreaContent(
+                authority = authority,
                 list = successResult.data ?: emptyList(),
                 selectedCreateDataOrderByDesc = selectedCreateDataOrderByDesc,
                 onChangeSelected = { selectedCreateDataOrderByDesc = it },
@@ -60,6 +86,7 @@ fun PartyDetailRecruitmentArea(
 @Composable
 fun PartyDetailRecruitmentAreaContent(
     list: List<PartyRecruitment>,
+    authority: PartyAuthority,
     selectedCreateDataOrderByDesc: Boolean,
     onChangeSelected: (Boolean) -> Unit,
     selectedPosition: String,
@@ -84,6 +111,7 @@ fun PartyDetailRecruitmentAreaContent(
         )
         HeightSpacer(heightDp = 8.dp)
         PartyDetailRecruitmentListArea(
+            authority = authority,
             selectedCreateDataOrderByDesc = selectedCreateDataOrderByDesc,
             list = list
         )
@@ -121,5 +149,9 @@ fun PartyDetailRecruitmentAreaContentPreview() {
         onReset = {},
         onApply = {},
         selectedPosition = "",
+        authority = PartyAuthority(
+            userId = 1,
+            authority = "master"
+        )
     )
 }
