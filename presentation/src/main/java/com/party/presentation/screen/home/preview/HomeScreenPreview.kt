@@ -25,6 +25,7 @@ import com.party.presentation.shared.SharedViewModel
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(
+        context = LocalContext.current,
         snackBarHostState = SnackbarHostState(),
         navController = rememberNavController(),
         selectedTabText = "메인",

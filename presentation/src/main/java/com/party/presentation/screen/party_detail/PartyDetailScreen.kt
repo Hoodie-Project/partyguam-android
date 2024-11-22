@@ -1,34 +1,58 @@
 package com.party.presentation.screen.party_detail
 
+import android.content.Context
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.party.common.LoadingProgressBar
 import com.party.common.R
 import com.party.common.ServerApiResponse
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.UIState
+import com.party.common.component.icon.DrawableIconButton
+import com.party.common.component.icon.MaterialIconButton
 import com.party.common.component.partyDetailTabList
+import com.party.common.component.scaffold.ScaffoldCenterBar
 import com.party.common.snackBarMessage
+import com.party.common.ui.theme.BLACK
+import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PartyUsers
 import com.party.domain.model.user.PartyAuthority
+import com.party.navigation.BottomNavigationBar
 import com.party.presentation.screen.home.tab_main.ErrorArea
 import com.party.presentation.screen.party_detail.component.PartyDetailArea
+import com.party.presentation.screen.party_detail.component.PartyDetailScaffoldArea
 import com.party.presentation.screen.party_detail.viewmodel.PartyViewModel
 
 @Composable
 fun PartyDetailScreen(
+    context: Context,
+    navController: NavHostController,
     snackBarHostState: SnackbarHostState,
     partyViewModel: PartyViewModel,
     partyId: Int,
@@ -50,23 +74,47 @@ fun PartyDetailScreen(
     val partyRecruitmentState by partyViewModel.getPartyRecruitmentState.collectAsStateWithLifecycle()
     val partyAuthorityState by partyViewModel.getPartyAuthorityState.collectAsStateWithLifecycle()
 
-    PartyDetailContent(
-        snackBarHostState = snackBarHostState,
-        partyDetailState = partyDetailState,
-        partyUsersState = partyUsersState,
-        partyRecruitmentState = partyRecruitmentState,
-        partyAuthorityState = partyAuthorityState,
-        selectedPosition = selectedPosition,
-        onReset = { selectedPosition = ""},
-        onApply = {
-            selectedPosition = it
-            partyViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = if (selectedPosition == "전체") null else selectedPosition)
+    Scaffold(
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackBarHostState,
+            )
         },
-    )
+        bottomBar = {
+            BottomNavigationBar(
+                context = context,
+                navController = navController,
+            )
+        },
+        topBar = {
+            PartyDetailScaffoldArea(
+                onNavigationClick = { navController.popBackStack() },
+                onSharedClick = {},
+                onMoreClick = {},
+            )
+        },
+    ) {
+        PartyDetailContent(
+            modifier = Modifier
+                .padding(it),
+            snackBarHostState = snackBarHostState,
+            partyDetailState = partyDetailState,
+            partyUsersState = partyUsersState,
+            partyRecruitmentState = partyRecruitmentState,
+            partyAuthorityState = partyAuthorityState,
+            selectedPosition = selectedPosition,
+            onReset = { selectedPosition = ""},
+            onApply = {
+                selectedPosition = it
+                partyViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = if (selectedPosition == "전체") null else selectedPosition)
+            },
+        )
+    }
 }
 
 @Composable
 fun PartyDetailContent(
+    modifier: Modifier,
     snackBarHostState: SnackbarHostState,
     partyDetailState: UIState<ServerApiResponse<PartyDetail>>,
     partyUsersState: UIState<ServerApiResponse<PartyUsers>>,
@@ -81,8 +129,9 @@ fun PartyDetailContent(
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
+            .background(WHITE)
     ) {
         when(partyDetailState){
             is UIState.Idle -> {}

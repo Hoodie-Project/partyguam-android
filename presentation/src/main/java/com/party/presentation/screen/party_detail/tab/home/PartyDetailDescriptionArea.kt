@@ -17,10 +17,11 @@ import com.party.common.ui.theme.T2
 
 @Composable
 fun PartyDetailDescriptionArea(
+    modifier: Modifier,
     content: String,
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .wrapContentSize()
             .padding(bottom = 60.dp)
     ) {
@@ -43,6 +44,8 @@ fun PartyDetailDescriptionArea(
 @Composable
 fun PartyDetailDescriptionAreaPreview() {
     PartyDetailDescriptionArea(
+        modifier = Modifier
+            .padding(horizontal = 20.dp),
         content = "파티 소개 내용입니다.파티 소개 내용입니다.파티 소개 내용입니다.파티 소개 내용입니다.파티 소개 내용입니다."
     )
 }

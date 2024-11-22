@@ -2,6 +2,7 @@ package com.party.presentation.screen.party_detail.tab.recruitment
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -96,6 +97,7 @@ fun PartyDetailRecruitmentAreaContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(horizontal = 20.dp)
     ) {
         PartyDetailTitleArea(
             title = "모집공고",

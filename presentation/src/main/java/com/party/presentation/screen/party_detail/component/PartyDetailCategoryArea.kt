@@ -16,11 +16,12 @@ import com.party.common.ui.theme.TYPE_COLOR_TEXT
 
 @Composable
 fun PartyDetailCategoryArea(
+    modifier: Modifier,
     tag: String,
     partyType: String
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(24.dp),
         verticalAlignment = Alignment.CenterVertically,

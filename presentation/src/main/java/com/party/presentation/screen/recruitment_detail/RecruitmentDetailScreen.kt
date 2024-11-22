@@ -1,11 +1,15 @@
 package com.party.presentation.screen.recruitment_detail
 
+import android.content.Context
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -13,21 +17,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.party.common.ApplyButtonArea
 import com.party.common.HeightSpacer
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.UIState
 import com.party.common.convertToText
 import com.party.common.ui.theme.GRAY100
+import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.RecruitmentDetail
+import com.party.navigation.BottomNavigationBar
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentCurrentInfoArea
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentDescription
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentImageArea
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentPositionAndCountArea
+import com.party.presentation.screen.recruitment_detail.component.RecruitmentScaffoldArea
 import com.party.presentation.screen.recruitment_detail.viewmodel.RecruitmentDetailViewModel
 
 @Composable
 fun RecruitmentDetailScreen(
+    context: Context,
+    navController: NavHostController,
     partyRecruitmentId: Int,
     recruitmentDetailViewModel: RecruitmentDetailViewModel = hiltViewModel(),
     onClick: () -> Unit,
@@ -39,30 +49,51 @@ fun RecruitmentDetailScreen(
 
     val result by recruitmentDetailViewModel.getRecruitmentDetailState.collectAsStateWithLifecycle()
 
-    when(result){
-        is UIState.Idle -> {}
-        is UIState.Loading -> {}
-        is UIState.Success -> {
-            val resultData = result.data as SuccessResponse
-            RecruitmentDetailScreenContent(
-                recruitmentDetail = resultData.data ?: return,
-                onClick = onClick
+
+
+    Scaffold(
+        bottomBar = {
+            BottomNavigationBar(
+                context = context,
+                navController = navController,
+            )
+        },
+        topBar = {
+            RecruitmentScaffoldArea(
+                onNavigationClick = { navController.popBackStack() },
+                onSharedClick = {},
             )
         }
-        is UIState.Error -> {}
-        is UIState.Exception -> {}
+    ){
+        when(result){
+            is UIState.Idle -> {}
+            is UIState.Loading -> {}
+            is UIState.Success -> {
+                val resultData = result.data as SuccessResponse
+                RecruitmentDetailScreenContent(
+                    modifier = Modifier
+                        .padding(it),
+                    recruitmentDetail = resultData.data ?:return@Scaffold,
+                    onClick = onClick
+                )
+            }
+            is UIState.Error -> {}
+            is UIState.Exception -> {}
+        }
     }
 }
 
 @Composable
 fun RecruitmentDetailScreenContent(
+    modifier: Modifier,
     recruitmentDetail: RecruitmentDetail,
     onClick: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
+            .background(WHITE)
     ) {
         Column(
             modifier = Modifier

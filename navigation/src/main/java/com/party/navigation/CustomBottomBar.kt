@@ -48,8 +48,8 @@ import com.party.common.ui.theme.WHITE
 fun BottomNavigationBar(
     context: Context,
     navController: NavHostController,
-    isExpandedFloatingButton: Boolean,
-    onUnExpandedFloatingButton: (Boolean) -> Unit,
+    isExpandedFloatingButton: Boolean = false,
+    onUnExpandedFloatingButton: (Boolean) -> Unit = {},
 ){
 
     val screenList = listOf(

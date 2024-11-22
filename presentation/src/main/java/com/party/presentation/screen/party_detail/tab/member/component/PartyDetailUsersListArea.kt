@@ -3,7 +3,6 @@ package com.party.presentation.screen.party_detail.tab.member.component
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -115,7 +114,7 @@ fun PartyDetailUsersListItem(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
                         .padding(top = 10.dp, end = 10.dp),
-                    tintColor = painterResource(id = R.drawable.emergency),
+                    icon = painterResource(id = R.drawable.emergency),
                     contentDescription = "emergency",
                     onClick = {}
                 )

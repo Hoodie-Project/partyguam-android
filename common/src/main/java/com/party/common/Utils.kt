@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -222,7 +223,8 @@ fun ApplyButtonArea(
         onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
-            .height(48.dp),
+            .height(48.dp)
+            .padding(horizontal = 20.dp),
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
         border = BorderStroke(1.dp, borderColor),
         colors = ButtonDefaults.buttonColors(

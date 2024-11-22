@@ -86,6 +86,7 @@ fun RecruitmentImageArea(
         modifier = Modifier
             .fillMaxWidth()
             .height(250.dp)
+            .padding(horizontal = 20.dp)
     ) {
         // 카드 생성 (테두리는 카드 외부에만 적용됨)
         Card(
@@ -176,6 +177,8 @@ fun RecruitmentCurrentInfoArea(
     createDate: String,
 ) {
     Column(
+        modifier = Modifier
+            .padding(horizontal = 20.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         RecruitmentInfoItem(
@@ -230,6 +233,7 @@ fun RecruitmentPositionAndCountArea(
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(horizontal = 20.dp),
     ) {
         RecruitmentTitle(
             title = "모집 부분",
@@ -298,6 +302,7 @@ fun RecruitmentDescription(
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(horizontal = 20.dp),
     ) {
         RecruitmentTitle(
             title = "모집 공고",

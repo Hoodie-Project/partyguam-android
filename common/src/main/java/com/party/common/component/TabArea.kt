@@ -37,7 +37,7 @@ import com.party.common.ui.theme.T3
 val TAB_AREA_ITEM_MIN_WIDTH = 40.dp
 val TAB_AREA_ITEM_MAX_WIDTH = 68.dp
 
-val homeTopTabList = listOf("홈", "파티", "모집공고")
+val homeTopTabList = listOf("메인", "파티", "모집공고")
 val partyDetailTabList = listOf("홈", "파티원", "모집공고")
 
 @Composable

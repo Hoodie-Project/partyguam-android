@@ -106,9 +106,7 @@ fun FloatingButton(
                         )
                     }
                 }
-
             }
-
         }
 
         HeightSpacer(12.dp)

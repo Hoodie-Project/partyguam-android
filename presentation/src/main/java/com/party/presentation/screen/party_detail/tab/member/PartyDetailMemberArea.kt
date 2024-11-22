@@ -2,6 +2,7 @@ package com.party.presentation.screen.party_detail.tab.member
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -10,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
@@ -84,6 +86,7 @@ fun PartyDetailUsersAreaContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(horizontal = 20.dp)
     ) {
         PartyDetailTitleArea(
             title = "파티원",
@@ -96,4 +99,22 @@ fun PartyDetailUsersAreaContent(
             authority = authority
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PartyDetailUsersAreaContentPreview() {
+    val partyUsers = PartyUsers(
+        partyAdmin = listOf(),
+        partyUser = listOf()
+    )
+    val authority = PartyAuthority(
+        authority = "",
+        userId = 0
+    )
+
+    PartyDetailUsersAreaContent(
+        partyUsers = partyUsers,
+        authority = authority
+    )
 }
