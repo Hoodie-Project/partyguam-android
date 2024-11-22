@@ -1,7 +1,12 @@
 package com.party.presentation.screen.home.tab_party.component
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.party.common.R
 import com.party.common.component.chip.OrderByCreateDtChip
 
@@ -10,9 +15,24 @@ fun FilterDate(
     selectedCreateDataOrderByDesc: Boolean,
     onChangeOrderBy: (Boolean) -> Unit,
 ) {
-    OrderByCreateDtChip(
-        text = stringResource(id = R.string.filter1),
-        orderByDesc = selectedCreateDataOrderByDesc,
-        onChangeSelected = { onChangeOrderBy(it) }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.End
+    ) {
+        OrderByCreateDtChip(
+            text = stringResource(id = R.string.filter1),
+            orderByDesc = selectedCreateDataOrderByDesc,
+            onChangeSelected = { onChangeOrderBy(it) }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FilterDatePreview() {
+    FilterDate(
+        selectedCreateDataOrderByDesc = true,
+        onChangeOrderBy = {}
     )
 }
