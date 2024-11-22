@@ -1,5 +1,6 @@
 package com.party.presentation.screen.party_detail.tab.recruitment.component
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,6 +31,7 @@ import com.party.common.WidthSpacer
 import com.party.common.convertIsoToCustomDateFormat
 import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.B3
+import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.PRIMARY
@@ -124,6 +126,7 @@ fun PartyDetailRecruitmentListItem(
                 containerColor = WHITE,
             ),
             shape = RoundedCornerShape(LARGE_CORNER_SIZE),
+            border = BorderStroke(1.dp, GRAY100),
             elevation = CardDefaults.cardElevation(4.dp),
         ) {
             Column(
