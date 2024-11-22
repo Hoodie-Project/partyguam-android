@@ -2,93 +2,47 @@ package com.party.navigation
 
 import kotlinx.serialization.Serializable
 
-interface ArgInterface {
-    val title: String
-}
-
-sealed interface Screens: ArgInterface {
+sealed interface Screens {
     @Serializable
-    data object Splash: Screens {
-        override val title: String = NavigationTitle.SPLASH
-    }
+    data object Splash: Screens
     @Serializable
-    data object Login: Screens {
-        override val title: String = NavigationTitle.LOGIN
-    }
+    data object Login: Screens
     @Serializable
-    data class JoinEmail(val userEmail: String, val signupAccessToken: String): Screens {
-        override val title: String = NavigationTitle.JOIN_EMAIL
-    }
+    data class JoinEmail(val userEmail: String, val signupAccessToken: String): Screens
     @Serializable
-    data class JoinNickName(val userEmail: String, val signupAccessToken: String): Screens {
-        override val title: String = NavigationTitle.JOIN_NICK_NAME
-    }
+    data class JoinNickName(val userEmail: String, val signupAccessToken: String): Screens
     @Serializable
-    data class JoinBirthDay(val userEmail: String, val signupAccessToken: String, val userNickName: String): Screens {
-        override val title: String = NavigationTitle.JOIN_BIRTHDAY
-    }
+    data class JoinBirthDay(val userEmail: String, val signupAccessToken: String, val userNickName: String): Screens
     @Serializable
-    data class JoinGender(val userEmail: String, val signupAccessToken: String, val userNickName: String, val userBirthDay: String): Screens {
-        override val title: String = NavigationTitle.JOIN_GENDER
-    }
+    data class JoinGender(val userEmail: String, val signupAccessToken: String, val userNickName: String, val userBirthDay: String): Screens
     @Serializable
-    data object JoinComplete: Screens {
-        override val title: String = NavigationTitle.JOIN_COMPLETE
-    }
+    data object JoinComplete: Screens
     @Serializable
-    data object DetailProfile: Screens {
-        override val title: String = NavigationTitle.DETAIL_PROFILE
-    }
+    data object DetailProfile: Screens
     @Serializable
-    data object DetailCarrier: Screens {
-        override val title: String = NavigationTitle.DETAIL_CARRIER
-    }
+    data object DetailCarrier: Screens
     @Serializable
-    data class ChoiceCarrierPosition(val isMain: Boolean): Screens {
-        override val title: String = NavigationTitle.CHOICE_CARRIER_POSITION
-    }
+    data class ChoiceCarrierPosition(val isMain: Boolean): Screens
     @Serializable
-    data object SelectTendency1: Screens {
-        override val title: String = NavigationTitle.SELECT_TENDENCY
-    }
+    data object SelectTendency1: Screens
     @Serializable
-    data object SelectTendency2: Screens {
-        override val title: String = NavigationTitle.SELECT_TENDENCY
-    }
+    data object SelectTendency2: Screens
     @Serializable
-    data object SelectTendency3: Screens {
-        override val title: String = NavigationTitle.SELECT_TENDENCY
-    }
+    data object SelectTendency3: Screens
     @Serializable
-    data object SelectTendency4: Screens {
-        override val title: String = NavigationTitle.SELECT_TENDENCY
-    }
+    data object SelectTendency4: Screens
     @Serializable
-    data object SelectTendencyComplete: Screens {
-        override val title: String = NavigationTitle.SELECT_TENDENCY
-    }
+    data object SelectTendencyComplete: Screens
     @Serializable
-    data object Home: Screens {
-        override val title: String = NavigationTitle.HOME
-    }
+    data object Home: Screens
     @Serializable
-    data object State: Screens {
-        override val title: String = NavigationTitle.STATE
-    }
+    data object State: Screens
     @Serializable
-    data object Profile: Screens {
-        override val title: String = NavigationTitle.PROFILE
-    }
+    data object Profile: Screens
     @Serializable
-    data class RecruitmentDetail(val partyRecruitmentId: Int, val partyId: Int): Screens {
-        override val title: String = NavigationTitle.RECRUITMENT_DETAIL
-    }
+    data class RecruitmentDetail(val partyRecruitmentId: Int, val partyId: Int): Screens
     @Serializable
-    data class PartyApply(val partyId: Int, val partyRecruitmentId: Int): Screens {
-        override val title: String = NavigationTitle.PARTY_APPLY
-    }
+    data class PartyApply(val partyId: Int, val partyRecruitmentId: Int): Screens
     @Serializable
-    data class PartyDetail(val partyId: Int): Screens{
-        override val title: String = NavigationTitle.PARTY_DETAIL
-    }
+    data class PartyDetail(val partyId: Int): Screens
 }

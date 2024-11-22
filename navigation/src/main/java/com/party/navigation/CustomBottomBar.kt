@@ -13,12 +13,10 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -30,10 +28,13 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.party.common.R
+import com.party.common.component.icon.DrawableIcon
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.BLACK
@@ -52,41 +53,32 @@ fun BottomNavigationBar(
     onUnExpandedFloatingButton: (Boolean) -> Unit = {},
 ){
 
-    val screenList = listOf(
-        Screens.Home,
-        Screens.State,
-        Screens.Profile,
-    )
-
     val backStackEntry = navController.currentBackStackEntryAsState()
-    val currentScreen = backStackEntry.value.fromRoute()
+    val currentScreen = backStackEntry.value.fromBottomRoute()
 
-    // shouldShowBottomBar 에 속하는 스크린만
-    if (navController.shouldShowBottomBar){
-        AppBottomNavigationBar(
-            isExpandedFloatingButton = isExpandedFloatingButton,
-            show = navController.shouldShowBottomBar,
-            onUnExpandedFloatingButton = onUnExpandedFloatingButton,
-        ) {
-            screenList.forEach { screenItem ->
-                AppBottomNavigationBarItem(
-                    icon = bottomIconSetting(screenItem),
-                    label = screenItem.title,
-                    onClick = {
-                        if (currentScreen != screenItem) {
-                            navController.navigate(screenItem) {
-                                popUpTo(navController.currentBackStackEntry.fromRoute())
-                            }
+    AppBottomNavigationBar(
+        isExpandedFloatingButton = isExpandedFloatingButton,
+        show = navController.shouldShowBottomBar,
+        onUnExpandedFloatingButton = onUnExpandedFloatingButton,
+    ) {
+        bottomDestinations.forEach { screenItem ->
+            AppBottomNavigationBarItem(
+                icon = bottomIconSetting(screenItem),
+                label = screenItem.name,
+                onTabClick = {
+                    navController.navigate(screenItem.screen){
+                        popUpTo(navController.graph.findStartDestination().route!!){
+                            saveState = true
                         }
-                    },
-                    selected = currentScreen == screenItem,
-                    onBack = { if (currentScreen == Screens.Home) (context as Activity).finish() else navController.navigate(Screens.Home) },
-                )
-            }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
+                selected = currentScreen == screenItem,
+                onBack = { if (currentScreen == BottomBarScreen.Home) (context as Activity).finish() else navController.navigate(Screens.Home) },
+            )
         }
     }
-
-
 }
 
 @Composable
@@ -138,7 +130,7 @@ fun AppBottomNavigationBar(
 @Composable
 fun RowScope.AppBottomNavigationBarItem(
     label: String,
-    onClick: () -> Unit,
+    onTabClick: () -> Unit,
     selected: Boolean,
     icon: Painter,
     onBack: () -> Unit,
@@ -152,16 +144,16 @@ fun RowScope.AppBottomNavigationBarItem(
         modifier = Modifier
             .weight(1f)
             .clickable(
-                onClick = onClick,
+                onClick = onTabClick,
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        verticalArrangement = Arrangement.spacedBy(6.dp)
     ) {
-        Icon(
-            modifier = Modifier.size(ICON_SIZE),
-            painter = icon,
+        DrawableIcon(
+            icon = icon,
             contentDescription = "",
-            tint = if (selected) BOTTOM_NAVIGATION_SELECTED_TINT else BOTTOM_NAVIGATION_UNSELECTED_TINT
+            iconSize = ICON_SIZE,
+            tintColor = if (selected) BOTTOM_NAVIGATION_SELECTED_TINT else BOTTOM_NAVIGATION_UNSELECTED_TINT
         )
 
         Text(
@@ -175,22 +167,30 @@ fun RowScope.AppBottomNavigationBarItem(
 }
 
 private val NavController.shouldShowBottomBar
-    get() = when (this.currentBackStackEntry.fromRoute()) {
-        Screens.Home,
-        Screens.State,
-        Screens.Profile,
-        Screens.RecruitmentDetail(1, 1),
-        Screens.PartyDetail(1)
+    get() = when (this.currentBackStackEntry.fromBottomRoute()) {
+        BottomBarScreen.Home,
+        BottomBarScreen.State,
+        BottomBarScreen.Profile
         -> true
-        else -> false
     }
 
 @Composable
-private fun bottomIconSetting(screens: Screens): Painter {
+private fun bottomIconSetting(screens: BottomBarScreen): Painter {
     return when (screens) {
-        Screens.Home -> painterResource(id = R.drawable.home_icon)
-        Screens.State -> painterResource(id = R.drawable.state_icon)
-        Screens.Profile -> painterResource(id = R.drawable.profile_icon)
-        else -> painterResource(id = R.drawable.home_icon)
+        BottomBarScreen.Home -> painterResource(id = R.drawable.home_icon)
+        BottomBarScreen.State -> painterResource(id = R.drawable.state_icon)
+        BottomBarScreen.Profile -> painterResource(id = R.drawable.profile_icon)
     }
+}
+
+fun NavBackStackEntry?.fromBottomRoute(): BottomBarScreen{
+    this?.destination?.route?.substringBefore("?")?.substringBefore("/")?.substringAfterLast(".")?.let {
+        return when (it) {
+            BottomBarScreen.Home::class.simpleName -> BottomBarScreen.Home
+            BottomBarScreen.State::class.simpleName -> BottomBarScreen.State
+            BottomBarScreen.Profile::class.simpleName -> BottomBarScreen.Profile
+            else -> BottomBarScreen.Home
+        }
+    }
+    return BottomBarScreen.Home
 }

@@ -36,9 +36,9 @@ fun DrawableIconButton(
 @Composable
 fun DrawableIcon(
     modifier: Modifier = Modifier,
+    icon: Painter,
     iconSize: Dp = 20.dp,
     tintColor: Color = GRAY400,
-    icon: Painter,
     contentDescription: String,
 ) {
     Icon(

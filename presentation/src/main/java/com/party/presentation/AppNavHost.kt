@@ -3,11 +3,7 @@ package com.party.presentation
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,20 +17,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.party.common.component.homeTopTabList
-import com.party.common.noRippleClickable
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
-import com.party.navigation.BottomNavigationBar
-import com.party.navigation.CustomTopBar
 import com.party.navigation.Screens
-import com.party.navigation.fromRoute
-import com.party.navigation.isVisibleTopBar
-import com.party.presentation.component.FloatingButtonArea
 import com.party.presentation.screen.detail.choice_carrier_position.ChoiceCarrierPositionScreen
 import com.party.presentation.screen.detail.detail_carrier.DetailCarrierScreen
 import com.party.presentation.screen.detail.detail_profile.DetailProfileScreen
@@ -65,8 +52,6 @@ const val ANIMATION_DURATION = 500
 fun AppNavHost() {
     val context = LocalContext.current
     val navController = rememberNavController()
-    val backStackEntry = navController.currentBackStackEntryAsState()
-    val currentScreen = backStackEntry.value.fromRoute()
 
     val snackBarHostState = remember { SnackbarHostState() }
 
@@ -308,273 +293,4 @@ fun AppNavHost() {
             )
         }
     }
-
-    /*if(isExpandedFloatingButton){
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .background(BLACK.copy(alpha = 0.7f))
-            .noRippleClickable { isExpandedFloatingButton = false })
-    }*/
-
-    /*Scaffold(
-        snackbarHost = {
-            SnackbarHost(
-                hostState = snackBarHostState,
-            )
-        },
-        topBar = {
-            if (isVisibleTopBar(currentScreen)) {
-                CustomTopBar(
-                    currentScreen = currentScreen,
-                    navController = navController,
-                    joinActionText = joinActionText,
-                    onWarningDialog = {
-                        isShowWarningDialog = it
-                    }
-                )
-            }
-        },
-        bottomBar = {
-            BottomNavigationBar(
-                context = context,
-                navController = navController,
-                isExpandedFloatingButton = isExpandedFloatingButton,
-                onUnExpandedFloatingButton = { isExpandedFloatingButton = it }
-            )
-        },
-        floatingActionButton = {
-            FloatingButtonArea(
-                isExpandedFloatingButton = isExpandedFloatingButton,
-                selectedTabText = selectedTabText,
-                currentScreens = currentScreen,
-                onExpanded = { isExpandedFloatingButton = it },
-                sharedViewModel = sharedViewModel
-            )
-        }
-    ){
-        NavHost(
-            navController = navController,
-            startDestination = Screens.Splash,
-            modifier = Modifier
-                .fillMaxSize()
-                .blur(
-                    radiusX = if (isExpandedFloatingButton) 10.dp else 0.dp,
-                    radiusY = if (isExpandedFloatingButton) 10.dp else 0.dp,
-                )
-                .background(WHITE)
-                .padding(it)
-                .padding(horizontal = MEDIUM_PADDING_SIZE),
-
-            enterTransition = {
-                slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(ANIMATION_DURATION)
-                )
-            },
-            exitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(ANIMATION_DURATION)
-                )
-            },
-            popEnterTransition = {
-                slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Up,
-                    animationSpec = tween(ANIMATION_DURATION)
-                )
-            },
-            popExitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Up,
-                    animationSpec = tween(ANIMATION_DURATION)
-                )
-            },
-        ){
-            composable<Screens.Splash> {
-                SplashScreen(
-                    navController = navController,
-                )
-            }
-            composable<Screens.Login> {
-                LoginScreen(
-                    navController = navController,
-                    context = context,
-                    snackBarHostState = snackBarHostState
-                )
-            }
-            composable<Screens.JoinEmail> { backStackEntry ->
-                val userEmail = backStackEntry.toRoute<Screens.JoinEmail>().userEmail
-                val signupAccessToken = backStackEntry.toRoute<Screens.JoinEmail>().signupAccessToken
-                JoinEmailScreen(
-                    navController = navController,
-                    userEmail = userEmail,
-                    signupAccessToken = signupAccessToken,
-                    setActionText = { text ->
-                        joinActionText = text
-                    },
-                )
-            }
-            composable<Screens.JoinNickName> { backStackEntry ->
-                val userEmail = backStackEntry.toRoute<Screens.JoinEmail>().userEmail
-                val signupAccessToken = backStackEntry.toRoute<Screens.JoinEmail>().signupAccessToken
-                JoinNickNameScreen(
-                    context = context,
-                    navController = navController,
-                    snackBarHostState = snackBarHostState,
-                    userEmail = userEmail,
-                    signupAccessToken = signupAccessToken,
-                    setActionText = { text ->
-                        joinActionText = text
-                    },
-                    isShowWarningDialog = isShowWarningDialog,
-                    onClose = { close ->
-                        isShowWarningDialog = close
-                    }
-                )
-            }
-            composable<Screens.JoinBirthDay> { backStackEntry ->
-                val userEmail = backStackEntry.toRoute<Screens.JoinBirthDay>().userEmail
-                val signupAccessToken = backStackEntry.toRoute<Screens.JoinBirthDay>().signupAccessToken
-                val userNickName = backStackEntry.toRoute<Screens.JoinBirthDay>().userNickName
-                JoinBirthDayScreen(
-                    navController = navController,
-                    userEmail = userEmail,
-                    signupAccessToken = signupAccessToken,
-                    userNickName = userNickName,
-                    setActionText = { text ->
-                        joinActionText = text
-                    }
-                )
-            }
-            composable<Screens.JoinGender> { backStackEntry ->
-                val userEmail = backStackEntry.toRoute<Screens.JoinGender>().userEmail
-                val signupAccessToken = backStackEntry.toRoute<Screens.JoinGender>().signupAccessToken
-                val userNickName = backStackEntry.toRoute<Screens.JoinGender>().userNickName
-                val userBirthDay = backStackEntry.toRoute<Screens.JoinGender>().userBirthDay
-                JoinGenderScreen(
-                    context = context,
-                    navController = navController,
-                    snackBarHostState = snackBarHostState,
-                    userEmail = userEmail,
-                    signupAccessToken = signupAccessToken,
-                    userNickName = userNickName,
-                    userBirthDay = userBirthDay,
-                    setActionText = { text ->
-                        joinActionText = text
-                    }
-                )
-            }
-            composable<Screens.JoinComplete> {
-                JoinCompleteScreen(navController = navController)
-            }
-            composable<Screens.DetailProfile> {
-                DetailProfileScreen(
-                    context = context,
-                    snackBarHostState = snackBarHostState,
-                    navController = navController
-                )
-            }
-            composable<Screens.DetailCarrier> {
-                DetailCarrierScreen(
-                    context = context,
-                    snackBarHostState = snackBarHostState,
-                    navController = navController,
-                )
-            }
-            composable<Screens.ChoiceCarrierPosition> { backStackEntry ->
-                val isMain = backStackEntry.toRoute<Screens.ChoiceCarrierPosition>().isMain
-                ChoiceCarrierPositionScreen(
-                    snackBarHostState = snackBarHostState,
-                    navController = navController,
-                    isMain = isMain,
-                )
-            }
-            composable<Screens.SelectTendency1> {
-                SelectTendencyScreen1(
-                    context = context,
-                    navController = navController,
-                    snackBarHostState = snackBarHostState
-                )
-            }
-            composable<Screens.SelectTendency2> {
-                SelectTendencyScreen2(
-                    context = context,
-                    navController = navController,
-                    snackBarHostState = snackBarHostState,
-                )
-            }
-            composable<Screens.SelectTendency3> {
-                SelectTendencyScreen3(
-                    navController = navController,
-                    snackBarHostState = snackBarHostState,
-                )
-            }
-            composable<Screens.SelectTendency4> {
-                SelectTendencyScreen4(
-                    navController = navController,
-                    snackBarHostState = snackBarHostState,
-                )
-            }
-            composable<Screens.SelectTendencyComplete> {
-                SelectTendencyCompleteScreen(
-                    navController = navController,
-                )
-            }
-            composable<Screens.Home> {
-                HomeScreen(
-                    context = context,
-                    snackBarHostState = snackBarHostState,
-                    navController = navController,
-                    selectedTabText = selectedTabText,
-                    homeTopTabList = homeTopTabList,
-                    onTabClick = { selectedText -> selectedTabText = selectedText },
-                    onGoRecruitment = { selectedTabText = homeTopTabList[2] },
-                    onRecruitmentItemClick = { partyRecruitmentId, partyId ->
-                        navController.navigate(Screens.RecruitmentDetail(partyRecruitmentId = partyRecruitmentId, partyId = partyId))
-                    },
-                    sharedViewModel = sharedViewModel
-                )
-            }
-            composable<Screens.State> {
-                StateScreen()
-            }
-            composable<Screens.Profile> {
-                ProfileScreen()
-            }
-            composable<Screens.RecruitmentDetail> { backStackEntry ->
-                val partyId = backStackEntry.toRoute<Screens.RecruitmentDetail>().partyId
-                val partyRecruitmentId = backStackEntry.toRoute<Screens.RecruitmentDetail>().partyRecruitmentId
-                RecruitmentDetailScreen(
-                    partyRecruitmentId = partyRecruitmentId,
-                    onClick = {
-                        navController.navigate(Screens.PartyApply(partyId = partyId, partyRecruitmentId = partyRecruitmentId))
-                    }
-                )
-            }
-            composable<Screens.PartyApply> { backStackEntry ->
-                val partyId = backStackEntry.toRoute<Screens.PartyApply>().partyId
-                val partyRecruitmentId = backStackEntry.toRoute<Screens.RecruitmentDetail>().partyRecruitmentId
-                PartyApplyScreen(
-                    partyId = partyId,
-                    partyRecruitmentId = partyRecruitmentId,
-                )
-            }
-            composable<Screens.PartyDetail> { backStackEntry ->
-                val partyId = backStackEntry.toRoute<Screens.PartyDetail>().partyId
-                val partyViewModel = hiltViewModel<PartyViewModel>()
-                PartyDetailScreen(
-                    snackBarHostState = snackBarHostState,
-                    partyViewModel = partyViewModel,
-                    partyId = partyId,
-                )
-            }
-        }
-
-        if(isExpandedFloatingButton){
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .background(BLACK.copy(alpha = 0.7f))
-                .noRippleClickable { isExpandedFloatingButton = false })
-        }
-    }*/
 }
