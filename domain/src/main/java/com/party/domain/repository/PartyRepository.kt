@@ -4,9 +4,11 @@ import com.party.common.ServerApiResponse
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyListResponse
 import com.party.domain.model.party.PartyRecruitment
+import com.party.domain.model.party.PartyUsers
 import com.party.domain.model.party.PersonalRecruitmentListResponse
-import com.party.domain.model.party.RecruitmentListResponse
 import com.party.domain.model.party.RecruitmentDetail
+import com.party.domain.model.party.RecruitmentListResponse
+import com.party.domain.model.user.PartyAuthority
 
 interface PartyRepository {
 
@@ -43,6 +45,12 @@ interface PartyRepository {
     // 파티 상세 조회
     suspend fun getPartyDetail(partyId: Int): ServerApiResponse<PartyDetail>
 
+    // 파티 상세 조회 - 파티원 리스트 조회
+    suspend fun getPartyUsers(partyId: Int, page: Int, limit: Int, sort: String, order: String): ServerApiResponse<PartyUsers>
+
     // 파티 상세 조회 - 모집 공고 리스트 조회
     suspend fun getPartyRecruitmentList(partyId: Int, sort: String, order: String, main: String?): ServerApiResponse<List<PartyRecruitment>>
+
+    // 파티 상세 조회 - 나의 파티 권한 조회
+    suspend fun getPartyAuthority(partyId: Int): ServerApiResponse<PartyAuthority>
 }

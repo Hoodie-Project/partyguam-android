@@ -1,24 +1,35 @@
 package com.party.data.mapper
 
+import com.party.data.entity.party.PartyAdminDto
+import com.party.data.entity.party.PartyAuthorityDto
 import com.party.data.entity.party.PartyDetailDto
 import com.party.data.entity.party.PartyListEntity
 import com.party.data.entity.party.PartyRecruitmentDto
 import com.party.data.entity.party.PartyTypeDto
+import com.party.data.entity.party.PartyUserDto
+import com.party.data.entity.party.PartyUsersDto
 import com.party.data.entity.party.PersonalRecruitmentListEntity
+import com.party.data.entity.party.PositionDto
 import com.party.data.entity.party.RecruitmentDetailDto
 import com.party.data.entity.party.RecruitmentListEntity
+import com.party.data.entity.party.UserCareerDto
+import com.party.data.entity.party.UserDto
 import com.party.data.util.convertToImageUrl
+import com.party.domain.model.party.PartyAdmin
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyItemResponse
 import com.party.domain.model.party.PartyListResponse
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PartyType
 import com.party.domain.model.party.PartyTypeItemResponse
+import com.party.domain.model.party.PartyUser
+import com.party.domain.model.party.PartyUsers
 import com.party.domain.model.party.PersonalRecruitmentItemResponse
 import com.party.domain.model.party.PersonalRecruitmentListResponse
 import com.party.domain.model.party.PersonalRecruitmentPartyResponse
 import com.party.domain.model.party.PersonalRecruitmentPartyTypeResponse
 import com.party.domain.model.party.PersonalRecruitmentPositionResponse
+import com.party.domain.model.party.Position
 import com.party.domain.model.party.RecruitmentDetail
 import com.party.domain.model.party.RecruitmentDetailParty
 import com.party.domain.model.party.RecruitmentDetailPartyType
@@ -28,6 +39,9 @@ import com.party.domain.model.party.RecruitmentListResponse
 import com.party.domain.model.party.RecruitmentPartyResponse
 import com.party.domain.model.party.RecruitmentPartyTypeResponse
 import com.party.domain.model.party.RecruitmentPositionResponse
+import com.party.domain.model.party.User
+import com.party.domain.model.party.UserCareer
+import com.party.domain.model.user.PartyAuthority
 
 object PartyMapper {
     fun mapperPersonalRecruitmentResponse(personalRecruitmentListEntity: PersonalRecruitmentListEntity): PersonalRecruitmentListResponse{
@@ -146,11 +160,6 @@ object PartyMapper {
             status = partyDetailDto.status,
             createdAt = partyDetailDto.createdAt,
             updatedAt = partyDetailDto.updatedAt,
-            //userId = partyDetailDto.userId,
-            //partyId = partyDetailDto.partyId,
-            //positionId = partyDetailDto.positionId,
-            //authority = partyDetailDto.authority,
-            //myInfo = mapperMyInfo(partyDetailDto.myInfo)
         )
     }
 
@@ -160,19 +169,6 @@ object PartyMapper {
             type = partyTypeDto.type
         )
     }
-
-    /*private fun mapperMyInfo(myInfoDto: MyInfoDto): MyInfo{
-        return MyInfo(
-            status = myInfoDto.status,
-            createdAt = myInfoDto.createdAt,
-            updatedAt = myInfoDto.updatedAt,
-            id = myInfoDto.id,
-            userId = myInfoDto.userId,
-            partyId = myInfoDto.partyId,
-            positionId = myInfoDto.positionId,
-            authority = myInfoDto.authority
-        )
-    }*/
 
     fun mapperPartyRecruitment(partyRecruitmentDto: PartyRecruitmentDto): PartyRecruitment {
         return PartyRecruitment(
@@ -184,6 +180,66 @@ object PartyMapper {
             recruitedCount = partyRecruitmentDto.recruitedCount,
             applicationCount = partyRecruitmentDto.applicationCount,
             createdAt = partyRecruitmentDto.createdAt,
+        )
+    }
+
+    fun mapperPartyUsers(partyUsersDto: PartyUsersDto): PartyUsers{
+        return PartyUsers(
+            partyAdmin = partyUsersDto.partyAdmin.map {
+                mapperPartyAdmin(it)
+            },
+            partyUser = partyUsersDto.partyUser.map {
+                mapperPartyUser(it)
+            }
+        )
+    }
+
+    fun mapperPartyAuthority(partyAuthorityDto: PartyAuthorityDto): PartyAuthority{
+        return PartyAuthority(
+            authority = partyAuthorityDto.authority,
+            userId = partyAuthorityDto.userId,
+        )
+    }
+
+    private fun mapperPartyAdmin(partyAdminDto: PartyAdminDto): PartyAdmin{
+        return PartyAdmin(
+            authority = partyAdminDto.authority,
+            position = mapperPosition(partyAdminDto.position),
+            user = mapperToUser(partyAdminDto.user)
+        )
+    }
+
+    private fun mapperPartyUser(partyUserDto: PartyUserDto): PartyUser{
+        return PartyUser(
+            authority = partyUserDto.authority,
+            position = mapperPosition(partyUserDto.position),
+            user = mapperToUser(partyUserDto.user)
+        )
+    }
+
+    private fun mapperPosition(positionDto: PositionDto): Position{
+        return Position(
+            id = positionDto.id,
+            main = positionDto.main,
+            sub = positionDto.sub
+        )
+    }
+
+    private fun mapperToUser(userDto: UserDto): User {
+        return User(
+            id = userDto.id,
+            nickname = userDto.nickname,
+            image = convertToImageUrl(userDto.image),
+            userCareers = userDto.userCareers.map {
+                mapperToUserCareer(it)
+            }
+        )
+    }
+
+    private fun mapperToUserCareer(userCareerDto: UserCareerDto): UserCareer {
+        return UserCareer(
+            positionId = userCareerDto.positionId,
+            years = userCareerDto.years
         )
     }
 }

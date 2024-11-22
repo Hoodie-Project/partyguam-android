@@ -21,9 +21,9 @@ import com.party.common.UIState
 import com.party.common.snackBarMessage
 import com.party.domain.model.party.PartyRecruitment
 import com.party.presentation.screen.home.tab_main.ErrorArea
+import com.party.presentation.screen.party_detail.component.PartyDetailTitleArea
 import com.party.presentation.screen.party_detail.tab.recruitment.component.PartyDetailRecruitmentFilterArea
 import com.party.presentation.screen.party_detail.tab.recruitment.component.PartyDetailRecruitmentListArea
-import com.party.presentation.screen.party_detail.tab.recruitment.component.PartyDetailRecruitmentTitle
 
 @Composable
 fun PartyDetailRecruitmentArea(
@@ -70,8 +70,9 @@ fun PartyDetailRecruitmentAreaContent(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        PartyDetailRecruitmentTitle(
-            listSize = list.size
+        PartyDetailTitleArea(
+            title = "모집공고",
+            number = "${list.size}"
         )
         HeightSpacer(heightDp = 16.dp)
         PartyDetailRecruitmentFilterArea(

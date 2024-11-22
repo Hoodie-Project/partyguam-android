@@ -1,7 +1,11 @@
 package com.party.presentation.screen.party_detail.component
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,12 +14,15 @@ import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
 import com.party.common.ServerApiResponse
 import com.party.common.UIState
+import com.party.common.ui.theme.GRAY100
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PartyType
+import com.party.domain.model.party.PartyUsers
+import com.party.domain.model.user.PartyAuthority
 import com.party.presentation.screen.party_detail.tab.PartyDetailTabArea
 import com.party.presentation.screen.party_detail.tab.home.PartyDetailDescriptionArea
-import com.party.presentation.screen.party_detail.tab.member.PartyDetailMemberArea
+import com.party.presentation.screen.party_detail.tab.member.PartyDetailUserArea
 import com.party.presentation.screen.party_detail.tab.recruitment.PartyDetailRecruitmentArea
 
 @Composable
@@ -25,7 +32,9 @@ fun PartyDetailArea(
     partyDetail: PartyDetail,
     selectedTabText: String,
     onTabClick: (String) -> Unit,
+    partyUsersState: UIState<ServerApiResponse<PartyUsers>>,
     partyRecruitmentState: UIState<ServerApiResponse<List<PartyRecruitment>>>,
+    partyAuthorityState: UIState<ServerApiResponse<PartyAuthority>>,
     selectedPosition: String,
     onReset: () -> Unit,
     onApply: (String) -> Unit,
@@ -53,6 +62,13 @@ fun PartyDetailArea(
                 title = partyDetail.title
             )
             HeightSpacer(heightDp = 32.dp)
+
+            HorizontalDivider(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                color = GRAY100,
+                thickness = 12.dp,
+            )
         }
 
         item {
@@ -72,7 +88,10 @@ fun PartyDetailArea(
                     )
                 }
                 partyDetailTabList[1] -> {
-                    PartyDetailMemberArea(
+                    PartyDetailUserArea(
+                        snackBarHostState = snackBarHostState,
+                        partyUsersState = partyUsersState,
+                        partyAuthorityState = partyAuthorityState
                     )
                 }
                 partyDetailTabList[2] -> {
@@ -110,7 +129,9 @@ fun PartyDetailAreaPreview() {
         partyDetail = partyDetail,
         selectedTabText = "홈",
         onTabClick = {},
+        partyUsersState = UIState.Idle,
         partyRecruitmentState = UIState.Idle,
+        partyAuthorityState = UIState.Idle,
         onApply = {},
         onReset = {},
         selectedPosition = "개발자"

@@ -1,13 +1,14 @@
 package com.party.data.datasource.remote.party
 
+import com.party.data.entity.party.PartyAuthorityDto
 import com.party.data.entity.party.PartyDetailDto
 import com.party.data.entity.party.PartyListEntity
 import com.party.data.entity.party.PartyRecruitmentDto
+import com.party.data.entity.party.PartyUsersDto
 import com.party.data.entity.party.PersonalRecruitmentListEntity
 import com.party.data.entity.party.RecruitmentDetailDto
 import com.party.data.entity.party.RecruitmentListEntity
 import com.party.data.service.PartyService
-import com.party.domain.model.party.PartyRecruitment
 import com.skydoves.sandwich.ApiResponse
 import javax.inject.Inject
 
@@ -50,6 +51,16 @@ class PartyRemoteSourceImpl @Inject constructor(
         return partyService.getPartyDetail(partyId = partyId)
     }
 
+    override suspend fun getPartyUsers(
+        partyId: Int,
+        page: Int,
+        limit: Int,
+        sort: String,
+        order: String
+    ): ApiResponse<PartyUsersDto> {
+        return partyService.getPartyUsers(partyId = partyId, page = page, limit = limit, sort = sort, order = order)
+    }
+
     override suspend fun getPartyRecruitmentList(
         partyId: Int,
         sort: String,
@@ -57,5 +68,9 @@ class PartyRemoteSourceImpl @Inject constructor(
         main: String?,
     ): ApiResponse<List<PartyRecruitmentDto>> {
         return partyService.getPartyRecruitmentList(partyId = partyId, sort = sort, order = order, main = main)
+    }
+
+    override suspend fun getPartyAuthority(partyId: Int): ApiResponse<PartyAuthorityDto> {
+        return partyService.getPartyAuthority(partyId = partyId)
     }
 }

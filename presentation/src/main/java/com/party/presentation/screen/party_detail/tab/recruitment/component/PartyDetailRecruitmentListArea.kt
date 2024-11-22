@@ -1,5 +1,6 @@
 package com.party.presentation.screen.party_detail.tab.recruitment.component
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -7,22 +8,27 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
+import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.convertIsoToCustomDateFormat
+import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
@@ -43,22 +49,63 @@ fun PartyDetailRecruitmentListArea(
         list.sortedBy { it.createdAt }
     }
 
-    LazyColumn(
+    if(sortedList.isNotEmpty()){
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(500.dp),
+        ) {
+            itemsIndexed(
+                items = sortedList,
+                key = { index, _ ->
+                    index
+                }
+            ){_, item ->
+                PartyDetailRecruitmentListItem(
+                    partyRecruitment = item
+                )
+            }
+        }
+    }else {
+        HeightSpacer(heightDp = 60.dp)
+        NoRecruitmentArea()
+    }
+}
+
+@Composable
+fun NoRecruitmentArea() {
+    Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(500.dp),
+        contentAlignment = Alignment.TopCenter
     ) {
-        itemsIndexed(
-            items = sortedList,
-            key = { index, _ ->
-                index
-            }
-        ){_, item ->
-            PartyDetailRecruitmentListItem(
-                partyRecruitment = item
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.info),
+                contentDescription = "",
+                modifier = Modifier.size(24.dp),
+                tint = GRAY500
+            )
+            HeightSpacer(heightDp = 6.dp)
+            TextComponent(
+                text = "모집 공고가 없습니다.",
+                fontSize = B1,
+                fontWeight = FontWeight.SemiBold,
+                textColor = GRAY500,
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun NoRecruitmentAreaPreview() {
+    NoRecruitmentArea()
 }
 
 @Composable

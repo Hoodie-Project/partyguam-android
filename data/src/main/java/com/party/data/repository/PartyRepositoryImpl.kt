@@ -5,17 +5,21 @@ import com.party.common.ServerApiResponse.ErrorResponse
 import com.party.common.ServerApiResponse.ExceptionResponse
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.data.datasource.remote.party.PartyRemoteSource
+import com.party.data.mapper.PartyMapper.mapperPartyAuthority
 import com.party.data.mapper.PartyMapper.mapperPartyDetail
 import com.party.data.mapper.PartyMapper.mapperPartyRecruitment
 import com.party.data.mapper.PartyMapper.mapperPartyResponse
+import com.party.data.mapper.PartyMapper.mapperPartyUsers
 import com.party.data.mapper.PartyMapper.mapperPersonalRecruitmentResponse
 import com.party.data.mapper.PartyMapper.mapperRecruitmentDetailResponse
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyListResponse
 import com.party.domain.model.party.PartyRecruitment
+import com.party.domain.model.party.PartyUsers
 import com.party.domain.model.party.PersonalRecruitmentListResponse
 import com.party.domain.model.party.RecruitmentDetail
 import com.party.domain.model.party.RecruitmentListResponse
+import com.party.domain.model.user.PartyAuthority
 import com.party.domain.repository.PartyRepository
 import com.skydoves.sandwich.ApiResponse
 import javax.inject.Inject
@@ -128,6 +132,25 @@ class PartyRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getPartyUsers(
+        partyId: Int,
+        page: Int,
+        limit: Int,
+        sort: String,
+        order: String
+    ): ServerApiResponse<PartyUsers> {
+        return when(val result = partyRemoteSource.getPartyUsers(partyId = partyId, page = page, limit = limit, sort = sort, order = order)){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = mapperPartyUsers(result.data))
+            }
+            is ApiResponse.Failure.Error -> { ErrorResponse() }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse()
+            }
+        }
+    }
+
     override suspend fun getPartyRecruitmentList(
         partyId: Int,
         sort: String,
@@ -146,6 +169,19 @@ class PartyRepositoryImpl @Inject constructor(
                 ExceptionResponse()
             }
 
+        }
+    }
+
+    override suspend fun getPartyAuthority(partyId: Int): ServerApiResponse<PartyAuthority> {
+        return when(val result = partyRemoteSource.getPartyAuthority(partyId = partyId)){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = mapperPartyAuthority(result.data))
+            }
+            is ApiResponse.Failure.Error -> { ErrorResponse() }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse()
+            }
         }
     }
 }

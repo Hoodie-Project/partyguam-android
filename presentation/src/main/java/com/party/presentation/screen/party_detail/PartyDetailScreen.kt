@@ -21,6 +21,8 @@ import com.party.common.component.partyDetailTabList
 import com.party.common.snackBarMessage
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyRecruitment
+import com.party.domain.model.party.PartyUsers
+import com.party.domain.model.user.PartyAuthority
 import com.party.presentation.screen.home.tab_main.ErrorArea
 import com.party.presentation.screen.party_detail.component.PartyDetailArea
 import com.party.presentation.screen.party_detail.viewmodel.PartyViewModel
@@ -38,16 +40,22 @@ fun PartyDetailScreen(
 
     LaunchedEffect(Unit) {
         partyViewModel.getPartyDetail(partyId = partyId)
+        partyViewModel.getPartyUsers(partyId = partyId, page = 1, limit = 50, sort = "createdAt", order = "DESC")
         partyViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = null)
+        partyViewModel.getPartyAuthority(partyId = partyId)
     }
 
     val partyDetailState by partyViewModel.getPartyDetailState.collectAsStateWithLifecycle()
+    val partyUsersState by partyViewModel.getPartyUsersState.collectAsStateWithLifecycle()
     val partyRecruitmentState by partyViewModel.getPartyRecruitmentState.collectAsStateWithLifecycle()
+    val partyAuthorityState by partyViewModel.getPartyAuthorityState.collectAsStateWithLifecycle()
 
     PartyDetailContent(
         snackBarHostState = snackBarHostState,
         partyDetailState = partyDetailState,
+        partyUsersState = partyUsersState,
         partyRecruitmentState = partyRecruitmentState,
+        partyAuthorityState = partyAuthorityState,
         selectedPosition = selectedPosition,
         onReset = { selectedPosition = ""},
         onApply = {
@@ -61,7 +69,9 @@ fun PartyDetailScreen(
 fun PartyDetailContent(
     snackBarHostState: SnackbarHostState,
     partyDetailState: UIState<ServerApiResponse<PartyDetail>>,
+    partyUsersState: UIState<ServerApiResponse<PartyUsers>>,
     partyRecruitmentState: UIState<ServerApiResponse<List<PartyRecruitment>>>,
+    partyAuthorityState: UIState<ServerApiResponse<PartyAuthority>>,
     selectedPosition: String,
     onReset: () -> Unit,
     onApply: (String) -> Unit,
@@ -85,7 +95,9 @@ fun PartyDetailContent(
                     partyDetail = successResult.data ?: return,
                     selectedTabText = selectedTabText,
                     onTabClick = { selectedTabText = it },
+                    partyUsersState = partyUsersState,
                     partyRecruitmentState = partyRecruitmentState,
+                    partyAuthorityState = partyAuthorityState,
                     selectedPosition = selectedPosition,
                     onReset = onReset,
                     onApply = onApply,

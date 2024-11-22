@@ -1,8 +1,10 @@
 package com.party.data.service
 
+import com.party.data.entity.party.PartyAuthorityDto
 import com.party.data.entity.party.PartyDetailDto
 import com.party.data.entity.party.PartyListEntity
 import com.party.data.entity.party.PartyRecruitmentDto
+import com.party.data.entity.party.PartyUsersDto
 import com.party.data.entity.party.PersonalRecruitmentListEntity
 import com.party.data.entity.party.RecruitmentDetailDto
 import com.party.data.entity.party.RecruitmentListEntity
@@ -56,6 +58,16 @@ interface PartyService {
         @Path(value = "partyId") partyId: Int,
     ): ApiResponse<PartyDetailDto>
 
+    // 파티 상세 조회 - 파티원 조회
+    @GET("api/parties/{partyId}/users")
+    suspend fun getPartyUsers(
+        @Path(value = "partyId") partyId: Int,
+        @Query("page") page: Int,
+        @Query("limit") limit: Int,
+        @Query("sort") sort: String,
+        @Query("order") order: String,
+    ): ApiResponse<PartyUsersDto>
+
     // 파티 상세 조회 - 모집 공고 리스트 조회
     @GET("api/parties/{partyId}/recruitments")
     suspend fun getPartyRecruitmentList(
@@ -64,4 +76,10 @@ interface PartyService {
         @Query("order") order: String,
         @Query("main") main: String? = null,
     ): ApiResponse<List<PartyRecruitmentDto>>
+
+    // 파티 상세 조회 - 나의 파티 권한 조회
+    @GET("api/parties/{partyId}/users/me/authority")
+    suspend fun getPartyAuthority(
+        @Path(value = "partyId") partyId: Int,
+    ): ApiResponse<PartyAuthorityDto>
 }
