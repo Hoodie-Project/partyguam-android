@@ -1,9 +1,10 @@
-package com.party.presentation.screen.login
+package com.party.presentation.screen.login.component
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.result.ActivityResult
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
@@ -27,7 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.kakao.sdk.auth.model.OAuthToken
@@ -37,7 +37,6 @@ import com.kakao.sdk.user.UserApiClient
 import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.WidthSpacer
-import com.party.common.makeAccessToken
 import com.party.common.ui.theme.EXTRA_LARGE_BUTTON_HEIGHT2
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.KakaoLoginColor
@@ -48,25 +47,10 @@ import com.party.common.ui.theme.WHITE
 @Composable
 fun LoginButtonArea(
     context: Context,
-    navController: NavHostController,
-    loginViewModel: LoginViewModel,
+    kakaoCallback: (OAuthToken?, Throwable?) -> Unit,
+    launcher: ManagedActivityResultLauncher<Intent, ActivityResult>,
 ) {
-    val kakaoCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-        when {
-            error != null -> Log.e("KAKAO", "로그인 실패", error)
-            token != null -> loginWithKakaoNickName(context, token, loginViewModel)
-        }
-    }
-
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) {
-        loginViewModel.googleSignIn(activityResult = it, context = context)
-    }
-
     SocialLoginButton(
-        context = context,
-        navHostController = navController,
         text = stringResource(id = R.string.login3),
         containerColor = KakaoLoginColor,
         borderColor = KakaoLoginColor,
@@ -80,8 +64,6 @@ fun LoginButtonArea(
     HeightSpacer(heightDp = 8.dp)
 
     SocialLoginButton(
-        context = context,
-        navHostController = navController,
         text = stringResource(id = R.string.login4),
         containerColor = WHITE,
         borderColor = GRAY200,
@@ -105,13 +87,11 @@ fun LoginButtonArea(
 
 @Composable
 fun SocialLoginButton(
-    context: Context,
     text: String,
     containerColor: Color,
     borderColor: Color,
     painterImage: Painter,
     contentDescription: String,
-    navHostController: NavHostController,
     onClick: () -> Unit,
 ) {
     Card(
@@ -180,21 +160,5 @@ private fun loginWithKakao(context: Context, kakaoCallback: (OAuthToken?, Throwa
     }else {
         // 카카오톡 설치 안 되있는거
         UserApiClient.instance.loginWithKakaoAccount(context, callback = kakaoCallback)
-    }
-}
-
-private fun loginWithKakaoNickName(context: Context, token: OAuthToken, loginViewModel: LoginViewModel){
-    UserApiClient.instance.me { user, error ->
-        when {
-            error != null -> Log.e("KAKAO", "사용자 정보 요청 실패", error)
-            user != null -> {
-                //Log.i("KAKAO", "사용자 정보 요청 성공 ${token.accessToken} ${user.properties?.get("email").orEmpty()}")
-                //Log.i("KAKAO", "사용자 정보 요청 성공 ${user.kakaoAccount?.email}")
-                loginViewModel.serveToKakaoLogin(
-                    userEmail = user.kakaoAccount?.email.orEmpty(),
-                    accessToken = makeAccessToken(context = context, token = token.accessToken),
-                )
-            }
-        }
     }
 }

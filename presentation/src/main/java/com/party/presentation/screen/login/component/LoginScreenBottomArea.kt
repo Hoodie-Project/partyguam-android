@@ -1,4 +1,4 @@
-package com.party.presentation.screen.login
+package com.party.presentation.screen.login.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
@@ -11,7 +11,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.party.common.AnnotatedTextComponent
 import com.party.common.HeightSpacer
 import com.party.common.R
@@ -22,7 +21,6 @@ import com.party.common.ui.theme.GRAY600
 
 @Composable
 fun LoginScreenBottomArea(
-    navController: NavHostController,
 ) {
     AnnotatedTextComponent(
         annotatedString = makeAnnotatedString(

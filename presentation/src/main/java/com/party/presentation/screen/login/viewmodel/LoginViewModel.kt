@@ -1,4 +1,4 @@
-package com.party.presentation.screen.login
+package com.party.presentation.screen.login.viewmodel
 
 import android.content.Context
 import android.util.Log
@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
-import com.party.common.R
 import com.party.common.ServerApiResponse
 import com.party.common.makeAccessToken
 import com.party.domain.model.user.SocialLoginErrorResponse
