@@ -80,12 +80,13 @@ fun NetworkImageLoad(
 
 @Composable
 fun ImageNotLoading(){
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text = "이미지 로딩 실패!")
-    }
+    Image(
+        modifier = Modifier
+            .size(60.dp),
+        painter = painterResource(id = R.drawable.default_image),
+        contentDescription = "이미지 로딩 실패!",
+        contentScale = ContentScale.FillBounds
+    )
 }
 
 @Preview(showBackground = true)
