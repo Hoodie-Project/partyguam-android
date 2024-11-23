@@ -36,6 +36,7 @@ import com.party.common.TextComponent
 import com.party.common.UIState
 import com.party.common.WidthSpacer
 import com.party.common.component.ImageLoading
+import com.party.common.component.no_data.NoRecruitment
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
@@ -85,25 +86,31 @@ fun RecruitmentColumnListArea(
         is UIState.Loading -> { LoadingProgressBar() }
         is UIState.Success -> {
             val successResult = recruitmentListResponse as SuccessResponse<RecruitmentListResponse>
-            val resultList = successResult.data?.partyRecruitments
-            val sortedList = if(selectedCreateDataOrderByDesc) resultList?.sortedByDescending { it.createdAt } else resultList?.sortedBy { it.createdAt }
-            LazyColumn(
-                state = listState,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-            ) {
-                itemsIndexed(
-                    items = test(sortedList, selectedPartyType) ?: emptyList() ,
-                    key = { index, _ ->
-                        index
+            val resultList = successResult.data?.partyRecruitments ?: emptyList()
+
+            if(resultList.isEmpty()){
+                HeightSpacer(heightDp = 76.dp)
+                NoRecruitment()
+            }else {
+                val sortedList = if(selectedCreateDataOrderByDesc) resultList.sortedByDescending { it.createdAt } else resultList?.sortedBy { it.createdAt }
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
+                    itemsIndexed(
+                        items = test(sortedList, selectedPartyType) ?: emptyList() ,
+                        key = { index, _ ->
+                            index
+                        }
+                    ){_, item ->
+                        RecruitmentColumnListItem(
+                            recruitmentItemResponse = item,
+                            onRecruitmentItemClick = onRecruitmentItemClick
+                        )
                     }
-                ){_, item ->
-                    RecruitmentColumnListItem(
-                        recruitmentItemResponse = item,
-                        onRecruitmentItemClick = onRecruitmentItemClick
-                    )
                 }
             }
         }

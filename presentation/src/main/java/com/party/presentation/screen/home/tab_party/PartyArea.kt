@@ -42,15 +42,16 @@ import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.TextComponent
 import com.party.common.UIState
 import com.party.common.WidthSpacer
-import com.party.common.component.chip.Chip
 import com.party.common.component.ImageLoading
+import com.party.common.component.chip.Chip
+import com.party.common.component.no_data.NoParty
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY600
-import com.party.common.ui.theme.TYPE_COLOR_BACKGROUND
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.MEDIUM_CORNER_SIZE
 import com.party.common.ui.theme.T3
+import com.party.common.ui.theme.TYPE_COLOR_BACKGROUND
 import com.party.common.ui.theme.TYPE_COLOR_TEXT
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyItemResponse
@@ -196,22 +197,27 @@ private fun PartyListArea(
         }
     }
 
-    LazyVerticalGrid(
-        state = listState,
-        columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
-        itemsIndexed(
-            items = list2,
-            key = { index, _ ->
-                index
+    if(list2.isEmpty()){
+        HeightSpacer(heightDp = 76.dp)
+        NoParty()
+    }else{
+        LazyVerticalGrid(
+            state = listState,
+            columns = GridCells.Fixed(2),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            itemsIndexed(
+                items = list2,
+                key = { index, _ ->
+                    index
+                }
+            ){_, item ->
+                PartyItem(
+                    partyItemResponse = item,
+                    onClick = onClick
+                )
             }
-        ){_, item ->
-            PartyItem(
-                partyItemResponse = item,
-                onClick = onClick
-            )
         }
     }
 }
