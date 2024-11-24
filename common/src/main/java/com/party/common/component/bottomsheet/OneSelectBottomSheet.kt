@@ -12,8 +12,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,8 +48,8 @@ fun OneSelectBottomSheet(
     onBottomSheetClose: () -> Unit,
     onApply: (String) -> Unit,
 ) {
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
+    val sheetState = rememberStandardBottomSheetState(
+        initialValue = SheetValue.Expanded
     )
 
     var selectedItem by remember { mutableStateOf(selectedText) }
@@ -117,7 +118,7 @@ private fun PartyTypeBottomSheetContent(
 }
 
 @Composable
-fun PartyTypeBottomSheetContentItem(
+private fun PartyTypeBottomSheetContentItem(
     text: String,
     selectedPartyType: String,
     onClick: (String) -> Unit,
@@ -150,7 +151,7 @@ fun PartyTypeBottomSheetContentItem(
 @Composable
 fun PartyTypeBottomSheetPreview() {
     OneSelectBottomSheet(
-        bottomSheetTitle = "파티 타입 선택",
+        bottomSheetTitle = "파티 유형",
         contentList = partyTypeList,
         selectedText = "스터디",
         onBottomSheetClose = {},
