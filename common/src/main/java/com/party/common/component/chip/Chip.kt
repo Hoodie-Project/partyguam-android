@@ -27,6 +27,7 @@ import com.party.common.ui.theme.TYPE_COLOR_TEXT
 
 @Composable
 fun Chip(
+    modifier: Modifier = Modifier,
     containerColor: Color = TYPE_COLOR_BACKGROUND,
     contentColor: Color = TYPE_COLOR_TEXT,
     roundedCornerShape: Dp = LARGE_CORNER_SIZE,
@@ -35,7 +36,7 @@ fun Chip(
     fontWeight: FontWeight = FontWeight.SemiBold,
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .wrapContentWidth()
             .height(24.dp),
         colors = CardDefaults.cardColors(

@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
+import com.party.common.component.input_field.MultiLineInputField
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.BLACK
@@ -73,96 +74,20 @@ fun PartyApplyTitleArea() {
     }
 }
 
-
-
 @Composable
 fun PartyApplyInputReasonArea(
     inputText: String,
     onValueChange: (String) -> Unit,
     onAllDeleteInputText: () -> Unit,
 ) {
-
     val placeHolder = "지원 사유를 작성해 주세요."
 
-    val borderColor = if(inputText.isEmpty()) GRAY200 else PRIMARY
-
-    val elevation = if(inputText.isEmpty()) 4.dp else 0.dp
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp)
-                .shadow(elevation, shape = RoundedCornerShape(12.dp), clip = true)
-        ) {
-            BasicTextField(
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.None
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-                    .height(EXTRA_LARGE_BUTTON_HEIGHT2)
-                    .clip(RoundedCornerShape(LARGE_CORNER_SIZE))
-                    .border(BorderStroke(1.dp, borderColor), RoundedCornerShape(LARGE_CORNER_SIZE))
-                    .background(WHITE),
-                value = inputText,
-                onValueChange = onValueChange,
-                maxLines = 100,
-                singleLine = false,
-                textStyle = TextStyle(
-                    color = BLACK,
-                    fontSize = T3,
-                ),
-                cursorBrush = SolidColor(Color.Black),
-                decorationBox = { innerTextField ->
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(start = 20.dp, top = 24.dp)
-                    ){
-                        innerTextField()
-                        if(inputText.isEmpty()){
-                            Text(
-                                text = placeHolder,
-                                fontSize = T3,
-                                color = GRAY400,
-                            )
-                        }
-                    }
-                }
-            )
-        }
-
-
-        HeightSpacer(heightDp = 12.dp)
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.End,
-        ) {
-            TextComponent(
-                text = "${inputText.length} / 250",
-                fontSize = B3,
-                textColor = GRAY400,
-            )
-            WidthSpacer(widthDp = 8.dp)
-            TextComponent(
-                text = "전체삭제",
-                fontSize = B3,
-                textColor = RED,
-                onClick = onAllDeleteInputText,
-                modifier = Modifier.offset(y = (-1).dp)
-            )
-        }
-        HeightSpacer(heightDp = 18.dp)
-    }
+    MultiLineInputField(
+        placeHolder = placeHolder,
+        inputText = inputText,
+        onValueChange = onValueChange,
+        onAllDeleteInputText = onAllDeleteInputText
+    )
 }
 
 @Preview
@@ -177,7 +102,7 @@ fun PartyApplyInputReasonAreaPreview(
     modifier: Modifier = Modifier
 ) {
     PartyApplyInputReasonArea(
-        inputText = "지원합니다",
+        inputText = "",
         onValueChange = {},
         onAllDeleteInputText = {}
     )

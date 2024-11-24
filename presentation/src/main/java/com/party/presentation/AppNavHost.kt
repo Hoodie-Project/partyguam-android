@@ -38,6 +38,8 @@ import com.party.presentation.screen.join.gender.JoinGenderScreen
 import com.party.presentation.screen.join.nickname.JoinNickNameScreen
 import com.party.presentation.screen.login.LoginScreen
 import com.party.presentation.screen.party_apply.PartyApplyScreen
+import com.party.presentation.screen.party_create.PartyCreateScreen
+import com.party.presentation.screen.party_create.viewmodel.PartyCreateViewModel
 import com.party.presentation.screen.party_detail.PartyDetailScreen
 import com.party.presentation.screen.party_detail.viewmodel.PartyViewModel
 import com.party.presentation.screen.profile.ProfileScreen
@@ -277,6 +279,8 @@ fun AppNavHost() {
             val partyId = backStackEntry.toRoute<Screens.PartyApply>().partyId
             val partyRecruitmentId = backStackEntry.toRoute<Screens.RecruitmentDetail>().partyRecruitmentId
             PartyApplyScreen(
+                navController = navController,
+                snackBarHostState = snackBarHostState,
                 partyId = partyId,
                 partyRecruitmentId = partyRecruitmentId,
             )
@@ -290,6 +294,15 @@ fun AppNavHost() {
                 snackBarHostState = snackBarHostState,
                 partyViewModel = partyViewModel,
                 partyId = partyId,
+            )
+        }
+        composable<Screens.PartyCreate> {
+            val partyCreateViewModel = hiltViewModel<PartyCreateViewModel>()
+            PartyCreateScreen(
+                context = context,
+                navController = navController,
+                snackBarHostState = snackBarHostState,
+                partyCreateViewModel = partyCreateViewModel
             )
         }
     }

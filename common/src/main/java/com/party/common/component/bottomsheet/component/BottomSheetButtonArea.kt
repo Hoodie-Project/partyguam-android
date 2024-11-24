@@ -72,6 +72,7 @@ fun ResetButton(
 
 @Composable
 fun ApplyButton(
+    buttonText: String = "적용하기",
     modifier: Modifier,
     onClick: () -> Unit,
 ) {
@@ -86,7 +87,7 @@ fun ApplyButton(
         ),
     ) {
         Text(
-            text = "적용하기",
+            text = buttonText,
             fontWeight = FontWeight.Bold,
             fontSize = B2,
             color = BLACK,

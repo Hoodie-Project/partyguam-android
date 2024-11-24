@@ -10,6 +10,8 @@ val MEDIUM_BUTTON_HEIGHT = 36.dp
 val SMALL_BUTTON_HEIGHT = 24.dp
 val COMPONENT_AREA_HEIGHT = 48.dp
 
+val INPUT_FIELD_HEIGHT = 52.dp
+
 // Font size
 val T1 = 20.sp
 val T2 = 18.sp

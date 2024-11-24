@@ -45,4 +45,6 @@ sealed interface Screens {
     data class PartyApply(val partyId: Int, val partyRecruitmentId: Int): Screens
     @Serializable
     data class PartyDetail(val partyId: Int): Screens
+    @Serializable
+    data object PartyCreate: Screens
 }

@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -185,4 +186,19 @@ fun JoinNickNameScreen(
 
 fun aaa(isValidUserNickNameServerResponse: Boolean, isValidUserNickName: Boolean): Boolean{
     return isValidUserNickName && isValidUserNickNameServerResponse
+}
+
+@Preview(showBackground = true)
+@Composable
+fun JoinScreenInputFieldPreview() {
+    JoinScreenInputField(
+        textColor = GRAY400,
+        containerColor = WHITE,
+        borderColor = GRAY400,
+        closeIcon = painterResource(id = R.drawable.close),
+        readOnly = false,
+        inputText = "닉네임",
+        placeHolder = "닉네임을 입력해주세요",
+        onString = {}
+    )
 }

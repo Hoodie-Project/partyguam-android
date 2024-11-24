@@ -100,7 +100,7 @@ fun PartyDetailScreen(
 }
 
 @Composable
-fun PartyDetailContent(
+private fun PartyDetailContent(
     modifier: Modifier,
     snackBarHostState: SnackbarHostState,
     partyDetailState: UIState<ServerApiResponse<PartyDetail>>,

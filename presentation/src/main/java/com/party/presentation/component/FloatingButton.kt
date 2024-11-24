@@ -22,7 +22,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
@@ -42,6 +44,7 @@ fun FloatingButtonArea(
     selectedTabText: String,
     onExpanded: (Boolean) -> Unit,
     sharedViewModel: SharedViewModel,
+    navHostController: NavHostController,
 ) {
     when(currentScreens){
         Screens.Home -> {
@@ -50,6 +53,7 @@ fun FloatingButtonArea(
                 selectedTabText = selectedTabText,
                 onExpanded = onExpanded,
                 sharedViewModel = sharedViewModel,
+                navHostController = navHostController
             )
         }
         else -> {}
@@ -62,12 +66,16 @@ fun FloatingButton(
     selectedTabText: String,
     onExpanded: (Boolean) -> Unit,
     sharedViewModel: SharedViewModel,
+    navHostController: NavHostController,
 ) {
     Column(horizontalAlignment = Alignment.End) {
         if (isExpandedFloatingButton) {
             FabItem(
                 title = stringResource(id = R.string.common8),
-                onClicked = { } // 페이지 이동
+                onClicked = {
+                    println("파티 생성 클릭")
+                    navHostController.navigate(Screens.PartyCreate)
+                }
             )
         }
         HeightSpacer(12.dp)
@@ -138,7 +146,6 @@ fun FabItem(
         modifier = Modifier
             .width(170.dp)
             .height(56.dp),
-        onClick = { onClicked() },
         shape = RoundedCornerShape(MEDIUM_CORNER_SIZE),
         colors = CardDefaults.cardColors(
             containerColor = WHITE
@@ -147,15 +154,27 @@ fun FabItem(
     ) {
         Box(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 20.dp),
+                .fillMaxSize(),
             contentAlignment = Alignment.CenterStart,
         ){
             TextComponent(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 20.dp),
                 text = title,
                 fontSize = B1,
-                textColor = BLACK
+                textColor = BLACK,
+                onClick = { onClicked() }
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FabItemPreview() {
+    FabItem(
+        title = "파티 생성",
+        onClicked = {}
+    )
 }

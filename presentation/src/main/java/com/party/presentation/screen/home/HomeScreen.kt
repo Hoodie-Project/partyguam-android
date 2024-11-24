@@ -70,8 +70,10 @@ fun HomeScreen(
                 isExpandedFloatingButton = isExpandedFloatingButton,
                 selectedTabText = selectedTabText,
                 currentScreens = Screens.Home,
-                onExpanded = { isExpandedFloatingButton = it },
-                sharedViewModel = sharedViewModel
+                onExpanded = {
+                    isExpandedFloatingButton = it},
+                sharedViewModel = sharedViewModel,
+                navHostController = navController
             )
         }
     ) {
