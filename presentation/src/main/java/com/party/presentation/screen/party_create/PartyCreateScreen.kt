@@ -25,7 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
 import com.party.common.R
-import com.party.common.component.bottomsheet.PartyTypeOneSelectBottomSheet
+import com.party.common.component.bottomsheet.OneSelectBottomSheet
+import com.party.common.component.bottomsheet.list.partyTypeList
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.MultiLineInputField
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
@@ -206,8 +207,10 @@ fun PartyCreateContent(
         }
 
         if(isPartyTypeSheetOpen){
-            PartyTypeOneSelectBottomSheet(
-                selectedPartyType = selectedPartyType,
+            OneSelectBottomSheet(
+                bottomSheetTitle = "파티 유형",
+                contentList = partyTypeList,
+                selectedText = selectedPartyType,
                 onBottomSheetClose = { isPartyTypeSheetOpen = false },
                 onApply = {
                     selectedPartyType = it

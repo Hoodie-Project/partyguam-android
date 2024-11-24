@@ -30,23 +30,20 @@ import com.party.common.R
 import com.party.common.WidthSpacer
 import com.party.common.component.bottomsheet.component.ApplyButton
 import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
+import com.party.common.component.bottomsheet.list.partyTypeList
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B1
 
-
-// 파티 타입 단일 선택
-private val partyTypeList = listOf(
-    "미정",
-    "스터디",
-    "포트폴리오",
-    "해커톤",
-    "공모전",
-)
+/*
+    단일 선택 바텀시트
+*/
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PartyTypeOneSelectBottomSheet(
-    selectedPartyType: String,
+fun OneSelectBottomSheet(
+    bottomSheetTitle: String,
+    contentList: List<String>,
+    selectedText: String,
     onBottomSheetClose: () -> Unit,
     onApply: (String) -> Unit,
 ) {
@@ -54,7 +51,7 @@ fun PartyTypeOneSelectBottomSheet(
         skipPartiallyExpanded = true
     )
 
-    var selectedText by remember { mutableStateOf(selectedPartyType) }
+    var selectedItem by remember { mutableStateOf(selectedText) }
 
     ModalBottomSheet(
         sheetState = sheetState,
@@ -71,14 +68,15 @@ fun PartyTypeOneSelectBottomSheet(
                 .padding(horizontal = 20.dp)
         ) {
             BottomSheetTitleArea(
-                titleText = "파티 유형",
+                titleText = bottomSheetTitle,
                 onModelClose = onBottomSheetClose
             )
 
             PartyTypeBottomSheetContent(
-                selectedPartyType = selectedText,
+                contentList = contentList,
+                selectedPartyType = selectedItem,
                 onClick = {
-                    selectedText = it
+                    selectedItem = it
                 }
             )
 
@@ -86,7 +84,7 @@ fun PartyTypeOneSelectBottomSheet(
                 buttonText = "선택 완료",
                 modifier = Modifier
                     .fillMaxWidth(),
-                onClick = {onApply(selectedText)}
+                onClick = {onApply(selectedItem)}
             )
         }
     }
@@ -94,6 +92,7 @@ fun PartyTypeOneSelectBottomSheet(
 
 @Composable
 private fun PartyTypeBottomSheetContent(
+    contentList: List<String>,
     selectedPartyType: String,
     onClick: (String) -> Unit
 ){
@@ -103,7 +102,7 @@ private fun PartyTypeBottomSheetContent(
             .height(260.dp)
     ) {
         itemsIndexed(
-            items = partyTypeList,
+            items = contentList,
             key = { index, _ ->
                 index
             }
@@ -150,8 +149,10 @@ fun PartyTypeBottomSheetContentItem(
 @Preview(showBackground = true)
 @Composable
 fun PartyTypeBottomSheetPreview() {
-    PartyTypeOneSelectBottomSheet(
-        selectedPartyType = "스터디",
+    OneSelectBottomSheet(
+        bottomSheetTitle = "파티 타입 선택",
+        contentList = partyTypeList,
+        selectedText = "스터디",
         onBottomSheetClose = {},
         onApply = {}
     )
