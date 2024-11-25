@@ -51,4 +51,7 @@ dependencies {
     // Kotlin Serialization
     implementation(libs.kotlin.stdlib)
     implementation(libs.kotlinx.serialization.json)
+
+    //Okhttp3
+    implementation(libs.okhttp)
 }

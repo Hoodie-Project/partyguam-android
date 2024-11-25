@@ -11,6 +11,8 @@ import com.party.data.entity.party.RecruitmentDetailDto
 import com.party.data.entity.party.RecruitmentListDto
 import com.party.domain.model.party.PartyCreateRequest
 import com.skydoves.sandwich.ApiResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 interface PartyRemoteSource {
 
@@ -39,5 +41,11 @@ interface PartyRemoteSource {
     suspend fun getPartyAuthority(partyId: Int): ApiResponse<PartyAuthorityDto>
 
     // 파티 생성
-    suspend fun createParty(partyCreateRequest: PartyCreateRequest): ApiResponse<PartyCreateDto>
+    suspend fun createParty(
+        title: RequestBody,
+        content: RequestBody,
+        partyTypeId: RequestBody,
+        positionId: RequestBody,
+        image: MultipartBody.Part
+    ): ApiResponse<PartyCreateDto>
 }

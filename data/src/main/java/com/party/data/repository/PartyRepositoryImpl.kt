@@ -25,6 +25,8 @@ import com.party.domain.model.party.RecruitmentList
 import com.party.domain.model.user.PartyAuthority
 import com.party.domain.repository.PartyRepository
 import com.skydoves.sandwich.ApiResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 class PartyRepositoryImpl @Inject constructor(
@@ -188,8 +190,21 @@ class PartyRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveParty(partyCreateRequest: PartyCreateRequest): ServerApiResponse<PartyCreate> {
-        return when(val result = partyRemoteSource.createParty(partyCreateRequest = partyCreateRequest)){
+    override suspend fun saveParty(
+        title: RequestBody,
+        content: RequestBody,
+        partyTypeId: RequestBody,
+        positionId: RequestBody,
+        image: MultipartBody.Part
+    ): ServerApiResponse<PartyCreate> {
+        return when(val result = partyRemoteSource.createParty(
+            title = title,
+            content = content,
+            partyTypeId = partyTypeId,
+            positionId = positionId,
+            image = image
+        )
+        ){
             is ApiResponse.Success -> {
                 SuccessResponse(data = mapperToPartyCreate(result.data))
             }

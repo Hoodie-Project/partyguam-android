@@ -11,6 +11,8 @@ import com.party.domain.model.party.PersonalRecruitmentList
 import com.party.domain.model.party.RecruitmentDetail
 import com.party.domain.model.party.RecruitmentList
 import com.party.domain.model.user.PartyAuthority
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 interface PartyRepository {
 
@@ -57,5 +59,11 @@ interface PartyRepository {
     suspend fun getPartyAuthority(partyId: Int): ServerApiResponse<PartyAuthority>
 
     // 파티 생성
-    suspend fun saveParty(partyCreateRequest: PartyCreateRequest): ServerApiResponse<PartyCreate>
+    suspend fun saveParty(
+        title: RequestBody,
+        content: RequestBody,
+        partyTypeId: RequestBody,
+        positionId: RequestBody,
+        image: MultipartBody.Part
+    ): ServerApiResponse<PartyCreate>
 }

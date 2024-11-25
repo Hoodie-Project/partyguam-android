@@ -1,5 +1,7 @@
 package com.party.presentation.screen.party_create
 
+import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -54,8 +57,13 @@ import com.party.presentation.screen.party_create.component.PartyCreateScaffoldA
 import com.party.presentation.screen.party_create.component.PartyCreateSelectPositionArea
 import com.party.presentation.screen.party_create.component.PartyCreateValidField
 import com.party.presentation.screen.party_create.component.PartyImageUploadArea
+import com.party.presentation.screen.party_create.component.uriToFile
 import com.party.presentation.screen.party_create.viewmodel.PartyCreateViewModel
 import kotlinx.coroutines.flow.collectLatest
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 @Composable
 fun PartyCreateScreen(
@@ -108,17 +116,27 @@ fun PartyCreateScreen(
             selectedMainPosition = main
             selectedSubPosition = sub
         },
-        onCreate = { inputTitle, selectedPartyType, inputContent ->
+        onCreate = { inputTitle, selectedPartyType, inputContent, image ->
             partyCreateViewModel.createParty(
-                partyCreateRequest = PartyCreateRequest(
+                title = createRequestBody(inputTitle),
+                content = createRequestBody(inputContent),
+                partyTypeId = createRequestBody(partyTypeList.first { it.first == selectedPartyType }.second.toString()),
+                positionId = createRequestBody(selectedSubPosition.id.toString()),
+                image = image
+                /*partyCreateRequest = PartyCreateRequest(
                     title = inputTitle,
                     content = inputContent,
                     partyTypeId = partyTypeList.first { it.first == selectedPartyType }.second,
                     positionId = selectedSubPosition.id,
-                )
+                ),
+                image = image*/
             )
         }
     )
+}
+
+fun createRequestBody(value: String): RequestBody {
+    return value.toRequestBody("text/plain".toMediaTypeOrNull())
 }
 
 @Composable
@@ -134,7 +152,7 @@ fun PartyCreateContent(
     selectedSubPosition: PositionList,
     onNavigationClick: () -> Unit,
     onApply: (String, PositionList) -> Unit,
-    onCreate: (String, String, String) -> Unit,
+    onCreate: (String, String, String, MultipartBody.Part) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -155,6 +173,13 @@ fun PartyCreateContent(
 
     // 파티 소개글
     var partyDescription by remember { mutableStateOf("") }
+
+    // MultipartBody.Part 를 담고 있는 상태
+    var image by remember {
+        mutableStateOf(
+            MultipartBody.Part.createFormData("image", "", byteArrayOf().toRequestBody())
+        )
+    }
 
     Scaffold(
         snackbarHost = {
@@ -188,7 +213,10 @@ fun PartyCreateContent(
 
             PartyImageUploadArea(
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
+                    .align(Alignment.CenterHorizontally),
+                onSetImage = { multipartBody ->
+                    image = multipartBody
+                }
             )
 
             if(isVisibleToolTip){
@@ -301,7 +329,7 @@ fun PartyCreateContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
-                onClick = { onCreate(inputPartyTitle, selectedPartyType, partyDescription) }
+                onClick = { onCreate(inputPartyTitle, selectedPartyType, partyDescription, image) }
             )
         }
 

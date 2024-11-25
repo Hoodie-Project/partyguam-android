@@ -14,6 +14,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,10 +29,22 @@ class PartyCreateViewModel @Inject constructor(
     private val _createSuccess = MutableSharedFlow<Unit>()
     val createSuccess = _createSuccess.asSharedFlow()
 
-    fun createParty(partyCreateRequest: PartyCreateRequest){
+    fun createParty(
+        title: RequestBody,
+        content: RequestBody,
+        partyTypeId: RequestBody,
+        positionId: RequestBody,
+        image: MultipartBody.Part
+    ){
         viewModelScope.launch(Dispatchers.IO) {
             _createPartyState.emit(UIState.Loading)
-            when (val result = createPartyUseCase(partyCreateRequest = partyCreateRequest)) {
+            when (val result = createPartyUseCase(
+                title = title,
+                content = content,
+                partyTypeId = partyTypeId,
+                positionId = positionId,
+                image = image
+            )) {
                 is ServerApiResponse.SuccessResponse -> {
                     _createSuccess.emit(Unit)
                 }

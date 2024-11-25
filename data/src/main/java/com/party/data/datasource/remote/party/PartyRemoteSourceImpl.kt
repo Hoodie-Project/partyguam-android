@@ -12,6 +12,8 @@ import com.party.data.entity.party.RecruitmentListDto
 import com.party.data.service.PartyService
 import com.party.domain.model.party.PartyCreateRequest
 import com.skydoves.sandwich.ApiResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 class PartyRemoteSourceImpl @Inject constructor(
@@ -76,7 +78,19 @@ class PartyRemoteSourceImpl @Inject constructor(
         return partyService.getPartyAuthority(partyId = partyId)
     }
 
-    override suspend fun createParty(partyCreateRequest: PartyCreateRequest): ApiResponse<PartyCreateDto> {
-        return partyService.saveParty(partyCreateRequest = partyCreateRequest)
+    override suspend fun createParty(
+        title: RequestBody,
+        content: RequestBody,
+        partyTypeId: RequestBody,
+        positionId: RequestBody,
+        image: MultipartBody.Part
+    ): ApiResponse<PartyCreateDto> {
+        return partyService.saveParty(
+            title = title,
+            content = content,
+            partyTypeId = partyTypeId,
+            positionId = positionId,
+            image = image
+        )
     }
 }
