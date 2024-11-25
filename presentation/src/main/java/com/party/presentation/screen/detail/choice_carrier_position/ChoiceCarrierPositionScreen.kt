@@ -19,6 +19,7 @@ import com.party.common.DetailCarrierData.subSelectedDetailPositionId
 import com.party.common.DetailCarrierData.subSelectedMainPosition
 import com.party.common.HeightSpacer
 import com.party.common.R
+import com.party.common.component.bottomsheet.list.positionList
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.LIGHT200

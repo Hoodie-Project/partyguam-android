@@ -1,14 +1,10 @@
 package com.party.domain.model.party
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 data class PartyListResponse(
     val parties: List<PartyItemResponse>,
     val total: Int,
 )
 
-@Serializable
 data class PartyItemResponse(
     val id: Int,
     val partyType: PartyTypeItemResponse,
@@ -22,7 +18,6 @@ data class PartyItemResponse(
     val recruitmentCount: Int,
 )
 
-@Serializable
 data class PartyTypeItemResponse(
     val id: Int,
     val type: String,

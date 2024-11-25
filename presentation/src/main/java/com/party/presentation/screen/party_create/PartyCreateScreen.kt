@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -12,6 +14,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,22 +24,30 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
+import com.party.common.LoadingProgressBar
 import com.party.common.R
+import com.party.common.ServerApiResponse
+import com.party.common.UIState
 import com.party.common.component.bottomsheet.OneSelectBottomSheet
+import com.party.common.component.bottomsheet.component.ApplyButton
 import com.party.common.component.bottomsheet.list.partyTypeList
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.MultiLineInputField
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
+import com.party.domain.model.user.detail.PositionListResponse
+import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import com.party.presentation.screen.party_create.component.PartyCreateCustomShape
 import com.party.presentation.screen.party_create.component.PartyCreateDescriptionArea
 import com.party.presentation.screen.party_create.component.PartyCreateHelpCard
 import com.party.presentation.screen.party_create.component.PartyCreateInputField
 import com.party.presentation.screen.party_create.component.PartyCreateScaffoldArea
+import com.party.presentation.screen.party_create.component.PartyCreateSelectPositionArea
 import com.party.presentation.screen.party_create.component.PartyCreateValidField
 import com.party.presentation.screen.party_create.component.PartyImageUploadArea
 import com.party.presentation.screen.party_create.viewmodel.PartyCreateViewModel
@@ -45,11 +57,25 @@ fun PartyCreateScreen(
     context: Context,
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
+    homeViewModel: HomeViewModel,
     partyCreateViewModel: PartyCreateViewModel,
 ) {
+    // 선택된 메인 포지션
+    var selectedMainPosition by remember { mutableStateOf("") }
+
+    // 선택된 서브 포지션
+    var selectedSubPosition by remember { mutableStateOf( PositionListResponse(0, "", "")) }
+
     PartyCreateContent(
         snackBarHostState = snackBarHostState,
+        homeViewModel = homeViewModel,
+        selectedMainPosition = selectedMainPosition,
+        selectedSubPosition = selectedSubPosition,
         onNavigationClick = { navController.popBackStack()},
+        onApply = { main, sub ->
+            selectedMainPosition = main
+            selectedSubPosition = sub
+        }
     )
 }
 
@@ -57,30 +83,31 @@ fun PartyCreateScreen(
 fun PartyCreateContent(
     snackBarHostState: SnackbarHostState,
     modifier: Modifier = Modifier,
+    homeViewModel: HomeViewModel,
+    selectedMainPosition: String,
+    selectedSubPosition: PositionListResponse,
     onNavigationClick: () -> Unit,
+    onApply: (String, PositionListResponse) -> Unit,
 ) {
-    val scrollState  = rememberScrollState()
-    var isVisibleToolTip by remember {
-        mutableStateOf(true)
-    }
+    val scrollState = rememberScrollState()
 
-    var inputPartyTitle by remember {
-        mutableStateOf("")
-    }
+    // 툴팁 오픈 여부
+    var isVisibleToolTip by remember { mutableStateOf(true) }
 
-    var selectedPartyType by remember {
-        mutableStateOf("")
-    }
+    // 입력된 파티 제목
+    var inputPartyTitle by remember { mutableStateOf("") }
 
+    // 선택된 파티 유형
+    var selectedPartyType by remember { mutableStateOf("") }
+
+    // 파티 유형 시트 오픈 여부
     var isPartyTypeSheetOpen by rememberSaveable { mutableStateOf(false) }
 
-    var isHelpCardOpen by remember {
-        mutableStateOf(true)
-    }
+    // 파티 소개글 도움글 오픈 여부
+    var isHelpCardOpen by remember { mutableStateOf(true) }
 
-    var partyDescription by remember {
-        mutableStateOf("")
-    }
+    // 파티 소개글
+    var partyDescription by remember { mutableStateOf("") }
 
     Scaffold(
         snackbarHost = {
@@ -204,6 +231,23 @@ fun PartyCreateContent(
             )
 
             HeightSpacer(heightDp = 20.dp)
+            PartyCreateSelectPositionArea(
+                snackBarHostState = snackBarHostState,
+                homeViewModel = homeViewModel,
+                selectedMainPosition = selectedMainPosition,
+                selectedSubPosition = selectedSubPosition,
+                onApply = onApply
+            )
+
+            HeightSpacer(heightDp = 90.dp)
+
+            ApplyButton(
+                buttonText = "생성하기",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
+                onClick = {}
+            )
         }
 
         if(isPartyTypeSheetOpen){
@@ -219,13 +263,4 @@ fun PartyCreateContent(
             )
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PartyCreateContentPreview() {
-    PartyCreateContent(
-        snackBarHostState = SnackbarHostState(),
-        onNavigationClick = {}
-    )
 }

@@ -24,6 +24,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.WidthSpacer
+import com.party.common.component.bottomsheet.list.partyTypeList
+import com.party.common.component.bottomsheet.list.partyTypeList2
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.BLACK
@@ -92,7 +94,7 @@ fun ModelCheckListArea(
             .fillMaxWidth(),
     ) {
         itemsIndexed(
-            items = partyTypeList,
+            items = partyTypeList2,
             key = { index, _ ->
                 index
             }
@@ -108,7 +110,7 @@ fun ModelCheckListArea(
 
 @Composable
 fun ModalCheckListItem(
-    text: String,
+    text: Pair<String, Int>,
     selectedPartyType: MutableList<String>,
     onClick: (String) -> Unit,
 ) {
@@ -117,20 +119,20 @@ fun ModalCheckListItem(
             .fillMaxWidth()
             .height(52.dp)
             .noRippleClickable {
-                onClick(text)
+                onClick(text.first)
             },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
             modifier = Modifier.size(20.dp),
-            painter = if(selectedPartyType.contains(text)) painterResource(id = R.drawable.checed_icon) else painterResource(id = R.drawable.uncheckd_icon),
+            painter = if(selectedPartyType.contains(text.first)) painterResource(id = R.drawable.checed_icon) else painterResource(id = R.drawable.uncheckd_icon),
             contentDescription = "check",
         )
 
         WidthSpacer(widthDp = 6.dp)
         Text(
-            text = text,
-            fontWeight = if(selectedPartyType.contains(text)) FontWeight.Bold else FontWeight.Normal,
+            text = text.first,
+            fontWeight = if(selectedPartyType.contains(text.first)) FontWeight.Bold else FontWeight.Normal,
             fontSize = B1,
         )
     }

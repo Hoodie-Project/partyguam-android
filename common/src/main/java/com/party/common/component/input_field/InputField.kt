@@ -41,6 +41,7 @@ import com.party.common.ui.theme.WHITE
 
 @Composable
 fun InputField(
+    modifier: Modifier = Modifier,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
     elevation: Dp = 4.dp,
@@ -55,7 +56,7 @@ fun InputField(
     icon: @Composable () -> Unit = {},
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .shadow(
                 elevation = elevation,
@@ -68,7 +69,7 @@ fun InputField(
                 keyboardType = keyboardType,
                 imeAction = imeAction
             ),
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .height(INPUT_FIELD_HEIGHT)
                 .clip(RoundedCornerShape(LARGE_CORNER_SIZE))

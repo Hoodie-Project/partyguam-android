@@ -43,6 +43,7 @@ import com.party.common.R
 import com.party.common.ServerApiResponse
 import com.party.common.UIState
 import com.party.common.WidthSpacer
+import com.party.common.component.bottomsheet.list.positionList
 import com.party.common.noRippleClickable
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.B1
@@ -55,7 +56,6 @@ import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.PositionListResponse
-import com.party.presentation.screen.detail.choice_carrier_position.positionList
 import com.party.presentation.screen.home.viewmodel.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -306,7 +306,6 @@ fun SubPositionListItem(
     selectedSubPositionList: List<String>,
     onClick: (String) -> Unit,
 ) {
-    println("selectedSubPositionList: $selectedSubPositionList")
     Row(
         modifier = Modifier
             .height(52.dp)

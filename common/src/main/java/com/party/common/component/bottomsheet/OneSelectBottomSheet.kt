@@ -43,7 +43,7 @@ import com.party.common.ui.theme.B1
 @Composable
 fun OneSelectBottomSheet(
     bottomSheetTitle: String,
-    contentList: List<String>,
+    contentList: List<Pair<String, Int>>,
     selectedText: String,
     onBottomSheetClose: () -> Unit,
     onApply: (String) -> Unit,
@@ -84,7 +84,8 @@ fun OneSelectBottomSheet(
             ApplyButton(
                 buttonText = "선택 완료",
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
                 onClick = {onApply(selectedItem)}
             )
         }
@@ -93,7 +94,7 @@ fun OneSelectBottomSheet(
 
 @Composable
 private fun PartyTypeBottomSheetContent(
-    contentList: List<String>,
+    contentList: List<Pair<String, Int>>,
     selectedPartyType: String,
     onClick: (String) -> Unit
 ){
@@ -109,7 +110,7 @@ private fun PartyTypeBottomSheetContent(
             }
         ) { _, item ->
             PartyTypeBottomSheetContentItem(
-                text = item,
+                text = item.first,
                 selectedPartyType = selectedPartyType,
                 onClick = onClick,
             )

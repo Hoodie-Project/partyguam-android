@@ -13,10 +13,3 @@ val carrierList = listOf(
     "9년",
     "10년 이상",
 )
-
-val positionList = listOf(
-    "기획자",
-    "디자이너",
-    "개발자",
-    "마케터/광고",
-)

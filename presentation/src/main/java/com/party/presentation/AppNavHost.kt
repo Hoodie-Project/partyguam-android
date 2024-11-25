@@ -31,6 +31,7 @@ import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen3
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen4
 import com.party.presentation.screen.home.HomeScreen
+import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import com.party.presentation.screen.join.birthday.JoinBirthDayScreen
 import com.party.presentation.screen.join.complete.JoinCompleteScreen
 import com.party.presentation.screen.join.email.JoinEmailScreen
@@ -297,11 +298,13 @@ fun AppNavHost() {
             )
         }
         composable<Screens.PartyCreate> {
+            val homeViewModel = hiltViewModel<HomeViewModel>()
             val partyCreateViewModel = hiltViewModel<PartyCreateViewModel>()
             PartyCreateScreen(
                 context = context,
                 navController = navController,
                 snackBarHostState = snackBarHostState,
+                homeViewModel = homeViewModel,
                 partyCreateViewModel = partyCreateViewModel
             )
         }
