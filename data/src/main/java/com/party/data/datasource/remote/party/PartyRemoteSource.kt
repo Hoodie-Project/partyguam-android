@@ -1,6 +1,7 @@
 package com.party.data.datasource.remote.party
 
 import com.party.data.entity.party.PartyAuthorityDto
+import com.party.data.entity.party.PartyCreateDto
 import com.party.data.entity.party.PartyDetailDto
 import com.party.data.entity.party.PartyListEntity
 import com.party.data.entity.party.PartyRecruitmentDto
@@ -8,6 +9,7 @@ import com.party.data.entity.party.PartyUsersDto
 import com.party.data.entity.party.PersonalRecruitmentListEntity
 import com.party.data.entity.party.RecruitmentDetailDto
 import com.party.data.entity.party.RecruitmentListEntity
+import com.party.domain.model.party.PartyCreateRequest
 import com.skydoves.sandwich.ApiResponse
 
 interface PartyRemoteSource {
@@ -35,4 +37,7 @@ interface PartyRemoteSource {
 
     // 파티 상세 조회 - 나의 파티 권한 조회
     suspend fun getPartyAuthority(partyId: Int): ApiResponse<PartyAuthorityDto>
+
+    // 파티 생성
+    suspend fun createParty(partyCreateRequest: PartyCreateRequest): ApiResponse<PartyCreateDto>
 }

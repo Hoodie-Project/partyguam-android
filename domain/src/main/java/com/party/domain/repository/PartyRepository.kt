@@ -1,6 +1,8 @@
 package com.party.domain.repository
 
 import com.party.common.ServerApiResponse
+import com.party.domain.model.party.PartyCreate
+import com.party.domain.model.party.PartyCreateRequest
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyListResponse
 import com.party.domain.model.party.PartyRecruitment
@@ -53,4 +55,7 @@ interface PartyRepository {
 
     // 파티 상세 조회 - 나의 파티 권한 조회
     suspend fun getPartyAuthority(partyId: Int): ServerApiResponse<PartyAuthority>
+
+    // 파티 생성
+    suspend fun saveParty(partyCreateRequest: PartyCreateRequest): ServerApiResponse<PartyCreate>
 }

@@ -301,7 +301,6 @@ fun AppNavHost() {
             val homeViewModel = hiltViewModel<HomeViewModel>()
             val partyCreateViewModel = hiltViewModel<PartyCreateViewModel>()
             PartyCreateScreen(
-                context = context,
                 navController = navController,
                 snackBarHostState = snackBarHostState,
                 homeViewModel = homeViewModel,

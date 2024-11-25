@@ -2,6 +2,7 @@ package com.party.data.mapper
 
 import com.party.data.entity.party.PartyAdminDto
 import com.party.data.entity.party.PartyAuthorityDto
+import com.party.data.entity.party.PartyCreateDto
 import com.party.data.entity.party.PartyDetailDto
 import com.party.data.entity.party.PartyListEntity
 import com.party.data.entity.party.PartyRecruitmentDto
@@ -16,6 +17,7 @@ import com.party.data.entity.party.UserCareerDto
 import com.party.data.entity.party.UserDto
 import com.party.data.util.convertToImageUrl
 import com.party.domain.model.party.PartyAdmin
+import com.party.domain.model.party.PartyCreate
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyItemResponse
 import com.party.domain.model.party.PartyListResponse
@@ -240,6 +242,19 @@ object PartyMapper {
         return UserCareer(
             positionId = userCareerDto.positionId,
             years = userCareerDto.years
+        )
+    }
+
+    fun mapperToPartyCreate(partyCreateDto: PartyCreateDto): PartyCreate{
+        return PartyCreate(
+            id = partyCreateDto.id,
+            partyTypeId = partyCreateDto.partyTypeId,
+            title = partyCreateDto.title,
+            content = partyCreateDto.content,
+            image = convertToImageUrl(partyCreateDto.image),
+            status = partyCreateDto.status,
+            createdAt = partyCreateDto.createdAt,
+            updatedAt = partyCreateDto.updatedAt,
         )
     }
 }

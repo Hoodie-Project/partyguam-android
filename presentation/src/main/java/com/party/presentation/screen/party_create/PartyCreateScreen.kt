@@ -2,6 +2,7 @@ package com.party.presentation.screen.party_create
 
 import android.content.Context
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,7 +16,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,23 +23,28 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
 import com.party.common.R
-import com.party.common.ServerApiResponse
 import com.party.common.UIState
 import com.party.common.component.bottomsheet.OneSelectBottomSheet
 import com.party.common.component.bottomsheet.component.ApplyButton
 import com.party.common.component.bottomsheet.list.partyTypeList
+import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.MultiLineInputField
+import com.party.common.noRippleClickable
+import com.party.common.snackBarMessage
+import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
+import com.party.domain.model.party.PartyCreateRequest
 import com.party.domain.model.user.detail.PositionListResponse
 import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import com.party.presentation.screen.party_create.component.PartyCreateCustomShape
@@ -51,15 +56,36 @@ import com.party.presentation.screen.party_create.component.PartyCreateSelectPos
 import com.party.presentation.screen.party_create.component.PartyCreateValidField
 import com.party.presentation.screen.party_create.component.PartyImageUploadArea
 import com.party.presentation.screen.party_create.viewmodel.PartyCreateViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun PartyCreateScreen(
-    context: Context,
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
     homeViewModel: HomeViewModel,
     partyCreateViewModel: PartyCreateViewModel,
 ) {
+    // 다이얼로그 오픈 여부
+    var isShowDialog by remember { mutableStateOf(false) }
+
+    // 생성 완료 다이얼로그 오픈 여부
+    var isShowCompleteDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = Unit) {
+        partyCreateViewModel.createSuccess.collectLatest {
+            isShowCompleteDialog = true
+        }
+    }
+
+    val createPartyState by partyCreateViewModel.createPartyState.collectAsStateWithLifecycle()
+    when(createPartyState){
+        is UIState.Idle -> {}
+        is UIState.Loading -> { LoadingProgressBar()}
+        is UIState.Success -> {}
+        is UIState.Error -> {}
+        is UIState.Exception -> { snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState) }
+    }
+
     // 선택된 메인 포지션
     var selectedMainPosition by remember { mutableStateOf("") }
 
@@ -67,6 +93,13 @@ fun PartyCreateScreen(
     var selectedSubPosition by remember { mutableStateOf( PositionListResponse(0, "", "")) }
 
     PartyCreateContent(
+        isShowDialog = isShowDialog,
+        onVisibleDialog = { isShowDialog = it },
+        isShowCompleteDialog = isShowCompleteDialog,
+        onVisibleShowCompleteDialog = {
+            isShowCompleteDialog = it
+            navController.popBackStack()
+        },
         snackBarHostState = snackBarHostState,
         homeViewModel = homeViewModel,
         selectedMainPosition = selectedMainPosition,
@@ -75,12 +108,26 @@ fun PartyCreateScreen(
         onApply = { main, sub ->
             selectedMainPosition = main
             selectedSubPosition = sub
+        },
+        onCreate = { inputTitle, selectedPartyType, inputContent ->
+            partyCreateViewModel.createParty(
+                partyCreateRequest = PartyCreateRequest(
+                    title = inputTitle,
+                    content = inputContent,
+                    partyTypeId = partyTypeList.first { it.first == selectedPartyType }.second,
+                    positionId = selectedSubPosition.id,
+                )
+            )
         }
     )
 }
 
 @Composable
 fun PartyCreateContent(
+    isShowDialog: Boolean,
+    onVisibleDialog: (Boolean) -> Unit,
+    isShowCompleteDialog: Boolean,
+    onVisibleShowCompleteDialog: (Boolean) -> Unit,
     snackBarHostState: SnackbarHostState,
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel,
@@ -88,6 +135,7 @@ fun PartyCreateContent(
     selectedSubPosition: PositionListResponse,
     onNavigationClick: () -> Unit,
     onApply: (String, PositionListResponse) -> Unit,
+    onCreate: (String, String, String) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -117,13 +165,21 @@ fun PartyCreateContent(
         },
         topBar = {
             PartyCreateScaffoldArea(
-                onNavigationClick = { onNavigationClick() },
+                isShowDialog = isShowDialog,
+                isShowCompleteDialog = isShowCompleteDialog,
+                onNavigationClick = {
+                    onVisibleDialog(true)
+                }
             )
         }
     ) {
         Column(
             modifier = modifier
                 .fillMaxSize()
+                .blur(
+                    radiusX = if (isShowDialog || isShowCompleteDialog) 10.dp else 0.dp,
+                    radiusY = if (isShowDialog || isShowCompleteDialog) 10.dp else 0.dp,
+                )
                 .background(WHITE)
                 .padding(it)
                 .padding(horizontal = MEDIUM_PADDING_SIZE)
@@ -246,7 +302,7 @@ fun PartyCreateContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
-                onClick = {}
+                onClick = { onCreate(inputPartyTitle, selectedPartyType, partyDescription) }
             )
         }
 
@@ -261,6 +317,48 @@ fun PartyCreateContent(
                     isPartyTypeSheetOpen = false
                 }
             )
+        }
+
+        if(isShowDialog){
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(BLACK.copy(alpha = 0.7f))
+                    .noRippleClickable { onVisibleDialog(false) }
+            ){
+                TwoButtonDialog(
+                    dialogTitle = "나가기",
+                    description = "입력한 내용들이 모두 초기화됩니다.\n나가시겠습니까?",
+                    cancelButtonText = "취소",
+                    confirmButtonText = "나가기",
+                    onCancel = { onVisibleDialog(false) },
+                    onConfirm = {
+                        onVisibleDialog(false)
+                        onNavigationClick()
+                    }
+                )
+            }
+        }
+
+        if(isShowCompleteDialog){
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(BLACK.copy(alpha = 0.7f))
+                    .noRippleClickable { onVisibleShowCompleteDialog(false) }
+            ){
+                TwoButtonDialog(
+                    dialogTitle = "생성 완료",
+                    description = "파티가 생성되었어요!\n파티원을 모집해 볼까요?",
+                    cancelButtonText = "닫기",
+                    confirmButtonText = "모집하기",
+                    onCancel = { onVisibleShowCompleteDialog(false) },
+                    onConfirm = {
+                        onVisibleShowCompleteDialog(false)
+                    }
+                )
+            }
+
         }
     }
 }

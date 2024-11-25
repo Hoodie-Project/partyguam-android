@@ -1,6 +1,7 @@
 package com.party.data.service
 
 import com.party.data.entity.party.PartyAuthorityDto
+import com.party.data.entity.party.PartyCreateDto
 import com.party.data.entity.party.PartyDetailDto
 import com.party.data.entity.party.PartyListEntity
 import com.party.data.entity.party.PartyRecruitmentDto
@@ -8,9 +9,12 @@ import com.party.data.entity.party.PartyUsersDto
 import com.party.data.entity.party.PersonalRecruitmentListEntity
 import com.party.data.entity.party.RecruitmentDetailDto
 import com.party.data.entity.party.RecruitmentListEntity
+import com.party.domain.model.party.PartyCreateRequest
 import com.party.domain.model.party.PartyRecruitment
 import com.skydoves.sandwich.ApiResponse
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import javax.inject.Singleton
@@ -82,4 +86,10 @@ interface PartyService {
     suspend fun getPartyAuthority(
         @Path(value = "partyId") partyId: Int,
     ): ApiResponse<PartyAuthorityDto>
+
+    // 파티 생성
+    @POST("api/parties")
+    suspend fun saveParty(
+        @Body partyCreateRequest: PartyCreateRequest
+    ): ApiResponse<PartyCreateDto>
 }

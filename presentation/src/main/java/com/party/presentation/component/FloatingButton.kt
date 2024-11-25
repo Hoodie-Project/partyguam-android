@@ -73,7 +73,6 @@ fun FloatingButton(
             FabItem(
                 title = stringResource(id = R.string.common8),
                 onClicked = {
-                    println("파티 생성 클릭")
                     navHostController.navigate(Screens.PartyCreate)
                 }
             )

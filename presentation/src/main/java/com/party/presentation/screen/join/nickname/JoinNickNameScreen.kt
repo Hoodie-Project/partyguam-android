@@ -29,7 +29,7 @@ import com.party.common.ScreenExplainArea
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.ServerApiResponse.ErrorResponse
 import com.party.common.UIState
-import com.party.common.WarningDialog
+import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.makeAccessToken
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.B2
@@ -178,8 +178,13 @@ fun JoinNickNameScreen(
     }
 
     if(isShowWarningDialog){
-        WarningDialog(
-            onClose = { onClose(false) }
+        TwoButtonDialog(
+            dialogTitle = "",
+            description = "",
+            cancelButtonText = "",
+            confirmButtonText = "",
+            onCancel = { onClose(false) },
+            onConfirm = { onClose(true) }
         )
     }
 }

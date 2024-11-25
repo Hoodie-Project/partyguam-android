@@ -13,9 +13,13 @@ import com.party.common.ui.theme.T2
 
 @Composable
 fun PartyCreateScaffoldArea(
+    isShowDialog: Boolean,
+    isShowCompleteDialog: Boolean,
     onNavigationClick: () -> Unit,
 ) {
     ScaffoldCenterBar(
+        isShowDialog = isShowDialog,
+        isShowCompleteDialog = isShowCompleteDialog,
         navigationIcon = {
             DrawableIconButton(
                 icon = painterResource(id = R.drawable.arrow_back),

@@ -12,6 +12,9 @@ import com.party.data.mapper.PartyMapper.mapperPartyResponse
 import com.party.data.mapper.PartyMapper.mapperPartyUsers
 import com.party.data.mapper.PartyMapper.mapperPersonalRecruitmentResponse
 import com.party.data.mapper.PartyMapper.mapperRecruitmentDetailResponse
+import com.party.data.mapper.PartyMapper.mapperToPartyCreate
+import com.party.domain.model.party.PartyCreate
+import com.party.domain.model.party.PartyCreateRequest
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyListResponse
 import com.party.domain.model.party.PartyRecruitment
@@ -176,6 +179,19 @@ class PartyRepositoryImpl @Inject constructor(
         return when(val result = partyRemoteSource.getPartyAuthority(partyId = partyId)){
             is ApiResponse.Success -> {
                 SuccessResponse(data = mapperPartyAuthority(result.data))
+            }
+            is ApiResponse.Failure.Error -> { ErrorResponse() }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse()
+            }
+        }
+    }
+
+    override suspend fun saveParty(partyCreateRequest: PartyCreateRequest): ServerApiResponse<PartyCreate> {
+        return when(val result = partyRemoteSource.createParty(partyCreateRequest = partyCreateRequest)){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = mapperToPartyCreate(result.data))
             }
             is ApiResponse.Failure.Error -> { ErrorResponse() }
             is ApiResponse.Failure.Exception -> {
