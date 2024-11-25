@@ -9,19 +9,10 @@ data class PartyDetailDto(
     val tag: String,
     val title: String,
     val content: String,
-    val image: String,
+    val image: String ?= null,
     val status: String,
-    //val createdAt: String,
-    //val updatedAt: String,
-    //val status: String,
     val createdAt: String,
     val updatedAt: String,
-    //val id: Int,
-    //val userId: Int,
-    //val partyId: Int,
-    //val positionId: Int,
-    //val authority: String,
-    //val myInfo: MyInfoDto,
 )
 
 @Serializable

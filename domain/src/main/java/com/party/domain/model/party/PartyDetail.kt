@@ -6,7 +6,7 @@ data class PartyDetail(
     val tag: String,
     val title: String,
     val content: String,
-    val image: String,
+    val image: String?= null,
     val status: String,
     //val createdAt: String,
     //val updatedAt: String,

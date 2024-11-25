@@ -1,6 +1,5 @@
 package com.party.presentation.screen.party_create
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -358,7 +357,6 @@ fun PartyCreateContent(
                     }
                 )
             }
-
         }
     }
 }

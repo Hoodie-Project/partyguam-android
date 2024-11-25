@@ -10,7 +10,7 @@ import com.party.common.component.ImageLoading
 
 @Composable
 fun PartyDetailImageArea(
-    image: String,
+    image: String?,
 ) {
     ImageLoading(
         modifier = Modifier

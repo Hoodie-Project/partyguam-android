@@ -110,14 +110,18 @@ fun PartyDetailUsersListItem(
                     )
                 }
 
-                DrawableIconButton(
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(top = 10.dp, end = 10.dp),
-                    icon = painterResource(id = R.drawable.emergency),
-                    contentDescription = "emergency",
-                    onClick = {}
-                )
+                // 나 인 경우는 신고하기 아이콘 노출X
+                if(partyMember.userId != authority.userId){
+                    DrawableIconButton(
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(top = 10.dp, end = 10.dp),
+                        icon = painterResource(id = R.drawable.emergency),
+                        contentDescription = "emergency",
+                        onClick = {}
+                    )
+                }
+
             }
         }
         HeightSpacer(heightDp = 12.dp)
