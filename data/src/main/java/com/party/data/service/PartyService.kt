@@ -6,11 +6,10 @@ import com.party.data.entity.party.PartyDetailDto
 import com.party.data.entity.party.PartyListEntity
 import com.party.data.entity.party.PartyRecruitmentDto
 import com.party.data.entity.party.PartyUsersDto
-import com.party.data.entity.party.PersonalRecruitmentListEntity
+import com.party.data.entity.party.PersonalRecruitmentListDto
 import com.party.data.entity.party.RecruitmentDetailDto
-import com.party.data.entity.party.RecruitmentListEntity
+import com.party.data.entity.party.RecruitmentListDto
 import com.party.domain.model.party.PartyCreateRequest
-import com.party.domain.model.party.PartyRecruitment
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -29,7 +28,7 @@ interface PartyService {
         @Query("limit") size: Int,
         @Query("sort") sort: String,
         @Query("order") order: String,
-    ): ApiResponse<PersonalRecruitmentListEntity>
+    ): ApiResponse<PersonalRecruitmentListDto>
 
     // 모집 공고 리스트 조회
     @GET("api/parties/recruitments")
@@ -38,7 +37,7 @@ interface PartyService {
         @Query("limit") size: Int,
         @Query("sort") sort: String,
         @Query("order") order: String,
-    ): ApiResponse<RecruitmentListEntity>
+    ): ApiResponse<RecruitmentListDto>
 
     // 파티 리스트 조회
     @GET("api/parties")

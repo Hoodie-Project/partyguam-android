@@ -5,8 +5,8 @@ import com.party.common.ServerApiResponse.ErrorResponse
 import com.party.common.ServerApiResponse.ExceptionResponse
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.data.datasource.remote.user.UserRemoteSource
-import com.party.data.entity.user.auth.SocialLoginErrorEntity
-import com.party.data.entity.user.auth.SocialLoginSuccessEntity
+import com.party.data.entity.user.auth.SocialLoginErrorDto
+import com.party.data.entity.user.auth.SocialLoginSuccessDto
 import com.party.data.mapper.UserMapper
 import com.party.data.mapper.UserMapper.mapperUserSignUpResponse
 import com.party.domain.model.user.SocialLoginResponse
@@ -35,7 +35,7 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun googleLogin(accessToken: String): ServerApiResponse<SocialLoginResponse> {
         return when(val result = userRemoteSource.googleLogin(accessToken = accessToken)){
             is ApiResponse.Success -> {
-                val resultSuccess = Json.decodeFromString<SocialLoginSuccessEntity>(result.data.toString())
+                val resultSuccess = Json.decodeFromString<SocialLoginSuccessDto>(result.data.toString())
                 SuccessResponse(
                     data = UserMapper.mapperToSocialLoginResponse(resultSuccess),
                 )
@@ -44,14 +44,14 @@ class UserRepositoryImpl @Inject constructor(
                 val errorBody = result.errorBody?.string()
                 when(result.statusCode){
                     StatusCode.Unauthorized -> { // 401
-                        val errorResponse = Json.decodeFromString<SocialLoginErrorEntity>(errorBody!!)
+                        val errorResponse = Json.decodeFromString<SocialLoginErrorDto>(errorBody!!)
                         ErrorResponse(
                             statusCode = StatusCode.Unauthorized.code,
                             data = UserMapper.mapperSocialLoginErrorResponse(errorResponse),
                         )
                     }
                     StatusCode.InternalServerError -> { // 500
-                        val errorResponse = Json.decodeFromString<ErrorResponse<SocialLoginErrorEntity>>(errorBody!!)
+                        val errorResponse = Json.decodeFromString<ErrorResponse<SocialLoginErrorDto>>(errorBody!!)
                         ErrorResponse(
                             message = errorResponse.message,
                             error = errorResponse.error,
@@ -75,7 +75,7 @@ class UserRepositoryImpl @Inject constructor(
         return when(val result = userRemoteSource.kakaoLogin(accessToken = accessToken)){
             is ApiResponse.Success -> {
                 //val resultSuccess = Json.decodeFromString<SocialLoginSuccessEntity>(result.data)
-                val resultSuccess = result.data as SocialLoginSuccessEntity
+                val resultSuccess = result.data as SocialLoginSuccessDto
 
                 SuccessResponse(
                     data = UserMapper.mapperToSocialLoginResponse(resultSuccess),
@@ -85,14 +85,14 @@ class UserRepositoryImpl @Inject constructor(
                 val errorBody = result.errorBody?.string()
                 when(result.statusCode){
                     StatusCode.Unauthorized -> { // 401
-                        val errorResponse = Json.decodeFromString<SocialLoginErrorEntity>(errorBody!!)
+                        val errorResponse = Json.decodeFromString<SocialLoginErrorDto>(errorBody!!)
                         ErrorResponse(
                             statusCode = StatusCode.Unauthorized.code,
                             data = UserMapper.mapperSocialLoginErrorResponse(errorResponse),
                         )
                     }
                     StatusCode.InternalServerError -> { // 500
-                        val errorResponse = Json.decodeFromString<ErrorResponse<SocialLoginErrorEntity>>(errorBody!!)
+                        val errorResponse = Json.decodeFromString<ErrorResponse<SocialLoginErrorDto>>(errorBody!!)
                         ErrorResponse(
                             message = errorResponse.message,
                             error = errorResponse.error,

@@ -1,13 +1,13 @@
 package com.party.data.datasource.remote.user
 
-import com.party.data.entity.user.auth.SocialLoginEntity
-import com.party.data.entity.user.auth.UserSignUpEntity
-import com.party.data.entity.user.detail.LocationEntity
-import com.party.data.entity.user.detail.PersonalityListEntity
-import com.party.data.entity.user.detail.PersonalitySaveEntity
-import com.party.data.entity.user.detail.PositionListEntity
+import com.party.data.entity.user.auth.SocialLoginDto
+import com.party.data.entity.user.auth.UserSignUpDto
+import com.party.data.entity.user.detail.LocationDto
+import com.party.data.entity.user.detail.PersonalityListDto
+import com.party.data.entity.user.detail.PersonalitySaveDto
+import com.party.data.entity.user.detail.PositionListDto
 import com.party.data.entity.user.detail.SaveCarrierEntity1
-import com.party.data.entity.user.detail.SaveInterestLocationEntity
+import com.party.data.entity.user.detail.SaveInterestLocationDto
 import com.party.data.service.NoTokenService
 import com.party.data.service.UserService
 import com.party.domain.model.user.detail.InterestLocationList
@@ -21,11 +21,11 @@ class UserRemoteSourceImpl @Inject constructor(
     private val noTokenService: NoTokenService,
     private val userService: UserService,
 ): UserRemoteSource{
-    override suspend fun googleLogin(accessToken: String): ApiResponse<SocialLoginEntity> {
+    override suspend fun googleLogin(accessToken: String): ApiResponse<SocialLoginDto> {
         return noTokenService.loginGoogle(accessToken = accessToken)
     }
 
-    override suspend fun kakaoLogin(accessToken: String): ApiResponse<SocialLoginEntity> {
+    override suspend fun kakaoLogin(accessToken: String): ApiResponse<SocialLoginDto> {
         return noTokenService.loginKakao(accessToken = accessToken)
     }
 
@@ -39,23 +39,23 @@ class UserRemoteSourceImpl @Inject constructor(
     override suspend fun userSignUp(
         signupAccessToken: String,
         userSignUpRequest: UserSignUpRequest
-    ): ApiResponse<UserSignUpEntity> {
+    ): ApiResponse<UserSignUpDto> {
         return noTokenService.userSignUp(signupAccessToken = signupAccessToken, userSignUpRequest = userSignUpRequest)
     }
 
-    override suspend fun getLocations(province: String): ApiResponse<List<LocationEntity>> {
+    override suspend fun getLocations(province: String): ApiResponse<List<LocationDto>> {
         return userService.getLocations(province = province)
     }
 
     override suspend fun saveInterestLocation(
         locations: InterestLocationList,
-    ): ApiResponse<List<SaveInterestLocationEntity>> {
+    ): ApiResponse<List<SaveInterestLocationDto>> {
         return userService.saveInterestLocation(locations = locations)
     }
 
     override suspend fun getPositions(
         main: String
-    ): ApiResponse<List<PositionListEntity>> {
+    ): ApiResponse<List<PositionListDto>> {
         return userService.getPositions(main = main)
     }
 
@@ -65,13 +65,13 @@ class UserRemoteSourceImpl @Inject constructor(
         return userService.saveCareer(career = career)
     }
 
-    override suspend fun getPersonalities(): ApiResponse<List<PersonalityListEntity>> {
+    override suspend fun getPersonalities(): ApiResponse<List<PersonalityListDto>> {
         return userService.getPersonalities()
     }
 
     override suspend fun savePersonalities(
         personalitySaveRequest: PersonalitySaveRequest
-    ): ApiResponse<List<PersonalitySaveEntity>> {
+    ): ApiResponse<List<PersonalitySaveDto>> {
         return userService.savePersonalities(personalitySaveRequest = personalitySaveRequest)
     }
 }

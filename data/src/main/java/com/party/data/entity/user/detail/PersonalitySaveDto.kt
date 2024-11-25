@@ -3,8 +3,8 @@ package com.party.data.entity.user.detail
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SaveInterestLocationEntity(
+data class PersonalitySaveDto(
     val id: Int,
     val userId: Int,
-    val locationId: Int,
+    val personalityOptionId: Int,
 )

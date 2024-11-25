@@ -6,9 +6,9 @@ import com.party.data.entity.party.PartyDetailDto
 import com.party.data.entity.party.PartyListEntity
 import com.party.data.entity.party.PartyRecruitmentDto
 import com.party.data.entity.party.PartyUsersDto
-import com.party.data.entity.party.PersonalRecruitmentListEntity
+import com.party.data.entity.party.PersonalRecruitmentListDto
 import com.party.data.entity.party.RecruitmentDetailDto
-import com.party.data.entity.party.RecruitmentListEntity
+import com.party.data.entity.party.RecruitmentListDto
 import com.party.data.service.PartyService
 import com.party.domain.model.party.PartyCreateRequest
 import com.skydoves.sandwich.ApiResponse
@@ -22,7 +22,7 @@ class PartyRemoteSourceImpl @Inject constructor(
         size: Int,
         sort: String,
         order: String
-    ): ApiResponse<PersonalRecruitmentListEntity> {
+    ): ApiResponse<PersonalRecruitmentListDto> {
         return partyService.getPersonalizedParties(page = page, size = size, sort = sort, order = order)
     }
 
@@ -31,7 +31,7 @@ class PartyRemoteSourceImpl @Inject constructor(
         size: Int,
         sort: String,
         order: String
-    ): ApiResponse<RecruitmentListEntity> {
+    ): ApiResponse<RecruitmentListDto> {
         return partyService.getRecruitmentList(page = page, size = size, sort = sort, order = order)
     }
 

@@ -3,13 +3,13 @@ package com.party.data.entity.party
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class PersonalRecruitmentListEntity(
-    val partyRecruitments: List<PersonalRecruitmentItemEntity>,
+data class RecruitmentListDto(
+    val partyRecruitments: List<RecruitmentItemDto>,
     val total: Int,
 )
 
 @Serializable
-data class PersonalRecruitmentItemEntity(
+data class RecruitmentItemDto(
     val id: Int,
     val partyId: Int,
     val positionId: Int,
@@ -17,25 +17,25 @@ data class PersonalRecruitmentItemEntity(
     val recruitedCount: Int,
     val content: String,
     val createdAt: String,
-    val party: PersonalRecruitmentPartyEntity,
-    val position: PersonalRecruitmentPositionEntity,
+    val party: RecruitmentPartyDto,
+    val position: RecruitmentPositionDto,
 )
 
 @Serializable
-data class PersonalRecruitmentPartyEntity(
+data class RecruitmentPartyDto(
     val title: String,
     val image: String?,
-    val partyType: PersonalRecruitmentPartyTypeEntity,
+    val partyType: RecruitmentPartyTypeDto,
 )
 
 @Serializable
-data class PersonalRecruitmentPartyTypeEntity(
+data class RecruitmentPartyTypeDto(
     val id: Int,
     val type: String,
 )
 
 @Serializable
-data class PersonalRecruitmentPositionEntity(
+data class RecruitmentPositionDto(
     val id: Int,
     val main: String,
     val sub: String,

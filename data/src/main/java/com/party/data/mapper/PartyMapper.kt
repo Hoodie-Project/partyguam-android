@@ -9,10 +9,10 @@ import com.party.data.entity.party.PartyRecruitmentDto
 import com.party.data.entity.party.PartyTypeDto
 import com.party.data.entity.party.PartyUserDto
 import com.party.data.entity.party.PartyUsersDto
-import com.party.data.entity.party.PersonalRecruitmentListEntity
+import com.party.data.entity.party.PersonalRecruitmentListDto
 import com.party.data.entity.party.PositionDto
 import com.party.data.entity.party.RecruitmentDetailDto
-import com.party.data.entity.party.RecruitmentListEntity
+import com.party.data.entity.party.RecruitmentListDto
 import com.party.data.entity.party.UserCareerDto
 import com.party.data.entity.party.UserDto
 import com.party.data.util.convertToImageUrl
@@ -46,7 +46,7 @@ import com.party.domain.model.party.UserCareer
 import com.party.domain.model.user.PartyAuthority
 
 object PartyMapper {
-    fun mapperPersonalRecruitmentResponse(personalRecruitmentListEntity: PersonalRecruitmentListEntity): PersonalRecruitmentListResponse{
+    fun mapperPersonalRecruitmentResponse(personalRecruitmentListEntity: PersonalRecruitmentListDto): PersonalRecruitmentListResponse{
         return PersonalRecruitmentListResponse(
             total = personalRecruitmentListEntity.total,
             partyRecruitments = personalRecruitmentListEntity.partyRecruitments.map {
@@ -76,7 +76,7 @@ object PartyMapper {
         )
     }
 
-    fun mapperRecruitmentDetailResponse(recruitmentListEntity: RecruitmentListEntity): RecruitmentListResponse{
+    fun mapperRecruitmentDetailResponse(recruitmentListEntity: RecruitmentListDto): RecruitmentListResponse{
         return RecruitmentListResponse(
             total = recruitmentListEntity.total,
             partyRecruitments = recruitmentListEntity.partyRecruitments.map {
