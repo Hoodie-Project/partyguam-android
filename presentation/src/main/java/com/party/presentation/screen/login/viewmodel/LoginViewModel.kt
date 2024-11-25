@@ -9,9 +9,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.party.common.ServerApiResponse
 import com.party.common.makeAccessToken
-import com.party.domain.model.user.SocialLoginErrorResponse
-import com.party.domain.model.user.SocialLoginResponse
-import com.party.domain.model.user.SocialLoginSuccessResponse
+import com.party.domain.model.user.SocialLoginError
+import com.party.domain.model.user.SocialLogin
+import com.party.domain.model.user.SocialLoginSuccess
 import com.party.domain.usecase.datastore.SaveAccessTokenUseCase
 import com.party.domain.usecase.user.auth.GoogleLoginUseCase
 import com.party.domain.usecase.user.auth.KakaoLoginUseCase
@@ -30,7 +30,7 @@ class LoginViewModel @Inject constructor(
     private val saveAccessTokenUseCase: SaveAccessTokenUseCase,
 ): ViewModel() {
 
-    private val _nextScreen = MutableSharedFlow<SocialLoginErrorResponse>()
+    private val _nextScreen = MutableSharedFlow<SocialLoginError>()
     val nextScreen = _nextScreen.asSharedFlow()
 
     private val _goToHomeScreen = MutableSharedFlow<Unit>()
@@ -72,7 +72,7 @@ class LoginViewModel @Inject constructor(
                 is ServerApiResponse.ErrorResponse<*> -> {
                     when(result.statusCode){
                         StatusCode.Unauthorized.code -> { // 회원가입이 되어있지 않은 상태
-                            val socialLoginErrorResponse: SocialLoginErrorResponse = result.data as SocialLoginErrorResponse
+                            val socialLoginErrorResponse: SocialLoginError = result.data as SocialLoginError
                             socialLoginErrorResponse.userEmail = userEmail
                             _nextScreen.emit(socialLoginErrorResponse)
                         }
@@ -91,16 +91,16 @@ class LoginViewModel @Inject constructor(
     fun serveToKakaoLogin(userEmail: String, accessToken: String){
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = kakaoLoginUseCase(accessToken = accessToken)){
-                is ServerApiResponse.SuccessResponse<SocialLoginResponse> -> {
+                is ServerApiResponse.SuccessResponse<SocialLogin> -> {
                     //println("result123 Success : ${result.data}")
-                    val socialLoginResponse = result.data as SocialLoginSuccessResponse
+                    val socialLoginResponse = result.data as SocialLoginSuccess
                     saveAccessToken(token = socialLoginResponse.accessToken)
                     _goToHomeScreen.emit(Unit)
                 }
                 is ServerApiResponse.ErrorResponse<*> -> {
                     when(result.statusCode){
                         StatusCode.Unauthorized.code -> { // 회원가입이 되어있지 않은 상태
-                            val socialLoginErrorResponse: SocialLoginErrorResponse = result.data as SocialLoginErrorResponse
+                            val socialLoginErrorResponse: SocialLoginError = result.data as SocialLoginError
                             socialLoginErrorResponse.userEmail = userEmail
                             _nextScreen.emit(socialLoginErrorResponse)
                         }

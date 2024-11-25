@@ -3,12 +3,12 @@ package com.party.data.entity.user.detail
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SaveCarrierEntity1(
-    val career : List<SaveCarrierEntity> = emptyList()
+data class SaveCarrierDto(
+    val career : List<SaveCarrierItem> = emptyList()
 )
 
 @Serializable
-data class SaveCarrierEntity(
+data class SaveCarrierItem(
     //val id: Int,
     //val userId: Int,
     val positionId: Int,

@@ -3,6 +3,6 @@ package com.party.domain.model.user.signup
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserSignUpResponse(
+data class UserSignUp(
     val accessToken: String
 )

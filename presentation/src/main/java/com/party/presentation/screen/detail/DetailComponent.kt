@@ -26,7 +26,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
@@ -37,8 +36,7 @@ import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.LARGE_BUTTON_HEIGHT
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.domain.model.user.detail.LocationResponse
-import com.party.navigation.Screens
+import com.party.domain.model.user.detail.Location
 import com.party.presentation.screen.detail.detail_profile.SELECTED_LOCATION_COUNT
 
 @Composable
@@ -162,7 +160,7 @@ fun componentClick(
     context: Context,
     snackBarHostState: SnackbarHostState,
     selectedProvinceName: String,
-    locationResponse: LocationResponse,
+    locationResponse: Location,
     selectedCountryList: MutableList<Pair<String, Int>>,
     onSelectCountry: (Pair<String, Int>) -> Unit,
     onDeleteCountry: (Pair<String, Int>) -> Unit,

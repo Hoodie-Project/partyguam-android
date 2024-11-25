@@ -5,7 +5,7 @@ import com.party.data.entity.user.detail.SaveInterestLocationDto
 import com.party.data.entity.user.detail.PersonalityListDto
 import com.party.data.entity.user.detail.PersonalitySaveDto
 import com.party.data.entity.user.detail.PositionListDto
-import com.party.data.entity.user.detail.SaveCarrierEntity1
+import com.party.data.entity.user.detail.SaveCarrierDto
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
@@ -41,7 +41,7 @@ interface UserService {
     @POST("api/users/me/careers")
     suspend fun saveCareer(
         @Body career: SaveCarrierList,
-    ): ApiResponse<SaveCarrierEntity1>
+    ): ApiResponse<SaveCarrierDto>
 
     // 성향 질문 리스트 전체 조회
     @GET("api/personalities")

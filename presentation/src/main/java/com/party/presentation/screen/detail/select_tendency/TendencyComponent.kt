@@ -44,7 +44,7 @@ import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.LARGE_BUTTON_HEIGHT
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.T3
-import com.party.domain.model.user.detail.PersonalityListOptionResponse
+import com.party.domain.model.user.detail.PersonalityListOption
 import com.party.domain.model.user.detail.PersonalitySaveRequest2
 import com.party.navigation.Screens
 
@@ -122,11 +122,11 @@ fun TendencyNextButton(
 @Composable
 fun SelectTendencyAreaComponent(
     containerColor: Color,
-    item: PersonalityListOptionResponse,
+    item: PersonalityListOption,
     fontWeight: FontWeight,
     iconColor: Color,
     textColor: Color,
-    onSelect: (PersonalityListOptionResponse) -> Unit,
+    onSelect: (PersonalityListOption) -> Unit,
 ) {
     Card(
         modifier = Modifier

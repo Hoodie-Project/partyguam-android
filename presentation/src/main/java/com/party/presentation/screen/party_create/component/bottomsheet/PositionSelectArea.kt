@@ -28,18 +28,18 @@ import com.party.common.noRippleClickable
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.BLACK
-import com.party.domain.model.user.detail.PositionListResponse
+import com.party.domain.model.user.detail.PositionList
 import com.party.presentation.screen.home.tab_recruitment.MainPositionListArea
 import com.party.presentation.screen.home.viewmodel.HomeViewModel
 
 @Composable
 fun PositionSelectArea(
     selectedMainPosition: String,
-    selectedSubPosition: PositionListResponse,
+    selectedSubPosition: PositionList,
     homeViewModel: HomeViewModel,
     snackBarHostState: SnackbarHostState,
     onMainPositionClick: (String) -> Unit,
-    onSelectSubPosition: (PositionListResponse) -> Unit,
+    onSelectSubPosition: (PositionList) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -66,10 +66,10 @@ fun PositionSelectArea(
 @Composable
 fun SubPositionListArea(
     modifier: Modifier = Modifier,
-    selectedSubPosition: PositionListResponse,
+    selectedSubPosition: PositionList,
     homeViewModel: HomeViewModel,
     snackBarHostState: SnackbarHostState,
-    onSelectSubPosition: (PositionListResponse) -> Unit,
+    onSelectSubPosition: (PositionList) -> Unit,
 ){
     val subPositionListState by homeViewModel.positionsState.collectAsState()
     val subPositionListResult = subPositionListState.data
@@ -103,9 +103,9 @@ fun SubPositionListArea(
 
 @Composable
 fun SubPositionListItem(
-    item: PositionListResponse,
-    selectedSubPosition: PositionListResponse,
-    onClick: (PositionListResponse) -> Unit,
+    item: PositionList,
+    selectedSubPosition: PositionList,
+    onClick: (PositionList) -> Unit,
 ) {
     Row(
         modifier = Modifier

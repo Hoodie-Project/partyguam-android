@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.common.UIState
 import com.party.domain.model.user.detail.InterestLocationList
-import com.party.domain.model.user.detail.LocationResponse
-import com.party.domain.model.user.detail.SaveInterestLocationResponse
+import com.party.domain.model.user.detail.Location
+import com.party.domain.model.user.detail.SaveInterestLocation
 import com.party.domain.usecase.datastore.GetAccessTokenUseCase
 import com.party.domain.usecase.user.detail.GetLocationListUseCase
 import com.party.domain.usecase.user.detail.SaveInterestLocationUseCase
@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,8 +27,8 @@ class DetailProfileViewModel @Inject constructor(
     private val getAccessTokenUseCase: GetAccessTokenUseCase,
 ): ViewModel(){
 
-    private val _getLocationListState = MutableStateFlow<UIState<ServerApiResponse<List<LocationResponse>>>>(UIState.Idle)
-    val getLocationListState: StateFlow<UIState<ServerApiResponse<List<LocationResponse>>>> = _getLocationListState
+    private val _getLocationListState = MutableStateFlow<UIState<ServerApiResponse<List<Location>>>>(UIState.Idle)
+    val getLocationListState: StateFlow<UIState<ServerApiResponse<List<Location>>>> = _getLocationListState
 
     private val _saveSuccess = MutableSharedFlow<Unit>()
     val saveSuccess = _saveSuccess.asSharedFlow()
@@ -57,7 +56,7 @@ class DetailProfileViewModel @Inject constructor(
     fun saveInterestLocation(locations: InterestLocationList){
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = saveInterestLocationUseCase(locations = locations)){
-                is ServerApiResponse.SuccessResponse<List<SaveInterestLocationResponse>> -> _saveSuccess.emit(Unit)
+                is ServerApiResponse.SuccessResponse<List<SaveInterestLocation>> -> _saveSuccess.emit(Unit)
                 is ServerApiResponse.ErrorResponse<*> -> {
                     when(result.statusCode){
                         StatusCode.Conflict.code -> _saveFail.emit(result.message ?: "")

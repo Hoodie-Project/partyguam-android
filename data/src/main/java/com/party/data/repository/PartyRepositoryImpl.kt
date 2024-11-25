@@ -16,12 +16,12 @@ import com.party.data.mapper.PartyMapper.mapperToPartyCreate
 import com.party.domain.model.party.PartyCreate
 import com.party.domain.model.party.PartyCreateRequest
 import com.party.domain.model.party.PartyDetail
-import com.party.domain.model.party.PartyListResponse
+import com.party.domain.model.party.PartyList
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PartyUsers
-import com.party.domain.model.party.PersonalRecruitmentListResponse
+import com.party.domain.model.party.PersonalRecruitmentList
 import com.party.domain.model.party.RecruitmentDetail
-import com.party.domain.model.party.RecruitmentListResponse
+import com.party.domain.model.party.RecruitmentList
 import com.party.domain.model.user.PartyAuthority
 import com.party.domain.repository.PartyRepository
 import com.skydoves.sandwich.ApiResponse
@@ -35,7 +35,7 @@ class PartyRepositoryImpl @Inject constructor(
         size: Int,
         sort: String,
         order: String
-    ): ServerApiResponse<PersonalRecruitmentListResponse> {
+    ): ServerApiResponse<PersonalRecruitmentList> {
         return when (val result =
             partyRemoteSource.getPersonalizedParties(page, size, sort, order)) {
             is ApiResponse.Success -> {
@@ -59,7 +59,7 @@ class PartyRepositoryImpl @Inject constructor(
         size: Int,
         sort: String,
         order: String
-    ): ServerApiResponse<RecruitmentListResponse> {
+    ): ServerApiResponse<RecruitmentList> {
         return when (val result = partyRemoteSource.getRecruitmentList(page, size, sort, order)) {
             is ApiResponse.Success -> {
                 SuccessResponse(data = mapperRecruitmentDetailResponse(result.data))
@@ -84,7 +84,7 @@ class PartyRepositoryImpl @Inject constructor(
         sort: String,
         order: String,
         partyTypes: List<Int>,
-    ): ServerApiResponse<PartyListResponse> {
+    ): ServerApiResponse<PartyList> {
         return when(val result = partyRemoteSource.getPartyList(
             page = page,
             size = size,

@@ -44,7 +44,7 @@ import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.user.detail.LocationResponse
+import com.party.domain.model.user.detail.Location
 import com.party.presentation.screen.detail.componentClick
 
 @Composable
@@ -126,7 +126,7 @@ fun SelectLocationArea(
     detailProfileViewModel: DetailProfileViewModel,
 ) {
     val locationListState by detailProfileViewModel.getLocationListState.collectAsState()
-    val locationListResult = locationListState.data as? SuccessResponse<List<LocationResponse>>
+    val locationListResult = locationListState.data as? SuccessResponse<List<Location>>
 
     when(locationListState){
         is UIState.Idle -> {}
@@ -213,7 +213,7 @@ fun LocationComponent(
     context: Context,
     snackBarHostState: SnackbarHostState,
     selectedCityName: String,
-    locationResponse: LocationResponse,
+    locationResponse: Location,
     selectedCountryList: MutableList<Pair<String, Int>>,
     textColor: Color,
     border: BorderStroke? = null,

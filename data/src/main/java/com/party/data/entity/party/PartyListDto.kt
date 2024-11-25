@@ -3,15 +3,15 @@ package com.party.data.entity.party
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class PartyListEntity(
-    val parties: List<PartyItemEntity>,
+data class PartyListDto(
+    val parties: List<PartyItemDto>,
     val total: Int,
 )
 
 @Serializable
-data class PartyItemEntity(
+data class PartyItemDto(
     val id: Int,
-    val partyType: PartyTypeItemEntity,
+    val partyType: PartyTypeItemDto,
     val tag: String,
     val title: String,
     val content: String,
@@ -23,7 +23,7 @@ data class PartyItemEntity(
 )
 
 @Serializable
-data class PartyTypeItemEntity(
+data class PartyTypeItemDto(
     val id: Int,
     val type: String,
 )

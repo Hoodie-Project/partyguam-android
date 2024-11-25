@@ -20,7 +20,7 @@ import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.PRIMARY
-import com.party.domain.model.user.detail.PositionListResponse
+import com.party.domain.model.user.detail.PositionList
 import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import com.party.presentation.screen.party_create.component.bottomsheet.OneSelectMainAndSubPositionBottomSheet
 
@@ -29,8 +29,8 @@ fun PartyCreateSelectPositionArea(
     snackBarHostState: SnackbarHostState,
     homeViewModel: HomeViewModel,
     selectedMainPosition: String,
-    selectedSubPosition: PositionListResponse,
-    onApply: (String, PositionListResponse) -> Unit,
+    selectedSubPosition: PositionList,
+    onApply: (String, PositionList) -> Unit,
 ) {
     var isMainPositionBottomSheetShow by remember {
         mutableStateOf(false)

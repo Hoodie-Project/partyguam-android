@@ -36,7 +36,7 @@ import com.party.common.ui.theme.LIGHT300
 import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.user.detail.PersonalityListOptionResponse
+import com.party.domain.model.user.detail.PersonalityListOption
 import com.party.domain.model.user.detail.PersonalitySaveRequest2
 import com.party.navigation.Screens
 import com.party.presentation.screen.detail.ProfileIndicatorArea
@@ -65,7 +65,7 @@ fun SelectTendencyScreen1(
     val personalityListResult = personalityListState.data
 
     val selectedTendencyList by remember {
-        mutableStateOf(mutableStateListOf<PersonalityListOptionResponse>())
+        mutableStateOf(mutableStateListOf<PersonalityListOption>())
     }
 
     val isValid by remember {
@@ -142,9 +142,9 @@ fun SelectTendencyScreen1(
 
 @Composable
 fun SelectTendencyArea1(
-    selectedTendencyList: MutableList<PersonalityListOptionResponse>,
-    getPersonalityList: List<PersonalityListOptionResponse>,
-    onSelect: (PersonalityListOptionResponse) -> Unit,
+    selectedTendencyList: MutableList<PersonalityListOption>,
+    getPersonalityList: List<PersonalityListOption>,
+    onSelect: (PersonalityListOption) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier

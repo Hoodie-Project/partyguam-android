@@ -6,7 +6,7 @@ import com.party.data.entity.user.detail.LocationDto
 import com.party.data.entity.user.detail.PersonalityListDto
 import com.party.data.entity.user.detail.PersonalitySaveDto
 import com.party.data.entity.user.detail.PositionListDto
-import com.party.data.entity.user.detail.SaveCarrierEntity1
+import com.party.data.entity.user.detail.SaveCarrierDto
 import com.party.data.entity.user.detail.SaveInterestLocationDto
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
@@ -38,7 +38,7 @@ interface UserRemoteSource {
     suspend fun getPositions(main: String): ApiResponse<List<PositionListDto>>
 
     // 유저 경력 저장
-    suspend fun saveCarrier(career: SaveCarrierList): ApiResponse<SaveCarrierEntity1>
+    suspend fun saveCarrier(career: SaveCarrierList): ApiResponse<SaveCarrierDto>
 
     // 성향 질문 리스트 전체 조회
     suspend fun getPersonalities(): ApiResponse<List<PersonalityListDto>>

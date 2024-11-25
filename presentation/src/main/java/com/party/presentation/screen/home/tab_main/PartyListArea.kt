@@ -39,8 +39,8 @@ import com.party.common.ui.theme.MEDIUM_CORNER_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.party.PartyItemResponse
-import com.party.domain.model.party.PartyListResponse
+import com.party.domain.model.party.PartyItem
+import com.party.domain.model.party.PartyList
 import com.party.presentation.screen.home.HomeListTitleArea
 import com.party.presentation.screen.home.PartyCategory
 import com.party.presentation.screen.home.viewmodel.HomeViewModel
@@ -68,7 +68,7 @@ fun PartyListArea(
         is UIState.Idle -> {}
         is UIState.Loading -> { LoadingProgressBar() }
         is UIState.Success -> {
-            val successResult = partyListResponse as SuccessResponse<PartyListResponse>
+            val successResult = partyListResponse as SuccessResponse<PartyList>
             PartyListArea(
                 partyListResponse = successResult.data,
             )
@@ -80,7 +80,7 @@ fun PartyListArea(
 
 @Composable
 fun PartyListArea(
-    partyListResponse: PartyListResponse?,
+    partyListResponse: PartyList?,
 ) {
     HeightSpacer(heightDp = 20.dp)
 
@@ -105,7 +105,7 @@ fun PartyListArea(
 
 @Composable
 fun PartyItem(
-    partyItemResponse: PartyItemResponse,
+    partyItemResponse: PartyItem,
     onClick: () -> Unit,
 ) {
     Card(

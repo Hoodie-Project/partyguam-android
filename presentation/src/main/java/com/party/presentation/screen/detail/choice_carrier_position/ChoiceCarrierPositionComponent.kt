@@ -1,6 +1,5 @@
 package com.party.presentation.screen.detail.choice_carrier_position
 
-import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -45,7 +44,7 @@ import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.user.detail.PositionListResponse
+import com.party.domain.model.user.detail.PositionList
 import com.party.presentation.screen.detail.detail_carrier.DetailCarrierViewModel
 
 @Composable
@@ -154,7 +153,7 @@ fun DetailPositionArea(
     snackBarHostState: SnackbarHostState,
     selectedDetailPosition: String,
     detailCarrierViewModel: DetailCarrierViewModel,
-    onSelect: (PositionListResponse) -> Unit,
+    onSelect: (PositionList) -> Unit,
 ) {
     val detailPositionListState by detailCarrierViewModel.positionsState.collectAsState()
     val detailPositionListResult = detailPositionListState.data
@@ -191,9 +190,9 @@ fun DetailPositionArea(
 
 @Composable
 fun SubPositionAreaComponent(
-    item: PositionListResponse,
+    item: PositionList,
     selected: Boolean,
-    onSelect: (PositionListResponse) -> Unit,
+    onSelect: (PositionList) -> Unit,
 ) {
     Row(
         modifier = Modifier

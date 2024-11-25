@@ -1,49 +1,49 @@
 package com.party.domain.repository
 
 import com.party.common.ServerApiResponse
-import com.party.domain.model.user.detail.LocationResponse
-import com.party.domain.model.user.SocialLoginResponse
+import com.party.domain.model.user.detail.Location
+import com.party.domain.model.user.SocialLogin
 import com.party.domain.model.user.detail.InterestLocationList
-import com.party.domain.model.user.detail.PersonalityListResponse
+import com.party.domain.model.user.detail.PersonalityList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
-import com.party.domain.model.user.detail.PersonalitySaveResponse
-import com.party.domain.model.user.detail.PositionListResponse
+import com.party.domain.model.user.detail.PersonalitySave
+import com.party.domain.model.user.detail.PositionList
 import com.party.domain.model.user.detail.SaveCarrierList
-import com.party.domain.model.user.detail.SaveCarrierResponse
-import com.party.domain.model.user.detail.SaveInterestLocationResponse
+import com.party.domain.model.user.detail.SaveCarrier
+import com.party.domain.model.user.detail.SaveInterestLocation
 import com.party.domain.model.user.signup.UserSignUpRequest
-import com.party.domain.model.user.signup.UserSignUpResponse
+import com.party.domain.model.user.signup.UserSignUp
 
 interface UserRepository {
 
     // 구글 로그인
-    suspend fun googleLogin(accessToken: String): ServerApiResponse<SocialLoginResponse>
+    suspend fun googleLogin(accessToken: String): ServerApiResponse<SocialLogin>
 
     // 카카오 로그인
-    suspend fun kakaoLogin(accessToken: String): ServerApiResponse<SocialLoginResponse>
+    suspend fun kakaoLogin(accessToken: String): ServerApiResponse<SocialLogin>
 
     // 유저 닉네임 중복체크
     suspend fun checkNickName(signupAccessToken: String, nickname: String): ServerApiResponse<String>
 
     // 유저 회원가입
-    suspend fun userSignUp(signupAccessToken: String, userSignUpRequest: UserSignUpRequest): ServerApiResponse<UserSignUpResponse>
+    suspend fun userSignUp(signupAccessToken: String, userSignUpRequest: UserSignUpRequest): ServerApiResponse<UserSignUp>
 
     // 특정 지역의 지역 리스트 조회
-    suspend fun getLocations(province: String): ServerApiResponse<List<LocationResponse>>
+    suspend fun getLocations(province: String): ServerApiResponse<List<Location>>
 
     // 관심지역 저장
-    suspend fun saveInterestLocation(locations: InterestLocationList): ServerApiResponse<List<SaveInterestLocationResponse>>
+    suspend fun saveInterestLocation(locations: InterestLocationList): ServerApiResponse<List<SaveInterestLocation>>
 
     // 특정 직군의 포지션 리스트 조회
-    suspend fun getPositions(main: String): ServerApiResponse<List<PositionListResponse>>
+    suspend fun getPositions(main: String): ServerApiResponse<List<PositionList>>
 
     // 유저 경력 저장
-    suspend fun saveCarrier(career: SaveCarrierList): ServerApiResponse<List<SaveCarrierResponse>>
+    suspend fun saveCarrier(career: SaveCarrierList): ServerApiResponse<List<SaveCarrier>>
 
     // 성향 질문 리스트 전체 조회
-    suspend fun getPersonalities(): ServerApiResponse<List<PersonalityListResponse>>
+    suspend fun getPersonalities(): ServerApiResponse<List<PersonalityList>>
 
     // 성향 질문 리스트 전체 저장
-    suspend fun savePersonalities(personalitySaveRequest: PersonalitySaveRequest): ServerApiResponse<List<PersonalitySaveResponse>>
+    suspend fun savePersonalities(personalitySaveRequest: PersonalitySaveRequest): ServerApiResponse<List<PersonalitySave>>
 
 }

@@ -3,7 +3,7 @@ package com.party.data.service
 import com.party.data.entity.party.PartyAuthorityDto
 import com.party.data.entity.party.PartyCreateDto
 import com.party.data.entity.party.PartyDetailDto
-import com.party.data.entity.party.PartyListEntity
+import com.party.data.entity.party.PartyListDto
 import com.party.data.entity.party.PartyRecruitmentDto
 import com.party.data.entity.party.PartyUsersDto
 import com.party.data.entity.party.PersonalRecruitmentListDto
@@ -47,7 +47,7 @@ interface PartyService {
         @Query("sort") sort: String,
         @Query("order") order: String,
         @Query("partyType") partyTypes: List<Int> // 리스트로 처리
-    ): ApiResponse<PartyListEntity>
+    ): ApiResponse<PartyListDto>
 
     // 모집공고 상세 조회
     @GET("api/parties/recruitments/{partyRecruitmentId}")

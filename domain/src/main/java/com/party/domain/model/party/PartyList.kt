@@ -1,13 +1,13 @@
 package com.party.domain.model.party
 
-data class PartyListResponse(
-    val parties: List<PartyItemResponse>,
+data class PartyList(
+    val parties: List<PartyItem>,
     val total: Int,
 )
 
-data class PartyItemResponse(
+data class PartyItem(
     val id: Int,
-    val partyType: PartyTypeItemResponse,
+    val partyType: PartyTypeItem,
     val tag: String,
     val title: String,
     val content: String,
@@ -18,7 +18,7 @@ data class PartyItemResponse(
     val recruitmentCount: Int,
 )
 
-data class PartyTypeItemResponse(
+data class PartyTypeItem(
     val id: Int,
     val type: String,
 )

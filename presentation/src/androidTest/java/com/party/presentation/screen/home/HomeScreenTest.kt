@@ -6,11 +6,11 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import com.party.common.ServerApiResponse
 import com.party.common.UIState
-import com.party.domain.model.party.PersonalRecruitmentItemResponse
-import com.party.domain.model.party.PersonalRecruitmentListResponse
-import com.party.domain.model.party.PersonalRecruitmentPartyResponse
-import com.party.domain.model.party.PersonalRecruitmentPartyTypeResponse
-import com.party.domain.model.party.PersonalRecruitmentPositionResponse
+import com.party.domain.model.party.PersonalRecruitmentItem
+import com.party.domain.model.party.PersonalRecruitmentList
+import com.party.domain.model.party.PersonalRecruitmentParty
+import com.party.domain.model.party.PersonalRecruitmentPartyType
+import com.party.domain.model.party.PersonalRecruitmentPosition
 import com.party.presentation.screen.home.tab_main.PersonalRecruitmentListArea
 import org.junit.Rule
 import org.junit.Test
@@ -18,7 +18,7 @@ import org.junit.Test
 class HomeScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
-    private val fakeUiState: MutableState<UIState<ServerApiResponse<PersonalRecruitmentListResponse>>> = mutableStateOf(UIState.Loading)
+    private val fakeUiState: MutableState<UIState<ServerApiResponse<PersonalRecruitmentList>>> = mutableStateOf(UIState.Loading)
 
     @Test
     fun 홈화면의_상단탭에는_메인_파티_모집공고만_보여야한다(){
@@ -67,8 +67,8 @@ class HomeScreenTest {
         }
 
         // when
-        val fakeData: ServerApiResponse<PersonalRecruitmentListResponse> = ServerApiResponse.SuccessResponse(
-            PersonalRecruitmentListResponse(
+        val fakeData: ServerApiResponse<PersonalRecruitmentList> = ServerApiResponse.SuccessResponse(
+            PersonalRecruitmentList(
                 partyRecruitments = listOf(personalRecruitmentLisItemResponse),
                 total = 1
             )
@@ -95,7 +95,7 @@ class HomeScreenTest {
     }*/
 
     companion object {
-        private val personalRecruitmentLisItemResponse = PersonalRecruitmentItemResponse(
+        private val personalRecruitmentLisItemResponse = PersonalRecruitmentItem(
             id = 1,
             partyId = 1,
             positionId = 1,
@@ -103,22 +103,22 @@ class HomeScreenTest {
             recruitingCount = 1,
             recruitedCount = 1,
             createdAt = "2021-09-01",
-            party = PersonalRecruitmentPartyResponse(
+            party = PersonalRecruitmentParty(
                 title = "파티를 모집합니다",
                 image = "https://picsum.photos/200/300",
-                partyType = PersonalRecruitmentPartyTypeResponse(
+                partyType = PersonalRecruitmentPartyType(
                     id = 1,
                     type = "타입"
                 )
             ),
-            position = PersonalRecruitmentPositionResponse(
+            position = PersonalRecruitmentPosition(
                 id = 1,
                 main = "개발자",
                 sub = "Android"
             )
         )
 
-        private val personalRecruitmentListResponse = PersonalRecruitmentListResponse(
+        private val personalRecruitmentListResponse = PersonalRecruitmentList(
             partyRecruitments = listOf(personalRecruitmentLisItemResponse),
             total = 1
         )

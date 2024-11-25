@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.party.common.DetailCarrierData.mainSelectedMainPosition
 import com.party.common.ServerApiResponse
 import com.party.common.UIState
-import com.party.domain.model.user.detail.PositionListResponse
+import com.party.domain.model.user.detail.PositionList
 import com.party.domain.model.user.detail.SaveCarrierList
-import com.party.domain.model.user.detail.SaveCarrierResponse
+import com.party.domain.model.user.detail.SaveCarrier
 import com.party.domain.usecase.user.detail.GetPositionsUseCase
 import com.party.domain.usecase.user.detail.SaveCarrierUseCase
 import com.skydoves.sandwich.StatusCode
@@ -26,11 +26,11 @@ class DetailCarrierViewModel @Inject constructor(
     private val saveCarrierUseCase: SaveCarrierUseCase,
 ): ViewModel(){
 
-    private val _positionsState = MutableStateFlow<UIState<ServerApiResponse<List<PositionListResponse>>>>(UIState.Idle)
-    val positionsState: StateFlow<UIState<ServerApiResponse<List<PositionListResponse>>>> = _positionsState
+    private val _positionsState = MutableStateFlow<UIState<ServerApiResponse<List<PositionList>>>>(UIState.Idle)
+    val positionsState: StateFlow<UIState<ServerApiResponse<List<PositionList>>>> = _positionsState
 
-    private val _saveCarrierState = MutableStateFlow<UIState<ServerApiResponse<List<SaveCarrierResponse>>>>(UIState.Idle)
-    val saveCarrierState: StateFlow<UIState<ServerApiResponse<List<SaveCarrierResponse>>>> = _saveCarrierState
+    private val _saveCarrierState = MutableStateFlow<UIState<ServerApiResponse<List<SaveCarrier>>>>(UIState.Idle)
+    val saveCarrierState: StateFlow<UIState<ServerApiResponse<List<SaveCarrier>>>> = _saveCarrierState
 
     private val _saveSuccessState = MutableSharedFlow<Unit>()
     val saveSuccessState = _saveSuccessState.asSharedFlow()
@@ -39,10 +39,10 @@ class DetailCarrierViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _positionsState.value = UIState.Loading
             when(val result = getPositionsUseCase(main = mainSelectedMainPosition)){
-                is ServerApiResponse.SuccessResponse<List<PositionListResponse>> -> {
+                is ServerApiResponse.SuccessResponse<List<PositionList>> -> {
                     _positionsState.value = UIState.Success(result)
                 }
-                is ServerApiResponse.ErrorResponse<List<PositionListResponse>> -> {
+                is ServerApiResponse.ErrorResponse<List<PositionList>> -> {
                     _positionsState.value = UIState.Idle
                 }
                 is ServerApiResponse.ExceptionResponse -> {

@@ -40,7 +40,7 @@ import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
-import com.party.domain.model.user.detail.PositionListResponse
+import com.party.domain.model.user.detail.PositionList
 import com.party.presentation.screen.home.viewmodel.HomeViewModel
 
 /*
@@ -53,10 +53,10 @@ fun OneSelectMainAndSubPositionBottomSheet(
     snackBarHostState: SnackbarHostState,
     bottomSheetTitle: String,
     selectedMainPosition: String,
-    selectedSubPosition: PositionListResponse,
+    selectedSubPosition: PositionList,
     homeViewModel: HomeViewModel,
     onModelClose: () -> Unit,
-    onApply: (String, PositionListResponse) -> Unit,
+    onApply: (String, PositionList) -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
@@ -102,7 +102,7 @@ fun OneSelectMainAndSubPositionBottomSheet(
                     selectedSubPosition = inModalSelectedSubPosition,
                     onMainPositionClick = {
                         inModalSelectedMainPosition = it
-                        inModalSelectedSubPosition = PositionListResponse(0, "", "")
+                        inModalSelectedSubPosition = PositionList(0, "", "")
                     },
                     onSelectSubPosition = {
                         inModalSelectedSubPosition = it
@@ -116,7 +116,7 @@ fun OneSelectMainAndSubPositionBottomSheet(
                     main = inModalSelectedMainPosition,
                     sub = inModalSelectedSubPosition,
                     onDelete = {
-                        inModalSelectedSubPosition = PositionListResponse(0, "", "")
+                        inModalSelectedSubPosition = PositionList(0, "", "")
                     }
                 )
             }
@@ -138,7 +138,7 @@ fun OneSelectMainAndSubPositionBottomSheet(
 @Composable
 private fun SelectedPositionArea(
     main: String,
-    sub: PositionListResponse,
+    sub: PositionList,
     onDelete: () -> Unit,
 ) {
     HorizontalDivider(
@@ -163,7 +163,7 @@ private fun SelectedPositionArea(
 @Composable
 private fun SelectedPositionItem(
     main: String,
-    sub: PositionListResponse,
+    sub: PositionList,
     onDelete: () -> Unit,
 ){
     Card(

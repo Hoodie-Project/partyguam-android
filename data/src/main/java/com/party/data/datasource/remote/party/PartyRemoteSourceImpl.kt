@@ -3,7 +3,7 @@ package com.party.data.datasource.remote.party
 import com.party.data.entity.party.PartyAuthorityDto
 import com.party.data.entity.party.PartyCreateDto
 import com.party.data.entity.party.PartyDetailDto
-import com.party.data.entity.party.PartyListEntity
+import com.party.data.entity.party.PartyListDto
 import com.party.data.entity.party.PartyRecruitmentDto
 import com.party.data.entity.party.PartyUsersDto
 import com.party.data.entity.party.PersonalRecruitmentListDto
@@ -41,7 +41,7 @@ class PartyRemoteSourceImpl @Inject constructor(
         sort: String,
         order: String,
         partyTypes: List<Int>
-    ): ApiResponse<PartyListEntity> {
+    ): ApiResponse<PartyListDto> {
         return partyService.getPartyList(page = page, size = size, sort = sort, order = order, partyTypes = partyTypes)
     }
 

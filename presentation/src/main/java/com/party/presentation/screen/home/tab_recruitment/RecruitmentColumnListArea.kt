@@ -43,11 +43,11 @@ import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.party.RecruitmentItemResponse
-import com.party.domain.model.party.RecruitmentListResponse
-import com.party.domain.model.party.RecruitmentPartyResponse
-import com.party.domain.model.party.RecruitmentPartyTypeResponse
-import com.party.domain.model.party.RecruitmentPositionResponse
+import com.party.domain.model.party.RecruitmentItem
+import com.party.domain.model.party.RecruitmentList
+import com.party.domain.model.party.RecruitmentParty
+import com.party.domain.model.party.RecruitmentPartyType
+import com.party.domain.model.party.RecruitmentPosition
 import com.party.presentation.screen.home.PartyCategory
 import com.party.presentation.screen.home.PositionArea
 import com.party.presentation.screen.home.RecruitmentCountArea
@@ -85,7 +85,7 @@ fun RecruitmentColumnListArea(
         is UIState.Idle -> {}
         is UIState.Loading -> { LoadingProgressBar() }
         is UIState.Success -> {
-            val successResult = recruitmentListResponse as SuccessResponse<RecruitmentListResponse>
+            val successResult = recruitmentListResponse as SuccessResponse<RecruitmentList>
             val resultList = successResult.data?.partyRecruitments ?: emptyList()
 
             if(resultList.isEmpty()){
@@ -121,9 +121,9 @@ fun RecruitmentColumnListArea(
 }
 
 fun test(
-    sortedList: List<RecruitmentItemResponse>?,
+    sortedList: List<RecruitmentItem>?,
     selectedPartyType: MutableList<String>,
-): List<RecruitmentItemResponse>? {
+): List<RecruitmentItem>? {
     return if(selectedPartyType.isNotEmpty()){
         sortedList?.filter { selectedPartyType.contains(it.party.partyType.type) }
     } else {
@@ -133,7 +133,7 @@ fun test(
 
 @Composable
 fun RecruitmentColumnListItem(
-    recruitmentItemResponse: RecruitmentItemResponse,
+    recruitmentItemResponse: RecruitmentItem,
     onRecruitmentItemClick: (Int, Int) -> Unit,
 ) {
     Card(
@@ -250,7 +250,7 @@ fun RecruitmentContent(
 @Composable
 fun RecruitmentColumnListItemPreview() {
     RecruitmentColumnListItem(
-        recruitmentItemResponse = RecruitmentItemResponse(
+        recruitmentItemResponse = RecruitmentItem(
             id = 1,
             partyId = 1,
             positionId = 1,
@@ -258,15 +258,15 @@ fun RecruitmentColumnListItemPreview() {
             recruitingCount = 10,
             content = "content",
             createdAt = "2022-01-01",
-            party = RecruitmentPartyResponse(
+            party = RecruitmentParty(
                 title = "파티를 모집중입니다",
                 image = "image",
-                partyType = RecruitmentPartyTypeResponse(
+                partyType = RecruitmentPartyType(
                     id = 1,
                     type = "해커톤"
                 )
             ),
-            position = RecruitmentPositionResponse(
+            position = RecruitmentPosition(
                 id = 1,
                 main = "개발자",
                 sub = "Android"

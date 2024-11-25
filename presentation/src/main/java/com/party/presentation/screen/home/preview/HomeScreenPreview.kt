@@ -6,19 +6,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.party.domain.model.party.PartyItemResponse
-import com.party.domain.model.party.PartyTypeItemResponse
-import com.party.domain.model.party.PersonalRecruitmentItemResponse
-import com.party.domain.model.party.PersonalRecruitmentPartyResponse
-import com.party.domain.model.party.PersonalRecruitmentPartyTypeResponse
-import com.party.domain.model.party.PersonalRecruitmentPositionResponse
-import com.party.domain.model.party.RecruitmentItemResponse
-import com.party.domain.model.party.RecruitmentListResponse
+import com.party.domain.model.party.PartyItem
+import com.party.domain.model.party.PartyTypeItem
+import com.party.domain.model.party.PersonalRecruitmentItem
+import com.party.domain.model.party.PersonalRecruitmentParty
+import com.party.domain.model.party.PersonalRecruitmentPartyType
+import com.party.domain.model.party.PersonalRecruitmentPosition
 import com.party.presentation.screen.home.HomeScreen
 import com.party.presentation.screen.home.PartyCategory
 import com.party.presentation.screen.home.tab_main.PartyItem
 import com.party.presentation.screen.home.tab_main.PersonalRecruitmentItem
-import com.party.presentation.screen.home.tab_main.RecruitmentItem
 import com.party.presentation.shared.SharedViewModel
 
 @Preview(showBackground = true)
@@ -41,7 +38,7 @@ fun HomeScreenPreview() {
 @Composable
 fun PersonalRecruitmentItemPreview() {
     PersonalRecruitmentItem(
-        personalRecruitmentLisItemResponse = PersonalRecruitmentItemResponse(
+        personalRecruitmentLisItemResponse = PersonalRecruitmentItem(
             id = 1,
             partyId = 1,
             positionId = 1,
@@ -49,15 +46,15 @@ fun PersonalRecruitmentItemPreview() {
             recruitingCount = 1,
             recruitedCount = 1,
             createdAt = "2021-09-01",
-            party = PersonalRecruitmentPartyResponse(
+            party = PersonalRecruitmentParty(
                 title = "파티 제목",
                 image = "https://picsum.photos/200/300",
-                partyType = PersonalRecruitmentPartyTypeResponse(
+                partyType = PersonalRecruitmentPartyType(
                     id = 1,
                     type = "타입"
                 )
             ),
-            position = PersonalRecruitmentPositionResponse(
+            position = PersonalRecruitmentPosition(
                 id = 1,
                 main = "메인",
                 sub = "서브"
@@ -71,7 +68,7 @@ fun PersonalRecruitmentItemPreview() {
 @Composable
 fun PersonalRecruitmentItemPreview2() {
     PersonalRecruitmentItem(
-        personalRecruitmentLisItemResponse = PersonalRecruitmentItemResponse(
+        personalRecruitmentLisItemResponse = PersonalRecruitmentItem(
             id = 1,
             partyId = 1,
             positionId = 1,
@@ -79,15 +76,15 @@ fun PersonalRecruitmentItemPreview2() {
             recruitingCount = 1,
             recruitedCount = 1,
             createdAt = "2021-09-01",
-            party = PersonalRecruitmentPartyResponse(
+            party = PersonalRecruitmentParty(
                 title = "파티 제목파티 제목파티 제목파티 제목파티 제목파티 제목파티 제목123",
                 image = "https://picsum.photos/200/300",
-                partyType = PersonalRecruitmentPartyTypeResponse(
+                partyType = PersonalRecruitmentPartyType(
                     id = 1,
                     type = "타입"
                 )
             ),
-            position = PersonalRecruitmentPositionResponse(
+            position = PersonalRecruitmentPosition(
                 id = 1,
                 main = "메인",
                 sub = "서브"
@@ -101,9 +98,9 @@ fun PersonalRecruitmentItemPreview2() {
 @Composable
 fun PartyItemPreview() {
     PartyItem(
-        partyItemResponse = PartyItemResponse(
+        partyItemResponse = PartyItem(
             id = 1,
-            partyType = PartyTypeItemResponse(
+            partyType = PartyTypeItem(
                 id = 1,
                 type = "타입"
             ),

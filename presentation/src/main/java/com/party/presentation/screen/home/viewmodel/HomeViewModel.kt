@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.common.UIState
 import com.party.domain.model.banner.Banner
-import com.party.domain.model.party.PartyListResponse
-import com.party.domain.model.party.PersonalRecruitmentListResponse
-import com.party.domain.model.party.RecruitmentListResponse
-import com.party.domain.model.user.detail.PositionListResponse
+import com.party.domain.model.party.PartyList
+import com.party.domain.model.party.PersonalRecruitmentList
+import com.party.domain.model.party.RecruitmentList
+import com.party.domain.model.user.detail.PositionList
 import com.party.domain.usecase.banner.GetBannerListUseCase
 import com.party.domain.usecase.party.GetPartyListUseCase
 import com.party.domain.usecase.party.GetPersonalRecruitmentListUseCase
@@ -30,18 +30,18 @@ class HomeViewModel @Inject constructor(
     private val getBannerListUseCase: GetBannerListUseCase,
 ) : ViewModel() {
 
-    private val _getPersonalRecruitmentListState = MutableStateFlow<UIState<ServerApiResponse<PersonalRecruitmentListResponse>>>(UIState.Idle)
-    val getPersonalRecruitmentListState: StateFlow<UIState<ServerApiResponse<PersonalRecruitmentListResponse>>> = _getPersonalRecruitmentListState
+    private val _getPersonalRecruitmentListState = MutableStateFlow<UIState<ServerApiResponse<PersonalRecruitmentList>>>(UIState.Idle)
+    val getPersonalRecruitmentListState: StateFlow<UIState<ServerApiResponse<PersonalRecruitmentList>>> = _getPersonalRecruitmentListState
 
     private val _getRecruitmentListState =
-        MutableStateFlow<UIState<ServerApiResponse<RecruitmentListResponse>>>(UIState.Idle)
-    val getRecruitmentListState: StateFlow<UIState<ServerApiResponse<RecruitmentListResponse>>> = _getRecruitmentListState
+        MutableStateFlow<UIState<ServerApiResponse<RecruitmentList>>>(UIState.Idle)
+    val getRecruitmentListState: StateFlow<UIState<ServerApiResponse<RecruitmentList>>> = _getRecruitmentListState
 
-    private val _getPartyListState = MutableStateFlow<UIState<ServerApiResponse<PartyListResponse>>>(UIState.Idle)
-    val getPartyListState: StateFlow<UIState<ServerApiResponse<PartyListResponse>>> = _getPartyListState
+    private val _getPartyListState = MutableStateFlow<UIState<ServerApiResponse<PartyList>>>(UIState.Idle)
+    val getPartyListState: StateFlow<UIState<ServerApiResponse<PartyList>>> = _getPartyListState
 
-    private val _positionsState = MutableStateFlow<UIState<ServerApiResponse<List<PositionListResponse>>>>(UIState.Idle)
-    val positionsState: StateFlow<UIState<ServerApiResponse<List<PositionListResponse>>>> = _positionsState
+    private val _positionsState = MutableStateFlow<UIState<ServerApiResponse<List<PositionList>>>>(UIState.Idle)
+    val positionsState: StateFlow<UIState<ServerApiResponse<List<PositionList>>>> = _positionsState
 
     private val _bannerListState = MutableStateFlow<UIState<ServerApiResponse<Banner>>>(UIState.Idle)
     val bannerListState: StateFlow<UIState<ServerApiResponse<Banner>>> = _bannerListState
@@ -64,11 +64,11 @@ class HomeViewModel @Inject constructor(
                 sort = sort,
                 order = order
             )) {
-                is ServerApiResponse.SuccessResponse<PersonalRecruitmentListResponse> -> {
+                is ServerApiResponse.SuccessResponse<PersonalRecruitmentList> -> {
                     _getPersonalRecruitmentListState.value = UIState.Success(result)
                 }
 
-                is ServerApiResponse.ErrorResponse<PersonalRecruitmentListResponse> -> {
+                is ServerApiResponse.ErrorResponse<PersonalRecruitmentList> -> {
                     _getPersonalRecruitmentListState.value = UIState.Error()
                 }
 
@@ -89,11 +89,11 @@ class HomeViewModel @Inject constructor(
             _getRecruitmentListState.value = UIState.Loading
             when (val result =
                 getRecruitmentListUseCase(page = page, size = size, sort = sort, order = order)) {
-                is ServerApiResponse.SuccessResponse<RecruitmentListResponse> -> {
+                is ServerApiResponse.SuccessResponse<RecruitmentList> -> {
                     _getRecruitmentListState.value = UIState.Success(result)
                 }
 
-                is ServerApiResponse.ErrorResponse<RecruitmentListResponse> -> {
+                is ServerApiResponse.ErrorResponse<RecruitmentList> -> {
                     _getRecruitmentListState.value = UIState.Idle
                 }
 
@@ -120,11 +120,11 @@ class HomeViewModel @Inject constructor(
                 order = order,
                 partyTypes = partyTypes
             )) {
-                is ServerApiResponse.SuccessResponse<PartyListResponse> -> {
+                is ServerApiResponse.SuccessResponse<PartyList> -> {
                     _getPartyListState.value = UIState.Success(result)
                 }
 
-                is ServerApiResponse.ErrorResponse<PartyListResponse> -> {
+                is ServerApiResponse.ErrorResponse<PartyList> -> {
                     _getPartyListState.value = UIState.Idle
                 }
 
@@ -141,11 +141,11 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _positionsState.value = UIState.Loading
             when (val result = getPositionsUseCase(main = main)) {
-                is ServerApiResponse.SuccessResponse<List<PositionListResponse>> -> {
+                is ServerApiResponse.SuccessResponse<List<PositionList>> -> {
                     _positionsState.value = UIState.Success(result)
                 }
 
-                is ServerApiResponse.ErrorResponse<List<PositionListResponse>> -> {
+                is ServerApiResponse.ErrorResponse<List<PositionList>> -> {
                     _positionsState.value = UIState.Idle
                 }
 

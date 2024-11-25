@@ -9,18 +9,18 @@ import com.party.data.entity.user.auth.SocialLoginErrorDto
 import com.party.data.entity.user.auth.SocialLoginSuccessDto
 import com.party.data.mapper.UserMapper
 import com.party.data.mapper.UserMapper.mapperUserSignUpResponse
-import com.party.domain.model.user.SocialLoginResponse
+import com.party.domain.model.user.SocialLogin
 import com.party.domain.model.user.detail.InterestLocationList
-import com.party.domain.model.user.detail.LocationResponse
-import com.party.domain.model.user.detail.PersonalityListResponse
+import com.party.domain.model.user.detail.Location
+import com.party.domain.model.user.detail.PersonalityList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
-import com.party.domain.model.user.detail.PersonalitySaveResponse
-import com.party.domain.model.user.detail.PositionListResponse
+import com.party.domain.model.user.detail.PersonalitySave
+import com.party.domain.model.user.detail.PositionList
 import com.party.domain.model.user.detail.SaveCarrierList
-import com.party.domain.model.user.detail.SaveCarrierResponse
-import com.party.domain.model.user.detail.SaveInterestLocationResponse
+import com.party.domain.model.user.detail.SaveCarrier
+import com.party.domain.model.user.detail.SaveInterestLocation
 import com.party.domain.model.user.signup.UserSignUpRequest
-import com.party.domain.model.user.signup.UserSignUpResponse
+import com.party.domain.model.user.signup.UserSignUp
 import com.party.domain.repository.UserRepository
 import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.StatusCode
@@ -32,7 +32,7 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val userRemoteSource: UserRemoteSource,
 ): UserRepository{
-    override suspend fun googleLogin(accessToken: String): ServerApiResponse<SocialLoginResponse> {
+    override suspend fun googleLogin(accessToken: String): ServerApiResponse<SocialLogin> {
         return when(val result = userRemoteSource.googleLogin(accessToken = accessToken)){
             is ApiResponse.Success -> {
                 val resultSuccess = Json.decodeFromString<SocialLoginSuccessDto>(result.data.toString())
@@ -71,7 +71,7 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun kakaoLogin(accessToken: String): ServerApiResponse<SocialLoginResponse> {
+    override suspend fun kakaoLogin(accessToken: String): ServerApiResponse<SocialLogin> {
         return when(val result = userRemoteSource.kakaoLogin(accessToken = accessToken)){
             is ApiResponse.Success -> {
                 //val resultSuccess = Json.decodeFromString<SocialLoginSuccessEntity>(result.data)
@@ -141,7 +141,7 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun userSignUp(
         signupAccessToken: String,
         userSignUpRequest: UserSignUpRequest
-    ): ServerApiResponse<UserSignUpResponse> {
+    ): ServerApiResponse<UserSignUp> {
         val result = userRemoteSource.userSignUp(signupAccessToken = signupAccessToken, userSignUpRequest = userSignUpRequest)
         return when(result){
             is ApiResponse.Success -> {
@@ -157,7 +157,7 @@ class UserRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun getLocations(province: String): ServerApiResponse<List<LocationResponse>> {
+    override suspend fun getLocations(province: String): ServerApiResponse<List<Location>> {
         return when(val result = userRemoteSource.getLocations(province = province)){
             is ApiResponse.Success -> {
                 SuccessResponse(data = result.data.map { UserMapper.mapperToLocationResponse(it) })
@@ -173,7 +173,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun saveInterestLocation(
         locations: InterestLocationList,
-    ): ServerApiResponse<List<SaveInterestLocationResponse>> {
+    ): ServerApiResponse<List<SaveInterestLocation>> {
         return when(val result = userRemoteSource.saveInterestLocation(locations = locations)) {
             is ApiResponse.Success -> {
                 SuccessResponse(
@@ -185,7 +185,7 @@ class UserRepositoryImpl @Inject constructor(
                 val errorBody = result.errorBody?.string()
                 when(result.statusCode){
                     StatusCode.Conflict -> {
-                        val errorResponse = Json.decodeFromString<ErrorResponse<SaveInterestLocationResponse>>(errorBody!!)
+                        val errorResponse = Json.decodeFromString<ErrorResponse<SaveInterestLocation>>(errorBody!!)
                         ErrorResponse(
                             statusCode = StatusCode.Conflict.code,
                             message = errorResponse.message,
@@ -203,7 +203,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun getPositions(
         main: String
-    ): ServerApiResponse<List<PositionListResponse>> {
+    ): ServerApiResponse<List<PositionList>> {
         return when(val result = userRemoteSource.getPositions(main = main)){
             is ApiResponse.Success -> {
                 SuccessResponse(data = result.data.map { UserMapper.mapperToPositionListResponse(it) })
@@ -219,7 +219,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun saveCarrier(
         career: SaveCarrierList
-    ): ServerApiResponse<List<SaveCarrierResponse>> {
+    ): ServerApiResponse<List<SaveCarrier>> {
         return when(val result = userRemoteSource.saveCarrier(career = career)){
             is ApiResponse.Success -> {
                 SuccessResponse(data = result.data.career.map { UserMapper.mapperToSaveCarrierResponse(it) })
@@ -228,7 +228,7 @@ class UserRepositoryImpl @Inject constructor(
                 val errorBody = result.errorBody?.string()
                 when(result.statusCode){
                     StatusCode.Conflict -> {
-                        val errorResponse = Json.decodeFromString<ErrorResponse<SaveCarrierResponse>>(errorBody!!)
+                        val errorResponse = Json.decodeFromString<ErrorResponse<SaveCarrier>>(errorBody!!)
                         ErrorResponse(
                             statusCode = StatusCode.Conflict.code,
                             message = errorResponse.message,
@@ -247,7 +247,7 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getPersonalities(): ServerApiResponse<List<PersonalityListResponse>> {
+    override suspend fun getPersonalities(): ServerApiResponse<List<PersonalityList>> {
         return when(val result = userRemoteSource.getPersonalities()){
             is ApiResponse.Success -> {
                 SuccessResponse(data = result.data.map { UserMapper.mapperToPersonalityListResponse(it) })
@@ -263,7 +263,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun savePersonalities(
         personalitySaveRequest: PersonalitySaveRequest
-    ): ServerApiResponse<List<PersonalitySaveResponse>> {
+    ): ServerApiResponse<List<PersonalitySave>> {
         return when(val result = userRemoteSource.savePersonalities(personalitySaveRequest = personalitySaveRequest)){
             is ApiResponse.Success -> {
                 SuccessResponse(data = result.data.map { UserMapper.mapperToPersonalitySaveResponse(it) })
@@ -272,7 +272,7 @@ class UserRepositoryImpl @Inject constructor(
                 val errorBody = result.errorBody?.string()
                 when(result.statusCode){
                     StatusCode.Conflict -> {
-                        val errorResponse = Json.decodeFromString<ErrorResponse<PersonalitySaveResponse>>(errorBody!!)
+                        val errorResponse = Json.decodeFromString<ErrorResponse<PersonalitySave>>(errorBody!!)
                         ErrorResponse(
                             statusCode = StatusCode.Conflict.code,
                             message = errorResponse.message,

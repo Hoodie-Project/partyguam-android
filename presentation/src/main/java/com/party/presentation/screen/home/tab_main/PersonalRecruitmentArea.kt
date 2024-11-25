@@ -46,8 +46,8 @@ import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.MEDIUM_CORNER_SIZE
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.party.PersonalRecruitmentItemResponse
-import com.party.domain.model.party.PersonalRecruitmentListResponse
+import com.party.domain.model.party.PersonalRecruitmentItem
+import com.party.domain.model.party.PersonalRecruitmentList
 import com.party.presentation.screen.home.HomeListTitleArea
 import com.party.presentation.screen.home.PartyCategory
 import com.party.presentation.screen.home.PositionArea
@@ -81,7 +81,7 @@ fun PersonalRecruitmentArea(
         is UIState.Idle -> {}
         is UIState.Loading -> { LoadingProgressBar() }
         is UIState.Success -> {
-            val successResult = personalRecruitmentListResponse as SuccessResponse<PersonalRecruitmentListResponse>
+            val successResult = personalRecruitmentListResponse as SuccessResponse<PersonalRecruitmentList>
             PersonalRecruitmentListArea(successResult.data)
         }
         is UIState.Error -> {ErrorArea()}
@@ -129,7 +129,7 @@ fun ErrorArea() {
 
 @Composable
 fun PersonalRecruitmentListArea(
-    personalRecruitmentListResponse: PersonalRecruitmentListResponse?,
+    personalRecruitmentListResponse: PersonalRecruitmentList?,
 ) {
     HeightSpacer(heightDp = 20.dp)
 
@@ -154,7 +154,7 @@ fun PersonalRecruitmentListArea(
 
 @Composable
 fun PersonalRecruitmentItem(
-    personalRecruitmentLisItemResponse: PersonalRecruitmentItemResponse,
+    personalRecruitmentLisItemResponse: PersonalRecruitmentItem,
     onClick: () -> Unit,
 ) {
     Card(

@@ -3,13 +3,13 @@ package com.party.domain.model.party
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RecruitmentListResponse(
-    val partyRecruitments: List<RecruitmentItemResponse>,
+data class PersonalRecruitmentList(
+    val partyRecruitments: List<PersonalRecruitmentItem>,
     val total: Int,
 )
 
 @Serializable
-data class RecruitmentItemResponse(
+data class PersonalRecruitmentItem(
     val id: Int,
     val partyId: Int,
     val positionId: Int,
@@ -17,25 +17,25 @@ data class RecruitmentItemResponse(
     val recruitedCount: Int,
     val content: String,
     val createdAt: String,
-    val party: RecruitmentPartyResponse,
-    val position: RecruitmentPositionResponse,
+    val party: PersonalRecruitmentParty,
+    val position: PersonalRecruitmentPosition,
 )
 
 @Serializable
-data class RecruitmentPartyResponse(
+data class PersonalRecruitmentParty(
     val title: String,
     val image: String?,
-    val partyType: RecruitmentPartyTypeResponse,
+    val partyType: PersonalRecruitmentPartyType,
 )
 
 @Serializable
-data class RecruitmentPartyTypeResponse(
+data class PersonalRecruitmentPartyType(
     val id: Int,
     val type: String,
 )
 
 @Serializable
-data class RecruitmentPositionResponse(
+data class PersonalRecruitmentPosition(
     val id: Int,
     val main: String,
     val sub: String,

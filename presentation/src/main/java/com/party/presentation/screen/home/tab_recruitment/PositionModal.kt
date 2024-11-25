@@ -55,7 +55,7 @@ import com.party.common.ui.theme.LIGHT200
 import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.user.detail.PositionListResponse
+import com.party.domain.model.user.detail.PositionList
 import com.party.presentation.screen.home.viewmodel.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -302,7 +302,7 @@ fun SubPositionListArea(
 
 @Composable
 fun SubPositionListItem(
-    item: PositionListResponse,
+    item: PositionList,
     selectedSubPositionList: List<String>,
     onClick: (String) -> Unit,
 ) {

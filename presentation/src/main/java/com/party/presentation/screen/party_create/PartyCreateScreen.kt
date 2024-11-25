@@ -44,7 +44,7 @@ import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyCreateRequest
-import com.party.domain.model.user.detail.PositionListResponse
+import com.party.domain.model.user.detail.PositionList
 import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import com.party.presentation.screen.party_create.component.PartyCreateCustomShape
 import com.party.presentation.screen.party_create.component.PartyCreateDescriptionArea
@@ -89,7 +89,7 @@ fun PartyCreateScreen(
     var selectedMainPosition by remember { mutableStateOf("") }
 
     // 선택된 서브 포지션
-    var selectedSubPosition by remember { mutableStateOf( PositionListResponse(0, "", "")) }
+    var selectedSubPosition by remember { mutableStateOf( PositionList(0, "", "")) }
 
     PartyCreateContent(
         isShowDialog = isShowDialog,
@@ -131,9 +131,9 @@ fun PartyCreateContent(
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel,
     selectedMainPosition: String,
-    selectedSubPosition: PositionListResponse,
+    selectedSubPosition: PositionList,
     onNavigationClick: () -> Unit,
-    onApply: (String, PositionListResponse) -> Unit,
+    onApply: (String, PositionList) -> Unit,
     onCreate: (String, String, String) -> Unit,
 ) {
     val scrollState = rememberScrollState()

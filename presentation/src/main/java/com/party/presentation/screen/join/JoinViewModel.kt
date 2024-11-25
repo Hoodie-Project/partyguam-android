@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.common.UIState
 import com.party.domain.model.user.signup.UserSignUpRequest
-import com.party.domain.model.user.signup.UserSignUpResponse
+import com.party.domain.model.user.signup.UserSignUp
 import com.party.domain.usecase.datastore.SaveAccessTokenUseCase
 import com.party.domain.usecase.user.auth.CheckNickNameUseCase
 import com.party.domain.usecase.user.auth.UserSignUpUseCase
@@ -29,8 +29,8 @@ class JoinViewModel @Inject constructor(
     private val _checkNickNameState = MutableStateFlow<UIState<ServerApiResponse<String>>>(UIState.Idle)
     val checkNickNameState: StateFlow<UIState<ServerApiResponse<String>>> = _checkNickNameState
 
-    private val _userSignUpState =  MutableStateFlow<UIState<ServerApiResponse<UserSignUpResponse>>>(UIState.Idle)
-    val userSignUpState: StateFlow<UIState<ServerApiResponse<UserSignUpResponse>>> = _userSignUpState
+    private val _userSignUpState =  MutableStateFlow<UIState<ServerApiResponse<UserSignUp>>>(UIState.Idle)
+    val userSignUpState: StateFlow<UIState<ServerApiResponse<UserSignUp>>> = _userSignUpState
 
     private val _joinSuccessState = MutableSharedFlow<Unit>()
     val joinSuccessState = _joinSuccessState.asSharedFlow()
@@ -75,7 +75,7 @@ class JoinViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _userSignUpState.value = UIState.Loading
             when(val result = userSignUpUseCase(signupAccessToken = signupAccessToken, userSignUpRequest = userSignUpRequest)){
-                is ServerApiResponse.SuccessResponse<UserSignUpResponse> -> {
+                is ServerApiResponse.SuccessResponse<UserSignUp> -> {
                     saveAccessToken(token = result.data?.accessToken!!)
                     _joinSuccessState.emit(Unit)
                 }

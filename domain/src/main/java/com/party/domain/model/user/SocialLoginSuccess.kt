@@ -3,23 +3,23 @@ package com.party.domain.model.user
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class SocialLoginResponse
+sealed class SocialLogin
 
 @Serializable
-data class SocialLoginSuccessResponse(
+data class SocialLoginSuccess(
     val accessToken: String,
     val refreshToken: String,
-): SocialLoginResponse()
+): SocialLogin()
 
 @Serializable
-data class SocialLoginErrorResponse(
+data class SocialLoginError(
     val message: String,
     val signupAccessToken: String,
     var userEmail: String? = null,
-): SocialLoginResponse()
+): SocialLogin()
 
 @Serializable
-data class SocialLoginExceptionResponse(
+data class SocialLoginException(
     val code: String,
-): SocialLoginResponse()
+): SocialLogin()
 

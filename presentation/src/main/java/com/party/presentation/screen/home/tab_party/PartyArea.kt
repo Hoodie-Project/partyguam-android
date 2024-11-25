@@ -54,8 +54,8 @@ import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.TYPE_COLOR_BACKGROUND
 import com.party.common.ui.theme.TYPE_COLOR_TEXT
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.party.PartyItemResponse
-import com.party.domain.model.party.PartyListResponse
+import com.party.domain.model.party.PartyItem
+import com.party.domain.model.party.PartyList
 import com.party.presentation.enum.PartyType
 import com.party.presentation.screen.home.tab_main.PartyItemBottomAreaDescription
 import com.party.presentation.screen.home.tab_party.component.FilterArea
@@ -122,7 +122,7 @@ fun PartyArea(
             is UIState.Idle -> {}
             is UIState.Loading -> { LoadingProgressBar() }
             is UIState.Success -> {
-                val successResult = partyListResponse as SuccessResponse<PartyListResponse>
+                val successResult = partyListResponse as SuccessResponse<PartyList>
                 PartyListArea(
                     partyListResponse = successResult.data,
                     selectedCreateDataOrderByDesc = selectedCreateDataOrderByDesc,
@@ -165,7 +165,7 @@ fun convertToIntList(selectedPartyTypeList: MutableList<String>): List<Int> {
 
 @Composable
 private fun PartyListArea(
-    partyListResponse: PartyListResponse?,
+    partyListResponse: PartyList?,
     selectedCreateDataOrderByDesc: Boolean,
     checked: Boolean,
     sharedViewModel: SharedViewModel,
@@ -224,7 +224,7 @@ private fun PartyListArea(
 
 @Composable
 private fun PartyItem(
-    partyItemResponse: PartyItemResponse,
+    partyItemResponse: PartyItem,
     onClick: (Int) -> Unit,
 ){
     Card(

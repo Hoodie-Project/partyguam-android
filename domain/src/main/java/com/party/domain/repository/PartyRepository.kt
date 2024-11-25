@@ -4,12 +4,12 @@ import com.party.common.ServerApiResponse
 import com.party.domain.model.party.PartyCreate
 import com.party.domain.model.party.PartyCreateRequest
 import com.party.domain.model.party.PartyDetail
-import com.party.domain.model.party.PartyListResponse
+import com.party.domain.model.party.PartyList
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PartyUsers
-import com.party.domain.model.party.PersonalRecruitmentListResponse
+import com.party.domain.model.party.PersonalRecruitmentList
 import com.party.domain.model.party.RecruitmentDetail
-import com.party.domain.model.party.RecruitmentListResponse
+import com.party.domain.model.party.RecruitmentList
 import com.party.domain.model.user.PartyAuthority
 
 interface PartyRepository {
@@ -20,7 +20,7 @@ interface PartyRepository {
         size: Int,
         sort: String,
         order: String
-    ): ServerApiResponse<PersonalRecruitmentListResponse>
+    ): ServerApiResponse<PersonalRecruitmentList>
 
     // 홈화면 - 모집공고 리스트
     suspend fun getRecruitmentList(
@@ -28,7 +28,7 @@ interface PartyRepository {
         size: Int,
         sort: String,
         order: String
-    ): ServerApiResponse<RecruitmentListResponse>
+    ): ServerApiResponse<RecruitmentList>
 
     // 파티 리스트 조회
     suspend fun getPartyList(
@@ -37,7 +37,7 @@ interface PartyRepository {
         sort: String,
         order: String,
         partyTypes: List<Int>,
-    ): ServerApiResponse<PartyListResponse>
+    ): ServerApiResponse<PartyList>
 
     // 모집공고 상세 조회
     suspend fun getRecruitmentDetail(
