@@ -18,8 +18,8 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.party.common.ApplyButtonArea
 import com.party.common.HeightSpacer
+import com.party.common.component.button.CustomButton
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.BLACK
@@ -108,7 +108,7 @@ fun PartyApplyScreenContent(
                 )
             }
 
-            ApplyButtonArea(
+            CustomButton(
                 containerColor = if (inputText.isNotEmpty()) PRIMARY else LIGHT400,
                 contentColor = if (inputText.isNotEmpty()) BLACK else GRAY400,
                 borderColor = if (inputText.isNotEmpty()) PRIMARY else LIGHT200,
