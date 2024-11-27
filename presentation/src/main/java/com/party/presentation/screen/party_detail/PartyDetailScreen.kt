@@ -61,6 +61,42 @@ fun PartyDetailScreen(
     val partyRecruitmentState by partyViewModel.getPartyRecruitmentState.collectAsStateWithLifecycle()
     val partyAuthorityState by partyViewModel.getPartyAuthorityState.collectAsStateWithLifecycle()
 
+    PartyDetailContent(
+        context = context,
+        navController = navController,
+        snackBarHostState = snackBarHostState,
+        partyDetailState = partyDetailState,
+        partyUsersState = partyUsersState,
+        partyRecruitmentState = partyRecruitmentState,
+        partyAuthorityState = partyAuthorityState,
+        selectedPosition = selectedPosition,
+        onReset = { selectedPosition = ""},
+        onApply = {
+            selectedPosition = it
+            partyViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = if (selectedPosition == "전체") null else selectedPosition)
+        },
+        onNavigationBack = { navController.popBackStack() },
+    )
+}
+
+@Composable
+private fun PartyDetailContent(
+    context: Context,
+    navController: NavHostController,
+    snackBarHostState: SnackbarHostState,
+    partyDetailState: UIState<ServerApiResponse<PartyDetail>>,
+    partyUsersState: UIState<ServerApiResponse<PartyUsers>>,
+    partyRecruitmentState: UIState<ServerApiResponse<List<PartyRecruitment>>>,
+    partyAuthorityState: UIState<ServerApiResponse<PartyAuthority>>,
+    selectedPosition: String,
+    onReset: () -> Unit,
+    onApply: (String) -> Unit,
+    onNavigationBack: () -> Unit,
+){
+    var selectedTabText by remember {
+        mutableStateOf(partyDetailTabList[0])
+    }
+
     Scaffold(
         snackbarHost = {
             SnackbarHost(
@@ -75,72 +111,42 @@ fun PartyDetailScreen(
         },
         topBar = {
             PartyDetailScaffoldArea(
-                onNavigationClick = { navController.popBackStack() },
+                snackBarHostState = snackBarHostState,
+                partyAuthorityState = partyAuthorityState,
+                onNavigationClick = onNavigationBack,
                 onSharedClick = {},
                 onMoreClick = {},
             )
         },
     ) {
-        PartyDetailContent(
+        Column(
             modifier = Modifier
-                .padding(it),
-            snackBarHostState = snackBarHostState,
-            partyDetailState = partyDetailState,
-            partyUsersState = partyUsersState,
-            partyRecruitmentState = partyRecruitmentState,
-            partyAuthorityState = partyAuthorityState,
-            selectedPosition = selectedPosition,
-            onReset = { selectedPosition = ""},
-            onApply = {
-                selectedPosition = it
-                partyViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = if (selectedPosition == "전체") null else selectedPosition)
-            },
-        )
-    }
-}
-
-@Composable
-private fun PartyDetailContent(
-    modifier: Modifier,
-    snackBarHostState: SnackbarHostState,
-    partyDetailState: UIState<ServerApiResponse<PartyDetail>>,
-    partyUsersState: UIState<ServerApiResponse<PartyUsers>>,
-    partyRecruitmentState: UIState<ServerApiResponse<List<PartyRecruitment>>>,
-    partyAuthorityState: UIState<ServerApiResponse<PartyAuthority>>,
-    selectedPosition: String,
-    onReset: () -> Unit,
-    onApply: (String) -> Unit,
-){
-    var selectedTabText by remember {
-        mutableStateOf(partyDetailTabList[0])
-    }
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(WHITE)
-    ) {
-        when(partyDetailState){
-            is UIState.Idle -> {}
-            is UIState.Loading -> { LoadingProgressBar() }
-            is UIState.Success -> {
-                val successResult = partyDetailState.data as SuccessResponse<PartyDetail>
-                PartyDetailArea(
-                    snackBarHostState = snackBarHostState,
-                    partyDetailTabList = partyDetailTabList,
-                    partyDetail = successResult.data ?: return,
-                    selectedTabText = selectedTabText,
-                    onTabClick = { selectedTabText = it },
-                    partyUsersState = partyUsersState,
-                    partyRecruitmentState = partyRecruitmentState,
-                    partyAuthorityState = partyAuthorityState,
-                    selectedPosition = selectedPosition,
-                    onReset = onReset,
-                    onApply = onApply,
-                )
+                .fillMaxSize()
+                .background(WHITE)
+                .padding(it)
+        ) {
+            when(partyDetailState){
+                is UIState.Idle -> {}
+                is UIState.Loading -> { LoadingProgressBar() }
+                is UIState.Success -> {
+                    val successResult = partyDetailState.data as SuccessResponse<PartyDetail>
+                    PartyDetailArea(
+                        snackBarHostState = snackBarHostState,
+                        partyDetailTabList = partyDetailTabList,
+                        partyDetail = successResult.data ?: return@Column,
+                        selectedTabText = selectedTabText,
+                        onTabClick = { selectedTabText = it },
+                        partyUsersState = partyUsersState,
+                        partyRecruitmentState = partyRecruitmentState,
+                        partyAuthorityState = partyAuthorityState,
+                        selectedPosition = selectedPosition,
+                        onReset = onReset,
+                        onApply = onApply,
+                    )
+                }
+                is UIState.Error -> { ErrorArea() }
+                is UIState.Exception -> { snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState) }
             }
-            is UIState.Error -> { ErrorArea() }
-            is UIState.Exception -> { snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState) }
         }
     }
 }

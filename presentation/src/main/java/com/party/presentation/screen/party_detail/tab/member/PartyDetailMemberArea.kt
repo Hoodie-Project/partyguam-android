@@ -33,12 +33,7 @@ fun PartyDetailUserArea(
     partyAuthorityState: UIState<ServerApiResponse<PartyAuthority>>,
 ) {
     var authority by remember {
-        mutableStateOf(
-            PartyAuthority(
-                authority = "",
-                userId = 0
-            )
-        )
+        mutableStateOf(PartyAuthority(authority = "", userId = 0))
     }
 
     when(partyAuthorityState){

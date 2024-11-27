@@ -58,8 +58,6 @@ fun PartyDetailRecruitmentListArea(
         list.sortedBy { it.createdAt }
     }
 
-    println("sortedList: $sortedList")
-
     if(sortedList.isNotEmpty()){
         LazyColumn(
             modifier = Modifier
@@ -85,10 +83,10 @@ fun PartyDetailRecruitmentListArea(
             }
         }
     }else {
-        HeightSpacer(heightDp = 60.dp)
         NoRecruitmentArea(
             authority = authority
         )
+        HeightSpacer(heightDp = 20.dp)
     }
 }
 

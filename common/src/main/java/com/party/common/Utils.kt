@@ -214,6 +214,7 @@ fun convertIsoToCustomDateFormat(isoString: String): String {
 
 @Composable
 fun ApplyButtonArea(
+    modifier: Modifier = Modifier,
     onClick: () -> Unit,
     containerColor: Color = PRIMARY,
     contentColor: Color = BLACK,
@@ -221,10 +222,9 @@ fun ApplyButtonArea(
 ) {
     Button(
         onClick = onClick,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .height(48.dp)
-            .padding(horizontal = 20.dp),
+            .height(48.dp),
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
         border = BorderStroke(1.dp, borderColor),
         colors = ButtonDefaults.buttonColors(

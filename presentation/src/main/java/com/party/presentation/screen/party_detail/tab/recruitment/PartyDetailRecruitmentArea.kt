@@ -162,3 +162,22 @@ fun PartyDetailRecruitmentAreaContentPreview() {
         )
     )
 }
+
+@Preview(showBackground = true)
+@Composable
+fun PartyDetailRecruitmentAreaContentPreview1() {
+    PartyDetailRecruitmentAreaContent(
+        list = listOf(
+
+        ),
+        selectedCreateDataOrderByDesc = true,
+        onChangeSelected = {},
+        onReset = {},
+        onApply = {},
+        selectedPosition = "",
+        authority = PartyAuthority(
+            userId = 1,
+            authority = "master"
+        )
+    )
+}

@@ -14,9 +14,11 @@ import com.party.common.ui.theme.T2
 
 @Composable
 fun PartyApplyScaffoldArea(
+    isShowDialog: Boolean,
     onNavigationClick: () -> Unit,
 ) {
     ScaffoldCenterBar(
+        isShowDialog = isShowDialog,
         navigationIcon = {
             DrawableIconButton(
                 icon = painterResource(id = R.drawable.arrow_back),
@@ -28,7 +30,7 @@ fun PartyApplyScaffoldArea(
         },
         title = {
             Text(
-                text = "파티 생성",
+                text = "파티 지원",
                 fontWeight = FontWeight.Bold,
                 fontSize = T2
             )

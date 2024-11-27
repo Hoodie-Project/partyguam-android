@@ -132,6 +132,8 @@ fun RecruitmentDetailScreenContent(
 
         HeightSpacer(heightDp = 24.dp)
         ApplyButtonArea(
+            modifier = Modifier
+                .padding(horizontal = 20.dp),
             onClick = onClick
         )
         HeightSpacer(heightDp = 12.dp)
