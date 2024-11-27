@@ -42,6 +42,7 @@ import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyRecruitment
+import com.party.domain.model.party.Position1
 import com.party.domain.model.user.PartyAuthority
 import com.party.presentation.enum.PartyAuthorityType
 
@@ -187,7 +188,7 @@ fun PartyDetailRecruitmentListItem(
                 )
                 HeightSpacer(heightDp = 8.dp)
                 TextComponent(
-                    text = "${partyRecruitment.main} | ${partyRecruitment.sub}",
+                    text = "${partyRecruitment.position.main} | ${partyRecruitment.position.sub}",
                     fontSize = T3,
                     fontWeight = FontWeight.SemiBold,
                 )
@@ -246,9 +247,11 @@ fun RecruitingCountArea(
 fun PartyDetailRecruitmentListItemPreview(){
     PartyDetailRecruitmentListItem(
         partyRecruitment = PartyRecruitment(
-            partyRecruitmentId = 2293,
-            main = "fermentum",
-            sub = "tation",
+            id = 2293,
+            position = Position1(
+                main = "개발자",
+                sub = "안드로이드"
+            ),
             content = "error",
             recruitingCount = 3,
             recruitedCount = 2,
@@ -269,9 +272,11 @@ fun PartyDetailRecruitmentListAreaPreview() {
         selectedCreateDataOrderByDesc = true,
         list = listOf(
             PartyRecruitment(
-                partyRecruitmentId = 2293,
-                main = "개발자",
-                sub = "안드로이드",
+                id = 2293,
+                position = Position1(
+                    main = "개발자",
+                    sub = "안드로이드"
+                ),
                 content = "error",
                 recruitingCount = 3,
                 recruitedCount = 2,
@@ -279,9 +284,11 @@ fun PartyDetailRecruitmentListAreaPreview() {
                 createdAt = "2024-10-25T21:38:28.850Z"
             ),
             PartyRecruitment(
-                partyRecruitmentId = 2293,
-                main = "개발자",
-                sub = "안드로이드",
+                id = 2293,
+                position = Position1(
+                    main = "개발자",
+                    sub = "안드로이드"
+                ),
                 content = "error",
                 recruitingCount = 3,
                 recruitedCount = 2,

@@ -32,6 +32,7 @@ import com.party.domain.model.party.PersonalRecruitmentParty
 import com.party.domain.model.party.PersonalRecruitmentPartyType
 import com.party.domain.model.party.PersonalRecruitmentPosition
 import com.party.domain.model.party.Position
+import com.party.domain.model.party.Position1
 import com.party.domain.model.party.RecruitmentDetail
 import com.party.domain.model.party.RecruitmentDetailParty
 import com.party.domain.model.party.RecruitmentDetailPartyType
@@ -174,9 +175,11 @@ object PartyMapper {
 
     fun mapperPartyRecruitment(partyRecruitmentDto: PartyRecruitmentDto): PartyRecruitment {
         return PartyRecruitment(
-            partyRecruitmentId = partyRecruitmentDto.partyRecruitmentId,
-            main = partyRecruitmentDto.main,
-            sub = partyRecruitmentDto.sub,
+            id = partyRecruitmentDto.id,
+            position = Position1(
+                main = partyRecruitmentDto.position.main,
+                sub = partyRecruitmentDto.position.sub
+            ),
             content = partyRecruitmentDto.content,
             recruitingCount = partyRecruitmentDto.recruitingCount,
             recruitedCount = partyRecruitmentDto.recruitedCount,

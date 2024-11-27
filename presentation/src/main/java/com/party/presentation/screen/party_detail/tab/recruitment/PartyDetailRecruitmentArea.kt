@@ -21,6 +21,7 @@ import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.UIState
 import com.party.common.snackBarMessage
 import com.party.domain.model.party.PartyRecruitment
+import com.party.domain.model.party.Position1
 import com.party.domain.model.user.PartyAuthority
 import com.party.presentation.screen.home.tab_main.ErrorArea
 import com.party.presentation.screen.party_detail.component.PartyDetailTitleArea
@@ -126,9 +127,11 @@ fun PartyDetailRecruitmentAreaContentPreview() {
     PartyDetailRecruitmentAreaContent(
         list = listOf(
             PartyRecruitment(
-                partyRecruitmentId = 2293,
-                main = "개발자",
-                sub = "안드로이드",
+                id = 2293,
+                position = Position1(
+                    main = "개발자",
+                    sub = "안드로이드"
+                ),
                 content = "error",
                 recruitingCount = 3,
                 recruitedCount = 2,
@@ -136,9 +139,11 @@ fun PartyDetailRecruitmentAreaContentPreview() {
                 createdAt = "2024-10-25T21:38:28.850Z"
             ),
             PartyRecruitment(
-                partyRecruitmentId = 2293,
-                main = "개발자",
-                sub = "안드로이드",
+                id = 2293,
+                position = Position1(
+                    main = "개발자",
+                    sub = "안드로이드"
+                ),
                 content = "error",
                 recruitingCount = 3,
                 recruitedCount = 2,
