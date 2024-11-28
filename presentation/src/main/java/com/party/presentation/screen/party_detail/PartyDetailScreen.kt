@@ -31,6 +31,7 @@ import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PartyUsers
 import com.party.domain.model.user.PartyAuthority
 import com.party.navigation.BottomNavigationBar
+import com.party.navigation.Screens
 import com.party.presentation.screen.home.tab_main.ErrorArea
 import com.party.presentation.screen.party_detail.component.PartyDetailArea
 import com.party.presentation.screen.party_detail.component.PartyDetailScaffoldArea
@@ -76,6 +77,7 @@ fun PartyDetailScreen(
             partyViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = if (selectedPosition == "전체") null else selectedPosition)
         },
         onNavigationBack = { navController.popBackStack() },
+        onAddRecruitment = { navController.navigate(Screens.RecruitmentCreateScreen(partyId = partyId)) }
     )
 }
 
@@ -92,6 +94,7 @@ private fun PartyDetailContent(
     onReset: () -> Unit,
     onApply: (String) -> Unit,
     onNavigationBack: () -> Unit,
+    onAddRecruitment: () -> Unit,
 ){
     var selectedTabText by remember {
         mutableStateOf(partyDetailTabList[0])
@@ -142,6 +145,7 @@ private fun PartyDetailContent(
                         selectedPosition = selectedPosition,
                         onReset = onReset,
                         onApply = onApply,
+                        onAddRecruitment = onAddRecruitment
                     )
                 }
                 is UIState.Error -> { ErrorArea() }

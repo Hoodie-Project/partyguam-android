@@ -1,4 +1,4 @@
-package com.party.presentation.screen.party_create.component
+package com.party.presentation.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -35,7 +35,10 @@ import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
 
 @Composable
-fun PartyCreateHelpCard(
+fun HelpCard(
+    title: String = "내용을 추천드려요.",
+    description1: String,
+    description2: String,
     onClose: () -> Unit,
 ) {
     Card(
@@ -53,16 +56,17 @@ fun PartyCreateHelpCard(
                 .fillMaxSize()
                 .padding(horizontal = 16.dp, vertical = 4.dp)
         ) {
-            PartyCreateHelpCardTitle(
+            HelpCardTitle(
+                title = title,
                 onClose = onClose
             )
             TextComponent(
-                text = "어떤 활동을 하나요?",
+                text = description1,
                 fontSize = B2,
                 textColor = GRAY600
             )
             TextComponent(
-                text = "규칙이 있나요? (출석, 강퇴 등)",
+                text = description2,
                 fontSize = B2,
                 textColor = GRAY600
             )
@@ -71,7 +75,8 @@ fun PartyCreateHelpCard(
 }
 
 @Composable
-fun PartyCreateHelpCardTitle(
+private fun HelpCardTitle(
+    title: String,
     onClose: () -> Unit,
 ) {
     Row(
@@ -93,7 +98,7 @@ fun PartyCreateHelpCardTitle(
             )
             WidthSpacer(widthDp = 6.dp)
             TextComponent(
-                text = "내용을 추천드려요",
+                text = title,
                 fontSize = B2,
                 textColor = BLACK,
                 fontWeight = FontWeight.Bold,
@@ -110,8 +115,11 @@ fun PartyCreateHelpCardTitle(
 
 @Preview(showBackground = true)
 @Composable
-fun PartyCreateHelpCardPreview() {
-    PartyCreateHelpCard(
-        onClose = {}
+private fun HelpCardPreview() {
+    HelpCard(
+        title = "내용을 추천드려요",
+        description1 = "어떤 활동을 하나요?",
+        description2 = "규칙이 있나요? (출석, 강퇴 등)",
+        onClose = {  }
     )
 }

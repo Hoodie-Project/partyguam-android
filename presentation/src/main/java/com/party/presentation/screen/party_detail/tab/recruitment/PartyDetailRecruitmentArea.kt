@@ -36,6 +36,7 @@ fun PartyDetailRecruitmentArea(
     selectedPosition: String,
     onReset: () -> Unit,
     onApply: (String) -> Unit,
+    onAddRecruitment: () -> Unit,
 ) {
     // 등록일 순 내림 차순
     var selectedCreateDataOrderByDesc by remember {
@@ -78,6 +79,7 @@ fun PartyDetailRecruitmentArea(
                 selectedPosition = selectedPosition,
                 onReset = onReset,
                 onApply = onApply,
+                onAddRecruitment = onAddRecruitment
             )
         }
         is UIState.Error -> { ErrorArea() }
@@ -94,6 +96,7 @@ fun PartyDetailRecruitmentAreaContent(
     selectedPosition: String,
     onReset: () -> Unit,
     onApply: (String) -> Unit,
+    onAddRecruitment: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -116,7 +119,8 @@ fun PartyDetailRecruitmentAreaContent(
         PartyDetailRecruitmentListArea(
             authority = authority,
             selectedCreateDataOrderByDesc = selectedCreateDataOrderByDesc,
-            list = list
+            list = list,
+            onAddRecruitment = onAddRecruitment
         )
     }
 }
@@ -159,7 +163,8 @@ fun PartyDetailRecruitmentAreaContentPreview() {
         authority = PartyAuthority(
             userId = 1,
             authority = "master"
-        )
+        ),
+        onAddRecruitment = {}
     )
 }
 
@@ -178,6 +183,7 @@ fun PartyDetailRecruitmentAreaContentPreview1() {
         authority = PartyAuthority(
             userId = 1,
             authority = "master"
-        )
+        ),
+        onAddRecruitment = {}
     )
 }

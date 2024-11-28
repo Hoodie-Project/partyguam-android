@@ -1,4 +1,4 @@
-package com.party.presentation.screen.party_create.component.bottomsheet
+package com.party.presentation.component.bottomsheet
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -42,6 +42,7 @@ import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
 import com.party.domain.model.user.detail.PositionList
 import com.party.presentation.screen.home.viewmodel.HomeViewModel
+import com.party.presentation.screen.party_create.component.bottomsheet.PositionSelectArea
 
 /*
     단일 선택 메인 포지션, 서브 포지션 바텀시트

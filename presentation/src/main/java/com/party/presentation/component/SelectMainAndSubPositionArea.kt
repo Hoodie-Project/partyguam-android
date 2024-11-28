@@ -1,4 +1,4 @@
-package com.party.presentation.screen.party_create.component
+package com.party.presentation.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,11 +21,11 @@ import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.PRIMARY
 import com.party.domain.model.user.detail.PositionList
-import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import com.party.presentation.component.bottomsheet.OneSelectMainAndSubPositionBottomSheet
+import com.party.presentation.screen.home.viewmodel.HomeViewModel
 
 @Composable
-fun PartyCreateSelectPositionArea(
+fun SelectMainAndSubPositionArea(
     snackBarHostState: SnackbarHostState,
     homeViewModel: HomeViewModel,
     selectedMainPosition: String,
@@ -45,7 +45,7 @@ fun PartyCreateSelectPositionArea(
             modifier = Modifier
                 .weight(1f),
             inputText = selectedMainPosition,
-            inputTextColor = if(selectedMainPosition.isEmpty())GRAY400 else BLACK,
+            inputTextColor = if(selectedMainPosition.isEmpty()) GRAY400 else BLACK,
             borderColor = if(selectedMainPosition.isEmpty()) GRAY200 else PRIMARY,
             elevation = if(selectedMainPosition.isEmpty()) 4.dp else 0.dp,
             readOnly = true,
@@ -64,8 +64,8 @@ fun PartyCreateSelectPositionArea(
             modifier = Modifier
                 .weight(1f),
             inputText = selectedSubPosition.sub,
-            inputTextColor = if(selectedSubPosition.sub.isEmpty())GRAY400 else BLACK,
-            borderColor = if(selectedSubPosition.sub.isEmpty())GRAY200 else PRIMARY,
+            inputTextColor = if(selectedSubPosition.sub.isEmpty()) GRAY400 else BLACK,
+            borderColor = if(selectedSubPosition.sub.isEmpty()) GRAY200 else PRIMARY,
             elevation = if(selectedSubPosition.sub.isEmpty()) 4.dp else 0.dp,
             readOnly = true,
             placeHolder = "직군",

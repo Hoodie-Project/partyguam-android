@@ -51,6 +51,7 @@ fun PartyDetailRecruitmentListArea(
     authority: PartyAuthority,
     selectedCreateDataOrderByDesc: Boolean,
     list: List<PartyRecruitment>,
+    onAddRecruitment: () -> Unit,
 ) {
     val sortedList = if(selectedCreateDataOrderByDesc) {
         list.sortedByDescending { it.createdAt }
@@ -77,14 +78,17 @@ fun PartyDetailRecruitmentListArea(
                 if(index == sortedList.size-1){
                     if(authority.authority == PartyAuthorityType.MASTER.authority){
 
-                        PartyDetailAddRecruitCard()
+                        PartyDetailAddRecruitCard(
+                            onAddRecruitment = onAddRecruitment
+                        )
                     }
                 }
             }
         }
     }else {
         NoRecruitmentArea(
-            authority = authority
+            authority = authority,
+            onAddRecruitment = onAddRecruitment
         )
         HeightSpacer(heightDp = 20.dp)
     }
@@ -92,18 +96,24 @@ fun PartyDetailRecruitmentListArea(
 
 @Composable
 fun NoRecruitmentArea(
-    authority: PartyAuthority
+    authority: PartyAuthority,
+    onAddRecruitment: () -> Unit,
 ) {
     if (authority.authority == PartyAuthorityType.MASTER.authority) {
-        PartyDetailAddRecruitCard()
+        PartyDetailAddRecruitCard(
+            onAddRecruitment = onAddRecruitment
+        )
     } else {
         NoRecruitment()
     }
 }
 
 @Composable
-fun PartyDetailAddRecruitCard() {
+fun PartyDetailAddRecruitCard(
+    onAddRecruitment: () -> Unit,
+) {
     Card(
+        onClick = onAddRecruitment,
         modifier = Modifier
             .fillMaxWidth()
             .height(127.dp),
@@ -151,7 +161,8 @@ fun NoRecruitmentAreaPreview() {
         authority = PartyAuthority(
             userId = 1,
             authority = "master"
-        )
+        ),
+        onAddRecruitment = {}
     )
 }
 
@@ -294,5 +305,6 @@ fun PartyDetailRecruitmentListAreaPreview() {
                 createdAt = "2024-10-25T21:38:28.850Z"
             )
         ),
+        onAddRecruitment = {}
     )
 }

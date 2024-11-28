@@ -45,6 +45,7 @@ import com.party.presentation.screen.party_create.viewmodel.PartyCreateViewModel
 import com.party.presentation.screen.party_detail.PartyDetailScreen
 import com.party.presentation.screen.party_detail.viewmodel.PartyViewModel
 import com.party.presentation.screen.profile.ProfileScreen
+import com.party.presentation.screen.recruitment_create.RecruitmentCreateScreen
 import com.party.presentation.screen.recruitment_detail.RecruitmentDetailScreen
 import com.party.presentation.screen.splash.SplashScreen
 import com.party.presentation.screen.state.StateScreen
@@ -298,6 +299,16 @@ fun AppNavHost() {
                 snackBarHostState = snackBarHostState,
                 homeViewModel = homeViewModel,
                 partyCreateViewModel = partyCreateViewModel
+            )
+        }
+        composable<Screens.RecruitmentCreateScreen> { backStackEntry ->
+            val partyId = backStackEntry.toRoute<Screens.RecruitmentCreateScreen>().partyId
+            val homeViewModel = hiltViewModel<HomeViewModel>()
+            RecruitmentCreateScreen(
+                snackBarHostState = snackBarHostState,
+                navController = navController,
+                homeViewModel = homeViewModel,
+                partyId = partyId
             )
         }
     }

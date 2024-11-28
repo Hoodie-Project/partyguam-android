@@ -39,6 +39,7 @@ fun PartyDetailArea(
     selectedPosition: String,
     onReset: () -> Unit,
     onApply: (String) -> Unit,
+    onAddRecruitment: () -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -109,6 +110,7 @@ fun PartyDetailArea(
                         selectedPosition = selectedPosition,
                         onReset = onReset,
                         onApply = onApply,
+                        onAddRecruitment = onAddRecruitment
                     )
                 }
             }
@@ -142,6 +144,7 @@ fun PartyDetailAreaPreview() {
         partyAuthorityState = UIState.Idle,
         onApply = {},
         onReset = {},
-        selectedPosition = "개발자"
+        selectedPosition = "개발자",
+        onAddRecruitment = {}
     )
 }

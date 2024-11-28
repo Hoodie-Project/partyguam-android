@@ -1,7 +1,5 @@
 package com.party.presentation.screen.party_create
 
-import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,12 +23,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
@@ -49,15 +44,10 @@ import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.PositionList
-import com.party.domain.usecase.banner.GetBannerListUseCase
-import com.party.domain.usecase.party.GetPartyListUseCase
-import com.party.domain.usecase.party.GetPersonalRecruitmentListUseCase
-import com.party.domain.usecase.party.GetRecruitmentListUseCase
-import com.party.domain.usecase.user.detail.GetPositionsUseCase
+import com.party.presentation.component.HelpCard
 import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import com.party.presentation.screen.party_create.component.PartyCreateCustomShape
 import com.party.presentation.screen.party_create.component.PartyCreateDescriptionArea
-import com.party.presentation.screen.party_create.component.PartyCreateHelpCard
 import com.party.presentation.screen.party_create.component.PartyCreateInputField
 import com.party.presentation.screen.party_create.component.PartyCreateScaffoldArea
 import com.party.presentation.screen.party_create.component.PartyCreateSelectPositionArea
@@ -149,7 +139,6 @@ fun PartyCreateScreen(
                 confirmButtonText = "나가기",
                 onCancel = {
                     isShowDialog = false
-
                 },
                 onConfirm = {
                     isShowDialog = false
@@ -325,7 +314,7 @@ fun PartyCreateContent(
                 onValueChange = {}
             )
 
-            HeightSpacer(heightDp = 30.dp)
+            HeightSpacer(heightDp = 80.dp)
             PartyCreateDescriptionArea(
                 title = "파티 소개글",
                 description = "파티의 방향성, 참고사항 등을 자유롭게 적어주세요.",
@@ -341,7 +330,9 @@ fun PartyCreateContent(
 
             if (isHelpCardOpen) {
                 HeightSpacer(heightDp = 12.dp)
-                PartyCreateHelpCard(
+                HelpCard(
+                    description1 = "어떤 활동을 하나요?",
+                    description2 = "규칙이 있나요? (출석, 강퇴 등)",
                     onClose = { isHelpCardOpen = false }
                 )
             }
