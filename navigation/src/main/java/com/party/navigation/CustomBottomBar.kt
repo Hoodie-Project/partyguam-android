@@ -50,7 +50,6 @@ fun BottomNavigationBar(
     context: Context,
     navController: NavHostController,
     isExpandedFloatingButton: Boolean = false,
-    onUnExpandedFloatingButton: (Boolean) -> Unit = {},
 ){
 
     val backStackEntry = navController.currentBackStackEntryAsState()
@@ -59,7 +58,6 @@ fun BottomNavigationBar(
     AppBottomNavigationBar(
         isExpandedFloatingButton = isExpandedFloatingButton,
         show = navController.shouldShowBottomBar,
-        onUnExpandedFloatingButton = onUnExpandedFloatingButton,
     ) {
         bottomDestinations.forEach { screenItem ->
             AppBottomNavigationBarItem(
@@ -86,7 +84,6 @@ fun AppBottomNavigationBar(
     modifier: Modifier = Modifier,
     show: Boolean,
     isExpandedFloatingButton: Boolean,
-    onUnExpandedFloatingButton: (Boolean) -> Unit,
     content: @Composable (RowScope.() -> Unit)
 ) {
     Surface(
@@ -95,10 +92,6 @@ fun AppBottomNavigationBar(
             .fillMaxWidth()
             .height(86.dp)
             .windowInsetsPadding(BottomAppBarDefaults.windowInsets)
-            .blur(
-                radiusX = if(isExpandedFloatingButton) 10.dp else 0.dp,
-                radiusY = if(isExpandedFloatingButton) 10.dp else 0.dp,
-            ),
     ) {
         if (show) {
             Column(
@@ -119,9 +112,6 @@ fun AppBottomNavigationBar(
                     verticalAlignment = Alignment.CenterVertically,
                     content = content
                 )
-            }
-            if(isExpandedFloatingButton){
-                Box(modifier = Modifier.fillMaxSize().background(BLACK.copy(alpha = 0.7f)).noRippleClickable {onUnExpandedFloatingButton(false)})
             }
         }
     }

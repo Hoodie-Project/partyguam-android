@@ -14,12 +14,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.BLACK
@@ -47,79 +47,96 @@ fun HomeScreen(
     onRecruitmentItemClick: (Int, Int) -> Unit,
     sharedViewModel: SharedViewModel,
 ) {
+    HomeScreenContent(
+        context = context,
+        snackBarHostState = snackBarHostState,
+        navController = navController,
+        selectedTabText = selectedTabText,
+        homeTopTabList = homeTopTabList,
+        homeViewModel = homeViewModel,
+        onTabClick = onTabClick,
+        onGoRecruitment = onGoRecruitment,
+        onRecruitmentItemClick = onRecruitmentItemClick,
+        sharedViewModel = sharedViewModel
+    )
+}
+
+@Composable
+fun HomeScreenContent(
+    context: Context,
+    snackBarHostState: SnackbarHostState,
+    navController: NavHostController,
+    selectedTabText: String,
+    homeTopTabList: List<String>,
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    onTabClick: (String) -> Unit,
+    onGoRecruitment: () -> Unit,
+    onRecruitmentItemClick: (Int, Int) -> Unit,
+    sharedViewModel: SharedViewModel,
+){
     var isExpandedFloatingButton by remember {
         mutableStateOf(false)
     }
 
-    Scaffold(
-        snackbarHost = {
-            SnackbarHost(
-                hostState = snackBarHostState,
-            )
-        },
-        bottomBar = {
-            BottomNavigationBar(
-                context = context,
-                navController = navController,
-                isExpandedFloatingButton = isExpandedFloatingButton,
-                onUnExpandedFloatingButton = { isExpandedFloatingButton = it }
-            )
-        },
-        floatingActionButton = {
-            FloatingButtonArea(
-                isExpandedFloatingButton = isExpandedFloatingButton,
-                selectedTabText = selectedTabText,
-                currentScreens = Screens.Home,
-                onExpanded = {
-                    isExpandedFloatingButton = it},
-                sharedViewModel = sharedViewModel,
-                navHostController = navController
-            )
-        }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .blur(
-                    radiusX = if (isExpandedFloatingButton) 10.dp else 0.dp,
-                    radiusY = if (isExpandedFloatingButton) 10.dp else 0.dp,
+        Scaffold(
+            modifier = Modifier.then(if (isExpandedFloatingButton) { Modifier.blur(10.dp) } else { Modifier }),
+            snackbarHost = {
+                SnackbarHost(
+                    hostState = snackBarHostState,
                 )
-                .background(WHITE)
-                .padding(it)
-                .padding(horizontal = MEDIUM_PADDING_SIZE)
+            },
+            bottomBar = {
+                BottomNavigationBar(
+                    context = context,
+                    navController = navController,
+                    isExpandedFloatingButton = isExpandedFloatingButton,
+                )
+            },
         ) {
-            HomeTopBar()
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(WHITE)
+                    .padding(it)
+                    .padding(horizontal = MEDIUM_PADDING_SIZE)
+            ) {
+                HomeTopBar()
 
-            HomeTopTabArea(
-                homeTopTabList = homeTopTabList,
-                selectedTabText = selectedTabText,
-                onTabClick = { onTabClick(it) }
-            )
-            when (selectedTabText) {
-                homeTopTabList[0] -> {
-                    MainArea(
-                        homeViewModel = homeViewModel,
-                        snackBarHostState = snackBarHostState,
-                        onGoRecruitment = onGoRecruitment
-                    )
-                }
+                HomeTopTabArea(
+                    homeTopTabList = homeTopTabList,
+                    selectedTabText = selectedTabText,
+                    onTabClick = { onTabClick(it) }
+                )
+                when (selectedTabText) {
+                    homeTopTabList[0] -> {
+                        MainArea(
+                            homeViewModel = homeViewModel,
+                            snackBarHostState = snackBarHostState,
+                            onGoRecruitment = onGoRecruitment
+                        )
+                    }
 
-                homeTopTabList[1] -> {
-                    PartyArea(
-                        homeViewModel = homeViewModel,
-                        snackBarHostState = snackBarHostState,
-                        sharedViewModel = sharedViewModel,
-                        onClick = { navController.navigate(Screens.PartyDetail(partyId = it)) }
-                    )
-                }
+                    homeTopTabList[1] -> {
+                        PartyArea(
+                            homeViewModel = homeViewModel,
+                            snackBarHostState = snackBarHostState,
+                            sharedViewModel = sharedViewModel,
+                            onClick = { navController.navigate(Screens.PartyDetail(partyId = it)) }
+                        )
+                    }
 
-                homeTopTabList[2] -> {
-                    RecruitmentArea(
-                        homeViewModel = homeViewModel,
-                        snackBarHostState = snackBarHostState,
-                        onRecruitmentItemClick = onRecruitmentItemClick,
-                        sharedViewModel = sharedViewModel
-                    )
+                    homeTopTabList[2] -> {
+                        RecruitmentArea(
+                            homeViewModel = homeViewModel,
+                            snackBarHostState = snackBarHostState,
+                            onRecruitmentItemClick = onRecruitmentItemClick,
+                            sharedViewModel = sharedViewModel
+                        )
+                    }
                 }
             }
         }
@@ -130,7 +147,22 @@ fun HomeScreen(
                     .fillMaxSize()
                     .background(BLACK.copy(alpha = 0.7f))
                     .noRippleClickable { isExpandedFloatingButton = false }
+                    .zIndex(0f)
             )
         }
+
+        FloatingButtonArea(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(bottom = 98.dp, end = 20.dp)
+                .zIndex(1f),
+            isExpandedFloatingButton = isExpandedFloatingButton,
+            selectedTabText = selectedTabText,
+            currentScreens = Screens.Home,
+            onExpanded = {
+                isExpandedFloatingButton = it},
+            sharedViewModel = sharedViewModel,
+            navHostController = navController
+        )
     }
 }

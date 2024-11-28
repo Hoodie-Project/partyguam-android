@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
 import com.party.common.R
@@ -39,6 +40,7 @@ import com.party.presentation.shared.SharedViewModel
 
 @Composable
 fun FloatingButtonArea(
+    modifier: Modifier,
     isExpandedFloatingButton: Boolean,
     currentScreens: Screens,
     selectedTabText: String,
@@ -49,6 +51,7 @@ fun FloatingButtonArea(
     when(currentScreens){
         Screens.Home -> {
             FloatingButton(
+                modifier = modifier,
                 isExpandedFloatingButton = isExpandedFloatingButton,
                 selectedTabText = selectedTabText,
                 onExpanded = onExpanded,
@@ -62,13 +65,16 @@ fun FloatingButtonArea(
 
 @Composable
 fun FloatingButton(
+    modifier: Modifier,
     isExpandedFloatingButton: Boolean,
     selectedTabText: String,
     onExpanded: (Boolean) -> Unit,
     sharedViewModel: SharedViewModel,
     navHostController: NavHostController,
 ) {
-    Column(horizontalAlignment = Alignment.End) {
+    Column(modifier = modifier,
+        horizontalAlignment = Alignment.End
+    ) {
         if (isExpandedFloatingButton) {
             FabItem(
                 title = stringResource(id = R.string.common8),

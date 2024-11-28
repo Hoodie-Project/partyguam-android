@@ -14,7 +14,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -75,7 +74,6 @@ fun PartyApplyScreen(
         inputText = inputApplyReason,
         onValueChange = { inputApplyReason = it },
         onAllDeleteInputText = { inputApplyReason = "" },
-        isShowBackDialog = isShowBackDialog,
         onVisibleDialog = { isShowBackDialog = it },
         onApply = {
             partyApplyViewModel.applyPartyRecruitment(
@@ -95,7 +93,6 @@ fun PartyApplyScreenContent(
     inputText: String,
     onValueChange: (String) -> Unit,
     onAllDeleteInputText: () -> Unit,
-    isShowBackDialog: Boolean,
     onVisibleDialog: (Boolean) -> Unit,
     onApply: () -> Unit,
 ) {
@@ -107,7 +104,6 @@ fun PartyApplyScreenContent(
         },
         topBar = {
             PartyApplyScaffoldArea(
-                isShowDialog = isShowBackDialog,
                 onNavigationClick = {
                     onVisibleDialog(true)
                 },
@@ -155,7 +151,6 @@ fun PartyApplyScreenContentPreview() {
         inputText = "지원합니다",
         onValueChange = {},
         onAllDeleteInputText = {},
-        isShowBackDialog = false,
         onVisibleDialog = {},
         onApply = {},
     )

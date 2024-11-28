@@ -29,19 +29,13 @@ import com.party.common.ui.theme.WHITE
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScaffoldCenterBar(
-    isShowDialog: Boolean = false,
-    isShowCompleteDialog: Boolean = false,
     title: @Composable () -> Unit = {},
     navigationIcon: @Composable () -> Unit = {},
     actionIcons: @Composable () -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
         modifier = Modifier
-            .fillMaxWidth()
-            .blur(
-                radiusX = if (isShowDialog || isShowCompleteDialog) 10.dp else 0.dp,
-                radiusY = if (isShowDialog || isShowCompleteDialog) 10.dp else 0.dp,
-            ),
+            .fillMaxWidth(),
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
             containerColor = WHITE
         ),
@@ -49,27 +43,12 @@ fun ScaffoldCenterBar(
         navigationIcon = navigationIcon,
         actions = { actionIcons() },
     )
-
-    if(isShowDialog || isShowCompleteDialog){
-        // 상태 표시줄 높이 가져오기
-        val statusBarHeight: Dp = with(LocalDensity.current) {
-            WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(64.dp + statusBarHeight)
-                .background(BLACK.copy(alpha = 0.7f))
-        )
-    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun ScaffoldCenterBarPreview(){
     ScaffoldCenterBar(
-        isShowDialog = true,
         title = {
             Text(
                 text = "파티 생성",

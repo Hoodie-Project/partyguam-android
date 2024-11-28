@@ -67,10 +67,6 @@ fun AppNavHost() {
         mutableStateOf(false)
     }
 
-    var isExpandedFloatingButton by remember {
-        mutableStateOf(false)
-    }
-
     var selectedTabText by remember {
         mutableStateOf(homeTopTabList[0])
     }
@@ -82,13 +78,7 @@ fun AppNavHost() {
         startDestination = Screens.Splash,
         modifier = Modifier
             .fillMaxSize()
-            .blur(
-                radiusX = if (isExpandedFloatingButton) 10.dp else 0.dp,
-                radiusY = if (isExpandedFloatingButton) 10.dp else 0.dp,
-            )
             .background(WHITE),
-            //.padding(it) ,
-
         enterTransition = {
             slideIntoContainer(
                 AnimatedContentTransitionScope.SlideDirection.Left,
