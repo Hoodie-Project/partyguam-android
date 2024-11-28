@@ -1,8 +1,9 @@
 package com.party.domain.repository
 
 import com.party.common.ServerApiResponse
+import com.party.domain.model.party.PartyApply
+import com.party.domain.model.party.PartyApplyRequest
 import com.party.domain.model.party.PartyCreate
-import com.party.domain.model.party.PartyCreateRequest
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyList
 import com.party.domain.model.party.PartyRecruitment
@@ -66,4 +67,11 @@ interface PartyRepository {
         positionId: RequestBody,
         image: MultipartBody.Part
     ): ServerApiResponse<PartyCreate>
+
+    // 파티지원하기 - 모집공고 지원
+    suspend fun applyPartyRecruitment(
+        partyId: Int,
+        partyRecruitmentId: Int,
+        partyApplyRequest: PartyApplyRequest,
+    ): ServerApiResponse<PartyApply>
 }

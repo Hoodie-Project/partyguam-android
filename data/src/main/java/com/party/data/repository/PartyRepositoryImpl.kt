@@ -12,9 +12,11 @@ import com.party.data.mapper.PartyMapper.mapperPartyResponse
 import com.party.data.mapper.PartyMapper.mapperPartyUsers
 import com.party.data.mapper.PartyMapper.mapperPersonalRecruitmentResponse
 import com.party.data.mapper.PartyMapper.mapperRecruitmentDetailResponse
+import com.party.data.mapper.PartyMapper.mapperToPartyApply
 import com.party.data.mapper.PartyMapper.mapperToPartyCreate
+import com.party.domain.model.party.PartyApply
+import com.party.domain.model.party.PartyApplyRequest
 import com.party.domain.model.party.PartyCreate
-import com.party.domain.model.party.PartyCreateRequest
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyList
 import com.party.domain.model.party.PartyRecruitment
@@ -213,6 +215,28 @@ class PartyRepositoryImpl @Inject constructor(
                 result.throwable.printStackTrace()
                 ExceptionResponse()
             }
+        }
+    }
+
+    override suspend fun applyPartyRecruitment(
+        partyId: Int,
+        partyRecruitmentId: Int,
+        partyApplyRequest: PartyApplyRequest
+    ): ServerApiResponse<PartyApply> {
+        return when(val result = partyRemoteSource.applyPartyRecruitment(
+            partyId = partyId,
+            partyRecruitmentId = partyRecruitmentId,
+            partyApplyRequest = partyApplyRequest
+        )){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = mapperToPartyApply(result.data))
+            }
+            is ApiResponse.Failure.Error -> { ErrorResponse() }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse()
+            }
+
         }
     }
 }

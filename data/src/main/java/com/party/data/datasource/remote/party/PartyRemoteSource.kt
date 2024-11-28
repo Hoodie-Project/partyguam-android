@@ -1,5 +1,6 @@
 package com.party.data.datasource.remote.party
 
+import com.party.data.entity.party.PartyApplyDto
 import com.party.data.entity.party.PartyAuthorityDto
 import com.party.data.entity.party.PartyCreateDto
 import com.party.data.entity.party.PartyDetailDto
@@ -9,7 +10,7 @@ import com.party.data.entity.party.PartyUsersDto
 import com.party.data.entity.party.PersonalRecruitmentListDto
 import com.party.data.entity.party.RecruitmentDetailDto
 import com.party.data.entity.party.RecruitmentListDto
-import com.party.domain.model.party.PartyCreateRequest
+import com.party.domain.model.party.PartyApplyRequest
 import com.skydoves.sandwich.ApiResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -48,4 +49,7 @@ interface PartyRemoteSource {
         positionId: RequestBody,
         image: MultipartBody.Part
     ): ApiResponse<PartyCreateDto>
+
+    // 파티지원하기 - 모집공고 지원
+    suspend fun applyPartyRecruitment(partyRecruitmentId: Int, partyId: Int, partyApplyRequest: PartyApplyRequest): ApiResponse<PartyApplyDto>
 }

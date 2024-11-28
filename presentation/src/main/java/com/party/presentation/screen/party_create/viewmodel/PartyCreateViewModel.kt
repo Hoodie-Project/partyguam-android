@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.common.UIState
 import com.party.domain.model.party.PartyCreate
-import com.party.domain.model.party.PartyCreateRequest
 import com.party.domain.usecase.party.CreatePartyUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

@@ -46,7 +46,6 @@ import com.party.common.snackBarMessage
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.party.PartyCreateRequest
 import com.party.domain.model.user.detail.PositionList
 import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import com.party.presentation.screen.party_create.component.PartyCreateCustomShape
@@ -57,7 +56,6 @@ import com.party.presentation.screen.party_create.component.PartyCreateScaffoldA
 import com.party.presentation.screen.party_create.component.PartyCreateSelectPositionArea
 import com.party.presentation.screen.party_create.component.PartyCreateValidField
 import com.party.presentation.screen.party_create.component.PartyImageUploadArea
-import com.party.presentation.screen.party_create.component.uriToFile
 import com.party.presentation.screen.party_create.viewmodel.PartyCreateViewModel
 import kotlinx.coroutines.flow.collectLatest
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
