@@ -44,6 +44,7 @@ import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.PositionList
+import com.party.navigation.Screens
 import com.party.presentation.component.HelpCard
 import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import com.party.presentation.screen.party_create.component.PartyCreateCustomShape
@@ -73,8 +74,12 @@ fun PartyCreateScreen(
     // 생성 완료 다이얼로그 오픈 여부
     var isShowCompleteDialog by remember { mutableStateOf(false) }
 
+    // 파티 생성된 후에 partyId
+    var partyId by remember { mutableStateOf(0) }
+
     LaunchedEffect(key1 = Unit) {
         partyCreateViewModel.createSuccess.collectLatest {
+            partyId = it
             isShowCompleteDialog = true
         }
     }
@@ -166,8 +171,9 @@ fun PartyCreateScreen(
                 },
                 onConfirm = {
                     isShowCompleteDialog = false
-
                     // 모집하기 이동
+                    navController.popBackStack()
+                    navController.navigate(Screens.RecruitmentCreateScreen(partyId = partyId))
                 }
             )
         }

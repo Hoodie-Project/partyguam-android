@@ -25,7 +25,7 @@ class PartyCreateViewModel @Inject constructor(
     private val _createPartyState = MutableStateFlow<UIState<ServerApiResponse<PartyCreate>>>(UIState.Idle)
     val createPartyState: StateFlow<UIState<ServerApiResponse<PartyCreate>>> = _createPartyState
 
-    private val _createSuccess = MutableSharedFlow<Unit>()
+    private val _createSuccess = MutableSharedFlow<Int>()
     val createSuccess = _createSuccess.asSharedFlow()
 
     fun createParty(
@@ -45,7 +45,8 @@ class PartyCreateViewModel @Inject constructor(
                 image = image
             )) {
                 is ServerApiResponse.SuccessResponse -> {
-                    _createSuccess.emit(Unit)
+                    val partyId = result.data?.id ?: 0
+                    _createSuccess.emit(partyId)
                 }
 
                 is ServerApiResponse.ErrorResponse -> {
