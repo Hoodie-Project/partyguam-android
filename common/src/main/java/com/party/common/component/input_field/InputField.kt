@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,12 +44,15 @@ import com.party.common.ui.theme.WHITE
 fun InputField(
     modifier: Modifier = Modifier,
     keyboardType: KeyboardType = KeyboardType.Text,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     imeAction: ImeAction = ImeAction.Next,
     elevation: Dp = 4.dp,
     inputText: String,
     inputTextColor: Color = BLACK,
     containerColor: Color = WHITE,
     borderColor: Color = GRAY200,
+    borderCornerSize: Dp = LARGE_CORNER_SIZE,
     readOnly: Boolean = false,
     placeHolder: String,
     visualTransformation: VisualTransformation = VisualTransformation.None,
@@ -60,7 +64,7 @@ fun InputField(
             .fillMaxWidth()
             .shadow(
                 elevation = elevation,
-                shape = RoundedCornerShape(LARGE_CORNER_SIZE),
+                shape = RoundedCornerShape(borderCornerSize),
             ),
     ) {
         BasicTextField(

@@ -18,13 +18,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.party.common.R
 import com.party.common.WidthSpacer
+import com.party.common.component.icon.DrawableIconButton
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.ICON_SIZE
 import com.party.common.ui.theme.LOGO_COLOR_END
 import com.party.common.ui.theme.LOGO_COLOR_START
 
 @Composable
-fun HomeTopBar() {
+fun HomeTopBar(
+    onGoToSearch: () -> Unit,
+    onGoToAlarm: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -33,7 +37,10 @@ fun HomeTopBar() {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         LogoText()
-        HomeTopBarIconArea()
+        HomeTopBarIconArea(
+            onGoToSearch = onGoToSearch,
+            onGoToAlarm = onGoToAlarm
+        )
     }
 }
 
@@ -51,22 +58,27 @@ fun LogoText() {
 }
 
 @Composable
-fun HomeTopBarIconArea() {
+fun HomeTopBarIconArea(
+    onGoToSearch: () -> Unit,
+    onGoToAlarm: () -> Unit
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Icon(
-            modifier = Modifier.size(ICON_SIZE),
-            painter = painterResource(id = R.drawable.search_icon),
-            contentDescription = "search",
-            tint = BLACK,
+        DrawableIconButton(
+            modifier = Modifier.size(24.dp),
+            icon = painterResource(id = R.drawable.search_icon),
+            contentDescription = "",
+            onClick = onGoToSearch,
+            iconColor = BLACK
         )
         WidthSpacer(widthDp = 12.dp)
-        Icon(
-            modifier = Modifier.size(ICON_SIZE),
-            painter = painterResource(id = R.drawable.alarm_icon),
-            contentDescription = "notification",
-            tint = BLACK,
+        DrawableIconButton(
+            modifier = Modifier.size(24.dp),
+            icon = painterResource(id = R.drawable.alarm_icon),
+            contentDescription = "",
+            onClick = onGoToAlarm,
+            iconColor = BLACK
         )
     }
 }

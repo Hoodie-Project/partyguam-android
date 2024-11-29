@@ -28,7 +28,7 @@ fun PartyCreateScaffoldArea(
         title = {
             Text(
                 text = "파티 생성",
-                fontWeight = FontWeight.    Bold,
+                fontWeight = FontWeight.Bold,
                 fontSize = T2
             )
         },

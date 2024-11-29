@@ -1,57 +1,64 @@
 package com.party.common.component.no_data
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
+import com.party.common.WidthSpacer
 import com.party.common.component.icon.DrawableIcon
 import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.GRAY500
+import com.party.common.ui.theme.GRAY600
 
 @Composable
-fun NoParty() {
+fun NoDataRow(
+    modifier: Modifier = Modifier,
+    text: String,
+    spacer: Dp = 4.dp,
+    iconColor: Color = GRAY500,
+    textColor: Color = GRAY600
+) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(500.dp),
-        contentAlignment = Alignment.TopCenter
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        modifier = modifier,
+        contentAlignment = Alignment.Center
+    ){
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ){
             DrawableIcon(
                 icon = painterResource(id = R.drawable.info),
                 contentDescription = "info",
                 modifier = Modifier
-                    .size(24.dp),
-                tintColor = GRAY500
+                    .size(16.dp),
+                tintColor = iconColor
             )
-            HeightSpacer(heightDp = 6.dp)
+            WidthSpacer(widthDp = spacer)
             TextComponent(
-                text = "파티가 없어요.",
+                text = text,
                 fontSize = B1,
-                fontWeight = FontWeight.SemiBold,
-                textColor = GRAY500,
+                textColor = textColor,
             )
         }
     }
+
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun NoPartyPreview(modifier: Modifier = Modifier) {
-    NoParty()
+private fun NoDataRowPreview(modifier: Modifier = Modifier) {
+    NoDataRow(
+        text = "파티가 없어요."
+    )
 }

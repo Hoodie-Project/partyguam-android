@@ -104,7 +104,10 @@ fun HomeScreenContent(
                     .padding(it)
                     .padding(horizontal = MEDIUM_PADDING_SIZE)
             ) {
-                HomeTopBar()
+                HomeTopBar(
+                    onGoToSearch = { navController.navigate(Screens.Search) },
+                    onGoToAlarm = {}
+                )
 
                 HomeTopTabArea(
                     homeTopTabList = homeTopTabList,

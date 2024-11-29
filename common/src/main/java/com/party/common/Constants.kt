@@ -10,6 +10,10 @@ object Constants {
     // DataStore
     const val ACCESS_TOKEN_PREFERENCES = "guam_preferences"
     const val ACCESS_TOKEN_KEY = "access_token"
+
+    // Room
+    const val KEYWORD_ENTITY = "keyword_entity"
+    const val GUAM_DATABASE_NAME = "guam_database"
 }
 
 object DetailCarrierData {
