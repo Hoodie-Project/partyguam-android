@@ -5,11 +5,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RecruitmentCreateDto(
     val id: Int,
-    val partyTypeId: Int,
-    val title: String,
     val content: String,
-    val image: String,
-    val status: String,
+    val recruitingCount: Int,
+    val recruitedCount: Int,
     val createdAt: String,
-    val updatedAt: String,
 )

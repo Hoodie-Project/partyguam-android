@@ -18,6 +18,7 @@ import com.party.common.component.chip.RoundChip
 import com.party.common.component.no_data.NoDataRow
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.GRAY400
+import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.T3
 import com.party.domain.model.room.KeywordModel
 
@@ -33,6 +34,7 @@ fun RecentSearchedArea(
             .fillMaxWidth()
     ) {
         RecentSearchedAreaTitle(
+            isExistKeywordList = keywordList.isNotEmpty(),
             onAllDelete = onAllDelete
         )
 
@@ -75,6 +77,7 @@ private fun KeywordListItem(
 
 @Composable
 fun RecentSearchedAreaTitle(
+    isExistKeywordList: Boolean,
     onAllDelete: () -> Unit
 ) {
     HeightSpacer(heightDp = 24.dp)
@@ -92,7 +95,7 @@ fun RecentSearchedAreaTitle(
         TextComponent(
             text = "전체 삭제",
             fontSize = B3,
-            textColor = GRAY400,
+            textColor = if(isExistKeywordList) RED else GRAY400,
             onClick = onAllDelete
         )
     }

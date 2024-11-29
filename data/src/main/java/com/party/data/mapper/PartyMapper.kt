@@ -277,13 +277,10 @@ object PartyMapper {
     fun mapperToRecruitmentCreate(recruitmentCreateDto: RecruitmentCreateDto): RecruitmentCreate {
         return RecruitmentCreate(
             id = recruitmentCreateDto.id,
-            partyTypeId = recruitmentCreateDto.partyTypeId,
-            title = recruitmentCreateDto.title,
             content = recruitmentCreateDto.content,
-            image = convertToImageUrl(recruitmentCreateDto.image),
-            status = recruitmentCreateDto.status,
+            recruitingCount = recruitmentCreateDto.recruitingCount,
+            recruitedCount = recruitmentCreateDto.recruitedCount,
             createdAt = recruitmentCreateDto.createdAt,
-            updatedAt = recruitmentCreateDto.updatedAt,
         )
     }
 }
