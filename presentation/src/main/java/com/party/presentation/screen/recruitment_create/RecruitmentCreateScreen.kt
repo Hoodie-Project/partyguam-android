@@ -118,7 +118,7 @@ fun RecruitmentCreateContent(
     var isPeopleCountSheetOpen by rememberSaveable { mutableStateOf(false) }
 
     // 파티 소개글 도움글 오픈 여부
-    var isHelpCardOpen by remember { mutableStateOf(true) }
+    var isHelpCardOpen by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {

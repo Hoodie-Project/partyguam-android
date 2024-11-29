@@ -23,7 +23,8 @@ import com.party.presentation.screen.join.JoinScreenButton
 
 @Composable
 fun RowButtonArea(
-    navController: NavHostController,
+    onGotoHome: () -> Unit,
+    onGotoDetailProfile: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -39,7 +40,7 @@ fun RowButtonArea(
             buttonBorderColor = PRIMARY,
             fontSize = B2,
             fontWeight = FontWeight.Bold,
-            onClick = { navController.navigate(Screens.Home) }
+            onClick = onGotoHome
         )
 
         WidthSpacer(widthDp = 8.dp)
@@ -52,7 +53,7 @@ fun RowButtonArea(
             buttonBorderColor = PRIMARY,
             fontSize = B2,
             fontWeight = FontWeight.Bold,
-            onClick = { navController.navigate(Screens.DetailProfile) }
+            onClick = onGotoDetailProfile
         )
     }
 }
@@ -60,5 +61,8 @@ fun RowButtonArea(
 @Preview
 @Composable
 fun RowButtonAreaPreview() {
-    RowButtonArea(navController = rememberNavController())
+    RowButtonArea(
+        onGotoHome = {},
+        onGotoDetailProfile = {}
+    )
 }

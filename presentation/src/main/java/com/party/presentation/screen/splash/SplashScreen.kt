@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.party.navigation.Screens
@@ -20,9 +21,15 @@ fun SplashScreen(
     LaunchedEffect(key1 = Unit) {
         delay(1000L)
 
-        navController.navigate(Screens.Home)
+        navController.navigate(Screens.Login)
     }
 
+    SplashScreenContent()
+}
+
+@Composable
+fun SplashScreenContent(
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -34,4 +41,10 @@ fun SplashScreen(
             Text(text = "파티괌 인트로 페이지", fontSize = 30.sp)
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SplashScreenContentPreview() {
+    SplashScreenContent()
 }

@@ -51,13 +51,12 @@ import com.party.navigation.Screens
 
 @Composable
 fun TendencyBottomArea(
-    navController: NavController,
-    routeScreens: Screens,
     buttonText: String,
     textColor: Color,
     borderColor: Color,
     containerColor: Color,
     onClick: () -> Unit,
+    onSkip: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -82,7 +81,7 @@ fun TendencyBottomArea(
             textDecoration = TextDecoration.Underline,
             textAlign = Alignment.Center,
             textColor = GRAY500,
-            onClick = { navController.navigate(routeScreens) }
+            onClick = onSkip
         )
     }
 }

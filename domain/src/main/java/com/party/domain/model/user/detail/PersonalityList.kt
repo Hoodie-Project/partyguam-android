@@ -4,7 +4,7 @@ data class PersonalityList(
     val id: Int,
     val content: String,
     val responseCount: String,
-    val personalityOption: List<PersonalityListOption>
+    val personalityOptions: List<PersonalityListOption>
 )
 
 data class PersonalityListOption(

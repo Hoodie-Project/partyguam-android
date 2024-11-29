@@ -56,7 +56,7 @@ fun makeAnnotatedStringValid(
 }
 
 fun containsSpecialCharacters(input: String): Boolean {
-    // 특수문자 확인을 위한 정규식
-    val regex = Regex("[^a-zA-Z0-9]") // 알파벳과 숫자가 아닌 문자를 찾음
+    // 한글, 알파벳, 숫자를 제외한 특수문자를 확인하기 위한 정규식
+    val regex = Regex("[^가-힣a-zA-Z0-9]") // 한글, 알파벳, 숫자가 아닌 문자를 찾음
     return regex.containsMatchIn(input)
 }

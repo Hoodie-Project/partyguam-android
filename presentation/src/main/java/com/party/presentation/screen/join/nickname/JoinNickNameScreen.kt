@@ -247,18 +247,3 @@ fun JoinNickNameScreenContentPreview() {
         onClick = {}
     )
 }
-
-@Preview(showBackground = true)
-@Composable
-fun JoinScreenInputFieldPreview() {
-    JoinScreenInputField(
-        textColor = GRAY400,
-        containerColor = WHITE,
-        borderColor = GRAY400,
-        closeIcon = painterResource(id = R.drawable.close),
-        readOnly = false,
-        inputText = "",
-        placeHolder = "닉네임을 입력해주세요",
-        onString = {}
-    )
-}

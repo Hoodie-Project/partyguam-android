@@ -79,7 +79,7 @@ object UserMapper {
             id = personalityListEntity.id,
             content = personalityListEntity.content,
             responseCount = personalityListEntity.responseCount,
-            personalityOption = personalityListEntity.personalityOption.map {
+            personalityOptions = personalityListEntity.personalityOptions.map {
                 PersonalityListOption(
                     id = it.id,
                     personalityQuestionId = it.personalityQuestionId,

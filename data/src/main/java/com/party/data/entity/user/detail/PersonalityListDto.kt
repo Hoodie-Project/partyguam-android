@@ -7,7 +7,7 @@ data class PersonalityListDto(
     val id: Int,
     val content: String,
     val responseCount: String,
-    val personalityOption: List<PersonalityListOptionDto>
+    val personalityOptions: List<PersonalityListOptionDto>
 )
 
 @Serializable

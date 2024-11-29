@@ -50,9 +50,7 @@ fun PositionArea(
             selectedCarrier = mainSelectedCarrier,
             selectedPosition = mainSelectedMainPosition,
             selectedDetailPosition = mainSelectedDetailPosition,
-            onGoToChoiceCarrierPosition = {
-                onGoToChoiceCarrierPosition(true)
-            }
+            onGoToChoiceCarrierPosition = { onGoToChoiceCarrierPosition(true) }
         )
         HeightSpacer(heightDp = 40.dp)
         PositionAreaComponent(
@@ -61,9 +59,7 @@ fun PositionArea(
             selectedCarrier = subSelectedCarrier,
             selectedPosition = subSelectedMainPosition,
             selectedDetailPosition = subSelectedDetailPosition,
-            onGoToChoiceCarrierPosition = {
-                onGoToChoiceCarrierPosition(false)
-            }
+            onGoToChoiceCarrierPosition = { onGoToChoiceCarrierPosition(false) }
         )
     }
 }

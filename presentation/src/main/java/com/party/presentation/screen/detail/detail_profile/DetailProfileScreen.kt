@@ -21,9 +21,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.party.common.LoadingProgressBar
 import com.party.common.R
 import com.party.common.ScreenExplainArea
+import com.party.common.ServerApiResponse.ErrorResponse
 import com.party.common.ServerApiResponse.SuccessResponse
+import com.party.common.UIState
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.DARK200
@@ -82,15 +85,34 @@ fun DetailProfileScreen(
         detailProfileViewModel.getLocationList(province = selectedProvince)
     }
 
+    var list by remember {
+        mutableStateOf(emptyList<Location>())
+    }
+
     val locationListState by detailProfileViewModel.getLocationListState.collectAsState()
-    val locationListResult = locationListState.data as? SuccessResponse<List<Location>>
+
+    when(locationListState){
+        is UIState.Idle -> {}
+        is UIState.Loading -> { LoadingProgressBar()}
+        is UIState.Success -> {
+            val locationListResult = locationListState.data as SuccessResponse<List<Location>>
+            list = locationListResult.data ?: emptyList()
+        }
+        is UIState.Error -> {
+            val errorResult = locationListState.data as ErrorResponse
+            snackBarMessage(snackBarHostState, errorResult.message ?: "")
+        }
+        is UIState.Exception -> { }
+    }
+
+    //val locationListResult = locationListState.data as? SuccessResponse<List<Location>>
 
     DetailProfileScreenContent(
         context = context,
         snackBarHostState = snackBarHostState,
         selectedProvince = selectedProvince,
         selectedLocationList = selectedLocationList,
-        locationListResult = locationListResult,
+        locationListResult = list,
         onSelectProvince = { selectedProvince = it },
         onSkip = { navController.navigate(Screens.DetailCarrier) },
         onNextButtonClick = {
@@ -113,7 +135,7 @@ fun DetailProfileScreenContent(
     snackBarHostState: SnackbarHostState,
     selectedProvince: String,
     selectedLocationList: MutableList<Pair<String, Int>>,
-    locationListResult: SuccessResponse<List<Location>>?,
+    locationListResult: List<Location>,
     onSelectProvince: (String) -> Unit,
     onSkip: () -> Unit,
     onNextButtonClick: () -> Unit,
@@ -159,7 +181,7 @@ fun DetailProfileScreenContent(
                     onDeleteLocation = { selectedLocationList.remove(it) },
                     snackBarHostState = snackBarHostState,
                     context = context,
-                    locationListResult = locationListResult?.data ?: emptyList(),
+                    locationListResult = locationListResult,
                 )
             }
 
@@ -186,7 +208,7 @@ fun DetailProfileScreenContentPreview() {
         onSelectProvince = {  },
         onSkip = {  },
         onNextButtonClick = {  },
-        locationListResult = SuccessResponse()
+        locationListResult = emptyList()
     )
 }
 

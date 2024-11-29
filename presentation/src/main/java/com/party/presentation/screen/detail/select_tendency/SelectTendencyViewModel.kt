@@ -51,10 +51,10 @@ class SelectTendencyViewModel @Inject constructor(
                     _personalityState.value = UIState.Success(result)
                 }
                 is ServerApiResponse.ErrorResponse<List<PersonalityList>> -> {
-                    _personalityState.value = UIState.Idle
+                    _personalityState.value = UIState.Error(result)
                 }
                 is ServerApiResponse.ExceptionResponse -> {
-                    _personalityState.value = UIState.Idle
+                    _personalityState.value = UIState.Exception
                 }
             }
         }

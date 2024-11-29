@@ -1,15 +1,19 @@
 package com.party.presentation.screen.detail.select_tendency
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.party.common.HeightSpacer
@@ -17,6 +21,7 @@ import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.ui.theme.BLACK
+import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T1
 import com.party.common.ui.theme.WHITE
@@ -26,32 +31,49 @@ import com.party.navigation.Screens
 fun SelectTendencyCompleteScreen(
     navController: NavController,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
+    SelectTendencyCompleteScreenContent(
+        onGoHome = { navController.navigate(Screens.Home) }
+    )
+}
+
+@Composable
+fun SelectTendencyCompleteScreenContent(
+    onGoHome: () -> Unit,
+) {
+    Scaffold{
         Column(
             modifier = Modifier
-                .weight(1f)
+                .fillMaxSize()
+                .background(WHITE)
+                .padding(it)
+                .padding(horizontal = MEDIUM_PADDING_SIZE)
         ) {
-            TextComponent(
-                modifier = Modifier.fillMaxSize(),
-                text = stringResource(id = R.string.select_tendency8),
-                fontWeight = FontWeight.Bold,
-                fontSize = T1,
-                textAlign = Alignment.Center,
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+            ) {
+                TextComponent(
+                    modifier = Modifier.fillMaxSize(),
+                    text = stringResource(id = R.string.select_tendency8),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = T1,
+                    textAlign = Alignment.Center,
+                )
+            }
+
+            FinishButtonArea(
+                onGoHome = onGoHome,
             )
+
+            HeightSpacer(heightDp = 12.dp)
         }
-
-        FinishButtonArea(navController = navController)
-
-        HeightSpacer(heightDp = 12.dp)
     }
+
 }
 
 @Composable
 fun FinishButtonArea(
-    navController: NavController,
+    onGoHome: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -76,9 +98,15 @@ fun FinishButtonArea(
             textColor = BLACK,
             containerColor = PRIMARY,
             borderColor = PRIMARY,
-            onClick = {
-                navController.navigate(Screens.Home)
-            }
+            onClick = onGoHome
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SelectTendencyCompleteScreenContentPreview() {
+    SelectTendencyCompleteScreenContent(
+        onGoHome = {}
+    )
 }

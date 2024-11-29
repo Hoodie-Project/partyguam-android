@@ -28,6 +28,7 @@ import com.party.common.R
 import com.party.common.ScreenExplainArea
 import com.party.common.makeAccessToken
 import com.party.common.snackBarMessage
+import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.Screens
 import com.party.presentation.screen.login.component.LoginButtonArea
@@ -56,7 +57,8 @@ fun LoginScreen(
 
     LaunchedEffect(key1 = Unit) {
         loginViewModel.goToHomeScreen.collectLatest {
-            navController.navigate(Screens.Home)
+            //navController.navigate(Screens.Home)
+            navController.navigate(Screens.SelectTendency1)
         }
     }
 
@@ -73,54 +75,52 @@ fun LoginScreen(
         loginViewModel.googleSignIn(activityResult = it, context = context)
     }
 
+    LoginScreenContent(
+        context = context,
+        kakaoCallback = kakaoCallback,
+        launcher = launcher,
+    )
+}
+
+@Composable
+fun LoginScreenContent(
+    context: Context,
+    kakaoCallback: (OAuthToken?, Throwable?) -> Unit,
+    launcher: ManagedActivityResultLauncher<Intent, ActivityResult>,
+) {
     Scaffold (
         topBar = {
             LoginScaffoldArea()
         }
     ){
-        LoginScreenContent(
+        Column(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .padding(it),
-            context = context,
-            kakaoCallback = kakaoCallback,
-            launcher = launcher,
-        )
+                .fillMaxSize()
+                .background(WHITE)
+                .padding(it)
+                .padding(horizontal = MEDIUM_PADDING_SIZE)
+        ) {
+            ScreenExplainArea(
+                mainExplain = stringResource(id = R.string.login1),
+                subExplain = stringResource(id = R.string.login2),
+            )
+
+            LoginButtonArea(
+                context = context,
+                kakaoCallback = kakaoCallback,
+                launcher = launcher,
+            )
+
+            LoginScreenBottomArea()
+        }
     }
-}
 
-@Composable
-fun LoginScreenContent(
-    modifier: Modifier,
-    context: Context,
-    kakaoCallback: (OAuthToken?, Throwable?) -> Unit,
-    launcher: ManagedActivityResultLauncher<Intent, ActivityResult>,
-) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(WHITE)
-    ) {
-        ScreenExplainArea(
-            mainExplain = stringResource(id = R.string.login1),
-            subExplain = stringResource(id = R.string.login2),
-        )
-
-        LoginButtonArea(
-            context = context,
-            kakaoCallback = kakaoCallback,
-            launcher = launcher,
-        )
-
-        LoginScreenBottomArea()
-    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
     LoginScreenContent(
-        modifier = Modifier.padding(20.dp),
         context = LocalContext.current,
         kakaoCallback = { _, _ -> },
         launcher = rememberLauncherForActivityResult(

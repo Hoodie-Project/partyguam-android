@@ -1,7 +1,10 @@
 package com.party.presentation.screen.join.complete
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,32 +18,55 @@ import com.party.common.HeightSpacer
 import com.party.common.TextComponent
 import com.party.common.ui.theme.T1
 import com.party.common.R
+import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
+import com.party.common.ui.theme.WHITE
+import com.party.navigation.Screens
 
 @Composable
 fun JoinCompleteScreen(
     navController: NavHostController,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
+    JoinCompleteScreenContent(
+        onGotoHome = { navController.navigate(Screens.Home) },
+        onGotoDetailProfile = { navController.navigate(Screens.DetailProfile) }
+    )
+}
+
+@Composable
+fun JoinCompleteScreenContent(
+    onGotoHome: () -> Unit,
+    onGotoDetailProfile: () -> Unit
+) {
+    Scaffold {
         Column(
             modifier = Modifier
-                .weight(1f)
+                .fillMaxSize()
+                .background(WHITE)
+                .padding(it)
+                .padding(horizontal = MEDIUM_PADDING_SIZE)
         ) {
-            TextComponent(
-                modifier = Modifier.fillMaxSize(),
-                text = stringResource(id = R.string.join_complete1),
-                fontWeight = FontWeight.Bold,
-                fontSize = T1,
-                textAlign = Alignment.Center,
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+            ) {
+                TextComponent(
+                    modifier = Modifier.fillMaxSize(),
+                    text = stringResource(id = R.string.join_complete1),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = T1,
+                    textAlign = Alignment.Center,
+                )
+            }
+
+            RowButtonArea(
+                onGotoHome = onGotoHome,
+                onGotoDetailProfile = onGotoDetailProfile
             )
+
+            HeightSpacer(heightDp = 12.dp)
         }
-
-        RowButtonArea(navController = navController)
-
-        HeightSpacer(heightDp = 12.dp)
     }
+
 }
 
 @Preview

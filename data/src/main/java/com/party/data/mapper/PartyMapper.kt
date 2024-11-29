@@ -268,12 +268,9 @@ object PartyMapper {
     fun mapperToPartyApply(partyApplyDto: PartyApplyDto): PartyApply{
         return PartyApply(
             id = partyApplyDto.id,
-            partyRecruitmentId = partyApplyDto.partyRecruitmentId,
-            userId = partyApplyDto.userId,
             message = partyApplyDto.message,
             status = partyApplyDto.status,
             createdAt = partyApplyDto.createdAt,
-            updatedAt = partyApplyDto.updatedAt,
         )
     }
 
