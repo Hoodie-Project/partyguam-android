@@ -12,6 +12,7 @@ import com.party.data.entity.party.PartyUserDto
 import com.party.data.entity.party.PartyUsersDto
 import com.party.data.entity.party.PersonalRecruitmentListDto
 import com.party.data.entity.party.PositionDto
+import com.party.data.entity.party.RecruitmentCreateDto
 import com.party.data.entity.party.RecruitmentDetailDto
 import com.party.data.entity.party.RecruitmentListDto
 import com.party.data.entity.party.UserCareerDto
@@ -35,6 +36,7 @@ import com.party.domain.model.party.PersonalRecruitmentPartyType
 import com.party.domain.model.party.PersonalRecruitmentPosition
 import com.party.domain.model.party.Position
 import com.party.domain.model.party.Position1
+import com.party.domain.model.party.RecruitmentCreate
 import com.party.domain.model.party.RecruitmentDetail
 import com.party.domain.model.party.RecruitmentDetailParty
 import com.party.domain.model.party.RecruitmentDetailPartyType
@@ -272,6 +274,19 @@ object PartyMapper {
             status = partyApplyDto.status,
             createdAt = partyApplyDto.createdAt,
             updatedAt = partyApplyDto.updatedAt,
+        )
+    }
+
+    fun mapperToRecruitmentCreate(recruitmentCreateDto: RecruitmentCreateDto): RecruitmentCreate {
+        return RecruitmentCreate(
+            id = recruitmentCreateDto.id,
+            partyTypeId = recruitmentCreateDto.partyTypeId,
+            title = recruitmentCreateDto.title,
+            content = recruitmentCreateDto.content,
+            image = convertToImageUrl(recruitmentCreateDto.image),
+            status = recruitmentCreateDto.status,
+            createdAt = recruitmentCreateDto.createdAt,
+            updatedAt = recruitmentCreateDto.updatedAt,
         )
     }
 }

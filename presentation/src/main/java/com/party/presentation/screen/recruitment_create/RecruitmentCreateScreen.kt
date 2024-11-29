@@ -12,6 +12,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
 import com.party.common.R
@@ -30,6 +33,7 @@ import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.MultiLineInputField
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
+import com.party.domain.model.party.RecruitmentCreateRequest
 import com.party.domain.model.user.detail.PositionList
 import com.party.presentation.component.HelpCard
 import com.party.presentation.component.SelectMainAndSubPositionArea
@@ -37,12 +41,15 @@ import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import com.party.presentation.screen.recruitment_create.component.RecruitmentCreateDescriptionArea
 import com.party.presentation.screen.recruitment_create.component.RecruitmentCreateInputField
 import com.party.presentation.screen.recruitment_create.component.RecruitmentCreateScaffoldArea
+import com.party.presentation.screen.recruitment_create.viewmodel.RecruitmentCreateViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun RecruitmentCreateScreen(
     snackBarHostState: SnackbarHostState,
     navController: NavHostController,
     homeViewModel: HomeViewModel,
+    recruitmentCreateViewModel: RecruitmentCreateViewModel,
     partyId: Int,
 ) {
     // 선택된 메인 포지션
@@ -51,16 +58,42 @@ fun RecruitmentCreateScreen(
     // 선택된 서브 포지션
     var selectedSubPosition by remember { mutableStateOf(PositionList(0, "", "")) }
 
+    // 선택된 명 수
+    var selectedCount by remember { mutableStateOf("") }
+
+    // 입력된 모집 소개글
+    var recruitmentDescription by remember { mutableStateOf("") }
+
+    val createRecruitmentState by recruitmentCreateViewModel.createRecruitmentState.collectAsStateWithLifecycle()
+    LaunchedEffect(Unit) {
+       recruitmentCreateViewModel.successSaveState.collectLatest { navController.popBackStack() }
+    }
+
     RecruitmentCreateContent(
         snackBarHostState = snackBarHostState,
         homeViewModel = homeViewModel,
+        selectedCount = selectedCount,
+        recruitmentDescription = recruitmentDescription,
         selectedMainPosition = selectedMainPosition,
         selectedSubPosition = selectedSubPosition,
         onBackNavigation = { navController.popBackStack() },
+        onSetNumberCount = { selectedCount = it },
+        onSetDescription = { recruitmentDescription = it },
+        onAllDeleteInputText = { recruitmentDescription = "" },
         onApply = { main, sub ->
             selectedMainPosition = main
             selectedSubPosition = sub
         },
+        onSave = {
+            recruitmentCreateViewModel.createRecruitment(
+                partyId = partyId,
+                recruitmentCreateRequest = RecruitmentCreateRequest(
+                    positionId = selectedSubPosition.id,
+                    content = recruitmentDescription,
+                    recruiting_count = selectedCount.toInt()
+                )
+            )
+        }
     )
 }
 
@@ -68,21 +101,21 @@ fun RecruitmentCreateScreen(
 fun RecruitmentCreateContent(
     snackBarHostState: SnackbarHostState,
     homeViewModel: HomeViewModel,
+    selectedCount: String,
+    recruitmentDescription: String,
     selectedMainPosition: String,
     selectedSubPosition: PositionList,
     onBackNavigation: () -> Unit,
+    onSetNumberCount: (String) -> Unit,
+    onSetDescription: (String) -> Unit,
+    onAllDeleteInputText: () -> Unit,
     onApply: (String, PositionList) -> Unit,
+    onSave: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
     // 인원 선택 시트 오픈 여부
     var isPeopleCountSheetOpen by rememberSaveable { mutableStateOf(false) }
-
-    // 선택된 명 수
-    var selectedCount by remember { mutableStateOf("") }
-
-    // 입력된 모집 소개글
-    var recruitmentDescription by remember { mutableStateOf("") }
 
     // 파티 소개글 도움글 오픈 여부
     var isHelpCardOpen by remember { mutableStateOf(true) }
@@ -144,8 +177,8 @@ fun RecruitmentCreateContent(
                         selectedText = selectedCount,
                         peopleCountList = peopleCountList,
                         onBottomSheetClose = { isPeopleCountSheetOpen = false },
-                        onApply = {
-                            selectedCount = it
+                        onApply = { selectedData ->
+                            onSetNumberCount(selectedData.split("명")[0])
                             isPeopleCountSheetOpen = false
                         }
                     )
@@ -176,8 +209,8 @@ fun RecruitmentCreateContent(
                 MultiLineInputField(
                     placeHolder = "새로운 프로젝트를 위해 모여 함께 아이디어를 나누고 계획을 세우는 파티를 개최합니다.",
                     inputText = recruitmentDescription,
-                    onValueChange = { recruitmentDescription = it },
-                    onAllDeleteInputText = { recruitmentDescription = "" }
+                    onValueChange = onSetDescription,
+                    onAllDeleteInputText = onAllDeleteInputText
                 )
 
                 HeightSpacer(heightDp = 60.dp)
@@ -186,7 +219,7 @@ fun RecruitmentCreateContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp),
-                    onClick = {  }
+                    onClick = onSave
                 )
                 HeightSpacer(heightDp = 20.dp)
             }

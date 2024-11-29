@@ -8,9 +8,11 @@ import com.party.data.entity.party.PartyListDto
 import com.party.data.entity.party.PartyRecruitmentDto
 import com.party.data.entity.party.PartyUsersDto
 import com.party.data.entity.party.PersonalRecruitmentListDto
+import com.party.data.entity.party.RecruitmentCreateDto
 import com.party.data.entity.party.RecruitmentDetailDto
 import com.party.data.entity.party.RecruitmentListDto
 import com.party.domain.model.party.PartyApplyRequest
+import com.party.domain.model.party.RecruitmentCreateRequest
 import com.skydoves.sandwich.ApiResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -52,4 +54,7 @@ interface PartyRemoteSource {
 
     // 파티지원하기 - 모집공고 지원
     suspend fun applyPartyRecruitment(partyRecruitmentId: Int, partyId: Int, partyApplyRequest: PartyApplyRequest): ApiResponse<PartyApplyDto>
+
+    // 모집공고 추가하기
+    suspend fun createRecruitment(partyId: Int, recruitmentCreateRequest: RecruitmentCreateRequest): ApiResponse<RecruitmentCreateDto>
 }

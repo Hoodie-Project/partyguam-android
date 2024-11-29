@@ -9,6 +9,8 @@ import com.party.domain.model.party.PartyList
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PartyUsers
 import com.party.domain.model.party.PersonalRecruitmentList
+import com.party.domain.model.party.RecruitmentCreate
+import com.party.domain.model.party.RecruitmentCreateRequest
 import com.party.domain.model.party.RecruitmentDetail
 import com.party.domain.model.party.RecruitmentList
 import com.party.domain.model.user.PartyAuthority
@@ -74,4 +76,10 @@ interface PartyRepository {
         partyRecruitmentId: Int,
         partyApplyRequest: PartyApplyRequest,
     ): ServerApiResponse<PartyApply>
+
+    // // 모집공고 추가하기
+    suspend fun saveRecruitment(
+        partyId: Int,
+        recruitmentCreateRequest: RecruitmentCreateRequest
+    ): ServerApiResponse<RecruitmentCreate>
 }

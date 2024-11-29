@@ -14,6 +14,7 @@ import com.party.data.mapper.PartyMapper.mapperPersonalRecruitmentResponse
 import com.party.data.mapper.PartyMapper.mapperRecruitmentDetailResponse
 import com.party.data.mapper.PartyMapper.mapperToPartyApply
 import com.party.data.mapper.PartyMapper.mapperToPartyCreate
+import com.party.data.mapper.PartyMapper.mapperToRecruitmentCreate
 import com.party.domain.model.party.PartyApply
 import com.party.domain.model.party.PartyApplyRequest
 import com.party.domain.model.party.PartyCreate
@@ -22,6 +23,8 @@ import com.party.domain.model.party.PartyList
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PartyUsers
 import com.party.domain.model.party.PersonalRecruitmentList
+import com.party.domain.model.party.RecruitmentCreate
+import com.party.domain.model.party.RecruitmentCreateRequest
 import com.party.domain.model.party.RecruitmentDetail
 import com.party.domain.model.party.RecruitmentList
 import com.party.domain.model.user.PartyAuthority
@@ -237,6 +240,23 @@ class PartyRepositoryImpl @Inject constructor(
                 ExceptionResponse()
             }
 
+        }
+    }
+
+    override suspend fun saveRecruitment(
+        partyId: Int,
+        recruitmentCreateRequest: RecruitmentCreateRequest
+    ): ServerApiResponse<RecruitmentCreate> {
+        return when(val result = partyRemoteSource.createRecruitment(
+            partyId = partyId,
+            recruitmentCreateRequest = recruitmentCreateRequest
+        )){
+            is ApiResponse.Success -> { SuccessResponse(data = mapperToRecruitmentCreate(result.data)) }
+            is ApiResponse.Failure.Error -> { ErrorResponse() }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse()
+            }
         }
     }
 }
