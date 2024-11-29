@@ -1,4 +1,4 @@
-package com.party.presentation.screen.detail.choice_carrier_position
+package com.party.presentation.screen.detail.choice_carrier_position.component
 
 val carrierList = listOf(
     "신입",

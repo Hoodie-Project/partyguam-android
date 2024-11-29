@@ -1,4 +1,4 @@
-package com.party.presentation.screen.party_create.component
+package com.party.presentation.screen.detail.detail_carrier.component
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,7 +12,7 @@ import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.T2
 
 @Composable
-fun PartyCreateScaffoldArea(
+fun DetailCarrierScaffoldArea(
     onNavigationClick: () -> Unit,
 ) {
     ScaffoldCenterBar(
@@ -27,7 +27,7 @@ fun PartyCreateScaffoldArea(
         },
         title = {
             Text(
-                text = "파티 생성",
+                text = "세부프로필",
                 fontWeight = FontWeight.    Bold,
                 fontSize = T2
             )

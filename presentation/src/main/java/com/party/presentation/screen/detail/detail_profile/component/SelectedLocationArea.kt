@@ -1,20 +1,16 @@
-package com.party.presentation.screen.detail.detail_profile
+package com.party.presentation.screen.detail.detail_profile.component
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,22 +20,17 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
-import com.party.common.WidthSpacer
-import com.party.common.snackBarMessage
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY400
@@ -48,33 +39,17 @@ import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.user.detail.InterestLocationList
-import com.party.domain.model.user.detail.InterestLocationRequest
-import com.party.navigation.Screens
 import com.party.presentation.screen.detail.DetailProfileNextButton
-import kotlinx.coroutines.flow.collectLatest
+import com.party.presentation.screen.detail.detail_profile.SELECTED_LOCATION_COUNT
 
 @Composable
 fun SelectedLocationArea(
-    snackBarHostState: SnackbarHostState,
-    navController: NavController,
     selectedProvince: String,
     selectedLocationList: MutableList<Pair<String, Int>>,
     onDelete: (Pair<String, Int>) -> Unit,
-    detailProfileViewModel: DetailProfileViewModel,
+    onSkip: () -> Unit,
+    onNextButtonClick: () -> Unit,
 ) {
-    LaunchedEffect(key1 = Unit) {
-        detailProfileViewModel.saveSuccess.collectLatest {
-            navController.navigate(Screens.DetailCarrier)
-        }
-    }
-
-    LaunchedEffect(key1 = Unit) {
-        detailProfileViewModel.saveFail.collectLatest {
-            snackBarMessage(snackBarHostState, it)
-        }
-    }
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -92,17 +67,7 @@ fun SelectedLocationArea(
             text = stringResource(id = R.string.common1),
             textColor = if((1..SELECTED_LOCATION_COUNT).contains(selectedLocationList.size)) BLACK else GRAY400,
             containerColor = if((1..SELECTED_LOCATION_COUNT).contains(selectedLocationList.size)) PRIMARY else LIGHT400,
-            onClick = {
-                if((1..SELECTED_LOCATION_COUNT).contains(selectedLocationList.size)) {
-                    detailProfileViewModel.saveInterestLocation(
-                        locations = InterestLocationList(
-                            locations = selectedLocationList.map {
-                                InterestLocationRequest(id = it.second)
-                            }
-                        )
-                    )
-                }
-            }
+            onClick = onNextButtonClick
         )
 
         HeightSpacer(heightDp = 12.dp)
@@ -116,7 +81,7 @@ fun SelectedLocationArea(
             textColor = GRAY500,
             textAlign = Alignment.Center,
             textDecoration = TextDecoration.Underline,
-            onClick = { navController.navigate(Screens.DetailCarrier) }
+            onClick = onSkip
         )
     }
 }

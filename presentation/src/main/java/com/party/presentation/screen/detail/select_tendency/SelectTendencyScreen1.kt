@@ -1,6 +1,5 @@
 package com.party.presentation.screen.detail.select_tendency
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -44,7 +43,6 @@ import com.party.presentation.screen.detail.select_tendency.SavePersonalityData.
 
 @Composable
 fun SelectTendencyScreen1(
-    context: Context,
     navController: NavController,
     snackBarHostState: SnackbarHostState,
     selectTendencyViewModel: SelectTendencyViewModel = hiltViewModel()

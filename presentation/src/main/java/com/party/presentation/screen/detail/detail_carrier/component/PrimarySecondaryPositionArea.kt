@@ -1,4 +1,4 @@
-package com.party.presentation.screen.detail.detail_carrier
+package com.party.presentation.screen.detail.detail_carrier.component
 
 import android.content.Context
 import androidx.compose.foundation.BorderStroke
@@ -17,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.party.common.DetailCarrierData.mainSelectedDetailPosition
 import com.party.common.DetailCarrierData.mainSelectedCarrier
 import com.party.common.DetailCarrierData.mainSelectedMainPosition
@@ -35,12 +34,11 @@ import com.party.common.ui.theme.LARGE_BUTTON_HEIGHT
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
-import com.party.navigation.Screens
 
 @Composable
 fun PositionArea(
     context: Context,
-    navController: NavController,
+    onGoToChoiceCarrierPosition: (Boolean) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -49,21 +47,23 @@ fun PositionArea(
         PositionAreaComponent(
             context = context,
             title = stringResource(id = R.string.detail_carrier3),
-            navController = navController,
             selectedCarrier = mainSelectedCarrier,
             selectedPosition = mainSelectedMainPosition,
             selectedDetailPosition = mainSelectedDetailPosition,
-            isMain = true,
+            onGoToChoiceCarrierPosition = {
+                onGoToChoiceCarrierPosition(true)
+            }
         )
         HeightSpacer(heightDp = 40.dp)
         PositionAreaComponent(
             context = context,
             title = stringResource(id = R.string.detail_carrier4),
-            navController = navController,
             selectedCarrier = subSelectedCarrier,
             selectedPosition = subSelectedMainPosition,
             selectedDetailPosition = subSelectedDetailPosition,
-            isMain = false,
+            onGoToChoiceCarrierPosition = {
+                onGoToChoiceCarrierPosition(false)
+            }
         )
     }
 }
@@ -72,11 +72,10 @@ fun PositionArea(
 fun PositionAreaComponent(
     context: Context,
     title: String,
-    navController: NavController,
     selectedCarrier: String,
     selectedPosition: String,
     selectedDetailPosition: String,
-    isMain: Boolean,
+    onGoToChoiceCarrierPosition: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -89,11 +88,10 @@ fun PositionAreaComponent(
         HeightSpacer(heightDp = 12.dp)
         AddCarrierCard(
             context = context,
-            navController = navController,
             selectedCarrier = selectedCarrier,
             selectedPosition = selectedPosition,
             selectedDetailPosition = selectedDetailPosition,
-            isMain = isMain,
+            onGoToChoiceCarrierPosition = onGoToChoiceCarrierPosition,
         )
     }
 }
@@ -101,17 +99,16 @@ fun PositionAreaComponent(
 @Composable
 fun AddCarrierCard(
     context: Context,
-    navController: NavController,
     selectedCarrier: String,
     selectedPosition: String,
     selectedDetailPosition: String,
-    isMain: Boolean,
+    onGoToChoiceCarrierPosition: () -> Unit,
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(LARGE_BUTTON_HEIGHT)
-            .noRippleClickable { navController.navigate(Screens.ChoiceCarrierPosition(isMain = isMain)) },
+            .noRippleClickable { onGoToChoiceCarrierPosition() },
         colors = CardDefaults.cardColors(
             containerColor = WHITE
         ),

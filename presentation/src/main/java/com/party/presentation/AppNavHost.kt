@@ -175,14 +175,12 @@ fun AppNavHost() {
         composable<Screens.ChoiceCarrierPosition> { backStackEntry ->
             val isMain = backStackEntry.toRoute<Screens.ChoiceCarrierPosition>().isMain
             ChoiceCarrierPositionScreen(
-                snackBarHostState = snackBarHostState,
                 navController = navController,
                 isMain = isMain,
             )
         }
         composable<Screens.SelectTendency1> {
             SelectTendencyScreen1(
-                context = context,
                 navController = navController,
                 snackBarHostState = snackBarHostState
             )

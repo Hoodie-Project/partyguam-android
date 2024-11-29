@@ -1,4 +1,4 @@
-package com.party.presentation.screen.party_create.component
+package com.party.presentation.screen.detail.choice_carrier_position.component
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,13 +12,13 @@ import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.T2
 
 @Composable
-fun PartyCreateScaffoldArea(
+fun ChoiceCarrierPositionScaffoldArea(
     onNavigationClick: () -> Unit,
 ) {
     ScaffoldCenterBar(
         navigationIcon = {
             DrawableIconButton(
-                icon = painterResource(id = R.drawable.arrow_back),
+                icon = painterResource(id = R.drawable.close2),
                 iconColor = BLACK,
                 iconSize = 24.dp,
                 contentDescription = "back",

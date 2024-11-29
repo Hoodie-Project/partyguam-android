@@ -1,4 +1,4 @@
-package com.party.presentation.screen.detail.detail_profile
+package com.party.presentation.screen.detail.detail_profile.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,7 +7,6 @@ import com.party.common.UIState
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.Location
 import com.party.domain.model.user.detail.SaveInterestLocation
-import com.party.domain.usecase.datastore.GetAccessTokenUseCase
 import com.party.domain.usecase.user.detail.GetLocationListUseCase
 import com.party.domain.usecase.user.detail.SaveInterestLocationUseCase
 import com.skydoves.sandwich.StatusCode
@@ -24,7 +23,6 @@ import javax.inject.Inject
 class DetailProfileViewModel @Inject constructor(
     private val getLocationListUseCase: GetLocationListUseCase,
     private val saveInterestLocationUseCase: SaveInterestLocationUseCase,
-    private val getAccessTokenUseCase: GetAccessTokenUseCase,
 ): ViewModel(){
 
     private val _getLocationListState = MutableStateFlow<UIState<ServerApiResponse<List<Location>>>>(UIState.Idle)

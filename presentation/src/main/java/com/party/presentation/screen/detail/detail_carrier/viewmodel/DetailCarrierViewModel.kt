@@ -1,4 +1,4 @@
-package com.party.presentation.screen.detail.detail_carrier
+package com.party.presentation.screen.detail.detail_carrier.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

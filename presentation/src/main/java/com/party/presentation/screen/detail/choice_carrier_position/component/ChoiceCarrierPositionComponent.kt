@@ -1,4 +1,4 @@
-package com.party.presentation.screen.detail.choice_carrier_position
+package com.party.presentation.screen.detail.choice_carrier_position.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -45,14 +45,14 @@ import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.PositionList
-import com.party.presentation.screen.detail.detail_carrier.DetailCarrierViewModel
+import com.party.presentation.screen.detail.detail_carrier.viewmodel.DetailCarrierViewModel
 
 @Composable
 fun SelectCarrierArea(
     title: String,
     list: List<String>,
     selectedCarrier: String,
-    onSelect: (String) -> Unit,
+    onSelectCarrier: (String) -> Unit,
 ) {
     TextComponent(
         text = title,
@@ -76,7 +76,7 @@ fun SelectCarrierArea(
                 containerColor = if(selectedCarrier == item) PRIMARY else WHITE,
                 text = item,
                 fontWeight = FontWeight.Normal,
-                onSelect = { onSelect(it) },
+                onSelect = { onSelectCarrier(it) },
             )
         }
     }
@@ -87,7 +87,7 @@ fun SelectPositionArea(
     title: String,
     list: List<String>,
     selectedPosition: String,
-    onSelect: (String) -> Unit,
+    onSelectMainPosition: (String) -> Unit,
 ) {
     TextComponent(
         text = title,
@@ -111,7 +111,7 @@ fun SelectPositionArea(
                 containerColor = if(selectedPosition == item) PRIMARY else WHITE,
                 text = item,
                 fontWeight = FontWeight.Normal,
-                onSelect = { onSelect(it) },
+                onSelect = { onSelectMainPosition(it) },
             )
         }
     }
@@ -150,40 +150,24 @@ fun SelectCarrierAndPositionComponent(
 
 @Composable
 fun DetailPositionArea(
-    snackBarHostState: SnackbarHostState,
+    detailPositionListResult: List<PositionList>,
     selectedDetailPosition: String,
-    detailCarrierViewModel: DetailCarrierViewModel,
-    onSelect: (PositionList) -> Unit,
+    onSelectSubPosition: (PositionList) -> Unit,
 ) {
-    val detailPositionListState by detailCarrierViewModel.positionsState.collectAsState()
-    val detailPositionListResult = detailPositionListState.data
-
-    when(detailPositionListState){
-        is UIState.Idle -> {}
-        is UIState.Loading -> { LoadingProgressBar() }
-        is UIState.Success -> {
-            val successResult = detailPositionListResult as SuccessResponse
-
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-            ) {
-                itemsIndexed(
-                    items = successResult.data ?: emptyList(),
-                    key = { index, _ ->
-                        index
-                    }
-                ){ _, item ->
-                    SubPositionAreaComponent(
-                        item = item,
-                        selected = item.sub == selectedDetailPosition,
-                        onSelect = {onSelect(it)}
-                    )
-                }
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+    ) {
+        itemsIndexed(
+            items = detailPositionListResult,
+            key = { index, _ ->
+                index
             }
-        }
-        is UIState.Error -> {}
-        is UIState.Exception -> {
-            snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState)
+        ){ _, item ->
+            SubPositionAreaComponent(
+                item = item,
+                selected = item.sub == selectedDetailPosition,
+                onSelect = {onSelectSubPosition(it)}
+            )
         }
     }
 }

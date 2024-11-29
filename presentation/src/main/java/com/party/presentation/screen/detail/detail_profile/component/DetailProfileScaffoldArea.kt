@@ -1,4 +1,4 @@
-package com.party.presentation.screen.party_create.component
+package com.party.presentation.screen.detail.detail_profile.component
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,25 +12,25 @@ import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.T2
 
 @Composable
-fun PartyCreateScaffoldArea(
+fun DetailProfileScaffoldArea(
     onNavigationClick: () -> Unit,
 ) {
     ScaffoldCenterBar(
-        navigationIcon = {
+        title = {
+            Text(
+                text = "세부프로필",
+                fontWeight = FontWeight.Bold,
+                fontSize = T2
+            )
+        },
+        actionIcons = {
             DrawableIconButton(
-                icon = painterResource(id = R.drawable.arrow_back),
+                icon = painterResource(id = R.drawable.close2),
                 iconColor = BLACK,
                 iconSize = 24.dp,
                 contentDescription = "back",
                 onClick = { onNavigationClick() }
             )
-        },
-        title = {
-            Text(
-                text = "파티 생성",
-                fontWeight = FontWeight.    Bold,
-                fontSize = T2
-            )
-        },
+        }
     )
 }
