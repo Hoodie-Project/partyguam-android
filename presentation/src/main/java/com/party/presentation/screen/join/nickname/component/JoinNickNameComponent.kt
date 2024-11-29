@@ -1,4 +1,4 @@
-package com.party.presentation.screen.join.nickname
+package com.party.presentation.screen.join.nickname.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color

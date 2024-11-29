@@ -40,7 +40,7 @@ fun NoParty() {
             )
             HeightSpacer(heightDp = 6.dp)
             TextComponent(
-                text = "파티가 없습니다.",
+                text = "파티가 없어요.",
                 fontSize = B1,
                 fontWeight = FontWeight.SemiBold,
                 textColor = GRAY500,

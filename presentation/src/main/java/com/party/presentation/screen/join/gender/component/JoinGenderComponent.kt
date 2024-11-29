@@ -1,4 +1,4 @@
-package com.party.presentation.screen.join.gender
+package com.party.presentation.screen.join.gender.component
 
 import android.content.Context
 import androidx.compose.foundation.BorderStroke

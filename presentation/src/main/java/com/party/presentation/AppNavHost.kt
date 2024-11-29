@@ -60,14 +60,6 @@ fun AppNavHost() {
 
     val snackBarHostState = remember { SnackbarHostState() }
 
-    var joinActionText by remember {
-        mutableStateOf("")
-    }
-
-    var isShowWarningDialog by remember {
-        mutableStateOf(false)
-    }
-
     var selectedTabText by remember {
         mutableStateOf(homeTopTabList[0])
     }
@@ -124,9 +116,6 @@ fun AppNavHost() {
                 navController = navController,
                 userEmail = userEmail,
                 signupAccessToken = signupAccessToken,
-                setActionText = { text ->
-                    joinActionText = text
-                },
             )
         }
         composable<Screens.JoinNickName> { backStackEntry ->
@@ -138,13 +127,6 @@ fun AppNavHost() {
                 snackBarHostState = snackBarHostState,
                 userEmail = userEmail,
                 signupAccessToken = signupAccessToken,
-                setActionText = { text ->
-                    joinActionText = text
-                },
-                isShowWarningDialog = isShowWarningDialog,
-                onClose = { close ->
-                    isShowWarningDialog = close
-                }
             )
         }
         composable<Screens.JoinBirthDay> { backStackEntry ->
@@ -156,9 +138,6 @@ fun AppNavHost() {
                 userEmail = userEmail,
                 signupAccessToken = signupAccessToken,
                 userNickName = userNickName,
-                setActionText = { text ->
-                    joinActionText = text
-                }
             )
         }
         composable<Screens.JoinGender> { backStackEntry ->
@@ -174,9 +153,6 @@ fun AppNavHost() {
                 signupAccessToken = signupAccessToken,
                 userNickName = userNickName,
                 userBirthDay = userBirthDay,
-                setActionText = { text ->
-                    joinActionText = text
-                }
             )
         }
         composable<Screens.JoinComplete> {

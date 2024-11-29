@@ -1,4 +1,4 @@
-package com.party.presentation.screen.join.nickname
+package com.party.presentation.screen.join.nickname.component
 
 import android.content.Context
 import androidx.compose.foundation.layout.Arrangement

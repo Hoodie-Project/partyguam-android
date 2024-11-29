@@ -40,7 +40,7 @@ fun NoRecruitment() {
             )
             HeightSpacer(heightDp = 6.dp)
             TextComponent(
-                text = "모집 공고가 없습니다.",
+                text = "모집 공고가 없어요.",
                 fontSize = B1,
                 fontWeight = FontWeight.SemiBold,
                 textColor = GRAY500,
