@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
 import com.party.common.R
@@ -97,7 +98,7 @@ fun PartyArea(
         homeViewModel.getPartyList(page = 1, size = 10, sort = "createdAt", order = "DESC")
     }
 
-    val getPartyListState by homeViewModel.getPartyListState.collectAsState()
+    val getPartyListState by homeViewModel.getPartyListState.collectAsStateWithLifecycle()
     val partyListResponse = getPartyListState.data
 
     Column(

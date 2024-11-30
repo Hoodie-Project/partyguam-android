@@ -12,7 +12,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -22,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.party.common.LoadingProgressBar
 import com.party.common.R
@@ -74,11 +74,11 @@ fun SelectTendencyScreen4(
     }
 
     // Get Personality
-    val personalityListState by selectTendencyViewModel.personalityState.collectAsState()
+    val personalityListState by selectTendencyViewModel.personalityState.collectAsStateWithLifecycle()
     val personalityListResult = personalityListState.data
 
     // Save Personality
-    val personalitySaveState by selectTendencyViewModel.personalitySaveState.collectAsState()
+    val personalitySaveState by selectTendencyViewModel.personalitySaveState.collectAsStateWithLifecycle()
     val personalitySaveResult = personalitySaveState.data
 
     val selectedTendencyList by remember {

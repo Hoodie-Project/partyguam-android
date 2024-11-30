@@ -23,7 +23,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
 import com.party.common.R
@@ -63,7 +63,7 @@ fun PersonalRecruitmentArea(
         homeViewModel.getPersonalRecruitmentList(page = 1, size = 10, sort = "createdAt", order = "DESC")
     }
 
-    val getPersonalRecruitmentListState by homeViewModel.getPersonalRecruitmentListState.collectAsState()
+    val getPersonalRecruitmentListState by homeViewModel.getPersonalRecruitmentListState.collectAsStateWithLifecycle()
     val personalRecruitmentListResponse = getPersonalRecruitmentListState.data
 
     HeightSpacer(heightDp = 40.dp)

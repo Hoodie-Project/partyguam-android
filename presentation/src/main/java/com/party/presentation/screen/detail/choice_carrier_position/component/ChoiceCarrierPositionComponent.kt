@@ -16,26 +16,17 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
-import com.party.common.LoadingProgressBar
-import com.party.common.R
-import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.TextComponent
-import com.party.common.UIState
 import com.party.common.WidthSpacer
 import com.party.common.noRippleClickable
-import com.party.common.snackBarMessage
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY200
@@ -45,7 +36,6 @@ import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.PositionList
-import com.party.presentation.screen.detail.detail_carrier.viewmodel.DetailCarrierViewModel
 
 @Composable
 fun SelectCarrierArea(

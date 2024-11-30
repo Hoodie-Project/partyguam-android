@@ -11,7 +11,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -25,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
@@ -66,7 +66,7 @@ fun JoinNickNameScreen(
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    val checkUserNickNameState by joinViewModel.checkNickNameState.collectAsState()
+    val checkUserNickNameState by joinViewModel.checkNickNameState.collectAsStateWithLifecycle()
     val checkUserNickNameResult = checkUserNickNameState.data
 
     LaunchedEffect(Unit) {

@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.LoadingProgressBar
 import com.party.common.R
@@ -89,7 +90,7 @@ fun DetailProfileScreen(
         mutableStateOf(emptyList<Location>())
     }
 
-    val locationListState by detailProfileViewModel.getLocationListState.collectAsState()
+    val locationListState by detailProfileViewModel.getLocationListState.collectAsStateWithLifecycle()
 
     when(locationListState){
         is UIState.Idle -> {}
