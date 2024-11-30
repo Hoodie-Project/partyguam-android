@@ -42,7 +42,9 @@ fun SearchScreen(
         onValueChange = { keyword = it },
         searchAction = {
             searchViewModel.insertKeyword(keyword)
-            keyword = ""
+
+            searchViewModel.search(keyword, 1, 50)
+            //keyword = ""
         },
         onDelete = { searchViewModel.deleteKeyword(it) },
         onNavigationClick = { navController.popBackStack() },

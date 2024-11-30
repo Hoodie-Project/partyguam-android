@@ -3,7 +3,9 @@ package com.party.di
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.party.data.service.NoTokenService
 import com.party.data.service.PartyService
+import com.party.data.service.SearchService
 import com.party.data.service.UserService
+import com.party.domain.model.search.Search
 import com.party.domain.usecase.datastore.GetAccessTokenUseCase
 import com.skydoves.sandwich.retrofit.adapters.ApiResponseCallAdapterFactory
 import dagger.Module
@@ -104,6 +106,20 @@ object NetworkModule {
             .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .build()
             .create(PartyService::class.java)
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    @Singleton
+    @Provides
+    fun provideSearchServiceApi(accessTokenInterceptor: AccessTokenInterceptor): SearchService {
+        return Retrofit.Builder()
+            .baseUrl("https://partyguam.net/dev/")
+            .client(tokenLogging2(accessTokenInterceptor))
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
+            .build()
+            .create(SearchService::class.java)
     }
 
     class AccessTokenInterceptor @Inject constructor(
