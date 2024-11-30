@@ -4,10 +4,7 @@ import com.party.data.entity.search.SearchDto
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
-import javax.inject.Singleton
 
-
-@Singleton
 interface SearchService {
 
     // 검색하기

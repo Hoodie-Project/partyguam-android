@@ -10,9 +10,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
-import javax.inject.Singleton
 
-@Singleton
 interface NoTokenService {
 
     @POST("api/users/google/app/login")

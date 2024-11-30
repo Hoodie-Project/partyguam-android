@@ -14,9 +14,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
-import javax.inject.Singleton
 
-@Singleton
 interface UserService {
 
     // 특정 지역의 지역 리스트 조회

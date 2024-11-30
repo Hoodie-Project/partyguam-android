@@ -23,9 +23,7 @@ import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
-import javax.inject.Singleton
 
-@Singleton
 interface PartyService {
 
     // 개인 맞춤 모집공고
