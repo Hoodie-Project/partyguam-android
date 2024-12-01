@@ -2,10 +2,6 @@ package com.party.presentation.screen.search.component.search
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
@@ -15,15 +11,14 @@ import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.UIState
 import com.party.common.component.searchTabList
 import com.party.domain.model.search.Search
-import com.party.domain.model.search.SearchedRecruitmentData
 
 @Composable
 fun SearchedDataContent(
     getSearchedResult: UIState<ServerApiResponse<Search>>,
     selectedTabText: String,
-    onTabClick: (String) -> Unit
+    onTabClick: (String) -> Unit,
+    onPartyTypeApply: (MutableList<String>) -> Unit,
 ) {
-
 
     when(getSearchedResult){
         is UIState.Idle -> {}
@@ -57,11 +52,14 @@ fun SearchedDataContent(
             }
             searchTabList[1] -> {
                 SearchPartyArea(
-                    partyList = listOf()
+                    partyList = listOf(),
+                    onPartyTypeApply = onPartyTypeApply
                 )
             }
             searchTabList[2] -> {
-                SearchRecruitmentArea()
+                SearchRecruitmentArea(
+                    recruitmentList = listOf()
+                )
             }
         }
     }
@@ -73,7 +71,8 @@ fun SearchedDataContentPreview1() {
     SearchedDataContent(
         getSearchedResult = UIState.Idle,
         selectedTabText = searchTabList[0],
-        onTabClick = {}
+        onTabClick = {},
+        onPartyTypeApply = {}
     )
 }
 
@@ -83,6 +82,7 @@ fun SearchedDataContentPreview2() {
     SearchedDataContent(
         getSearchedResult = UIState.Idle,
         selectedTabText = searchTabList[1],
-        onTabClick = {}
+        onTabClick = {},
+        onPartyTypeApply = {}
     )
 }

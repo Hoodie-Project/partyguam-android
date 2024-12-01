@@ -23,6 +23,8 @@ import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.room.KeywordModel
 import com.party.domain.model.search.Search
+import com.party.presentation.screen.home.tab_party.convertToIntList
+import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import com.party.presentation.screen.search.component.SearchArea
 import com.party.presentation.screen.search.component.keyword.RecentSearchedArea
 import com.party.presentation.screen.search.component.search.SearchedDataContent
@@ -48,30 +50,6 @@ fun SearchScreen(
 
     val getSearchedResult by searchViewModel.searchedDataState.collectAsStateWithLifecycle()
 
-
-    /*if(isShowKeywordArea){
-        SearchScreenKeywordAreaContent(
-            keyword = keyword,
-            keywordList = keywordList,
-            onValueChange = { keyword = it },
-            searchAction = {
-                searchViewModel.insertKeyword(keyword)
-
-                searchViewModel.search(keyword, 1, 50)
-
-                isShowKeywordArea = false
-                //keyword = ""
-            },
-            onDelete = { searchViewModel.deleteKeyword(it) },
-            onNavigationClick = { navController.popBackStack() },
-            onAllDelete = { searchViewModel.allDeleteKeyword() }
-        )
-    }else {
-        SearchedDataContent(
-            getSearchedResult = getSearchedResult,
-        )
-    }*/
-
     SearchScreenContent(
         isShowKeywordArea = isShowKeywordArea,
         keyword = keyword,
@@ -88,7 +66,7 @@ fun SearchScreen(
         onDelete = { searchViewModel.deleteKeyword(it) },
         onNavigationClick = { navController.popBackStack() },
         onAllDelete = { searchViewModel.allDeleteKeyword() },
-        getSearchedResult = getSearchedResult
+        getSearchedResult = getSearchedResult,
     )
 }
 
@@ -102,7 +80,7 @@ fun SearchScreenContent(
     onDelete: (String) -> Unit,
     onNavigationClick: () -> Unit,
     onAllDelete: () -> Unit,
-    getSearchedResult: UIState<ServerApiResponse<Search>>
+    getSearchedResult: UIState<ServerApiResponse<Search>>,
 ) {
     var selectedTabText by remember {
         mutableStateOf(searchTabList[0])
@@ -135,7 +113,8 @@ fun SearchScreenContent(
                 SearchedDataContent(
                     getSearchedResult = getSearchedResult,
                     selectedTabText = selectedTabText,
-                    onTabClick = { selectedTabText = it }
+                    onTabClick = { selectedTabText = it },
+                    onPartyTypeApply = { }
                 )
             }
         }
@@ -154,7 +133,7 @@ fun SearchScreenContentPreview() {
         onDelete = {},
         onNavigationClick = {},
         onAllDelete = {},
-        getSearchedResult = UIState.Idle
+        getSearchedResult = UIState.Idle,
     )
 }
 
@@ -174,6 +153,6 @@ fun SearchScreenContentPreview1() {
         onDelete = {},
         onNavigationClick = {},
         onAllDelete = {},
-        getSearchedResult = UIState.Idle
+        getSearchedResult = UIState.Idle,
     )
 }
