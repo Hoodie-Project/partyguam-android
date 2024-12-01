@@ -1,24 +1,15 @@
 package com.party.common.component.scaffold
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.component.icon.DrawableIconButton
@@ -29,12 +20,13 @@ import com.party.common.ui.theme.WHITE
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScaffoldCenterBar(
+    modifier: Modifier = Modifier,
     title: @Composable () -> Unit = {},
     navigationIcon: @Composable () -> Unit = {},
     actionIcons: @Composable () -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth(),
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
             containerColor = WHITE

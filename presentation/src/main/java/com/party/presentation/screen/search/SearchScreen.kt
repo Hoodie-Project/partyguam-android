@@ -23,8 +23,6 @@ import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.room.KeywordModel
 import com.party.domain.model.search.Search
-import com.party.presentation.screen.home.tab_party.convertToIntList
-import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import com.party.presentation.screen.search.component.SearchArea
 import com.party.presentation.screen.search.component.keyword.RecentSearchedArea
 import com.party.presentation.screen.search.component.search.SearchedDataContent

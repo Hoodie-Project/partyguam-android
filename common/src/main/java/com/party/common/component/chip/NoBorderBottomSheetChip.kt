@@ -18,8 +18,6 @@ import com.party.common.WidthSpacer
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.GRAY400
-import com.party.common.ui.theme.GRAY500
 
 @Composable
 fun NoBorderBottomSheetChip(

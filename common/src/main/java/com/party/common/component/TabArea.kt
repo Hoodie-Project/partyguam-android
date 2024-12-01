@@ -34,6 +34,8 @@ val partyDetailTabList = listOf("홈", "파티원", "모집공고")
 
 val searchTabList = listOf("전체", "파티", "모집공고")
 
+val stateTabList = listOf("내 파티", "지원목록")
+
 @Composable
 fun TabArea(
     tabList: List<String>,
