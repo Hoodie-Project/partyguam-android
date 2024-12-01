@@ -76,7 +76,7 @@ fun IngToggle(
 
 @Preview
 @Composable
-fun FilterAreaPreview() {
+private fun FilterAreaPreview() {
     FilterArea(
         checked = true,
         onToggle = {},

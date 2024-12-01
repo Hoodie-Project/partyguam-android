@@ -2,6 +2,7 @@ package com.party.common.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -37,6 +38,7 @@ fun PartyListItem1(
     category: String,
     title: String,
     recruitmentCount: Int,
+    typeChip: @Composable (() -> Unit) = {}
 ) {
     Card(
         onClick = {},
@@ -62,6 +64,7 @@ fun PartyListItem1(
                 category = category,
                 title = title,
                 recruitmentCount = recruitmentCount,
+                typeChip = typeChip
             )
         }
     }
@@ -76,7 +79,7 @@ private fun PartyItemImageArea(
             .fillMaxWidth()
             .height(150.dp),
         imageUrl = imageUrl,
-        roundedCornerShape = MEDIUM_CORNER_SIZE
+        roundedCornerShape = MEDIUM_CORNER_SIZE,
     )
 }
 
@@ -85,15 +88,22 @@ private fun PartyItemInfoArea(
     category: String,
     title: String,
     recruitmentCount: Int,
+    typeChip: @Composable (() -> Unit) = {}
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .height(142.dp)
     ) {
-        PartyItemCategory(
-            category = category,
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            typeChip()
+            PartyItemCategory(
+                category = category,
+            )
+        }
+
         HeightSpacer(heightDp = 4.dp)
         PartyItemTitle(
             title = title,

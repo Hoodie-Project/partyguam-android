@@ -1,27 +1,16 @@
 package com.party.presentation.screen.home.tab_party
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -29,33 +18,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
 import com.party.common.R
 import com.party.common.ServerApiResponse.SuccessResponse
-import com.party.common.TextComponent
 import com.party.common.UIState
-import com.party.common.WidthSpacer
-import com.party.common.component.ImageLoading
+import com.party.common.component.PartyListItem1
 import com.party.common.component.chip.Chip
 import com.party.common.component.no_data.NoDataColumn
 import com.party.common.snackBarMessage
-import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY600
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.MEDIUM_CORNER_SIZE
-import com.party.common.ui.theme.T3
-import com.party.common.ui.theme.TYPE_COLOR_BACKGROUND
-import com.party.common.ui.theme.TYPE_COLOR_TEXT
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.party.PartyItem
 import com.party.domain.model.party.PartyList
 import com.party.presentation.enum.PartyType
 import com.party.presentation.screen.home.tab_party.component.FilterArea
@@ -213,96 +191,20 @@ private fun PartyListArea(
                     index
                 }
             ){_, item ->
-                PartyItem(
-                    partyItemResponse = item,
-                    onClick = onClick
+                PartyListItem1(
+                    imageUrl = item.image,
+                    category = item.partyType.type,
+                    title = item.title,
+                    recruitmentCount = item.recruitmentCount,
+                    typeChip = {
+                        Chip(
+                            containerColor = if(item.tag == "진행중") Color(0xFFD5F0E3) else GRAY600,
+                            contentColor = if(item.tag == "진행중") Color(0xFF016110) else WHITE,
+                            text = item.tag,
+                        )
+                    }
                 )
             }
         }
     }
-}
-
-@Composable
-private fun PartyItem(
-    partyItemResponse: PartyItem,
-    onClick: (Int) -> Unit,
-){
-    Card(
-        onClick = {onClick(partyItemResponse.id)},
-        modifier = Modifier.wrapContentSize(),
-        shape = RoundedCornerShape(LARGE_CORNER_SIZE),
-        colors = CardDefaults.cardColors(
-            containerColor = WHITE
-        ),
-        border = BorderStroke(1.dp, GRAY100),
-        elevation = CardDefaults.cardElevation(4.dp),
-    ) {
-        Column(
-            modifier = Modifier
-                .width(161.dp)
-                .height(248.dp)
-                .padding(12.dp),
-        ) {
-            PartyItemTopArea(
-                imageUrl = partyItemResponse.image,
-            )
-            HeightSpacer(heightDp = 12.dp)
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                CategoryState(
-                    category = partyItemResponse.tag,
-                    containerColor = if(partyItemResponse.tag == "진행중") Color(0xFFD5F0E3) else GRAY600,
-                    contentColor = if(partyItemResponse.tag == "진행중") Color(0xFF016110) else WHITE
-                )
-                WidthSpacer(widthDp = 4.dp)
-                CategoryState(
-                    category = partyItemResponse.partyType.type,
-                    containerColor = TYPE_COLOR_BACKGROUND,
-                    contentColor = TYPE_COLOR_TEXT
-                )
-            }
-            HeightSpacer(heightDp = 4.dp)
-            TextComponent(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(44.dp),
-                text = partyItemResponse.title,
-                fontSize = T3,
-                fontWeight = FontWeight.SemiBold,
-                textAlign = Alignment.TopStart,
-            )
-            HeightSpacer(heightDp = 12.dp)
-            /*PartyItemBottomAreaDescription(
-                recruitmentCount = partyItemResponse.recruitmentCount,
-            )*/
-        }
-    }
-}
-
-@Composable
-private fun PartyItemTopArea(
-    imageUrl: String? = null,
-) {
-    ImageLoading(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(107.dp),
-        imageUrl = imageUrl,
-        roundedCornerShape = MEDIUM_CORNER_SIZE
-    )
-}
-
-@Composable
-private fun CategoryState(
-    category: String,
-    containerColor: Color,
-    contentColor: Color,
-) {
-    Chip(
-        containerColor = containerColor,
-        contentColor = contentColor,
-        text = category,
-    )
 }

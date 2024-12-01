@@ -37,18 +37,6 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 @Composable
-fun ScaffoldTitle(
-    title: String,
-) {
-    Text(
-        text = title,
-        fontSize = T2,
-        fontWeight = FontWeight.Bold,
-        maxLines = 1,
-    )
-}
-
-@Composable
 fun AnnotatedTextComponent(
     modifier: Modifier = Modifier,
     annotatedString: AnnotatedString,

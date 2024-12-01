@@ -15,14 +15,15 @@ import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.UIState
 import com.party.common.component.searchTabList
 import com.party.domain.model.search.Search
+import com.party.domain.model.search.SearchedRecruitmentData
 
 @Composable
 fun SearchedDataContent(
     getSearchedResult: UIState<ServerApiResponse<Search>>,
+    selectedTabText: String,
+    onTabClick: (String) -> Unit
 ) {
-    var selectedTabText by remember {
-        mutableStateOf(searchTabList[0])
-    }
+
 
     when(getSearchedResult){
         is UIState.Idle -> {}
@@ -42,17 +43,46 @@ fun SearchedDataContent(
         SearchTopTabArea(
             searchTabList = searchTabList,
             selectedTabText = selectedTabText,
-            onTabClick = { selectedTabText = it }
+            onTabClick = onTabClick
         )
+
+        HeightSpacer(heightDp = 24.dp)
+
+        when(selectedTabText){
+            searchTabList[0] -> {
+                SearchEntireArea(
+                    partyList = listOf(),
+                    recruitmentList = listOf()
+                )
+            }
+            searchTabList[1] -> {
+                SearchPartyArea(
+                    partyList = listOf()
+                )
+            }
+            searchTabList[2] -> {
+                SearchRecruitmentArea()
+            }
+        }
     }
-
-
 }
 
 @Preview(showBackground = true)
 @Composable
-fun SearchedDataContentPreview() {
+fun SearchedDataContentPreview1() {
     SearchedDataContent(
-        getSearchedResult = UIState.Idle
+        getSearchedResult = UIState.Idle,
+        selectedTabText = searchTabList[0],
+        onTabClick = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SearchedDataContentPreview2() {
+    SearchedDataContent(
+        getSearchedResult = UIState.Idle,
+        selectedTabText = searchTabList[1],
+        onTabClick = {}
     )
 }

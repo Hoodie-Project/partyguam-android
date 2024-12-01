@@ -18,6 +18,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.ServerApiResponse
 import com.party.common.UIState
+import com.party.common.component.searchTabList
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.room.KeywordModel
@@ -103,6 +104,10 @@ fun SearchScreenContent(
     onAllDelete: () -> Unit,
     getSearchedResult: UIState<ServerApiResponse<Search>>
 ) {
+    var selectedTabText by remember {
+        mutableStateOf(searchTabList[0])
+    }
+
     Scaffold(
         topBar = {
             SearchArea(
@@ -120,15 +125,17 @@ fun SearchScreenContent(
                 .padding(it)
                 .padding(horizontal = MEDIUM_PADDING_SIZE)
         ) {
-            if(isShowKeywordArea){
+            if (isShowKeywordArea) {
                 RecentSearchedArea(
                     keywordList = keywordList,
                     onDelete = onDelete,
                     onAllDelete = onAllDelete
                 )
-            }else {
+            } else {
                 SearchedDataContent(
                     getSearchedResult = getSearchedResult,
+                    selectedTabText = selectedTabText,
+                    onTabClick = { selectedTabText = it }
                 )
             }
         }
