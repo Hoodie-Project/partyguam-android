@@ -36,7 +36,7 @@ import com.party.common.TextComponent
 import com.party.common.UIState
 import com.party.common.WidthSpacer
 import com.party.common.component.ImageLoading
-import com.party.common.component.no_data.NoRecruitment
+import com.party.common.component.no_data.NoDataColumn
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
@@ -90,7 +90,7 @@ fun RecruitmentColumnListArea(
 
             if(resultList.isEmpty()){
                 HeightSpacer(heightDp = 76.dp)
-                NoRecruitment()
+                NoDataColumn(title = "모집공고가 없어요.")
             }else {
                 val sortedList = if(selectedCreateDataOrderByDesc) resultList.sortedByDescending { it.createdAt } else resultList?.sortedBy { it.createdAt }
                 LazyColumn(

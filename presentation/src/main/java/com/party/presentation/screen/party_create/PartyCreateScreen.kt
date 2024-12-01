@@ -87,10 +87,7 @@ fun PartyCreateScreen(
     val createPartyState by partyCreateViewModel.createPartyState.collectAsStateWithLifecycle()
     when (createPartyState) {
         is UIState.Idle -> {}
-        is UIState.Loading -> {
-            LoadingProgressBar()
-        }
-
+        is UIState.Loading -> { LoadingProgressBar() }
         is UIState.Success -> {}
         is UIState.Error -> {}
         is UIState.Exception -> {

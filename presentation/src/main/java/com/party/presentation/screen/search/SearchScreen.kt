@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -15,28 +16,63 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.party.common.ServerApiResponse
+import com.party.common.UIState
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.room.KeywordModel
-import com.party.presentation.screen.search.component.RecentSearchedArea
+import com.party.domain.model.search.Search
 import com.party.presentation.screen.search.component.SearchArea
+import com.party.presentation.screen.search.component.keyword.RecentSearchedArea
+import com.party.presentation.screen.search.component.search.SearchedDataContent
 import com.party.presentation.screen.search.viewmodel.SearchViewModel
 
 @Composable
 fun SearchScreen(
+    snackBarHostState: SnackbarHostState,
     navController: NavHostController,
-    searchViewModel: SearchViewModel
+    searchViewModel: SearchViewModel,
 ) {
+    LaunchedEffect(Unit) {
+        searchViewModel.getKeywordList()
+    }
+
+    // true 이면 키워드 영역을 보여주고, false 이면 검색 결과를 보여준다.
+    var isShowKeywordArea by remember { mutableStateOf(true) }
+
     // 입력한 키워드
     var keyword by remember { mutableStateOf("") }
 
     val keywordList by searchViewModel.keywordList.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        searchViewModel.getKeywordList()
-    }
+    val getSearchedResult by searchViewModel.searchedDataState.collectAsStateWithLifecycle()
+
+
+    /*if(isShowKeywordArea){
+        SearchScreenKeywordAreaContent(
+            keyword = keyword,
+            keywordList = keywordList,
+            onValueChange = { keyword = it },
+            searchAction = {
+                searchViewModel.insertKeyword(keyword)
+
+                searchViewModel.search(keyword, 1, 50)
+
+                isShowKeywordArea = false
+                //keyword = ""
+            },
+            onDelete = { searchViewModel.deleteKeyword(it) },
+            onNavigationClick = { navController.popBackStack() },
+            onAllDelete = { searchViewModel.allDeleteKeyword() }
+        )
+    }else {
+        SearchedDataContent(
+            getSearchedResult = getSearchedResult,
+        )
+    }*/
 
     SearchScreenContent(
+        isShowKeywordArea = isShowKeywordArea,
         keyword = keyword,
         keywordList = keywordList,
         onValueChange = { keyword = it },
@@ -44,23 +80,28 @@ fun SearchScreen(
             searchViewModel.insertKeyword(keyword)
 
             searchViewModel.search(keyword, 1, 50)
+
+            isShowKeywordArea = false
             //keyword = ""
         },
         onDelete = { searchViewModel.deleteKeyword(it) },
         onNavigationClick = { navController.popBackStack() },
-        onAllDelete = { searchViewModel.allDeleteKeyword() }
+        onAllDelete = { searchViewModel.allDeleteKeyword() },
+        getSearchedResult = getSearchedResult
     )
 }
 
 @Composable
 fun SearchScreenContent(
+    isShowKeywordArea: Boolean,
     keyword: String,
     keywordList: List<KeywordModel>,
     onValueChange: (String) -> Unit,
     searchAction: () -> Unit,
     onDelete: (String) -> Unit,
     onNavigationClick: () -> Unit,
-    onAllDelete: () -> Unit
+    onAllDelete: () -> Unit,
+    getSearchedResult: UIState<ServerApiResponse<Search>>
 ) {
     Scaffold(
         topBar = {
@@ -79,45 +120,53 @@ fun SearchScreenContent(
                 .padding(it)
                 .padding(horizontal = MEDIUM_PADDING_SIZE)
         ) {
-            RecentSearchedArea(
-                keywordList = keywordList,
-                onDelete = onDelete,
-                onAllDelete = onAllDelete
-            )
+            if(isShowKeywordArea){
+                RecentSearchedArea(
+                    keywordList = keywordList,
+                    onDelete = onDelete,
+                    onAllDelete = onAllDelete
+                )
+            }else {
+                SearchedDataContent(
+                    getSearchedResult = getSearchedResult,
+                )
+            }
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun SearchScreenContentPreview1() {
+fun SearchScreenContentPreview() {
     SearchScreenContent(
+        isShowKeywordArea = true,
         keyword = "파티, 모집공고 이름을 검색해보세요.",
         keywordList = emptyList(),
         onValueChange = {},
         searchAction = {},
         onDelete = {},
         onNavigationClick = {},
-        onAllDelete = {}
+        onAllDelete = {},
+        getSearchedResult = UIState.Idle
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun SearchScreenContentPreview2() {
+fun SearchScreenContentPreview1() {
     SearchScreenContent(
+        isShowKeywordArea = true,
         keyword = "파티, 모집공고 이름을 검색해보세요.",
         keywordList = listOf(
             KeywordModel("파티"),
             KeywordModel("모집공고"),
-            KeywordModel("이름"),
-            KeywordModel("모집공고"),
-            KeywordModel("모집공고"),
+            KeywordModel("이름")
         ),
         onValueChange = {},
         searchAction = {},
         onDelete = {},
         onNavigationClick = {},
-        onAllDelete = {}
+        onAllDelete = {},
+        getSearchedResult = UIState.Idle
     )
 }

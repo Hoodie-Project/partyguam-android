@@ -292,6 +292,7 @@ fun AppNavHost() {
         composable<Screens.Search> {
             val searchViewModel = hiltViewModel<SearchViewModel>()
             SearchScreen(
+                snackBarHostState = snackBarHostState,
                 navController = navController,
                 searchViewModel = searchViewModel,
             )

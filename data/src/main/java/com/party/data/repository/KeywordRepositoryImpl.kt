@@ -13,7 +13,6 @@ class KeywordRepositoryImpl @Inject constructor(
     private val keywordDao: KeywordDao,
 ): KeywordRepository {
     override fun insertKeyword(keywordModel: KeywordModel) {
-        println("insertKeyword: $keywordModel")
         keywordDao.insertKeyword(keywordModel.toKeywordEntity())
     }
 

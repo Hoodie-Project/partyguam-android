@@ -1,4 +1,4 @@
-package com.party.presentation.screen.search.component
+package com.party.presentation.screen.search.component.keyword
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

@@ -20,11 +20,12 @@ import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.GRAY500
 
 @Composable
-fun NoParty() {
+fun NoDataColumn(
+    modifier: Modifier = Modifier,
+    title: String,
+) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(500.dp),
+        modifier = modifier,
         contentAlignment = Alignment.TopCenter
     ) {
         Column(
@@ -41,7 +42,7 @@ fun NoParty() {
             )
             HeightSpacer(heightDp = 6.dp)
             TextComponent(
-                text = "파티가 없어요.",
+                text = title,
                 fontSize = B1,
                 fontWeight = FontWeight.SemiBold,
                 textColor = GRAY500,
@@ -52,6 +53,8 @@ fun NoParty() {
 
 @Preview(showBackground = true)
 @Composable
-private fun NoPartyPreview(modifier: Modifier = Modifier) {
-    NoParty()
+fun NoDataColumnPreview() {
+    NoDataColumn(
+        title = "파티가 없어요."
+    )
 }

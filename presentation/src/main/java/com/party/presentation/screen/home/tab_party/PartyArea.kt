@@ -45,7 +45,7 @@ import com.party.common.UIState
 import com.party.common.WidthSpacer
 import com.party.common.component.ImageLoading
 import com.party.common.component.chip.Chip
-import com.party.common.component.no_data.NoParty
+import com.party.common.component.no_data.NoDataColumn
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY600
@@ -58,7 +58,6 @@ import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyItem
 import com.party.domain.model.party.PartyList
 import com.party.presentation.enum.PartyType
-import com.party.presentation.screen.home.tab_main.PartyItemBottomAreaDescription
 import com.party.presentation.screen.home.tab_party.component.FilterArea
 import com.party.presentation.screen.home.tab_party.component.FilterDate
 import com.party.presentation.screen.home.tab_recruitment.PartyTypeModal
@@ -200,7 +199,7 @@ private fun PartyListArea(
 
     if(list2.isEmpty()){
         HeightSpacer(heightDp = 76.dp)
-        NoParty()
+        NoDataColumn(title = "파티가 없어요.")
     }else{
         LazyVerticalGrid(
             state = listState,
@@ -275,9 +274,9 @@ private fun PartyItem(
                 textAlign = Alignment.TopStart,
             )
             HeightSpacer(heightDp = 12.dp)
-            PartyItemBottomAreaDescription(
+            /*PartyItemBottomAreaDescription(
                 recruitmentCount = partyItemResponse.recruitmentCount,
-            )
+            )*/
         }
     }
 }

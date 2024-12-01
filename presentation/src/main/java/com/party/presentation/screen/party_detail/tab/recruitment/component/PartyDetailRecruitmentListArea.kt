@@ -29,7 +29,7 @@ import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.component.icon.DrawableIcon
-import com.party.common.component.no_data.NoRecruitment
+import com.party.common.component.no_data.NoDataColumn
 import com.party.common.convertIsoToCustomDateFormat
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
@@ -104,7 +104,7 @@ fun NoRecruitmentArea(
             onAddRecruitment = onAddRecruitment
         )
     } else {
-        NoRecruitment()
+        NoDataColumn(title = "모집 공고가 없어요.")
     }
 }
 

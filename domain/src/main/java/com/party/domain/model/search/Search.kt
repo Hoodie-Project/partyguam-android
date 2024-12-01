@@ -30,7 +30,7 @@ data class PartyType(
 
 data class SearchedPartyRecruitment(
     val total: Int,
-    val parties: List<SearchedRecruitmentData>
+    val partyRecruitments: List<SearchedRecruitmentData>
 )
 
 data class SearchedRecruitmentData(

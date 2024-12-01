@@ -35,7 +35,7 @@ object SearchMapper {
     private fun mapperSearchRecruitment(searchedRecruitment: SearchedPartyRecruitmentDto): SearchedPartyRecruitment{
         return SearchedPartyRecruitment(
             total = searchedRecruitment.total,
-            parties = searchedRecruitment.partyRecruitment.map { mapperSearchedRecruitmentData(it) }
+            partyRecruitments = searchedRecruitment.partyRecruitments.map { mapperSearchedRecruitmentData(it) }
         )
     }
 

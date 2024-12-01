@@ -38,7 +38,7 @@ data class PartyTypeDto(
 @Serializable
 data class SearchedPartyRecruitmentDto(
     val total: Int,
-    val partyRecruitment: List<SearchedRecruitmentDataDto>
+    val partyRecruitments: List<SearchedRecruitmentDataDto>
 )
 
 @Serializable
