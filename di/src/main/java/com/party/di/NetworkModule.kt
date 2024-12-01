@@ -85,7 +85,7 @@ object NetworkModule {
     @Provides
     fun provideUserServiceApi(accessTokenInterceptor: AccessTokenInterceptor): UserService {
         return Retrofit.Builder()
-            .baseUrl("https://partyguam.net/dev/")
+            .baseUrl(BuildConfig.BASE_URL)
             .client(tokenLogging2(accessTokenInterceptor))
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
@@ -99,7 +99,7 @@ object NetworkModule {
     @Provides
     fun providePartyServiceApi(accessTokenInterceptor: AccessTokenInterceptor): PartyService {
         return Retrofit.Builder()
-            .baseUrl("https://partyguam.net/dev/")
+            .baseUrl(BuildConfig.BASE_URL)
             .client(tokenLogging2(accessTokenInterceptor))
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
@@ -113,7 +113,7 @@ object NetworkModule {
     @Provides
     fun provideSearchServiceApi(accessTokenInterceptor: AccessTokenInterceptor): SearchService {
         return Retrofit.Builder()
-            .baseUrl("https://partyguam.net/dev/")
+            .baseUrl(BuildConfig.BASE_URL)
             .client(tokenLogging2(accessTokenInterceptor))
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
