@@ -193,7 +193,7 @@ private fun RecruitmentCountArea(
     modifier: Modifier,
     recruitingCount: Int,
     recruitedCount: Int,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.End,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
 ) {
     Row(
         modifier = modifier

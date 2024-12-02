@@ -11,8 +11,6 @@ data class RecruitmentListDto(
 @Serializable
 data class RecruitmentItemDto(
     val id: Int,
-    val partyId: Int,
-    val positionId: Int,
     val recruitingCount: Int,
     val recruitedCount: Int,
     val content: String,
@@ -23,6 +21,7 @@ data class RecruitmentItemDto(
 
 @Serializable
 data class RecruitmentPartyDto(
+    val id: Int,
     val title: String,
     val image: String?,
     val partyType: RecruitmentPartyTypeDto,

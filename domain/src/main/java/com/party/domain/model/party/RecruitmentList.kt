@@ -11,8 +11,6 @@ data class RecruitmentList(
 @Serializable
 data class RecruitmentItem(
     val id: Int,
-    val partyId: Int,
-    val positionId: Int,
     val recruitingCount: Int,
     val recruitedCount: Int,
     val content: String,
@@ -23,6 +21,7 @@ data class RecruitmentItem(
 
 @Serializable
 data class RecruitmentParty(
+    val id: Int,
     val title: String,
     val image: String?,
     val partyType: RecruitmentPartyType,

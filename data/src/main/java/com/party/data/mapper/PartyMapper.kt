@@ -87,13 +87,12 @@ object PartyMapper {
             partyRecruitments = recruitmentListEntity.partyRecruitments.map {
                 RecruitmentItem(
                     id = it.id,
-                    partyId = it.partyId,
-                    positionId = it.positionId,
                     recruitingCount = it.recruitingCount,
                     recruitedCount = it.recruitedCount,
                     content = it.content,
                     createdAt = it.createdAt,
                     party = RecruitmentParty(
+                        id = it.party.id,
                         title = it.party.title,
                         image = convertToImageUrl(it.party.image),
                         partyType = RecruitmentPartyType(
