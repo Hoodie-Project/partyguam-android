@@ -51,7 +51,6 @@ fun BottomNavigationBar(
     navController: NavHostController,
     isExpandedFloatingButton: Boolean = false,
 ){
-
     val backStackEntry = navController.currentBackStackEntryAsState()
     val currentScreen = backStackEntry.value.fromBottomRoute()
 
@@ -69,7 +68,6 @@ fun BottomNavigationBar(
                             saveState = true
                         }
                         launchSingleTop = true
-                        restoreState = true
                     }
                 },
                 selected = currentScreen == screenItem,

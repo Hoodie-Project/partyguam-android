@@ -1,5 +1,6 @@
 package com.party.presentation.screen.state
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,12 +14,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.party.common.component.searchTabList
 import com.party.common.component.stateTabList
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
+import com.party.navigation.BottomNavigationBar
 import com.party.presentation.screen.state.component.MyPartyArea
 import com.party.presentation.screen.state.component.MyRecruitmentArea
 import com.party.presentation.screen.state.component.StateScaffoldArea
@@ -26,13 +32,16 @@ import com.party.presentation.screen.state.component.StateTabArea
 
 @Composable
 fun StateScreen(
-    modifier: Modifier = Modifier
+    context: Context,
+    navController: NavHostController,
 ) {
     var selectedTabText by remember {
         mutableStateOf(stateTabList[0])
     }
 
     StateScreenContent(
+        context = context,
+        navController = navController,
         selectedTabText = selectedTabText,
         onTabClick = { selectedTabText = it }
     )
@@ -40,6 +49,8 @@ fun StateScreen(
 
 @Composable
 fun StateScreenContent(
+    context: Context,
+    navController: NavHostController,
     selectedTabText: String,
     onTabClick: (String) -> Unit,
 ) {
@@ -49,6 +60,12 @@ fun StateScreenContent(
             StateScaffoldArea(
                 onGoToSearch = {},
                 onGoToAlarm = {}
+            )
+        },
+        bottomBar = {
+            BottomNavigationBar(
+                context = context,
+                navController = navController,
             )
         }
     ){
@@ -76,10 +93,10 @@ fun StateScreenContent(
 
 @Preview(showBackground = true)
 @Composable
-fun StateScreenContentPreview(
-    modifier: Modifier = Modifier
-) {
+fun StateScreenContentPreview() {
     StateScreenContent(
+        context = LocalContext.current,
+        navController = rememberNavController(),
         selectedTabText = stateTabList[0],
         onTabClick = {}
     )

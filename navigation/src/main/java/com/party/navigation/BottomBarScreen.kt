@@ -19,7 +19,7 @@ sealed class BottomBarScreen (
     )
     data object State: BottomBarScreen(
         screen = Screens.State,
-        name = "상태",
+        name = "활동",
     )
     data object Profile: BottomBarScreen(
         screen = Screens.Profile,

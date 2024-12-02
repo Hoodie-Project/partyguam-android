@@ -1,10 +1,8 @@
-package com.party.presentation.screen.state.component
+package com.party.presentation.screen.profile.component
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,19 +16,18 @@ import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.scaffold.ScaffoldCenterBar
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.T1
-import com.party.common.ui.theme.T2
 
 @Composable
-fun StateScaffoldArea(
-    onGoToSearch: () -> Unit,
-    onGoToAlarm: () -> Unit
+fun ProfileScaffoldArea(
+    onGoToAlarm: () -> Unit,
+    onGoSetting: () -> Unit
 ) {
     ScaffoldCenterBar(
         modifier = Modifier
             .padding(horizontal = 20.dp),
         navigationIcon = {
             TextComponent(
-                text = "활동",
+                text = "프로필",
                 fontSize = T1,
                 fontWeight = FontWeight.Bold,
             )
@@ -41,17 +38,17 @@ fun StateScaffoldArea(
             ) {
                 DrawableIconButton(
                     modifier = Modifier.size(24.dp),
-                    icon = painterResource(id = R.drawable.search_icon),
-                    contentDescription = "search",
-                    onClick = onGoToSearch,
+                    icon = painterResource(id = R.drawable.alarm_icon),
+                    contentDescription = "alarm",
+                    onClick = onGoToAlarm,
                     iconColor = BLACK
                 )
                 WidthSpacer(widthDp = 12.dp)
                 DrawableIconButton(
                     modifier = Modifier.size(24.dp),
-                    icon = painterResource(id = R.drawable.alarm_icon),
-                    contentDescription = "alarm",
-                    onClick = onGoToAlarm,
+                    icon = painterResource(id = R.drawable.icon_setting),
+                    contentDescription = "setting",
+                    onClick = onGoSetting,
                     iconColor = BLACK
                 )
             }

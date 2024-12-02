@@ -227,10 +227,16 @@ fun AppNavHost() {
             )
         }
         composable<Screens.State> {
-            StateScreen()
+            StateScreen(
+                context = context,
+                navController = navController,
+            )
         }
         composable<Screens.Profile> {
-            ProfileScreen()
+            ProfileScreen(
+                context = context,
+                navController = navController,
+            )
         }
         composable<Screens.RecruitmentDetail> { backStackEntry ->
             val partyId = backStackEntry.toRoute<Screens.RecruitmentDetail>().partyId
