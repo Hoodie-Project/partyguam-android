@@ -43,13 +43,10 @@ data class SearchedPartyRecruitmentDto(
 
 @Serializable
 data class SearchedRecruitmentDataDto(
-    val partyRecruitmentId: Int,
-    val main: String,
-    val sub: String,
+    val id: Int,
     val content: String,
     val recruitingCount: Int,
     val recruitedCount: Int,
-    val applicationCount: Int,
     val createdAt: String,
     val party: PartyDto,
     val position: PositionDto,
@@ -57,6 +54,7 @@ data class SearchedRecruitmentDataDto(
 
 @Serializable
 data class PartyDto(
+    val id: Int,
     val title: String,
     val image: String,
     val partyType: PartyTypeDto,

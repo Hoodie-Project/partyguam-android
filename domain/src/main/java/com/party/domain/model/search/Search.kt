@@ -34,19 +34,17 @@ data class SearchedPartyRecruitment(
 )
 
 data class SearchedRecruitmentData(
-    val partyRecruitmentId: Int,
-    val main: String,
-    val sub: String,
+    val id: Int,
     val content: String,
     val recruitingCount: Int,
     val recruitedCount: Int,
-    val applicationCount: Int,
     val createdAt: String,
     val party: Party,
     val position: Position,
 )
 
 data class Party(
+    val id: Int,
     val title: String,
     val image: String,
     val partyType: PartyType,

@@ -1,5 +1,6 @@
 package com.party.presentation.screen.search.component.search
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -37,7 +38,8 @@ private fun RecruitmentListArea(
     if(recruitmentList.isNotEmpty()){
         LazyColumn(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             itemsIndexed(
                 items = recruitmentList,
@@ -81,15 +83,13 @@ private fun SearchRecruitmentAreaPreview2() {
     SearchRecruitmentArea(
         recruitmentList = listOf(
             SearchedRecruitmentData(
-                partyRecruitmentId = 1,
-                main = "개발자",
-                sub = "안드로이드",
+                id = 1,
                 content = "내용",
                 recruitingCount = 1,
                 recruitedCount = 0,
-                applicationCount = 0,
                 createdAt = "2024-11-29T16:30:30.171Z",
                 party = Party(
+                    id = 1,
                     title = "안드로이드 개발자 모집합니다",
                     image = "https://cdn",
                     partyType = PartyType(
@@ -104,15 +104,13 @@ private fun SearchRecruitmentAreaPreview2() {
                 )
             ),
             SearchedRecruitmentData(
-                partyRecruitmentId = 1,
-                main = "개발자",
-                sub = "IOS",
+                id = 1,
                 content = "내용",
                 recruitingCount = 1,
                 recruitedCount = 0,
-                applicationCount = 0,
                 createdAt = "2024-11-29T16:30:30.171Z",
                 party = Party(
+                    id = 1,
                     title = "같이 해커톤 할 사람이요",
                     image = "https://cdn",
                     partyType = PartyType(
@@ -127,15 +125,13 @@ private fun SearchRecruitmentAreaPreview2() {
                 )
             ),
             SearchedRecruitmentData(
-                partyRecruitmentId = 1,
-                main = "개발자",
-                sub = "안드로이드",
+                id = 1,
                 content = "내용",
                 recruitingCount = 1,
                 recruitedCount = 0,
-                applicationCount = 0,
                 createdAt = "2024-11-29T16:30:30.171Z",
                 party = Party(
+                    id = 1,
                     title = "같이 개발할 사람",
                     image = "https://cdn",
                     partyType = PartyType(

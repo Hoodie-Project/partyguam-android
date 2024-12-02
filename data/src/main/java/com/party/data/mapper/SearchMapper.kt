@@ -8,6 +8,7 @@ import com.party.data.entity.search.SearchedPartyDataDto
 import com.party.data.entity.search.SearchedPartyDto
 import com.party.data.entity.search.SearchedPartyRecruitmentDto
 import com.party.data.entity.search.SearchedRecruitmentDataDto
+import com.party.data.util.convertToImageUrl
 import com.party.domain.model.search.Party
 import com.party.domain.model.search.PartyType
 import com.party.domain.model.search.Position
@@ -46,7 +47,7 @@ object SearchMapper {
             tag = searchedPartyDataDto.tag,
             title = searchedPartyDataDto.title,
             content = searchedPartyDataDto.content,
-            image = searchedPartyDataDto.image,
+            image = convertToImageUrl(searchedPartyDataDto.image),
             status = searchedPartyDataDto.status,
             createdAt = searchedPartyDataDto.createdAt,
             updatedAt = searchedPartyDataDto.updatedAt,
@@ -56,13 +57,10 @@ object SearchMapper {
 
     private fun mapperSearchedRecruitmentData(searchedRecruitmentDataDto: SearchedRecruitmentDataDto): SearchedRecruitmentData{
         return SearchedRecruitmentData(
-            partyRecruitmentId = searchedRecruitmentDataDto.partyRecruitmentId,
-            main = searchedRecruitmentDataDto.main,
-            sub = searchedRecruitmentDataDto.sub,
+            id = searchedRecruitmentDataDto.id,
             content = searchedRecruitmentDataDto.content,
             recruitingCount = searchedRecruitmentDataDto.recruitingCount,
             recruitedCount = searchedRecruitmentDataDto.recruitedCount,
-            applicationCount = searchedRecruitmentDataDto.applicationCount,
             createdAt = searchedRecruitmentDataDto.createdAt,
             party = mapperParty(searchedRecruitmentDataDto.party),
             position = mapperPositionDto(searchedRecruitmentDataDto.position)
@@ -86,8 +84,9 @@ object SearchMapper {
 
     private fun mapperParty(partyDto: PartyDto): Party{
         return Party(
+            id = partyDto.id,
             title = partyDto.title,
-            image = partyDto.image,
+            image = convertToImageUrl(partyDto.image),
             partyType = mapperPartyType(partyDto.partyType)
         )
     }

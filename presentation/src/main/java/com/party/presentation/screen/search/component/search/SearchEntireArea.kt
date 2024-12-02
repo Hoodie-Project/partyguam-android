@@ -99,8 +99,8 @@ private fun SearchedRecruitmentList(
                     imageUrl = item.party.image,
                     category = item.party.partyType.type,
                     title = item.party.title,
-                    main = item.main,
-                    sub = item.sub,
+                    main = item.position.main,
+                    sub = item.position.sub,
                     recruitingCount = 1,
                     recruitedCount = 0
                 )
@@ -164,15 +164,13 @@ private fun SearchEntireAreaPreview() {
         ),
         recruitmentList = listOf(
             SearchedRecruitmentData(
-                partyRecruitmentId = 1,
-                main = "개발자",
-                sub = "안드로이드",
+                id = 1,
                 content = "내용",
                 recruitingCount = 1,
                 recruitedCount = 0,
-                applicationCount = 0,
                 createdAt = "2024-11-29T16:30:30.171Z",
                 party = Party(
+                    id = 1,
                     title = "안드로이드 개발자 모집합니다",
                     image = "https://cdn",
                     partyType = PartyType(
@@ -187,15 +185,13 @@ private fun SearchEntireAreaPreview() {
                 )
             ),
             SearchedRecruitmentData(
-                partyRecruitmentId = 1,
-                main = "개발자",
-                sub = "IOS",
+                id = 1,
                 content = "내용",
                 recruitingCount = 1,
                 recruitedCount = 0,
-                applicationCount = 0,
                 createdAt = "2024-11-29T16:30:30.171Z",
                 party = Party(
+                    id = 1,
                     title = "같이 해커톤 할 사람이요",
                     image = "https://cdn",
                     partyType = PartyType(
@@ -210,15 +206,13 @@ private fun SearchEntireAreaPreview() {
                 )
             ),
             SearchedRecruitmentData(
-                partyRecruitmentId = 1,
-                main = "개발자",
-                sub = "안드로이드",
+                id = 1,
                 content = "내용",
                 recruitingCount = 1,
                 recruitedCount = 0,
-                applicationCount = 0,
                 createdAt = "2024-11-29T16:30:30.171Z",
                 party = Party(
+                    id = 1,
                     title = "같이 개발할 사람",
                     image = "https://cdn",
                     partyType = PartyType(

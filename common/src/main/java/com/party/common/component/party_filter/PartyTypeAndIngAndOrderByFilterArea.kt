@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
@@ -49,20 +50,19 @@ fun PartyTypeAndIngAndOrderByFilterArea(
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .height(68.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(68.dp),
+                .height(40.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             SelectFilterItem(
                 filterName = "파티유형",
                 isSheetOpen = false,
-                onClick = {
-                    isPartyTypeFilterClick(it)
-                }
+                onClick = { isPartyTypeFilterClick(it) }
             )
 
             IngToggle(
@@ -71,6 +71,7 @@ fun PartyTypeAndIngAndOrderByFilterArea(
             )
         }
 
+        HeightSpacer(heightDp = 8.dp)
         FilterDate(
             selectedCreateDataOrderByDesc = selectedCreateDataOrderByDesc,
             onChangeOrderBy = onChangeOrderBy

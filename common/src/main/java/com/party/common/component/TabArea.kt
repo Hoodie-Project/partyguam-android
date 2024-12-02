@@ -38,12 +38,15 @@ val stateTabList = listOf("내 파티", "지원목록")
 
 @Composable
 fun TabArea(
+    modifier: Modifier = Modifier,
     tabList: List<String>,
     selectedTabText: String,
     onTabClick: (String) -> Unit,
     selectedTabColor: Color = PRIMARY,
 ) {
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
