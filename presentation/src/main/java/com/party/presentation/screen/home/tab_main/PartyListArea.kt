@@ -79,6 +79,7 @@ fun PartyListArea(
                 category = item.tag,
                 title = item.title,
                 recruitmentCount = item.recruitmentCount,
+                onClick = {}
             )
         }
     }

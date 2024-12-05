@@ -38,10 +38,11 @@ fun PartyListItem1(
     category: String,
     title: String,
     recruitmentCount: Int,
-    typeChip: @Composable (() -> Unit) = {}
+    typeChip: @Composable (() -> Unit) = {},
+    onClick: () -> Unit,
 ) {
     Card(
-        onClick = {},
+        onClick = onClick,
         modifier = Modifier.wrapContentSize(),
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
         colors = CardDefaults.cardColors(
@@ -164,5 +165,6 @@ private fun PartyListItemPreview() {
         category = "카테고리",
         title = "제목",
         recruitmentCount = 10,
+        onClick = {}
     )
 }

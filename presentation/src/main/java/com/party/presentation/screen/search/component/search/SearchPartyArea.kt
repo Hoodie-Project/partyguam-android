@@ -123,7 +123,8 @@ private fun PartyListArea(
                             contentColor = if(item.status == "진행중") Color(0xFF016110) else WHITE,
                             text = item.status,
                         )
-                    }
+                    },
+                    onClick = {}
                 )
             }
         }

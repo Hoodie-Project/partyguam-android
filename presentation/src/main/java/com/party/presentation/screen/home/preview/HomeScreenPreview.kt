@@ -78,7 +78,8 @@ private fun PartyItemPreview() {
         imageUrl = "",
         category = "포트폴리오",
         title = "포르폴리오 할 사람",
-        recruitmentCount = 1
+        recruitmentCount = 1,
+        onClick = {}
     )
 }
 

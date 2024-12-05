@@ -68,6 +68,7 @@ private fun SearchedPartyList(
                     category = item.tag,
                     title = item.title,
                     recruitmentCount = item.recruitmentCount,
+                    onClick = {}
                 )
             }
         }

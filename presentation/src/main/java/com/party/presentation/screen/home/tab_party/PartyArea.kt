@@ -202,7 +202,8 @@ private fun PartyListArea(
                             contentColor = if(item.tag == "진행중") Color(0xFF016110) else WHITE,
                             text = item.tag,
                         )
-                    }
+                    },
+                    onClick = { onClick(item.id) }
                 )
             }
         }
