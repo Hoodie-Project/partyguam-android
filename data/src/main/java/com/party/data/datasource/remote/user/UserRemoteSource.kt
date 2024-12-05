@@ -1,13 +1,14 @@
 package com.party.data.datasource.remote.user
 
-import com.party.data.entity.user.auth.SocialLoginDto
-import com.party.data.entity.user.auth.UserSignUpDto
-import com.party.data.entity.user.detail.LocationDto
-import com.party.data.entity.user.detail.PersonalityListDto
-import com.party.data.entity.user.detail.PersonalitySaveDto
-import com.party.data.entity.user.detail.PositionListDto
-import com.party.data.entity.user.detail.SaveCarrierDto
-import com.party.data.entity.user.detail.SaveInterestLocationDto
+import com.party.data.dto.user.auth.SocialLoginDto
+import com.party.data.dto.user.auth.UserSignUpDto
+import com.party.data.dto.user.detail.LocationDto
+import com.party.data.dto.user.detail.PersonalityListDto
+import com.party.data.dto.user.detail.PersonalitySaveDto
+import com.party.data.dto.user.detail.PositionListDto
+import com.party.data.dto.user.detail.SaveCarrierDto
+import com.party.data.dto.user.detail.SaveInterestLocationDto
+import com.party.data.dto.user.party.MyPartyDto
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
@@ -45,4 +46,7 @@ interface UserRemoteSource {
 
     // 성향 질문 리스트 전체 저장
     suspend fun savePersonalities(personalitySaveRequest: PersonalitySaveRequest): ApiResponse<List<PersonalitySaveDto>>
+
+    // 내 파티 리스트 조회
+    suspend fun getMyParties(page: Int, limit: Int, sort: String, order: String): ApiResponse<MyPartyDto>
 }

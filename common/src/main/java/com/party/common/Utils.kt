@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -69,6 +70,8 @@ fun TextComponent(
     fontWeight: FontWeight = FontWeight.Normal,
     fontSize: TextUnit,
     textDecoration: TextDecoration? = null,
+    overflow: TextOverflow = TextOverflow.Visible,
+    maxLines: Int = Int.MAX_VALUE,
     onClick: () -> Unit = {},
 ) {
     Box(
@@ -81,6 +84,8 @@ fun TextComponent(
             fontWeight = fontWeight,
             fontSize = fontSize,
             textDecoration = textDecoration,
+            overflow = overflow,
+            maxLines = maxLines
         )
     }
 }

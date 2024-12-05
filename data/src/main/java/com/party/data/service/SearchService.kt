@@ -1,6 +1,6 @@
 package com.party.data.service
 
-import com.party.data.entity.search.SearchDto
+import com.party.data.dto.search.SearchDto
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Query

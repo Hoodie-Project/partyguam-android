@@ -1,6 +1,6 @@
 package com.party.data.datasource.remote.banner
 
-import com.party.data.entity.banner.BannerDto
+import com.party.data.dto.banner.BannerDto
 import com.party.data.service.NoTokenService
 import com.skydoves.sandwich.ApiResponse
 import javax.inject.Inject

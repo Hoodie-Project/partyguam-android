@@ -1,6 +1,6 @@
 package com.party.data.datasource.remote.search
 
-import com.party.data.entity.search.SearchDto
+import com.party.data.dto.search.SearchDto
 import com.party.data.service.SearchService
 import com.skydoves.sandwich.ApiResponse
 import javax.inject.Inject

@@ -1,11 +1,12 @@
 package com.party.data.service
 
-import com.party.data.entity.user.detail.LocationDto
-import com.party.data.entity.user.detail.SaveInterestLocationDto
-import com.party.data.entity.user.detail.PersonalityListDto
-import com.party.data.entity.user.detail.PersonalitySaveDto
-import com.party.data.entity.user.detail.PositionListDto
-import com.party.data.entity.user.detail.SaveCarrierDto
+import com.party.data.dto.user.detail.LocationDto
+import com.party.data.dto.user.detail.SaveInterestLocationDto
+import com.party.data.dto.user.detail.PersonalityListDto
+import com.party.data.dto.user.detail.PersonalitySaveDto
+import com.party.data.dto.user.detail.PositionListDto
+import com.party.data.dto.user.detail.SaveCarrierDto
+import com.party.data.dto.user.party.MyPartyDto
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
@@ -50,4 +51,13 @@ interface UserService {
     suspend fun savePersonalities(
         @Body personalitySaveRequest: PersonalitySaveRequest,
     ): ApiResponse<List<PersonalitySaveDto>>
+
+    // 내 파티 리스트 조회
+    @GET("api/users/me/parties")
+    suspend fun getMyParties(
+        @Query("page") page: Int,
+        @Query("limit") limit: Int,
+        @Query("sort") sort: String,
+        @Query("order") order: String,
+    ): ApiResponse<MyPartyDto>
 }

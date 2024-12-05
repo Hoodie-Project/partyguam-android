@@ -1,7 +1,7 @@
 package com.party.data.mapper
 
-import com.party.data.entity.banner.BannerDto
-import com.party.data.entity.banner.BannerItemDto
+import com.party.data.dto.banner.BannerDto
+import com.party.data.dto.banner.BannerItemDto
 import com.party.data.util.convertToImageUrl
 import com.party.domain.model.banner.Banner
 import com.party.domain.model.banner.BannerItem

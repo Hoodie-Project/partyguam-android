@@ -1,8 +1,8 @@
 package com.party.data.service
 
-import com.party.data.entity.banner.BannerDto
-import com.party.data.entity.user.auth.SocialLoginSuccessDto
-import com.party.data.entity.user.auth.UserSignUpDto
+import com.party.data.dto.banner.BannerDto
+import com.party.data.dto.user.auth.SocialLoginSuccessDto
+import com.party.data.dto.user.auth.UserSignUpDto
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.Body

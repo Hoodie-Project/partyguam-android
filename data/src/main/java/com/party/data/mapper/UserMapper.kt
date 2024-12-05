@@ -1,14 +1,16 @@
 package com.party.data.mapper
 
-import com.party.data.entity.user.detail.LocationDto
-import com.party.data.entity.user.detail.SaveInterestLocationDto
-import com.party.data.entity.user.auth.SocialLoginErrorDto
-import com.party.data.entity.user.auth.SocialLoginSuccessDto
-import com.party.data.entity.user.auth.UserSignUpDto
-import com.party.data.entity.user.detail.PersonalityListDto
-import com.party.data.entity.user.detail.PersonalitySaveDto
-import com.party.data.entity.user.detail.PositionListDto
-import com.party.data.entity.user.detail.SaveCarrierItem
+import com.party.data.dto.user.detail.LocationDto
+import com.party.data.dto.user.detail.SaveInterestLocationDto
+import com.party.data.dto.user.auth.SocialLoginErrorDto
+import com.party.data.dto.user.auth.SocialLoginSuccessDto
+import com.party.data.dto.user.auth.UserSignUpDto
+import com.party.data.dto.user.detail.PersonalityListDto
+import com.party.data.dto.user.detail.PersonalitySaveDto
+import com.party.data.dto.user.detail.PositionListDto
+import com.party.data.dto.user.detail.SaveCarrierItem
+import com.party.data.dto.user.party.MyPartyDto
+import com.party.data.dto.user.party.PartyUserDto
 import com.party.domain.model.user.detail.Location
 import com.party.domain.model.user.SocialLoginError
 import com.party.domain.model.user.SocialLogin
@@ -19,6 +21,11 @@ import com.party.domain.model.user.detail.PersonalitySave
 import com.party.domain.model.user.detail.PositionList
 import com.party.domain.model.user.detail.SaveCarrier
 import com.party.domain.model.user.detail.SaveInterestLocation
+import com.party.domain.model.user.party.MyParty
+import com.party.domain.model.user.party.Party
+import com.party.domain.model.user.party.PartyType
+import com.party.domain.model.user.party.PartyUser
+import com.party.domain.model.user.party.Position
 import com.party.domain.model.user.signup.UserSignUp
 
 object UserMapper {
@@ -94,6 +101,33 @@ object UserMapper {
             id = personalitySaveEntity.id,
             userId = personalitySaveEntity.userId,
             personalityOptionId = personalitySaveEntity.personalityOptionId,
+        )
+    }
+
+    // 내 파티 리스트 조회
+    fun mapperToMyParty(myPartyDto: MyPartyDto): MyParty{
+        return MyParty(
+            total = myPartyDto.total,
+            partyUsers = myPartyDto.partyUsers.map { mapperToPartyUser(it) }
+        )
+    }
+
+    private fun mapperToPartyUser(partyUserDto: PartyUserDto): PartyUser{
+        return PartyUser(
+            id = partyUserDto.id,
+            createdAt = partyUserDto.createdAt,
+            position = Position(
+                main = partyUserDto.position.main,
+                sub = partyUserDto.position.sub
+            ),
+            party = Party(
+                id = partyUserDto.party.id,
+                title = partyUserDto.party.title,
+                image = partyUserDto.party.image,
+                partyType = PartyType(
+                    type = partyUserDto.party.partyType.type
+                )
+            )
         )
     }
 }

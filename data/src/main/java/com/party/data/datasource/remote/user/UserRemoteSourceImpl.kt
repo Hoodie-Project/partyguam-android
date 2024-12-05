@@ -1,13 +1,14 @@
 package com.party.data.datasource.remote.user
 
-import com.party.data.entity.user.auth.SocialLoginDto
-import com.party.data.entity.user.auth.UserSignUpDto
-import com.party.data.entity.user.detail.LocationDto
-import com.party.data.entity.user.detail.PersonalityListDto
-import com.party.data.entity.user.detail.PersonalitySaveDto
-import com.party.data.entity.user.detail.PositionListDto
-import com.party.data.entity.user.detail.SaveCarrierDto
-import com.party.data.entity.user.detail.SaveInterestLocationDto
+import com.party.data.dto.user.auth.SocialLoginDto
+import com.party.data.dto.user.auth.UserSignUpDto
+import com.party.data.dto.user.detail.LocationDto
+import com.party.data.dto.user.detail.PersonalityListDto
+import com.party.data.dto.user.detail.PersonalitySaveDto
+import com.party.data.dto.user.detail.PositionListDto
+import com.party.data.dto.user.detail.SaveCarrierDto
+import com.party.data.dto.user.detail.SaveInterestLocationDto
+import com.party.data.dto.user.party.MyPartyDto
 import com.party.data.service.NoTokenService
 import com.party.data.service.UserService
 import com.party.domain.model.user.detail.InterestLocationList
@@ -73,5 +74,14 @@ class UserRemoteSourceImpl @Inject constructor(
         personalitySaveRequest: PersonalitySaveRequest
     ): ApiResponse<List<PersonalitySaveDto>> {
         return userService.savePersonalities(personalitySaveRequest = personalitySaveRequest)
+    }
+
+    override suspend fun getMyParties(
+        page: Int,
+        limit: Int,
+        sort: String,
+        order: String
+    ): ApiResponse<MyPartyDto> {
+        return userService.getMyParties(page = page, limit = limit, sort = sort, order = order)
     }
 }

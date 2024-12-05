@@ -11,6 +11,7 @@ import com.party.domain.model.user.detail.PositionList
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.detail.SaveCarrier
 import com.party.domain.model.user.detail.SaveInterestLocation
+import com.party.domain.model.user.party.MyParty
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.model.user.signup.UserSignUp
 
@@ -45,5 +46,8 @@ interface UserRepository {
 
     // 성향 질문 리스트 전체 저장
     suspend fun savePersonalities(personalitySaveRequest: PersonalitySaveRequest): ServerApiResponse<List<PersonalitySave>>
+
+    // 내 파티 리스트 조회
+    suspend fun getMyParties(page: Int, limit: Int, sort: String, order: String): ServerApiResponse<MyParty>
 
 }

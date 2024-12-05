@@ -5,8 +5,8 @@ import com.party.common.ServerApiResponse.ErrorResponse
 import com.party.common.ServerApiResponse.ExceptionResponse
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.data.datasource.remote.user.UserRemoteSource
-import com.party.data.entity.user.auth.SocialLoginErrorDto
-import com.party.data.entity.user.auth.SocialLoginSuccessDto
+import com.party.data.dto.user.auth.SocialLoginErrorDto
+import com.party.data.dto.user.auth.SocialLoginSuccessDto
 import com.party.data.mapper.UserMapper
 import com.party.data.mapper.UserMapper.mapperUserSignUpResponse
 import com.party.domain.model.user.SocialLogin
@@ -19,6 +19,7 @@ import com.party.domain.model.user.detail.PositionList
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.detail.SaveCarrier
 import com.party.domain.model.user.detail.SaveInterestLocation
+import com.party.domain.model.user.party.MyParty
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.model.user.signup.UserSignUp
 import com.party.domain.repository.UserRepository
@@ -287,6 +288,25 @@ class UserRepositoryImpl @Inject constructor(
             }
             is ApiResponse.Failure.Exception -> {
                 result.throwable.printStackTrace()
+                ExceptionResponse(message = result.message)
+            }
+        }
+    }
+
+    override suspend fun getMyParties(
+        page: Int,
+        limit: Int,
+        sort: String,
+        order: String
+    ): ServerApiResponse<MyParty> {
+        return when(val result = userRemoteSource.getMyParties(page = page, limit = limit, sort = sort, order = order)){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = UserMapper.mapperToMyParty(result.data))
+            }
+            is ApiResponse.Failure.Error -> {
+                ErrorResponse()
+            }
+            is ApiResponse.Failure.Exception -> {
                 ExceptionResponse(message = result.message)
             }
         }

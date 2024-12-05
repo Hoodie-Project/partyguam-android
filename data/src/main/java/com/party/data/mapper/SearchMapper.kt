@@ -1,13 +1,13 @@
 package com.party.data.mapper
 
-import com.party.data.entity.search.PartyDto
-import com.party.data.entity.search.PartyTypeDto
-import com.party.data.entity.search.PositionDto
-import com.party.data.entity.search.SearchDto
-import com.party.data.entity.search.SearchedPartyDataDto
-import com.party.data.entity.search.SearchedPartyDto
-import com.party.data.entity.search.SearchedPartyRecruitmentDto
-import com.party.data.entity.search.SearchedRecruitmentDataDto
+import com.party.data.dto.search.PartyDto
+import com.party.data.dto.search.PartyTypeDto
+import com.party.data.dto.search.PositionDto
+import com.party.data.dto.search.SearchDto
+import com.party.data.dto.search.SearchedPartyDataDto
+import com.party.data.dto.search.SearchedPartyDto
+import com.party.data.dto.search.SearchedPartyRecruitmentDto
+import com.party.data.dto.search.SearchedRecruitmentDataDto
 import com.party.data.util.convertToImageUrl
 import com.party.domain.model.search.Party
 import com.party.domain.model.search.PartyType
