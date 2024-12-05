@@ -9,6 +9,7 @@ import com.party.data.dto.user.detail.PositionListDto
 import com.party.data.dto.user.detail.SaveCarrierDto
 import com.party.data.dto.user.detail.SaveInterestLocationDto
 import com.party.data.dto.user.party.MyPartyDto
+import com.party.data.dto.user.recruitment.MyRecruitmentDto
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
@@ -49,4 +50,7 @@ interface UserRemoteSource {
 
     // 내 파티 리스트 조회
     suspend fun getMyParties(page: Int, limit: Int, sort: String, order: String): ApiResponse<MyPartyDto>
+
+    // 내 모집 리스트 조회
+    suspend fun getMyRecruitments(page: Int, limit: Int, sort: String, order: String): ApiResponse<MyRecruitmentDto>
 }

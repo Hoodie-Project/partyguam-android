@@ -1,8 +1,10 @@
 package com.party.common.component
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,29 +23,34 @@ import com.party.common.HeightSpacer
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.component.chip.Chip
+import com.party.common.convertIsoToCustomDateFormat
 import com.party.common.ui.theme.B2
+import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.GRAY100
+import com.party.common.ui.theme.GRAY500
+import com.party.common.ui.theme.GRAY600
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.TYPE_COLOR_BACKGROUND
 import com.party.common.ui.theme.TYPE_COLOR_TEXT
 import com.party.common.ui.theme.WHITE
+import com.party.common.ui.theme.YELLOW
 
 @Composable
-fun PartyListItem2(
-    imageUrl: String? = null,
-    active: String,
+fun RecruitmentListItem3(
+    date: String,
     partyType: String,
     title: String,
     main: String,
     sub: String,
+    content: String,
     onClick: () -> Unit,
 ) {
     Card(
         onClick = { onClick() },
         modifier = Modifier
             .fillMaxWidth()
-            .height(122.dp),
+            .height(320.dp),
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
         border = BorderStroke(1.dp, GRAY100),
         colors = CardDefaults.cardColors(
@@ -51,29 +58,84 @@ fun PartyListItem2(
         ),
         elevation = CardDefaults.cardElevation(4.dp),
     ) {
-        Row(
+        Column(
             modifier = Modifier
+                .fillMaxSize()
                 .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
         ) {
-            PartyImageArea(
-                imageUrl = imageUrl,
+            RecruitmentDataAndState(
+                applyDate = date,
             )
-
-            WidthSpacer(widthDp = 12.dp)
-            PartyInfoArea(
-                active = active,
+            HeightSpacer(heightDp = 12.dp)
+            RecruitmentInfoArea(
                 partyType = partyType,
                 title = title,
                 main = main,
                 sub = sub,
+            )
+
+            HeightSpacer(heightDp = 20.dp)
+            RecruitmentContent(
+                content = content
             )
         }
     }
 }
 
 @Composable
-private fun PartyImageArea(
+private fun RecruitmentDataAndState(
+    applyDate: String,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(17.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        TextComponent(
+            text = "지원일 ${convertIsoToCustomDateFormat(applyDate)}",
+            fontSize = B3,
+            textColor = GRAY500,
+        )
+
+        TextComponent(
+            text = "응답대기",
+            fontSize = B3,
+            textColor = YELLOW,
+        )
+    }
+}
+
+@Composable
+private fun RecruitmentInfoArea(
+    imageUrl: String? = null,
+    partyType: String,
+    title: String,
+    main: String,
+    sub: String,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(90.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        RecruitmentImageArea(
+            imageUrl = imageUrl,
+        )
+        WidthSpacer(widthDp = 12.dp)
+        RecruitmentContent(
+            partyType = partyType,
+            title = title,
+            main = main,
+            sub = sub,
+        )
+    }
+}
+
+@Composable
+private fun RecruitmentImageArea(
     imageUrl: String? = null,
 ) {
     ImageLoading(
@@ -86,28 +148,23 @@ private fun PartyImageArea(
 }
 
 @Composable
-private fun PartyInfoArea(
-    active: String,
+private fun RecruitmentContent(
     partyType: String,
     title: String,
     main: String,
     sub: String,
 ) {
-    Column(
-        modifier = Modifier
-
-    ) {
-        PartyCategoryArea(
-            active = active,
+    Column{
+        RecruitmentCategory(
             partyType = partyType,
         )
         HeightSpacer(heightDp = 8.dp)
-
-        PartyTitleArea(
+        RecruitmentTitle(
             title = title,
         )
         HeightSpacer(heightDp = 8.dp)
-        PartyPositionArea(
+
+        RecruitmentPositionArea(
             main = main,
             sub = sub,
         )
@@ -115,32 +172,18 @@ private fun PartyInfoArea(
 }
 
 @Composable
-private fun PartyCategoryArea(
-    active: String,
+private fun RecruitmentCategory(
     partyType: String,
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(24.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Chip(
-            containerColor = TYPE_COLOR_BACKGROUND,
-            contentColor = TYPE_COLOR_TEXT,
-            text = active,
-        )
-        WidthSpacer(widthDp = 4.dp)
-        Chip(
-            containerColor = TYPE_COLOR_BACKGROUND,
-            contentColor = TYPE_COLOR_TEXT,
-            text = partyType,
-        )
-    }
+    Chip(
+        containerColor = TYPE_COLOR_BACKGROUND,
+        contentColor = TYPE_COLOR_TEXT,
+        text = partyType,
+    )
 }
 
 @Composable
-private fun PartyTitleArea(
+private fun RecruitmentTitle(
     title: String,
 ) {
     TextComponent(
@@ -153,7 +196,7 @@ private fun PartyTitleArea(
 }
 
 @Composable
-private fun PartyPositionArea(
+private fun RecruitmentPositionArea(
     main: String,
     sub: String,
 ) {
@@ -165,16 +208,30 @@ private fun PartyPositionArea(
     )
 }
 
+@Composable
+private fun RecruitmentContent(
+    content: String,
+) {
+    TextComponent(
+        modifier = Modifier
+            .fillMaxWidth(),
+        text = content,
+        fontSize = B2,
+        textColor = GRAY600
+    )
+}
+
+
 @Preview(showBackground = true)
 @Composable
-fun PartyListItem2Preview() {
-    PartyListItem2(
-        imageUrl = "https://picsum.photos/200/300",
-        active = "진행중",
-        partyType = "포트폴리오",
-        title = "파티제목입니다파티제목입니다파티제목입니다",
-        main = "개발자",
-        sub = "안드로이드",
+fun RecruitmentListItem3Preview() {
+    RecruitmentListItem3(
+        date = "2024-12-05T08:09:19.765Z",
+        partyType = "스터디",
+        title = "스터디 모집합니다",
+        main = "대학생",
+        sub = "서울",
+        content = "스터디 모집합니다",
         onClick = {}
     )
 }

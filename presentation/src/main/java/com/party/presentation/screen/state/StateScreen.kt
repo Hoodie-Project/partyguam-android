@@ -43,6 +43,7 @@ fun StateScreen(
 ) {
     LaunchedEffect(key1 = Unit) {
         stateViewModel.getMyParty(1, 50, "createdAt", "DESC")
+        stateViewModel.getMyRecruitment(1, 50, "createdAt", "DESC")
     }
 
     val myPartyState by stateViewModel.myPartyState.collectAsStateWithLifecycle()
@@ -54,12 +55,9 @@ fun StateScreen(
         myPartyState = myPartyState,
         onAction = { action ->
             when (action) {
-                is MyPartyAction.OnOrderByChange -> {
-                    stateViewModel.onAction(action)
-                }
-                is MyPartyAction.OnSelectTab -> {
-                    stateViewModel.onAction(action)
-                }
+                is MyPartyAction.OnSelectTab -> { stateViewModel.onAction(action) }
+                is MyPartyAction.OnOrderByChange -> { stateViewModel.onAction(action) }
+                is MyPartyAction.OnRecruitmentOrderByChange -> { stateViewModel.onAction(action) }
             }
         },
         onGoToSearch = { navController.navigate(Screens.Search) }
@@ -110,7 +108,10 @@ fun StateScreenContent(
                     onChangeOrderBy = { onAction(MyPartyAction.OnOrderByChange(it)) }
                 )
             } else {
-                MyRecruitmentArea()
+                MyRecruitmentArea(
+                    myPartyState = myPartyState,
+                    onChangeOrderBy = { onAction(MyPartyAction.OnRecruitmentOrderByChange(it)) }
+                )
             }
         }
     }

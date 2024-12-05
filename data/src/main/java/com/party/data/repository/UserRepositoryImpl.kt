@@ -20,6 +20,7 @@ import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.detail.SaveCarrier
 import com.party.domain.model.user.detail.SaveInterestLocation
 import com.party.domain.model.user.party.MyParty
+import com.party.domain.model.user.recruitment.MyRecruitment
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.model.user.signup.UserSignUp
 import com.party.domain.repository.UserRepository
@@ -302,6 +303,25 @@ class UserRepositoryImpl @Inject constructor(
         return when(val result = userRemoteSource.getMyParties(page = page, limit = limit, sort = sort, order = order)){
             is ApiResponse.Success -> {
                 SuccessResponse(data = UserMapper.mapperToMyParty(result.data))
+            }
+            is ApiResponse.Failure.Error -> {
+                ErrorResponse()
+            }
+            is ApiResponse.Failure.Exception -> {
+                ExceptionResponse(message = result.message)
+            }
+        }
+    }
+
+    override suspend fun getMyRecruitments(
+        page: Int,
+        limit: Int,
+        sort: String,
+        order: String
+    ): ServerApiResponse<MyRecruitment> {
+        return when(val result = userRemoteSource.getMyRecruitments(page = page, limit = limit, sort = sort, order = order)){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = UserMapper.mapperToMyRecruitment(result.data))
             }
             is ApiResponse.Failure.Error -> {
                 ErrorResponse()

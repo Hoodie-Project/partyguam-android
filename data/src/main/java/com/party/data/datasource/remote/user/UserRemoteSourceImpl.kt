@@ -9,6 +9,7 @@ import com.party.data.dto.user.detail.PositionListDto
 import com.party.data.dto.user.detail.SaveCarrierDto
 import com.party.data.dto.user.detail.SaveInterestLocationDto
 import com.party.data.dto.user.party.MyPartyDto
+import com.party.data.dto.user.recruitment.MyRecruitmentDto
 import com.party.data.service.NoTokenService
 import com.party.data.service.UserService
 import com.party.domain.model.user.detail.InterestLocationList
@@ -83,5 +84,14 @@ class UserRemoteSourceImpl @Inject constructor(
         order: String
     ): ApiResponse<MyPartyDto> {
         return userService.getMyParties(page = page, limit = limit, sort = sort, order = order)
+    }
+
+    override suspend fun getMyRecruitments(
+        page: Int,
+        limit: Int,
+        sort: String,
+        order: String
+    ): ApiResponse<MyRecruitmentDto> {
+        return userService.getMyRecruitments(page = page, limit = limit, sort = sort, order = order)
     }
 }

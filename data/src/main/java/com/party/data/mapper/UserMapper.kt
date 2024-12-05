@@ -11,6 +11,8 @@ import com.party.data.dto.user.detail.PositionListDto
 import com.party.data.dto.user.detail.SaveCarrierItem
 import com.party.data.dto.user.party.MyPartyDto
 import com.party.data.dto.user.party.PartyUserDto
+import com.party.data.dto.user.recruitment.MyRecruitmentDto
+import com.party.data.dto.user.recruitment.PartyApplicationDto
 import com.party.domain.model.user.detail.Location
 import com.party.domain.model.user.SocialLoginError
 import com.party.domain.model.user.SocialLogin
@@ -26,6 +28,9 @@ import com.party.domain.model.user.party.Party
 import com.party.domain.model.user.party.PartyType
 import com.party.domain.model.user.party.PartyUser
 import com.party.domain.model.user.party.Position
+import com.party.domain.model.user.recruitment.MyRecruitment
+import com.party.domain.model.user.recruitment.PartyApplication
+import com.party.domain.model.user.recruitment.PartyRecruitment
 import com.party.domain.model.user.signup.UserSignUp
 
 object UserMapper {
@@ -126,6 +131,37 @@ object UserMapper {
                 image = partyUserDto.party.image,
                 partyType = PartyType(
                     type = partyUserDto.party.partyType.type
+                )
+            )
+        )
+    }
+
+    // 내 지원목록 리스트 조회
+    fun mapperToMyRecruitment(myRecruitmentDto: MyRecruitmentDto): MyRecruitment {
+        return MyRecruitment(
+            total = myRecruitmentDto.total,
+            partyApplications = myRecruitmentDto.partyApplications.map { mapperToPartyApplication(it) }
+        )
+    }
+
+    private fun mapperToPartyApplication(partyApplicationDto: PartyApplicationDto): PartyApplication {
+        return PartyApplication(
+            id = partyApplicationDto.id,
+            message = partyApplicationDto.message,
+            status = partyApplicationDto.status,
+            createdAt = partyApplicationDto.createdAt,
+            partyRecruitment = PartyRecruitment(
+                position = com.party.domain.model.user.recruitment.Position(
+                    main = partyApplicationDto.partyRecruitment.position.main,
+                    sub = partyApplicationDto.partyRecruitment.position.sub
+                ),
+                party = com.party.domain.model.user.recruitment.Party(
+                    id = partyApplicationDto.partyRecruitment.party.id,
+                    title = partyApplicationDto.partyRecruitment.party.title,
+                    image = partyApplicationDto.partyRecruitment.party.image,
+                    partyType = com.party.domain.model.user.recruitment.PartyType(
+                        type = partyApplicationDto.partyRecruitment.party.partyType.type
+                    )
                 )
             )
         )

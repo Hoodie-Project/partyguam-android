@@ -1,6 +1,5 @@
 package com.party.presentation.screen.state.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,29 +7,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
 import com.party.common.component.PartyListItem2
-import com.party.common.component.chip.BorderChip
 import com.party.common.component.chip.OrderByCreateDtChip
 import com.party.common.component.no_data.NoDataColumn
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.GRAY200
-import com.party.common.ui.theme.GRAY500
-import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.party.MyParty
 import com.party.domain.model.user.party.Party
 import com.party.domain.model.user.party.PartyType
@@ -50,6 +40,7 @@ fun MyPartyArea(
             .fillMaxWidth()
     ) {
         SelectCategoryArea(
+            categoryList = listOf("전체", "진행중", "종료"),
             selectedCategory = selectedCategory,
             onClick = { selectedCategory = it }
         )
@@ -80,33 +71,6 @@ fun MyPartyArea(
 }
 
 @Composable
-private fun SelectCategoryArea(
-    categoryList: List<String> = listOf("전체", "진행중", "종료"),
-    selectedCategory: String,
-    onClick: (String) -> Unit,
-) {
-    LazyRow(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(68.dp)
-            .background(WHITE),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        itemsIndexed(categoryList) { _, category ->
-            BorderChip(
-                borderColor = if (selectedCategory == category) PRIMARY else GRAY200,
-                fontWeight = if (selectedCategory == category) FontWeight.Bold else FontWeight.Normal,
-                text = category,
-                textColor = if (selectedCategory == category) BLACK else GRAY500,
-                contentColor = BLACK,
-                onClick = { onClick(category) }
-            )
-        }
-    }
-}
-
-@Composable
 private fun MyPartyList(
     myPartyState: MyPartyState,
 ) {
@@ -120,7 +84,7 @@ private fun MyPartyList(
             key = { index, _ ->
                 index
             }
-        ){ index, item ->
+        ){ _, item ->
             PartyListItem2(
                 imageUrl = item.party.image,
                 active = "",

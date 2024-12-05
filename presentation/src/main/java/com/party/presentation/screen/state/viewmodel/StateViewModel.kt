@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.domain.model.user.party.MyParty
+import com.party.domain.model.user.recruitment.MyRecruitment
 import com.party.domain.usecase.user.party.GetMyPartyUseCase
+import com.party.domain.usecase.user.recruitment.GetMyRecruitmentUseCase
 import com.party.presentation.screen.state.MyPartyAction
 import com.party.presentation.screen.state.MyPartyState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,17 +20,13 @@ import javax.inject.Inject
 @HiltViewModel
 class StateViewModel @Inject constructor(
     private val getMyPartyUseCase: GetMyPartyUseCase,
+    private val getMyRecruitmentUseCase: GetMyRecruitmentUseCase,
 ): ViewModel(){
 
     private val _myPartyState = MutableStateFlow(MyPartyState())
     val myPartyState = _myPartyState.asStateFlow()
 
-    fun getMyParty(
-        page: Int,
-        limit: Int,
-        sort: String,
-        order: String,
-    ){
+    fun getMyParty(page: Int, limit: Int, sort: String, order: String){
         viewModelScope.launch(Dispatchers.IO) {
             _myPartyState.update { it.copy(isMyPartyLoading = true) }
 
@@ -52,8 +50,34 @@ class StateViewModel @Inject constructor(
         }
     }
 
+    fun getMyRecruitment(page: Int, limit: Int, sort: String, order: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            _myPartyState.update { it.copy(isMyRecruitmentLoading = true) }
+
+            when(val result = getMyRecruitmentUseCase(page, limit, sort, order)){
+                is ServerApiResponse.SuccessResponse -> {
+                    _myPartyState.update {
+                        it.copy(
+                            isMyRecruitmentLoading = false,
+                            myRecruitmentList = result.data ?: MyRecruitment(total = 0, partyApplications = emptyList())
+                        )
+                    }
+                }
+                is ServerApiResponse.ErrorResponse -> {
+                    _myPartyState.update { it.copy(isMyRecruitmentLoading = false) }
+                }
+
+                is ServerApiResponse.ExceptionResponse -> {
+                    _myPartyState.update { it.copy(isMyRecruitmentLoading = false) }
+                }
+
+            }
+        }
+    }
+
     fun onAction(action: MyPartyAction){
         when(action){
+            is MyPartyAction.OnSelectTab -> { _myPartyState.update { it.copy(selectedTabText = action.selectedTabText) } }
             is MyPartyAction.OnOrderByChange -> {
                 _myPartyState.update { currentState ->
                     val sortedList = if (action.orderByDesc) {
@@ -67,8 +91,18 @@ class StateViewModel @Inject constructor(
                     )
                 }
             }
-            is MyPartyAction.OnSelectTab -> {
-                _myPartyState.update { it.copy(selectedTabText = action.selectedTabText) }
+            is MyPartyAction.OnRecruitmentOrderByChange -> {
+                _myPartyState.update { currentState ->
+                    val sortedList = if (action.orderByRecruitmentDateDesc) {
+                        currentState.myRecruitmentList.partyApplications.sortedByDescending { it.createdAt }
+                    } else {
+                        currentState.myRecruitmentList.partyApplications.sortedBy { it.createdAt }
+                    }
+                    currentState.copy(
+                        orderByRecruitmentDateDesc = action.orderByRecruitmentDateDesc,
+                        myRecruitmentList = currentState.myRecruitmentList.copy(partyApplications = sortedList)
+                    )
+                }
             }
         }
     }
