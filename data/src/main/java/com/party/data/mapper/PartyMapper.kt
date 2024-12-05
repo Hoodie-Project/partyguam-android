@@ -144,6 +144,7 @@ object PartyMapper {
                 )
             ),
             position = RecruitmentDetailPosition(
+                id = recruitmentDetailEntity.position.id,
                 main = recruitmentDetailEntity.position.main,
                 sub = recruitmentDetailEntity.position.sub
             ),

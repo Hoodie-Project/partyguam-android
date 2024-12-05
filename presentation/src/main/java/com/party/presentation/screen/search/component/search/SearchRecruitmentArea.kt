@@ -48,16 +48,17 @@ private fun RecruitmentListArea(
                 }
             ){ _, item ->
                 RecruitmentListItem2(
+                    id = item.id,
+                    partyId = item.party.id,
                     imageUrl = item.party.image,
                     category = item.party.partyType.type,
                     title = item.party.title,
                     main = item.position.main,
                     sub = item.position.sub,
                     recruitingCount = item.recruitingCount,
-                    recruitedCount = item.recruitedCount
-                ) {
-
-                }
+                    recruitedCount = item.recruitedCount,
+                    onClick = { _, _ -> }
+                )
             }
         }
     }else {

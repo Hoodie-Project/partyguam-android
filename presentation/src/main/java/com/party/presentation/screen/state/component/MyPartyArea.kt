@@ -62,7 +62,7 @@ fun MyPartyArea(
         HeightSpacer(heightDp = 4.dp)
 
         when {
-            myPartyState.isLoading -> { LoadingProgressBar() }
+            myPartyState.isMyPartyLoading -> { LoadingProgressBar() }
             myPartyState.myPartyList.partyUsers.isEmpty() -> {
                 NoDataColumn(
                     title = "파티가 없어요",
@@ -158,7 +158,7 @@ private fun JoinDataOrderBy(
 private fun MyPartyAreaPreview() {
     MyPartyArea(
         myPartyState = MyPartyState(
-            isLoading = false,
+            isMyPartyLoading = false,
             myPartyList = MyParty(0, emptyList())
         ),
         onChangeOrderBy = {}
@@ -170,7 +170,7 @@ private fun MyPartyAreaPreview() {
 private fun MyPartyAreaPreview1() {
     MyPartyArea(
         myPartyState = MyPartyState(
-            isLoading = true,
+            isMyPartyLoading = true,
             myPartyList = MyParty(0, emptyList())
         ),
         onChangeOrderBy = {}
@@ -182,7 +182,7 @@ private fun MyPartyAreaPreview1() {
 private fun MyPartyAreaPreview2() {
     MyPartyArea(
         myPartyState = MyPartyState(
-            isLoading = false,
+            isMyPartyLoading = false,
             myPartyList = MyParty(
                 total = 2,
                 partyUsers =  listOf(

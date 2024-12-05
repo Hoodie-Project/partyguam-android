@@ -22,6 +22,7 @@ data class RecruitmentDetailPartyType(
 )
 
 data class RecruitmentDetailPosition(
+    val id: Int,
     val main: String,
     val sub: String,
 )

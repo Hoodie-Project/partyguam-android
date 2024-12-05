@@ -82,6 +82,8 @@ fun RecruitmentColumnListArea(
                         }
                     ){_, item ->
                         RecruitmentListItem2(
+                            id = item.id,
+                            partyId = item.party.id,
                             imageUrl = item.party.image,
                             category = item.party.partyType.type,
                             title = item.party.title,
@@ -89,7 +91,7 @@ fun RecruitmentColumnListArea(
                             sub = item.position.sub,
                             recruitingCount = item.recruitingCount,
                             recruitedCount = item.recruitedCount,
-                            onClick = {}
+                            onClick = onRecruitmentItemClick
                         )
                     }
                 }

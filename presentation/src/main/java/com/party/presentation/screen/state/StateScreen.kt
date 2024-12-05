@@ -28,6 +28,7 @@ import com.party.common.component.stateTabList
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.BottomNavigationBar
+import com.party.navigation.Screens
 import com.party.presentation.screen.state.component.MyPartyArea
 import com.party.presentation.screen.state.component.MyRecruitmentArea
 import com.party.presentation.screen.state.component.StateScaffoldArea
@@ -40,10 +41,6 @@ fun StateScreen(
     navController: NavHostController,
     stateViewModel: StateViewModel = hiltViewModel()
 ) {
-    var selectedTabText by remember {
-        mutableStateOf(stateTabList[0])
-    }
-
     LaunchedEffect(key1 = Unit) {
         stateViewModel.getMyParty(1, 50, "createdAt", "DESC")
     }
@@ -53,14 +50,19 @@ fun StateScreen(
     StateScreenContent(
         context = context,
         navController = navController,
-        selectedTabText = selectedTabText,
-        onTabClick = { selectedTabText = it },
+        selectedTabText = myPartyState.selectedTabText,
         myPartyState = myPartyState,
         onAction = { action ->
-            when(action){
-                is MyPartyAction.OnOrderByChange -> { stateViewModel.onAction(action) }
+            when (action) {
+                is MyPartyAction.OnOrderByChange -> {
+                    stateViewModel.onAction(action)
+                }
+                is MyPartyAction.OnSelectTab -> {
+                    stateViewModel.onAction(action)
+                }
             }
-        }
+        },
+        onGoToSearch = { navController.navigate(Screens.Search) }
     )
 }
 
@@ -69,15 +71,14 @@ fun StateScreenContent(
     context: Context,
     navController: NavHostController,
     selectedTabText: String,
-    onTabClick: (String) -> Unit,
     myPartyState: MyPartyState,
     onAction: (MyPartyAction) -> Unit,
+    onGoToSearch: () -> Unit,
 ) {
-
     Scaffold(
         topBar = {
             StateScaffoldArea(
-                onGoToSearch = {},
+                onGoToSearch = onGoToSearch,
                 onGoToAlarm = {}
             )
         },
@@ -87,7 +88,7 @@ fun StateScreenContent(
                 navController = navController,
             )
         }
-    ){
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -98,10 +99,12 @@ fun StateScreenContent(
             StateTabArea(
                 searchTabList = stateTabList,
                 selectedTabText = selectedTabText,
-                onTabClick = onTabClick
+                onTabClick = {
+                    onAction(MyPartyAction.OnSelectTab(it))
+                }
             )
 
-            if(selectedTabText == stateTabList[0]){
+            if (selectedTabText == stateTabList[0]) {
                 MyPartyArea(
                     myPartyState = myPartyState,
                     onChangeOrderBy = { onAction(MyPartyAction.OnOrderByChange(it)) }
@@ -120,8 +123,8 @@ fun StateScreenContentPreview() {
         context = LocalContext.current,
         navController = rememberNavController(),
         selectedTabText = stateTabList[0],
-        onTabClick = {},
         myPartyState = MyPartyState(),
-        onAction = {}
+        onAction = {},
+        onGoToSearch = {}
     )
 }

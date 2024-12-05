@@ -37,6 +37,8 @@ import com.party.common.ui.theme.WHITE
 
 @Composable
 fun RecruitmentListItem2(
+    id: Int,
+    partyId: Int,
     imageUrl: String? = null,
     category: String,
     title: String,
@@ -44,10 +46,10 @@ fun RecruitmentListItem2(
     sub: String,
     recruitingCount: Int,
     recruitedCount: Int,
-    onClick: () -> Unit,
+    onClick: (Int, Int) -> Unit,
 ) {
     Card(
-        onClick = { onClick() },
+        onClick = { onClick(id, partyId) },
         modifier = Modifier
             .fillMaxWidth()
             .height(136.dp),
@@ -220,12 +222,14 @@ private fun RecruitmentCountArea(
 @Composable
 fun RecruitmentListItem2Preview(modifier: Modifier = Modifier) {
     RecruitmentListItem2(
+        id = 1,
+        partyId = 1,
         category = "포트폴리오",
         title = "같이할 사람 구해요",
         main = "개발자",
         sub = "안드로이드",
         recruitingCount = 1,
         recruitedCount = 0,
-        onClick = {}
+        onClick = { _, _ -> }
     )
 }

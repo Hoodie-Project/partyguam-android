@@ -30,23 +30,23 @@ class StateViewModel @Inject constructor(
         order: String,
     ){
         viewModelScope.launch(Dispatchers.IO) {
-            _myPartyState.update { it.copy(isLoading = true) }
+            _myPartyState.update { it.copy(isMyPartyLoading = true) }
 
             when(val result = getMyPartyUseCase(page, limit, sort, order)){
                 is ServerApiResponse.SuccessResponse -> {
                     _myPartyState.update {
                         it.copy(
-                            isLoading = false,
+                            isMyPartyLoading = false,
                             myPartyList = result.data ?: MyParty(total = 0, partyUsers = emptyList())
                         )
                     }
                 }
                 is ServerApiResponse.ErrorResponse -> {
-                    _myPartyState.update { it.copy(isLoading = false) }
+                    _myPartyState.update { it.copy(isMyPartyLoading = false) }
                 }
 
                 is ServerApiResponse.ExceptionResponse -> {
-                    _myPartyState.update { it.copy(isLoading = false) }
+                    _myPartyState.update { it.copy(isMyPartyLoading = false) }
                 }
             }
         }
@@ -66,6 +66,9 @@ class StateViewModel @Inject constructor(
                         myPartyList = currentState.myPartyList.copy(partyUsers = sortedList)
                     )
                 }
+            }
+            is MyPartyAction.OnSelectTab -> {
+                _myPartyState.update { it.copy(selectedTabText = action.selectedTabText) }
             }
         }
     }
