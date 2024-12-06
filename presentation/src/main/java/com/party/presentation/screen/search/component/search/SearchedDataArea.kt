@@ -16,10 +16,14 @@ fun SearchedDataContent(
     onTabClick: (String) -> Unit,
     onToggle: (String) -> Unit,
     onChangeOrderByParty: (Boolean) -> Unit,
+    onChangeOrderByRecruitment: (Boolean) -> Unit,
     onPartyTypeModel: (Boolean) -> Unit,
-    onClick: (String) -> Unit,
+    onPartyTypeRecruitment: (Boolean) -> Unit,
+    onPartyTypeItem1: (String) -> Unit,
+    onPartyTypeItem2: (String) -> Unit,
     onReset: () -> Unit,
-    onPartyTypeApply: () -> Unit
+    onPartyTypeApply: () -> Unit,
+    onPartyTypeApply2: () -> Unit,
 ) {
     Column {
         SearchTopTabArea(
@@ -29,7 +33,7 @@ fun SearchedDataContent(
             onTabClick = onTabClick
         )
 
-        HeightSpacer(heightDp = 24.dp)
+        HeightSpacer(heightDp = 20.dp)
 
         when(searchState.selectedTabText) {
             searchTabList[0] -> {
@@ -44,14 +48,19 @@ fun SearchedDataContent(
                     onChangeOrderBy = onChangeOrderByParty,
                     onToggle = onToggle,
                     onPartyTypeModel = onPartyTypeModel,
-                    onClick = onClick,
+                    onClick = onPartyTypeItem1,
                     onReset = onReset,
                     onPartyTypeApply = onPartyTypeApply
                 )
             }
             searchTabList[2] -> {
                 SearchRecruitmentArea(
-                    recruitmentList = searchState.recruitmentSearchedList.partyRecruitments
+                    searchState = searchState,
+                    onPartyTypeModel = onPartyTypeRecruitment,
+                    onChangeOrderBy = onChangeOrderByRecruitment,
+                    onClick = onPartyTypeItem2,
+                    onReset = onReset,
+                    onPartyTypeApply2 = onPartyTypeApply2
                 )
             }
         }
@@ -70,7 +79,11 @@ private fun SearchedDataContentPreview1() {
         onChangeOrderByParty = {},
         onToggle = {},
         onPartyTypeModel = {},
-        onClick = {},
-        onReset = {}
+        onPartyTypeItem1 = {},
+        onReset = {},
+        onChangeOrderByRecruitment = {},
+        onPartyTypeRecruitment = {},
+        onPartyTypeItem2 = {},
+        onPartyTypeApply2 = {}
     )
 }

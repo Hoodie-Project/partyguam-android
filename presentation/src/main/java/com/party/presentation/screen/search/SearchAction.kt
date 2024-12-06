@@ -15,4 +15,9 @@ sealed interface SearchAction{
     data class OnSelectedPartyType(val partyType: String): SearchAction
     data object OnPartyTypeReset: SearchAction
     data object OnPartyTypeApply: SearchAction
+
+    data class OnPartyTypeRecruitment(val isVisibleModal: Boolean): SearchAction
+    data class OnChangeOrderByRecruitment(val isDesc: Boolean): SearchAction
+    data class OnSelectedPartyTypeRecruitment(val partyType: String): SearchAction
+    data object OnPartyTypeApply2: SearchAction
 }

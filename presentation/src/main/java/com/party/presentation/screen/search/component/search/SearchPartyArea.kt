@@ -9,16 +9,13 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
+import com.party.common.LoadingProgressBar
 import com.party.common.R
 import com.party.common.component.PartyListItem1
 import com.party.common.component.chip.Chip
@@ -31,7 +28,6 @@ import com.party.domain.model.party.PartyList
 import com.party.domain.model.party.PartyTypeItem
 import com.party.presentation.enum.StatusType
 import com.party.presentation.screen.home.tab_recruitment.PartyTypeModal
-import com.party.presentation.screen.home.tab_recruitment.validSelectedPartyType
 import com.party.presentation.screen.search.SearchState
 
 @Composable
@@ -57,15 +53,18 @@ fun SearchPartyArea(
         )
 
         HeightSpacer(heightDp = 12.dp)
-        PartyListArea(
-            partyList = searchState.partySearchedList.parties
-        )
+
+        when{
+            searchState.isLoadingParty -> LoadingProgressBar()
+            searchState.partySearchedList.parties.isEmpty() -> NoDataColumn(title = "파티가 없어요.", modifier = Modifier.padding(60.dp))
+            searchState.partySearchedList.parties.isNotEmpty() -> PartyListArea(partyList = searchState.partySearchedList.parties)
+        }
     }
 
     if(searchState.isPartyTypeSheetOpen){
         PartyTypeModal(
             titleText = stringResource(id = R.string.recruitment_filter2),
-            selectedPartyType = searchState.selectedTypeList,
+            selectedPartyType = searchState.selectedTypeListParty,
             onClick = { onClick(it) },
             onModelClose = { onPartyTypeModel(false) },
             onReset = onReset,
@@ -112,12 +111,6 @@ private fun PartyListArea(
                 )
             }
         }
-    }else{
-        NoDataColumn(
-            title = "파티가 없어요.",
-            modifier = Modifier
-                .padding(60.dp)
-        )
     }
 }
 

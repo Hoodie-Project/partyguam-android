@@ -97,7 +97,8 @@ class SearchViewModel @Inject constructor(
         page: Int,
         size: Int,
         sort: String,
-        order: String
+        order: String,
+        partyTypes: List<Int> = emptyList(),
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             _searchState.update { it.copy(isLoadingRecruitment = true) }
@@ -107,7 +108,8 @@ class SearchViewModel @Inject constructor(
                 page = page,
                 size = size,
                 sort = sort,
-                order = order
+                order = order,
+                partyTypes = partyTypes
             )) {
                 is ServerApiResponse.SuccessResponse -> {
                     _searchState.update {
@@ -197,7 +199,7 @@ class SearchViewModel @Inject constructor(
             // 클릭시 이미 저장되있으면 삭제하고 없으면 추가한다.
             is SearchAction.OnSelectedPartyType -> {
                 _searchState.update { state ->
-                    val updatedTypeList = state.selectedTypeList.toMutableList().apply {
+                    val updatedTypeList = state.selectedTypeListParty.toMutableList().apply {
                         if (action.partyType == "전체") {
                             clear() // "전체"가 들어오면 리스트를 전부 삭제
                             add("전체")
@@ -206,15 +208,18 @@ class SearchViewModel @Inject constructor(
                             if (contains(action.partyType)) remove(action.partyType) else add(action.partyType)
                         }
                     }
-                    state.copy(selectedTypeList = updatedTypeList)
+                    state.copy(selectedTypeListParty = updatedTypeList)
                 }
             }
 
-            is SearchAction.OnPartyTypeReset -> { _searchState.update { it.copy(selectedTypeList = emptyList()) } }
+            is SearchAction.OnPartyTypeReset -> {
+                _searchState.update { it.copy(selectedTypeListParty = emptyList()) }
+                _searchState.update { it.copy(selectedTypeListRecruitment = emptyList()) }
+            }
             is SearchAction.OnPartyTypeApply -> {
                 _searchState.update { it.copy(isPartyTypeSheetOpen = false) }
 
-                val selectedTypeList: List<String> = _searchState.value.selectedTypeList
+                val selectedTypeList: List<String> = _searchState.value.selectedTypeListParty
                 partySearch(
                     titleSearch = _searchState.value.inputKeyword,
                     page = 1,
@@ -222,6 +227,52 @@ class SearchViewModel @Inject constructor(
                     sort = "createdAt",
                     order = "DESC",
                     status = _searchState.value.isActiveParty,
+                    partyTypes = selectedTypeList.mapNotNull { type ->
+                        PartyType.entries.find { it.type == type }?.id
+                    }
+                )
+            }
+            is SearchAction.OnChangeOrderByRecruitment -> {
+                _searchState.update { currentState ->
+                    val sortedList = if (action.isDesc) {
+                        currentState.recruitmentSearchedList.partyRecruitments.sortedByDescending { it.createdAt }
+                    } else {
+                        currentState.recruitmentSearchedList.partyRecruitments.sortedBy { it.createdAt }
+                    }
+                    currentState.copy(
+                        isDescRecruitment = action.isDesc,
+                        recruitmentSearchedList = currentState.recruitmentSearchedList.copy(partyRecruitments = sortedList)
+                    )
+                }
+            }
+            is SearchAction.OnPartyTypeRecruitment -> _searchState.update { it.copy(isPartyTypeSheetOpenRecruitment = action.isVisibleModal) }
+            is SearchAction.OnSelectedPartyTypeRecruitment -> {
+                _searchState.update { state ->
+                    val updatedTypeList = state.selectedTypeListRecruitment.toMutableList().apply {
+                        if (action.partyType == "전체") {
+                            clear() // "전체"가 들어오면 리스트를 전부 삭제
+                            add("전체")
+                        } else {
+                            remove("전체") // "전체" 외의 값이 들어오면 "전체" 삭제
+                            if (contains(action.partyType)) remove(action.partyType) else add(action.partyType)
+                        }
+                    }
+                    state.copy(selectedTypeListRecruitment = updatedTypeList)
+                }
+            }
+            is SearchAction.OnPartyTypeApply2 -> {
+                _searchState.update { it.copy(
+                    isPartyTypeSheetOpenRecruitment = false,
+                    selectedTypeListSize = _searchState.value.selectedTypeListRecruitment.size
+                ) }
+
+                val selectedTypeList: List<String> = _searchState.value.selectedTypeListRecruitment
+                recruitmentSearch(
+                    titleSearch = _searchState.value.inputKeyword,
+                    page = 1,
+                    size = 50,
+                    sort = "createdAt",
+                    order = "DESC",
                     partyTypes = selectedTypeList.mapNotNull { type ->
                         PartyType.entries.find { it.type == type }?.id
                     }

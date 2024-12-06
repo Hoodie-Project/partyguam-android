@@ -56,6 +56,10 @@ fun SearchRoute(
                 is SearchAction.OnSelectedPartyType -> { searchViewModel.onAction(action) }
                 is SearchAction.OnPartyTypeReset -> { searchViewModel.onAction(action) }
                 is SearchAction.OnPartyTypeApply -> { searchViewModel.onAction(action) }
+                is SearchAction.OnChangeOrderByRecruitment -> { searchViewModel.onAction(action) }
+                is SearchAction.OnPartyTypeRecruitment -> { searchViewModel.onAction(action) }
+                is SearchAction.OnSelectedPartyTypeRecruitment -> { searchViewModel.onAction(action) }
+                is SearchAction.OnPartyTypeApply2 -> { searchViewModel.onAction(action) }
             }
         }
     )
@@ -96,9 +100,13 @@ fun SearchScreen(
                     onChangeOrderByParty = { isDesc -> onAction(SearchAction.OnChangeOrderByParty(isDesc)) },
                     onToggle = { status -> onAction(SearchAction.OnChangeActive(status)) },
                     onPartyTypeModel = { isVisible -> onAction(SearchAction.OnPartyTypeModelClose(isVisible)) },
-                    onClick = { selectedPartyType -> onAction(SearchAction.OnSelectedPartyType(selectedPartyType)) },
+                    onPartyTypeItem1 = { selectedPartyType -> onAction(SearchAction.OnSelectedPartyType(selectedPartyType)) },
                     onReset = { onAction(SearchAction.OnPartyTypeReset) },
-                    onPartyTypeApply = { onAction(SearchAction.OnPartyTypeApply) }
+                    onPartyTypeApply = { onAction(SearchAction.OnPartyTypeApply) },
+                    onChangeOrderByRecruitment = { isDesc -> onAction(SearchAction.OnChangeOrderByRecruitment(isDesc)) },
+                    onPartyTypeRecruitment = { isVisible -> onAction(SearchAction.OnPartyTypeRecruitment(isVisible)) },
+                    onPartyTypeItem2 = { selectedPartyType -> onAction(SearchAction.OnSelectedPartyTypeRecruitment(selectedPartyType)) },
+                    onPartyTypeApply2 = { onAction(SearchAction.OnPartyTypeApply2) }
                 )
             }
         }

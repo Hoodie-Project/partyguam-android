@@ -25,19 +25,17 @@ data class SearchState(
         )
     ),
 
-    val isLoadingParty: Boolean = true,
-    val partySearchedList: PartyList = PartyList(
-        total = 0,
-        parties = emptyList()
-    ),
+    val isLoadingParty: Boolean = false,
+    val partySearchedList: PartyList = PartyList(total = 0, parties = emptyList()),
     val isActiveParty: String = "active",
     val isDescParty: Boolean = true,
     val isPartyTypeSheetOpen: Boolean = false,
-    val selectedTypeList: List<String> = emptyList(),
+    val selectedTypeListParty: List<String> = emptyList(),
 
-    val isLoadingRecruitment: Boolean = true,
-    val recruitmentSearchedList: RecruitmentList = RecruitmentList(
-        total = 8358,
-        partyRecruitments = emptyList()
-    ),
+    val isLoadingRecruitment: Boolean = false,
+    val recruitmentSearchedList: RecruitmentList = RecruitmentList(total = 0, partyRecruitments = emptyList()),
+    val isDescRecruitment: Boolean = true,
+    val isPartyTypeSheetOpenRecruitment: Boolean = false,
+    val selectedTypeListRecruitment: List<String> = emptyList(),
+    val selectedTypeListSize: Int = 0
 )
