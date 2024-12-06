@@ -76,7 +76,7 @@ private fun PersonalRecruitmentItemPreview2() {
 private fun PartyItemPreview() {
     PartyListItem1(
         imageUrl = "",
-        status = "포트폴리오",
+        type = "포트폴리오",
         title = "포르폴리오 할 사람",
         recruitmentCount = 1,
         onClick = {}

@@ -35,7 +35,7 @@ import com.party.common.ui.theme.WHITE
 @Composable
 fun PartyListItem1(
     imageUrl: String? = null,
-    status: String,
+    type: String,
     title: String,
     recruitmentCount: Int,
     typeChip: @Composable (() -> Unit) = {},
@@ -62,7 +62,7 @@ fun PartyListItem1(
             )
             HeightSpacer(heightDp = 12.dp)
             PartyItemInfoArea(
-                status = status,
+                type = type,
                 title = title,
                 recruitmentCount = recruitmentCount,
                 typeChip = typeChip
@@ -86,7 +86,7 @@ private fun PartyItemImageArea(
 
 @Composable
 private fun PartyItemInfoArea(
-    status: String,
+    type: String,
     title: String,
     recruitmentCount: Int,
     typeChip: @Composable (() -> Unit) = {}
@@ -101,7 +101,7 @@ private fun PartyItemInfoArea(
         ) {
             typeChip()
             PartyItemCategory(
-                category = status,
+                category = type,
             )
         }
 
@@ -162,7 +162,7 @@ private fun PartyItemRecruiting(
 private fun PartyListItemPreview() {
     PartyListItem1(
         imageUrl = "https://picsum.photos/200/300",
-        status = "카테고리",
+        type = "카테고리",
         title = "제목",
         recruitmentCount = 10,
         onClick = {}

@@ -30,6 +30,7 @@ data class SearchState(
         total = 0,
         parties = emptyList()
     ),
+    val isActiveParty: String = "active",
     val isDescParty: Boolean = true,
 
     val isLoadingRecruitment: Boolean = true,
@@ -37,6 +38,4 @@ data class SearchState(
         total = 8358,
         partyRecruitments = emptyList()
     ),
-
-
 )

@@ -37,13 +37,14 @@ import com.party.presentation.screen.search.SearchState
 @Composable
 fun SearchPartyArea(
     searchState: SearchState,
+    onToggle: (String) -> Unit,
     onPartyTypeApply: (MutableList<String>) -> Unit,
     onChangeOrderBy: (Boolean) -> Unit
 ) {
     // 파티 타입 시트 오픈 여부
     var isPartyTypeSheetOpen by rememberSaveable { mutableStateOf(false) }
 
-    var checked by remember { mutableStateOf(true) }
+    //var checked by remember { mutableStateOf(true) }
 
     // 선택된 파티 타입 리스트
     val selectedPartyTypeList by remember {
@@ -55,8 +56,8 @@ fun SearchPartyArea(
             .fillMaxWidth()
     ) {
         PartyTypeAndIngAndOrderByFilterArea(
-            checked = checked,
-            onToggle = { checked = it },
+            isActiveParty = searchState.isActiveParty,
+            onToggle = onToggle,
             isPartyTypeFilterClick = {},
             isDescParty = searchState.isDescParty,
             onChangeOrderBy = onChangeOrderBy,
@@ -111,7 +112,7 @@ private fun PartyListArea(
                 }
             ) { _, item ->
                 PartyListItem1(
-                    status = item.tag,
+                    type = item.partyType.type,
                     title = item.title,
                     recruitmentCount = item.recruitmentCount,
                     typeChip = {
@@ -142,7 +143,8 @@ private fun SearchPartyAreaPreview1(
     SearchPartyArea(
         searchState = SearchState(),
         onPartyTypeApply = {},
-        onChangeOrderBy = {}
+        onChangeOrderBy = {},
+        onToggle = {}
     )
 }
 
@@ -155,6 +157,7 @@ private fun SearchPartyAreaPreview2(
         searchState = SearchState(),
         onPartyTypeApply = {},
         onChangeOrderBy = {},
+        onToggle = {}
 
     )
 }

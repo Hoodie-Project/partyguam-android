@@ -41,8 +41,8 @@ import com.party.common.ui.theme.WHITE
 
 @Composable
 fun PartyTypeAndIngAndOrderByFilterArea(
-    checked: Boolean,
-    onToggle: (Boolean) -> Unit,
+    isActiveParty: String,
+    onToggle: (String) -> Unit,
     isPartyTypeFilterClick: (Boolean) -> Unit,
     isDescParty: Boolean,
     onChangeOrderBy: (Boolean) -> Unit,
@@ -66,7 +66,7 @@ fun PartyTypeAndIngAndOrderByFilterArea(
             )
 
             IngToggle(
-                checked = checked,
+                isActiveParty = isActiveParty,
                 onToggle = onToggle
             )
         }
@@ -131,8 +131,8 @@ private fun SelectFilterItem(
 
 @Composable
 private fun IngToggle(
-    checked: Boolean,
-    onToggle: (Boolean) -> Unit,
+    isActiveParty: String,
+    onToggle: (String) -> Unit,
 ) {
 
     Row(
@@ -140,16 +140,16 @@ private fun IngToggle(
     ){
         TextComponent(
             text = "진행중",
-            textColor = if (checked) PRIMARY else GRAY500,
+            textColor = if (isActiveParty == "active") PRIMARY else GRAY500,
             fontSize = B2,
         )
 
         WidthSpacer(widthDp = 2.dp)
         Image(
-            painter = if (checked) painterResource(id = R.drawable.toggle_on) else painterResource(id = R.drawable.toggle_off),
+            painter = if (isActiveParty == "active") painterResource(id = R.drawable.toggle_on) else painterResource(id = R.drawable.toggle_off),
             contentDescription = "toggle",
             modifier = Modifier.noRippleClickable {
-                onToggle(!checked)
+                if (isActiveParty == "active") { onToggle("archived") } else { onToggle("active") }
             }
         )
     }
@@ -177,10 +177,10 @@ fun FilterDate(
 @Composable
 fun PartyTypeAndIngAndOrderByFilterAreaPreview() {
     PartyTypeAndIngAndOrderByFilterArea(
-        checked = true,
         onToggle = {},
         isPartyTypeFilterClick = {},
         isDescParty = true,
-        onChangeOrderBy = {}
+        onChangeOrderBy = {},
+        isActiveParty = "active"
     )
 }

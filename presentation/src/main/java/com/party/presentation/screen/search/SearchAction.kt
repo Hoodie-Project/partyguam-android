@@ -10,4 +10,5 @@ sealed interface SearchAction{
     data object OnAllDeleteKeyword: SearchAction
 
     data class OnChangeOrderByParty(val isDesc: Boolean): SearchAction
+    data class OnChangeActive(val status: String): SearchAction
 }

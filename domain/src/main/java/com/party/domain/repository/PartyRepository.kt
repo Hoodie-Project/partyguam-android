@@ -44,6 +44,7 @@ interface PartyRepository {
         order: String,
         partyTypes: List<Int>,
         titleSearch: String?,
+        status: String?
     ): ServerApiResponse<PartyList>
 
     // 모집공고 상세 조회

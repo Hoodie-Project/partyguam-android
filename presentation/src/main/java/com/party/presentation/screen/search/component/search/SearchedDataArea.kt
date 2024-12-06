@@ -26,18 +26,10 @@ import com.party.presentation.screen.search.SearchState
 fun SearchedDataContent(
     searchState: SearchState,
     onTabClick: (String) -> Unit,
+    onToggle: (String) -> Unit,
     onPartyTypeApply: (MutableList<String>) -> Unit,
     onChangeOrderByParty: (Boolean) -> Unit,
 ) {
-    /*when {
-        searchState.isLoadingAllSearch -> { LoadingProgressBar() }
-        !searchState.isLoadingAllSearch -> {
-            AllSearchedContent(
-                searchState = searchState,
-                onTabClick = onTabClick
-            )
-        }
-    }*/
     Column {
         SearchTopTabArea(
             modifier = Modifier.height(48.dp),
@@ -60,6 +52,7 @@ fun SearchedDataContent(
                     searchState = searchState,
                     onPartyTypeApply = {},
                     onChangeOrderBy = onChangeOrderByParty,
+                    onToggle = onToggle
                 )
             }
             searchTabList[2] -> {
@@ -129,6 +122,7 @@ private fun SearchedDataContentPreview1() {
         ),
         onTabClick = {},
         onPartyTypeApply = {},
-        onChangeOrderByParty = {}
+        onChangeOrderByParty = {},
+        onToggle = {}
     )
 }

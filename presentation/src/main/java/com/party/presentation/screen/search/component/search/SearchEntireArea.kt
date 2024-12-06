@@ -65,7 +65,7 @@ private fun SearchedPartyList(
             ) { _, item ->
                 PartyListItem1(
                     imageUrl = item.image,
-                    status = item.tag,
+                    type = item.tag,
                     title = item.title,
                     recruitmentCount = item.recruitmentCount,
                     onClick = {}

@@ -112,6 +112,7 @@ class HomeViewModel @Inject constructor(
         order: String,
         partyTypes: List<Int> = emptyList(),
         titleSearch: String?,
+        status: String?,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             _getPartyListState.value = UIState.Loading
@@ -121,7 +122,8 @@ class HomeViewModel @Inject constructor(
                 sort = sort,
                 order = order,
                 partyTypes = partyTypes,
-                titleSearch = titleSearch
+                titleSearch = titleSearch,
+                status = status
             )) {
                 is ServerApiResponse.SuccessResponse<PartyList> -> {
                     _getPartyListState.value = UIState.Success(result)

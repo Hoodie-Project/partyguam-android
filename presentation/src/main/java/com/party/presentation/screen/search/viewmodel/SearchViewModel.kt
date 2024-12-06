@@ -35,28 +35,33 @@ class SearchViewModel @Inject constructor(
     private val getSearchedDataUseCase: GetSearchedDataUseCase,
     private val getPartyListUseCase: GetPartyListUseCase,
     private val getRecruitmentListUseCase: GetRecruitmentListUseCase,
-): ViewModel(){
+) : ViewModel() {
 
     private val _searchState = MutableStateFlow(SearchState())
     val searchState = _searchState.asStateFlow()
 
     // 전체 영역 검색하기
-    private fun allSearch(titleSearch: String, page: Int, limit: Int){
+    private fun allSearch(titleSearch: String, page: Int, limit: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             _searchState.update { it.copy(isLoadingAllSearch = true) }
 
-            when(val result = getSearchedDataUseCase(titleSearch = titleSearch, page = page, limit = limit)){
+            when (val result =
+                getSearchedDataUseCase(titleSearch = titleSearch, page = page, limit = limit)) {
                 is ServerApiResponse.SuccessResponse -> {
                     _searchState.update {
                         it.copy(
                             isLoadingAllSearch = false,
                             allSearchedList = result.data ?: Search(
                                 party = SearchedParty(total = 0, parties = emptyList()),
-                                partyRecruitment = SearchedPartyRecruitment(total = 0, partyRecruitments = emptyList())
+                                partyRecruitment = SearchedPartyRecruitment(
+                                    total = 0,
+                                    partyRecruitments = emptyList()
+                                )
                             )
                         )
                     }
                 }
+
                 is ServerApiResponse.ErrorResponse -> {
                     _searchState.update { it.copy(isLoadingAllSearch = false) }
                 }
@@ -69,19 +74,38 @@ class SearchViewModel @Inject constructor(
     }
 
     // 파티 검색하기
-    private fun partySearch(titleSearch: String, page: Int, size: Int, sort: String, order: String){
+    private fun partySearch(
+        titleSearch: String,
+        page: Int,
+        size: Int,
+        sort: String,
+        order: String,
+        status: String
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
-            _searchState.update { it.copy(isLoadingParty = true)}
+            _searchState.update { it.copy(isLoadingParty = true) }
 
-            when(val result = getPartyListUseCase(titleSearch = titleSearch, page = page, size = size, sort = sort, order = order, partyTypes = emptyList())){
+            when (val result = getPartyListUseCase(
+                titleSearch = titleSearch,
+                page = page,
+                size = size,
+                sort = sort,
+                order = order,
+                partyTypes = emptyList(),
+                status = status
+            )) {
                 is ServerApiResponse.SuccessResponse -> {
                     _searchState.update {
                         it.copy(
                             isLoadingParty = false,
-                            partySearchedList = result.data ?: PartyList(total = 0, parties = emptyList())
+                            partySearchedList = result.data ?: PartyList(
+                                total = 0,
+                                parties = emptyList()
+                            )
                         )
                     }
                 }
+
                 is ServerApiResponse.ErrorResponse -> {
                     _searchState.update { it.copy(isLoadingParty = false) }
                 }
@@ -95,19 +119,35 @@ class SearchViewModel @Inject constructor(
     }
 
     // 모집 공고 검색하기
-    private fun recruitmentSearch(titleSearch: String, page: Int, size: Int, sort: String, order: String){
+    private fun recruitmentSearch(
+        titleSearch: String,
+        page: Int,
+        size: Int,
+        sort: String,
+        order: String
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             _searchState.update { it.copy(isLoadingRecruitment = true) }
 
-            when(val result = getRecruitmentListUseCase(titleSearch = titleSearch, page = page, size = size, sort = sort, order = order)){
+            when (val result = getRecruitmentListUseCase(
+                titleSearch = titleSearch,
+                page = page,
+                size = size,
+                sort = sort,
+                order = order
+            )) {
                 is ServerApiResponse.SuccessResponse -> {
                     _searchState.update {
                         it.copy(
                             isLoadingRecruitment = false,
-                            recruitmentSearchedList = result.data ?: RecruitmentList(total = 0, partyRecruitments = emptyList())
+                            recruitmentSearchedList = result.data ?: RecruitmentList(
+                                total = 0,
+                                partyRecruitments = emptyList()
+                            )
                         )
                     }
                 }
+
                 is ServerApiResponse.ErrorResponse -> {
                     _searchState.update { it.copy(isLoadingRecruitment = false) }
                 }
@@ -120,21 +160,21 @@ class SearchViewModel @Inject constructor(
     }
 
     // 키워드 저장
-    private fun insertKeyword(keyword: String){
+    private fun insertKeyword(keyword: String) {
         viewModelScope.launch(Dispatchers.IO) {
             insertKeywordUseCase(keyword = keyword)
         }
     }
 
     // 키워드 삭제
-    private fun deleteKeyword(keyword: String){
+    private fun deleteKeyword(keyword: String) {
         viewModelScope.launch(Dispatchers.IO) {
             deleteKeywordUseCase(keyword = keyword)
         }
     }
 
     // 키워드 전체 삭제
-    private fun allDeleteKeyword(){
+    private fun allDeleteKeyword() {
         viewModelScope.launch(Dispatchers.IO) {
             allDeleteKeywordUseCase()
         }
@@ -144,30 +184,55 @@ class SearchViewModel @Inject constructor(
     fun getKeywordList() {
         viewModelScope.launch(Dispatchers.IO) {
             getKeywordListUseCase().collectLatest { keywordList ->
-                _searchState.update { it.copy(keywordList = keywordList)}
+                _searchState.update { it.copy(keywordList = keywordList) }
             }
         }
     }
 
-    fun onAction(action: SearchAction){
-        when(action){
-            is SearchAction.OnNavigationBack -> { }
-            is SearchAction.OnInputKeywordChange -> { _searchState.update { it.copy(inputKeyword = action.keyword) }}
-            is SearchAction.OnTabClick -> { _searchState.update { it.copy(selectedTabText = action.tabText) }}
-            is SearchAction.OnIsShowKeywordAreaChange -> { _searchState.update { it.copy(isShowKeywordArea = action.isShowKeywordArea) }}
+    fun onAction(action: SearchAction) {
+        when (action) {
+            is SearchAction.OnNavigationBack -> {}
+            is SearchAction.OnInputKeywordChange -> {
+                _searchState.update { it.copy(inputKeyword = action.keyword) }
+            }
+
+            is SearchAction.OnTabClick -> {
+                _searchState.update { it.copy(selectedTabText = action.tabText) }
+            }
+
+            is SearchAction.OnIsShowKeywordAreaChange -> {
+                _searchState.update { it.copy(isShowKeywordArea = action.isShowKeywordArea) }
+            }
+
             is SearchAction.OnSearch -> {
                 _searchState.update { it.copy(isShowKeywordArea = false) } // 검색 버튼 클릭 시 키워드 영역을 숨긴다.
                 insertKeyword(_searchState.value.inputKeyword)
 
-                when(_searchState.value.selectedTabText){
-                    "전체" -> allSearch(_searchState.value.inputKeyword, 1, 50)
-                    "파티" -> partySearch(_searchState.value.inputKeyword, 1, 50, "createdAt", "DESC")
-                    "모집공고" -> recruitmentSearch(_searchState.value.inputKeyword, 1, 50, "createdAt", "DESC")
+                when (_searchState.value.selectedTabText) {
+                    "전체" -> allSearch(
+                        titleSearch = _searchState.value.inputKeyword,
+                        page = 1,
+                        limit = 50
+                    )
+                    "파티" -> partySearch(
+                        titleSearch = _searchState.value.inputKeyword,
+                        page = 1,
+                        size = 50,
+                        sort = "createdAt",
+                        order = "DESC",
+                        status = _searchState.value.isActiveParty
+                    )
+
+                    "모집공고" -> recruitmentSearch(_searchState.value.inputKeyword, 1,
+                        size = 50,
+                        sort = "createdAt",
+                        order = "DESC"
+                    )
                 }
             }
-            is SearchAction.OnDeleteKeyword -> { deleteKeyword(action.keyword) }
-            is SearchAction.OnAllDeleteKeyword -> { allDeleteKeyword()}
 
+            is SearchAction.OnDeleteKeyword -> { deleteKeyword(action.keyword) }
+            is SearchAction.OnAllDeleteKeyword -> { allDeleteKeyword() }
             is SearchAction.OnChangeOrderByParty -> {
                 _searchState.update { currentState ->
                     val sortedList = if (action.isDesc) {
@@ -180,6 +245,17 @@ class SearchViewModel @Inject constructor(
                         partySearchedList = currentState.partySearchedList.copy(parties = sortedList)
                     )
                 }
+            }
+            is SearchAction.OnChangeActive -> {
+                _searchState.update { it.copy(isActiveParty = action.status) }
+                partySearch(
+                    titleSearch = _searchState.value.inputKeyword,
+                    page = 1,
+                    size = 50,
+                    sort = "createdAt",
+                    order = "DESC",
+                    status = action.status
+                )
             }
         }
     }
