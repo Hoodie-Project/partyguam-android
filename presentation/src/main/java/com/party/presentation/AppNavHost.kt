@@ -11,9 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -48,7 +46,7 @@ import com.party.presentation.screen.profile.ProfileScreen
 import com.party.presentation.screen.recruitment_create.RecruitmentCreateScreen
 import com.party.presentation.screen.recruitment_create.viewmodel.RecruitmentCreateViewModel
 import com.party.presentation.screen.recruitment_detail.RecruitmentDetailScreen
-import com.party.presentation.screen.search.SearchScreen
+import com.party.presentation.screen.search.SearchRoute
 import com.party.presentation.screen.search.viewmodel.SearchViewModel
 import com.party.presentation.screen.splash.SplashScreen
 import com.party.presentation.screen.state.StateScreen
@@ -296,11 +294,8 @@ fun AppNavHost() {
             )
         }
         composable<Screens.Search> {
-            val searchViewModel = hiltViewModel<SearchViewModel>()
-            SearchScreen(
-                snackBarHostState = snackBarHostState,
+            SearchRoute(
                 navController = navController,
-                searchViewModel = searchViewModel,
             )
         }
     }

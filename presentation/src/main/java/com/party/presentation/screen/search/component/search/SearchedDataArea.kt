@@ -20,56 +20,59 @@ import com.party.domain.model.search.SearchedParty
 import com.party.domain.model.search.SearchedPartyData
 import com.party.domain.model.search.SearchedPartyRecruitment
 import com.party.domain.model.search.SearchedRecruitmentData
+import com.party.presentation.screen.search.SearchState
 
 @Composable
 fun SearchedDataContent(
-    getSearchedResult: UIState<ServerApiResponse<Search>>,
-    selectedTabText: String,
+    searchState: SearchState,
     onTabClick: (String) -> Unit,
     onPartyTypeApply: (MutableList<String>) -> Unit,
 ) {
-
-    when(getSearchedResult){
-        is UIState.Idle -> {}
-        is UIState.Loading -> { LoadingProgressBar() }
-        is UIState.Success -> {
-            val resultData = getSearchedResult.data as SuccessResponse<Search>
-
-            val searchedParty = resultData.data?.party
-            val searchedPartyRecruitment = resultData.data?.partyRecruitment
-            Column {
-                SearchTopTabArea(
-                    modifier = Modifier.height(48.dp),
-                    searchTabList = searchTabList,
-                    selectedTabText = selectedTabText,
-                    onTabClick = onTabClick
-                )
-
-                HeightSpacer(heightDp = 24.dp)
-
-                when(selectedTabText){
-                    searchTabList[0] -> {
-                        SearchEntireArea(
-                            partyList = searchedParty?.parties ?: listOf(),
-                            recruitmentList = searchedPartyRecruitment?.partyRecruitments ?: listOf()
-                        )
-                    }
-                    searchTabList[1] -> {
-                        SearchPartyArea(
-                            partyList = searchedParty?.parties ?: listOf(),
-                            onPartyTypeApply = onPartyTypeApply
-                        )
-                    }
-                    searchTabList[2] -> {
-                        SearchRecruitmentArea(
-                            recruitmentList = searchedPartyRecruitment?.partyRecruitments ?: listOf()
-                        )
-                    }
-                }
-            }
+    when {
+        searchState.isLoadingAllSearch -> { LoadingProgressBar() }
+        !searchState.isLoadingAllSearch -> {
+            AllSearchedContent(
+                searchState = searchState,
+                onTabClick = onTabClick
+            )
         }
-        is UIState.Error -> {}
-        is UIState.Exception -> {}
+    }
+}
+
+@Composable
+private fun AllSearchedContent(
+    searchState: SearchState,
+    onTabClick: (String) -> Unit,
+) {
+    Column {
+        SearchTopTabArea(
+            modifier = Modifier.height(48.dp),
+            searchTabList = searchTabList,
+            selectedTabText = searchState.selectedTabText,
+            onTabClick = onTabClick
+        )
+
+        HeightSpacer(heightDp = 24.dp)
+
+        when(searchState.selectedTabText){
+            searchTabList[0] -> {
+                SearchEntireArea(
+                    partyList = searchState.allSearchedList.party.parties,
+                    recruitmentList = searchState.allSearchedList.partyRecruitment.partyRecruitments
+                )
+            }
+            /*searchTabList[1] -> {
+                SearchPartyArea(
+                    partyList = searchedParty?.parties ?: listOf(),
+                    onPartyTypeApply = onPartyTypeApply
+                )
+            }
+            searchTabList[2] -> {
+                SearchRecruitmentArea(
+                    recruitmentList = searchedPartyRecruitment?.partyRecruitments ?: listOf()
+                )
+            }*/
+        }
     }
 }
 
@@ -77,52 +80,7 @@ fun SearchedDataContent(
 @Composable
 fun SearchedDataContentPreview1() {
     SearchedDataContent(
-        getSearchedResult = UIState.Success(
-            SuccessResponse(
-                Search(
-                    party = SearchedParty(
-                        total = 7763,
-                        parties = listOf(
-                            SearchedPartyData(
-                                id = 4569,
-                                partyType = PartyType(id = 3829, type = "ultrices"),
-                                tag = "dui",
-                                title = "eruditi",
-                                content = "mucius",
-                                image = "tibique",
-                                status = "consetetur",
-                                createdAt = "his",
-                                updatedAt = "interdum",
-                                recruitmentCount = 9436
-                            )
-                        )
-                    ), partyRecruitment = SearchedPartyRecruitment(
-                        total = 9140,
-                        partyRecruitments = listOf(
-                            SearchedRecruitmentData(
-                                id = 9617,
-                                content = "est",
-                                recruitingCount = 2679,
-                                recruitedCount = 1813,
-                                createdAt = "autem",
-                                party = Party(
-                                    id = 3576,
-                                    title = "duo",
-                                    image = "commune",
-                                    partyType = PartyType(id = 7057, type = "audire")
-                                ),
-                                position = Position(
-                                    id = 3399,
-                                    main = "possit",
-                                    sub = "voluptatibus"
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        ),
-        selectedTabText = searchTabList[0],
+        searchState = SearchState(),
         onTabClick = {},
         onPartyTypeApply = {}
     )

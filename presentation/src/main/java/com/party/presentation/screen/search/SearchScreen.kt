@@ -5,92 +5,68 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.party.common.ServerApiResponse
-import com.party.common.UIState
-import com.party.common.component.searchTabList
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.room.KeywordModel
+import com.party.domain.model.search.Party
+import com.party.domain.model.search.PartyType
+import com.party.domain.model.search.Position
 import com.party.domain.model.search.Search
+import com.party.domain.model.search.SearchedParty
+import com.party.domain.model.search.SearchedPartyRecruitment
+import com.party.domain.model.search.SearchedRecruitmentData
 import com.party.presentation.screen.search.component.SearchArea
 import com.party.presentation.screen.search.component.keyword.RecentSearchedArea
 import com.party.presentation.screen.search.component.search.SearchedDataContent
 import com.party.presentation.screen.search.viewmodel.SearchViewModel
 
 @Composable
-fun SearchScreen(
-    snackBarHostState: SnackbarHostState,
+fun SearchRoute(
     navController: NavHostController,
-    searchViewModel: SearchViewModel,
+    searchViewModel: SearchViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(Unit) {
         searchViewModel.getKeywordList()
     }
+    
+    val searchState by searchViewModel.searchState.collectAsStateWithLifecycle()
 
-    // true 이면 키워드 영역을 보여주고, false 이면 검색 결과를 보여준다.
-    var isShowKeywordArea by remember { mutableStateOf(true) }
-
-    // 입력한 키워드
-    var keyword by remember { mutableStateOf("") }
-
-    val keywordList by searchViewModel.keywordList.collectAsStateWithLifecycle()
-
-    val getSearchedResult by searchViewModel.searchedDataState.collectAsStateWithLifecycle()
-
-    SearchScreenContent(
-        isShowKeywordArea = isShowKeywordArea,
-        keyword = keyword,
-        keywordList = keywordList,
-        onValueChange = { keyword = it },
-        searchAction = {
-            searchViewModel.insertKeyword(keyword)
-
-            searchViewModel.search(keyword, 1, 50)
-
-            isShowKeywordArea = false
-            //keyword = ""
-        },
-        onDelete = { searchViewModel.deleteKeyword(it) },
-        onNavigationClick = { navController.popBackStack() },
-        onAllDelete = { searchViewModel.allDeleteKeyword() },
-        getSearchedResult = getSearchedResult,
+    SearchScreen(
+        searchState = searchState,
+        onAction = { action ->
+            when(action){
+                is SearchAction.OnNavigationBack -> { navController.popBackStack() }
+                is SearchAction.OnInputKeywordChange -> { searchViewModel.onAction(action) }
+                is SearchAction.OnTabClick -> { searchViewModel.onAction(action) }
+                is SearchAction.OnIsShowKeywordAreaChange -> { searchViewModel.onAction(action) }
+                is SearchAction.OnSearch -> { searchViewModel.onAction(action) }
+                is SearchAction.OnDeleteKeyword -> { searchViewModel.onAction(action) }
+                is SearchAction.OnAllDeleteKeyword -> { searchViewModel.onAction(action) }
+            }
+        }
     )
 }
 
 @Composable
-fun SearchScreenContent(
-    isShowKeywordArea: Boolean,
-    keyword: String,
-    keywordList: List<KeywordModel>,
-    onValueChange: (String) -> Unit,
-    searchAction: () -> Unit,
-    onDelete: (String) -> Unit,
-    onNavigationClick: () -> Unit,
-    onAllDelete: () -> Unit,
-    getSearchedResult: UIState<ServerApiResponse<Search>>,
+fun SearchScreen(
+    searchState: SearchState,
+    onAction: (SearchAction) -> Unit
 ) {
-    var selectedTabText by remember {
-        mutableStateOf(searchTabList[0])
-    }
-
     Scaffold(
         topBar = {
             SearchArea(
-                keyword = keyword,
-                onValueChange = onValueChange,
-                onNavigationClick = onNavigationClick,
-                searchAction = searchAction
+                keyword = searchState.inputKeyword,
+                onValueChange = { onAction(SearchAction.OnInputKeywordChange(it)) },
+                onNavigationClick = { onAction(SearchAction.OnNavigationBack) },
+                searchAction = { onAction(SearchAction.OnSearch) }
             )
         }
     ) {
@@ -101,17 +77,16 @@ fun SearchScreenContent(
                 .padding(it)
                 .padding(horizontal = MEDIUM_PADDING_SIZE)
         ) {
-            if (isShowKeywordArea) {
+            if (searchState.isShowKeywordArea) {
                 RecentSearchedArea(
-                    keywordList = keywordList,
-                    onDelete = onDelete,
-                    onAllDelete = onAllDelete
+                    keywordList = searchState.keywordList,
+                    onAllDelete = { onAction(SearchAction.OnAllDeleteKeyword) },
+                    onDelete = { keyword -> onAction(SearchAction.OnDeleteKeyword(keyword)) },
                 )
             } else {
                 SearchedDataContent(
-                    getSearchedResult = getSearchedResult,
-                    selectedTabText = selectedTabText,
-                    onTabClick = { selectedTabText = it },
+                    searchState = searchState,
+                    onTabClick = { selectedTab -> onAction(SearchAction.OnTabClick(selectedTab)) },
                     onPartyTypeApply = { }
                 )
             }
@@ -121,36 +96,77 @@ fun SearchScreenContent(
 
 @Preview(showBackground = true)
 @Composable
-fun SearchScreenContentPreview() {
-    SearchScreenContent(
-        isShowKeywordArea = true,
-        keyword = "파티, 모집공고 이름을 검색해보세요.",
-        keywordList = emptyList(),
-        onValueChange = {},
-        searchAction = {},
-        onDelete = {},
-        onNavigationClick = {},
-        onAllDelete = {},
-        getSearchedResult = UIState.Idle,
+private fun SearchScreenPreview() {
+    SearchScreen(
+        searchState = SearchState(),
+        onAction = {}
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun SearchScreenContentPreview1() {
-    SearchScreenContent(
-        isShowKeywordArea = true,
-        keyword = "파티, 모집공고 이름을 검색해보세요.",
-        keywordList = listOf(
-            KeywordModel("파티"),
-            KeywordModel("모집공고"),
-            KeywordModel("이름")
+private fun SearchScreenPreview1() {
+    SearchScreen(
+        searchState = SearchState(
+            keywordList = listOf(
+                KeywordModel(keyword = "파티"),
+                KeywordModel(keyword = "모집공고"),
+                KeywordModel(keyword = "이름")
+            )
         ),
-        onValueChange = {},
-        searchAction = {},
-        onDelete = {},
-        onNavigationClick = {},
-        onAllDelete = {},
-        getSearchedResult = UIState.Idle,
+        onAction = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SearchScreenPreview2() {
+    SearchScreen(
+        searchState = SearchState(
+            isShowKeywordArea = false,
+            isLoadingAllSearch = true
+        ),
+        onAction = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SearchScreenPreview3() {
+    SearchScreen(
+        searchState = SearchState(
+            isShowKeywordArea = false,
+            isLoadingAllSearch = false,
+            allSearchedList = Search(
+                party = SearchedParty(
+                    total = 1225,
+                    parties = listOf()
+                ),
+                partyRecruitment = SearchedPartyRecruitment(
+                    total = 3656,
+                    partyRecruitments = listOf(
+                        SearchedRecruitmentData(
+                            id = 3644,
+                            content = "pertinacia",
+                            recruitingCount = 2710,
+                            recruitedCount = 2875,
+                            createdAt = "in",
+                            party = Party(
+                                id = 4589,
+                                title = "같이 개발 할 사람",
+                                image = "verear",
+                                partyType = PartyType(id = 7121, type = "포트폴리오")
+                            ),
+                            position = Position(
+                                id = 1907,
+                                main = "개발자",
+                                sub = "안드로이드"
+                            )
+                        )
+                    )
+                )
+            )
+        ),
+        onAction = {}
     )
 }
