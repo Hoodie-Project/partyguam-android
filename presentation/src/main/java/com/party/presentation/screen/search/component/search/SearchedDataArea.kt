@@ -28,7 +28,7 @@ fun SearchedDataContent(
     onTabClick: (String) -> Unit,
     onPartyTypeApply: (MutableList<String>) -> Unit,
 ) {
-    when {
+    /*when {
         searchState.isLoadingAllSearch -> { LoadingProgressBar() }
         !searchState.isLoadingAllSearch -> {
             AllSearchedContent(
@@ -36,6 +36,48 @@ fun SearchedDataContent(
                 onTabClick = onTabClick
             )
         }
+    }*/
+    Column {
+        SearchTopTabArea(
+            modifier = Modifier.height(48.dp),
+            searchTabList = searchTabList,
+            selectedTabText = searchState.selectedTabText,
+            onTabClick = onTabClick
+        )
+
+        HeightSpacer(heightDp = 24.dp)
+
+        when(searchState.selectedTabText) {
+            searchTabList[0] -> {
+                SearchEntireArea(
+                    partyList = searchState.allSearchedList.party.parties,
+                    recruitmentList = searchState.allSearchedList.partyRecruitment.partyRecruitments
+                )
+            }
+            searchTabList[1] -> {
+                SearchPartyArea(
+                    partyList = searchState.partySearchedList.parties,
+                    onPartyTypeApply = {}
+                )
+            }
+            searchTabList[2] -> {
+                SearchRecruitmentArea(
+                    recruitmentList = searchState.recruitmentSearchedList.partyRecruitments
+                )
+            }
+            /*searchTabList[1] -> {
+                SearchPartyArea(
+                    partyList = searchedParty?.parties ?: listOf(),
+                    onPartyTypeApply = onPartyTypeApply
+                )
+            }
+            searchTabList[2] -> {
+                SearchRecruitmentArea(
+                    recruitmentList = searchedPartyRecruitment?.partyRecruitments ?: listOf()
+                )
+            }*/
+        }
+
     }
 }
 
@@ -44,7 +86,7 @@ private fun AllSearchedContent(
     searchState: SearchState,
     onTabClick: (String) -> Unit,
 ) {
-    Column {
+    /*Column {
         SearchTopTabArea(
             modifier = Modifier.height(48.dp),
             searchTabList = searchTabList,
@@ -61,7 +103,7 @@ private fun AllSearchedContent(
                     recruitmentList = searchState.allSearchedList.partyRecruitment.partyRecruitments
                 )
             }
-            /*searchTabList[1] -> {
+            *//*searchTabList[1] -> {
                 SearchPartyArea(
                     partyList = searchedParty?.parties ?: listOf(),
                     onPartyTypeApply = onPartyTypeApply
@@ -71,16 +113,18 @@ private fun AllSearchedContent(
                 SearchRecruitmentArea(
                     recruitmentList = searchedPartyRecruitment?.partyRecruitments ?: listOf()
                 )
-            }*/
+            }*//*
         }
-    }
+    }*/
 }
 
 @Preview(showBackground = true)
 @Composable
-fun SearchedDataContentPreview1() {
+private fun SearchedDataContentPreview1() {
     SearchedDataContent(
-        searchState = SearchState(),
+        searchState = SearchState(
+            selectedTabText = "전체"
+        ),
         onTabClick = {},
         onPartyTypeApply = {}
     )

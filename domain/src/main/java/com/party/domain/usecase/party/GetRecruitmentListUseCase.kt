@@ -12,8 +12,9 @@ class GetRecruitmentListUseCase @Inject constructor(
         page: Int,
         size: Int,
         sort: String,
-        order: String
+        order: String,
+        titleSearch: String?,
     ): ServerApiResponse<RecruitmentList>{
-        return partyRepository.getRecruitmentList(page = page, size = size, sort = sort, order = order)
+        return partyRepository.getRecruitmentList(page = page, size = size, sort = sort, order = order, titleSearch = titleSearch)
     }
 }

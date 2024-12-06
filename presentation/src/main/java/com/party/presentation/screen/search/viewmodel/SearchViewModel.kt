@@ -3,9 +3,13 @@ package com.party.presentation.screen.search.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
+import com.party.domain.model.party.PartyList
+import com.party.domain.model.party.RecruitmentList
 import com.party.domain.model.search.Search
 import com.party.domain.model.search.SearchedParty
 import com.party.domain.model.search.SearchedPartyRecruitment
+import com.party.domain.usecase.party.GetPartyListUseCase
+import com.party.domain.usecase.party.GetRecruitmentListUseCase
 import com.party.domain.usecase.room.AllDeleteKeywordUseCase
 import com.party.domain.usecase.room.DeleteKeywordUseCase
 import com.party.domain.usecase.room.GetKeywordListUseCase
@@ -29,6 +33,8 @@ class SearchViewModel @Inject constructor(
     private val deleteKeywordUseCase: DeleteKeywordUseCase,
     private val allDeleteKeywordUseCase: AllDeleteKeywordUseCase,
     private val getSearchedDataUseCase: GetSearchedDataUseCase,
+    private val getPartyListUseCase: GetPartyListUseCase,
+    private val getRecruitmentListUseCase: GetRecruitmentListUseCase,
 ): ViewModel(){
 
     private val _searchState = MutableStateFlow(SearchState())
@@ -57,6 +63,57 @@ class SearchViewModel @Inject constructor(
 
                 is ServerApiResponse.ExceptionResponse -> {
                     _searchState.update { it.copy(isLoadingAllSearch = false) }
+                }
+            }
+        }
+    }
+
+    // 파티 검색하기
+    private fun partySearch(titleSearch: String, page: Int, size: Int, sort: String, order: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            _searchState.update { it.copy(isLoadingParty = true)}
+
+            when(val result = getPartyListUseCase(titleSearch = titleSearch, page = page, size = size, sort = sort, order = order, partyTypes = emptyList())){
+                is ServerApiResponse.SuccessResponse -> {
+                    _searchState.update {
+                        it.copy(
+                            isLoadingParty = false,
+                            partySearchedList = result.data ?: PartyList(total = 0, parties = emptyList())
+                        )
+                    }
+                }
+                is ServerApiResponse.ErrorResponse -> {
+                    _searchState.update { it.copy(isLoadingParty = false) }
+                }
+
+                is ServerApiResponse.ExceptionResponse -> {
+                    _searchState.update { it.copy(isLoadingParty = false) }
+                }
+
+            }
+        }
+    }
+
+    // 모집 공고 검색하기
+    private fun recruitmentSearch(titleSearch: String, page: Int, size: Int, sort: String, order: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            _searchState.update { it.copy(isLoadingRecruitment = true) }
+
+            when(val result = getRecruitmentListUseCase(titleSearch = titleSearch, page = page, size = size, sort = sort, order = order)){
+                is ServerApiResponse.SuccessResponse -> {
+                    _searchState.update {
+                        it.copy(
+                            isLoadingRecruitment = false,
+                            recruitmentSearchedList = result.data ?: RecruitmentList(total = 0, partyRecruitments = emptyList())
+                        )
+                    }
+                }
+                is ServerApiResponse.ErrorResponse -> {
+                    _searchState.update { it.copy(isLoadingRecruitment = false) }
+                }
+
+                is ServerApiResponse.ExceptionResponse -> {
+                    _searchState.update { it.copy(isLoadingRecruitment = false) }
                 }
             }
         }
@@ -101,7 +158,12 @@ class SearchViewModel @Inject constructor(
             is SearchAction.OnSearch -> {
                 _searchState.update { it.copy(isShowKeywordArea = false) } // 검색 버튼 클릭 시 키워드 영역을 숨긴다.
                 insertKeyword(_searchState.value.inputKeyword)
-                allSearch(_searchState.value.inputKeyword, 1, 50)
+
+                when(_searchState.value.selectedTabText){
+                    "전체" -> allSearch(_searchState.value.inputKeyword, 1, 50)
+                    "파티" -> partySearch(_searchState.value.inputKeyword, 1, 50, "createdAt", "DESC")
+                    "모집공고" -> recruitmentSearch(_searchState.value.inputKeyword, 1, 50, "createdAt", "DESC")
+                }
             }
             is SearchAction.OnDeleteKeyword -> { deleteKeyword(action.keyword) }
             is SearchAction.OnAllDeleteKeyword -> { allDeleteKeyword()}

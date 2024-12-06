@@ -12,6 +12,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.component.RecruitmentListItem2
 import com.party.common.component.no_data.NoDataColumn
+import com.party.domain.model.party.RecruitmentItem
+import com.party.domain.model.party.RecruitmentList
+import com.party.domain.model.party.RecruitmentParty
+import com.party.domain.model.party.RecruitmentPartyType
+import com.party.domain.model.party.RecruitmentPosition
 import com.party.domain.model.search.Party
 import com.party.domain.model.search.PartyType
 import com.party.domain.model.search.Position
@@ -19,21 +24,21 @@ import com.party.domain.model.search.SearchedRecruitmentData
 
 @Composable
 fun SearchRecruitmentArea(
-    recruitmentList: List<SearchedRecruitmentData>
+    recruitmentList: List<RecruitmentItem>
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
     ) {
         RecruitmentListArea(
-            recruitmentList = recruitmentList
+            recruitmentList = recruitmentList,
         )
     }
 }
 
 @Composable
 private fun RecruitmentListArea(
-    recruitmentList: List<SearchedRecruitmentData>
+    recruitmentList: List<RecruitmentItem>
 ) {
     if(recruitmentList.isNotEmpty()){
         LazyColumn(
@@ -74,7 +79,7 @@ private fun RecruitmentListArea(
 @Composable
 private fun SearchRecruitmentAreaPreview1() {
     SearchRecruitmentArea(
-        recruitmentList = emptyList()
+        recruitmentList = listOf()
     )
 }
 
@@ -83,69 +88,27 @@ private fun SearchRecruitmentAreaPreview1() {
 private fun SearchRecruitmentAreaPreview2() {
     SearchRecruitmentArea(
         recruitmentList = listOf(
-            SearchedRecruitmentData(
-                id = 1,
-                content = "내용",
-                recruitingCount = 1,
-                recruitedCount = 0,
-                createdAt = "2024-11-29T16:30:30.171Z",
-                party = Party(
-                    id = 1,
-                    title = "안드로이드 개발자 모집합니다",
-                    image = "https://cdn",
-                    partyType = PartyType(
-                        id = 1,
-                        type = "포르폴리오"
+            RecruitmentItem(
+                id = 5240,
+                recruitingCount = 9385,
+                recruitedCount = 4189,
+                content = "viverra",
+                createdAt = "discere",
+                party = RecruitmentParty(
+                    id = 4570,
+                    title = "veniam",
+                    image = null,
+                    partyType = RecruitmentPartyType(
+                        id = 5355,
+                        type = "dolore"
                     )
                 ),
-                position = Position(
-                    id = 1,
-                    main = "개발자",
-                    sub = "안드로이드"
+                position = RecruitmentPosition(
+                    id = 4195,
+                    main = "eloquentiam",
+                    sub = "reprehendunt"
                 )
-            ),
-            SearchedRecruitmentData(
-                id = 1,
-                content = "내용",
-                recruitingCount = 1,
-                recruitedCount = 0,
-                createdAt = "2024-11-29T16:30:30.171Z",
-                party = Party(
-                    id = 1,
-                    title = "같이 해커톤 할 사람이요",
-                    image = "https://cdn",
-                    partyType = PartyType(
-                        id = 1,
-                        type = "파티 타입"
-                    )
-                ),
-                position = Position(
-                    id = 1,
-                    main = "메인",
-                    sub = "서브"
-                )
-            ),
-            SearchedRecruitmentData(
-                id = 1,
-                content = "내용",
-                recruitingCount = 1,
-                recruitedCount = 0,
-                createdAt = "2024-11-29T16:30:30.171Z",
-                party = Party(
-                    id = 1,
-                    title = "같이 개발할 사람",
-                    image = "https://cdn",
-                    partyType = PartyType(
-                        id = 1,
-                        type = "해커톤"
-                    )
-                ),
-                position = Position(
-                    id = 1,
-                    main = "개발자",
-                    sub = "안드로이드"
-                )
-            ),
+            )
         )
     )
 }

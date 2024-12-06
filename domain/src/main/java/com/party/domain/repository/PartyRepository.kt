@@ -32,7 +32,8 @@ interface PartyRepository {
         page: Int,
         size: Int,
         sort: String,
-        order: String
+        order: String,
+        titleSearch: String?,
     ): ServerApiResponse<RecruitmentList>
 
     // 파티 리스트 조회
@@ -42,6 +43,7 @@ interface PartyRepository {
         sort: String,
         order: String,
         partyTypes: List<Int>,
+        titleSearch: String?,
     ): ServerApiResponse<PartyList>
 
     // 모집공고 상세 조회

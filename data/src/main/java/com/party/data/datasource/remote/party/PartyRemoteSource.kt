@@ -23,10 +23,10 @@ interface PartyRemoteSource {
     suspend fun getPersonalizedParties(page: Int, size: Int, sort: String, order: String): ApiResponse<PersonalRecruitmentListDto>
 
     // 홈화면 - 모집공고 리스트 조회
-    suspend fun getRecruitmentList(page: Int, size: Int, sort: String, order: String): ApiResponse<RecruitmentListDto>
+    suspend fun getRecruitmentList(page: Int, size: Int, sort: String, order: String, titleSearch: String?): ApiResponse<RecruitmentListDto>
 
     // 홈화면 - 파티 리스트 조회
-    suspend fun getPartyList(page: Int, size: Int, sort: String, order: String, partyTypes: List<Int>): ApiResponse<PartyListDto>
+    suspend fun getPartyList(page: Int, size: Int, sort: String, order: String, partyTypes: List<Int>, titleSearch: String?): ApiResponse<PartyListDto>
 
     // 모집공고 상세 조회
     suspend fun getRecruitmentDetail(partyRecruitmentId: Int): ApiResponse<RecruitmentDetailDto>

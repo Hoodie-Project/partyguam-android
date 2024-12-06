@@ -65,9 +65,10 @@ class PartyRepositoryImpl @Inject constructor(
         page: Int,
         size: Int,
         sort: String,
-        order: String
+        order: String,
+        titleSearch: String?
     ): ServerApiResponse<RecruitmentList> {
-        return when (val result = partyRemoteSource.getRecruitmentList(page, size, sort, order)) {
+        return when (val result = partyRemoteSource.getRecruitmentList(page, size, sort, order, titleSearch)) {
             is ApiResponse.Success -> {
                 SuccessResponse(data = mapperRecruitmentDetailResponse(result.data))
             }
@@ -91,13 +92,15 @@ class PartyRepositoryImpl @Inject constructor(
         sort: String,
         order: String,
         partyTypes: List<Int>,
+        titleSearch: String?
     ): ServerApiResponse<PartyList> {
         return when(val result = partyRemoteSource.getPartyList(
             page = page,
             size = size,
             sort = sort,
             order = order,
-            partyTypes = partyTypes
+            partyTypes = partyTypes,
+            titleSearch = titleSearch,
         )){
             is ApiResponse.Success -> {
                 SuccessResponse(data = mapperPartyResponse(result.data))

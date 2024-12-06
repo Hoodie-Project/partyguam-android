@@ -44,7 +44,7 @@ fun RecruitmentColumnListArea(
     sharedViewModel.isScrollRecruitmentArea = isFabVisible.value
 
     LaunchedEffect(Unit) {
-        homeViewModel.getRecruitmentList(page = 1, size = 20, sort = "createdAt", order = "DESC")
+        homeViewModel.getRecruitmentList(page = 1, size = 20, sort = "createdAt", order = "DESC", titleSearch = null)
     }
 
     LaunchedEffect(Unit) {

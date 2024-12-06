@@ -28,6 +28,8 @@ import com.party.common.component.no_data.NoDataColumn
 import com.party.common.component.party_filter.PartyTypeAndIngAndOrderByFilterArea
 import com.party.common.ui.theme.GRAY600
 import com.party.common.ui.theme.WHITE
+import com.party.domain.model.party.PartyItem
+import com.party.domain.model.party.PartyTypeItem
 import com.party.domain.model.search.PartyType
 import com.party.domain.model.search.SearchedPartyData
 import com.party.presentation.screen.home.tab_recruitment.PartyTypeModal
@@ -35,7 +37,7 @@ import com.party.presentation.screen.home.tab_recruitment.validSelectedPartyType
 
 @Composable
 fun SearchPartyArea(
-    partyList: List<SearchedPartyData>,
+    partyList: List<PartyItem>,
     onPartyTypeApply: (MutableList<String>) -> Unit,
 ) {
     // 파티 타입 시트 오픈 여부
@@ -96,7 +98,7 @@ fun SearchPartyArea(
 
 @Composable
 private fun PartyListArea(
-    partyList: List<SearchedPartyData>,
+    partyList: List<PartyItem>,
 ) {
     val listState = rememberLazyGridState()
 
@@ -144,51 +146,19 @@ private fun SearchPartyAreaPreview1(
 ) {
     SearchPartyArea(
         partyList = listOf(
-            SearchedPartyData(
-                id = 1,
-                partyType = PartyType(
-                    id = 1,
-                    type = "파티 타입"
-                ),
-                tag = "스터디",
-                title = "스터디할 사람 구합니다~",
-                content = "내용",
-                image = "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-                status = "진행중",
-                createdAt = "2024-11-29T16:30:30.171Z",
-                updatedAt = "2024-11-29T16:30:30.171Z",
-                recruitmentCount = 3
-            ),
-            SearchedPartyData(
-                id = 1,
-                partyType = PartyType(
-                    id = 1,
-                    type = "파티 타입"
-                ),
-                tag = "포트폴리오",
-                title = "같이 포르폴리오 할 사람",
-                content = "내용",
-                image = "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-                status = "진행중",
-                createdAt = "2024-11-29T16:30:30.171Z",
-                updatedAt = "2024-11-29T16:30:30.171Z",
-                recruitmentCount = 1
-            ),
-            SearchedPartyData(
-                id = 1,
-                partyType = PartyType(
-                    id = 1,
-                    type = "파티 타입"
-                ),
-                tag = "태그",
-                title = "제목",
-                content = "내용",
-                image = "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-                status = "완료",
-                createdAt = "2024-11-29T16:30:30.171Z",
-                updatedAt = "2024-11-29T16:30:30.171Z",
-                recruitmentCount = 1
-            ),
+            PartyItem(
+                id = 8013,
+                partyType = PartyTypeItem(id = 8792, type = "nostra"),
+                tag = "consectetuer",
+                title = "consectetuer",
+                content = "laudem",
+                image = null,
+                status = "consectetur",
+                createdAt = "brute",
+                updatedAt = "fringilla",
+                recruitmentCount = 8432
+            )
+
         ),
         onPartyTypeApply = {}
     )

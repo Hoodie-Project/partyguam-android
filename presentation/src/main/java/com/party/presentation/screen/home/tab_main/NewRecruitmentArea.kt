@@ -55,7 +55,7 @@ fun NewRecruitmentArea(
     val recruitmentListResponse = getRecruitmentListState.data
 
     LaunchedEffect(Unit) {
-        homeViewModel.getRecruitmentList(page = 1, size = 10, sort = "createdAt", order = "DESC")
+        homeViewModel.getRecruitmentList(page = 1, size = 10, sort = "createdAt", order = "DESC", titleSearch = null)
     }
 
     HomeListTitleArea(

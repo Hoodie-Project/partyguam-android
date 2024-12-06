@@ -83,12 +83,13 @@ class HomeViewModel @Inject constructor(
         page: Int,
         size: Int,
         sort: String,
-        order: String
+        order: String,
+        titleSearch: String?,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             _getRecruitmentListState.value = UIState.Loading
             when (val result =
-                getRecruitmentListUseCase(page = page, size = size, sort = sort, order = order)) {
+                getRecruitmentListUseCase(page = page, size = size, sort = sort, order = order, titleSearch = titleSearch)) {
                 is ServerApiResponse.SuccessResponse<RecruitmentList> -> {
                     _getRecruitmentListState.value = UIState.Success(result)
                 }
@@ -109,7 +110,8 @@ class HomeViewModel @Inject constructor(
         size: Int,
         sort: String,
         order: String,
-        partyTypes: List<Int> = emptyList()
+        partyTypes: List<Int> = emptyList(),
+        titleSearch: String?,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             _getPartyListState.value = UIState.Loading
@@ -118,7 +120,8 @@ class HomeViewModel @Inject constructor(
                 size = size,
                 sort = sort,
                 order = order,
-                partyTypes = partyTypes
+                partyTypes = partyTypes,
+                titleSearch = titleSearch
             )) {
                 is ServerApiResponse.SuccessResponse<PartyList> -> {
                     _getPartyListState.value = UIState.Success(result)
