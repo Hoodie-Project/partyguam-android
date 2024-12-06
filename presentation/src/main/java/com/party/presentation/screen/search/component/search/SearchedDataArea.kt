@@ -27,6 +27,7 @@ fun SearchedDataContent(
     searchState: SearchState,
     onTabClick: (String) -> Unit,
     onPartyTypeApply: (MutableList<String>) -> Unit,
+    onChangeOrderByParty: (Boolean) -> Unit,
 ) {
     /*when {
         searchState.isLoadingAllSearch -> { LoadingProgressBar() }
@@ -56,8 +57,9 @@ fun SearchedDataContent(
             }
             searchTabList[1] -> {
                 SearchPartyArea(
-                    partyList = searchState.partySearchedList.parties,
-                    onPartyTypeApply = {}
+                    searchState = searchState,
+                    onPartyTypeApply = {},
+                    onChangeOrderBy = onChangeOrderByParty,
                 )
             }
             searchTabList[2] -> {
@@ -126,6 +128,7 @@ private fun SearchedDataContentPreview1() {
             selectedTabText = "전체"
         ),
         onTabClick = {},
-        onPartyTypeApply = {}
+        onPartyTypeApply = {},
+        onChangeOrderByParty = {}
     )
 }

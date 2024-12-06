@@ -44,7 +44,7 @@ fun PartyTypeAndIngAndOrderByFilterArea(
     checked: Boolean,
     onToggle: (Boolean) -> Unit,
     isPartyTypeFilterClick: (Boolean) -> Unit,
-    selectedCreateDataOrderByDesc: Boolean,
+    isDescParty: Boolean,
     onChangeOrderBy: (Boolean) -> Unit,
 ) {
     Column(
@@ -73,7 +73,7 @@ fun PartyTypeAndIngAndOrderByFilterArea(
 
         HeightSpacer(heightDp = 8.dp)
         FilterDate(
-            selectedCreateDataOrderByDesc = selectedCreateDataOrderByDesc,
+            selectedCreateDataOrderByDesc = isDescParty,
             onChangeOrderBy = onChangeOrderBy
         )
     }
@@ -180,7 +180,7 @@ fun PartyTypeAndIngAndOrderByFilterAreaPreview() {
         checked = true,
         onToggle = {},
         isPartyTypeFilterClick = {},
-        selectedCreateDataOrderByDesc = true,
+        isDescParty = true,
         onChangeOrderBy = {}
     )
 }

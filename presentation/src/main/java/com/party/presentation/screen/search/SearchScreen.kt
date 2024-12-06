@@ -50,6 +50,7 @@ fun SearchRoute(
                 is SearchAction.OnSearch -> { searchViewModel.onAction(action) }
                 is SearchAction.OnDeleteKeyword -> { searchViewModel.onAction(action) }
                 is SearchAction.OnAllDeleteKeyword -> { searchViewModel.onAction(action) }
+                is SearchAction.OnChangeOrderByParty -> { searchViewModel.onAction(action) }
             }
         }
     )
@@ -87,7 +88,8 @@ fun SearchScreen(
                 SearchedDataContent(
                     searchState = searchState,
                     onTabClick = { selectedTab -> onAction(SearchAction.OnTabClick(selectedTab)) },
-                    onPartyTypeApply = { }
+                    onPartyTypeApply = { },
+                    onChangeOrderByParty = { isDesc -> onAction(SearchAction.OnChangeOrderByParty(isDesc)) }
                 )
             }
         }

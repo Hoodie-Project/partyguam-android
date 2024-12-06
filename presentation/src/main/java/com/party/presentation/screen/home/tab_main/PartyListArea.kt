@@ -76,7 +76,7 @@ fun PartyListArea(
         ) { _, item ->
             PartyListItem1(
                 imageUrl = item.image,
-                category = item.tag,
+                status = item.tag,
                 title = item.title,
                 recruitmentCount = item.recruitmentCount,
                 onClick = {}

@@ -29,24 +29,19 @@ import com.party.common.component.party_filter.PartyTypeAndIngAndOrderByFilterAr
 import com.party.common.ui.theme.GRAY600
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyItem
-import com.party.domain.model.party.PartyTypeItem
-import com.party.domain.model.search.PartyType
-import com.party.domain.model.search.SearchedPartyData
+import com.party.presentation.enum.StatusType
 import com.party.presentation.screen.home.tab_recruitment.PartyTypeModal
 import com.party.presentation.screen.home.tab_recruitment.validSelectedPartyType
+import com.party.presentation.screen.search.SearchState
 
 @Composable
 fun SearchPartyArea(
-    partyList: List<PartyItem>,
+    searchState: SearchState,
     onPartyTypeApply: (MutableList<String>) -> Unit,
+    onChangeOrderBy: (Boolean) -> Unit
 ) {
     // 파티 타입 시트 오픈 여부
     var isPartyTypeSheetOpen by rememberSaveable { mutableStateOf(false) }
-
-    // 등록일 순 내림 차순
-    var selectedCreateDataOrderByDesc by remember {
-        mutableStateOf(true)
-    }
 
     var checked by remember { mutableStateOf(true) }
 
@@ -63,13 +58,13 @@ fun SearchPartyArea(
             checked = checked,
             onToggle = { checked = it },
             isPartyTypeFilterClick = {},
-            selectedCreateDataOrderByDesc = selectedCreateDataOrderByDesc,
-            onChangeOrderBy = {}
+            isDescParty = searchState.isDescParty,
+            onChangeOrderBy = onChangeOrderBy,
         )
 
         HeightSpacer(heightDp = 12.dp)
         PartyListArea(
-            partyList = partyList
+            partyList = searchState.partySearchedList.parties
         )
     }
 
@@ -116,14 +111,14 @@ private fun PartyListArea(
                 }
             ) { _, item ->
                 PartyListItem1(
-                    category = item.tag,
+                    status = item.tag,
                     title = item.title,
                     recruitmentCount = item.recruitmentCount,
                     typeChip = {
                         Chip(
-                            containerColor = if(item.status == "진행중") Color(0xFFD5F0E3) else GRAY600,
-                            contentColor = if(item.status == "진행중") Color(0xFF016110) else WHITE,
-                            text = item.status,
+                            containerColor = if(item.status == "active") Color(0xFFD5F0E3) else GRAY600,
+                            contentColor = if(item.status == "active") Color(0xFF016110) else WHITE,
+                            text = if(item.status == "active") StatusType.ACTIVE.type else StatusType.ARCHIVED.type,
                         )
                     },
                     onClick = {}
@@ -145,22 +140,9 @@ private fun SearchPartyAreaPreview1(
     modifier: Modifier = Modifier
 ) {
     SearchPartyArea(
-        partyList = listOf(
-            PartyItem(
-                id = 8013,
-                partyType = PartyTypeItem(id = 8792, type = "nostra"),
-                tag = "consectetuer",
-                title = "consectetuer",
-                content = "laudem",
-                image = null,
-                status = "consectetur",
-                createdAt = "brute",
-                updatedAt = "fringilla",
-                recruitmentCount = 8432
-            )
-
-        ),
-        onPartyTypeApply = {}
+        searchState = SearchState(),
+        onPartyTypeApply = {},
+        onChangeOrderBy = {}
     )
 }
 
@@ -170,7 +152,9 @@ private fun SearchPartyAreaPreview2(
     modifier: Modifier = Modifier
 ) {
     SearchPartyArea(
-        partyList = emptyList(),
-        onPartyTypeApply = {}
+        searchState = SearchState(),
+        onPartyTypeApply = {},
+        onChangeOrderBy = {},
+
     )
 }

@@ -30,6 +30,7 @@ data class SearchState(
         total = 0,
         parties = emptyList()
     ),
+    val isDescParty: Boolean = true,
 
     val isLoadingRecruitment: Boolean = true,
     val recruitmentSearchedList: RecruitmentList = RecruitmentList(

@@ -194,7 +194,7 @@ private fun PartyListArea(
             ){_, item ->
                 PartyListItem1(
                     imageUrl = item.image,
-                    category = item.partyType.type,
+                    status = item.partyType.type,
                     title = item.title,
                     recruitmentCount = item.recruitmentCount,
                     typeChip = {

@@ -167,6 +167,20 @@ class SearchViewModel @Inject constructor(
             }
             is SearchAction.OnDeleteKeyword -> { deleteKeyword(action.keyword) }
             is SearchAction.OnAllDeleteKeyword -> { allDeleteKeyword()}
+
+            is SearchAction.OnChangeOrderByParty -> {
+                _searchState.update { currentState ->
+                    val sortedList = if (action.isDesc) {
+                        currentState.partySearchedList.parties.sortedByDescending { it.createdAt }
+                    } else {
+                        currentState.partySearchedList.parties.sortedBy { it.createdAt }
+                    }
+                    currentState.copy(
+                        isDescParty = action.isDesc,
+                        partySearchedList = currentState.partySearchedList.copy(parties = sortedList)
+                    )
+                }
+            }
         }
     }
 }
