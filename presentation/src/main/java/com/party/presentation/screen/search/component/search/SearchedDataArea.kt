@@ -24,6 +24,12 @@ fun SearchedDataContent(
     onReset: () -> Unit,
     onPartyTypeApply: () -> Unit,
     onPartyTypeApply2: () -> Unit,
+    onPositionSheetClose: (Boolean) -> Unit,
+    onPositionSheetClick: () -> Unit,
+    onMainPositionClick: (String) -> Unit,
+    onSubPositionClick: (String) -> Unit,
+    onDelete: (Pair<String, String>) -> Unit,
+    onPositionApply: () -> Unit
 ) {
     Column {
         SearchTopTabArea(
@@ -60,7 +66,13 @@ fun SearchedDataContent(
                     onChangeOrderBy = onChangeOrderByRecruitment,
                     onClick = onPartyTypeItem2,
                     onReset = onReset,
-                    onPartyTypeApply2 = onPartyTypeApply2
+                    onPartyTypeApply2 = onPartyTypeApply2,
+                    onPositionSheetClose = onPositionSheetClose,
+                    onPositionSheetClick = onPositionSheetClick,
+                    onMainPositionClick = onMainPositionClick,
+                    onSubPositionClick = onSubPositionClick,
+                    onDelete = onDelete,
+                    onPositionApply = onPositionApply
                 )
             }
         }
@@ -84,6 +96,12 @@ private fun SearchedDataContentPreview1() {
         onChangeOrderByRecruitment = {},
         onPartyTypeRecruitment = {},
         onPartyTypeItem2 = {},
-        onPartyTypeApply2 = {}
+        onPartyTypeApply2 = {},
+        onPositionSheetClose = {},
+        onPositionSheetClick = {},
+        onMainPositionClick = {},
+        onSubPositionClick = {},
+        onDelete = {},
+        onPositionApply = {}
     )
 }

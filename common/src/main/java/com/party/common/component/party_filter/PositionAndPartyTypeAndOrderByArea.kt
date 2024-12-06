@@ -38,8 +38,8 @@ import com.party.common.ui.theme.WHITE
 fun PositionAndPartyTypeAndOrderByArea(
     selectedPartyTypeCount: Int,
     isDescRecruitment: Boolean,
-    isPositionFilterClick: () -> Unit,
-    isPartyTypeFilterClick: () -> Unit,
+    onPositionSheetClick: () -> Unit,
+    onPartyTypeFilterClick: () -> Unit,
     onChangeOrderBy: (Boolean) -> Unit,
 ) {
     Row(
@@ -57,13 +57,13 @@ fun PositionAndPartyTypeAndOrderByArea(
         ) {
             SelectFilterItem(
                 filterName = "직무",
-                onClick = isPositionFilterClick,
+                onClick = onPositionSheetClick,
                 number = 0
             )
             WidthSpacer(widthDp = 8.dp)
             SelectFilterItem(
                 filterName = "파티유형",
-                onClick = isPartyTypeFilterClick,
+                onClick = onPartyTypeFilterClick,
                 number = selectedPartyTypeCount,
             )
         }
@@ -131,8 +131,8 @@ fun PositionAndPartyTypeAndOrderByAreaPreview() {
     PositionAndPartyTypeAndOrderByArea(
         selectedPartyTypeCount = 0,
         isDescRecruitment = true,
-        isPositionFilterClick = {},
-        isPartyTypeFilterClick = {},
+        onPositionSheetClick = {},
+        onPartyTypeFilterClick = {},
         onChangeOrderBy = {}
     )
 }

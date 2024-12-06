@@ -86,11 +86,12 @@ class HomeViewModel @Inject constructor(
         order: String,
         titleSearch: String?,
         partyTypes: List<Int> = emptyList(),
+        position: List<Int> = emptyList(),
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             _getRecruitmentListState.value = UIState.Loading
             when (val result =
-                getRecruitmentListUseCase(page = page, size = size, sort = sort, order = order, titleSearch = titleSearch, partyTypes = partyTypes,)) {
+                getRecruitmentListUseCase(page = page, size = size, sort = sort, order = order, titleSearch = titleSearch, partyTypes = partyTypes, position = position)) {
                 is ServerApiResponse.SuccessResponse<RecruitmentList> -> {
                     _getRecruitmentListState.value = UIState.Success(result)
                 }

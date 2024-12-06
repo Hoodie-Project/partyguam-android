@@ -22,7 +22,7 @@ import com.party.common.ui.theme.T2
 @Composable
 fun BottomSheetTitleArea(
     titleText: String,
-    onModelClose: () -> Unit,
+    onSheetClose: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -45,7 +45,7 @@ fun BottomSheetTitleArea(
                 .align(Alignment.CenterEnd)
                 .padding(end = 16.dp)
                 .size(24.dp)
-                .clickable { onModelClose() }
+                .clickable { onSheetClose() }
         )
     }
 }
@@ -55,6 +55,6 @@ fun BottomSheetTitleArea(
 fun BottomSheetTitleAreaPreview() {
     BottomSheetTitleArea(
         titleText = "Title",
-        onModelClose = {}
+        onSheetClose = {}
     )
 }

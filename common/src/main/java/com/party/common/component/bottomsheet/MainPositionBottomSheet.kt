@@ -72,7 +72,7 @@ fun MainPositionBottomSheet(
             ) {
                 BottomSheetTitleArea(
                     titleText = "모집공고",
-                    onModelClose = onBottomSheetClose
+                    onSheetClose = onBottomSheetClose
                 )
 
                 MainPositionBottomSheetContent(

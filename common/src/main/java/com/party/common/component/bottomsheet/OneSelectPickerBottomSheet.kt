@@ -62,7 +62,7 @@ fun OneSelectPickerBottomSheet(
         ) {
             BottomSheetTitleArea(
                 titleText = bottomSheetTitle,
-                onModelClose = onBottomSheetClose
+                onSheetClose = onBottomSheetClose
             )
 
             OneSelectPickerContent(

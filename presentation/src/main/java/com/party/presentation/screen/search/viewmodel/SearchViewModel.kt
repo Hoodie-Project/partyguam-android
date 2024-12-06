@@ -15,6 +15,7 @@ import com.party.domain.usecase.room.DeleteKeywordUseCase
 import com.party.domain.usecase.room.GetKeywordListUseCase
 import com.party.domain.usecase.room.InsertKeywordUseCase
 import com.party.domain.usecase.search.GetSearchedDataUseCase
+import com.party.domain.usecase.user.detail.GetPositionsUseCase
 import com.party.presentation.enum.PartyType
 import com.party.presentation.screen.search.SearchAction
 import com.party.presentation.screen.search.SearchState
@@ -36,6 +37,7 @@ class SearchViewModel @Inject constructor(
     private val getSearchedDataUseCase: GetSearchedDataUseCase,
     private val getPartyListUseCase: GetPartyListUseCase,
     private val getRecruitmentListUseCase: GetRecruitmentListUseCase,
+    private val getPositionsUseCase: GetPositionsUseCase,
 ) : ViewModel() {
 
     private val _searchState = MutableStateFlow(SearchState())
@@ -52,10 +54,20 @@ class SearchViewModel @Inject constructor(
                     _searchState.update {
                         it.copy(
                             isLoadingAllSearch = false,
-                            allSearchedList = result.data ?: Search(party = SearchedParty(total = 0, parties = emptyList()), partyRecruitment = SearchedPartyRecruitment(total = 0, partyRecruitments = emptyList()))
+                            allSearchedList = result.data ?: Search(
+                                party = SearchedParty(
+                                    total = 0,
+                                    parties = emptyList()
+                                ),
+                                partyRecruitment = SearchedPartyRecruitment(
+                                    total = 0,
+                                    partyRecruitments = emptyList()
+                                )
+                            )
                         )
                     }
                 }
+
                 is ServerApiResponse.ErrorResponse -> _searchState.update { it.copy(isLoadingAllSearch = false) }
                 is ServerApiResponse.ExceptionResponse -> _searchState.update { it.copy(isLoadingAllSearch = false) }
             }
@@ -84,7 +96,16 @@ class SearchViewModel @Inject constructor(
                 status = status,
                 partyTypes = partyTypes
             )) {
-                is ServerApiResponse.SuccessResponse -> _searchState.update { it.copy(isLoadingParty = false, partySearchedList = result.data ?: PartyList(total = 0, parties = emptyList())) }
+                is ServerApiResponse.SuccessResponse -> _searchState.update {
+                    it.copy(
+                        isLoadingParty = false,
+                        partySearchedList = result.data ?: PartyList(
+                            total = 0,
+                            parties = emptyList()
+                        )
+                    )
+                }
+
                 is ServerApiResponse.ErrorResponse -> _searchState.update { it.copy(isLoadingParty = false) }
                 is ServerApiResponse.ExceptionResponse -> _searchState.update { it.copy(isLoadingParty = false) }
             }
@@ -99,6 +120,7 @@ class SearchViewModel @Inject constructor(
         sort: String,
         order: String,
         partyTypes: List<Int> = emptyList(),
+        position: List<Int> = emptyList(),
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             _searchState.update { it.copy(isLoadingRecruitment = true) }
@@ -109,7 +131,8 @@ class SearchViewModel @Inject constructor(
                 size = size,
                 sort = sort,
                 order = order,
-                partyTypes = partyTypes
+                partyTypes = partyTypes,
+                position = position,
             )) {
                 is ServerApiResponse.SuccessResponse -> {
                     _searchState.update {
@@ -159,22 +182,58 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+    // 서브 포지션 조회
+    private fun getSubPositionList(
+        main: String,
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _searchState.update { it.copy(isLoadingSubPosition = true) }
+
+            when (val result = getPositionsUseCase(main = main)) {
+                is ServerApiResponse.SuccessResponse -> { _searchState.update { it.copy(isLoadingSubPosition = false, getSubPositionList = result.data ?: emptyList()) } }
+                is ServerApiResponse.ErrorResponse -> _searchState.update { it.copy(isLoadingSubPosition = false) }
+                is ServerApiResponse.ExceptionResponse -> _searchState.update { it.copy(isLoadingSubPosition = false) }
+            }
+        }
+    }
+
     fun onAction(action: SearchAction) {
         when (action) {
             is SearchAction.OnNavigationBack -> {}
             is SearchAction.OnInputKeywordChange -> _searchState.update { it.copy(inputKeyword = action.keyword) }
             is SearchAction.OnTabClick -> _searchState.update { it.copy(selectedTabText = action.tabText) }
-            is SearchAction.OnIsShowKeywordAreaChange -> { _searchState.update { it.copy(isShowKeywordArea = action.isShowKeywordArea) } }
+            is SearchAction.OnIsShowKeywordAreaChange -> _searchState.update { it.copy(isShowKeywordArea = action.isShowKeywordArea) }
+
             is SearchAction.OnSearch -> {
                 _searchState.update { it.copy(isShowKeywordArea = false) } // 검색 버튼 클릭 시 키워드 영역을 숨긴다.
                 insertKeyword(_searchState.value.inputKeyword)
 
                 when (_searchState.value.selectedTabText) {
-                    "전체" -> allSearch(titleSearch = _searchState.value.inputKeyword, page = 1, limit = 50)
-                    "파티" -> partySearch(titleSearch = _searchState.value.inputKeyword, page = 1, size = 50, sort = "createdAt", order = "DESC", status = _searchState.value.isActiveParty)
-                    "모집공고" -> recruitmentSearch(_searchState.value.inputKeyword, 1, size = 50, sort = "createdAt", order = "DESC")
+                    "전체" -> allSearch(
+                        titleSearch = _searchState.value.inputKeyword,
+                        page = 1,
+                        limit = 50
+                    )
+
+                    "파티" -> partySearch(
+                        titleSearch = _searchState.value.inputKeyword,
+                        page = 1,
+                        size = 50,
+                        sort = "createdAt",
+                        order = "DESC",
+                        status = _searchState.value.isActiveParty
+                    )
+
+                    "모집공고" -> recruitmentSearch(
+                        _searchState.value.inputKeyword,
+                        1,
+                        size = 50,
+                        sort = "createdAt",
+                        order = "DESC"
+                    )
                 }
             }
+
             is SearchAction.OnDeleteKeyword -> deleteKeyword(action.keyword)
             is SearchAction.OnAllDeleteKeyword -> allDeleteKeyword()
             is SearchAction.OnChangeOrderByParty -> {
@@ -190,10 +249,19 @@ class SearchViewModel @Inject constructor(
                     )
                 }
             }
+
             is SearchAction.OnChangeActive -> {
                 _searchState.update { it.copy(isActiveParty = action.status) }
-                partySearch(titleSearch = _searchState.value.inputKeyword, page = 1, size = 50, sort = "createdAt", order = "DESC", status = action.status)
+                partySearch(
+                    titleSearch = _searchState.value.inputKeyword,
+                    page = 1,
+                    size = 50,
+                    sort = "createdAt",
+                    order = "DESC",
+                    status = action.status
+                )
             }
+
             is SearchAction.OnPartyTypeModelClose -> _searchState.update { it.copy(isPartyTypeSheetOpen = action.isVisibleModal)}
 
             // 클릭시 이미 저장되있으면 삭제하고 없으면 추가한다.
@@ -205,7 +273,9 @@ class SearchViewModel @Inject constructor(
                             add("전체")
                         } else {
                             remove("전체") // "전체" 외의 값이 들어오면 "전체" 삭제
-                            if (contains(action.partyType)) remove(action.partyType) else add(action.partyType)
+                            if (contains(action.partyType)) remove(action.partyType) else add(
+                                action.partyType
+                            )
                         }
                     }
                     state.copy(selectedTypeListParty = updatedTypeList)
@@ -215,7 +285,13 @@ class SearchViewModel @Inject constructor(
             is SearchAction.OnPartyTypeReset -> {
                 _searchState.update { it.copy(selectedTypeListParty = emptyList()) }
                 _searchState.update { it.copy(selectedTypeListRecruitment = emptyList()) }
+                _searchState.update { it.copy(
+                    selectedMainPosition = "",
+                    selectedSubPositionList = emptyList(),
+                    selectedMainAndSubPosition = emptyList(),
+                ) }
             }
+
             is SearchAction.OnPartyTypeApply -> {
                 _searchState.update { it.copy(isPartyTypeSheetOpen = false) }
 
@@ -232,6 +308,7 @@ class SearchViewModel @Inject constructor(
                     }
                 )
             }
+
             is SearchAction.OnChangeOrderByRecruitment -> {
                 _searchState.update { currentState ->
                     val sortedList = if (action.isDesc) {
@@ -241,32 +318,46 @@ class SearchViewModel @Inject constructor(
                     }
                     currentState.copy(
                         isDescRecruitment = action.isDesc,
-                        recruitmentSearchedList = currentState.recruitmentSearchedList.copy(partyRecruitments = sortedList)
+                        recruitmentSearchedList = currentState.recruitmentSearchedList.copy(
+                            partyRecruitments = sortedList
+                        )
                     )
                 }
             }
+
             is SearchAction.OnPartyTypeRecruitment -> _searchState.update { it.copy(isPartyTypeSheetOpenRecruitment = action.isVisibleModal) }
+
             is SearchAction.OnSelectedPartyTypeRecruitment -> {
                 _searchState.update { state ->
                     val updatedTypeList = state.selectedTypeListRecruitment.toMutableList().apply {
-                        if (action.partyType == "전체") {
-                            clear() // "전체"가 들어오면 리스트를 전부 삭제
-                            add("전체")
-                        } else {
-                            remove("전체") // "전체" 외의 값이 들어오면 "전체" 삭제
-                            if (contains(action.partyType)) remove(action.partyType) else add(action.partyType)
+                            if (action.partyType == "전체") {
+                                clear() // "전체"가 들어오면 리스트를 전부 삭제
+                                add("전체")
+                            } else {
+                                remove("전체") // "전체" 외의 값이 들어오면 "전체" 삭제
+                                if (contains(action.partyType)) remove(action.partyType) else add(
+                                    action.partyType
+                                )
+                            }
                         }
-                    }
                     state.copy(selectedTypeListRecruitment = updatedTypeList)
                 }
             }
-            is SearchAction.OnPartyTypeApply2 -> {
-                _searchState.update { it.copy(
-                    isPartyTypeSheetOpenRecruitment = false,
-                    selectedTypeListSize = _searchState.value.selectedTypeListRecruitment.size
-                ) }
 
-                val selectedTypeList: List<String> = _searchState.value.selectedTypeListRecruitment
+            is SearchAction.OnPartyTypeApply2 -> {
+                _searchState.update {
+                    it.copy(
+                        isPartyTypeSheetOpenRecruitment = false,
+                        selectedTypeListSize = _searchState.value.selectedTypeListRecruitment.size
+                    )
+                }
+
+                val matchingIds = _searchState.value.selectedSubPositionList.filter { position ->
+                    _searchState.value.selectedMainAndSubPosition.any { it.second == position.sub }
+                }.map { it.id }
+
+                val selectedTypeList: List<String> =
+                    _searchState.value.selectedTypeListRecruitment
                 recruitmentSearch(
                     titleSearch = _searchState.value.inputKeyword,
                     page = 1,
@@ -275,7 +366,82 @@ class SearchViewModel @Inject constructor(
                     order = "DESC",
                     partyTypes = selectedTypeList.mapNotNull { type ->
                         PartyType.entries.find { it.type == type }?.id
+                    },
+                    position = matchingIds
+                )
+            }
+            is SearchAction.OnPositionSheetClose -> _searchState.update { it.copy(isPositionSheetOpen = action.isVisible) }
+            is SearchAction.OnPositionSheetOpenClick -> _searchState.update { it.copy(isPositionSheetOpen = true) }
+
+            is SearchAction.OnMainPositionClick -> {
+                _searchState.update { it.copy(selectedMainPosition = action.mainPosition) }
+                getSubPositionList(action.mainPosition)
+            }
+            is SearchAction.OnSubPositionClick -> {
+                _searchState.update { state ->
+                    val updatedSubPositionList = state.selectedSubPositionList.toMutableList().apply {
+                        if (any { it.sub == action.subPosition }) {
+                            // 이미 선택된 서브 포지션을 제거
+                            removeIf { it.sub == action.subPosition }
+                        } else {
+                            // 새로운 서브 포지션을 추가
+                            state.getSubPositionList.find { it.sub == action.subPosition }?.let { add(it) }
+                        }
                     }
+
+                    // 기존 메인과 서브 포지션 조합 유지하며 업데이트
+                    val updatedMainAndSubPosition = state.selectedMainAndSubPosition.toMutableList().apply {
+                        // 서브 포지션 클릭으로 업데이트된 조합을 반영
+                        removeIf { pair -> pair.first == state.selectedMainPosition && pair.second == action.subPosition } // 중복 제거
+                        updatedSubPositionList.find { it.sub == action.subPosition }?.let {
+                            add(Pair(state.selectedMainPosition, it.sub))
+                        }
+                    }
+
+                    state.copy(
+                        selectedSubPositionList = updatedSubPositionList,
+                        selectedMainAndSubPosition = updatedMainAndSubPosition
+                    )
+                }
+            }
+            is SearchAction.OnDelete -> {
+                _searchState.update { state ->
+                    val updatedSubPositionList =
+                        state.selectedSubPositionList.toMutableList().apply {
+                            removeIf { it.sub == action.position.second }
+                        }
+
+                    val updatedMainAndSubPosition =
+                        state.selectedMainAndSubPosition.toMutableList().apply {
+                            removeIf { pair -> pair.first == action.position.first && pair.second == action.position.second }
+                        }
+
+                    state.copy(
+                        selectedSubPositionList = updatedSubPositionList,
+                        selectedMainAndSubPosition = updatedMainAndSubPosition
+                    )
+                }
+            }
+            is SearchAction.OnPositionApply -> {
+                _searchState.update { it.copy(isPositionSheetOpen = false) }
+
+                val matchingIds = _searchState.value.selectedSubPositionList.filter { position ->
+                    _searchState.value.selectedMainAndSubPosition.any { it.second == position.sub }
+                }.map { it.id }
+
+                println("Matching IDs: $matchingIds")
+
+                // matchingIds 리스트 반환 또는 다음 동작 수행
+                recruitmentSearch(
+                    titleSearch = _searchState.value.inputKeyword,
+                    page = 1,
+                    size = 50,
+                    sort = "createdAt",
+                    order = "DESC",
+                    partyTypes = _searchState.value.selectedTypeListRecruitment.mapNotNull { type ->
+                        PartyType.entries.find { it.type == type }?.id
+                    },
+                    position = matchingIds
                 )
             }
         }

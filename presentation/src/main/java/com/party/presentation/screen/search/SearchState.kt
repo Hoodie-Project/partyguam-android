@@ -1,11 +1,13 @@
 package com.party.presentation.screen.search
 
+import com.party.common.component.bottomsheet.list.positionList
 import com.party.domain.model.party.PartyList
 import com.party.domain.model.party.RecruitmentList
 import com.party.domain.model.room.KeywordModel
 import com.party.domain.model.search.Search
 import com.party.domain.model.search.SearchedParty
 import com.party.domain.model.search.SearchedPartyRecruitment
+import com.party.domain.model.user.detail.PositionList
 
 data class SearchState(
     val isShowKeywordArea: Boolean = true,
@@ -34,8 +36,16 @@ data class SearchState(
 
     val isLoadingRecruitment: Boolean = false,
     val recruitmentSearchedList: RecruitmentList = RecruitmentList(total = 0, partyRecruitments = emptyList()),
-    val isDescRecruitment: Boolean = true,
+    val isPositionSheetOpen : Boolean = false,
     val isPartyTypeSheetOpenRecruitment: Boolean = false,
+    val isDescRecruitment: Boolean = true,
     val selectedTypeListRecruitment: List<String> = emptyList(),
-    val selectedTypeListSize: Int = 0
+    val selectedTypeListSize: Int = 0,
+
+    val selectedMainPosition: String = positionList[0],
+    val isLoadingSubPosition : Boolean = false,
+    val getSubPositionList: List<PositionList> = emptyList(),
+    val selectedSubPositionList: List<PositionList> = emptyList(),
+
+    val selectedMainAndSubPosition: List<Pair<String, String>> = emptyList(),
 )

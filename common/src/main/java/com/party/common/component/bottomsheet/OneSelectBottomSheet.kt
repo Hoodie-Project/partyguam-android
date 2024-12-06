@@ -70,7 +70,7 @@ fun OneSelectBottomSheet(
         ) {
             BottomSheetTitleArea(
                 titleText = bottomSheetTitle,
-                onModelClose = onBottomSheetClose
+                onSheetClose = onBottomSheetClose
             )
 
             PartyTypeBottomSheetContent(

@@ -60,6 +60,12 @@ fun SearchRoute(
                 is SearchAction.OnPartyTypeRecruitment -> { searchViewModel.onAction(action) }
                 is SearchAction.OnSelectedPartyTypeRecruitment -> { searchViewModel.onAction(action) }
                 is SearchAction.OnPartyTypeApply2 -> { searchViewModel.onAction(action) }
+                is SearchAction.OnPositionSheetClose -> { searchViewModel.onAction(action) }
+                is SearchAction.OnPositionSheetOpenClick -> { searchViewModel.onAction(action) }
+                is SearchAction.OnMainPositionClick -> { searchViewModel.onAction(action) }
+                is SearchAction.OnSubPositionClick -> { searchViewModel.onAction(action) }
+                is SearchAction.OnDelete -> { searchViewModel.onAction(action) }
+                is SearchAction.OnPositionApply -> { searchViewModel.onAction(action) }
             }
         }
     )
@@ -106,7 +112,13 @@ fun SearchScreen(
                     onChangeOrderByRecruitment = { isDesc -> onAction(SearchAction.OnChangeOrderByRecruitment(isDesc)) },
                     onPartyTypeRecruitment = { isVisible -> onAction(SearchAction.OnPartyTypeRecruitment(isVisible)) },
                     onPartyTypeItem2 = { selectedPartyType -> onAction(SearchAction.OnSelectedPartyTypeRecruitment(selectedPartyType)) },
-                    onPartyTypeApply2 = { onAction(SearchAction.OnPartyTypeApply2) }
+                    onPartyTypeApply2 = { onAction(SearchAction.OnPartyTypeApply2) },
+                    onPositionSheetClose = { isVisible -> onAction(SearchAction.OnPositionSheetClose(isVisible)) },
+                    onPositionSheetClick = { onAction(SearchAction.OnPositionSheetOpenClick) },
+                    onMainPositionClick = { selectedMainPosition -> onAction(SearchAction.OnMainPositionClick(selectedMainPosition)) },
+                    onSubPositionClick = { selectedSubPosition -> onAction(SearchAction.OnSubPositionClick(selectedSubPosition)) },
+                    onDelete = { position -> onAction(SearchAction.OnDelete(position)) },
+                    onPositionApply = { onAction(SearchAction.OnPositionApply) }
                 )
             }
         }

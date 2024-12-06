@@ -20,4 +20,11 @@ sealed interface SearchAction{
     data class OnChangeOrderByRecruitment(val isDesc: Boolean): SearchAction
     data class OnSelectedPartyTypeRecruitment(val partyType: String): SearchAction
     data object OnPartyTypeApply2: SearchAction
+
+    data class OnPositionSheetClose(val isVisible: Boolean): SearchAction
+    data object OnPositionSheetOpenClick: SearchAction
+    data class OnMainPositionClick(val mainPosition: String): SearchAction
+    data class OnSubPositionClick(val subPosition: String): SearchAction
+    data class OnDelete(val position: Pair<String, String>): SearchAction
+    data object OnPositionApply: SearchAction
 }

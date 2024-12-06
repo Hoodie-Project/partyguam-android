@@ -15,6 +15,7 @@ import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
 import com.party.common.R
 import com.party.common.component.RecruitmentListItem2
+import com.party.common.component.bottomsheet.PositionBottomSheet
 import com.party.common.component.no_data.NoDataColumn
 import com.party.common.component.party_filter.PositionAndPartyTypeAndOrderByArea
 import com.party.domain.model.party.RecruitmentItem
@@ -23,6 +24,7 @@ import com.party.domain.model.party.RecruitmentParty
 import com.party.domain.model.party.RecruitmentPartyType
 import com.party.domain.model.party.RecruitmentPosition
 import com.party.presentation.screen.home.tab_recruitment.PartyTypeModal
+import com.party.presentation.screen.search.SearchAction
 import com.party.presentation.screen.search.SearchState
 
 @Composable
@@ -33,6 +35,12 @@ fun SearchRecruitmentArea(
     onClick: (String) -> Unit,
     onReset: () -> Unit,
     onPartyTypeApply2: () -> Unit,
+    onPositionSheetClose: (Boolean) -> Unit,
+    onPositionSheetClick: () -> Unit,
+    onMainPositionClick: (String) -> Unit,
+    onSubPositionClick: (String) -> Unit,
+    onDelete: (Pair<String, String>) -> Unit,
+    onPositionApply: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -40,8 +48,8 @@ fun SearchRecruitmentArea(
     ) {
         PositionAndPartyTypeAndOrderByArea(
             isDescRecruitment = searchState.isDescRecruitment,
-            isPositionFilterClick = {},
-            isPartyTypeFilterClick = { onPartyTypeModel(true) },
+            onPositionSheetClick = onPositionSheetClick,
+            onPartyTypeFilterClick = { onPartyTypeModel(true) },
             onChangeOrderBy = onChangeOrderBy,
             selectedPartyTypeCount = searchState.selectedTypeListSize,
         )
@@ -59,6 +67,21 @@ fun SearchRecruitmentArea(
         }
     }
 
+    if(searchState.isPositionSheetOpen){
+        PositionBottomSheet(
+            selectedMainPosition = searchState.selectedMainPosition,
+            getSubPositionList = searchState.getSubPositionList.map { it.sub to it.id },
+            selectedSubPositionList = searchState.selectedSubPositionList.map { it.sub to it.id },
+            selectedMainAndSubPositionList = searchState.selectedMainAndSubPosition,
+            onSheetClose = { onPositionSheetClose(false) },
+            onMainPositionClick = onMainPositionClick,
+            onSubPositionClick = onSubPositionClick,
+            onDelete = onDelete,
+            onReset = onReset,
+            onApply = onPositionApply,
+        )
+    }
+
     if(searchState.isPartyTypeSheetOpenRecruitment){
         PartyTypeModal(
             titleText = stringResource(id = R.string.recruitment_filter2),
@@ -66,7 +89,7 @@ fun SearchRecruitmentArea(
             onClick = { onClick(it) },
             onModelClose = { onPartyTypeModel(false) },
             onReset = onReset,
-            onApply = onPartyTypeApply2
+            onApply = onPartyTypeApply2,
         )
     }
 }
@@ -113,7 +136,13 @@ private fun SearchRecruitmentAreaPreview1() {
         onPartyTypeApply2 = {},
         onPartyTypeModel = {},
         onChangeOrderBy = {},
-        searchState = SearchState()
+        searchState = SearchState(),
+        onPositionSheetClose = {},
+        onPositionSheetClick = {},
+        onMainPositionClick = {},
+        onSubPositionClick = {},
+        onDelete = {},
+        onPositionApply = {},
     )
 }
 
@@ -154,5 +183,11 @@ private fun SearchRecruitmentAreaPreview2() {
                 )
             ),
         ),
+        onPositionSheetClose = {},
+        onPositionSheetClick = {},
+        onMainPositionClick = {},
+        onSubPositionClick = {},
+        onDelete = {},
+        onPositionApply = {}
     )
 }

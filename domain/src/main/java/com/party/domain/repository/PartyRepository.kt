@@ -35,6 +35,7 @@ interface PartyRepository {
         order: String,
         titleSearch: String?,
         partyTypes: List<Int>,
+        position: List<Int>
     ): ServerApiResponse<RecruitmentList>
 
     // 파티 리스트 조회

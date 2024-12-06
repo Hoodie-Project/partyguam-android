@@ -94,7 +94,7 @@ fun OneSelectMainAndSubPositionBottomSheet(
             ) {
                 BottomSheetTitleArea(
                     titleText = bottomSheetTitle,
-                    onModelClose = onModelClose
+                    onSheetClose = onModelClose
                 )
 
                 PositionSelectArea(

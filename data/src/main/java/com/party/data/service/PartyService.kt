@@ -44,6 +44,7 @@ interface PartyService {
         @Query("order") order: String,
         @Query("titleSearch") titleSearch: String? = null,
         @Query("partyType") partyTypes: List<Int>,
+        @Query("position") position: List<Int>,
     ): ApiResponse<RecruitmentListDto>
 
     // 파티 리스트 조회

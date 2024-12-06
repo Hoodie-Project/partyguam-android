@@ -38,8 +38,9 @@ class PartyRemoteSourceImpl @Inject constructor(
         order: String,
         titleSearch: String?,
         partyTypes: List<Int>,
+        position: List<Int>,
     ): ApiResponse<RecruitmentListDto> {
-        return partyService.getRecruitmentList(page = page, size = size, sort = sort, order = order, titleSearch = titleSearch, partyTypes = partyTypes)
+        return partyService.getRecruitmentList(page = page, size = size, sort = sort, order = order, titleSearch = titleSearch, partyTypes = partyTypes, position = position)
     }
 
     override suspend fun getPartyList(
