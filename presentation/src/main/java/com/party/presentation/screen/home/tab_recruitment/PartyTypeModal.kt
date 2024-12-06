@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.WidthSpacer
@@ -36,7 +37,7 @@ import com.party.common.ui.theme.WHITE
 @Composable
 fun PartyTypeModal(
     titleText: String,
-    selectedPartyType: MutableList<String>,
+    selectedPartyType: List<String>,
     onClick: (String) -> Unit,
     onModelClose: () -> Unit,
     onReset: () -> Unit,
@@ -85,8 +86,8 @@ fun PartyTypeModal(
 }
 
 @Composable
-fun ModelCheckListArea(
-    selectedPartyType: MutableList<String>,
+private fun ModelCheckListArea(
+    selectedPartyType: List<String>,
     onClick: (String) -> Unit,
 ) {
     LazyColumn(
@@ -111,7 +112,7 @@ fun ModelCheckListArea(
 @Composable
 fun ModalCheckListItem(
     text: Pair<String, Int>,
-    selectedPartyType: MutableList<String>,
+    selectedPartyType: List<String>,
     onClick: (String) -> Unit,
 ) {
     Row(

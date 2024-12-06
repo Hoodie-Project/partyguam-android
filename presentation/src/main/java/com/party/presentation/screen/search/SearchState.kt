@@ -32,6 +32,8 @@ data class SearchState(
     ),
     val isActiveParty: String = "active",
     val isDescParty: Boolean = true,
+    val isPartyTypeSheetOpen: Boolean = false,
+    val selectedTypeList: List<String> = emptyList(),
 
     val isLoadingRecruitment: Boolean = true,
     val recruitmentSearchedList: RecruitmentList = RecruitmentList(

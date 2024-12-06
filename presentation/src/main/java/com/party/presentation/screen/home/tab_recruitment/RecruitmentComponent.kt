@@ -145,10 +145,12 @@ fun ModalTitleAreaPreview(
 
 @Preview
 @Composable
-fun ModalCheckListItemPreview(modifier: Modifier = Modifier) {
+fun ModalCheckListItemPreview(
+    modifier: Modifier = Modifier
+) {
     ModalCheckListItem(
         text = Pair("전체", 0),
-        selectedPartyType = mutableListOf(),
+        selectedPartyType = emptyList(),
         onClick = {}
     )
 }
@@ -171,12 +173,3 @@ fun ModalBottomAreaPreview(
         onApply = {},
     )
 }
-
-/*
-val partyTypeList = listOf(
-    "전체",
-    "스터디",
-    "포트폴리오",
-    "해커톤",
-    "공모전",
-)*/

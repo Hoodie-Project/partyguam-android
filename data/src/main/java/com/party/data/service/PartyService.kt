@@ -52,7 +52,7 @@ interface PartyService {
         @Query("limit") size: Int,
         @Query("sort") sort: String,
         @Query("order") order: String,
-        @Query("partyType") partyTypes: List<Int>, // 리스트로 처리
+        @Query("partyType") partyTypes: List<Int>,
         @Query("status") status: String? = null,
         @Query("titleSearch") titleSearch: String? = null,
     ): ApiResponse<PartyListDto>

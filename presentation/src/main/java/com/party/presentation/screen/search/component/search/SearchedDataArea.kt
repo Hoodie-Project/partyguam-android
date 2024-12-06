@@ -7,19 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
-import com.party.common.LoadingProgressBar
-import com.party.common.ServerApiResponse
-import com.party.common.ServerApiResponse.SuccessResponse
-import com.party.common.UIState
 import com.party.common.component.searchTabList
-import com.party.domain.model.search.Party
-import com.party.domain.model.search.PartyType
-import com.party.domain.model.search.Position
-import com.party.domain.model.search.Search
-import com.party.domain.model.search.SearchedParty
-import com.party.domain.model.search.SearchedPartyData
-import com.party.domain.model.search.SearchedPartyRecruitment
-import com.party.domain.model.search.SearchedRecruitmentData
 import com.party.presentation.screen.search.SearchState
 
 @Composable
@@ -27,8 +15,11 @@ fun SearchedDataContent(
     searchState: SearchState,
     onTabClick: (String) -> Unit,
     onToggle: (String) -> Unit,
-    onPartyTypeApply: (MutableList<String>) -> Unit,
     onChangeOrderByParty: (Boolean) -> Unit,
+    onPartyTypeModel: (Boolean) -> Unit,
+    onClick: (String) -> Unit,
+    onReset: () -> Unit,
+    onPartyTypeApply: () -> Unit
 ) {
     Column {
         SearchTopTabArea(
@@ -50,9 +41,12 @@ fun SearchedDataContent(
             searchTabList[1] -> {
                 SearchPartyArea(
                     searchState = searchState,
-                    onPartyTypeApply = {},
                     onChangeOrderBy = onChangeOrderByParty,
-                    onToggle = onToggle
+                    onToggle = onToggle,
+                    onPartyTypeModel = onPartyTypeModel,
+                    onClick = onClick,
+                    onReset = onReset,
+                    onPartyTypeApply = onPartyTypeApply
                 )
             }
             searchTabList[2] -> {
@@ -60,57 +54,8 @@ fun SearchedDataContent(
                     recruitmentList = searchState.recruitmentSearchedList.partyRecruitments
                 )
             }
-            /*searchTabList[1] -> {
-                SearchPartyArea(
-                    partyList = searchedParty?.parties ?: listOf(),
-                    onPartyTypeApply = onPartyTypeApply
-                )
-            }
-            searchTabList[2] -> {
-                SearchRecruitmentArea(
-                    recruitmentList = searchedPartyRecruitment?.partyRecruitments ?: listOf()
-                )
-            }*/
         }
-
     }
-}
-
-@Composable
-private fun AllSearchedContent(
-    searchState: SearchState,
-    onTabClick: (String) -> Unit,
-) {
-    /*Column {
-        SearchTopTabArea(
-            modifier = Modifier.height(48.dp),
-            searchTabList = searchTabList,
-            selectedTabText = searchState.selectedTabText,
-            onTabClick = onTabClick
-        )
-
-        HeightSpacer(heightDp = 24.dp)
-
-        when(searchState.selectedTabText){
-            searchTabList[0] -> {
-                SearchEntireArea(
-                    partyList = searchState.allSearchedList.party.parties,
-                    recruitmentList = searchState.allSearchedList.partyRecruitment.partyRecruitments
-                )
-            }
-            *//*searchTabList[1] -> {
-                SearchPartyArea(
-                    partyList = searchedParty?.parties ?: listOf(),
-                    onPartyTypeApply = onPartyTypeApply
-                )
-            }
-            searchTabList[2] -> {
-                SearchRecruitmentArea(
-                    recruitmentList = searchedPartyRecruitment?.partyRecruitments ?: listOf()
-                )
-            }*//*
-        }
-    }*/
 }
 
 @Preview(showBackground = true)
@@ -123,6 +68,9 @@ private fun SearchedDataContentPreview1() {
         onTabClick = {},
         onPartyTypeApply = {},
         onChangeOrderByParty = {},
-        onToggle = {}
+        onToggle = {},
+        onPartyTypeModel = {},
+        onClick = {},
+        onReset = {}
     )
 }

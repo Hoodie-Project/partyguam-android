@@ -13,8 +13,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -29,6 +27,8 @@ import com.party.common.component.party_filter.PartyTypeAndIngAndOrderByFilterAr
 import com.party.common.ui.theme.GRAY600
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyItem
+import com.party.domain.model.party.PartyList
+import com.party.domain.model.party.PartyTypeItem
 import com.party.presentation.enum.StatusType
 import com.party.presentation.screen.home.tab_recruitment.PartyTypeModal
 import com.party.presentation.screen.home.tab_recruitment.validSelectedPartyType
@@ -38,19 +38,12 @@ import com.party.presentation.screen.search.SearchState
 fun SearchPartyArea(
     searchState: SearchState,
     onToggle: (String) -> Unit,
-    onPartyTypeApply: (MutableList<String>) -> Unit,
-    onChangeOrderBy: (Boolean) -> Unit
+    onChangeOrderBy: (Boolean) -> Unit,
+    onPartyTypeModel: (Boolean) -> Unit,
+    onClick: (String) -> Unit,
+    onReset: () -> Unit,
+    onPartyTypeApply: () -> Unit,
 ) {
-    // 파티 타입 시트 오픈 여부
-    var isPartyTypeSheetOpen by rememberSaveable { mutableStateOf(false) }
-
-    //var checked by remember { mutableStateOf(true) }
-
-    // 선택된 파티 타입 리스트
-    val selectedPartyTypeList by remember {
-        mutableStateOf(mutableStateListOf<String>())
-    }
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -58,7 +51,7 @@ fun SearchPartyArea(
         PartyTypeAndIngAndOrderByFilterArea(
             isActiveParty = searchState.isActiveParty,
             onToggle = onToggle,
-            isPartyTypeFilterClick = {},
+            isPartyTypeFilterClick = { onPartyTypeModel(true) },
             isDescParty = searchState.isDescParty,
             onChangeOrderBy = onChangeOrderBy,
         )
@@ -69,27 +62,16 @@ fun SearchPartyArea(
         )
     }
 
-    if(isPartyTypeSheetOpen){
+    if(searchState.isPartyTypeSheetOpen){
         PartyTypeModal(
             titleText = stringResource(id = R.string.recruitment_filter2),
-            selectedPartyType = selectedPartyTypeList,
-            onClick = { validSelectedPartyType(selectedPartyTypeList, it) },
-            onModelClose = { isPartyTypeSheetOpen = false },
-            onReset = { selectedPartyTypeList.clear() },
-            onApply = {
-                isPartyTypeSheetOpen = false
-                onPartyTypeApply(selectedPartyTypeList)
-                /*homeViewModel.getPartyList(
-                    page = 1,
-                    size = 20,
-                    sort = "createdAt",
-                    order = "DESC",
-                    partyTypes = convertToIntList(selectedPartyTypeList)
-                )*/
-            }
+            selectedPartyType = searchState.selectedTypeList,
+            onClick = { onClick(it) },
+            onModelClose = { onPartyTypeModel(false) },
+            onReset = onReset,
+            onApply = onPartyTypeApply
         )
     }
-
 }
 
 @Composable
@@ -100,9 +82,11 @@ private fun PartyListArea(
 
     if(partyList.isNotEmpty()){
         LazyVerticalGrid(
+            modifier = Modifier
+                .padding(bottom = 8.dp),
             state = listState,
             columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             itemsIndexed(
@@ -117,6 +101,8 @@ private fun PartyListArea(
                     recruitmentCount = item.recruitmentCount,
                     typeChip = {
                         Chip(
+                            modifier = Modifier
+                                .padding(end = 4.dp),
                             containerColor = if(item.status == "active") Color(0xFFD5F0E3) else GRAY600,
                             contentColor = if(item.status == "active") Color(0xFF016110) else WHITE,
                             text = if(item.status == "active") StatusType.ACTIVE.type else StatusType.ARCHIVED.type,
@@ -144,7 +130,10 @@ private fun SearchPartyAreaPreview1(
         searchState = SearchState(),
         onPartyTypeApply = {},
         onChangeOrderBy = {},
-        onToggle = {}
+        onToggle = {},
+        onPartyTypeModel = {},
+        onClick = {},
+        onReset = {}
     )
 }
 
@@ -157,7 +146,68 @@ private fun SearchPartyAreaPreview2(
         searchState = SearchState(),
         onPartyTypeApply = {},
         onChangeOrderBy = {},
-        onToggle = {}
+        onToggle = {},
+        onPartyTypeModel = {},
+        onClick = {},
+        onReset = {}
+    )
+}
 
+@Preview(showBackground = true)
+@Composable
+private fun SearchPartyAreaPreview3(
+    modifier: Modifier = Modifier
+) {
+    SearchPartyArea(
+        searchState = SearchState(
+            isLoadingParty = false,
+            partySearchedList = PartyList(
+                total = 1,
+                parties = listOf(
+                    PartyItem(
+                        id = 6725,
+                        partyType = PartyTypeItem(id = 3668, type = "tota"),
+                        tag = "bibendum",
+                        title = "te",
+                        content = "hendrerit",
+                        image = null,
+                        status = "pertinax",
+                        createdAt = "ubique",
+                        updatedAt = "oratio",
+                        recruitmentCount = 3204
+                    ),
+                    PartyItem(
+                        id = 6725,
+                        partyType = PartyTypeItem(id = 3668, type = "tota"),
+                        tag = "bibendum",
+                        title = "te",
+                        content = "hendrerit",
+                        image = null,
+                        status = "pertinax",
+                        createdAt = "ubique",
+                        updatedAt = "oratio",
+                        recruitmentCount = 3204
+                    ),
+                    PartyItem(
+                        id = 6725,
+                        partyType = PartyTypeItem(id = 3668, type = "tota"),
+                        tag = "bibendum",
+                        title = "te",
+                        content = "hendrerit",
+                        image = null,
+                        status = "pertinax",
+                        createdAt = "ubique",
+                        updatedAt = "oratio",
+                        recruitmentCount = 3204
+                    )
+                )
+            )
+        ),
+        onPartyTypeApply = {},
+        onChangeOrderBy = {},
+        onToggle = {},
+        onPartyTypeModel = {},
+        onClick = {},
+        onReset = {}
     )
 }
