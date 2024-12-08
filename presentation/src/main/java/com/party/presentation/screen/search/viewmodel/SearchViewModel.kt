@@ -48,8 +48,7 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _searchState.update { it.copy(isLoadingAllSearch = true) }
 
-            when (val result =
-                getSearchedDataUseCase(titleSearch = titleSearch, page = page, limit = limit)) {
+            when (val result = getSearchedDataUseCase(titleSearch = titleSearch, page = page, limit = limit)) {
                 is ServerApiResponse.SuccessResponse -> {
                     _searchState.update {
                         it.copy(

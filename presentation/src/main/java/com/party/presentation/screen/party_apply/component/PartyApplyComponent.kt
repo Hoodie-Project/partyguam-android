@@ -50,15 +50,15 @@ fun PartyApplyInputReasonArea(
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun PartyApplyTitleAreaPreview() {
+private fun PartyApplyTitleAreaPreview() {
     PartyApplyTitleArea()
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun PartyApplyInputReasonAreaPreview(
+private fun PartyApplyInputReasonAreaPreview(
     modifier: Modifier = Modifier
 ) {
     PartyApplyInputReasonArea(

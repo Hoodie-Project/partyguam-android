@@ -14,42 +14,69 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.party.common.HeightSpacer
+import com.party.common.LoadingProgressBar
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.UIState
 import com.party.common.component.button.CustomButton
 import com.party.common.convertToText
 import com.party.common.ui.theme.GRAY100
+import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.RecruitmentDetail
 import com.party.navigation.BottomNavigationBar
+import com.party.navigation.Screens
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentCurrentInfoArea
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentDescription
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentImageArea
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentPositionAndCountArea
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentScaffoldArea
 import com.party.presentation.screen.recruitment_detail.viewmodel.RecruitmentDetailViewModel
+import com.party.presentation.screen.search.SearchAction
 
 @Composable
-fun RecruitmentDetailScreen(
+fun RecruitmentDetailRoute(
     context: Context,
     navController: NavHostController,
+    partyId: Int,
     partyRecruitmentId: Int,
     recruitmentDetailViewModel: RecruitmentDetailViewModel = hiltViewModel(),
-    onClick: () -> Unit,
 ) {
 
     LaunchedEffect(Unit) {
         recruitmentDetailViewModel.getRecruitmentDetail(partyRecruitmentId)
     }
 
-    val result by recruitmentDetailViewModel.getRecruitmentDetailState.collectAsStateWithLifecycle()
+    val recruitmentDetailState by recruitmentDetailViewModel.recruitmentDetailState.collectAsStateWithLifecycle()
 
+    RecruitmentDetailScreen(
+        context = context,
+        navController = navController,
+        recruitmentDetailState = recruitmentDetailState,
+        onAction = { action ->
+            when(action){
+                is RecruitmentDetailAction.OnNavigationBack -> { navController.popBackStack() }
+                is RecruitmentDetailAction.OnApply -> { navController.navigate(Screens.PartyApply(partyId = partyId, partyRecruitmentId = partyRecruitmentId)) }
+            }
+        },
+    )
+}
 
+@Composable
+fun RecruitmentDetailScreen(
+    context: Context,
+    navController: NavHostController,
+    recruitmentDetailState: RecruitmentDetailState,
+    onAction: (RecruitmentDetailAction) -> Unit
+) {
+    val scrollState = rememberScrollState()
 
     Scaffold(
         bottomBar = {
@@ -60,83 +87,74 @@ fun RecruitmentDetailScreen(
         },
         topBar = {
             RecruitmentScaffoldArea(
-                onNavigationClick = { navController.popBackStack() },
+                onNavigationClick = { onAction(RecruitmentDetailAction.OnNavigationBack) },
                 onSharedClick = {},
             )
         }
     ){
-        when(result){
-            is UIState.Idle -> {}
-            is UIState.Loading -> {}
-            is UIState.Success -> {
-                val resultData = result.data as SuccessResponse
-                RecruitmentDetailScreenContent(
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(WHITE)
+                .padding(it)
+        ) {
+            if(recruitmentDetailState.isLoading){
+                LoadingProgressBar()
+            }else {
+                Column(
                     modifier = Modifier
-                        .padding(it),
-                    recruitmentDetail = resultData.data ?:return@Scaffold,
-                    onClick = onClick
+                        .weight(1f)
+                        .verticalScroll(scrollState)
+                ) {
+                    RecruitmentImageArea(
+                        imageUrl = recruitmentDetailState.recruitmentDetail.party.image,
+                        title = recruitmentDetailState.recruitmentDetail.party.title,
+                        tag = recruitmentDetailState.recruitmentDetail.party.status,
+                        type = recruitmentDetailState.recruitmentDetail.party.partyType.type,
+                    )
+                    HeightSpacer(heightDp = 20.dp)
+                    RecruitmentCurrentInfoArea(
+                        recruitingCount = convertToText(recruitmentDetailState.recruitmentDetail.recruitedCount, recruitmentDetailState.recruitmentDetail.recruitingCount),
+                        recruitedCount = recruitmentDetailState.recruitmentDetail.recruitingCount,
+                        createDate = recruitmentDetailState.recruitmentDetail.createdAt,
+                    )
+                    HeightSpacer(heightDp = 32.dp)
+                    HorizontalDivider(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        color = GRAY100,
+                        thickness = 12.dp
+                    )
+                    HeightSpacer(heightDp = 32.dp)
+                    RecruitmentPositionAndCountArea(
+                        position = "${recruitmentDetailState.recruitmentDetail.position.main} ${recruitmentDetailState.recruitmentDetail.position.sub}",
+                        recruitingCount = "${recruitmentDetailState.recruitmentDetail.recruitingCount}명",
+                    )
+                    HeightSpacer(heightDp = 56.dp)
+                    RecruitmentDescription(
+                        content = recruitmentDetailState.recruitmentDetail.content,
+                    )
+                }
+
+                HeightSpacer(heightDp = 24.dp)
+                CustomButton(
+                    modifier = Modifier
+                        .padding(horizontal = MEDIUM_PADDING_SIZE),
+                    onClick = { onAction(RecruitmentDetailAction.OnApply) },
                 )
+                HeightSpacer(heightDp = 12.dp)
             }
-            is UIState.Error -> {}
-            is UIState.Exception -> {}
         }
     }
 }
 
+@Preview(showBackground = true)
 @Composable
-fun RecruitmentDetailScreenContent(
-    modifier: Modifier,
-    recruitmentDetail: RecruitmentDetail,
-    onClick: () -> Unit,
-) {
-    val scrollState = rememberScrollState()
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(WHITE)
-    ) {
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .verticalScroll(scrollState)
-        ) {
-            RecruitmentImageArea(
-                imageUrl = recruitmentDetail.party.image,
-                title = recruitmentDetail.party.title,
-                tag = recruitmentDetail.party.status,
-                type = recruitmentDetail.party.partyType.type,
-            )
-            HeightSpacer(heightDp = 20.dp)
-            RecruitmentCurrentInfoArea(
-                recruitingCount = convertToText(recruitmentDetail.recruitedCount, recruitmentDetail.recruitingCount),
-                recruitedCount = recruitmentDetail.recruitingCount,
-                createDate = recruitmentDetail.createdAt,
-            )
-            HeightSpacer(heightDp = 32.dp)
-            HorizontalDivider(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                color = GRAY100,
-                thickness = 12.dp
-            )
-            HeightSpacer(heightDp = 32.dp)
-            RecruitmentPositionAndCountArea(
-                position = "${recruitmentDetail.position.main} ${recruitmentDetail.position.sub}",
-                recruitingCount = "${recruitmentDetail.recruitingCount}명",
-            )
-            HeightSpacer(heightDp = 56.dp)
-            RecruitmentDescription(
-                content = recruitmentDetail.content,
-            )
-        }
-
-        HeightSpacer(heightDp = 24.dp)
-        CustomButton(
-            modifier = Modifier
-                .padding(horizontal = 20.dp),
-            onClick = onClick
-        )
-        HeightSpacer(heightDp = 12.dp)
-
-    }
+fun RecruitmentDetailScreenPreview1() {
+    RecruitmentDetailScreen(
+        context = LocalContext.current,
+        navController = rememberNavController(),
+        recruitmentDetailState = RecruitmentDetailState(),
+        onAction = {}
+    )
 }

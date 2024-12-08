@@ -39,6 +39,7 @@ import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.GRAY600
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
+import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.T2
@@ -87,7 +88,7 @@ fun RecruitmentImageArea(
         modifier = Modifier
             .fillMaxWidth()
             .height(250.dp)
-            .padding(horizontal = 20.dp)
+            .padding(horizontal = MEDIUM_PADDING_SIZE),
     ) {
         // 카드 생성 (테두리는 카드 외부에만 적용됨)
         Card(
@@ -179,7 +180,7 @@ fun RecruitmentCurrentInfoArea(
 ) {
     Column(
         modifier = Modifier
-            .padding(horizontal = 20.dp),
+            .padding(horizontal = MEDIUM_PADDING_SIZE),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         RecruitmentInfoItem(
@@ -234,7 +235,7 @@ fun RecruitmentPositionAndCountArea(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp),
+            .padding(horizontal = MEDIUM_PADDING_SIZE),
     ) {
         RecruitmentTitle(
             title = "모집 부분",
@@ -303,7 +304,7 @@ fun RecruitmentDescription(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp),
+            .padding(horizontal = MEDIUM_PADDING_SIZE),
     ) {
         RecruitmentTitle(
             title = "모집 공고",
@@ -345,7 +346,7 @@ fun RecruitmentTitle(
 
 @Preview(showBackground = true)
 @Composable
-fun RecruitmentImageAreaPreview() {
+private fun RecruitmentImageAreaPreview() {
     RecruitmentImageArea(
         imageUrl = "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
         title = "title",
@@ -356,7 +357,7 @@ fun RecruitmentImageAreaPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun ApplyButtonAreaPreview() {
+private fun ApplyButtonAreaPreview() {
     CustomButton(
         onClick = {}
     )
