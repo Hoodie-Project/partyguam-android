@@ -3,7 +3,6 @@ package com.party.domain.model.party
 data class PartyDetail(
     val id: Int,
     val partyType: PartyType,
-    val tag: String,
     val title: String,
     val content: String,
     val image: String?= null,

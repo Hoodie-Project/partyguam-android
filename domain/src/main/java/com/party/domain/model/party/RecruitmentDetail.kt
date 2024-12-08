@@ -13,7 +13,7 @@ data class RecruitmentDetail(
 data class RecruitmentDetailParty(
     val title: String,
     val image: String,
-    val tag: String,
+    val status: String,
     val partyType: RecruitmentDetailPartyType,
 )
 
@@ -22,7 +22,6 @@ data class RecruitmentDetailPartyType(
 )
 
 data class RecruitmentDetailPosition(
-    val id: Int,
     val main: String,
     val sub: String,
 )

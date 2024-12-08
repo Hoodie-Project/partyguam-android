@@ -36,6 +36,7 @@ import com.party.common.ui.theme.GRAY600
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyList
 import com.party.presentation.enum.PartyType
+import com.party.presentation.enum.StatusType
 import com.party.presentation.screen.home.tab_party.component.FilterArea
 import com.party.presentation.screen.home.tab_party.component.FilterDate
 import com.party.presentation.screen.home.tab_recruitment.PartyTypeModal
@@ -171,9 +172,9 @@ private fun PartyListArea(
 
     val list2 = list.filter {
         if (checked) {
-            it.tag == "진행중"
+            it.status == "active"
         } else {
-            it.tag != "진행중"
+            it.status != "active"
         }
     }
 
@@ -200,9 +201,9 @@ private fun PartyListArea(
                     recruitmentCount = item.recruitmentCount,
                     typeChip = {
                         Chip(
-                            containerColor = if(item.tag == "진행중") Color(0xFFD5F0E3) else GRAY600,
-                            contentColor = if(item.tag == "진행중") Color(0xFF016110) else WHITE,
-                            text = item.tag,
+                            containerColor = if(item.status == StatusType.ACTIVE.type) Color(0xFFD5F0E3) else GRAY600,
+                            contentColor = if(item.status == StatusType.ACTIVE.type) Color(0xFF016110) else WHITE,
+                            text = if (item.status == StatusType.ACTIVE.type) "진행중" else "종료",
                         )
                     },
                     onClick = { onClick(item.id) }

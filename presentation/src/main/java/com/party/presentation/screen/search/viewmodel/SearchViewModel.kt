@@ -372,7 +372,6 @@ class SearchViewModel @Inject constructor(
             }
             is SearchAction.OnPositionSheetClose -> _searchState.update { it.copy(isPositionSheetOpen = action.isVisible) }
             is SearchAction.OnPositionSheetOpenClick -> _searchState.update { it.copy(isPositionSheetOpen = true) }
-
             is SearchAction.OnMainPositionClick -> {
                 _searchState.update { it.copy(selectedMainPosition = action.mainPosition) }
                 getSubPositionList(action.mainPosition)

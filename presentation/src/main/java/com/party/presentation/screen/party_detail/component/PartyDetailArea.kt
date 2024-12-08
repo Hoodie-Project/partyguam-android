@@ -21,6 +21,7 @@ import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PartyType
 import com.party.domain.model.party.PartyUsers
 import com.party.domain.model.user.PartyAuthority
+import com.party.presentation.enum.StatusType
 import com.party.presentation.screen.party_detail.tab.PartyDetailTabArea
 import com.party.presentation.screen.party_detail.tab.home.PartyDetailDescriptionArea
 import com.party.presentation.screen.party_detail.tab.member.PartyDetailUserArea
@@ -55,7 +56,7 @@ fun PartyDetailArea(
             PartyDetailCategoryArea(
                 modifier = Modifier
                     .padding(horizontal = 20.dp),
-                tag = partyDetail.tag,
+                tag = StatusType.fromType(partyDetail.status).toDisplayText(),
                 partyType = partyDetail.partyType.type
             )
             HeightSpacer(heightDp = 12.dp)
@@ -124,7 +125,6 @@ fun PartyDetailAreaPreview() {
     val partyDetail = PartyDetail(
         id = 5686,
         partyType = PartyType(id = 9282, type = "포트폴리오"),
-        tag = "모집중",
         title = "파티 제목 입니다~~~~~~~",
         content = "새로운 프로젝트를 위해 모여 함께 아이디어를 나누고 계획을 세우는 파티를 개최합니다!. 새로운 프로젝트를 위해 모여 함께 아이디어를 나눕시다!",
         image = "viris",

@@ -160,7 +160,6 @@ private fun SearchPartyAreaPreview3(
                     PartyItem(
                         id = 6725,
                         partyType = PartyTypeItem(id = 3668, type = "tota"),
-                        tag = "bibendum",
                         title = "te",
                         content = "hendrerit",
                         image = null,
@@ -172,7 +171,6 @@ private fun SearchPartyAreaPreview3(
                     PartyItem(
                         id = 6725,
                         partyType = PartyTypeItem(id = 3668, type = "tota"),
-                        tag = "bibendum",
                         title = "te",
                         content = "hendrerit",
                         image = null,
@@ -184,7 +182,6 @@ private fun SearchPartyAreaPreview3(
                     PartyItem(
                         id = 6725,
                         partyType = PartyTypeItem(id = 3668, type = "tota"),
-                        tag = "bibendum",
                         title = "te",
                         content = "hendrerit",
                         image = null,

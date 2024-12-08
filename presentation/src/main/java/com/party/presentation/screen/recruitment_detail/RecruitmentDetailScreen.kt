@@ -103,7 +103,7 @@ fun RecruitmentDetailScreenContent(
             RecruitmentImageArea(
                 imageUrl = recruitmentDetail.party.image,
                 title = recruitmentDetail.party.title,
-                tag = recruitmentDetail.party.tag,
+                tag = recruitmentDetail.party.status,
                 type = recruitmentDetail.party.partyType.type,
             )
             HeightSpacer(heightDp = 20.dp)

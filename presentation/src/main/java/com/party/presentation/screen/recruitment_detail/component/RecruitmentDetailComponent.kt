@@ -42,6 +42,7 @@ import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.T2
+import com.party.presentation.enum.StatusType
 
 @Composable
 fun RecruitmentCategory(
@@ -157,7 +158,7 @@ fun RecruitmentTypeArea(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ){
         RecruitmentCategory(
-            title = tag,
+            title = StatusType.fromType(tag).toDisplayText(),
             containerColor = Color(0xFFFFF1DC),
             contentColor = Color(0xFFEF6400)
         )
@@ -348,7 +349,7 @@ fun RecruitmentImageAreaPreview() {
     RecruitmentImageArea(
         imageUrl = "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
         title = "title",
-        tag = "모집중",
+        tag = "active",
         type = "포트폴리오",
     )
 }

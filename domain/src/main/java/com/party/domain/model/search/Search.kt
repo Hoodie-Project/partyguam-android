@@ -13,7 +13,7 @@ data class SearchedParty(
 data class SearchedPartyData(
     val id: Int,
     val partyType: PartyType,
-    val tag: String,
+    //val tag: String,
     val title: String,
     val content: String,
     val image: String,

@@ -51,10 +51,10 @@ import com.party.domain.model.party.UserCareer
 import com.party.domain.model.user.PartyAuthority
 
 object PartyMapper {
-    fun mapperPersonalRecruitmentResponse(personalRecruitmentListEntity: PersonalRecruitmentListDto): PersonalRecruitmentList{
+    fun mapperPersonalRecruitmentResponse(personalRecruitmentListDto: PersonalRecruitmentListDto): PersonalRecruitmentList{
         return PersonalRecruitmentList(
-            total = personalRecruitmentListEntity.total,
-            partyRecruitments = personalRecruitmentListEntity.partyRecruitments.map {
+            total = personalRecruitmentListDto.total,
+            partyRecruitments = personalRecruitmentListDto.partyRecruitments.map {
                 PersonalRecruitmentItem(
                     id = it.id,
                     partyId = it.partyId,
@@ -81,10 +81,10 @@ object PartyMapper {
         )
     }
 
-    fun mapperRecruitmentDetailResponse(recruitmentListEntity: RecruitmentListDto): RecruitmentList{
+    fun mapperRecruitmentDetailResponse(recruitmentListDto: RecruitmentListDto): RecruitmentList{
         return RecruitmentList(
-            total = recruitmentListEntity.total,
-            partyRecruitments = recruitmentListEntity.partyRecruitments.map {
+            total = recruitmentListDto.total,
+            partyRecruitments = recruitmentListDto.partyRecruitments.map {
                 RecruitmentItem(
                     id = it.id,
                     recruitingCount = it.recruitingCount,
@@ -110,17 +110,17 @@ object PartyMapper {
         )
     }
 
-    fun mapperPartyResponse(partyListEntity: PartyListDto): PartyList {
+    fun mapperPartyResponse(partyListDto: PartyListDto): PartyList {
         return PartyList(
-            total = partyListEntity.total,
-            parties = partyListEntity.parties.map {
+            total = partyListDto.total,
+            parties = partyListDto.parties.map {
                 PartyItem(
                     id = it.id,
                     partyType = PartyTypeItem(
                         id = it.partyType.id,
                         type = it.partyType.type
                     ),
-                    tag = it.tag,
+                    //tag = it.tag,
                     title = it.title,
                     content = it.content,
                     image = convertToImageUrl(it.image),
@@ -133,26 +133,25 @@ object PartyMapper {
         )
     }
 
-    fun mapperRecruitmentDetailResponse(recruitmentDetailEntity: RecruitmentDetailDto): RecruitmentDetail{
+    fun mapperRecruitmentDetailResponse(recruitmentDetailDto: RecruitmentDetailDto): RecruitmentDetail{
         return RecruitmentDetail(
             party = RecruitmentDetailParty(
-                title = recruitmentDetailEntity.party.title,
-                image = convertToImageUrl(recruitmentDetailEntity.party.image),
-                tag = recruitmentDetailEntity.party.tag,
+                title = recruitmentDetailDto.party.title,
+                image = convertToImageUrl(recruitmentDetailDto.party.image),
+                status = recruitmentDetailDto.party.status,
                 partyType = RecruitmentDetailPartyType(
-                    type = recruitmentDetailEntity.party.partyType.type
+                    type = recruitmentDetailDto.party.partyType.type
                 )
             ),
             position = RecruitmentDetailPosition(
-                id = recruitmentDetailEntity.position.id,
-                main = recruitmentDetailEntity.position.main,
-                sub = recruitmentDetailEntity.position.sub
+                main = recruitmentDetailDto.position.main,
+                sub = recruitmentDetailDto.position.sub
             ),
-            content = recruitmentDetailEntity.content,
-            recruitingCount = recruitmentDetailEntity.recruitingCount,
-            recruitedCount = recruitmentDetailEntity.recruitedCount,
-            applicationCount = recruitmentDetailEntity.applicationCount,
-            createdAt = recruitmentDetailEntity.createdAt,
+            content = recruitmentDetailDto.content,
+            recruitingCount = recruitmentDetailDto.recruitingCount,
+            recruitedCount = recruitmentDetailDto.recruitedCount,
+            applicationCount = recruitmentDetailDto.applicationCount,
+            createdAt = recruitmentDetailDto.createdAt,
         )
     }
 
@@ -160,7 +159,6 @@ object PartyMapper {
         return PartyDetail(
             id = partyDetailDto.id,
             partyType = mapperPartyType(partyDetailDto.partyType),
-            tag = partyDetailDto.tag,
             title = partyDetailDto.title,
             content = partyDetailDto.content,
             image = convertToImageUrl(partyDetailDto.image),

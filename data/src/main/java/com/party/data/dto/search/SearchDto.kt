@@ -18,7 +18,7 @@ data class SearchedPartyDto(
 data class SearchedPartyDataDto(
     val id: Int,
     val partyType: PartyTypeDto,
-    val tag: String,
+    //val tag: String,
     val title: String,
     val content: String,
     val image: String,
