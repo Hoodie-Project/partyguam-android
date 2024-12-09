@@ -11,7 +11,9 @@ import com.party.presentation.screen.state.MyPartyAction
 import com.party.presentation.screen.state.MyPartyState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -26,6 +28,9 @@ class StateViewModel @Inject constructor(
     private val _myPartyState = MutableStateFlow(MyPartyState())
     val myPartyState = _myPartyState.asStateFlow()
 
+    private val _scrollToUp = MutableSharedFlow<Unit>()
+    val scrollToUp = _scrollToUp.asSharedFlow()
+
     fun getMyParty(page: Int, limit: Int, sort: String, order: String){
         viewModelScope.launch(Dispatchers.IO) {
             _myPartyState.update { it.copy(isMyPartyLoading = true) }
@@ -39,13 +44,8 @@ class StateViewModel @Inject constructor(
                         )
                     }
                 }
-                is ServerApiResponse.ErrorResponse -> {
-                    _myPartyState.update { it.copy(isMyPartyLoading = false) }
-                }
-
-                is ServerApiResponse.ExceptionResponse -> {
-                    _myPartyState.update { it.copy(isMyPartyLoading = false) }
-                }
+                is ServerApiResponse.ErrorResponse -> _myPartyState.update { it.copy(isMyPartyLoading = false) }
+                is ServerApiResponse.ExceptionResponse -> _myPartyState.update { it.copy(isMyPartyLoading = false) }
             }
         }
     }
@@ -63,14 +63,8 @@ class StateViewModel @Inject constructor(
                         )
                     }
                 }
-                is ServerApiResponse.ErrorResponse -> {
-                    _myPartyState.update { it.copy(isMyRecruitmentLoading = false) }
-                }
-
-                is ServerApiResponse.ExceptionResponse -> {
-                    _myPartyState.update { it.copy(isMyRecruitmentLoading = false) }
-                }
-
+                is ServerApiResponse.ErrorResponse -> _myPartyState.update { it.copy(isMyRecruitmentLoading = false) }
+                is ServerApiResponse.ExceptionResponse -> _myPartyState.update { it.copy(isMyRecruitmentLoading = false) }
             }
         }
     }
@@ -105,6 +99,13 @@ class StateViewModel @Inject constructor(
                 }
             }
             is MyPartyAction.OnShowHelpCard -> _myPartyState.update { it.copy(isShowHelpCard = action.isShowHelpCard) }
+            is MyPartyAction.OnExpandedFloating -> _myPartyState.update { it.copy(isExpandedFloating = action.isExpandedFloating) }
+        }
+    }
+
+    fun scrollToTopFun(){
+        viewModelScope.launch(Dispatchers.Main) {
+            _scrollToUp.emit(Unit)
         }
     }
 }

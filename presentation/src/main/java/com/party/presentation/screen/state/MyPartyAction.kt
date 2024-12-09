@@ -5,4 +5,5 @@ sealed interface MyPartyAction {
     data class OnOrderByChange(val orderByDesc: Boolean): MyPartyAction
     data class OnShowHelpCard(val isShowHelpCard: Boolean): MyPartyAction
     data class OnRecruitmentOrderByChange(val orderByRecruitmentDateDesc: Boolean): MyPartyAction
+    data class OnExpandedFloating(val isExpandedFloating: Boolean): MyPartyAction
 }

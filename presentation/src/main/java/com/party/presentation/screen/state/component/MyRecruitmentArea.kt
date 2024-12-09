@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -54,6 +55,7 @@ import com.party.presentation.screen.state.MyPartyState
 
 @Composable
 fun MyRecruitmentArea(
+    listState: LazyListState,
     myPartyState: MyPartyState,
     onShowHelpCard: (Boolean) -> Unit,
     onChangeOrderBy: (Boolean) -> Unit,
@@ -96,6 +98,7 @@ fun MyRecruitmentArea(
                 }
                 else -> {
                     MyRecruitmentList(
+                        listState = listState,
                         myPartyState = myPartyState,
                         onRefusal = onRefusal,
                         onAccept = onAccept,
@@ -114,14 +117,14 @@ fun MyRecruitmentArea(
 
 @Composable
 private fun MyRecruitmentList(
+    listState: LazyListState,
     myPartyState: MyPartyState,
     onRefusal: () -> Unit,
     onAccept: () -> Unit,
 ) {
     LazyColumn(
-        modifier =
-            Modifier
-                .fillMaxWidth(),
+        state = listState,
+        modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         itemsIndexed(
@@ -289,6 +292,7 @@ private fun StateHelpCard(
 @Composable
 private fun MyRecruitmentAreaPreview() {
     MyRecruitmentArea(
+        listState = LazyListState(),
         myPartyState = MyPartyState(),
         onShowHelpCard = {},
         onChangeOrderBy = {},

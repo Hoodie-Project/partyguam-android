@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,6 +33,7 @@ import com.party.presentation.screen.state.MyPartyState
 
 @Composable
 fun MyPartyArea(
+    listState: LazyListState,
     myPartyState: MyPartyState,
     onChangeOrderBy: (Boolean) -> Unit,
 ) {
@@ -64,6 +67,7 @@ fun MyPartyArea(
             }
             else -> {
                 MyPartyList(
+                    listState = listState,
                     myPartyState = myPartyState
                 )
             }
@@ -73,9 +77,11 @@ fun MyPartyArea(
 
 @Composable
 private fun MyPartyList(
+    listState: LazyListState,
     myPartyState: MyPartyState,
 ) {
     LazyColumn(
+        state = listState,
         modifier = Modifier
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -126,7 +132,8 @@ private fun MyPartyAreaPreview() {
             isMyPartyLoading = false,
             myPartyList = MyParty(0, emptyList())
         ),
-        onChangeOrderBy = {}
+        onChangeOrderBy = {},
+        listState = rememberLazyListState()
     )
 }
 
@@ -138,7 +145,8 @@ private fun MyPartyAreaPreview1() {
             isMyPartyLoading = true,
             myPartyList = MyParty(0, emptyList())
         ),
-        onChangeOrderBy = {}
+        onChangeOrderBy = {},
+        listState = rememberLazyListState()
     )
 }
 
@@ -166,6 +174,7 @@ private fun MyPartyAreaPreview2() {
                 )
             )
         ),
-        onChangeOrderBy = {}
+        onChangeOrderBy = {},
+        listState = rememberLazyListState()
     )
 }
