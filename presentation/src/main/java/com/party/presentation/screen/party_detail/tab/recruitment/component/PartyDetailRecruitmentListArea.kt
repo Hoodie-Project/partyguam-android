@@ -49,24 +49,18 @@ import com.party.presentation.enum.PartyAuthorityType
 @Composable
 fun PartyDetailRecruitmentListArea(
     authority: PartyAuthority,
-    selectedCreateDataOrderByDesc: Boolean,
     list: List<PartyRecruitment>,
     onAddRecruitment: () -> Unit,
 ) {
-    val sortedList = if(selectedCreateDataOrderByDesc) {
-        list.sortedByDescending { it.createdAt }
-    } else {
-        list.sortedBy { it.createdAt }
-    }
 
-    if(sortedList.isNotEmpty()){
+    if(list.isNotEmpty()){
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(500.dp),
         ) {
             itemsIndexed(
-                items = sortedList,
+                items = list,
                 key = { index, _ ->
                     index
                 }
@@ -75,7 +69,7 @@ fun PartyDetailRecruitmentListArea(
                     partyRecruitment = item
                 )
 
-                if(index == sortedList.size-1){
+                if(index == list.size-1){
                     if(authority.authority == PartyAuthorityType.MASTER.authority){
 
                         PartyDetailAddRecruitCard(
@@ -253,7 +247,7 @@ fun RecruitingCountArea(
 
 @Preview(showBackground = true)
 @Composable
-fun PartyDetailRecruitmentListItemPreview(){
+private fun PartyDetailRecruitmentListItemPreview(){
     PartyDetailRecruitmentListItem(
         partyRecruitment = PartyRecruitment(
             id = 2293,
@@ -272,13 +266,12 @@ fun PartyDetailRecruitmentListItemPreview(){
 
 @Preview(showBackground = true)
 @Composable
-fun PartyDetailRecruitmentListAreaPreview() {
+private fun PartyDetailRecruitmentListAreaPreview() {
     PartyDetailRecruitmentListArea(
         authority = PartyAuthority(
             userId = 1,
             authority = "master"
         ),
-        selectedCreateDataOrderByDesc = true,
         list = listOf(
             PartyRecruitment(
                 id = 2293,

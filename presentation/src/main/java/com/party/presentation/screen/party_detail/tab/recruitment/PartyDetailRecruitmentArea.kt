@@ -3,99 +3,54 @@ package com.party.presentation.screen.party_detail.tab.recruitment
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
-import com.party.common.LoadingProgressBar
-import com.party.common.R
-import com.party.common.ServerApiResponse
-import com.party.common.ServerApiResponse.SuccessResponse
-import com.party.common.UIState
-import com.party.common.snackBarMessage
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.Position1
 import com.party.domain.model.user.PartyAuthority
-import com.party.presentation.screen.home.tab_main.ErrorArea
+import com.party.presentation.screen.party_detail.PartyDetailState
 import com.party.presentation.screen.party_detail.component.PartyDetailTitleArea
 import com.party.presentation.screen.party_detail.tab.recruitment.component.PartyDetailRecruitmentFilterArea
 import com.party.presentation.screen.party_detail.tab.recruitment.component.PartyDetailRecruitmentListArea
 
 @Composable
 fun PartyDetailRecruitmentArea(
-    snackBarHostState: SnackbarHostState,
-    partyRecruitmentState: UIState<ServerApiResponse<List<PartyRecruitment>>>,
-    partyAuthorityState: UIState<ServerApiResponse<PartyAuthority>>,
-    selectedPosition: String,
+    state: PartyDetailState,
+    onPositionClick: (String) -> Unit,
     onReset: () -> Unit,
-    onApply: (String) -> Unit,
+    onApply: () -> Unit,
+    onShowPositionFilter: (Boolean) -> Unit,
     onAddRecruitment: () -> Unit,
+    onChangeOrderBy: (Boolean) -> Unit
 ) {
-    // 등록일 순 내림 차순
-    var selectedCreateDataOrderByDesc by remember {
-        mutableStateOf(true)
-    }
-
-    var authority by remember {
-        mutableStateOf(
-            PartyAuthority(
-                userId = 0,
-                authority = ""
-            )
-        )
-    }
-
-    when(partyAuthorityState){
-        is UIState.Idle -> {}
-        is UIState.Loading -> { LoadingProgressBar() }
-        is UIState.Success -> {
-            val successResult = partyAuthorityState.data as SuccessResponse<PartyAuthority>
-            authority = successResult.data ?: PartyAuthority(
-                userId = 0,
-                authority = ""
-            )
-        }
-        is UIState.Error -> { }
-        is UIState.Exception -> { snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState) }
-    }
-
-    when(partyRecruitmentState){
-        is UIState.Idle -> {}
-        is UIState.Loading -> { LoadingProgressBar() }
-        is UIState.Success -> {
-            val successResult = partyRecruitmentState.data as SuccessResponse<List<PartyRecruitment>>
-            PartyDetailRecruitmentAreaContent(
-                authority = authority,
-                list = successResult.data ?: emptyList(),
-                selectedCreateDataOrderByDesc = selectedCreateDataOrderByDesc,
-                onChangeSelected = { selectedCreateDataOrderByDesc = it },
-                selectedPosition = selectedPosition,
-                onReset = onReset,
-                onApply = onApply,
-                onAddRecruitment = onAddRecruitment
-            )
-        }
-        is UIState.Error -> { ErrorArea() }
-        is UIState.Exception -> { snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState) }
-    }
+    PartyDetailRecruitmentAreaContent(
+        state = state,
+        authority = state.partyAuthority,
+        list = state.partyRecruitment,
+        selectedCreateDataOrderByDesc = state.selectedOrderBy,
+        onChangeSelected = { onChangeOrderBy(!state.selectedOrderBy) },
+        onPositionClick = onPositionClick,
+        onReset = onReset,
+        onApply = onApply,
+        onAddRecruitment = onAddRecruitment,
+        onShowPositionFilter = onShowPositionFilter
+    )
 }
 
 @Composable
 fun PartyDetailRecruitmentAreaContent(
+    state: PartyDetailState,
     list: List<PartyRecruitment>,
     authority: PartyAuthority,
     selectedCreateDataOrderByDesc: Boolean,
     onChangeSelected: (Boolean) -> Unit,
-    selectedPosition: String,
+    onPositionClick: (String) -> Unit,
     onReset: () -> Unit,
-    onApply: (String) -> Unit,
+    onApply: () -> Unit,
+    onShowPositionFilter: (Boolean) -> Unit,
     onAddRecruitment: () -> Unit,
 ) {
     Column(
@@ -109,16 +64,17 @@ fun PartyDetailRecruitmentAreaContent(
         )
         HeightSpacer(heightDp = 16.dp)
         PartyDetailRecruitmentFilterArea(
-            selectedPosition = selectedPosition,
+            state = state,
             selectedCreateDataOrderByDesc = selectedCreateDataOrderByDesc,
             onChangeSelected = onChangeSelected,
+            onShowPositionFilter = onShowPositionFilter,
+            onPositionClick = onPositionClick,
             onReset = onReset,
             onApply = onApply,
         )
         HeightSpacer(heightDp = 8.dp)
         PartyDetailRecruitmentListArea(
             authority = authority,
-            selectedCreateDataOrderByDesc = selectedCreateDataOrderByDesc,
             list = list,
             onAddRecruitment = onAddRecruitment
         )
@@ -127,7 +83,7 @@ fun PartyDetailRecruitmentAreaContent(
 
 @Preview(showBackground = true)
 @Composable
-fun PartyDetailRecruitmentAreaContentPreview() {
+private fun PartyDetailRecruitmentAreaContentPreview() {
     PartyDetailRecruitmentAreaContent(
         list = listOf(
             PartyRecruitment(
@@ -159,18 +115,20 @@ fun PartyDetailRecruitmentAreaContentPreview() {
         onChangeSelected = {},
         onReset = {},
         onApply = {},
-        selectedPosition = "",
         authority = PartyAuthority(
             userId = 1,
             authority = "master"
         ),
-        onAddRecruitment = {}
+        onAddRecruitment = {},
+        onShowPositionFilter = {},
+        state = PartyDetailState(),
+        onPositionClick = {}
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun PartyDetailRecruitmentAreaContentPreview1() {
+private fun PartyDetailRecruitmentAreaContentPreview1() {
     PartyDetailRecruitmentAreaContent(
         list = listOf(
 
@@ -179,11 +137,13 @@ fun PartyDetailRecruitmentAreaContentPreview1() {
         onChangeSelected = {},
         onReset = {},
         onApply = {},
-        selectedPosition = "",
         authority = PartyAuthority(
             userId = 1,
             authority = "master"
         ),
-        onAddRecruitment = {}
+        onAddRecruitment = {},
+        onShowPositionFilter = {},
+        state = PartyDetailState(),
+        onPositionClick = {}
     )
 }

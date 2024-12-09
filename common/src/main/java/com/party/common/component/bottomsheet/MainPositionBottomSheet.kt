@@ -10,16 +10,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.TextComponent
 import com.party.common.component.bottomsheet.component.BottomSheetButtonArea
@@ -44,14 +39,13 @@ val mainPositionList = listOf(
 fun MainPositionBottomSheet(
     selectedPosition: String,
     onBottomSheetClose: () -> Unit,
+    onPositionClick: (String) -> Unit,
     onReset: () -> Unit,
-    onApply: (String) -> Unit,
+    onApply: () -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
-
-    var selectedText by remember { mutableStateOf(selectedPosition) }
 
     ModalBottomSheet(
         sheetState = sheetState,
@@ -76,17 +70,14 @@ fun MainPositionBottomSheet(
                 )
 
                 MainPositionBottomSheetContent(
-                    selectedPosition = selectedText,
-                    onClick = { selectedText = it }
+                    selectedPosition = selectedPosition,
+                    onClick = onPositionClick
                 )
             }
 
             BottomSheetButtonArea(
-                onReset = {
-                    selectedText = ""
-                    onReset()
-                },
-                onApply = { onApply(selectedText) },
+                onReset = onReset,
+                onApply = onApply,
             )
         }
     }
@@ -135,38 +126,5 @@ private fun MainPositionBottomSheetContentItem(
         fontWeight = fontWeight,
         textAlign = Alignment.Center,
         onClick = { onClick(mainPosition) }
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MainPositionBottomSheetPreview() {
-    MainPositionBottomSheet(
-        selectedPosition = "",
-        onBottomSheetClose = {},
-        onApply = {},
-        onReset = {},
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MainPositionBottomSheetContentItemPreview() {
-    MainPositionBottomSheetContentItem(
-        mainPosition = "개발자",
-        fontWeight = FontWeight.Normal,
-        containerColor = White,
-        onClick = {}
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MainPositionBottomSheetContentItemPreview2() {
-    MainPositionBottomSheetContentItem(
-        mainPosition = "개발자",
-        fontWeight = FontWeight.Normal,
-        containerColor = GRAY100,
-        onClick = {}
     )
 }

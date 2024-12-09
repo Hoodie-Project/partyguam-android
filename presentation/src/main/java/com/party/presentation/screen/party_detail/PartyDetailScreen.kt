@@ -11,45 +11,25 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.party.common.LoadingProgressBar
-import com.party.common.R
-import com.party.common.ServerApiResponse
-import com.party.common.ServerApiResponse.SuccessResponse
-import com.party.common.UIState
 import com.party.common.component.partyDetailTabList
-import com.party.common.snackBarMessage
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.party.PartyDetail
-import com.party.domain.model.party.PartyRecruitment
-import com.party.domain.model.party.PartyUsers
-import com.party.domain.model.user.PartyAuthority
 import com.party.navigation.BottomNavigationBar
 import com.party.navigation.Screens
-import com.party.presentation.screen.home.tab_main.ErrorArea
 import com.party.presentation.screen.party_detail.component.PartyDetailArea
 import com.party.presentation.screen.party_detail.component.PartyDetailScaffoldArea
 import com.party.presentation.screen.party_detail.viewmodel.PartyViewModel
 
 @Composable
-fun PartyDetailScreen(
+fun PartyDetailRoute(
     context: Context,
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
     partyViewModel: PartyViewModel,
     partyId: Int,
 ) {
-    // 선택된 필터 (전체, 기획자, 디자이너, 개발자, 마케터)
-    var selectedPosition by remember {
-        mutableStateOf("전체")
-    }
-
     LaunchedEffect(Unit) {
         partyViewModel.getPartyDetail(partyId = partyId)
         partyViewModel.getPartyUsers(partyId = partyId, page = 1, limit = 50, sort = "createdAt", order = "DESC")
@@ -57,49 +37,40 @@ fun PartyDetailScreen(
         partyViewModel.getPartyAuthority(partyId = partyId)
     }
 
-    val partyDetailState by partyViewModel.getPartyDetailState.collectAsStateWithLifecycle()
-    val partyUsersState by partyViewModel.getPartyUsersState.collectAsStateWithLifecycle()
-    val partyRecruitmentState by partyViewModel.getPartyRecruitmentState.collectAsStateWithLifecycle()
-    val partyAuthorityState by partyViewModel.getPartyAuthorityState.collectAsStateWithLifecycle()
+    val state by partyViewModel.state.collectAsStateWithLifecycle()
 
-    PartyDetailContent(
+    PartyDetailScreen(
         context = context,
         navController = navController,
         snackBarHostState = snackBarHostState,
-        partyDetailState = partyDetailState,
-        partyUsersState = partyUsersState,
-        partyRecruitmentState = partyRecruitmentState,
-        partyAuthorityState = partyAuthorityState,
-        selectedPosition = selectedPosition,
-        onReset = { selectedPosition = ""},
-        onApply = {
-            selectedPosition = it
-            partyViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = if (selectedPosition == "전체") null else selectedPosition)
-        },
+        partyId = partyId,
+        state = state,
         onNavigationBack = { navController.popBackStack() },
-        onAddRecruitment = { navController.navigate(Screens.RecruitmentCreateScreen(partyId = partyId)) }
+        onAddRecruitment = { navController.navigate(Screens.RecruitmentCreateScreen(partyId = partyId)) },
+        onAction = { action ->
+            when(action){
+                is PartyDetailAction.OnTabClick -> { partyViewModel.onAction(action) }
+                is PartyDetailAction.OnShowPositionFilter -> { partyViewModel.onAction(action) }
+                is PartyDetailAction.OnPositionClick -> { partyViewModel.onAction(action) }
+                is PartyDetailAction.OnReset -> { partyViewModel.onAction(action) }
+                is PartyDetailAction.OnApply -> { partyViewModel.onAction(action) }
+                is PartyDetailAction.OnChangeOrderBy -> { partyViewModel.onAction(action) }
+            }
+        }
     )
 }
 
 @Composable
-private fun PartyDetailContent(
+private fun PartyDetailScreen(
     context: Context,
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
-    partyDetailState: UIState<ServerApiResponse<PartyDetail>>,
-    partyUsersState: UIState<ServerApiResponse<PartyUsers>>,
-    partyRecruitmentState: UIState<ServerApiResponse<List<PartyRecruitment>>>,
-    partyAuthorityState: UIState<ServerApiResponse<PartyAuthority>>,
-    selectedPosition: String,
-    onReset: () -> Unit,
-    onApply: (String) -> Unit,
+    partyId: Int,
+    state: PartyDetailState,
     onNavigationBack: () -> Unit,
     onAddRecruitment: () -> Unit,
+    onAction: (PartyDetailAction) -> Unit,
 ){
-    var selectedTabText by remember {
-        mutableStateOf(partyDetailTabList[0])
-    }
-
     Scaffold(
         snackbarHost = {
             SnackbarHost(
@@ -114,8 +85,7 @@ private fun PartyDetailContent(
         },
         topBar = {
             PartyDetailScaffoldArea(
-                snackBarHostState = snackBarHostState,
-                partyAuthorityState = partyAuthorityState,
+                state = state,
                 onNavigationClick = onNavigationBack,
                 onSharedClick = {},
                 onMoreClick = {},
@@ -128,29 +98,18 @@ private fun PartyDetailContent(
                 .background(WHITE)
                 .padding(it)
         ) {
-            when(partyDetailState){
-                is UIState.Idle -> {}
-                is UIState.Loading -> { LoadingProgressBar() }
-                is UIState.Success -> {
-                    val successResult = partyDetailState.data as SuccessResponse<PartyDetail>
-                    PartyDetailArea(
-                        snackBarHostState = snackBarHostState,
-                        partyDetailTabList = partyDetailTabList,
-                        partyDetail = successResult.data ?: return@Column,
-                        selectedTabText = selectedTabText,
-                        onTabClick = { selectedTabText = it },
-                        partyUsersState = partyUsersState,
-                        partyRecruitmentState = partyRecruitmentState,
-                        partyAuthorityState = partyAuthorityState,
-                        selectedPosition = selectedPosition,
-                        onReset = onReset,
-                        onApply = onApply,
-                        onAddRecruitment = onAddRecruitment
-                    )
-                }
-                is UIState.Error -> { ErrorArea() }
-                is UIState.Exception -> { snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState) }
-            }
+            PartyDetailArea(
+                state = state,
+                partyDetailTabList = partyDetailTabList,
+                selectedTabText = state.selectedTabText,
+                onTabClick = { tabText -> onAction(PartyDetailAction.OnTabClick(tabText)) },
+                onPositionClick = { position -> onAction(PartyDetailAction.OnPositionClick(position)) },
+                onShowPositionFilter = { isShow -> onAction(PartyDetailAction.OnShowPositionFilter(isShow)) },
+                onReset = { onAction(PartyDetailAction.OnReset) },
+                onApply = { onAction(PartyDetailAction.OnApply(partyId = partyId)) },
+                onAddRecruitment = onAddRecruitment,
+                onChangeOrderBy = { orderBy -> onAction(PartyDetailAction.OnChangeOrderBy(orderBy)) }
+            )
         }
     }
 }

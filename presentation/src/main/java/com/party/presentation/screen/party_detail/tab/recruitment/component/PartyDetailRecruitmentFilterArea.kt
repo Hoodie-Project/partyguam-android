@@ -5,10 +5,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -19,17 +15,18 @@ import com.party.common.R
 import com.party.common.component.bottomsheet.MainPositionBottomSheet
 import com.party.common.component.chip.NoBorderBottomSheetChip
 import com.party.common.component.chip.OrderByCreateDtChip
+import com.party.presentation.screen.party_detail.PartyDetailState
 
 @Composable
 fun PartyDetailRecruitmentFilterArea(
-    selectedPosition: String,
+    state: PartyDetailState,
     selectedCreateDataOrderByDesc: Boolean,
     onChangeSelected: (Boolean) -> Unit,
+    onShowPositionFilter: (Boolean) -> Unit,
+    onPositionClick: (String) -> Unit,
     onReset: () -> Unit,
-    onApply: (String) -> Unit,
+    onApply: () -> Unit,
 ) {
-    var isBottomSheetOpen by rememberSaveable { mutableStateOf(false) }
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -39,9 +36,9 @@ fun PartyDetailRecruitmentFilterArea(
     ) {
         NoBorderBottomSheetChip(
             modifier = Modifier,
-            chipName = selectedPosition,
+            chipName = state.selectedPosition,
             isSheetOpen = false,
-            onClick = { isBottomSheetOpen = it },
+            onClick = { onShowPositionFilter(!state.isShowPositionFilter) },
             spacer = 0.dp,
             painter = painterResource(id = R.drawable.arrow_drop_down),
         )
@@ -53,10 +50,11 @@ fun PartyDetailRecruitmentFilterArea(
         )
     }
 
-    if(isBottomSheetOpen){
+    if(state.isShowPositionFilter){
         MainPositionBottomSheet(
-            selectedPosition = selectedPosition,
-            onBottomSheetClose = { isBottomSheetOpen = false },
+            selectedPosition = state.selectedPosition,
+            onBottomSheetClose = { onShowPositionFilter(false) },
+            onPositionClick = onPositionClick,
             onApply = onApply,
             onReset = onReset,
         )
@@ -65,11 +63,13 @@ fun PartyDetailRecruitmentFilterArea(
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewPartyDetailRecruitmentFilterArea() {
+private fun PreviewPartyDetailRecruitmentFilterArea() {
     PartyDetailRecruitmentFilterArea(
-        selectedPosition = "",
+        state = PartyDetailState(),
         selectedCreateDataOrderByDesc = false,
         onChangeSelected = {},
+        onShowPositionFilter = {},
+        onPositionClick = {},
         onReset = {},
         onApply = {},
     )

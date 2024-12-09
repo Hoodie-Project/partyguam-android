@@ -37,10 +37,9 @@ import com.party.presentation.screen.join.gender.JoinGenderScreen
 import com.party.presentation.screen.join.nickname.JoinNickNameScreen
 import com.party.presentation.screen.login.LoginScreen
 import com.party.presentation.screen.party_apply.PartyApplyRoute
-import com.party.presentation.screen.party_apply.viewmodel.PartyApplyViewModel
 import com.party.presentation.screen.party_create.PartyCreateScreen
 import com.party.presentation.screen.party_create.viewmodel.PartyCreateViewModel
-import com.party.presentation.screen.party_detail.PartyDetailScreen
+import com.party.presentation.screen.party_detail.PartyDetailRoute
 import com.party.presentation.screen.party_detail.viewmodel.PartyViewModel
 import com.party.presentation.screen.profile.ProfileScreen
 import com.party.presentation.screen.recruitment_create.RecruitmentCreateScreen
@@ -48,7 +47,7 @@ import com.party.presentation.screen.recruitment_create.viewmodel.RecruitmentCre
 import com.party.presentation.screen.recruitment_detail.RecruitmentDetailRoute
 import com.party.presentation.screen.search.SearchRoute
 import com.party.presentation.screen.splash.SplashScreen
-import com.party.presentation.screen.state.StateScreen
+import com.party.presentation.screen.state.StateScreenRoute
 import com.party.presentation.shared.SharedViewModel
 
 const val ANIMATION_DURATION = 500
@@ -224,7 +223,7 @@ fun AppNavHost() {
             )
         }
         composable<Screens.State> {
-            StateScreen(
+            StateScreenRoute(
                 context = context,
                 navController = navController,
             )
@@ -258,7 +257,7 @@ fun AppNavHost() {
         composable<Screens.PartyDetail> { backStackEntry ->
             val partyId = backStackEntry.toRoute<Screens.PartyDetail>().partyId
             val partyViewModel = hiltViewModel<PartyViewModel>()
-            PartyDetailScreen(
+            PartyDetailRoute(
                 context = context,
                 navController = navController,
                 snackBarHostState = snackBarHostState,

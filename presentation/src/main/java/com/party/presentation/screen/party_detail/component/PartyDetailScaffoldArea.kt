@@ -18,11 +18,11 @@ import com.party.common.snackBarMessage
 import com.party.common.ui.theme.BLACK
 import com.party.domain.model.user.PartyAuthority
 import com.party.presentation.enum.PartyAuthorityType
+import com.party.presentation.screen.party_detail.PartyDetailState
 
 @Composable
 fun PartyDetailScaffoldArea(
-    snackBarHostState: SnackbarHostState,
-    partyAuthorityState: UIState<ServerApiResponse<PartyAuthority>>,
+    state: PartyDetailState,
     onNavigationClick: () -> Unit,
     onSharedClick: () -> Unit,
     onMoreClick: () -> Unit,
@@ -48,28 +48,15 @@ fun PartyDetailScaffoldArea(
                     contentDescription = "share",
                     onClick = { onSharedClick() }
                 )
-                when(partyAuthorityState){
-                    is UIState.Idle -> {}
-                    is UIState.Loading -> { LoadingProgressBar() }
-                    is UIState.Success -> {
-                        val result = partyAuthorityState.data as SuccessResponse<PartyAuthority>
-                        val authority = result.data ?: PartyAuthority(
-                            authority = "",
-                            userId = 0
-                        )
 
-                        if(authority.authority != PartyAuthorityType.MASTER.authority){
-                            DrawableIconButton(
-                                icon = painterResource(id = R.drawable.icon_more),
-                                iconColor = BLACK,
-                                iconSize = 24.dp,
-                                contentDescription = "more",
-                                onClick = { onMoreClick() }
-                            )
-                        }
-                    }
-                    is UIState.Error -> {}
-                    is UIState.Exception -> { snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState) }
+                if(state.partyAuthority.authority != PartyAuthorityType.MASTER.authority) {
+                    DrawableIconButton(
+                        icon = painterResource(id = R.drawable.icon_more),
+                        iconColor = BLACK,
+                        iconSize = 24.dp,
+                        contentDescription = "more",
+                        onClick = { onMoreClick() }
+                    )
                 }
             }
         }
