@@ -104,6 +104,7 @@ class StateViewModel @Inject constructor(
                     )
                 }
             }
+            is MyPartyAction.OnShowHelpCard -> _myPartyState.update { it.copy(isShowHelpCard = action.isShowHelpCard) }
         }
     }
 }

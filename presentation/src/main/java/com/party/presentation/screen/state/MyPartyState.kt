@@ -11,8 +11,8 @@ data class MyPartyState(
     val myPartyList: MyParty = MyParty(total = 0, partyUsers = emptyList()),
     val orderByDesc: Boolean = true,
 
+    val isShowHelpCard: Boolean = false,
+    val orderByRecruitmentDateDesc: Boolean = true,
     val isMyRecruitmentLoading: Boolean = true,
     val myRecruitmentList: MyRecruitment = MyRecruitment(total = 0, partyApplications = emptyList()),
-    val orderByRecruitmentDateDesc: Boolean = true,
-
 )

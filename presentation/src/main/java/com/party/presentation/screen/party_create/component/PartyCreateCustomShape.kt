@@ -54,16 +54,14 @@ fun CustomTooltip(
     Column(
         modifier = Modifier
             .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
             modifier = Modifier
                 .width(10.dp)
                 .height(10.dp)
                 .background(color = GRAY500, shape = TriangleEdge()),
-        ) {
-
-        }
+        )
 
         Card(
             shape = RoundedCornerShape(LARGE_CORNER_SIZE),
@@ -125,7 +123,7 @@ class TriangleEdge: Shape {
 
 @Preview(showBackground = true)
 @Composable
-fun PartyCreateCustomShapePreview() {
+private fun PartyCreateCustomShapePreview() {
     CustomTooltip(
         onClick = {}
     )

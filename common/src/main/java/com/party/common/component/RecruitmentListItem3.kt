@@ -301,7 +301,7 @@ private fun ChangeApplicationFormVisible(
         modifier =
             Modifier
                 .fillMaxWidth()
-                .padding(vertical = 12.dp)
+                .padding(vertical = 8.dp)
                 .noRippleClickable { onToggle() },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
@@ -314,7 +314,7 @@ private fun ChangeApplicationFormVisible(
         )
         WidthSpacer(widthDp = 4.dp)
         DrawableIcon(
-            icon = painterResource(id = if (isContentVisible) R.drawable.arrow_down_icon else R.drawable.arrow_up_icon),
+            icon = painterResource(id = if (isContentVisible) R.drawable.arrow_up_icon else R.drawable.arrow_down_icon),
             contentDescription = "",
             iconSize = 16.dp,
             tintColor = GRAY500,
