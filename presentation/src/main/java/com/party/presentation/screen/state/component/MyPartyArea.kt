@@ -26,6 +26,7 @@ import com.party.domain.model.user.party.Party
 import com.party.domain.model.user.party.PartyType
 import com.party.domain.model.user.party.PartyUser
 import com.party.domain.model.user.party.Position
+import com.party.presentation.enum.StatusType
 import com.party.presentation.screen.state.MyPartyState
 
 @Composable
@@ -87,7 +88,7 @@ private fun MyPartyList(
         ){ _, item ->
             PartyListItem2(
                 imageUrl = item.party.image,
-                active = "",
+                status = StatusType.fromType(item.party.status).toDisplayText(),
                 partyType = item.party.partyType.type,
                 title = item.party.title,
                 main = item.position.main,
@@ -158,6 +159,7 @@ private fun MyPartyAreaPreview2() {
                             id = 7464,
                             title = "파티 제목입니다.!!",
                             image = "dictum",
+                            status = "active",
                             partyType = PartyType(type = "포트폴리오")
                         )
                     )

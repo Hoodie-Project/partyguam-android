@@ -129,6 +129,7 @@ object UserMapper {
                 id = partyUserDto.party.id,
                 title = partyUserDto.party.title,
                 image = partyUserDto.party.image,
+                status = partyUserDto.party.status,
                 partyType = PartyType(
                     type = partyUserDto.party.partyType.type
                 )

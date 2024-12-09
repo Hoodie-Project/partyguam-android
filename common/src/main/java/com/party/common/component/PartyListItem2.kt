@@ -32,7 +32,7 @@ import com.party.common.ui.theme.WHITE
 @Composable
 fun PartyListItem2(
     imageUrl: String? = null,
-    active: String,
+    status: String,
     partyType: String,
     title: String,
     main: String,
@@ -62,7 +62,7 @@ fun PartyListItem2(
 
             WidthSpacer(widthDp = 12.dp)
             PartyInfoArea(
-                active = active,
+                status = status,
                 partyType = partyType,
                 title = title,
                 main = main,
@@ -87,7 +87,7 @@ private fun PartyImageArea(
 
 @Composable
 private fun PartyInfoArea(
-    active: String,
+    status: String,
     partyType: String,
     title: String,
     main: String,
@@ -98,7 +98,7 @@ private fun PartyInfoArea(
 
     ) {
         PartyCategoryArea(
-            active = active,
+            status = status,
             partyType = partyType,
         )
         HeightSpacer(heightDp = 8.dp)
@@ -116,7 +116,7 @@ private fun PartyInfoArea(
 
 @Composable
 private fun PartyCategoryArea(
-    active: String,
+    status: String,
     partyType: String,
 ) {
     Row(
@@ -128,7 +128,7 @@ private fun PartyCategoryArea(
         Chip(
             containerColor = TYPE_COLOR_BACKGROUND,
             contentColor = TYPE_COLOR_TEXT,
-            text = active,
+            text = status,
         )
         WidthSpacer(widthDp = 4.dp)
         Chip(
@@ -170,7 +170,7 @@ private fun PartyPositionArea(
 fun PartyListItem2Preview() {
     PartyListItem2(
         imageUrl = "https://picsum.photos/200/300",
-        active = "진행중",
+        status = "진행중",
         partyType = "포트폴리오",
         title = "파티제목입니다파티제목입니다파티제목입니다",
         main = "개발자",

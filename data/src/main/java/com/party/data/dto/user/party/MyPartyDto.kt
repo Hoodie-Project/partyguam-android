@@ -27,6 +27,7 @@ data class PartyDto(
     val id: Int,
     val title: String,
     val image: String,
+    val status: String,
     val partyType: PartyTypeDto
 )
 
