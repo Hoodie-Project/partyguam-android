@@ -3,7 +3,6 @@ package com.party.presentation.screen.state.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,7 +27,6 @@ import com.party.common.WidthSpacer
 import com.party.common.component.RecruitmentListItem3
 import com.party.common.component.chip.OrderByCreateDtChip
 import com.party.common.component.icon.DrawableIcon
-import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.no_data.NoDataColumn
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.GRAY500
@@ -38,38 +36,46 @@ import com.party.presentation.screen.state.MyPartyState
 fun MyRecruitmentArea(
     myPartyState: MyPartyState,
     onChangeOrderBy: (Boolean) -> Unit,
+    onRefusal: () -> Unit,
+    onAccept: () -> Unit,
 ) {
     var selectedCategory by remember { mutableStateOf("전체") }
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier =
+            Modifier
+                .fillMaxWidth(),
     ) {
         SelectCategoryArea(
             categoryList = listOf("전체", "검토중", "응답대기", "수락", "거절"),
             selectedCategory = selectedCategory,
-            onClick = { selectedCategory = it }
+            onClick = { selectedCategory = it },
         )
 
         RecruitmentStateAndOrderByArea(
             orderByDesc = myPartyState.orderByRecruitmentDateDesc,
-            onChangeOrderBy = onChangeOrderBy
+            onChangeOrderBy = onChangeOrderBy,
         )
 
         HeightSpacer(heightDp = 4.dp)
 
         when {
-            myPartyState.isMyRecruitmentLoading -> { LoadingProgressBar() }
+            myPartyState.isMyRecruitmentLoading -> {
+                LoadingProgressBar()
+            }
             myPartyState.myRecruitmentList.partyApplications.isEmpty() -> {
                 NoDataColumn(
                     title = "지원한 파티가 없어요",
-                    modifier = Modifier
-                        .padding(top = 50.dp)
+                    modifier =
+                        Modifier
+                            .padding(top = 50.dp),
                 )
             }
             else -> {
                 MyRecruitmentList(
-                    myPartyState = myPartyState
+                    myPartyState = myPartyState,
+                    onRefusal = onRefusal,
+                    onAccept = onAccept,
                 )
             }
         }
@@ -79,18 +85,21 @@ fun MyRecruitmentArea(
 @Composable
 private fun MyRecruitmentList(
     myPartyState: MyPartyState,
+    onRefusal: () -> Unit,
+    onAccept: () -> Unit,
 ) {
     LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         itemsIndexed(
             items = myPartyState.myRecruitmentList.partyApplications,
             key = { index, _ ->
                 index
-            }
-        ){ _, item ->
+            },
+        ) { _, item ->
             RecruitmentListItem3(
                 date = item.createdAt,
                 partyType = item.partyRecruitment.party.partyType.type,
@@ -98,7 +107,9 @@ private fun MyRecruitmentList(
                 main = item.partyRecruitment.position.main,
                 sub = item.partyRecruitment.position.sub,
                 content = item.message,
-                onClick = {}
+                onClick = {},
+                onRefusal = onRefusal,
+                onAccept = onAccept,
             )
         }
     }
@@ -110,13 +121,14 @@ private fun RecruitmentStateAndOrderByArea(
     onChangeOrderBy: (Boolean) -> Unit,
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(24.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(24.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         RecruitmentState(
-            onClick = {}
+            onClick = {},
         )
 
         OrderByCreateDtChip(
@@ -128,9 +140,7 @@ private fun RecruitmentStateAndOrderByArea(
 }
 
 @Composable
-private fun RecruitmentState(
-    onClick: () -> Unit,
-) {
+private fun RecruitmentState(onClick: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -140,20 +150,23 @@ private fun RecruitmentState(
             icon = painterResource(id = R.drawable.help),
             contentDescription = "help",
             tintColor = GRAY500,
-            modifier = Modifier
-                .size(16.dp)
-                .noRippleClickable {
-                    onClick()
-                }
+            modifier =
+                Modifier
+                    .size(16.dp)
+                    .noRippleClickable {
+                        onClick()
+                    },
         )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun MyRecruitmentAreaPreview() {
+private fun MyRecruitmentAreaPreview() {
     MyRecruitmentArea(
         myPartyState = MyPartyState(),
-        onChangeOrderBy = {}
+        onChangeOrderBy = {},
+        onRefusal = {},
+        onAccept = {},
     )
 }

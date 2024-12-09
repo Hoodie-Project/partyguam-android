@@ -31,7 +31,7 @@ import com.party.presentation.screen.state.viewmodel.StateViewModel
 fun StateScreenRoute(
     context: Context,
     navController: NavHostController,
-    stateViewModel: StateViewModel = hiltViewModel()
+    stateViewModel: StateViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(key1 = Unit) {
         stateViewModel.getMyParty(1, 50, "createdAt", "DESC")
@@ -47,12 +47,12 @@ fun StateScreenRoute(
         myPartyState = myPartyState,
         onAction = { action ->
             when (action) {
-                is MyPartyAction.OnSelectTab -> { stateViewModel.onAction(action) }
-                is MyPartyAction.OnOrderByChange -> { stateViewModel.onAction(action) }
-                is MyPartyAction.OnRecruitmentOrderByChange -> { stateViewModel.onAction(action) }
+                is MyPartyAction.OnSelectTab -> stateViewModel.onAction(action)
+                is MyPartyAction.OnOrderByChange -> stateViewModel.onAction(action)
+                is MyPartyAction.OnRecruitmentOrderByChange -> stateViewModel.onAction(action)
             }
         },
-        onGoToSearch = { navController.navigate(Screens.Search) }
+        onGoToSearch = { navController.navigate(Screens.Search) },
     )
 }
 
@@ -69,7 +69,7 @@ private fun StateScreen(
         topBar = {
             StateScaffoldArea(
                 onGoToSearch = onGoToSearch,
-                onGoToAlarm = {}
+                onGoToAlarm = {},
             )
         },
         bottomBar = {
@@ -77,32 +77,33 @@ private fun StateScreen(
                 context = context,
                 navController = navController,
             )
-        }
+        },
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(WHITE)
-                .padding(it)
-                .padding(horizontal = MEDIUM_PADDING_SIZE)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(WHITE)
+                    .padding(it)
+                    .padding(horizontal = MEDIUM_PADDING_SIZE),
         ) {
             StateTabArea(
                 searchTabList = stateTabList,
                 selectedTabText = selectedTabText,
-                onTabClick = {
-                    onAction(MyPartyAction.OnSelectTab(it))
-                }
+                onTabClick = { selectedTabText -> onAction(MyPartyAction.OnSelectTab(selectedTabText)) },
             )
 
             if (selectedTabText == stateTabList[0]) {
                 MyPartyArea(
                     myPartyState = myPartyState,
-                    onChangeOrderBy = { onAction(MyPartyAction.OnOrderByChange(it)) }
+                    onChangeOrderBy = { orderByDesc -> onAction(MyPartyAction.OnOrderByChange(orderByDesc)) },
                 )
             } else {
                 MyRecruitmentArea(
                     myPartyState = myPartyState,
-                    onChangeOrderBy = { onAction(MyPartyAction.OnRecruitmentOrderByChange(it)) }
+                    onChangeOrderBy = { orderByDesc -> onAction(MyPartyAction.OnRecruitmentOrderByChange(orderByDesc)) },
+                    onRefusal = { },
+                    onAccept = { },
                 )
             }
         }
@@ -118,6 +119,6 @@ fun StateScreenContentPreview() {
         selectedTabText = stateTabList[0],
         myPartyState = MyPartyState(),
         onAction = {},
-        onGoToSearch = {}
+        onGoToSearch = {},
     )
 }
