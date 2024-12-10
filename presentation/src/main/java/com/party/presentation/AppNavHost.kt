@@ -37,7 +37,7 @@ import com.party.presentation.screen.join.gender.JoinGenderScreen
 import com.party.presentation.screen.join.nickname.JoinNickNameScreen
 import com.party.presentation.screen.login.LoginScreen
 import com.party.presentation.screen.party_apply.PartyApplyRoute
-import com.party.presentation.screen.party_create.PartyCreateScreen
+import com.party.presentation.screen.party_create.PartyCreateScreenRoute
 import com.party.presentation.screen.party_create.viewmodel.PartyCreateViewModel
 import com.party.presentation.screen.party_detail.PartyDetailRoute
 import com.party.presentation.screen.party_detail.viewmodel.PartyViewModel
@@ -266,13 +266,9 @@ fun AppNavHost() {
             )
         }
         composable<Screens.PartyCreate> {
-            val homeViewModel = hiltViewModel<HomeViewModel>()
-            val partyCreateViewModel = hiltViewModel<PartyCreateViewModel>()
-            PartyCreateScreen(
+            PartyCreateScreenRoute(
                 navController = navController,
                 snackBarHostState = snackBarHostState,
-                homeViewModel = homeViewModel,
-                partyCreateViewModel = partyCreateViewModel
             )
         }
         composable<Screens.RecruitmentCreateScreen> { backStackEntry ->

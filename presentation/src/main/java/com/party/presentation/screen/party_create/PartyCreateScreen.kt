@@ -16,22 +16,16 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
-import com.party.common.LoadingProgressBar
 import com.party.common.R
-import com.party.common.UIState
 import com.party.common.component.bottomsheet.OneSelectBottomSheet
 import com.party.common.component.bottomsheet.component.ApplyButton
 import com.party.common.component.bottomsheet.list.partyTypeList
@@ -39,11 +33,9 @@ import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.MultiLineInputField
 import com.party.common.noRippleClickable
-import com.party.common.snackBarMessage
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.user.detail.PositionList
 import com.party.navigation.Screens
 import com.party.presentation.component.HelpCard
 import com.party.presentation.screen.home.viewmodel.HomeViewModel
@@ -56,106 +48,70 @@ import com.party.presentation.screen.party_create.component.PartyCreateValidFiel
 import com.party.presentation.screen.party_create.component.PartyImageUploadArea
 import com.party.presentation.screen.party_create.viewmodel.PartyCreateViewModel
 import kotlinx.coroutines.flow.collectLatest
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 
 @Composable
-fun PartyCreateScreen(
+fun PartyCreateScreenRoute(
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
-    homeViewModel: HomeViewModel,
-    partyCreateViewModel: PartyCreateViewModel,
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    partyCreateViewModel: PartyCreateViewModel = hiltViewModel(),
 ) {
-    // 다이얼로그 오픈 여부
-    var isShowDialog by remember { mutableStateOf(false) }
-
-    // 생성 완료 다이얼로그 오픈 여부
-    var isShowCompleteDialog by remember { mutableStateOf(false) }
-
-    // 파티 생성된 후에 partyId
-    var partyId by remember { mutableStateOf(0) }
-
+    // 뒤로가기
     LaunchedEffect(key1 = Unit) {
-        partyCreateViewModel.createSuccess.collectLatest {
-            partyId = it
-            isShowCompleteDialog = true
+        partyCreateViewModel.backState.collectLatest {
+            navController.popBackStack()
         }
     }
 
-    val createPartyState by partyCreateViewModel.createPartyState.collectAsStateWithLifecycle()
-    when (createPartyState) {
-        is UIState.Idle -> {}
-        is UIState.Loading -> { LoadingProgressBar() }
-        is UIState.Success -> {}
-        is UIState.Error -> {}
-        is UIState.Exception -> {
-            snackBarMessage(
-                message = stringResource(id = R.string.common6),
-                snackBarHostState = snackBarHostState
-            )
-        }
-    }
+    val partyCreateState by partyCreateViewModel.state.collectAsStateWithLifecycle()
 
-    // 선택된 메인 포지션
-    var selectedMainPosition by remember { mutableStateOf("") }
-
-    // 선택된 서브 포지션
-    var selectedSubPosition by remember { mutableStateOf(PositionList(0, "", "")) }
-
-    PartyCreateContent(
-        isShowDialog = isShowDialog,
-        onVisibleDialog = { isShowDialog = it },
-        isShowCompleteDialog = isShowCompleteDialog,
+    PartyCreateScreen(
+        partyCreateState = partyCreateState,
+        isShowCompleteDialog = partyCreateState.isCompleteShowDialog,
         snackBarHostState = snackBarHostState,
         homeViewModel = homeViewModel,
-        selectedMainPosition = selectedMainPosition,
-        selectedSubPosition = selectedSubPosition,
-        onApply = { main, sub ->
-            selectedMainPosition = main
-            selectedSubPosition = sub
-        },
-        onCreate = { inputTitle, selectedPartyType, inputContent, image ->
-            partyCreateViewModel.createParty(
-                title = createRequestBody(inputTitle),
-                content = createRequestBody(inputContent),
-                partyTypeId = createRequestBody(partyTypeList.first { it.first == selectedPartyType }.second.toString()),
-                positionId = createRequestBody(selectedSubPosition.id.toString()),
-                image = image
-            )
+        onAction = { action ->
+            when (action) {
+                is PartyCreateAction.OnIsShowDialogBack -> partyCreateViewModel.onAction(action)
+                is PartyCreateAction.OnIsVisibleToolTip -> partyCreateViewModel.onAction(action)
+                is PartyCreateAction.OnChangeImage -> partyCreateViewModel.onAction(action)
+                is PartyCreateAction.OnChangeInputTitle -> partyCreateViewModel.onAction(action)
+                is PartyCreateAction.OnRemovePartyTitle -> partyCreateViewModel.onAction(action)
+                is PartyCreateAction.OnChangePartyTypeSheet -> partyCreateViewModel.onAction(action)
+                is PartyCreateAction.OnChangeSelectPartyType -> partyCreateViewModel.onAction(action)
+                is PartyCreateAction.OnChangeIsShowHelpCard -> partyCreateViewModel.onAction(action)
+                is PartyCreateAction.OnChangePartyDescription -> partyCreateViewModel.onAction(action)
+                is PartyCreateAction.OnChangeMainPosition -> partyCreateViewModel.onAction(action)
+                is PartyCreateAction.OnChangeSubPosition -> partyCreateViewModel.onAction(action)
+                is PartyCreateAction.OnPartyCreate -> partyCreateViewModel.onAction(action)
+            }
         }
     )
 
-    if (isShowDialog) {
+    if (partyCreateState.isBackShowDialog) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(BLACK.copy(alpha = 0.7f))
-                .noRippleClickable { isShowDialog = false }
+                .noRippleClickable { partyCreateViewModel.dismissBackDialog() }
         ) {
             TwoButtonDialog(
                 dialogTitle = "나가기",
                 description = "입력한 내용들이 모두 초기화됩니다.\n나가시겠습니까?",
                 cancelButtonText = "취소",
                 confirmButtonText = "나가기",
-                onCancel = {
-                    isShowDialog = false
-                },
-                onConfirm = {
-                    isShowDialog = false
-                    navController.popBackStack()
-                }
+                onCancel = { partyCreateViewModel.dismissBackDialog() },
+                onConfirm = { partyCreateViewModel.navigationBack() }
             )
         }
     }
 
-    if (isShowCompleteDialog) {
+    if (partyCreateState.isCompleteShowDialog) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(BLACK.copy(alpha = 0.7f))
-                .noRippleClickable { isShowCompleteDialog = false }
+                .noRippleClickable { partyCreateViewModel.dismissCompleteDialog() }
         ) {
             TwoButtonDialog(
                 dialogTitle = "생성 완료",
@@ -163,69 +119,36 @@ fun PartyCreateScreen(
                 cancelButtonText = "닫기",
                 confirmButtonText = "모집하기",
                 onCancel = {
-                    isShowCompleteDialog = false
+                    partyCreateViewModel.dismissCompleteDialog()
                     navController.popBackStack()
                 },
                 onConfirm = {
-                    isShowCompleteDialog = false
+                    partyCreateViewModel.dismissCompleteDialog()
                     // 모집하기 이동
                     navController.popBackStack()
-                    navController.navigate(Screens.RecruitmentCreateScreen(partyId = partyId))
+                    navController.navigate(Screens.RecruitmentCreateScreen(partyId = partyCreateState.partyId))
                 }
             )
         }
     }
 }
 
-fun createRequestBody(value: String): RequestBody {
-    return value.toRequestBody("text/plain".toMediaTypeOrNull())
-}
-
 @Composable
-fun PartyCreateContent(
-    isShowDialog: Boolean,
-    onVisibleDialog: (Boolean) -> Unit,
+private fun PartyCreateScreen(
+    partyCreateState: PartyCreateState,
     isShowCompleteDialog: Boolean,
     snackBarHostState: SnackbarHostState,
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel,
-    selectedMainPosition: String,
-    selectedSubPosition: PositionList,
-    onApply: (String, PositionList) -> Unit,
-    onCreate: (String, String, String, MultipartBody.Part) -> Unit,
+    onAction: (PartyCreateAction) -> Unit
 ) {
     val scrollState = rememberScrollState()
-
-    // 툴팁 오픈 여부
-    var isVisibleToolTip by remember { mutableStateOf(true) }
-
-    // 입력된 파티 제목
-    var inputPartyTitle by remember { mutableStateOf("") }
-
-    // 선택된 파티 유형
-    var selectedPartyType by remember { mutableStateOf("") }
-
-    // 파티 유형 시트 오픈 여부
-    var isPartyTypeSheetOpen by rememberSaveable { mutableStateOf(false) }
-
-    // 파티 소개글 도움글 오픈 여부
-    var isHelpCardOpen by remember { mutableStateOf(false) }
-
-    // 파티 소개글
-    var partyDescription by remember { mutableStateOf("") }
-
-    // MultipartBody.Part 를 담고 있는 상태
-    var image by remember {
-        mutableStateOf(
-            MultipartBody.Part.createFormData("image", "", byteArrayOf().toRequestBody())
-        )
-    }
 
     Scaffold(
         modifier = Modifier
             .blur(
-                radiusX = if (isShowDialog || isShowCompleteDialog) 10.dp else 0.dp,
-                radiusY = if (isShowDialog || isShowCompleteDialog) 10.dp else 0.dp,
+                radiusX = if (partyCreateState.isBackShowDialog || isShowCompleteDialog) 10.dp else 0.dp,
+                radiusY = if (partyCreateState.isBackShowDialog || isShowCompleteDialog) 10.dp else 0.dp,
             ),
         snackbarHost = {
             SnackbarHost(
@@ -235,7 +158,7 @@ fun PartyCreateContent(
         topBar = {
             PartyCreateScaffoldArea(
                 onNavigationClick = {
-                    onVisibleDialog(true)
+                    onAction(PartyCreateAction.OnIsShowDialogBack(true))
                 }
             )
         }
@@ -251,16 +174,15 @@ fun PartyCreateContent(
             HeightSpacer(heightDp = 12.dp)
 
             PartyImageUploadArea(
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally),
+                modifier = Modifier.align(Alignment.CenterHorizontally),
                 onSetImage = { multipartBody ->
-                    image = multipartBody
+                    onAction(PartyCreateAction.OnChangeImage(multipartBody))
                 }
             )
 
-            if (isVisibleToolTip) {
+            if (partyCreateState.isVisibleToolTip) {
                 PartyCreateCustomShape(
-                    onClick = { isVisibleToolTip = false }
+                    onClick = { onAction(PartyCreateAction.OnIsVisibleToolTip(false)) }
                 )
             }
 
@@ -272,26 +194,26 @@ fun PartyCreateContent(
 
             HeightSpacer(heightDp = 20.dp)
             PartyCreateInputField(
-                inputText = inputPartyTitle,
+                inputText = partyCreateState.inputPartyTitle,
                 placeHolder = "15자 이내로 입력해 주세요.",
                 readOnly = false,
                 icon = {
                     DrawableIconButton(
                         icon = painterResource(id = R.drawable.close),
                         contentDescription = "",
-                        onClick = { inputPartyTitle = "" }
+                        onClick = { onAction(PartyCreateAction.OnRemovePartyTitle) }
                     )
                 },
                 onValueChange = { inputText ->
                     if (inputText.length <= 15) {
-                        inputPartyTitle = inputText
+                        onAction(PartyCreateAction.OnChangeInputTitle(inputText))
                     }
                 }
             )
 
             HeightSpacer(heightDp = 12.dp)
             PartyCreateValidField(
-                count = inputPartyTitle.length
+                count = partyCreateState.inputPartyTitle.length
             )
 
             HeightSpacer(heightDp = 30.dp)
@@ -302,16 +224,14 @@ fun PartyCreateContent(
 
             HeightSpacer(heightDp = 20.dp)
             PartyCreateInputField(
-                inputText = selectedPartyType,
+                inputText = partyCreateState.selectedPartyType,
                 placeHolder = "유형을 선택해 주세요.",
                 readOnly = true,
                 icon = {
                     DrawableIconButton(
                         icon = painterResource(id = R.drawable.arrow_down_icon),
                         contentDescription = "",
-                        onClick = {
-                            isPartyTypeSheetOpen = true
-                        }
+                        onClick = { onAction(PartyCreateAction.OnChangePartyTypeSheet(true)) }
                     )
                 },
                 onValueChange = {}
@@ -325,27 +245,27 @@ fun PartyCreateContent(
                     DrawableIconButton(
                         icon = painterResource(id = R.drawable.help),
                         contentDescription = "",
-                        onClick = { isHelpCardOpen = true },
+                        onClick = { onAction(PartyCreateAction.OnChangeIsShowHelpCard(true)) },
                         modifier = Modifier.size(20.dp)
                     )
                 }
             )
 
-            if (isHelpCardOpen) {
+            if (partyCreateState.isHelpCardOpen) {
                 HeightSpacer(heightDp = 12.dp)
                 HelpCard(
                     description1 = "어떤 활동을 하나요?",
                     description2 = "규칙이 있나요? (출석, 강퇴 등)",
-                    onClose = { isHelpCardOpen = false }
+                    onClose = { onAction(PartyCreateAction.OnChangeIsShowHelpCard(false)) }
                 )
             }
 
             HeightSpacer(heightDp = 20.dp)
             MultiLineInputField(
                 placeHolder = "새로운 프로젝트를 위해 모여 함께 아이디어를 나누고 계획을 세우는 파티를 개최합니다.",
-                inputText = partyDescription,
-                onValueChange = { partyDescription = it },
-                onAllDeleteInputText = { partyDescription = "" }
+                inputText = partyCreateState.partyDescription,
+                onValueChange = { inputDescription -> onAction(PartyCreateAction.OnChangePartyDescription(inputDescription)) },
+                onAllDeleteInputText = { onAction(PartyCreateAction.OnChangePartyDescription("")) }
             )
 
             HeightSpacer(heightDp = 30.dp)
@@ -358,9 +278,12 @@ fun PartyCreateContent(
             PartyCreateSelectPositionArea(
                 snackBarHostState = snackBarHostState,
                 homeViewModel = homeViewModel,
-                selectedMainPosition = selectedMainPosition,
-                selectedSubPosition = selectedSubPosition,
-                onApply = onApply
+                selectedMainPosition = partyCreateState.selectedMainPosition,
+                selectedSubPosition = partyCreateState.selectedSubPosition,
+                onApply = { mainPosition, selectedSubPosition->
+                    onAction(PartyCreateAction.OnChangeMainPosition(mainPosition))
+                    onAction(PartyCreateAction.OnChangeSubPosition(selectedSubPosition))
+                }
             )
 
             HeightSpacer(heightDp = 90.dp)
@@ -370,19 +293,21 @@ fun PartyCreateContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
-                onClick = { onCreate(inputPartyTitle, selectedPartyType, partyDescription, image) }
+                onClick = {
+                    onAction(PartyCreateAction.OnPartyCreate)
+                }
             )
         }
 
-        if (isPartyTypeSheetOpen) {
+        if (partyCreateState.isPartyTypeSheetOpen) {
             OneSelectBottomSheet(
                 bottomSheetTitle = "파티 유형",
                 contentList = partyTypeList,
-                selectedText = selectedPartyType,
-                onBottomSheetClose = { isPartyTypeSheetOpen = false },
-                onApply = {
-                    selectedPartyType = it
-                    isPartyTypeSheetOpen = false
+                selectedText = partyCreateState.selectedPartyType,
+                onBottomSheetClose = { onAction(PartyCreateAction.OnChangePartyTypeSheet(false)) },
+                onApply = { selectPartyType ->
+                    onAction(PartyCreateAction.OnChangeSelectPartyType(selectPartyType))
+                    onAction(PartyCreateAction.OnChangePartyTypeSheet(false))
                 }
             )
         }
