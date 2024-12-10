@@ -84,6 +84,7 @@ fun StateScreenRoute(
             when (action) {
                 is MyPartyAction.OnSelectTab -> stateViewModel.onAction(action)
                 is MyPartyAction.OnShowHelpCard -> stateViewModel.onAction(action)
+                is MyPartyAction.OnSelectStatus -> stateViewModel.onAction(action)
                 is MyPartyAction.OnOrderByChange -> stateViewModel.onAction(action)
                 is MyPartyAction.OnRecruitmentOrderByChange -> stateViewModel.onAction(action)
                 is MyPartyAction.OnExpandedFloating -> stateViewModel.onAction(action)
@@ -147,6 +148,7 @@ private fun StateScreen(
                     MyPartyArea(
                         listState = listState,
                         myPartyState = myPartyState,
+                        onSelectStatus = { status -> onAction(MyPartyAction.OnSelectStatus(status)) },
                         onChangeOrderBy = { orderByDesc -> onAction(MyPartyAction.OnOrderByChange(orderByDesc)) },
                     )
                 } else {

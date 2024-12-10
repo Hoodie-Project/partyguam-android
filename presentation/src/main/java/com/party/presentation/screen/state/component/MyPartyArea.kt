@@ -11,10 +11,6 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,8 +32,15 @@ fun MyPartyArea(
     listState: LazyListState,
     myPartyState: MyPartyState,
     onChangeOrderBy: (Boolean) -> Unit,
+    onSelectStatus: (String) -> Unit,
 ) {
-    var selectedCategory by remember { mutableStateOf("전체") }
+    val filteredList = if (myPartyState.selectedStatus == "전체") {
+        myPartyState.myPartyList.partyUsers // 전체 리스트 반환
+    } else {
+        myPartyState.myPartyList.partyUsers.filter {
+            it.party.status == StatusType.fromDisplayText(myPartyState.selectedStatus)
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -45,8 +48,8 @@ fun MyPartyArea(
     ) {
         SelectCategoryArea(
             categoryList = listOf("전체", "진행중", "종료"),
-            selectedCategory = selectedCategory,
-            onClick = { selectedCategory = it }
+            selectedCategory = myPartyState.selectedStatus,
+            onClick = onSelectStatus
         )
 
         JoinDataOrderBy(
@@ -58,7 +61,7 @@ fun MyPartyArea(
 
         when {
             myPartyState.isMyPartyLoading -> { LoadingProgressBar() }
-            myPartyState.myPartyList.partyUsers.isEmpty() -> {
+            filteredList.isEmpty() -> {
                 NoDataColumn(
                     title = "파티가 없어요",
                     modifier = Modifier
@@ -68,7 +71,7 @@ fun MyPartyArea(
             else -> {
                 MyPartyList(
                     listState = listState,
-                    myPartyState = myPartyState
+                    filteredList = filteredList
                 )
             }
         }
@@ -78,7 +81,7 @@ fun MyPartyArea(
 @Composable
 private fun MyPartyList(
     listState: LazyListState,
-    myPartyState: MyPartyState,
+    filteredList: List<PartyUser>,
 ) {
     LazyColumn(
         state = listState,
@@ -87,7 +90,7 @@ private fun MyPartyList(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         itemsIndexed(
-            items = myPartyState.myPartyList.partyUsers,
+            items = filteredList,
             key = { index, _ ->
                 index
             }
@@ -132,6 +135,7 @@ private fun MyPartyAreaPreview() {
             isMyPartyLoading = false,
             myPartyList = MyParty(0, emptyList())
         ),
+        onSelectStatus = {},
         onChangeOrderBy = {},
         listState = rememberLazyListState()
     )
@@ -145,6 +149,7 @@ private fun MyPartyAreaPreview1() {
             isMyPartyLoading = true,
             myPartyList = MyParty(0, emptyList())
         ),
+        onSelectStatus = {},
         onChangeOrderBy = {},
         listState = rememberLazyListState()
     )
@@ -174,6 +179,7 @@ private fun MyPartyAreaPreview2() {
                 )
             )
         ),
+        onSelectStatus = {},
         onChangeOrderBy = {},
         listState = rememberLazyListState()
     )

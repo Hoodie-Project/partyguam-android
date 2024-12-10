@@ -8,7 +8,22 @@ enum class StatusType(val type: String) {
         fun fromType(type: String): StatusType {
             return entries.find { it.type == type } ?: ARCHIVED // 기본값을 ARCHIVED로 설정
         }
+
+        // "진행중"이나 "종료"를 입력하면 type 반환
+        fun fromDisplayText(displayText: String): String {
+            return when (displayText) {
+                "진행중" -> ACTIVE.type
+                "종료" -> ARCHIVED.type
+                else -> ACTIVE.type
+            }
+        }
     }
 
-    fun toDisplayText(): String = if (this == ACTIVE) "진행중" else "종료"
+    // StatusType을 DisplayText로 반환
+    fun toDisplayText(): String {
+        return when (this) {
+            ACTIVE -> "진행중"
+            ARCHIVED -> "종료"
+        }
+    }
 }

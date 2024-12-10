@@ -100,6 +100,7 @@ class StateViewModel @Inject constructor(
             }
             is MyPartyAction.OnShowHelpCard -> _myPartyState.update { it.copy(isShowHelpCard = action.isShowHelpCard) }
             is MyPartyAction.OnExpandedFloating -> _myPartyState.update { it.copy(isExpandedFloating = action.isExpandedFloating) }
+            is MyPartyAction.OnSelectStatus -> _myPartyState.update { currentState -> currentState.copy(selectedStatus = action.selectedStatus) }
         }
     }
 
