@@ -51,4 +51,6 @@ sealed interface Screens {
     data class RecruitmentCreateScreen(val partyId: Int): Screens
     @Serializable
     data object Search: Screens
+    @Serializable
+    data class PartyEdit(val partyId: Int): Screens
 }

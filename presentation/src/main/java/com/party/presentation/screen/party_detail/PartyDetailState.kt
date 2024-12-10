@@ -14,12 +14,12 @@ data class PartyDetailState(
     val partyDetail: PartyDetail = PartyDetail(
         id = 0,
         partyType = PartyType(id = 0, type = ""),
-            title = "",
-            content = "",
-            image = null,
-            status = "",
-            createdAt = "2024-06-05T15:30:45.123Z",
-            updatedAt = "2024-06-05T15:30:45.123Z"
+        title = "",
+        content = "",
+        image = null,
+        status = "",
+        createdAt = "2024-06-05T15:30:45.123Z",
+        updatedAt = "2024-06-05T15:30:45.123Z"
     ),
 
     val isLoadingPartyUser: Boolean = false,
@@ -36,8 +36,5 @@ data class PartyDetailState(
 
 
     val isLoadingPartyAuthority: Boolean = false,
-    val partyAuthority: PartyAuthority = PartyAuthority(
-        userId = 0,
-        authority = ""
-    )
+    val partyAuthority: PartyAuthority = PartyAuthority(userId = 0, authority = "")
 )

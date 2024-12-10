@@ -3,10 +3,8 @@ package com.party.navigation
 import android.app.Activity
 import android.content.Context
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -34,9 +32,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.party.common.R
 import com.party.common.component.icon.DrawableIcon
-import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B3
-import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.BOTTOM_NAVIGATION_SELECTED_TEXT
 import com.party.common.ui.theme.BOTTOM_NAVIGATION_SELECTED_TINT
 import com.party.common.ui.theme.BOTTOM_NAVIGATION_UNSELECTED_TEXT

@@ -25,6 +25,7 @@ fun PartyDetailScaffoldArea(
     state: PartyDetailState,
     onNavigationClick: () -> Unit,
     onSharedClick: () -> Unit,
+    onManageClick: () -> Unit,
     onMoreClick: () -> Unit,
 ) {
     ScaffoldCenterBar(
@@ -34,7 +35,7 @@ fun PartyDetailScaffoldArea(
                 iconColor = BLACK,
                 iconSize = 24.dp,
                 contentDescription = "back",
-                onClick = { onNavigationClick() }
+                onClick = onNavigationClick
             )
         },
         actionIcons = {
@@ -46,16 +47,26 @@ fun PartyDetailScaffoldArea(
                     iconColor = BLACK,
                     iconSize = 24.dp,
                     contentDescription = "share",
-                    onClick = { onSharedClick() }
+                    onClick = onSharedClick
                 )
 
-                if(state.partyAuthority.authority != PartyAuthorityType.MASTER.authority) {
+                if(state.partyAuthority.authority == PartyAuthorityType.MASTER.authority) {
+                    DrawableIconButton(
+                        icon = painterResource(id = R.drawable.icon_setting),
+                        iconColor = BLACK,
+                        iconSize = 24.dp,
+                        contentDescription = "setting",
+                        onClick = onManageClick
+                    )
+                }
+
+                if(state.partyAuthority.authority == PartyAuthorityType.MEMBER.authority) {
                     DrawableIconButton(
                         icon = painterResource(id = R.drawable.icon_more),
                         iconColor = BLACK,
                         iconSize = 24.dp,
                         contentDescription = "more",
-                        onClick = { onMoreClick() }
+                        onClick = onMoreClick
                     )
                 }
             }

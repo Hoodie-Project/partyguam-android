@@ -1,11 +1,13 @@
 package com.party.presentation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -15,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.party.common.component.homeTopTabList
@@ -38,9 +41,9 @@ import com.party.presentation.screen.join.nickname.JoinNickNameScreen
 import com.party.presentation.screen.login.LoginScreen
 import com.party.presentation.screen.party_apply.PartyApplyRoute
 import com.party.presentation.screen.party_create.PartyCreateScreenRoute
-import com.party.presentation.screen.party_create.viewmodel.PartyCreateViewModel
 import com.party.presentation.screen.party_detail.PartyDetailRoute
 import com.party.presentation.screen.party_detail.viewmodel.PartyViewModel
+import com.party.presentation.screen.party_edit.PartyEditScreenRoute
 import com.party.presentation.screen.profile.ProfileScreen
 import com.party.presentation.screen.recruitment_create.RecruitmentCreateScreen
 import com.party.presentation.screen.recruitment_create.viewmodel.RecruitmentCreateViewModel
@@ -56,8 +59,14 @@ const val ANIMATION_DURATION = 500
 fun AppNavHost() {
     val context = LocalContext.current
     val navController = rememberNavController()
-
     val snackBarHostState = remember { SnackbarHostState() }
+
+    val backStackEntry = navController.currentBackStackEntryAsState()
+    val currentDestinationRoute by remember {
+        derivedStateOf { backStackEntry.value?.destination?.route }
+    }
+
+    val currentScreenString = currentDestinationRoute?.substringAfterLast(".") ?: "Unknown"
 
     var selectedTabText by remember {
         mutableStateOf(homeTopTabList[0])
@@ -78,16 +87,21 @@ fun AppNavHost() {
             )
         },
         exitTransition = {
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(ANIMATION_DURATION)
-            )
+            if(!currentScreenString.contains("PartyEdit")){
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    animationSpec = tween(ANIMATION_DURATION)
+                )
+            }else {
+                ExitTransition.None
+            }
         },
         popEnterTransition = {
             slideIntoContainer(
                 AnimatedContentTransitionScope.SlideDirection.Up,
                 animationSpec = tween(ANIMATION_DURATION)
             )
+
         },
         popExitTransition = {
             slideOutOfContainer(
@@ -287,6 +301,9 @@ fun AppNavHost() {
             SearchRoute(
                 navController = navController,
             )
+        }
+        composable<Screens.PartyEdit> {
+            PartyEditScreenRoute()
         }
     }
 }

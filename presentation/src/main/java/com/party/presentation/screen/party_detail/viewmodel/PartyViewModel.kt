@@ -104,12 +104,9 @@ class PartyViewModel @Inject constructor(
             when(val result = getPartyAuthorityUseCase(partyId = partyId)){
                 is ServerApiResponse.SuccessResponse -> {
                     _state.update { it.copy(
-                        isLoadingPartyAuthority = true,
-                        partyAuthority = result.data ?: PartyAuthority(
-                            userId = 0,
-                            authority = ""
-                        )
-                    ) }
+                        isLoadingPartyAuthority = false,
+                        partyAuthority = result.data ?: PartyAuthority(userId = 0, authority = ""))
+                    }
                 }
                 is ServerApiResponse.ErrorResponse -> _state.update { it.copy(isLoadingPartyAuthority = false) }
                 is ServerApiResponse.ExceptionResponse -> _state.update { it.copy(isLoadingPartyAuthority = false) }
