@@ -61,13 +61,6 @@ fun AppNavHost() {
     val navController = rememberNavController()
     val snackBarHostState = remember { SnackbarHostState() }
 
-    val backStackEntry = navController.currentBackStackEntryAsState()
-    val currentDestinationRoute by remember {
-        derivedStateOf { backStackEntry.value?.destination?.route }
-    }
-
-    val currentScreenString = currentDestinationRoute?.substringAfterLast(".") ?: "Unknown"
-
     var selectedTabText by remember {
         mutableStateOf(homeTopTabList[0])
     }
@@ -87,14 +80,10 @@ fun AppNavHost() {
             )
         },
         exitTransition = {
-            if(!currentScreenString.contains("PartyEdit")){
-                slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(ANIMATION_DURATION)
-                )
-            }else {
-                ExitTransition.None
-            }
+            slideOutOfContainer(
+                AnimatedContentTransitionScope.SlideDirection.Down,
+                animationSpec = tween(ANIMATION_DURATION)
+            )
         },
         popEnterTransition = {
             slideIntoContainer(

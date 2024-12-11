@@ -28,9 +28,9 @@ import com.party.domain.model.party.PartyType
 import com.party.domain.model.user.PartyAuthority
 import com.party.navigation.BottomNavigationBar
 import com.party.navigation.Screens
-import com.party.presentation.screen.party_detail.component.CustomRightDrawer
 import com.party.presentation.screen.party_detail.component.PartyDetailArea
 import com.party.presentation.screen.party_detail.component.PartyDetailScaffoldArea
+import com.party.presentation.screen.party_detail.component.RightModalDrawer
 import com.party.presentation.screen.party_detail.viewmodel.PartyViewModel
 import kotlinx.coroutines.launch
 
@@ -51,24 +51,37 @@ fun PartyDetailRoute(
 
     val state by partyViewModel.state.collectAsStateWithLifecycle()
 
-
-    PartyDetailScreen(
-        context = context,
-        navController = navController,
-        snackBarHostState = snackBarHostState,
-        partyId = partyId,
-        state = state,
-        onNavigationBack = { navController.popBackStack() },
-        onAddRecruitment = { navController.navigate(Screens.RecruitmentCreateScreen(partyId = partyId)) },
-        onAction = { action ->
-            when(action){
-                is PartyDetailAction.OnTabClick -> { partyViewModel.onAction(action) }
-                is PartyDetailAction.OnShowPositionFilter -> { partyViewModel.onAction(action) }
-                is PartyDetailAction.OnPositionClick -> { partyViewModel.onAction(action) }
-                is PartyDetailAction.OnReset -> { partyViewModel.onAction(action) }
-                is PartyDetailAction.OnApply -> { partyViewModel.onAction(action) }
-                is PartyDetailAction.OnChangeOrderBy -> { partyViewModel.onAction(action) }
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+    RightModalDrawer(
+        drawerState = drawerState,
+        content = {
+            PartyDetailScreen(
+                context = context,
+                navController = navController,
+                snackBarHostState = snackBarHostState,
+                partyId = partyId,
+                state = state,
+                onNavigationBack = { navController.popBackStack() },
+                onAddRecruitment = { navController.navigate(Screens.RecruitmentCreateScreen(partyId = partyId)) },
+                onManageClick = { scope.launch { drawerState.open() } },
+                onAction = { action ->
+                    when(action){
+                        is PartyDetailAction.OnTabClick -> { partyViewModel.onAction(action) }
+                        is PartyDetailAction.OnShowPositionFilter -> { partyViewModel.onAction(action) }
+                        is PartyDetailAction.OnPositionClick -> { partyViewModel.onAction(action) }
+                        is PartyDetailAction.OnReset -> { partyViewModel.onAction(action) }
+                        is PartyDetailAction.OnApply -> { partyViewModel.onAction(action) }
+                        is PartyDetailAction.OnChangeOrderBy -> { partyViewModel.onAction(action) }
+                    }
+                }
+            )
+        },
+        onGotoPartyEdit = {
+            scope.launch {
+                drawerState.close()
             }
+            navController.navigate(Screens.PartyEdit(partyId = partyId))
         }
     )
 }
@@ -82,64 +95,53 @@ private fun PartyDetailScreen(
     state: PartyDetailState,
     onNavigationBack: () -> Unit,
     onAddRecruitment: () -> Unit,
+    onManageClick: () -> Unit,
     onAction: (PartyDetailAction) -> Unit,
 ){
-    val scope = rememberCoroutineScope()
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
-
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        Scaffold(
-            snackbarHost = {
-                SnackbarHost(
-                    hostState = snackBarHostState,
-                )
-            },
-            bottomBar = {
-                BottomNavigationBar(
-                    context = context,
-                    navController = navController,
-                )
-            },
-            topBar = {
-                PartyDetailScaffoldArea(
+    Scaffold(
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackBarHostState,
+            )
+        },
+        bottomBar = {
+            BottomNavigationBar(
+                context = context,
+                navController = navController,
+            )
+        },
+        topBar = {
+            PartyDetailScaffoldArea(
+                state = state,
+                onNavigationClick = onNavigationBack,
+                onSharedClick = {},
+                onManageClick = {
+                    onManageClick()
+                },
+                onMoreClick = {},
+            )
+        },
+    ) {
+        Box(modifier = Modifier.padding(it)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(WHITE)
+            ) {
+                PartyDetailArea(
                     state = state,
-                    onNavigationClick = onNavigationBack,
-                    onSharedClick = {},
-                    onManageClick = {
-                        scope.launch { drawerState.open() }
-                    },
-                    onMoreClick = {},
+                    partyDetailTabList = partyDetailTabList,
+                    selectedTabText = state.selectedTabText,
+                    onTabClick = { tabText -> onAction(PartyDetailAction.OnTabClick(tabText)) },
+                    onPositionClick = { position -> onAction(PartyDetailAction.OnPositionClick(position)) },
+                    onShowPositionFilter = { isShow -> onAction(PartyDetailAction.OnShowPositionFilter(isShow)) },
+                    onReset = { onAction(PartyDetailAction.OnReset) },
+                    onApply = { onAction(PartyDetailAction.OnApply(partyId = partyId)) },
+                    onAddRecruitment = onAddRecruitment,
+                    onChangeOrderBy = { orderBy -> onAction(PartyDetailAction.OnChangeOrderBy(orderBy)) }
                 )
-            },
-        ) {
-            Box(modifier = Modifier.padding(it)) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(WHITE)
-                ) {
-                    PartyDetailArea(
-                        state = state,
-                        partyDetailTabList = partyDetailTabList,
-                        selectedTabText = state.selectedTabText,
-                        onTabClick = { tabText -> onAction(PartyDetailAction.OnTabClick(tabText)) },
-                        onPositionClick = { position -> onAction(PartyDetailAction.OnPositionClick(position)) },
-                        onShowPositionFilter = { isShow -> onAction(PartyDetailAction.OnShowPositionFilter(isShow)) },
-                        onReset = { onAction(PartyDetailAction.OnReset) },
-                        onApply = { onAction(PartyDetailAction.OnApply(partyId = partyId)) },
-                        onAddRecruitment = onAddRecruitment,
-                        onChangeOrderBy = { orderBy -> onAction(PartyDetailAction.OnChangeOrderBy(orderBy)) }
-                    )
-                }
             }
         }
-
-        // 커스텀 오른쪽 Drawer
-        CustomRightDrawer(
-            drawerState = drawerState,
-            onGotoPartyEdit = { navController.navigate(Screens.PartyEdit(partyId = partyId)) }
-        )
     }
 }
 
@@ -166,6 +168,7 @@ private fun PartyDetailScreenPreview() {
         ),
         onNavigationBack = {},
         onAddRecruitment = {},
+        onManageClick = {},
         onAction = {},
     )
 }
