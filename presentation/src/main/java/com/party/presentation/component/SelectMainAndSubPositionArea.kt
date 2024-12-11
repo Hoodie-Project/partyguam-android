@@ -21,7 +21,6 @@ import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.PRIMARY
 import com.party.domain.model.user.detail.PositionList
-import com.party.presentation.component.bottomsheet.OneSelectMainAndSubPositionBottomSheet
 import com.party.presentation.screen.home.viewmodel.HomeViewModel
 
 @Composable
@@ -80,11 +79,10 @@ fun SelectMainAndSubPositionArea(
         )
     }
 
-    if(isMainPositionBottomSheetShow){
+    /*if(isMainPositionBottomSheetShow){
         OneSelectMainAndSubPositionBottomSheet(
-            snackBarHostState = snackBarHostState,
-            homeViewModel = homeViewModel,
             bottomSheetTitle = "모집 포지션",
+
             selectedMainPosition = selectedMainPosition,
             selectedSubPosition = selectedSubPosition,
             onModelClose = {
@@ -92,5 +90,5 @@ fun SelectMainAndSubPositionArea(
             },
             onApply = onApply
         )
-    }
+    }*/
 }

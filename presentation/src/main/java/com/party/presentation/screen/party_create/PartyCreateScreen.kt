@@ -38,7 +38,6 @@ import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.Screens
 import com.party.presentation.component.HelpCard
-import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import com.party.presentation.screen.party_create.component.PartyCreateCustomShape
 import com.party.presentation.screen.party_create.component.PartyCreateDescriptionArea
 import com.party.presentation.screen.party_create.component.PartyCreateInputField
@@ -53,7 +52,6 @@ import kotlinx.coroutines.flow.collectLatest
 fun PartyCreateScreenRoute(
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
-    homeViewModel: HomeViewModel = hiltViewModel(),
     partyCreateViewModel: PartyCreateViewModel = hiltViewModel(),
 ) {
     // 뒤로가기
@@ -69,7 +67,6 @@ fun PartyCreateScreenRoute(
         partyCreateState = partyCreateState,
         isShowCompleteDialog = partyCreateState.isCompleteShowDialog,
         snackBarHostState = snackBarHostState,
-        homeViewModel = homeViewModel,
         onAction = { action ->
             when (action) {
                 is PartyCreateAction.OnIsShowDialogBack -> partyCreateViewModel.onAction(action)
@@ -81,10 +78,14 @@ fun PartyCreateScreenRoute(
                 is PartyCreateAction.OnChangeSelectPartyType -> partyCreateViewModel.onAction(action)
                 is PartyCreateAction.OnChangeIsShowHelpCard -> partyCreateViewModel.onAction(action)
                 is PartyCreateAction.OnChangePartyDescription -> partyCreateViewModel.onAction(action)
+                is PartyCreateAction.OnChangeMainPositionBottomSheet -> partyCreateViewModel.onAction(action)
                 is PartyCreateAction.OnChangeMainPosition -> partyCreateViewModel.onAction(action)
                 is PartyCreateAction.OnChangeSubPosition -> partyCreateViewModel.onAction(action)
                 is PartyCreateAction.OnPartyCreate -> partyCreateViewModel.onAction(action)
             }
+        },
+        onClickMainPosition = {
+            partyCreateViewModel.getSubPositionList(main = it)
         }
     )
 
@@ -139,8 +140,8 @@ private fun PartyCreateScreen(
     isShowCompleteDialog: Boolean,
     snackBarHostState: SnackbarHostState,
     modifier: Modifier = Modifier,
-    homeViewModel: HomeViewModel,
-    onAction: (PartyCreateAction) -> Unit
+    onAction: (PartyCreateAction) -> Unit,
+    onClickMainPosition: (String) -> Unit
 ) {
     val scrollState = rememberScrollState()
 
@@ -276,14 +277,18 @@ private fun PartyCreateScreen(
 
             HeightSpacer(heightDp = 20.dp)
             PartyCreateSelectPositionArea(
-                snackBarHostState = snackBarHostState,
-                homeViewModel = homeViewModel,
+                subPositionList = partyCreateState.subPositionList,
+                isMainPositionBottomSheetShow = partyCreateState.isMainPositionBottomSheetShow,
                 selectedMainPosition = partyCreateState.selectedMainPosition,
                 selectedSubPosition = partyCreateState.selectedSubPosition,
                 onApply = { mainPosition, selectedSubPosition->
                     onAction(PartyCreateAction.OnChangeMainPosition(mainPosition))
                     onAction(PartyCreateAction.OnChangeSubPosition(selectedSubPosition))
-                }
+                },
+                onShowPositionBottomSheet = { isShow ->
+                    onAction(PartyCreateAction.OnChangeMainPositionBottomSheet(isShow))
+                },
+                onClickMainPosition = onClickMainPosition
             )
 
             HeightSpacer(heightDp = 90.dp)

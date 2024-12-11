@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.common.component.bottomsheet.list.partyTypeList
+import com.party.domain.model.user.detail.PositionList
 import com.party.domain.usecase.party.CreatePartyUseCase
+import com.party.domain.usecase.user.detail.GetPositionsUseCase
 import com.party.presentation.screen.party_create.PartyCreateAction
 import com.party.presentation.screen.party_create.PartyCreateState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PartyCreateViewModel @Inject constructor(
     private val createPartyUseCase: CreatePartyUseCase,
+    private val getPositionsUseCase: GetPositionsUseCase,
 ): ViewModel() {
 
     private val _state = MutableStateFlow(PartyCreateState())
@@ -60,6 +63,22 @@ class PartyCreateViewModel @Inject constructor(
         }
     }
 
+    fun getSubPositionList(
+        main: String,
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = getPositionsUseCase(main = main)) {
+                is ServerApiResponse.SuccessResponse<List<PositionList>> -> {
+                   _state.update { it.copy(
+                       subPositionList = result.data ?: emptyList(),
+                   ) }
+                }
+                is ServerApiResponse.ErrorResponse<List<PositionList>> -> {}
+                is ServerApiResponse.ExceptionResponse -> {}
+            }
+        }
+    }
+
     fun dismissBackDialog(){
         _state.update { it.copy(isBackShowDialog = false) }
     }
@@ -86,6 +105,7 @@ class PartyCreateViewModel @Inject constructor(
             is PartyCreateAction.OnChangeSelectPartyType -> _state.update { it.copy(selectedPartyType = action.partyType) }
             is PartyCreateAction.OnChangeIsShowHelpCard -> _state.update { it.copy(isHelpCardOpen = action.isShowHelpCard) }
             is PartyCreateAction.OnChangePartyDescription -> _state.update { it.copy(partyDescription = action.description) }
+            is PartyCreateAction.OnChangeMainPositionBottomSheet -> _state.update { it.copy(isMainPositionBottomSheetShow = action.isMainPositionBottomSheetShow) }
             is PartyCreateAction.OnChangeMainPosition -> _state.update { it.copy(selectedMainPosition = action.position) }
             is PartyCreateAction.OnChangeSubPosition -> _state.update { it.copy(selectedSubPosition = action.positionList) }
             is PartyCreateAction.OnPartyCreate -> {

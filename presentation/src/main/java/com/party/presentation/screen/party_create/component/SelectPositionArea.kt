@@ -2,18 +2,14 @@ package com.party.presentation.screen.party_create.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.WidthSpacer
+import com.party.presentation.component.bottomsheet.OneSelectMainAndSubPositionBottomSheet
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.InputField
 import com.party.common.ui.theme.BLACK
@@ -21,21 +17,17 @@ import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.PRIMARY
 import com.party.domain.model.user.detail.PositionList
-import com.party.presentation.screen.home.viewmodel.HomeViewModel
-import com.party.presentation.component.bottomsheet.OneSelectMainAndSubPositionBottomSheet
 
 @Composable
 fun PartyCreateSelectPositionArea(
-    snackBarHostState: SnackbarHostState,
-    homeViewModel: HomeViewModel,
+    subPositionList: List<PositionList>,
+    isMainPositionBottomSheetShow: Boolean,
     selectedMainPosition: String,
     selectedSubPosition: PositionList,
     onApply: (String, PositionList) -> Unit,
+    onShowPositionBottomSheet: (Boolean) -> Unit,
+    onClickMainPosition: (String) -> Unit
 ) {
-    var isMainPositionBottomSheetShow by remember {
-        mutableStateOf(false)
-    }
-
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -55,7 +47,7 @@ fun PartyCreateSelectPositionArea(
                 DrawableIconButton(
                     icon = painterResource(id = R.drawable.arrow_down_icon),
                     contentDescription = "arrow_down",
-                    onClick = { isMainPositionBottomSheetShow = true}
+                    onClick = { onShowPositionBottomSheet(true) }
                 )
             }
         )
@@ -74,7 +66,7 @@ fun PartyCreateSelectPositionArea(
                 DrawableIconButton(
                     icon = painterResource(id = R.drawable.arrow_down_icon),
                     contentDescription = "arrow_down",
-                    onClick = { isMainPositionBottomSheetShow = true}
+                    onClick = { onShowPositionBottomSheet(true) }
                 )
             }
         )
@@ -82,15 +74,13 @@ fun PartyCreateSelectPositionArea(
 
     if(isMainPositionBottomSheetShow){
         OneSelectMainAndSubPositionBottomSheet(
-            snackBarHostState = snackBarHostState,
-            homeViewModel = homeViewModel,
+            subPositionList = subPositionList,
             bottomSheetTitle = "모집 포지션",
             selectedMainPosition = selectedMainPosition,
             selectedSubPosition = selectedSubPosition,
-            onModelClose = {
-                isMainPositionBottomSheetShow = false
-            },
-            onApply = onApply
+            onModelClose = { onShowPositionBottomSheet(false) },
+            onApply = onApply,
+            onClickMainPosition = onClickMainPosition
         )
     }
 }

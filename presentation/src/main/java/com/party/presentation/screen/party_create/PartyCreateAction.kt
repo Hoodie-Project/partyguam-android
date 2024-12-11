@@ -13,6 +13,7 @@ sealed interface PartyCreateAction {
     data class OnChangeSelectPartyType(val partyType: String): PartyCreateAction
     data class OnChangeIsShowHelpCard(val isShowHelpCard: Boolean): PartyCreateAction
     data class OnChangePartyDescription(val description: String): PartyCreateAction
+    data class OnChangeMainPositionBottomSheet(val isMainPositionBottomSheetShow: Boolean): PartyCreateAction
     data class OnChangeMainPosition(val position: String): PartyCreateAction
     data class OnChangeSubPosition(val positionList: PositionList): PartyCreateAction
     data object OnPartyCreate: PartyCreateAction

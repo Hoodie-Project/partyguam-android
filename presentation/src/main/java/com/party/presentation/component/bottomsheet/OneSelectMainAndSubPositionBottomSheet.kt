@@ -17,11 +17,9 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,7 +39,6 @@ import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
 import com.party.domain.model.user.detail.PositionList
-import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import com.party.presentation.screen.party_create.component.bottomsheet.PositionSelectArea
 
 /*
@@ -51,13 +48,13 @@ import com.party.presentation.screen.party_create.component.bottomsheet.Position
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OneSelectMainAndSubPositionBottomSheet(
-    snackBarHostState: SnackbarHostState,
     bottomSheetTitle: String,
     selectedMainPosition: String,
     selectedSubPosition: PositionList,
-    homeViewModel: HomeViewModel,
+    subPositionList: List<PositionList>,
     onModelClose: () -> Unit,
     onApply: (String, PositionList) -> Unit,
+    onClickMainPosition: (String) -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
@@ -71,15 +68,9 @@ fun OneSelectMainAndSubPositionBottomSheet(
         mutableStateOf(selectedSubPosition)
     }
 
-    LaunchedEffect(key1 = inModalSelectedMainPosition) {
-        homeViewModel.getSubPositionList(main = inModalSelectedMainPosition)
-    }
-
     ModalBottomSheet(
         sheetState = sheetState,
-        onDismissRequest = {
-            onModelClose()
-        },
+        onDismissRequest = { onModelClose() },
         containerColor = White,
         dragHandle = null,
     ) {
@@ -98,17 +89,17 @@ fun OneSelectMainAndSubPositionBottomSheet(
                 )
 
                 PositionSelectArea(
-                    homeViewModel = homeViewModel,
+                    subPositionList = subPositionList,
                     selectedMainPosition = inModalSelectedMainPosition,
                     selectedSubPosition = inModalSelectedSubPosition,
                     onMainPositionClick = {
+                        onClickMainPosition(it)
                         inModalSelectedMainPosition = it
                         inModalSelectedSubPosition = PositionList(0, "", "")
                     },
                     onSelectSubPosition = {
                         inModalSelectedSubPosition = it
                     },
-                    snackBarHostState = snackBarHostState
                 )
             }
 

@@ -35,9 +35,8 @@ import com.party.presentation.screen.home.viewmodel.HomeViewModel
 @Composable
 fun PositionSelectArea(
     selectedMainPosition: String,
+    subPositionList: List<PositionList>,
     selectedSubPosition: PositionList,
-    homeViewModel: HomeViewModel,
-    snackBarHostState: SnackbarHostState,
     onMainPositionClick: (String) -> Unit,
     onSelectSubPosition: (PositionList) -> Unit,
 ) {
@@ -55,9 +54,8 @@ fun PositionSelectArea(
         SubPositionListArea(
             modifier = Modifier
                 .weight(0.3f),
+            subPositionList = subPositionList,
             selectedSubPosition = selectedSubPosition,
-            homeViewModel = homeViewModel,
-            snackBarHostState = snackBarHostState,
             onSelectSubPosition = onSelectSubPosition,
         )
     }
@@ -66,12 +64,27 @@ fun PositionSelectArea(
 @Composable
 fun SubPositionListArea(
     modifier: Modifier = Modifier,
+    subPositionList: List<PositionList>,
     selectedSubPosition: PositionList,
-    homeViewModel: HomeViewModel,
-    snackBarHostState: SnackbarHostState,
     onSelectSubPosition: (PositionList) -> Unit,
 ){
-    val subPositionListState by homeViewModel.positionsState.collectAsStateWithLifecycle()
+    LazyColumn(
+        modifier = modifier,
+    ) {
+        itemsIndexed(
+            items = subPositionList,
+            key = { index, _ ->
+                index
+            }
+        ) { index, item ->
+            SubPositionListItem(
+                item = item,
+                selectedSubPosition = selectedSubPosition,
+                onClick = { onSelectSubPosition(it) }
+            )
+        }
+    }
+    /*val subPositionListState by homeViewModel.positionsState.collectAsStateWithLifecycle()
     val subPositionListResult = subPositionListState.data
 
     when (subPositionListState) {
@@ -98,7 +111,7 @@ fun SubPositionListArea(
         }
         is UIState.Error -> {}
         is UIState.Exception -> { snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState) }
-    }
+    }*/
 }
 
 @Composable
