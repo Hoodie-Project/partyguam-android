@@ -19,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -32,8 +31,6 @@ import com.party.common.component.PartyListItem1
 import com.party.common.component.chip.Chip
 import com.party.common.component.no_data.NoDataColumn
 import com.party.common.snackBarMessage
-import com.party.common.ui.theme.GRAY600
-import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyList
 import com.party.presentation.enum.PartyType
 import com.party.presentation.enum.StatusType
@@ -201,9 +198,9 @@ private fun PartyListArea(
                     recruitmentCount = item.recruitmentCount,
                     typeChip = {
                         Chip(
-                            containerColor = if(item.status == StatusType.ACTIVE.type) Color(0xFFD5F0E3) else GRAY600,
-                            contentColor = if(item.status == StatusType.ACTIVE.type) Color(0xFF016110) else WHITE,
-                            text = if (item.status == StatusType.ACTIVE.type) "진행중" else "종료",
+                            containerColor = StatusType.fromType(item.status).toContainerColor(),
+                            contentColor = StatusType.fromType(item.status).toContentColor(),
+                            text = StatusType.fromType(item.status).toDisplayText() // if (item.status == StatusType.ACTIVE.type) "진행중" else "종료",
                         )
                     },
                     onClick = { onClick(item.id) }

@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
+import com.party.common.WidthSpacer
 import com.party.common.component.chip.Chip
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.GRAY100
@@ -45,7 +46,9 @@ fun PartyListItem1(
 ) {
     Card(
         onClick = onClick,
-        modifier = Modifier.wrapContentSize().padding(vertical = 2.dp),
+        modifier = Modifier
+            .wrapContentSize()
+            .padding(vertical = 2.dp),
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
         colors = CardDefaults.cardColors(
             containerColor = WHITE
@@ -102,6 +105,7 @@ private fun PartyItemInfoArea(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             typeChip()
+            WidthSpacer(widthDp = 4.dp)
             PartyItemCategory(
                 category = type,
             )
