@@ -84,6 +84,7 @@ fun StateScreenRoute(
             when (action) {
                 is MyPartyAction.OnSelectTab -> stateViewModel.onAction(action)
                 is MyPartyAction.OnShowHelpCard -> stateViewModel.onAction(action)
+                is MyPartyAction.OnSelectRecruitmentTab -> stateViewModel.onAction(action)
                 is MyPartyAction.OnSelectStatus -> stateViewModel.onAction(action)
                 is MyPartyAction.OnOrderByChange -> stateViewModel.onAction(action)
                 is MyPartyAction.OnRecruitmentOrderByChange -> stateViewModel.onAction(action)
@@ -155,6 +156,7 @@ private fun StateScreen(
                     MyRecruitmentArea(
                         listState = listState,
                         myPartyState = myPartyState,
+                        onSelectRecruitmentTab = { selectedRecruitmentTab -> onAction(MyPartyAction.OnSelectRecruitmentTab(selectedRecruitmentTab)) },
                         onShowHelpCard = { iShow -> onAction(MyPartyAction.OnShowHelpCard(isShowHelpCard = iShow)) },
                         onChangeOrderBy = { orderByDesc -> onAction(MyPartyAction.OnRecruitmentOrderByChange(orderByDesc)) },
                         onRefusal = { },

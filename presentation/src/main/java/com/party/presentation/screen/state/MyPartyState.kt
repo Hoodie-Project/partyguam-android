@@ -16,6 +16,7 @@ data class MyPartyState(
     var isMyPartyScroll: Boolean = false,
 
     // 내 지원목록
+    val selectedRecruitmentStatus: String = "전체",
     val isShowHelpCard: Boolean = false,
     val orderByRecruitmentDateDesc: Boolean = true,
     val isMyRecruitmentLoading: Boolean = true,

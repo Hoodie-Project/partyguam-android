@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -52,6 +53,8 @@ import com.party.common.ui.theme.YELLOW
 @Composable
 fun RecruitmentListItem3(
     date: String,
+    status: String,
+    statusColor: Color,
     partyType: String,
     title: String,
     main: String,
@@ -65,10 +68,9 @@ fun RecruitmentListItem3(
 
     Card(
         onClick = { onClick() },
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
         border = BorderStroke(1.dp, GRAY100),
         colors =
@@ -79,13 +81,15 @@ fun RecruitmentListItem3(
     ) {
         Column(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 16.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .padding(top = 16.dp),
         ) {
             RecruitmentDataAndState(
                 applyDate = date,
+                status = status,
+                statusColor = statusColor
             )
             HeightSpacer(heightDp = 12.dp)
             RecruitmentInfoArea(
@@ -101,10 +105,23 @@ fun RecruitmentListItem3(
                     HeightSpacer(heightDp = 20.dp)
                     RecruitmentContent(content = content)
                     HeightSpacer(heightDp = 12.dp)
-                    CancelAndApplyButtonArea(
-                        onRefusal = onRefusal,
-                        onAccept = onAccept,
-                    )
+
+                    when(status){
+                        "응답대기" -> {
+                            CancelAndApplyButtonArea(
+                                onRefusal = onRefusal,
+                                onAccept = onAccept,
+                            )
+                        }
+                        "검토중" -> {
+                            CancelButton(
+                                onCancel = {
+
+                                }
+                            )
+                        }
+                    }
+
                 }
             }
 
@@ -123,13 +140,15 @@ fun RecruitmentListItem3(
 
 @Composable
 private fun RecruitmentDataAndState(
-    applyDate: String
+    applyDate: String,
+    status: String,
+    statusColor: Color,
 ) {
     Row(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .height(17.dp),
+        Modifier
+            .fillMaxWidth()
+            .height(17.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
@@ -140,9 +159,9 @@ private fun RecruitmentDataAndState(
         )
 
         TextComponent(
-            text = "응답대기",
+            text = status,
             fontSize = B3,
-            textColor = YELLOW,
+            textColor = statusColor,
         )
     }
 }
@@ -157,9 +176,9 @@ private fun RecruitmentInfoArea(
 ) {
     Row(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .height(90.dp),
+        Modifier
+            .fillMaxWidth()
+            .height(90.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         RecruitmentImageArea(
@@ -179,9 +198,9 @@ private fun RecruitmentInfoArea(
 private fun RecruitmentImageArea(imageUrl: String? = null) {
     ImageLoading(
         modifier =
-            Modifier
-                .width(120.dp)
-                .height(90.dp),
+        Modifier
+            .width(120.dp)
+            .height(90.dp),
         imageUrl = imageUrl,
         roundedCornerShape = LARGE_CORNER_SIZE,
     )
@@ -257,23 +276,39 @@ private fun RecruitmentContent(content: String) {
     )
 }
 
+// 지원 취소 - 검토중일 경우 보이기
+@Composable
+private fun CancelButton(
+    onCancel: () -> Unit,
+) {
+    CustomButton(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(36.dp),
+        buttonText = "지원 취소",
+        textWeight = FontWeight.SemiBold,
+        containerColor = WHITE,
+        onClick = onCancel,
+    )
+}
+
+
+// 거절하기, 수락하기 버튼 - 응답대기인 경우 보이기
 @Composable
 private fun CancelAndApplyButtonArea(
     onRefusal: () -> Unit,
     onAccept: () -> Unit,
 ) {
     Row(
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .height(36.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(36.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         CustomButton(
-            modifier =
-                Modifier
-                    .weight(1f)
-                    .fillMaxHeight(),
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight(),
             buttonText = "거절하기",
             textWeight = FontWeight.SemiBold,
             containerColor = WHITE,
@@ -281,11 +316,10 @@ private fun CancelAndApplyButtonArea(
         )
         WidthSpacer(widthDp = 8.dp)
         CustomButton(
-            modifier =
-                Modifier
-                    .weight(1f)
-                    .fillMaxHeight(),
-            buttonText = "거절하기",
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight(),
+            buttonText = "수락하기",
             textWeight = FontWeight.SemiBold,
             onClick = onAccept,
         )
@@ -298,11 +332,10 @@ private fun ChangeApplicationFormVisible(
     onToggle: () -> Unit,
 ) {
     Row(
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-                .noRippleClickable { onToggle() },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+            .noRippleClickable { onToggle() },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
@@ -324,9 +357,11 @@ private fun ChangeApplicationFormVisible(
 
 @Preview(showBackground = true)
 @Composable
-fun RecruitmentListItem3Preview() {
+private fun RecruitmentListItem3Preview() {
     RecruitmentListItem3(
         date = "2024-12-05T08:09:19.765Z",
+        status = "거절",
+        statusColor = YELLOW,
         partyType = "스터디",
         title = "스터디 모집합니다",
         main = "대학생",

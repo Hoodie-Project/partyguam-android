@@ -104,7 +104,7 @@ private fun PartyListArea(
                                 .padding(end = 4.dp),
                             containerColor = if(item.status == "active") Color(0xFFD5F0E3) else GRAY600,
                             contentColor = if(item.status == "active") Color(0xFF016110) else WHITE,
-                            text = if(item.status == "active") StatusType.ACTIVE.type else StatusType.ARCHIVED.type,
+                            text = StatusType.fromType(item.status).toDisplayText(),
                         )
                     },
                     onClick = {}

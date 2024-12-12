@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -21,10 +22,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -43,13 +40,13 @@ import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.no_data.NoDataColumn
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
+import com.party.domain.model.user.recruitment.PartyApplication
+import com.party.presentation.enum.RecruitmentStatusType
 import com.party.presentation.screen.party_create.component.TriangleEdge
 import com.party.presentation.screen.state.MyPartyState
 
@@ -57,22 +54,27 @@ import com.party.presentation.screen.state.MyPartyState
 fun MyRecruitmentArea(
     listState: LazyListState,
     myPartyState: MyPartyState,
+    onSelectRecruitmentTab: (String) -> Unit,
     onShowHelpCard: (Boolean) -> Unit,
     onChangeOrderBy: (Boolean) -> Unit,
     onRefusal: () -> Unit,
     onAccept: () -> Unit,
 ) {
-    var selectedCategory by remember { mutableStateOf("전체") }
 
+    val filteredList = if (myPartyState.selectedRecruitmentStatus == "전체") {
+        myPartyState.myRecruitmentList.partyApplications // 전체 리스트 반환
+    } else {
+        myPartyState.myRecruitmentList.partyApplications.filter {
+            it.status == RecruitmentStatusType.fromDisplayText(myPartyState.selectedRecruitmentStatus)
+        }
+    }
     Column(
-        modifier =
-            Modifier
-                .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
     ) {
         SelectCategoryArea(
             categoryList = listOf("전체", "검토중", "응답대기", "수락", "거절"),
-            selectedCategory = selectedCategory,
-            onClick = { selectedCategory = it },
+            selectedCategory = myPartyState.selectedRecruitmentStatus,
+            onClick = onSelectRecruitmentTab,
         )
 
         RecruitmentStateAndOrderByArea(
@@ -85,10 +87,8 @@ fun MyRecruitmentArea(
 
         Box {
             when {
-                myPartyState.isMyRecruitmentLoading -> {
-                    LoadingProgressBar()
-                }
-                myPartyState.myRecruitmentList.partyApplications.isEmpty() -> {
+                myPartyState.isMyRecruitmentLoading -> { LoadingProgressBar() }
+                filteredList.isEmpty() -> {
                     NoDataColumn(
                         title = "지원한 파티가 없어요",
                         modifier =
@@ -99,7 +99,7 @@ fun MyRecruitmentArea(
                 else -> {
                     MyRecruitmentList(
                         listState = listState,
-                        myPartyState = myPartyState,
+                        filteredList = filteredList,
                         onRefusal = onRefusal,
                         onAccept = onAccept,
                     )
@@ -118,23 +118,25 @@ fun MyRecruitmentArea(
 @Composable
 private fun MyRecruitmentList(
     listState: LazyListState,
-    myPartyState: MyPartyState,
+    filteredList: List<PartyApplication>,
     onRefusal: () -> Unit,
     onAccept: () -> Unit,
 ) {
     LazyColumn(
         state = listState,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         itemsIndexed(
-            items = myPartyState.myRecruitmentList.partyApplications,
+            items = filteredList,
             key = { index, _ ->
                 index
             },
         ) { _, item ->
             RecruitmentListItem3(
                 date = item.createdAt,
+                status = RecruitmentStatusType.fromStatus(item.status).toDisplayText(),
+                statusColor = RecruitmentStatusType.fromStatus(item.status).toColor(),
                 partyType = item.partyRecruitment.party.partyType.type,
                 title = item.partyRecruitment.party.title,
                 main = item.partyRecruitment.position.main,
@@ -294,6 +296,7 @@ private fun MyRecruitmentAreaPreview() {
     MyRecruitmentArea(
         listState = LazyListState(),
         myPartyState = MyPartyState(),
+        onSelectRecruitmentTab = {},
         onShowHelpCard = {},
         onChangeOrderBy = {},
         onRefusal = {},

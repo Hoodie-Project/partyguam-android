@@ -85,6 +85,7 @@ class StateViewModel @Inject constructor(
                     )
                 }
             }
+            is MyPartyAction.OnSelectRecruitmentTab -> { _myPartyState.update { it.copy(selectedRecruitmentStatus = action.selectedRecruitmentTabText) } }
             is MyPartyAction.OnRecruitmentOrderByChange -> {
                 _myPartyState.update { currentState ->
                     val sortedList = if (action.orderByRecruitmentDateDesc) {
