@@ -13,6 +13,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,6 +34,8 @@ import com.party.common.ui.theme.WHITE
 fun PartyListItem2(
     imageUrl: String? = null,
     status: String,
+    statusContainerColor: Color,
+    statusContentColor: Color,
     partyType: String,
     title: String,
     main: String,
@@ -63,6 +66,8 @@ fun PartyListItem2(
             WidthSpacer(widthDp = 12.dp)
             PartyInfoArea(
                 status = status,
+                statusContainerColor = statusContainerColor,
+                statusContentColor = statusContentColor,
                 partyType = partyType,
                 title = title,
                 main = main,
@@ -88,6 +93,8 @@ private fun PartyImageArea(
 @Composable
 private fun PartyInfoArea(
     status: String,
+    statusContainerColor: Color,
+    statusContentColor: Color,
     partyType: String,
     title: String,
     main: String,
@@ -99,6 +106,8 @@ private fun PartyInfoArea(
     ) {
         PartyCategoryArea(
             status = status,
+            statusContainerColor = statusContainerColor,
+            statusContentColor = statusContentColor,
             partyType = partyType,
         )
         HeightSpacer(heightDp = 8.dp)
@@ -117,6 +126,8 @@ private fun PartyInfoArea(
 @Composable
 private fun PartyCategoryArea(
     status: String,
+    statusContainerColor: Color,
+    statusContentColor: Color,
     partyType: String,
 ) {
     Row(
@@ -126,8 +137,8 @@ private fun PartyCategoryArea(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Chip(
-            containerColor = TYPE_COLOR_BACKGROUND,
-            contentColor = TYPE_COLOR_TEXT,
+            containerColor = statusContainerColor,
+            contentColor = statusContentColor,
             text = status,
         )
         WidthSpacer(widthDp = 4.dp)
@@ -171,6 +182,8 @@ fun PartyListItem2Preview() {
     PartyListItem2(
         imageUrl = "https://picsum.photos/200/300",
         status = "진행중",
+        statusContainerColor = Color(0xFFD5F0E3),
+        statusContentColor = Color(0xFF016110),
         partyType = "포트폴리오",
         title = "파티제목입니다파티제목입니다파티제목입니다",
         main = "개발자",

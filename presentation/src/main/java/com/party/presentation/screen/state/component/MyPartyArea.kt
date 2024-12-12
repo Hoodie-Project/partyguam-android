@@ -98,6 +98,8 @@ private fun MyPartyList(
             PartyListItem2(
                 imageUrl = item.party.image,
                 status = StatusType.fromType(item.party.status).toDisplayText(),
+                statusContainerColor = StatusType.fromType(item.party.status).toContainerColor(),
+                statusContentColor = StatusType.fromType(item.party.status).toContentColor(),
                 partyType = item.party.partyType.type,
                 title = item.party.title,
                 main = item.position.main,

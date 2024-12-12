@@ -1,5 +1,11 @@
 package com.party.presentation.enum
 
+import androidx.compose.ui.graphics.Color
+import com.party.common.ui.theme.ACTIVE_CHIP_BACKGROUND
+import com.party.common.ui.theme.ACTIVE_CHIP_TEXT
+import com.party.common.ui.theme.ARCHIVED_CHIP_BACKGROUND
+import com.party.common.ui.theme.ARCHIVED_CHIP_TEXT
+
 enum class StatusType(val type: String) {
     ACTIVE("active"),
     ARCHIVED("archived");
@@ -26,4 +32,19 @@ enum class StatusType(val type: String) {
             ARCHIVED -> "종료"
         }
     }
+
+    fun toContainerColor(): Color {
+        return when(this){
+            ACTIVE -> ACTIVE_CHIP_BACKGROUND
+            ARCHIVED -> ARCHIVED_CHIP_BACKGROUND
+        }
+    }
+
+    fun toContentColor(): Color {
+        return when(this){
+            ACTIVE -> ACTIVE_CHIP_TEXT
+            ARCHIVED -> ARCHIVED_CHIP_TEXT
+        }
+    }
+
 }
