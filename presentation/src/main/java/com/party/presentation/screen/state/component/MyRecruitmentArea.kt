@@ -35,6 +35,7 @@ import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.component.RecruitmentListItem3
 import com.party.common.component.chip.OrderByCreateDtChip
+import com.party.common.component.custom_tooltip.TriangleEdge
 import com.party.common.component.icon.DrawableIcon
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.no_data.NoDataColumn
@@ -47,7 +48,6 @@ import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.recruitment.PartyApplication
 import com.party.presentation.enum.RecruitmentStatusType
-import com.party.presentation.screen.party_create.component.TriangleEdge
 import com.party.presentation.screen.state.MyPartyState
 
 @Composable

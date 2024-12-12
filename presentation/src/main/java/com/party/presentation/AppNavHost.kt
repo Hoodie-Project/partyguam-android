@@ -291,8 +291,13 @@ fun AppNavHost() {
                 navController = navController,
             )
         }
-        composable<Screens.PartyEdit> {
-            PartyEditScreenRoute()
+        composable<Screens.PartyEdit> { backStackEntry ->
+            val partyId = backStackEntry.toRoute<Screens.PartyEdit>().partyId
+            PartyEditScreenRoute(
+                snackBarHostState = snackBarHostState,
+                navController = navController,
+                partyId = partyId
+            )
         }
     }
 }

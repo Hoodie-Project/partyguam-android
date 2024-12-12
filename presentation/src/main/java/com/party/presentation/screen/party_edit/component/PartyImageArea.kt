@@ -1,4 +1,4 @@
-package com.party.presentation.screen.party_create.component
+package com.party.presentation.screen.party_edit.component
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -34,7 +34,7 @@ import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import okhttp3.MultipartBody
 
 @Composable
-fun PartyImageUploadArea(
+fun PartyImageArea(
     modifier: Modifier,
     onSetImage: (MultipartBody.Part) -> Unit
 ) {
@@ -98,9 +98,9 @@ fun PartyImageUploadArea(
 
 @Preview(showBackground = true)
 @Composable
-private fun PartyImageUploadAreaPreview() {
-    PartyImageUploadArea(
+private fun PartyImageAreaPreview() {
+    PartyImageArea(
         modifier = Modifier,
-        onSetImage = {}
+        onSetImage = { }
     )
 }

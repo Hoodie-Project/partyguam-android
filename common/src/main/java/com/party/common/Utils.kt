@@ -2,6 +2,8 @@ package com.party.common
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.net.Uri
+import android.webkit.MimeTypeMap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -33,6 +35,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
+import java.io.FileOutputStream
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -194,4 +201,37 @@ fun convertIsoToCustomDateFormat(isoString: String): String {
     // ISO 문자열을 ZonedDateTime으로 변환 후, 원하는 형식으로 변환
     val zonedDateTime = ZonedDateTime.parse(isoString, isoFormatter)
     return outputFormatter.format(zonedDateTime)
+}
+
+
+
+
+fun uriToFile(context: Context, uri: Uri): File {
+    val contentResolver = context.contentResolver
+    val mimeType = contentResolver.getType(uri)
+    val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType) ?: "jpg" // 기본값으로 jpg
+    val file = File(context.cacheDir, "temp_${System.currentTimeMillis()}.$extension")
+
+    contentResolver.openInputStream(uri)?.use { inputStream ->
+        FileOutputStream(file).use { outputStream ->
+            inputStream.copyTo(outputStream)
+        }
+    }
+    return file
+}
+
+fun createMultipartBody(context: Context, uri: Uri): MultipartBody.Part {
+    val file = uriToFile(context, uri)
+    val mimeType = getMimeType(file) ?: throw IllegalArgumentException("Unsupported file type")
+    val requestBody = file.asRequestBody(mimeType.toMediaTypeOrNull())
+    return MultipartBody.Part.createFormData("image", file.name, requestBody)
+}
+
+fun getMimeType(file: File): String? {
+    val extension = file.extension.lowercase()
+    return when (extension) {
+        "jpg", "jpeg" -> "image/jpeg"
+        "png" -> "image/png"
+        else -> null // 허용되지 않는 타입의 경우 null 처리
+    }
 }

@@ -1,10 +1,10 @@
-package com.party.presentation.screen.party_create.component
+package com.party.presentation.screen.party_edit.component
 
 import androidx.compose.runtime.Composable
 import com.party.common.component.custom_tooltip.CustomTooltip
 
 @Composable
-fun PartyCreateCustomShape(
+fun PartyEditCustomShape(
     onClick: () -> Unit,
 ) {
     CustomTooltip(

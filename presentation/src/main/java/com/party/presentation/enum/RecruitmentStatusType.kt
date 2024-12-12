@@ -9,12 +9,12 @@ import com.party.common.ui.theme.PRIMARY
 enum class RecruitmentStatusType(val status: String) {
     PENDING("pending"),
     PROCESSING("processing"),
-    ACTIVE("active"),
-    ARCHIVED("archived");
+    APPROVED("approved"),
+    REJECTED("rejected");
 
     companion object{
         fun fromStatus(status: String): RecruitmentStatusType {
-            return entries.find { it.status == status } ?: ARCHIVED
+            return entries.find { it.status == status } ?: REJECTED
         }
 
         // "검토중"이나 "응답대기"를 입력하면 status 반환
@@ -22,8 +22,8 @@ enum class RecruitmentStatusType(val status: String) {
             return when(displayText){
                 "검토중" -> PENDING.status
                 "응답대기" -> PROCESSING.status
-                "수락" -> ACTIVE.status
-                "거절" -> ARCHIVED.status
+                "수락" -> APPROVED.status
+                "거절" -> REJECTED.status
                 else -> PENDING.status
             }
         }
@@ -33,8 +33,8 @@ enum class RecruitmentStatusType(val status: String) {
         return when(this){
             PENDING -> "검토중"
             PROCESSING -> "응답대기"
-            ACTIVE -> "수락"
-            ARCHIVED -> "거절"
+            APPROVED -> "수락"
+            REJECTED -> "거절"
         }
     }
 
@@ -43,8 +43,8 @@ enum class RecruitmentStatusType(val status: String) {
         return when (this) {
             PENDING -> BLACK
             PROCESSING -> Yellow
-            ACTIVE -> PRIMARY
-            ARCHIVED -> GRAY400
+            APPROVED -> PRIMARY
+            REJECTED -> GRAY400
         }
     }
 }

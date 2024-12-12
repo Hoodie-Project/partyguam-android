@@ -1,4 +1,4 @@
-package com.party.presentation.screen.party_create.component
+package com.party.presentation.screen.party_edit.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -7,12 +7,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.party.common.R
 import com.party.common.component.input_field.InputField
-import com.party.common.component.icon.DrawableIconButton
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY200
@@ -20,7 +17,7 @@ import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.PRIMARY
 
 @Composable
-fun PartyCreateInputField(
+fun PartyEditInputField(
     inputText: String,
     placeHolder: String,
     readOnly: Boolean,
@@ -44,7 +41,7 @@ fun PartyCreateInputField(
 }
 
 @Composable
-fun PartyCreateValidField(
+fun PartyEditValidField(
     count: Int
 ) {
     Row(
@@ -61,18 +58,12 @@ fun PartyCreateValidField(
 
 @Preview(showBackground = true)
 @Composable
-private fun PartyCreateInputFieldPreview() {
-    PartyCreateInputField(
-        inputText = "",
-        placeHolder = "15자 이내로 입력해주세요",
+private fun PartyEditInputFieldPreview() {
+    PartyEditInputField(
+        inputText = "inputText",
+        placeHolder = "placeHolder",
         readOnly = false,
-        icon = {
-            DrawableIconButton(
-                icon = painterResource(id = R.drawable.close),
-                contentDescription = "",
-                onClick = {}
-            )
-        },
-        onValueChange = {}
+        icon = { },
+        onValueChange = { }
     )
 }
