@@ -200,7 +200,34 @@ class SearchViewModel @Inject constructor(
         when (action) {
             is SearchAction.OnNavigationBack -> {}
             is SearchAction.OnInputKeywordChange -> _searchState.update { it.copy(inputKeyword = action.keyword) }
-            is SearchAction.OnTabClick -> _searchState.update { it.copy(selectedTabText = action.tabText) }
+            is SearchAction.OnTabClick -> {
+                _searchState.update { it.copy(selectedTabText = action.tabText) }
+
+                when (_searchState.value.selectedTabText) {
+                    "전체" -> allSearch(
+                        titleSearch = _searchState.value.inputKeyword,
+                        page = 1,
+                        limit = 50
+                    )
+
+                    "파티" -> partySearch(
+                        titleSearch = _searchState.value.inputKeyword,
+                        page = 1,
+                        size = 50,
+                        sort = "createdAt",
+                        order = "DESC",
+                        status = _searchState.value.isActiveParty
+                    )
+
+                    "모집공고" -> recruitmentSearch(
+                        _searchState.value.inputKeyword,
+                        1,
+                        size = 50,
+                        sort = "createdAt",
+                        order = "DESC"
+                    )
+                }
+            }
             is SearchAction.OnIsShowKeywordAreaChange -> _searchState.update { it.copy(isShowKeywordArea = action.isShowKeywordArea) }
 
             is SearchAction.OnSearch -> {

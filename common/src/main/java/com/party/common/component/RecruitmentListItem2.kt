@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
@@ -171,6 +172,8 @@ private fun RecruitmentTitle(
         fontSize = T3,
         fontWeight = FontWeight.SemiBold,
         textColor = BLACK,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
     )
 }
 
@@ -220,12 +223,12 @@ private fun RecruitmentCountArea(
 
 @Preview(showBackground = true)
 @Composable
-fun RecruitmentListItem2Preview(modifier: Modifier = Modifier) {
+private fun RecruitmentListItem2Preview(modifier: Modifier = Modifier) {
     RecruitmentListItem2(
         id = 1,
         partyId = 1,
         category = "포트폴리오",
-        title = "같이할 사람 구해요",
+        title = "같이할 사람 구해요같이할 사람 구해요",
         main = "개발자",
         sub = "안드로이드",
         recruitingCount = 1,

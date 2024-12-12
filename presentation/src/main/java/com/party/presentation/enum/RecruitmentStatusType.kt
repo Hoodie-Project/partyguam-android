@@ -6,6 +6,8 @@ import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.PRIMARY
 
+// 검토중 : 양쪽다 수락하지 않은 상태
+// 응답대기 : 파티장이 수락하고 파티원이 수락하지 않은 상태
 enum class RecruitmentStatusType(val status: String) {
     PENDING("pending"),
     PROCESSING("processing"),
