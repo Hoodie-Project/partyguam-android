@@ -1,0 +1,117 @@
+<resources>
+    <string name="app_name">GUAM</string>
+
+    <!-- SnackBar Message-->
+    <string name="snackbar1">지역을 먼저 선택해주세요.</string>
+    <string name="snackbar2">최대 3개까지 선택할 수 있어요.</string>
+
+    <!--Common-->
+    <string name="common1">다음</string>
+    <string name="common2">완료</string>
+    <string name="common3">건너뛰기</string>
+    <string name="common4">확인</string>
+    <string name="common5">Bearer</string>
+    <string name="common6">알 수 없는 오류가 발생했습니다.</string>
+    <string name="common7">중복체크</string>
+    <string name="common8">파티 생성하기</string>
+
+    <!--Dialog-->
+    <string name="dialog1">나가기</string>
+    <string name="dialog2">회원가입이 완료되지 않았습니다.\n나가시겠습니까?</string>
+    <string name="dialog3">취소</string>
+
+    <!--Login Screen-->
+    <string name="login1">파티괌과 함께\n파티에 참여하실 준비가 되었나요?</string>
+    <string name="login2">소셜 로그인으로 편하게 이용해보세요.</string>
+    <string name="login3">카카오톡 로그인</string>
+    <string name="login4">구글 로그인</string>
+    <string name="login5">소셜 로그인 가입 시</string>
+    <string name="login6">이용약관 개인정보처리방침 전자금융거래약관 결제/환불약관</string>
+    <string name="login7">에 동의한 것으로 간주합니다.</string>
+    <string name="login8">문의하기</string>
+
+    <!--JoinEmail Screen-->
+    <string name="join_email1">가입을 축하드려요!\n이메일 정보가 맞나요?</string>
+    <string name="join_email2">나중에 변경할 수 없어요.</string>
+    <string name="join_email3">네, 맞아요</string>
+
+    <!--JoinNickName Screen-->
+    <string name="join_nickname1">어떻게 불러드리면 될까요?\n닉네임을 입력해주세요.</string>
+    <string name="join_nickname2">닉네임은 나중에 변경할 수 없어요.</string>
+    <string name="join_nickname3">15자 이내로 입력해 주세요. (영문/숫자/한글)</string>
+    <string name="join_nickname4">15</string>
+    <string name="join_nickname5">닉네임은 2자 이상 15자 이내로 입력해주세요.</string>
+    <string name="join_nickname6">특수문자는 사용할 수 없어요.</string>
+    <string name="join_nickname7">중복된 닉네임 입니다.</string>
+
+    <!--JoinBirthDay Screen-->
+    <string name="join_birthday1">***님의\n생년월일을 알려주세요.</string>
+    <string name="join_birthday2">프로필에서 노출 여부를 설정할 수 있어요.</string>
+    <string name="join_birthday3">8자리를 입력해 주세요. (ex. 1990-12-31)</string>
+
+    <!--JoinGender Screen-->
+    <string name="join_gender1">성별은\n어떻게 되시나요?</string>
+    <string name="join_gender2">프로필에서 노출 여부를 설정할 수 있어요.</string>
+    <string name="join_gender3">남자</string>
+    <string name="join_gender4">여자</string>
+
+    <!--JoinComplete Screen-->
+    <string name="join_complete1">가입을 축하합니다!\n세부 프로필을 작성해 볼까요?</string>
+    <string name="join_complete2">홈으로</string>
+    <string name="join_complete3">작성하기</string>
+
+    <!--DetailProfile Screen-->
+    <string name="detail_profile1">관심지역</string>
+    <string name="detail_profile2">경력/포지션</string>
+    <string name="detail_profile3">성향선택(1/4)</string>
+    <string name="detail_profile4">성향선택(2/4)</string>
+    <string name="detail_profile5">성향선택(3/4)</string>
+    <string name="detail_profile6">성향선택(4/4)</string>
+    <string name="detail_profile7">관심 지역을 선택하고\n파티를 추천받아 보세요!</string>
+    <string name="detail_profile8">거주 지역이나 자주 찾는 지역을 선택해 주세요.\n(최대 3곳)</string>
+
+    <!--DetailCarrier Screen-->
+    <string name="detail_carrier1">**님의\n경력과 포지션을 입력해 주세요</string>
+    <string name="detail_carrier2">경력과 포지션을 입력하고 파티를 추천받으세요.</string>
+    <string name="detail_carrier3">주포지션</string>
+    <string name="detail_carrier4">부포지션</string>
+    <string name="detail_carrier5">추가하기</string>
+
+    <!--ChoiceCarrierPosition Screen-->
+    <string name="choice_carrier_position1">경력</string>
+    <string name="choice_carrier_position2">포지션</string>
+    <string name="choice_carrier_position3">추가하기</string>
+
+    <!--SelectTendency Screen-->
+    <string name="select_tendency1">주로 작업하는 시간대는\n어떻게 되시나요?</string>
+    <string name="select_tendency2">비슷한 성향의 파티원을 추천해 드려요. (최대2개)</string>
+    <string name="select_tendency3">가장 가깝다고 생각하는 성향은\n무엇인가요?</string>
+    <string name="select_tendency4">비슷한 성향의 파티원을 추천해 드려요.</string>
+    <string name="select_tendency5">아래 항목 중\n자신있는 것은 무엇인가요?</string>
+    <string name="select_tendency6">최대 2개까지 선택할 수 있어요.</string>
+    <string name="select_tendency7">"아래 항목 중\n도전하고 싶은 것은 무엇인가요?</string>
+    <string name="select_tendency8">세부 프로필 입력이 완료되었어요!\n파티에 참여해볼까요?</string>
+    <string name="select_tendency9">프로필로 이동</string>
+
+    <!--Home Screen-->
+    <!--메인 탭-->
+    <string name="home1">GUAM</string>
+    <string name="home_common">모집중</string>
+    <string name="home_list_personal_title">맞춤 모집공고</string>
+    <string name="home_list_personal_description">딱 맞는 포지션을 추천해드려요.</string>
+    <string name="home_list_new_title">신규 모집공고</string>
+    <string name="home_list_new_description">새로운 여정을 시작할 타이밍</string>
+    <string name="home_list_party_title">신규 파티</string>
+    <string name="home_list_party_description">새롭게 시작한 열기가 뜨거운 파티</string>
+    <string name="home_list_party_recruitment_count">지금 %1$s개 포지션 모집 중</string>
+
+    <!--모집공고 탭-->
+    <string name="recruitment_filter1">직무</string>
+    <string name="recruitment_filter2">파티 유형</string>
+    <string name="recruitment_modal1">초기화</string>
+    <string name="recruitment_modal2">적용하기</string>
+
+    <!--필터-->
+    <string name="filter1">등록일순</string>
+
+</resources>
