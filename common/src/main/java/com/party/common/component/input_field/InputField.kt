@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -30,9 +31,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.WidthSpacer
+import com.party.common.component.icon.DrawableIcon
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY200
+import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.INPUT_FIELD_HEIGHT
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
@@ -57,6 +60,7 @@ fun InputField(
     placeHolder: String,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     onValueChange: (String) -> Unit,
+    leadingIcon: @Composable () -> Unit = {},
     icon: @Composable () -> Unit = {},
 ) {
     Box(
@@ -96,7 +100,9 @@ fun InputField(
                         .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    WidthSpacer(widthDp = MEDIUM_PADDING_SIZE)
+                    WidthSpacer(widthDp = 12.dp)
+
+                    leadingIcon()
 
                     Box(
                         modifier = Modifier
@@ -130,6 +136,14 @@ fun InputFieldPreview() {
         readOnly = false,
         placeHolder = "값을 입력해주세요",
         onValueChange = {},
+        leadingIcon = {
+            DrawableIcon(
+                icon = painterResource(id = R.drawable.close),
+                contentDescription = "",
+                modifier = Modifier.padding(end = 8.dp),
+                tintColor = GRAY400
+            )
+        },
         icon = {
             DrawableIconButton(
                 icon = painterResource(id = R.drawable.emergency),
