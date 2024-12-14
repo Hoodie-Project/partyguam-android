@@ -1,7 +1,5 @@
 package com.party.presentation.screen.party_user_manage.component
 
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,9 +7,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -23,7 +21,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
@@ -34,20 +31,33 @@ import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.GRAY300
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.GRAY600
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.PRIMARY
 
 @Composable
 fun PartyUserListArea(
     modifier: Modifier = Modifier
 ) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        itemsIndexed(
+            items = listOf("", ""),
+            key = { index, _ ->
+                index
+            }
+        ) { _, item ->
+            PartyUserListItem()
+        }
+    }
 }
 
 @Composable
 fun PartyUserListItem(){
     Row(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .height(122.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         UserProfileArea()

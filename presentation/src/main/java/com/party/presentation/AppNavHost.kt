@@ -44,6 +44,7 @@ import com.party.presentation.screen.party_create.PartyCreateScreenRoute
 import com.party.presentation.screen.party_detail.PartyDetailRoute
 import com.party.presentation.screen.party_detail.viewmodel.PartyViewModel
 import com.party.presentation.screen.party_edit.PartyEditScreenRoute
+import com.party.presentation.screen.party_user_manage.PartyUserManageScreenRoute
 import com.party.presentation.screen.profile.ProfileScreen
 import com.party.presentation.screen.recruitment_create.RecruitmentCreateScreen
 import com.party.presentation.screen.recruitment_create.viewmodel.RecruitmentCreateViewModel
@@ -296,6 +297,13 @@ fun AppNavHost() {
             PartyEditScreenRoute(
                 snackBarHostState = snackBarHostState,
                 navController = navController,
+                partyId = partyId
+            )
+        }
+        composable<Screens.PartyUserManage> { backStackEntry ->
+            val partyId = backStackEntry.toRoute<Screens.PartyUserManage>().partyId
+            PartyUserManageScreenRoute(
+                snackBarHostState = snackBarHostState,
                 partyId = partyId
             )
         }

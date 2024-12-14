@@ -43,6 +43,7 @@ fun RightModalDrawer(
     scrimColor: Color = DrawerDefaults.scrimColor,
     content: @Composable () -> Unit,
     onGotoPartyEdit: () -> Unit,
+    onGotoPartyUser: () -> Unit,
 ) {
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
         ModalNavigationDrawer(
@@ -66,7 +67,8 @@ fun RightModalDrawer(
                         ){
                             HeightSpacer(heightDp = 60.dp)
                             DrawerContentArea(
-                                onGotoPartyEdit = onGotoPartyEdit
+                                onGotoPartyEdit = onGotoPartyEdit,
+                                onGotoPartyUser = onGotoPartyUser
                             )
                         }
                     }
@@ -84,6 +86,7 @@ fun RightModalDrawer(
 @Composable
 private fun DrawerContentArea(
     onGotoPartyEdit: () -> Unit,
+    onGotoPartyUser: () -> Unit,
 ) {
     Column (
         modifier = Modifier
@@ -91,7 +94,8 @@ private fun DrawerContentArea(
             .padding(start = 20.dp)
     ){
         ManageParty(
-            onGotoPartyEdit = onGotoPartyEdit
+            onGotoPartyEdit = onGotoPartyEdit,
+            onGotoPartyUser = onGotoPartyUser
         )
         HeightSpacer(heightDp = 40.dp)
         ManageRecruitment()
@@ -102,6 +106,7 @@ private fun DrawerContentArea(
 @Composable
 private fun ManageParty(
     onGotoPartyEdit: () -> Unit,
+    onGotoPartyUser: () -> Unit,
 ) {
     DrawerTitle(title = "파티 관리")
     DrawerItem(
@@ -110,7 +115,7 @@ private fun ManageParty(
     )
     DrawerItem(
         text = "파티원 관리",
-        onClick = {}
+        onClick = onGotoPartyUser
     )
 }
 
@@ -191,12 +196,14 @@ private fun RightModalDrawerPreview() {
                     ){
                         HeightSpacer(heightDp = 60.dp)
                         DrawerContentArea(
-                            onGotoPartyEdit = {}
+                            onGotoPartyEdit = {},
+                            onGotoPartyUser = {}
                         )
                     }
                 }
             }
         },
-        onGotoPartyEdit = {}
+        onGotoPartyEdit = {},
+        onGotoPartyUser = {},
     )
 }

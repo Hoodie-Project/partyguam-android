@@ -17,14 +17,18 @@ import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.presentation.screen.party_user_manage.component.PartyUserCountArea
 import com.party.presentation.screen.party_user_manage.component.PartyUserFilterArea
+import com.party.presentation.screen.party_user_manage.component.PartyUserListArea
 import com.party.presentation.screen.party_user_manage.component.PartyUserScaffoldArea
 import com.party.presentation.screen.party_user_manage.component.PartyUserSearchArea
 
 @Composable
 fun PartyUserManageScreenRoute(
-    modifier: Modifier = Modifier
+    snackBarHostState: SnackbarHostState,
+    partyId: Int,
 ) {
-
+    PartyUserManageScreen(
+        snackBarHostState = snackBarHostState
+    )
 }
 
 @Composable
@@ -70,6 +74,9 @@ private fun PartyUserManageScreen(
                 onChangeOrderBy = {},
             )
 
+            PartyUserListArea(
+
+            )
         }
     }
 }
