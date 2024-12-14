@@ -1,13 +1,11 @@
 package com.party.presentation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,7 +15,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.party.common.component.homeTopTabList
@@ -46,7 +43,7 @@ import com.party.presentation.screen.party_detail.viewmodel.PartyViewModel
 import com.party.presentation.screen.party_edit.PartyEditScreenRoute
 import com.party.presentation.screen.party_user_manage.PartyUserManageScreenRoute
 import com.party.presentation.screen.profile.ProfileScreen
-import com.party.presentation.screen.recruitment_create.RecruitmentCreateScreen
+import com.party.presentation.screen.recruitment_create.RecruitmentCreateScreenRoute
 import com.party.presentation.screen.recruitment_create.viewmodel.RecruitmentCreateViewModel
 import com.party.presentation.screen.recruitment_detail.RecruitmentDetailRoute
 import com.party.presentation.screen.search.SearchRoute
@@ -277,13 +274,8 @@ fun AppNavHost() {
         }
         composable<Screens.RecruitmentCreateScreen> { backStackEntry ->
             val partyId = backStackEntry.toRoute<Screens.RecruitmentCreateScreen>().partyId
-            val homeViewModel = hiltViewModel<HomeViewModel>()
-            val recruitmentCreateViewModel = hiltViewModel<RecruitmentCreateViewModel>()
-            RecruitmentCreateScreen(
-                snackBarHostState = snackBarHostState,
+            RecruitmentCreateScreenRoute(
                 navController = navController,
-                homeViewModel = homeViewModel,
-                recruitmentCreateViewModel = recruitmentCreateViewModel,
                 partyId = partyId
             )
         }

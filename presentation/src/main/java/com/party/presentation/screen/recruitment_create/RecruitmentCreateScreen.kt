@@ -20,7 +20,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
@@ -44,80 +46,48 @@ import com.party.presentation.screen.recruitment_create.viewmodel.RecruitmentCre
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun RecruitmentCreateScreen(
-    snackBarHostState: SnackbarHostState,
+fun RecruitmentCreateScreenRoute(
     navController: NavHostController,
-    homeViewModel: HomeViewModel,
-    recruitmentCreateViewModel: RecruitmentCreateViewModel,
+    recruitmentCreateViewModel: RecruitmentCreateViewModel = hiltViewModel(),
     partyId: Int,
 ) {
-    // 선택된 메인 포지션
-    var selectedMainPosition by remember { mutableStateOf("") }
+    val recruitmentState by recruitmentCreateViewModel.state.collectAsStateWithLifecycle()
 
-    // 선택된 서브 포지션
-    var selectedSubPosition by remember { mutableStateOf(PositionList(0, "", "")) }
-
-    // 선택된 명 수
-    var selectedCount by remember { mutableStateOf("") }
-
-    // 입력된 모집 소개글
-    var recruitmentDescription by remember { mutableStateOf("") }
-
-    val createRecruitmentState by recruitmentCreateViewModel.createRecruitmentState.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
        recruitmentCreateViewModel.successSaveState.collectLatest { navController.popBackStack() }
     }
 
-    RecruitmentCreateContent(
-        snackBarHostState = snackBarHostState,
-        homeViewModel = homeViewModel,
-        selectedCount = selectedCount,
-        recruitmentDescription = recruitmentDescription,
-        selectedMainPosition = selectedMainPosition,
-        selectedSubPosition = selectedSubPosition,
+    RecruitmentCreateScreen(
+        partyId = partyId,
+        recruitmentState = recruitmentState,
         onBackNavigation = { navController.popBackStack() },
-        onSetNumberCount = { selectedCount = it },
-        onSetDescription = { recruitmentDescription = it },
-        onAllDeleteInputText = { recruitmentDescription = "" },
-        onApply = { main, sub ->
-            selectedMainPosition = main
-            selectedSubPosition = sub
+        onAction = { action ->
+            when (action) {
+                is RecruitmentCreateAction.OnChangeMainPositionBottomSheet -> recruitmentCreateViewModel.onAction(action)
+                is RecruitmentCreateAction.OnChangeMainPosition -> recruitmentCreateViewModel.onAction(action)
+                is RecruitmentCreateAction.OnChangeSubPosition -> recruitmentCreateViewModel.onAction(action)
+                is RecruitmentCreateAction.OnSetSelectedCount -> recruitmentCreateViewModel.onAction(action)
+                is RecruitmentCreateAction.OnChangePeopleCountSheet -> recruitmentCreateViewModel.onAction(action)
+                is RecruitmentCreateAction.OnChangeHelpCardOpen -> recruitmentCreateViewModel.onAction(action)
+                is RecruitmentCreateAction.OnChangeRecruitmentDescription -> recruitmentCreateViewModel.onAction(action)
+                is RecruitmentCreateAction.OnRecruitmentCreate -> recruitmentCreateViewModel.onAction(action)
+            }
         },
-        onSave = {
-            recruitmentCreateViewModel.createRecruitment(
-                partyId = partyId,
-                recruitmentCreateRequest = RecruitmentCreateRequest(
-                    positionId = selectedSubPosition.id,
-                    content = recruitmentDescription,
-                    recruiting_count = selectedCount.toInt()
-                )
-            )
+        onClickMainPosition = {
+            recruitmentCreateViewModel.getSubPositionList(it)
         }
     )
 }
 
 @Composable
-fun RecruitmentCreateContent(
-    snackBarHostState: SnackbarHostState,
-    homeViewModel: HomeViewModel,
-    selectedCount: String,
-    recruitmentDescription: String,
-    selectedMainPosition: String,
-    selectedSubPosition: PositionList,
+fun RecruitmentCreateScreen(
+    partyId: Int,
+    recruitmentState: RecruitmentState,
     onBackNavigation: () -> Unit,
-    onSetNumberCount: (String) -> Unit,
-    onSetDescription: (String) -> Unit,
-    onAllDeleteInputText: () -> Unit,
-    onApply: (String, PositionList) -> Unit,
-    onSave: () -> Unit,
+    onAction: (RecruitmentCreateAction) -> Unit,
+    onClickMainPosition: (String) -> Unit
 ) {
     val scrollState = rememberScrollState()
-
-    // 인원 선택 시트 오픈 여부
-    var isPeopleCountSheetOpen by rememberSaveable { mutableStateOf(false) }
-
-    // 파티 소개글 도움글 오픈 여부
-    var isHelpCardOpen by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -125,7 +95,6 @@ fun RecruitmentCreateContent(
                 onNavigationClick = onBackNavigation
             )
         },
-
         content = {
             Column(
                 modifier = Modifier
@@ -142,11 +111,18 @@ fun RecruitmentCreateContent(
                 )
                 HeightSpacer(heightDp = 20.dp)
                 SelectMainAndSubPositionArea(
-                    snackBarHostState = snackBarHostState,
-                    homeViewModel = homeViewModel,
-                    selectedMainPosition = selectedMainPosition,
-                    selectedSubPosition = selectedSubPosition,
-                    onApply = onApply
+                    subPositionList = recruitmentState.subPositionList,
+                    isMainPositionBottomSheetShow = recruitmentState.isMainPositionBottomSheetShow,
+                    selectedMainPosition = recruitmentState.selectedMainPosition,
+                    selectedSubPosition = recruitmentState.selectedSubPosition,
+                    onApply = { mainPosition, selectedSubPosition->
+                        onAction(RecruitmentCreateAction.OnChangeMainPosition(mainPosition))
+                        onAction(RecruitmentCreateAction.OnChangeSubPosition(selectedSubPosition))
+                    },
+                    onShowPositionBottomSheet = { isMainPositionBottomSheetShow ->
+                        onAction(RecruitmentCreateAction.OnChangeMainPositionBottomSheet(isMainPositionBottomSheetShow))
+                    },
+                    onClickMainPosition = onClickMainPosition
                 )
 
                 HeightSpacer(heightDp = 60.dp)
@@ -156,7 +132,7 @@ fun RecruitmentCreateContent(
                 )
                 HeightSpacer(heightDp = 20.dp)
                 RecruitmentCreateInputField(
-                    inputText = selectedCount,
+                    inputText = recruitmentState.selectedCount,
                     placeHolder = "인원을 선택해 주세요.",
                     readOnly = true,
                     icon = {
@@ -164,21 +140,21 @@ fun RecruitmentCreateContent(
                             icon = painterResource(id = R.drawable.arrow_down_icon),
                             contentDescription = "",
                             onClick = {
-                                isPeopleCountSheetOpen = true
+                                onAction(RecruitmentCreateAction.OnChangePeopleCountSheet(true))
                             }
                         )
                     },
                     onValueChange = {}
                 )
-                if(isPeopleCountSheetOpen){
+                if(recruitmentState.isPeopleCountSheetOpen){
                     OneSelectPickerBottomSheet(
                         bottomSheetTitle = "모집 인원",
-                        selectedText = selectedCount,
+                        selectedText = recruitmentState.selectedCount,
                         peopleCountList = peopleCountList,
-                        onBottomSheetClose = { isPeopleCountSheetOpen = false },
+                        onBottomSheetClose = { onAction(RecruitmentCreateAction.OnChangePeopleCountSheet(false)) },
                         onApply = { selectedData ->
-                            onSetNumberCount(selectedData.split("명")[0])
-                            isPeopleCountSheetOpen = false
+                            onAction(RecruitmentCreateAction.OnSetSelectedCount(selectedData.split("명")[0]))
+                            onAction(RecruitmentCreateAction.OnChangePeopleCountSheet(false))
                         }
                     )
                 }
@@ -191,25 +167,29 @@ fun RecruitmentCreateContent(
                         DrawableIconButton(
                             icon = painterResource(id = R.drawable.help),
                             contentDescription = "",
-                            onClick = { isHelpCardOpen = true },
+                            onClick = { onAction(RecruitmentCreateAction.OnChangeHelpCardOpen(true)) },
                             modifier = Modifier.size(20.dp)
                         )
                     }
                 )
-                if (isHelpCardOpen) {
+                if (recruitmentState.isHelpCardOpen) {
                     HeightSpacer(heightDp = 12.dp)
                     HelpCard(
                         description1 = "현재 파티의 진행상태는 어떤가요?",
                         description2 = "어떤 사람을 구인하시나요? (툴, 포르폴리오 등)",
-                        onClose = { isHelpCardOpen = false }
+                        onClose = { onAction(RecruitmentCreateAction.OnChangeHelpCardOpen(false)) }
                     )
                 }
                 HeightSpacer(heightDp = 20.dp)
                 MultiLineInputField(
                     placeHolder = "새로운 프로젝트를 위해 모여 함께 아이디어를 나누고 계획을 세우는 파티를 개최합니다.",
-                    inputText = recruitmentDescription,
-                    onValueChange = onSetDescription,
-                    onAllDeleteInputText = onAllDeleteInputText
+                    inputText = recruitmentState.recruitmentDescription,
+                    onValueChange = { description ->
+                        onAction(RecruitmentCreateAction.OnChangeRecruitmentDescription(description))
+                    },
+                    onAllDeleteInputText = {
+                        onAction(RecruitmentCreateAction.OnChangeRecruitmentDescription(""))
+                    }
                 )
 
                 HeightSpacer(heightDp = 60.dp)
@@ -218,10 +198,24 @@ fun RecruitmentCreateContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp),
-                    onClick = onSave
+                    onClick = {
+                        onAction(RecruitmentCreateAction.OnRecruitmentCreate(partyId = partyId))
+                    }
                 )
                 HeightSpacer(heightDp = 20.dp)
             }
         }
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun RecruitmentCreateScreenPreview() {
+    RecruitmentCreateScreen(
+        partyId = 0,
+        recruitmentState = RecruitmentState(),
+        onBackNavigation = {},
+        onAction = {},
+        onClickMainPosition = {}
     )
 }

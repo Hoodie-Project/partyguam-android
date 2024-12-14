@@ -21,20 +21,19 @@ import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.PRIMARY
 import com.party.domain.model.user.detail.PositionList
+import com.party.presentation.component.bottomsheet.OneSelectMainAndSubPositionBottomSheet
 import com.party.presentation.screen.home.viewmodel.HomeViewModel
 
 @Composable
 fun SelectMainAndSubPositionArea(
-    snackBarHostState: SnackbarHostState,
-    homeViewModel: HomeViewModel,
+    isMainPositionBottomSheetShow: Boolean,
+    subPositionList: List<PositionList>,
     selectedMainPosition: String,
     selectedSubPosition: PositionList,
     onApply: (String, PositionList) -> Unit,
+    onShowPositionBottomSheet: (Boolean) -> Unit,
+    onClickMainPosition: (String) -> Unit
 ) {
-    var isMainPositionBottomSheetShow by remember {
-        mutableStateOf(false)
-    }
-
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -54,7 +53,7 @@ fun SelectMainAndSubPositionArea(
                 DrawableIconButton(
                     icon = painterResource(id = R.drawable.arrow_down_icon),
                     contentDescription = "arrow_down",
-                    onClick = { isMainPositionBottomSheetShow = true}
+                    onClick = { onShowPositionBottomSheet(true) }
                 )
             }
         )
@@ -73,22 +72,21 @@ fun SelectMainAndSubPositionArea(
                 DrawableIconButton(
                     icon = painterResource(id = R.drawable.arrow_down_icon),
                     contentDescription = "arrow_down",
-                    onClick = { isMainPositionBottomSheetShow = true}
+                    onClick = { onShowPositionBottomSheet(true) }
                 )
             }
         )
     }
 
-    /*if(isMainPositionBottomSheetShow){
+    if(isMainPositionBottomSheetShow){
         OneSelectMainAndSubPositionBottomSheet(
+            subPositionList = subPositionList,
             bottomSheetTitle = "모집 포지션",
-
             selectedMainPosition = selectedMainPosition,
             selectedSubPosition = selectedSubPosition,
-            onModelClose = {
-                isMainPositionBottomSheetShow = false
-            },
-            onApply = onApply
+            onModelClose = { onShowPositionBottomSheet(false) },
+            onApply = onApply,
+            onClickMainPosition = onClickMainPosition
         )
-    }*/
+    }
 }
