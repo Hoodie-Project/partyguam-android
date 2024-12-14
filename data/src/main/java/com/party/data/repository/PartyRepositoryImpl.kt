@@ -7,6 +7,7 @@ import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.data.datasource.remote.party.PartyRemoteSource
 import com.party.data.mapper.PartyMapper.mapperPartyAuthority
 import com.party.data.mapper.PartyMapper.mapperPartyDetail
+import com.party.data.mapper.PartyMapper.mapperPartyModify
 import com.party.data.mapper.PartyMapper.mapperPartyRecruitment
 import com.party.data.mapper.PartyMapper.mapperPartyResponse
 import com.party.data.mapper.PartyMapper.mapperPartyUsers
@@ -20,6 +21,7 @@ import com.party.domain.model.party.PartyApplyRequest
 import com.party.domain.model.party.PartyCreate
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyList
+import com.party.domain.model.party.PartyModify
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PartyUsers
 import com.party.domain.model.party.PersonalRecruitmentList
@@ -219,6 +221,33 @@ class PartyRepositoryImpl @Inject constructor(
         ){
             is ApiResponse.Success -> {
                 SuccessResponse(data = mapperToPartyCreate(result.data))
+            }
+            is ApiResponse.Failure.Error -> { ErrorResponse() }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse()
+            }
+        }
+    }
+
+    override suspend fun modifyParty(
+        partyId: Int,
+        title: RequestBody?,
+        content: RequestBody?,
+        partyTypeId: RequestBody?,
+        positionId: RequestBody?,
+        image: MultipartBody.Part?
+    ): ServerApiResponse<PartyModify> {
+        return when(val result = partyRemoteSource.modifyParty(
+            partyId = partyId,
+            title = title,
+            content = content,
+            partyTypeId = partyTypeId,
+            positionId = positionId,
+            image = image
+        )){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = mapperPartyModify(result.data))
             }
             is ApiResponse.Failure.Error -> { ErrorResponse() }
             is ApiResponse.Failure.Exception -> {

@@ -3,9 +3,11 @@ package com.party.presentation.screen.party_edit.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
+import com.party.common.component.bottomsheet.list.partyTypeList
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyType
 import com.party.domain.usecase.party.GetPartyDetailUseCase
+import com.party.domain.usecase.party.PartyModifyUseCase
 import com.party.presentation.screen.party_edit.PartyEditAction
 import com.party.presentation.screen.party_edit.PartyEditState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,11 +16,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 @HiltViewModel
 class PartyEditViewModel @Inject constructor(
     private val getPartyDetailUseCase: GetPartyDetailUseCase,
+    private val partyModifyUseCase: PartyModifyUseCase,
 ): ViewModel(){
 
     private val _state = MutableStateFlow(PartyEditState())
@@ -54,6 +61,32 @@ class PartyEditViewModel @Inject constructor(
         }
     }
 
+    private fun modifyParty(
+        partyId: Int,
+        title: RequestBody?,
+        content: RequestBody?,
+        partyTypeId: RequestBody?,
+        positionId: RequestBody?,
+        image: MultipartBody.Part?
+    ){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = partyModifyUseCase(
+                partyId = partyId,
+                title = title,
+                content = content,
+                partyTypeId = partyTypeId,
+                positionId = positionId,
+                image = image
+            )){
+                is ServerApiResponse.SuccessResponse -> {
+                    getPartyDetail(partyId)
+                }
+                is ServerApiResponse.ErrorResponse -> _state.update { it.copy(isPartyModifyLoading = false) }
+                is ServerApiResponse.ExceptionResponse -> _state.update { it.copy(isPartyModifyLoading = false) }
+            }
+        }
+    }
+
     fun onAction(action: PartyEditAction){
         when(action){
             is PartyEditAction.OnIsVisibleToolTip -> _state.update { it.copy(isVisibleToolTip = action.isVisibleToolTip) }
@@ -65,6 +98,20 @@ class PartyEditViewModel @Inject constructor(
             is PartyEditAction.OnChangeMainPosition -> _state.update { it.copy(selectedMainPosition = action.position) }
             is PartyEditAction.OnChangeMainPositionBottomSheet -> _state.update { it.copy(isMainPositionBottomSheetShow = action.isMainPositionBottomSheetShow) }
             is PartyEditAction.OnChangeSubPosition -> _state.update { it.copy(selectedSubPosition = action.positionList) }
+            is PartyEditAction.OnPartyModify -> {
+                modifyParty(
+                    partyId = action.partyId,
+                    title = createRequestBody(_state.value.inputPartyTitle),
+                    content = createRequestBody(_state.value.partyDescription),
+                    partyTypeId = createRequestBody(1.toString()),
+                    positionId = null,
+                    image = _state.value.image
+                )
+            }
         }
+    }
+
+    private fun createRequestBody(value: String): RequestBody {
+        return value.toRequestBody("text/plain".toMediaTypeOrNull())
     }
 }

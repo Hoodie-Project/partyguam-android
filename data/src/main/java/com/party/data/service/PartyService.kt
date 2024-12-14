@@ -5,6 +5,7 @@ import com.party.data.dto.party.PartyAuthorityDto
 import com.party.data.dto.party.PartyCreateDto
 import com.party.data.dto.party.PartyDetailDto
 import com.party.data.dto.party.PartyListDto
+import com.party.data.dto.party.PartyModifyDto
 import com.party.data.dto.party.PartyRecruitmentDto
 import com.party.data.dto.party.PartyUsersDto
 import com.party.data.dto.party.PersonalRecruitmentListDto
@@ -19,6 +20,7 @@ import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
@@ -106,6 +108,19 @@ interface PartyService {
         @Part("positionId") positionId: RequestBody,
         @Part image: MultipartBody.Part,
     ): ApiResponse<PartyCreateDto>
+
+    // 파티 수정
+    @Multipart
+    @PATCH("api/parties/{partyId}")
+    suspend fun modifyParty(
+        @Path(value = "partyId") partyId: Int,
+        @Part("title") title: RequestBody? = null,
+        @Part("content") content: RequestBody? = null,
+        @Part("partyTypeId") partyTypeId: RequestBody? = null,
+        @Part("positionId") positionId: RequestBody? = null,
+        @Part image: MultipartBody.Part? = null,
+    ): ApiResponse<PartyModifyDto>
+
 
     // 파티지원하기 - 모집공고 지원
     @POST("api/parties/{partyId}/recruitments/{partyRecruitmentId}/applications")

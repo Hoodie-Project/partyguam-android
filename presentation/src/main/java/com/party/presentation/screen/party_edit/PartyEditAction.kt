@@ -16,4 +16,6 @@ sealed interface PartyEditAction {
     data class OnChangeMainPositionBottomSheet(val isMainPositionBottomSheetShow: Boolean): PartyEditAction
     data class OnChangeMainPosition(val position: String): PartyEditAction
     data class OnChangeSubPosition(val positionList: PositionList): PartyEditAction
+
+    data class OnPartyModify(val partyId: Int): PartyEditAction
 }

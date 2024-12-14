@@ -5,6 +5,7 @@ import com.party.data.dto.party.PartyAuthorityDto
 import com.party.data.dto.party.PartyCreateDto
 import com.party.data.dto.party.PartyDetailDto
 import com.party.data.dto.party.PartyListDto
+import com.party.data.dto.party.PartyModifyDto
 import com.party.data.dto.party.PartyRecruitmentDto
 import com.party.data.dto.party.PartyUsersDto
 import com.party.data.dto.party.PersonalRecruitmentListDto
@@ -51,6 +52,16 @@ interface PartyRemoteSource {
         positionId: RequestBody,
         image: MultipartBody.Part
     ): ApiResponse<PartyCreateDto>
+
+    // 파티 수정
+    suspend fun modifyParty(
+        partyId: Int,
+        title: RequestBody?,
+        content: RequestBody?,
+        partyTypeId: RequestBody?,
+        positionId: RequestBody?,
+        image: MultipartBody.Part?
+    ): ApiResponse<PartyModifyDto>
 
     // 파티지원하기 - 모집공고 지원
     suspend fun applyPartyRecruitment(partyRecruitmentId: Int, partyId: Int, partyApplyRequest: PartyApplyRequest): ApiResponse<PartyApplyDto>

@@ -5,6 +5,7 @@ import com.party.data.dto.party.PartyAuthorityDto
 import com.party.data.dto.party.PartyCreateDto
 import com.party.data.dto.party.PartyDetailDto
 import com.party.data.dto.party.PartyListDto
+import com.party.data.dto.party.PartyModifyDto
 import com.party.data.dto.party.PartyRecruitmentDto
 import com.party.data.dto.party.PartyUsersDto
 import com.party.data.dto.party.PersonalRecruitmentListDto
@@ -94,6 +95,24 @@ class PartyRemoteSourceImpl @Inject constructor(
         image: MultipartBody.Part
     ): ApiResponse<PartyCreateDto> {
         return partyService.saveParty(
+            title = title,
+            content = content,
+            partyTypeId = partyTypeId,
+            positionId = positionId,
+            image = image
+        )
+    }
+
+    override suspend fun modifyParty(
+        partyId: Int,
+        title: RequestBody?,
+        content: RequestBody?,
+        partyTypeId: RequestBody?,
+        positionId: RequestBody?,
+        image: MultipartBody.Part?
+    ): ApiResponse<PartyModifyDto> {
+        return partyService.modifyParty(
+            partyId = partyId,
             title = title,
             content = content,
             partyTypeId = partyTypeId,

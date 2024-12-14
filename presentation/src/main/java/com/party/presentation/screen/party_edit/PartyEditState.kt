@@ -1,10 +1,13 @@
 package com.party.presentation.screen.party_edit
 
 import com.party.domain.model.user.detail.PositionList
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 data class PartyEditState(
     val isLoadingPartyDetail: Boolean = false,
     val isVisibleToolTip: Boolean = true, // 툴팁
+    val image: MultipartBody.Part = MultipartBody.Part.createFormData("image", "", byteArrayOf().toRequestBody()), // 이미지
 
     val partyStatus: String = "", // 파티 상태
 
@@ -20,4 +23,6 @@ data class PartyEditState(
     val selectedMainPosition: String = "", // 선택된 메인 포지션
     val selectedSubPosition: PositionList = PositionList(0, "", ""), // 선택된 서브 포지션
     val subPositionList: List<PositionList> = emptyList(), // 서브 포지션 리스트
+
+    val isPartyModifyLoading: Boolean = false, // 파티 수정 로딩
 )

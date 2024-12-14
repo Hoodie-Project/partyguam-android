@@ -6,6 +6,7 @@ import com.party.domain.model.party.PartyApplyRequest
 import com.party.domain.model.party.PartyCreate
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyList
+import com.party.domain.model.party.PartyModify
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PartyUsers
 import com.party.domain.model.party.PersonalRecruitmentList
@@ -74,6 +75,16 @@ interface PartyRepository {
         positionId: RequestBody,
         image: MultipartBody.Part
     ): ServerApiResponse<PartyCreate>
+
+    // 파티 수정
+    suspend fun modifyParty(
+        partyId: Int,
+        title: RequestBody?,
+        content: RequestBody?,
+        partyTypeId: RequestBody?,
+        positionId: RequestBody?,
+        image: MultipartBody.Part?
+    ): ServerApiResponse<PartyModify>
 
     // 파티지원하기 - 모집공고 지원
     suspend fun applyPartyRecruitment(

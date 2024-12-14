@@ -6,6 +6,7 @@ import com.party.data.dto.party.PartyAuthorityDto
 import com.party.data.dto.party.PartyCreateDto
 import com.party.data.dto.party.PartyDetailDto
 import com.party.data.dto.party.PartyListDto
+import com.party.data.dto.party.PartyModifyDto
 import com.party.data.dto.party.PartyRecruitmentDto
 import com.party.data.dto.party.PartyTypeDto
 import com.party.data.dto.party.PartyUserDto
@@ -24,6 +25,7 @@ import com.party.domain.model.party.PartyCreate
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyItem
 import com.party.domain.model.party.PartyList
+import com.party.domain.model.party.PartyModify
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PartyType
 import com.party.domain.model.party.PartyTypeItem
@@ -279,6 +281,19 @@ object PartyMapper {
             recruitingCount = recruitmentCreateDto.recruitingCount,
             recruitedCount = recruitmentCreateDto.recruitedCount,
             createdAt = recruitmentCreateDto.createdAt,
+        )
+    }
+
+    fun mapperPartyModify(partyModifyDto: PartyModifyDto): PartyModify{
+        return PartyModify(
+            id = partyModifyDto.id,
+            partyTypeId = partyModifyDto.partyTypeId,
+            title = partyModifyDto.title,
+            content = partyModifyDto.content,
+            image = convertToImageUrl(partyModifyDto.image),
+            //status = partyModifyDto.status,
+            //createdAt = partyModifyDto.createdAt,
+            updatedAt = partyModifyDto.updatedAt,
         )
     }
 }

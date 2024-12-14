@@ -64,6 +64,7 @@ fun PartyEditScreenRoute(
     PartyEditScreen(
         snackBarHostState = snackBarHostState,
         partyEditState = partyEditState,
+        partyId = partyId,
         onAction = { action ->
             when(action){
                 is PartyEditAction.OnIsVisibleToolTip -> partyEditViewModel.onAction(action)
@@ -75,6 +76,7 @@ fun PartyEditScreenRoute(
                 is PartyEditAction.OnChangeMainPosition -> partyEditViewModel.onAction(action)
                 is PartyEditAction.OnChangeSubPosition -> partyEditViewModel.onAction(action)
                 is PartyEditAction.OnChangeMainPositionBottomSheet -> partyEditViewModel.onAction(action)
+                is PartyEditAction.OnPartyModify -> partyEditViewModel.onAction(action)
             }
         },
         onClickMainPosition = {},
@@ -86,6 +88,7 @@ fun PartyEditScreenRoute(
 private fun PartyEditScreen(
     snackBarHostState: SnackbarHostState,
     partyEditState: PartyEditState,
+    partyId: Int,
     onAction: (PartyEditAction) -> Unit,
     onClickMainPosition: (String) -> Unit,
     onNavigationClick: () -> Unit
@@ -110,156 +113,163 @@ private fun PartyEditScreen(
                 .background(WHITE)
                 .padding(it)
                 .padding(horizontal = MEDIUM_PADDING_SIZE)
-                .verticalScroll(scrollState)
         ) {
-            HeightSpacer(heightDp = 12.dp)
-
-            PartyImageArea(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                onSetImage = {  }
-            )
-
-            // ToolTip
-            if(partyEditState.isVisibleToolTip){
-                PartyEditCustomShape(
-                    onClick = { onAction(PartyEditAction.OnIsVisibleToolTip(false)) }
-                )
-            }
-
-            // 파티명
-            HeightSpacer(heightDp = 32.dp)
-            PartyEditDescriptionArea(
-                title = "파티명",
-                description = "직관적인 파티명을 사용하시면 조회수가 올라가요."
-            )
-            HeightSpacer(heightDp = 20.dp)
-            PartyEditInputField(
-                inputText = partyEditState.inputPartyTitle,
-                placeHolder = "15자 이내로 입력해 주세요.",
-                readOnly = false,
-                icon = {
-                    DrawableIconButton(
-                        icon = painterResource(id = R.drawable.close),
-                        contentDescription = "",
-                        onClick = { onAction(PartyEditAction.OnRemovePartyTitle) }
-                    )
-                },
-                onValueChange = { inputText ->
-                    if (inputText.length <= 15) {
-                        onAction(PartyEditAction.OnChangeInputTitle(inputText))
-                    }
-                }
-            )
-            HeightSpacer(heightDp = 12.dp)
-            PartyEditValidField(
-                count = partyEditState.inputPartyTitle.length
-            )
-
-            // 파티 유형
-            HeightSpacer(heightDp = 30.dp)
-            PartyEditDescriptionArea(
-                title = "파티 유형",
-                description = "파티가 목표로 하는 유형을 선택해 주세요."
-            )
-            HeightSpacer(heightDp = 20.dp)
-            PartyEditInputField(
-                inputText = partyEditState.selectedPartyType,
-                placeHolder = "유형을 선택해 주세요.",
-                readOnly = true,
-                icon = {
-                    DrawableIconButton(
-                        icon = painterResource(id = R.drawable.arrow_down_icon),
-                        contentDescription = "",
-                        onClick = { onAction(PartyEditAction.OnChangePartyTypeSheet(true)) }
-                    )
-                },
-                onValueChange = {}
-            )
-
-            // 파티 소개글
-            HeightSpacer(heightDp = 80.dp)
-            PartyEditDescriptionArea(
-                title = "파티 소개글",
-                description = "파티의 방향성, 참고사항 등을 자유롭게 적어주세요.",
-                icon = {
-                    DrawableIconButton(
-                        icon = painterResource(id = R.drawable.help),
-                        contentDescription = "",
-                        onClick = { onAction(PartyEditAction.OnChangeIsShowHelpCard(true)) },
-                        modifier = Modifier.size(20.dp)
-                    )
-                }
-            )
-            if(partyEditState.isHelpCardOpen){
-                HeightSpacer(heightDp = 12.dp)
-                HelpCard(
-                    description1 = "어떤 활동을 하나요?",
-                    description2 = "규칙이 있나요? (출석, 강퇴 등)",
-                    onClose = { onAction(PartyEditAction.OnChangeIsShowHelpCard(false)) }
-                )
-            }
-            HeightSpacer(heightDp = 20.dp)
-            MultiLineInputField(
-                placeHolder = "새로운 프로젝트를 위해 모여 함께 아이디어를 나누고 계획을 세우는 파티를 개최합니다.",
-                inputText = partyEditState.partyDescription,
-                onValueChange = { inputDescription -> onAction(PartyEditAction.OnChangePartyDescription(inputDescription)) },
-                onAllDeleteInputText = { onAction(PartyEditAction.OnChangePartyDescription("")) }
-            )
-
-            // 내 포지션
-            HeightSpacer(heightDp = 30.dp)
-            PartyEditDescriptionArea(
-                title = "내 포지션",
-                description = "파티 내에서 본인의 포지션을 선택해주세요."
-            )
-
-            HeightSpacer(heightDp = 20.dp)
-            PartyEditSelectPositionArea(
-                subPositionList = partyEditState.subPositionList,
-                isMainPositionBottomSheetShow = partyEditState.isMainPositionBottomSheetShow,
-                selectedMainPosition = partyEditState.selectedMainPosition,
-                selectedSubPosition = partyEditState.selectedSubPosition,
-                onApply = { mainPosition, selectedSubPosition->
-                    onAction(PartyEditAction.OnChangeMainPosition(mainPosition))
-                    onAction(PartyEditAction.OnChangeSubPosition(selectedSubPosition))
-                },
-                onShowPositionBottomSheet = { isShow ->
-                    onAction(PartyEditAction.OnChangeMainPositionBottomSheet(isShow))
-                },
-                onClickMainPosition = onClickMainPosition
-            )
-
-            // 파티 상태
-            HeightSpacer(heightDp = 60.dp)
-            PartyEditDescriptionArea(
-                title = "파티 상태",
-                description = "파티 종료 시 일부 기능이 제한되며, 이후 다시 진행 중으로 변경할 수 있어요."
-            )
-            HeightSpacer(heightDp = 20.dp)
-            SelectPartyStateButtonArea(
-                onProgress = {},
-                onFinish = {}
-            )
-
-            // 파티 삭제하기
-            HeightSpacer(heightDp = 48.dp)
-            TextComponent(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                text = "파티 삭제하기",
-                fontSize = B2,
-                textColor = RED,
-                textDecoration = TextDecoration.Underline,
-                textAlign = Alignment.Center,
-            )
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .verticalScroll(scrollState)
+            ) {
+                HeightSpacer(heightDp = 12.dp)
+
+                PartyImageArea(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    onSetImage = {  }
+                )
+
+                // ToolTip
+                if(partyEditState.isVisibleToolTip){
+                    PartyEditCustomShape(
+                        onClick = { onAction(PartyEditAction.OnIsVisibleToolTip(false)) }
+                    )
+                }
+
+                // 파티명
+                HeightSpacer(heightDp = 32.dp)
+                PartyEditDescriptionArea(
+                    title = "파티명",
+                    description = "직관적인 파티명을 사용하시면 조회수가 올라가요."
+                )
+                HeightSpacer(heightDp = 20.dp)
+                PartyEditInputField(
+                    inputText = partyEditState.inputPartyTitle,
+                    placeHolder = "15자 이내로 입력해 주세요.",
+                    readOnly = false,
+                    icon = {
+                        DrawableIconButton(
+                            icon = painterResource(id = R.drawable.close),
+                            contentDescription = "",
+                            onClick = { onAction(PartyEditAction.OnRemovePartyTitle) }
+                        )
+                    },
+                    onValueChange = { inputText ->
+                        if (inputText.length <= 15) {
+                            onAction(PartyEditAction.OnChangeInputTitle(inputText))
+                        }
+                    }
+                )
+                HeightSpacer(heightDp = 12.dp)
+                PartyEditValidField(
+                    count = partyEditState.inputPartyTitle.length
+                )
+
+                // 파티 유형
+                HeightSpacer(heightDp = 30.dp)
+                PartyEditDescriptionArea(
+                    title = "파티 유형",
+                    description = "파티가 목표로 하는 유형을 선택해 주세요."
+                )
+                HeightSpacer(heightDp = 20.dp)
+                PartyEditInputField(
+                    inputText = partyEditState.selectedPartyType,
+                    placeHolder = "유형을 선택해 주세요.",
+                    readOnly = true,
+                    icon = {
+                        DrawableIconButton(
+                            icon = painterResource(id = R.drawable.arrow_down_icon),
+                            contentDescription = "",
+                            onClick = { onAction(PartyEditAction.OnChangePartyTypeSheet(true)) }
+                        )
+                    },
+                    onValueChange = {}
+                )
+
+                // 파티 소개글
+                HeightSpacer(heightDp = 80.dp)
+                PartyEditDescriptionArea(
+                    title = "파티 소개글",
+                    description = "파티의 방향성, 참고사항 등을 자유롭게 적어주세요.",
+                    icon = {
+                        DrawableIconButton(
+                            icon = painterResource(id = R.drawable.help),
+                            contentDescription = "",
+                            onClick = { onAction(PartyEditAction.OnChangeIsShowHelpCard(true)) },
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                )
+                if(partyEditState.isHelpCardOpen){
+                    HeightSpacer(heightDp = 12.dp)
+                    HelpCard(
+                        description1 = "어떤 활동을 하나요?",
+                        description2 = "규칙이 있나요? (출석, 강퇴 등)",
+                        onClose = { onAction(PartyEditAction.OnChangeIsShowHelpCard(false)) }
+                    )
+                }
+                HeightSpacer(heightDp = 20.dp)
+                MultiLineInputField(
+                    placeHolder = "새로운 프로젝트를 위해 모여 함께 아이디어를 나누고 계획을 세우는 파티를 개최합니다.",
+                    inputText = partyEditState.partyDescription,
+                    onValueChange = { inputDescription -> onAction(PartyEditAction.OnChangePartyDescription(inputDescription)) },
+                    onAllDeleteInputText = { onAction(PartyEditAction.OnChangePartyDescription("")) }
+                )
+
+                // 내 포지션
+                HeightSpacer(heightDp = 30.dp)
+                PartyEditDescriptionArea(
+                    title = "내 포지션",
+                    description = "파티 내에서 본인의 포지션을 선택해주세요."
+                )
+
+                HeightSpacer(heightDp = 20.dp)
+                PartyEditSelectPositionArea(
+                    subPositionList = partyEditState.subPositionList,
+                    isMainPositionBottomSheetShow = partyEditState.isMainPositionBottomSheetShow,
+                    selectedMainPosition = partyEditState.selectedMainPosition,
+                    selectedSubPosition = partyEditState.selectedSubPosition,
+                    onApply = { mainPosition, selectedSubPosition->
+                        onAction(PartyEditAction.OnChangeMainPosition(mainPosition))
+                        onAction(PartyEditAction.OnChangeSubPosition(selectedSubPosition))
+                    },
+                    onShowPositionBottomSheet = { isShow ->
+                        onAction(PartyEditAction.OnChangeMainPositionBottomSheet(isShow))
+                    },
+                    onClickMainPosition = onClickMainPosition
+                )
+
+                // 파티 상태
+                HeightSpacer(heightDp = 60.dp)
+                PartyEditDescriptionArea(
+                    title = "파티 상태",
+                    description = "파티 종료 시 일부 기능이 제한되며, 이후 다시 진행 중으로 변경할 수 있어요."
+                )
+                HeightSpacer(heightDp = 20.dp)
+                SelectPartyStateButtonArea(
+                    onProgress = {},
+                    onFinish = {}
+                )
+
+                // 파티 삭제하기
+                HeightSpacer(heightDp = 48.dp)
+                TextComponent(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    text = "파티 삭제하기",
+                    fontSize = B2,
+                    textColor = RED,
+                    textDecoration = TextDecoration.Underline,
+                    textAlign = Alignment.Center,
+                )
+
+                HeightSpacer(heightDp = 48.dp)
+            }
 
             // 수정 버튼
-            HeightSpacer(heightDp = 48.dp)
             CustomButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
-                onClick = { /*TODO*/ },
+                onClick = { onAction(PartyEditAction.OnPartyModify(partyId = partyId)) },
                 textWeight = FontWeight.Bold,
                 textSize = B2,
                 buttonText = "수정 완료",
@@ -275,6 +285,7 @@ private fun PartyEditScreenPreview() {
     PartyEditScreen(
         snackBarHostState = SnackbarHostState(),
         partyEditState = PartyEditState(),
+        partyId = 0,
         onAction = {},
         onClickMainPosition = {},
         onNavigationClick = {}
