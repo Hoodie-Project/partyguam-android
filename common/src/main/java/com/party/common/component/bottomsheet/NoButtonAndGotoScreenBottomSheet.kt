@@ -1,0 +1,102 @@
+package com.party.common.component.bottomsheet
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.party.common.TextComponent
+import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
+import com.party.common.ui.theme.B1
+
+val partyManageList = listOf("파티장 위임", "포지션 변경", "내보내기")
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NoButtonAndGotoScreenBottomSheet(
+    bottomSheetTitle: String,
+    contentList: List<String>,
+    onBottomSheetClose: () -> Unit,
+    onClick: (String) -> Unit,
+) {
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+
+    ModalBottomSheet(
+        sheetState = sheetState,
+        onDismissRequest = {
+            onBottomSheetClose()
+        },
+        containerColor = White,
+        dragHandle = null,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(horizontal = 20.dp)
+        ) {
+            BottomSheetTitleArea(
+                titleText = bottomSheetTitle,
+                onSheetClose = onBottomSheetClose
+            )
+
+            ContentArea(
+                contentList = contentList,
+                onClick = onClick
+            )
+        }
+    }
+}
+
+@Composable
+private fun ContentArea(
+    contentList: List<String>,
+    onClick: (String) -> Unit,
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+    ) {
+        itemsIndexed(
+            items = contentList,
+            key = { index, _ ->
+                index
+            }
+        ) { _, item ->
+            TextComponent(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp),
+                text = item,
+                fontSize = B1,
+                textAlign = Alignment.Center,
+                onClick = { onClick(item) }
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun NoButtonAndGotoScreenBottomSheetPreview() {
+    NoButtonAndGotoScreenBottomSheet(
+        bottomSheetTitle = "파티원 관리",
+        contentList = partyManageList,
+        onBottomSheetClose = {},
+        onClick = {}
+    )
+}

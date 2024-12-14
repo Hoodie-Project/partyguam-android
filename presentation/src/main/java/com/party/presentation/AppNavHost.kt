@@ -296,6 +296,7 @@ fun AppNavHost() {
             val partyId = backStackEntry.toRoute<Screens.PartyUserManage>().partyId
             PartyUserManageScreenRoute(
                 snackBarHostState = snackBarHostState,
+                navController = navController,
                 partyId = partyId
             )
         }

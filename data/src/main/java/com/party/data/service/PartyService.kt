@@ -5,6 +5,7 @@ import com.party.data.dto.party.PartyAuthorityDto
 import com.party.data.dto.party.PartyCreateDto
 import com.party.data.dto.party.PartyDetailDto
 import com.party.data.dto.party.PartyListDto
+import com.party.data.dto.party.PartyMembersInfoDto
 import com.party.data.dto.party.PartyModifyDto
 import com.party.data.dto.party.PartyRecruitmentDto
 import com.party.data.dto.party.PartyUsersDto
@@ -136,4 +137,14 @@ interface PartyService {
         @Path(value = "partyId") partyId: Int,
         @Body recruitmentCreateRequest: RecruitmentCreateRequest,
     ): ApiResponse<RecruitmentCreateDto>
+
+    // 관리자 - 파티원 리스트 조회
+    @GET("api/parties/{partyId}/admin/users")
+    suspend fun getPartyMembers(
+        @Path(value = "partyId") partyId: Int,
+        @Query("page") page: Int,
+        @Query("limit") limit: Int,
+        @Query("sort") sort: String,
+        @Query("order") order: String,
+    ): ApiResponse<PartyMembersInfoDto>
 }

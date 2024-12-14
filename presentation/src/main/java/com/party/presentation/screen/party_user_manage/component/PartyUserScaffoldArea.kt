@@ -2,7 +2,6 @@ package com.party.presentation.screen.party_user_manage.component
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -14,7 +13,7 @@ import com.party.common.ui.theme.T2
 
 @Composable
 fun PartyUserScaffoldArea(
-    onNavigationClick: () -> Unit,
+    onNavigationBack: () -> Unit,
 ) {
     ScaffoldCenterBar(
         navigationIcon = {
@@ -23,7 +22,7 @@ fun PartyUserScaffoldArea(
                 iconColor = BLACK,
                 iconSize = 24.dp,
                 contentDescription = "back",
-                onClick = { onNavigationClick() }
+                onClick = { onNavigationBack() }
             )
         },
         title = {

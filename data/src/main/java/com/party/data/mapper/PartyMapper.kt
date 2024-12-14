@@ -6,10 +6,14 @@ import com.party.data.dto.party.PartyAuthorityDto
 import com.party.data.dto.party.PartyCreateDto
 import com.party.data.dto.party.PartyDetailDto
 import com.party.data.dto.party.PartyListDto
+import com.party.data.dto.party.PartyMemberInfoDto
+import com.party.data.dto.party.PartyMemberPositionDto
+import com.party.data.dto.party.PartyMembersInfoDto
 import com.party.data.dto.party.PartyModifyDto
 import com.party.data.dto.party.PartyRecruitmentDto
 import com.party.data.dto.party.PartyTypeDto
 import com.party.data.dto.party.PartyUserDto
+import com.party.data.dto.party.PartyUserInfoDto
 import com.party.data.dto.party.PartyUsersDto
 import com.party.data.dto.party.PersonalRecruitmentListDto
 import com.party.data.dto.party.PositionDto
@@ -25,11 +29,15 @@ import com.party.domain.model.party.PartyCreate
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyItem
 import com.party.domain.model.party.PartyList
+import com.party.domain.model.party.PartyMemberInfo
+import com.party.domain.model.party.PartyMemberPosition
+import com.party.domain.model.party.PartyMembersInfo
 import com.party.domain.model.party.PartyModify
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PartyType
 import com.party.domain.model.party.PartyTypeItem
 import com.party.domain.model.party.PartyUser
+import com.party.domain.model.party.PartyUserInfo
 import com.party.domain.model.party.PartyUsers
 import com.party.domain.model.party.PersonalRecruitmentItem
 import com.party.domain.model.party.PersonalRecruitmentList
@@ -294,6 +302,32 @@ object PartyMapper {
             //status = partyModifyDto.status,
             //createdAt = partyModifyDto.createdAt,
             updatedAt = partyModifyDto.updatedAt,
+        )
+    }
+
+    fun mapperPartyMemberInfo(partyMemberInfoDto: PartyMemberInfoDto): PartyMemberInfo {
+        return PartyMemberInfo(
+            createdAt = partyMemberInfoDto.createdAt,
+            updatedAt = partyMemberInfoDto.updatedAt,
+            status = partyMemberInfoDto.status,
+            authority = partyMemberInfoDto.authority,
+            user = mapperPartyUserInfo(partyMemberInfoDto.user),
+            position = mapperPartyMemberPosition(partyMemberInfoDto.position)
+        )
+    }
+
+    private fun mapperPartyUserInfo(partyUserInfoDto: PartyUserInfoDto): PartyUserInfo {
+        return PartyUserInfo(
+            id = partyUserInfoDto.id,
+            nickname = partyUserInfoDto.nickname,
+            image = convertToImageUrl(partyUserInfoDto.image)
+        )
+    }
+
+    private fun mapperPartyMemberPosition(partyMemberPositionDto: PartyMemberPositionDto): PartyMemberPosition {
+        return PartyMemberPosition(
+            main = partyMemberPositionDto.main,
+            sub = partyMemberPositionDto.sub
         )
     }
 }

@@ -26,75 +26,103 @@ import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.component.icon.DrawableIconButton
+import com.party.common.convertIsoToCustomDateFormat
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.GRAY300
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.GRAY600
-import com.party.common.ui.theme.PRIMARY
+import com.party.domain.model.party.PartyMemberInfo
+import com.party.domain.model.party.PartyMemberPosition
+import com.party.domain.model.party.PartyUserInfo
+import com.party.presentation.enum.PartyAuthorityType
+import com.party.presentation.enum.getPartyAuthorityColor
+import com.party.presentation.enum.getPartyRole
+import com.party.presentation.screen.party_user_manage.PartyUserState
 
 @Composable
 fun PartyUserListArea(
-    modifier: Modifier = Modifier
+    partyUserState: PartyUserState,
+    onClick: () -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
     ) {
         itemsIndexed(
-            items = listOf("", ""),
+            items = partyUserState.partyUserList,
             key = { index, _ ->
                 index
             }
         ) { _, item ->
-            PartyUserListItem()
+            PartyUserListItem(
+                partyMemberInfo = item,
+                onClick = onClick
+            )
         }
     }
 }
 
 @Composable
-fun PartyUserListItem(){
+fun PartyUserListItem(
+    partyMemberInfo: PartyMemberInfo,
+    onClick: () -> Unit,
+){
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(122.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        UserProfileArea()
+        UserProfileArea(
+            authority = partyMemberInfo.authority,
+        )
         WidthSpacer(12.dp)
         PartyUserListItemContentArea(
             modifier = Modifier
-                .weight(1f)
+                .weight(1f),
+            partyMemberInfo = partyMemberInfo
         )
-        MoreButton()
+        MoreButton(
+            onClick = onClick
+        )
     }
 }
 
 @Composable
 private fun PartyUserListItemContentArea(
-    modifier: Modifier = Modifier
+    modifier: Modifier,
+    partyMemberInfo: PartyMemberInfo
 ) {
     Column(
         modifier = modifier
     ) {
-        PartyAuthorityAndPosition()
+        PartyAuthorityAndPosition(
+            authority = partyMemberInfo.authority,
+            main = partyMemberInfo.position.main,
+            sub = partyMemberInfo.position.sub
+        )
         HeightSpacer(4.dp)
         UserContent()
         HeightSpacer(4.dp)
-        UserJoinCreateDt()
+        UserJoinCreateDt(
+            createdAt = partyMemberInfo.createdAt
+        )
     }
 }
 
 @Composable
 private fun PartyAuthorityAndPosition(
-    modifier: Modifier = Modifier
+    authority: String,
+    main: String,
+    sub: String
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "파티장",
-            color = PRIMARY,
+            text = getPartyRole(PartyAuthorityType.fromAuthority(authority)),
+            color = getPartyAuthorityColor(PartyAuthorityType.fromAuthority(authority)),
             fontWeight = FontWeight.SemiBold,
             fontSize = B3
         )
@@ -105,12 +133,12 @@ private fun PartyAuthorityAndPosition(
         )
         WidthSpacer(6.dp)
         Text(
-            text = "개발자",
+            text = main,
             fontSize = B3
         )
         WidthSpacer(6.dp)
         Text(
-            text = "안드로이드",
+            text = sub,
             fontSize = B3
         )
     }
@@ -129,10 +157,10 @@ private fun UserContent(
 
 @Composable
 private fun UserJoinCreateDt(
-    modifier: Modifier = Modifier
+    createdAt: String
 ) {
     TextComponent(
-        text = "2024.12.12",
+        text = convertIsoToCustomDateFormat(createdAt),
         fontSize = B3,
         textColor = GRAY600
     )
@@ -140,7 +168,7 @@ private fun UserJoinCreateDt(
 
 @Composable
 private fun UserProfileArea(
-    modifier: Modifier = Modifier
+    authority: String,
 ) {
     Box(
         modifier = Modifier
@@ -158,39 +186,94 @@ private fun UserProfileArea(
         }
 
         // 파티장이면
-        DrawableIconButton(
-            modifier = Modifier
-                .size(24.dp)
-                .align(Alignment.BottomEnd),
-            icon = painterResource(id = R.drawable.icon_flag),
-            contentDescription = "Select Image",
-            onClick = {},
-            iconColor = Color.Unspecified
-        )
+        if(authority == PartyAuthorityType.MASTER.authority){
+            DrawableIconButton(
+                modifier = Modifier
+                    .size(24.dp)
+                    .align(Alignment.BottomEnd),
+                icon = painterResource(id = R.drawable.icon_flag),
+                contentDescription = "Select Image",
+                onClick = {},
+                iconColor = Color.Unspecified
+            )
+        }
     }
 }
 
 @Composable
 private fun MoreButton(
-    modifier: Modifier = Modifier
+    onClick: () -> Unit
 ) {
     DrawableIconButton(
         icon = painterResource(id = R.drawable.icon_vertical_more),
         contentDescription = "More",
         iconSize = 24.dp,
-        iconColor = GRAY400,
-        onClick = {}
+        iconColor = Color.Unspecified,
+        onClick = onClick
     )
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun PartyUserListAreaPreview() {
-    PartyUserListArea()
+    PartyUserListArea(
+        partyUserState = PartyUserState(
+            partyUserList = listOf(
+                PartyMemberInfo(
+                    createdAt = "2024-06-05T15:30:45.123Z",
+                    updatedAt = "2024-06-05T15:30:45.123Z",
+                    status = "Joseh",
+                    authority = "master",
+                    user = PartyUserInfo(
+                        id = 4865,
+                        nickname = "닉네임입니다.",
+                        image = null
+                    ),
+                    position = PartyMemberPosition(
+                        main = "개발자",
+                        sub = "안드로이드"
+                    )
+                ),
+                PartyMemberInfo(
+                    createdAt = "2024-06-05T15:30:45.123Z",
+                    updatedAt = "2024-06-05T15:30:45.123Z",
+                    status = "Joseh",
+                    authority = "member",
+                    user = PartyUserInfo(
+                        id = 4865,
+                        nickname = "닉네임입니다.",
+                        image = null
+                    ),
+                    position = PartyMemberPosition(
+                        main = "개발자",
+                        sub = "안드로이드"
+                    )
+                ),
+            )
+        ),
+        onClick = {}
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun PartyUserListItemPreview() {
-    PartyUserListItem()
+    PartyUserListItem(
+        partyMemberInfo = PartyMemberInfo(
+            createdAt = "2024-06-05T15:30:45.123Z",
+            updatedAt = "2024-06-05T15:30:45.123Z",
+            status = "Joseh",
+            authority = "master",
+            user = PartyUserInfo(
+                id = 4865,
+                nickname = "닉네임입니다.",
+                image = null
+            ),
+            position = PartyMemberPosition(
+                main = "개발자",
+                sub = "안드로이드"
+            )
+        ),
+        onClick = {}
+    )
 }

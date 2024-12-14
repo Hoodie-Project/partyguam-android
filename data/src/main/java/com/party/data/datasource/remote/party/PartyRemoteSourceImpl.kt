@@ -5,6 +5,7 @@ import com.party.data.dto.party.PartyAuthorityDto
 import com.party.data.dto.party.PartyCreateDto
 import com.party.data.dto.party.PartyDetailDto
 import com.party.data.dto.party.PartyListDto
+import com.party.data.dto.party.PartyMembersInfoDto
 import com.party.data.dto.party.PartyModifyDto
 import com.party.data.dto.party.PartyRecruitmentDto
 import com.party.data.dto.party.PartyUsersDto
@@ -134,5 +135,15 @@ class PartyRemoteSourceImpl @Inject constructor(
         recruitmentCreateRequest: RecruitmentCreateRequest
     ): ApiResponse<RecruitmentCreateDto> {
         return partyService.saveRecruitment(partyId = partyId, recruitmentCreateRequest = recruitmentCreateRequest)
+    }
+
+    override suspend fun getPartyMembers(
+        partyId: Int,
+        page: Int,
+        limit: Int,
+        sort: String,
+        order: String
+    ): ApiResponse<PartyMembersInfoDto> {
+        return partyService.getPartyMembers(partyId = partyId, page = page, limit = limit, sort = sort, order = order)
     }
 }

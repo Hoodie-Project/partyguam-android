@@ -6,6 +6,7 @@ import com.party.domain.model.party.PartyApplyRequest
 import com.party.domain.model.party.PartyCreate
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyList
+import com.party.domain.model.party.PartyMembersInfo
 import com.party.domain.model.party.PartyModify
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PartyUsers
@@ -93,9 +94,12 @@ interface PartyRepository {
         partyApplyRequest: PartyApplyRequest,
     ): ServerApiResponse<PartyApply>
 
-    // // 모집공고 추가하기
+    // 모집공고 추가하기
     suspend fun saveRecruitment(
         partyId: Int,
         recruitmentCreateRequest: RecruitmentCreateRequest
     ): ServerApiResponse<RecruitmentCreate>
+
+    // 관리자 - 파티원 리스트 조회
+    suspend fun getPartyMembers(partyId: Int, page: Int, limit: Int, sort: String, order: String): ServerApiResponse<PartyMembersInfo>
 }

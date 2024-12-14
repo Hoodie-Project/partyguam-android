@@ -7,6 +7,7 @@ import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.data.datasource.remote.party.PartyRemoteSource
 import com.party.data.mapper.PartyMapper.mapperPartyAuthority
 import com.party.data.mapper.PartyMapper.mapperPartyDetail
+import com.party.data.mapper.PartyMapper.mapperPartyMemberInfo
 import com.party.data.mapper.PartyMapper.mapperPartyModify
 import com.party.data.mapper.PartyMapper.mapperPartyRecruitment
 import com.party.data.mapper.PartyMapper.mapperPartyResponse
@@ -21,6 +22,7 @@ import com.party.domain.model.party.PartyApplyRequest
 import com.party.domain.model.party.PartyCreate
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyList
+import com.party.domain.model.party.PartyMembersInfo
 import com.party.domain.model.party.PartyModify
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PartyUsers
@@ -288,6 +290,38 @@ class PartyRepositoryImpl @Inject constructor(
             recruitmentCreateRequest = recruitmentCreateRequest
         )){
             is ApiResponse.Success -> { SuccessResponse(data = mapperToRecruitmentCreate(result.data)) }
+            is ApiResponse.Failure.Error -> { ErrorResponse() }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse()
+            }
+        }
+    }
+
+    // 관리자 - 파티원 리스트 조회
+    override suspend fun getPartyMembers(
+        partyId: Int,
+        page: Int,
+        limit: Int,
+        sort: String,
+        order: String
+    ): ServerApiResponse<PartyMembersInfo> {
+        return when(val result = partyRemoteSource.getPartyMembers(
+            partyId = partyId,
+            page = page,
+            limit = limit,
+            sort = sort,
+            order = order
+        )){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = PartyMembersInfo(
+                    totalPartyUserCount = result.data.totalPartyUserCount,
+                    total = result.data.total,
+                    partyUser = result.data.partyUser.map {
+                        mapperPartyMemberInfo(it)
+                    }
+                ))
+            }
             is ApiResponse.Failure.Error -> { ErrorResponse() }
             is ApiResponse.Failure.Exception -> {
                 result.throwable.printStackTrace()

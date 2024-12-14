@@ -4,36 +4,73 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.party.common.HeightSpacer
+import com.party.common.component.bottomsheet.NoButtonAndGotoScreenBottomSheet
+import com.party.common.component.bottomsheet.partyManageList
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
+import com.party.domain.model.party.PartyMemberInfo
+import com.party.domain.model.party.PartyMemberPosition
+import com.party.domain.model.party.PartyUserInfo
 import com.party.presentation.screen.party_user_manage.component.PartyUserCountArea
 import com.party.presentation.screen.party_user_manage.component.PartyUserFilterArea
 import com.party.presentation.screen.party_user_manage.component.PartyUserListArea
 import com.party.presentation.screen.party_user_manage.component.PartyUserScaffoldArea
 import com.party.presentation.screen.party_user_manage.component.PartyUserSearchArea
+import com.party.presentation.screen.party_user_manage.viewmodel.PartyUserViewModel
 
 @Composable
 fun PartyUserManageScreenRoute(
     snackBarHostState: SnackbarHostState,
+    navController: NavController,
     partyId: Int,
+    partyUserViewModel: PartyUserViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(Unit) {
+        partyUserViewModel.getPartyMembers(
+            partyId = partyId,
+            page = 1,
+            limit = 50,
+            sort = "createdAt",
+            order = "DESC"
+        )
+    }
+    val partyUserState by partyUserViewModel.state.collectAsStateWithLifecycle()
+
     PartyUserManageScreen(
-        snackBarHostState = snackBarHostState
+        snackBarHostState = snackBarHostState,
+        partyUserState = partyUserState,
+        onAction = { action ->
+            when(action){
+                is PartyUserAction.OnChangeInputText -> { partyUserViewModel.onAction(action) }
+                is PartyUserAction.OnChangePositionBottomSheet -> { partyUserViewModel.onAction(action) }
+                is PartyUserAction.OnChangeMainPosition -> { partyUserViewModel.onAction(action) }
+                is PartyUserAction.OnChangeOrderBy -> { partyUserViewModel.onAction(action) }
+                is PartyUserAction.OnManageBottomSheet -> { partyUserViewModel.onAction(action) }
+            }
+        },
+        onNavigationBack = { navController.popBackStack() }
     )
 }
 
 @Composable
 private fun PartyUserManageScreen(
     snackBarHostState: SnackbarHostState,
+    partyUserState: PartyUserState,
+    onAction: (PartyUserAction) -> Unit,
+    onNavigationBack: () -> Unit,
 ) {
     Scaffold(
         snackbarHost = {
@@ -43,7 +80,7 @@ private fun PartyUserManageScreen(
         },
         topBar = {
             PartyUserScaffoldArea(
-                onNavigationClick = {}
+                onNavigationBack = onNavigationBack
             )
         }
     ){
@@ -61,23 +98,41 @@ private fun PartyUserManageScreen(
 
             // 검색
             PartyUserSearchArea(
-                inputText = "",
+                inputText = partyUserState.inputText,
                 placeHolder = "닉네임을 검색해 보세요.",
-                onValueChange = {}
+                onValueChange = { inputText ->
+                    onAction(PartyUserAction.OnChangeInputText(inputText))
+                }
             )
 
             // 필터
             HeightSpacer(heightDp = 16.dp)
             PartyUserFilterArea(
-                isPartyTypeFilterClick = {},
-                isDesc = true,
-                onChangeOrderBy = {},
+                isPartyTypeFilterClick = {
+                    onAction(PartyUserAction.OnChangePositionBottomSheet(true))
+                },
+                isDesc = partyUserState.isDesc,
+                onChangeOrderBy = { isDesc ->
+                    onAction(PartyUserAction.OnChangeOrderBy(isDesc))
+                },
             )
 
             PartyUserListArea(
-
+                partyUserState = partyUserState,
+                onClick = {
+                    onAction(PartyUserAction.OnManageBottomSheet(true))
+                }
             )
         }
+    }
+
+    if(partyUserState.manageBottomSheet){
+        NoButtonAndGotoScreenBottomSheet(
+            bottomSheetTitle = "파티원 관리",
+            contentList = partyManageList,
+            onBottomSheetClose = { onAction(PartyUserAction.OnManageBottomSheet(false)) },
+            onClick = {}
+        )
     }
 }
 
@@ -85,6 +140,42 @@ private fun PartyUserManageScreen(
 @Composable
 private fun PartyUserManageScreenPreview() {
     PartyUserManageScreen(
-        snackBarHostState = SnackbarHostState()
+        snackBarHostState = SnackbarHostState(),
+        partyUserState = PartyUserState(
+            partyUserList = listOf(
+                PartyMemberInfo(
+                    createdAt = "2024-06-05T15:30:45.123Z",
+                    updatedAt = "2024-06-05T15:30:45.123Z",
+                    status = "Joseh",
+                    authority = "master",
+                    user = PartyUserInfo(
+                        id = 4865,
+                        nickname = "닉네임입니다.",
+                        image = null
+                    ),
+                    position = PartyMemberPosition(
+                        main = "개발자",
+                        sub = "안드로이드"
+                    )
+                ),
+                PartyMemberInfo(
+                    createdAt = "2024-06-05T15:30:45.123Z",
+                    updatedAt = "2024-06-05T15:30:45.123Z",
+                    status = "Joseh",
+                    authority = "member",
+                    user = PartyUserInfo(
+                        id = 4865,
+                        nickname = "닉네임입니다.",
+                        image = null
+                    ),
+                    position = PartyMemberPosition(
+                        main = "개발자",
+                        sub = "안드로이드"
+                    )
+                ),
+            )
+        ),
+        onAction = {},
+        onNavigationBack = {}
     )
 }
