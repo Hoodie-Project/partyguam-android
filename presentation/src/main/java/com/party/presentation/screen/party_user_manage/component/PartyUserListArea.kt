@@ -43,7 +43,7 @@ import com.party.presentation.screen.party_user_manage.PartyUserState
 @Composable
 fun PartyUserListArea(
     partyUserState: PartyUserState,
-    onClick: () -> Unit
+    onClick: (String) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -66,7 +66,7 @@ fun PartyUserListArea(
 @Composable
 fun PartyUserListItem(
     partyMemberInfo: PartyMemberInfo,
-    onClick: () -> Unit,
+    onClick: (String) -> Unit,
 ){
     Row(
         modifier = Modifier
@@ -84,7 +84,9 @@ fun PartyUserListItem(
             partyMemberInfo = partyMemberInfo
         )
         MoreButton(
-            onClick = onClick
+            onClick = {
+                onClick(partyMemberInfo.authority)
+            }
         )
     }
 }
@@ -103,7 +105,9 @@ private fun PartyUserListItemContentArea(
             sub = partyMemberInfo.position.sub
         )
         HeightSpacer(4.dp)
-        UserContent()
+        UserContent(
+            nickName = partyMemberInfo.user.nickname,
+        )
         HeightSpacer(4.dp)
         UserJoinCreateDt(
             createdAt = partyMemberInfo.createdAt
@@ -146,10 +150,10 @@ private fun PartyAuthorityAndPosition(
 
 @Composable
 private fun UserContent(
-    modifier: Modifier = Modifier
+    nickName: String,
 ) {
     TextComponent(
-        text = "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요",
+        text = nickName,
         fontSize = B2,
         maxLines = 2,
     )

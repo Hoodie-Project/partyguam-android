@@ -71,5 +71,5 @@ interface PartyRemoteSource {
     suspend fun createRecruitment(partyId: Int, recruitmentCreateRequest: RecruitmentCreateRequest): ApiResponse<RecruitmentCreateDto>
 
     // 관리자 - 파티원 리스트 조회
-    suspend fun getPartyMembers(partyId: Int, page: Int, limit: Int, sort: String, order: String): ApiResponse<PartyMembersInfoDto>
+    suspend fun getPartyMembers(partyId: Int, page: Int, limit: Int, sort: String, order: String, main: String?): ApiResponse<PartyMembersInfoDto>
 }

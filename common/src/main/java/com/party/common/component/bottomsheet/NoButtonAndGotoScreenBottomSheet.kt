@@ -19,8 +19,11 @@ import androidx.compose.ui.unit.dp
 import com.party.common.TextComponent
 import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
 import com.party.common.ui.theme.B1
+import com.party.common.ui.theme.BLACK
+import com.party.common.ui.theme.RED
 
-val partyManageList = listOf("파티장 위임", "포지션 변경", "내보내기")
+val partyMemberManageList = listOf("파티장 위임", "포지션 변경", "내보내기")
+val partyMasterManageList = listOf("포지션 변경")
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -84,6 +87,7 @@ private fun ContentArea(
                 text = item,
                 fontSize = B1,
                 textAlign = Alignment.Center,
+                textColor = if(item == partyMemberManageList[2]) RED else BLACK,
                 onClick = { onClick(item) }
             )
         }
@@ -95,7 +99,7 @@ private fun ContentArea(
 private fun NoButtonAndGotoScreenBottomSheetPreview() {
     NoButtonAndGotoScreenBottomSheet(
         bottomSheetTitle = "파티원 관리",
-        contentList = partyManageList,
+        contentList = partyMemberManageList,
         onBottomSheetClose = {},
         onClick = {}
     )

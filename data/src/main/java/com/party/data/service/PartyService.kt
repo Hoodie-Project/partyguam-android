@@ -146,5 +146,6 @@ interface PartyService {
         @Query("limit") limit: Int,
         @Query("sort") sort: String,
         @Query("order") order: String,
+        @Query("main") main: String? = null,
     ): ApiResponse<PartyMembersInfoDto>
 }

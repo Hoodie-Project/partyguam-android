@@ -27,6 +27,7 @@ class PartyUserViewModel @Inject constructor(
         limit: Int,
         sort: String,
         order: String,
+        main: String?
     ){
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
@@ -35,7 +36,8 @@ class PartyUserViewModel @Inject constructor(
                 page = page,
                 limit = limit,
                 sort = sort,
-                order = order
+                order = order,
+                main = main
             )){
                 is ServerApiResponse.SuccessResponse -> {
                     _state.update { it.copy(
@@ -55,7 +57,26 @@ class PartyUserViewModel @Inject constructor(
             is PartyUserAction.OnChangePositionBottomSheet -> _state.update { it.copy(isOpenPositionBottomSheet = action.isOpenPositionBottomSheet) }
             is PartyUserAction.OnChangeMainPosition -> _state.update { it.copy(selectedMainPosition = action.selectedMainPosition) }
             is PartyUserAction.OnChangeOrderBy -> _state.update { it.copy(isDesc = action.isDesc) }
-            is PartyUserAction.OnManageBottomSheet -> _state.update { it.copy(manageBottomSheet = action.isOpenManageBottomSheet) }
+            is PartyUserAction.OnManageBottomSheet -> {
+                _state.update { it.copy(
+                    manageBottomSheet = action.isOpenManageBottomSheet,
+                    selectedMemberAuthority = action.selectedMemberAuthority
+                ) }
+            }
+            is PartyUserAction.OnApply -> {
+                _state.update { it.copy(
+                    isOpenPositionBottomSheet = false,
+                ) }
+
+                getPartyMembers(
+                    partyId = action.partyId,
+                    page = 1,
+                    limit = 50,
+                    sort = "createdAt",
+                    order = if(_state.value.isDesc) "DESC" else "ASC",
+                    main = if (_state.value.selectedMainPosition == "전체") null else _state.value.selectedMainPosition
+                )
+            }
         }
     }
 }

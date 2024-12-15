@@ -19,12 +19,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.WidthSpacer
+import com.party.common.component.bottomsheet.MainPositionBottomSheet
 import com.party.common.component.chip.OrderByCreateDtChip
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.GRAY200
@@ -33,12 +33,17 @@ import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
+import com.party.presentation.screen.party_user_manage.PartyUserState
 
 @Composable
 fun PartyUserFilterArea(
+    partyUserState: PartyUserState,
     isPartyTypeFilterClick: (Boolean) -> Unit,
-    isDesc: Boolean,
+    onShowPositionFilter: (Boolean) -> Unit,
     onChangeOrderBy: (Boolean) -> Unit,
+    onPositionClick: (String) -> Unit,
+    onReset: () -> Unit,
+    onApply: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -53,9 +58,19 @@ fun PartyUserFilterArea(
         )
 
         OrderByCreateDtChip(
-            text = stringResource(id = R.string.filter1),
-            orderByDesc = isDesc,
+            text = "참여일순",
+            orderByDesc = partyUserState.isDesc,
             onChangeSelected = { onChangeOrderBy(it) }
+        )
+    }
+
+    if(partyUserState.isOpenPositionBottomSheet){
+        MainPositionBottomSheet(
+            selectedPosition = partyUserState.selectedMainPosition,
+            onBottomSheetClose = { onShowPositionFilter(false) },
+            onPositionClick = onPositionClick,
+            onApply = onApply,
+            onReset = onReset,
         )
     }
 }
@@ -114,8 +129,12 @@ private fun SelectFilterItem(
 @Composable
 private fun PartyUserFilterAreaPreview() {
     PartyUserFilterArea(
+        partyUserState = PartyUserState(),
         isPartyTypeFilterClick = {},
-        isDesc = true,
-        onChangeOrderBy = {}
+        onShowPositionFilter = {},
+        onChangeOrderBy = {},
+        onPositionClick = {},
+        onReset = {},
+        onApply = {},
     )
 }

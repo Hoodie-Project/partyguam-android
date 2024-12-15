@@ -12,5 +12,6 @@ class GetPartyMemberInfoUseCase @Inject constructor(
         limit: Int,
         sort: String,
         order: String,
-    ) = partyRepository.getPartyMembers(partyId = partyId, page = page, limit = limit, sort = sort, order = order)
+        main: String?,
+    ) = partyRepository.getPartyMembers(partyId = partyId, page = page, limit = limit, sort = sort, order = order, main = main)
 }

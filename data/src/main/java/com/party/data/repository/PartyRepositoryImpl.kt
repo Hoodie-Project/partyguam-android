@@ -304,14 +304,16 @@ class PartyRepositoryImpl @Inject constructor(
         page: Int,
         limit: Int,
         sort: String,
-        order: String
+        order: String,
+        main: String?
     ): ServerApiResponse<PartyMembersInfo> {
         return when(val result = partyRemoteSource.getPartyMembers(
             partyId = partyId,
             page = page,
             limit = limit,
             sort = sort,
-            order = order
+            order = order,
+            main = main
         )){
             is ApiResponse.Success -> {
                 SuccessResponse(data = PartyMembersInfo(

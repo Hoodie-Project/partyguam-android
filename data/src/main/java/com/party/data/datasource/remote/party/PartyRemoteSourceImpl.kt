@@ -142,8 +142,9 @@ class PartyRemoteSourceImpl @Inject constructor(
         page: Int,
         limit: Int,
         sort: String,
-        order: String
+        order: String,
+        main: String?
     ): ApiResponse<PartyMembersInfoDto> {
-        return partyService.getPartyMembers(partyId = partyId, page = page, limit = limit, sort = sort, order = order)
+        return partyService.getPartyMembers(partyId = partyId, page = page, limit = limit, sort = sort, order = order, main = main)
     }
 }

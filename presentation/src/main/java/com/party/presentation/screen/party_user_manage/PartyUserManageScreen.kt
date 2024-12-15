@@ -17,13 +17,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.party.common.HeightSpacer
+import com.party.common.component.bottomsheet.MainPositionBottomSheet
 import com.party.common.component.bottomsheet.NoButtonAndGotoScreenBottomSheet
-import com.party.common.component.bottomsheet.partyManageList
+import com.party.common.component.bottomsheet.partyMasterManageList
+import com.party.common.component.bottomsheet.partyMemberManageList
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyMemberInfo
 import com.party.domain.model.party.PartyMemberPosition
 import com.party.domain.model.party.PartyUserInfo
+import com.party.presentation.enum.PartyAuthorityType
 import com.party.presentation.screen.party_user_manage.component.PartyUserCountArea
 import com.party.presentation.screen.party_user_manage.component.PartyUserFilterArea
 import com.party.presentation.screen.party_user_manage.component.PartyUserListArea
@@ -44,7 +47,8 @@ fun PartyUserManageScreenRoute(
             page = 1,
             limit = 50,
             sort = "createdAt",
-            order = "DESC"
+            order = "DESC",
+            main = null
         )
     }
     val partyUserState by partyUserViewModel.state.collectAsStateWithLifecycle()
@@ -52,6 +56,7 @@ fun PartyUserManageScreenRoute(
     PartyUserManageScreen(
         snackBarHostState = snackBarHostState,
         partyUserState = partyUserState,
+        partyId = partyId,
         onAction = { action ->
             when(action){
                 is PartyUserAction.OnChangeInputText -> { partyUserViewModel.onAction(action) }
@@ -59,6 +64,7 @@ fun PartyUserManageScreenRoute(
                 is PartyUserAction.OnChangeMainPosition -> { partyUserViewModel.onAction(action) }
                 is PartyUserAction.OnChangeOrderBy -> { partyUserViewModel.onAction(action) }
                 is PartyUserAction.OnManageBottomSheet -> { partyUserViewModel.onAction(action) }
+                is PartyUserAction.OnApply -> { partyUserViewModel.onAction(action)}
             }
         },
         onNavigationBack = { navController.popBackStack() }
@@ -69,6 +75,7 @@ fun PartyUserManageScreenRoute(
 private fun PartyUserManageScreen(
     snackBarHostState: SnackbarHostState,
     partyUserState: PartyUserState,
+    partyId: Int,
     onAction: (PartyUserAction) -> Unit,
     onNavigationBack: () -> Unit,
 ) {
@@ -108,29 +115,31 @@ private fun PartyUserManageScreen(
             // 필터
             HeightSpacer(heightDp = 16.dp)
             PartyUserFilterArea(
-                isPartyTypeFilterClick = {
-                    onAction(PartyUserAction.OnChangePositionBottomSheet(true))
-                },
-                isDesc = partyUserState.isDesc,
-                onChangeOrderBy = { isDesc ->
-                    onAction(PartyUserAction.OnChangeOrderBy(isDesc))
-                },
+                partyUserState = partyUserState,
+                isPartyTypeFilterClick = { onAction(PartyUserAction.OnChangePositionBottomSheet(true)) },
+                onChangeOrderBy = { isDesc -> onAction(PartyUserAction.OnChangeOrderBy(isDesc)) },
+                onShowPositionFilter = { isShow -> onAction(PartyUserAction.OnChangePositionBottomSheet(isShow)) },
+                onPositionClick = { selectPosition -> onAction(PartyUserAction.OnChangeMainPosition(selectPosition)) },
+                onReset = { onAction(PartyUserAction.OnChangeMainPosition("")) },
+                onApply = { onAction(PartyUserAction.OnApply(partyId = partyId)) }
             )
 
             PartyUserListArea(
                 partyUserState = partyUserState,
-                onClick = {
-                    onAction(PartyUserAction.OnManageBottomSheet(true))
+                onClick = { selectedMemberAuthority ->
+                    onAction(PartyUserAction.OnManageBottomSheet(true, selectedMemberAuthority))
                 }
             )
         }
     }
 
+
+
     if(partyUserState.manageBottomSheet){
         NoButtonAndGotoScreenBottomSheet(
             bottomSheetTitle = "파티원 관리",
-            contentList = partyManageList,
-            onBottomSheetClose = { onAction(PartyUserAction.OnManageBottomSheet(false)) },
+            contentList = if(partyUserState.selectedMemberAuthority == PartyAuthorityType.MASTER.authority) partyMasterManageList else partyMemberManageList,
+            onBottomSheetClose = { onAction(PartyUserAction.OnManageBottomSheet(false, "")) },
             onClick = {}
         )
     }
@@ -175,6 +184,7 @@ private fun PartyUserManageScreenPreview() {
                 ),
             )
         ),
+        partyId = 1,
         onAction = {},
         onNavigationBack = {}
     )

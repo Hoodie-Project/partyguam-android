@@ -101,5 +101,5 @@ interface PartyRepository {
     ): ServerApiResponse<RecruitmentCreate>
 
     // 관리자 - 파티원 리스트 조회
-    suspend fun getPartyMembers(partyId: Int, page: Int, limit: Int, sort: String, order: String): ServerApiResponse<PartyMembersInfo>
+    suspend fun getPartyMembers(partyId: Int, page: Int, limit: Int, sort: String, order: String, main: String?): ServerApiResponse<PartyMembersInfo>
 }
