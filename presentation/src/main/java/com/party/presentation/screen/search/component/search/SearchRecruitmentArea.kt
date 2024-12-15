@@ -24,7 +24,6 @@ import com.party.domain.model.party.RecruitmentParty
 import com.party.domain.model.party.RecruitmentPartyType
 import com.party.domain.model.party.RecruitmentPosition
 import com.party.presentation.screen.home.tab_recruitment.PartyTypeModal
-import com.party.presentation.screen.search.SearchAction
 import com.party.presentation.screen.search.SearchState
 
 @Composable

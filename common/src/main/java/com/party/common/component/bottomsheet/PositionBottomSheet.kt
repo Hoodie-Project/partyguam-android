@@ -56,7 +56,7 @@ fun PositionBottomSheet(
     onMainPositionClick: (String) -> Unit,
     onSubPositionClick: (String) -> Unit,
     onDelete: (Pair<String, String>) -> Unit,
-    onReset: () -> Unit,
+    onReset: () -> Unit = {},
     onApply: () -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(

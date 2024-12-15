@@ -1,6 +1,7 @@
 package com.party.presentation.screen.party_user_manage
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,15 +18,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.party.common.HeightSpacer
-import com.party.common.component.bottomsheet.MainPositionBottomSheet
 import com.party.common.component.bottomsheet.NoButtonAndGotoScreenBottomSheet
 import com.party.common.component.bottomsheet.partyMasterManageList
 import com.party.common.component.bottomsheet.partyMemberManageList
+import com.party.common.component.dialog.TwoButtonDialog
+import com.party.common.noRippleClickable
+import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyMemberInfo
 import com.party.domain.model.party.PartyMemberPosition
 import com.party.domain.model.party.PartyUserInfo
+import com.party.presentation.component.bottomsheet.OneSelectMainAndSubPositionBottomSheet
 import com.party.presentation.enum.PartyAuthorityType
 import com.party.presentation.screen.party_user_manage.component.PartyUserCountArea
 import com.party.presentation.screen.party_user_manage.component.PartyUserFilterArea
@@ -65,10 +69,33 @@ fun PartyUserManageScreenRoute(
                 is PartyUserAction.OnChangeOrderBy -> { partyUserViewModel.onAction(action) }
                 is PartyUserAction.OnManageBottomSheet -> { partyUserViewModel.onAction(action) }
                 is PartyUserAction.OnApply -> { partyUserViewModel.onAction(action)}
+                is PartyUserAction.OnChangeModifyPositionSheet -> { partyUserViewModel.onAction(action) }
+                is PartyUserAction.OnMainPositionClick -> { partyUserViewModel.onAction(action) }
+                is PartyUserAction.OnSubPositionClick -> { partyUserViewModel.onAction(action) }
+                is PartyUserAction.OnChangeSelectedSubPosition -> { partyUserViewModel.onAction(action) }
+                is PartyUserAction.OnChangeModifyDialog -> { partyUserViewModel.onAction(action) }
             }
         },
         onNavigationBack = { navController.popBackStack() }
     )
+
+    if(partyUserState.isShowModifyDialog){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(BLACK.copy(alpha = 0.2f))
+                .noRippleClickable { partyUserViewModel.dismissBackDialog() }
+        ) {
+            TwoButtonDialog(
+                dialogTitle = "포지션 변경",
+                description = "해당 포지션으로 변경하시나요?",
+                cancelButtonText = "닫기",
+                confirmButtonText = "변경하기",
+                onCancel = { partyUserViewModel.dismissBackDialog() },
+                onConfirm = { }
+            )
+        }
+    }
 }
 
 @Composable
@@ -140,7 +167,33 @@ private fun PartyUserManageScreen(
             bottomSheetTitle = "파티원 관리",
             contentList = if(partyUserState.selectedMemberAuthority == PartyAuthorityType.MASTER.authority) partyMasterManageList else partyMemberManageList,
             onBottomSheetClose = { onAction(PartyUserAction.OnManageBottomSheet(false, "")) },
-            onClick = {}
+            onClick = { text ->
+                when(text){
+                    "포지션 변경" -> {
+                        onAction(PartyUserAction.OnManageBottomSheet(false, ""))
+                        onAction(PartyUserAction.OnChangeModifyPositionSheet(true))
+                    }
+                }
+            }
+        )
+    }
+
+    if(partyUserState.isMainPositionBottomSheetShow){
+        OneSelectMainAndSubPositionBottomSheet(
+            subPositionList = partyUserState.getSubPositionList,
+            bottomSheetTitle = "모집 포지션",
+            selectedMainPosition = partyUserState.selectedMainPosition,
+            selectedSubPosition = partyUserState.selectedSubPosition,
+            buttonText = "변경하기",
+            onModelClose = { onAction(PartyUserAction.OnChangeModifyPositionSheet(false)) },
+            onApply = { mainPosition, selectedSubPosition->
+                onAction(PartyUserAction.OnChangeMainPosition(mainPosition))
+                onAction(PartyUserAction.OnChangeSelectedSubPosition(selectedSubPosition))
+                onAction(PartyUserAction.OnChangeModifyDialog(true))
+            },
+            onClickMainPosition = {
+                onAction(PartyUserAction.OnMainPositionClick(it))
+            }
         )
     }
 }

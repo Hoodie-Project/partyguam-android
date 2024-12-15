@@ -94,7 +94,7 @@ fun PartyCreateScreenRoute(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(BLACK.copy(alpha = 0.7f))
+                .background(BLACK.copy(alpha = 0.2f))
                 .noRippleClickable { partyCreateViewModel.dismissBackDialog() }
         ) {
             TwoButtonDialog(

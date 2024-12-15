@@ -53,6 +53,7 @@ fun OneSelectMainAndSubPositionBottomSheet(
     selectedSubPosition: PositionList,
     subPositionList: List<PositionList>,
     onModelClose: () -> Unit,
+    buttonText: String = "선택 완료",
     onApply: (String, PositionList) -> Unit,
     onClickMainPosition: (String) -> Unit,
 ) {
@@ -114,7 +115,7 @@ fun OneSelectMainAndSubPositionBottomSheet(
             }
 
             ApplyButton(
-                buttonText = "선택 완료",
+                buttonText = buttonText,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp),

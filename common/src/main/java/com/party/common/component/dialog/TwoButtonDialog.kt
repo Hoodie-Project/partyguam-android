@@ -63,14 +63,19 @@ fun TwoButtonDialog(
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                HeightSpacer(heightDp = 32.dp)
-                DialogTitle(
-                    dialogTitle = dialogTitle
-                )
-                DialogDescription(
-                    description = description
-                )
-                HeightSpacer(heightDp = 34.dp)
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                ) {
+                    HeightSpacer(heightDp = 32.dp)
+                    DialogTitle(
+                        dialogTitle = dialogTitle
+                    )
+                    DialogDescription(
+                        description = description
+                    )
+                }
+
                 DialogButtonArea(
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally),
@@ -121,6 +126,21 @@ private fun TwoButtonDialogPreview(
     TwoButtonDialog(
         dialogTitle = "나가기",
         description = "입력한 내용들이 모두 초기화굅니다.\n나가시겠습니까?",
+        cancelButtonText = "취소",
+        confirmButtonText = "나가기",
+        onCancel = {},
+        onConfirm = {}
+    )
+}
+
+@Preview
+@Composable
+private fun TwoButtonDialogPreview2(
+    modifier: Modifier = Modifier
+) {
+    TwoButtonDialog(
+        dialogTitle = "나가기",
+        description = "해당 포지션으로 변경하시나요?",
         cancelButtonText = "취소",
         confirmButtonText = "나가기",
         onCancel = {},

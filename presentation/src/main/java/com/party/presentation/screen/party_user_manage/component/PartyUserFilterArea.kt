@@ -52,7 +52,7 @@ fun PartyUserFilterArea(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         SelectFilterItem(
-            filterName = "파티유형",
+            filterName = partyUserState.selectedMainPosition,
             isSheetOpen = false,
             onClick = { isPartyTypeFilterClick(it) }
         )
