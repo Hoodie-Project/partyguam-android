@@ -113,7 +113,7 @@ interface PartyService {
 
     // 파티 수정
     @Multipart
-    @PATCH("api/parties/{partyId}")
+    @PATCH("api/parties/{partyId}/admin")
     suspend fun modifyParty(
         @Path(value = "partyId") partyId: Int,
         @Part("title") title: RequestBody? = null,
@@ -152,7 +152,7 @@ interface PartyService {
     ): ApiResponse<PartyMembersInfoDto>
 
     // 관리자 - 파티원 포지션 변경
-    @PATCH("api/parties/{partyId}/users/{partyUserId}")
+    @PATCH("api/parties/{partyId}/admin/users/{partyUserId}")
     suspend fun modifyPartyMemberPosition(
         @Path(value = "partyId") partyId: Int,
         @Path(value = "partyUserId") partyUserId: Int,
