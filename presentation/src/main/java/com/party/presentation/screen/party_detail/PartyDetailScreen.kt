@@ -84,6 +84,10 @@ fun PartyDetailRoute(
         onGotoPartyUser = {
             scope.launch { drawerState.close() }
             navController.navigate(Screens.PartyUserManage(partyId = partyId))
+        },
+        onGotoPartyRecruitmentEdit = {
+            scope.launch { drawerState.close() }
+            navController.navigate(Screens.PartyEditRecruitment(partyId = partyId))
         }
     )
 }

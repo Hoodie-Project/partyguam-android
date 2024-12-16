@@ -44,6 +44,7 @@ fun RightModalDrawer(
     content: @Composable () -> Unit,
     onGotoPartyEdit: () -> Unit,
     onGotoPartyUser: () -> Unit,
+    onGotoPartyRecruitmentEdit: () -> Unit,
 ) {
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
         ModalNavigationDrawer(
@@ -68,7 +69,8 @@ fun RightModalDrawer(
                             HeightSpacer(heightDp = 60.dp)
                             DrawerContentArea(
                                 onGotoPartyEdit = onGotoPartyEdit,
-                                onGotoPartyUser = onGotoPartyUser
+                                onGotoPartyUser = onGotoPartyUser,
+                                onGotoPartyRecruitmentEdit = onGotoPartyRecruitmentEdit
                             )
                         }
                     }
@@ -87,6 +89,7 @@ fun RightModalDrawer(
 private fun DrawerContentArea(
     onGotoPartyEdit: () -> Unit,
     onGotoPartyUser: () -> Unit,
+    onGotoPartyRecruitmentEdit: () -> Unit,
 ) {
     Column (
         modifier = Modifier
@@ -98,7 +101,9 @@ private fun DrawerContentArea(
             onGotoPartyUser = onGotoPartyUser
         )
         HeightSpacer(heightDp = 40.dp)
-        ManageRecruitment()
+        ManageRecruitment(
+            onGotoPartyRecruitmentEdit = onGotoPartyRecruitmentEdit
+        )
     }
 
 }
@@ -120,11 +125,13 @@ private fun ManageParty(
 }
 
 @Composable
-private fun ManageRecruitment() {
+private fun ManageRecruitment(
+    onGotoPartyRecruitmentEdit: () -> Unit,
+) {
     DrawerTitle(title = "모집 관리")
     DrawerItem(
         text = "모집 편집",
-        onClick = {}
+        onClick = onGotoPartyRecruitmentEdit
     )
     DrawerItem(
         text = "지원자 관리",
@@ -197,7 +204,8 @@ private fun RightModalDrawerPreview() {
                         HeightSpacer(heightDp = 60.dp)
                         DrawerContentArea(
                             onGotoPartyEdit = {},
-                            onGotoPartyUser = {}
+                            onGotoPartyUser = {},
+                            onGotoPartyRecruitmentEdit = {}
                         )
                     }
                 }
@@ -205,5 +213,6 @@ private fun RightModalDrawerPreview() {
         },
         onGotoPartyEdit = {},
         onGotoPartyUser = {},
+        onGotoPartyRecruitmentEdit = {},
     )
 }

@@ -32,13 +32,11 @@ import com.party.common.component.button.CustomButton
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.MultiLineInputField
 import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.WHITE
 import com.party.presentation.component.HelpCard
-import com.party.presentation.screen.party_create.PartyCreateAction
 import com.party.presentation.screen.party_edit.component.PartyEditCustomShape
 import com.party.presentation.screen.party_edit.component.PartyEditDescriptionArea
 import com.party.presentation.screen.party_edit.component.PartyEditInputField
@@ -91,7 +89,7 @@ private fun PartyEditScreen(
     partyId: Int,
     onAction: (PartyEditAction) -> Unit,
     onClickMainPosition: (String) -> Unit,
-    onNavigationClick: () -> Unit
+    onNavigationClick: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 

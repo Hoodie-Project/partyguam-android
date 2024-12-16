@@ -1,4 +1,4 @@
-package com.party.presentation.screen.party_edit.component
+package com.party.presentation.screen.party_edit_recruitment.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,13 +14,14 @@ import com.party.common.HeightSpacer
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.ui.theme.B1
+import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T2
 
 @Composable
-fun PartyEditDescriptionArea(
+fun PartyRecruitmentEditDescriptionArea(
     title: String,
+    recruitmentCount: Int,
     description: String,
-    icon: @Composable () -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -38,8 +39,15 @@ fun PartyEditDescriptionArea(
                 fontSize = T2,
                 fontWeight = FontWeight.SemiBold,
             )
-            WidthSpacer(widthDp = 4.dp)
-            icon()
+            WidthSpacer(widthDp = 6.dp)
+            TextComponent(
+                modifier = Modifier
+                    .wrapContentWidth(),
+                text = recruitmentCount.toString(),
+                fontSize = T2,
+                textColor = PRIMARY,
+                fontWeight = FontWeight.SemiBold,
+            )
         }
         HeightSpacer(heightDp = 8.dp)
         TextComponent(
@@ -53,9 +61,10 @@ fun PartyEditDescriptionArea(
 
 @Preview(showBackground = true)
 @Composable
-private fun PartyEditDescriptionPreview() {
-    PartyEditDescriptionArea(
-        title = "Title",
-        description = "Description",
+private fun PartyRecruitmentEditDescriptionAreaPreview() {
+    PartyRecruitmentEditDescriptionArea(
+        title = "모집공고",
+        recruitmentCount = 1,
+        description = "편집을 원하는 모집 공고를 선택해 주세요.",
     )
 }
