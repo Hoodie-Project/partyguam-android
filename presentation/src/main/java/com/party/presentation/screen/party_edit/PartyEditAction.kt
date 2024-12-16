@@ -11,6 +11,7 @@ sealed interface PartyEditAction {
     data class OnChangeInputTitle(val title: String): PartyEditAction
 
     data class OnChangePartyTypeSheet(val isPartyTypeSheetOpen: Boolean): PartyEditAction
+    data class OnChangeSelectPartyType(val partyType: String): PartyEditAction
 
     data class OnChangeIsShowHelpCard(val isShowHelpCard: Boolean): PartyEditAction
     data class OnChangePartyDescription(val description: String): PartyEditAction

@@ -28,6 +28,8 @@ import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
+import com.party.common.component.bottomsheet.OneSelectBottomSheet
+import com.party.common.component.bottomsheet.list.partyTypeList
 import com.party.common.component.button.CustomButton
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.MultiLineInputField
@@ -37,6 +39,7 @@ import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.WHITE
 import com.party.presentation.component.HelpCard
+import com.party.presentation.screen.party_create.PartyCreateAction
 import com.party.presentation.screen.party_edit.component.PartyEditCustomShape
 import com.party.presentation.screen.party_edit.component.PartyEditDescriptionArea
 import com.party.presentation.screen.party_edit.component.PartyEditInputField
@@ -69,6 +72,7 @@ fun PartyEditScreenRoute(
                 is PartyEditAction.OnIsVisibleToolTip -> partyEditViewModel.onAction(action)
                 is PartyEditAction.OnRemovePartyTitle -> partyEditViewModel.onAction(action)
                 is PartyEditAction.OnChangeInputTitle -> partyEditViewModel.onAction(action)
+                is PartyEditAction.OnChangeSelectPartyType -> partyEditViewModel.onAction(action)
                 is PartyEditAction.OnChangePartyTypeSheet -> partyEditViewModel.onAction(action)
                 is PartyEditAction.OnChangeIsShowHelpCard -> partyEditViewModel.onAction(action)
                 is PartyEditAction.OnChangePartyDescription -> partyEditViewModel.onAction(action)
@@ -182,6 +186,19 @@ private fun PartyEditScreen(
                     },
                     onValueChange = {}
                 )
+
+                if(partyEditState.isPartyTypeSheetOpen){
+                    OneSelectBottomSheet(
+                        bottomSheetTitle = "파티 유형",
+                        contentList = partyTypeList,
+                        selectedText = partyEditState.selectedPartyType,
+                        onBottomSheetClose = { onAction(PartyEditAction.OnChangePartyTypeSheet(false)) },
+                        onApply = { selectPartyType ->
+                            onAction(PartyEditAction.OnChangeSelectPartyType(selectPartyType))
+                            onAction(PartyEditAction.OnChangePartyTypeSheet(false))
+                        }
+                    )
+                }
 
                 // 파티 소개글
                 HeightSpacer(heightDp = 80.dp)

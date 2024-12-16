@@ -94,6 +94,7 @@ class PartyEditViewModel @Inject constructor(
             is PartyEditAction.OnRemovePartyTitle -> _state.update { it.copy(inputPartyTitle = "") }
             is PartyEditAction.OnChangeInputTitle -> _state.update { it.copy(inputPartyTitle = action.title) }
             is PartyEditAction.OnChangePartyTypeSheet -> _state.update { it.copy(isPartyTypeSheetOpen = action.isPartyTypeSheetOpen) }
+            is PartyEditAction.OnChangeSelectPartyType -> _state.update { it.copy(selectedPartyType = action.partyType) }
             is PartyEditAction.OnChangeIsShowHelpCard -> _state.update { it.copy(isHelpCardOpen = action.isShowHelpCard) }
             is PartyEditAction.OnChangePartyDescription -> _state.update { it.copy(partyDescription = action.description) }
             is PartyEditAction.OnChangeMainPosition -> _state.update { it.copy(selectedMainPosition = action.position) }
@@ -104,7 +105,7 @@ class PartyEditViewModel @Inject constructor(
                     partyId = action.partyId,
                     title = createRequestBody(_state.value.inputPartyTitle),
                     content = createRequestBody(_state.value.partyDescription),
-                    partyTypeId = createRequestBody(1.toString()),
+                    partyTypeId = createRequestBody(partyTypeList.first { it.first == _state.value.selectedPartyType }.second.toString()),
                     positionId = null,
                     image = _state.value.image
                 )
