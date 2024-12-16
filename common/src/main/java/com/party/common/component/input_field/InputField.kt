@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -58,6 +59,7 @@ fun InputField(
     borderCornerSize: Dp = LARGE_CORNER_SIZE,
     readOnly: Boolean = false,
     placeHolder: String,
+    placeHolderText: Color = BLACK,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     onValueChange: (String) -> Unit,
     leadingIcon: @Composable () -> Unit = {},
@@ -73,10 +75,8 @@ fun InputField(
     ) {
         BasicTextField(
             visualTransformation = visualTransformation,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = keyboardType,
-                imeAction = imeAction
-            ),
+            keyboardActions = keyboardActions,
+            keyboardOptions = keyboardOptions,
             modifier = modifier
                 .fillMaxWidth()
                 .height(INPUT_FIELD_HEIGHT)
@@ -114,7 +114,7 @@ fun InputField(
                             Text(
                                 text = placeHolder,
                                 fontSize = T3,
-                                color = inputTextColor,
+                                color = placeHolderText,
                             )
                         }
                     }

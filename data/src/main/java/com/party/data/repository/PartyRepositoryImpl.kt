@@ -308,7 +308,8 @@ class PartyRepositoryImpl @Inject constructor(
         limit: Int,
         sort: String,
         order: String,
-        main: String?
+        main: String?,
+        nickname: String?,
     ): ServerApiResponse<PartyMembersInfo> {
         return when(val result = partyRemoteSource.getPartyMembers(
             partyId = partyId,
@@ -316,7 +317,8 @@ class PartyRepositoryImpl @Inject constructor(
             limit = limit,
             sort = sort,
             order = order,
-            main = main
+            main = main,
+            nickname = nickname
         )){
             is ApiResponse.Success -> {
                 SuccessResponse(data = PartyMembersInfo(

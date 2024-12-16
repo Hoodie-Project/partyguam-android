@@ -38,7 +38,8 @@ class PartyUserViewModel @Inject constructor(
         limit: Int,
         sort: String,
         order: String,
-        main: String?
+        main: String?,
+        nickname: String?
     ){
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
@@ -48,7 +49,8 @@ class PartyUserViewModel @Inject constructor(
                 limit = limit,
                 sort = sort,
                 order = order,
-                main = main
+                main = main,
+                nickname = nickname
             )){
                 is ServerApiResponse.SuccessResponse -> {
                     _state.update { it.copy(
@@ -124,7 +126,8 @@ class PartyUserViewModel @Inject constructor(
                     limit = 50,
                     sort = "createdAt",
                     order = if(_state.value.isDesc) "DESC" else "ASC",
-                    main = if (_state.value.selectedMainPosition == "전체") null else _state.value.selectedMainPosition
+                    main = if (_state.value.selectedMainPosition == "전체") null else _state.value.selectedMainPosition,
+                    nickname = if(_state.value.inputText == "") null else _state.value.inputText
                 )
             }
 

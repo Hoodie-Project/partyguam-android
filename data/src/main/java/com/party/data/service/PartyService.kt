@@ -148,6 +148,7 @@ interface PartyService {
         @Query("sort") sort: String,
         @Query("order") order: String,
         @Query("main") main: String? = null,
+        @Query("nickname") nickname: String? = null,
     ): ApiResponse<PartyMembersInfoDto>
 
     // 관리자 - 파티원 포지션 변경

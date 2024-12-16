@@ -55,7 +55,8 @@ fun PartyUserManageScreenRoute(
             limit = 50,
             sort = "createdAt",
             order = "DESC",
-            main = null
+            main = null,
+            nickname = null
         )
     }
 
@@ -135,7 +136,9 @@ private fun PartyUserManageScreen(
                 placeHolder = "닉네임을 검색해 보세요.",
                 onValueChange = { inputText ->
                     onAction(PartyUserAction.OnChangeInputText(inputText))
-                }
+                },
+                onRemoveAll = { onAction(PartyUserAction.OnChangeInputText("")) },
+                searchAction = { onAction(PartyUserAction.OnApply(partyId = partyId)) }
             )
 
             // 필터

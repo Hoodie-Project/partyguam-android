@@ -144,9 +144,10 @@ class PartyRemoteSourceImpl @Inject constructor(
         limit: Int,
         sort: String,
         order: String,
-        main: String?
+        main: String?,
+        nickname: String?
     ): ApiResponse<PartyMembersInfoDto> {
-        return partyService.getPartyMembers(partyId = partyId, page = page, limit = limit, sort = sort, order = order, main = main)
+        return partyService.getPartyMembers(partyId = partyId, page = page, limit = limit, sort = sort, order = order, main = main, nickname = nickname)
     }
 
     override suspend fun modifyPartyMemberPosition(

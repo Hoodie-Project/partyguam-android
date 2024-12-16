@@ -102,7 +102,7 @@ interface PartyRepository {
     ): ServerApiResponse<RecruitmentCreate>
 
     // 관리자 - 파티원 리스트 조회
-    suspend fun getPartyMembers(partyId: Int, page: Int, limit: Int, sort: String, order: String, main: String?): ServerApiResponse<PartyMembersInfo>
+    suspend fun getPartyMembers(partyId: Int, page: Int, limit: Int, sort: String, order: String, main: String?, nickname: String?): ServerApiResponse<PartyMembersInfo>
 
     // 관리자 - 파티원 포지션 변경
     suspend fun modifyPartyMemberPosition(partyId: Int, partyUserId: Int, modifyPartyUserPositionRequest: ModifyPartyUserPositionRequest): ServerApiResponse<Unit>

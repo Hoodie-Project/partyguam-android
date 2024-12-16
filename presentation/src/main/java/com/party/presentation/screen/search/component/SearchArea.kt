@@ -19,6 +19,7 @@ import com.party.common.component.input_field.InputField
 import com.party.common.component.scaffold.ScaffoldCenterBar
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY400
+import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.PRIMARY
 
 @Composable
@@ -46,7 +47,8 @@ fun SearchArea(
                 InputField(
                     inputText = keyword,
                     placeHolder = "파티, 모집공고 이름을 검색해보세요.",
-                    inputTextColor = GRAY400,
+                    placeHolderText = GRAY500,
+                    inputTextColor = BLACK,
                     onValueChange = onValueChange,
                     elevation = 0.dp,
                     borderCornerSize = 0.dp,
