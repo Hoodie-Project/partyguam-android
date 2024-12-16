@@ -7,8 +7,8 @@ data class PartyMembersInfo(
 )
 
 data class PartyMemberInfo(
+    val id: Int,
     val createdAt: String,
-    val updatedAt: String,
     val status: String,
     val authority: String,
     val user: PartyUserInfo,
@@ -16,7 +16,6 @@ data class PartyMemberInfo(
 )
 
 data class PartyUserInfo(
-    val id: Int,
     val nickname: String,
     val image: String? = null,
 )

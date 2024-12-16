@@ -31,7 +31,6 @@ import com.party.domain.model.party.PartyItem
 import com.party.domain.model.party.PartyList
 import com.party.domain.model.party.PartyMemberInfo
 import com.party.domain.model.party.PartyMemberPosition
-import com.party.domain.model.party.PartyMembersInfo
 import com.party.domain.model.party.PartyModify
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PartyType
@@ -299,16 +298,14 @@ object PartyMapper {
             title = partyModifyDto.title,
             content = partyModifyDto.content,
             image = convertToImageUrl(partyModifyDto.image),
-            //status = partyModifyDto.status,
-            //createdAt = partyModifyDto.createdAt,
-            updatedAt = partyModifyDto.updatedAt,
         )
     }
 
     fun mapperPartyMemberInfo(partyMemberInfoDto: PartyMemberInfoDto): PartyMemberInfo {
         return PartyMemberInfo(
+            id = partyMemberInfoDto.id,
             createdAt = partyMemberInfoDto.createdAt,
-            updatedAt = partyMemberInfoDto.updatedAt,
+            //updatedAt = partyMemberInfoDto.updatedAt,
             status = partyMemberInfoDto.status,
             authority = partyMemberInfoDto.authority,
             user = mapperPartyUserInfo(partyMemberInfoDto.user),
@@ -318,7 +315,7 @@ object PartyMapper {
 
     private fun mapperPartyUserInfo(partyUserInfoDto: PartyUserInfoDto): PartyUserInfo {
         return PartyUserInfo(
-            id = partyUserInfoDto.id,
+            //id = partyUserInfoDto.id,
             nickname = partyUserInfoDto.nickname,
             image = convertToImageUrl(partyUserInfoDto.image)
         )

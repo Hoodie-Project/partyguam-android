@@ -85,7 +85,7 @@ fun PartyUserListItem(
         )
         MoreButton(
             onClick = {
-                onClick(partyMemberInfo.authority, partyMemberInfo.user.id)
+                onClick(partyMemberInfo.authority, partyMemberInfo.id)
             }
         )
     }
@@ -224,12 +224,11 @@ private fun PartyUserListAreaPreview() {
         partyUserState = PartyUserState(
             partyUserList = listOf(
                 PartyMemberInfo(
+                    id = 4865,
                     createdAt = "2024-06-05T15:30:45.123Z",
-                    updatedAt = "2024-06-05T15:30:45.123Z",
                     status = "Joseh",
                     authority = "master",
                     user = PartyUserInfo(
-                        id = 4865,
                         nickname = "닉네임입니다.",
                         image = null
                     ),
@@ -239,12 +238,11 @@ private fun PartyUserListAreaPreview() {
                     )
                 ),
                 PartyMemberInfo(
+                    id = 4865,
                     createdAt = "2024-06-05T15:30:45.123Z",
-                    updatedAt = "2024-06-05T15:30:45.123Z",
                     status = "Joseh",
                     authority = "member",
                     user = PartyUserInfo(
-                        id = 4865,
                         nickname = "닉네임입니다.",
                         image = null
                     ),
@@ -266,12 +264,12 @@ private fun PartyUserListAreaPreview() {
 private fun PartyUserListItemPreview() {
     PartyUserListItem(
         partyMemberInfo = PartyMemberInfo(
+            id = 4865,
             createdAt = "2024-06-05T15:30:45.123Z",
-            updatedAt = "2024-06-05T15:30:45.123Z",
+            //updatedAt = "2024-06-05T15:30:45.123Z",
             status = "Joseh",
             authority = "master",
             user = PartyUserInfo(
-                id = 4865,
                 nickname = "닉네임입니다.",
                 image = null
             ),

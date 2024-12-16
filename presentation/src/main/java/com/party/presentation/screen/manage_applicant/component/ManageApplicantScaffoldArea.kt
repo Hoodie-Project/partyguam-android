@@ -1,4 +1,4 @@
-package com.party.presentation.screen.party_edit_recruitment.component
+package com.party.presentation.screen.manage_applicant.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Text
@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.component.icon.DrawableIconButton
@@ -15,7 +14,8 @@ import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.T2
 
 @Composable
-fun PartyEditRecruitmentScaffoldArea(
+fun ManageApplicantScaffoldArea(
+    isShowHelpIcon: Boolean,
     onNavigationClick: () -> Unit,
     onShowHelpCard: (Boolean) -> Unit
 ) {
@@ -34,15 +34,18 @@ fun PartyEditRecruitmentScaffoldArea(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "모집 수정",
+                    text = "지원자 관리",
                     fontWeight = FontWeight.Bold,
                     fontSize = T2
                 )
-                DrawableIconButton(
-                    icon = painterResource(id = R.drawable.help),
-                    contentDescription = "help",
-                    onClick = { onShowHelpCard(true) }
-                )
+                if(isShowHelpIcon){
+                    DrawableIconButton(
+                        icon = painterResource(id = R.drawable.help),
+                        contentDescription = "help",
+                        onClick = { onShowHelpCard(true) }
+                    )
+                }
+
             }
 
         },
@@ -55,14 +58,5 @@ fun PartyEditRecruitmentScaffoldArea(
                 onClick = {  }
             )
         }
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun PartyEditRecruitmentScaffoldAreaPreview() {
-    PartyEditRecruitmentScaffoldArea(
-        onNavigationClick = {},
-        onShowHelpCard = {}
     )
 }

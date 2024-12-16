@@ -45,6 +45,7 @@ fun RightModalDrawer(
     onGotoPartyEdit: () -> Unit,
     onGotoPartyUser: () -> Unit,
     onGotoPartyRecruitmentEdit: () -> Unit,
+    onGotoManageApplicant: () -> Unit,
 ) {
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
         ModalNavigationDrawer(
@@ -70,7 +71,8 @@ fun RightModalDrawer(
                             DrawerContentArea(
                                 onGotoPartyEdit = onGotoPartyEdit,
                                 onGotoPartyUser = onGotoPartyUser,
-                                onGotoPartyRecruitmentEdit = onGotoPartyRecruitmentEdit
+                                onGotoPartyRecruitmentEdit = onGotoPartyRecruitmentEdit,
+                                onGotoManageApplicant = onGotoManageApplicant
                             )
                         }
                     }
@@ -90,6 +92,7 @@ private fun DrawerContentArea(
     onGotoPartyEdit: () -> Unit,
     onGotoPartyUser: () -> Unit,
     onGotoPartyRecruitmentEdit: () -> Unit,
+    onGotoManageApplicant: () -> Unit,
 ) {
     Column (
         modifier = Modifier
@@ -102,7 +105,8 @@ private fun DrawerContentArea(
         )
         HeightSpacer(heightDp = 40.dp)
         ManageRecruitment(
-            onGotoPartyRecruitmentEdit = onGotoPartyRecruitmentEdit
+            onGotoPartyRecruitmentEdit = onGotoPartyRecruitmentEdit,
+            onGotoManageApplicant = onGotoManageApplicant
         )
     }
 
@@ -127,6 +131,7 @@ private fun ManageParty(
 @Composable
 private fun ManageRecruitment(
     onGotoPartyRecruitmentEdit: () -> Unit,
+    onGotoManageApplicant: () -> Unit,
 ) {
     DrawerTitle(title = "모집 관리")
     DrawerItem(
@@ -135,7 +140,7 @@ private fun ManageRecruitment(
     )
     DrawerItem(
         text = "지원자 관리",
-        onClick = {}
+        onClick = onGotoManageApplicant
     )
 }
 
@@ -205,7 +210,8 @@ private fun RightModalDrawerPreview() {
                         DrawerContentArea(
                             onGotoPartyEdit = {},
                             onGotoPartyUser = {},
-                            onGotoPartyRecruitmentEdit = {}
+                            onGotoPartyRecruitmentEdit = {},
+                            onGotoManageApplicant = {}
                         )
                     }
                 }
@@ -214,5 +220,6 @@ private fun RightModalDrawerPreview() {
         onGotoPartyEdit = {},
         onGotoPartyUser = {},
         onGotoPartyRecruitmentEdit = {},
+        onGotoManageApplicant = {}
     )
 }

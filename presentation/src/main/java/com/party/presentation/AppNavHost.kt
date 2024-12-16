@@ -35,6 +35,7 @@ import com.party.presentation.screen.join.email.JoinEmailScreen
 import com.party.presentation.screen.join.gender.JoinGenderScreen
 import com.party.presentation.screen.join.nickname.JoinNickNameScreen
 import com.party.presentation.screen.login.LoginScreen
+import com.party.presentation.screen.manage_applicant.ManageApplicantScreenRoute
 import com.party.presentation.screen.party_apply.PartyApplyRoute
 import com.party.presentation.screen.party_create.PartyCreateScreenRoute
 import com.party.presentation.screen.party_detail.PartyDetailRoute
@@ -302,6 +303,14 @@ fun AppNavHost() {
         composable<Screens.PartyEditRecruitment> { backStackEntry ->
             val partyId = backStackEntry.toRoute<Screens.PartyEditRecruitment>().partyId
             PartyEditRecruitmentScreenRoute(
+                snackBarHostState = snackBarHostState,
+                navController = navController,
+                partyId = partyId
+            )
+        }
+        composable<Screens.ManageApplicant> { backStackEntry ->
+            val partyId = backStackEntry.toRoute<Screens.ManageApplicant>().partyId
+            ManageApplicantScreenRoute(
                 snackBarHostState = snackBarHostState,
                 navController = navController,
                 partyId = partyId

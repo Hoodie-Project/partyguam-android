@@ -65,6 +65,7 @@ fun PartyEditScreenRoute(
         partyId = partyId,
         onAction = { action ->
             when(action){
+                is PartyEditAction.OnChangeImage -> partyEditViewModel.onAction(action)
                 is PartyEditAction.OnIsVisibleToolTip -> partyEditViewModel.onAction(action)
                 is PartyEditAction.OnRemovePartyTitle -> partyEditViewModel.onAction(action)
                 is PartyEditAction.OnChangeInputTitle -> partyEditViewModel.onAction(action)
@@ -122,7 +123,7 @@ private fun PartyEditScreen(
 
                 PartyImageArea(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
-                    onSetImage = {  }
+                    onSetImage = { image -> onAction(PartyEditAction.OnChangeImage(image = image)) }
                 )
 
                 // ToolTip

@@ -89,6 +89,7 @@ class PartyEditViewModel @Inject constructor(
 
     fun onAction(action: PartyEditAction){
         when(action){
+            is PartyEditAction.OnChangeImage -> _state.update { it.copy(image = action.image) }
             is PartyEditAction.OnIsVisibleToolTip -> _state.update { it.copy(isVisibleToolTip = action.isVisibleToolTip) }
             is PartyEditAction.OnRemovePartyTitle -> _state.update { it.copy(inputPartyTitle = "") }
             is PartyEditAction.OnChangeInputTitle -> _state.update { it.copy(inputPartyTitle = action.title) }

@@ -1,9 +1,11 @@
 package com.party.presentation.screen.party_edit
 
 import com.party.domain.model.user.detail.PositionList
+import okhttp3.MultipartBody
 
 sealed interface PartyEditAction {
     data class OnIsVisibleToolTip(val isVisibleToolTip: Boolean): PartyEditAction
+    data class OnChangeImage(val image: MultipartBody.Part): PartyEditAction
 
     data object OnRemovePartyTitle : PartyEditAction
     data class OnChangeInputTitle(val title: String): PartyEditAction
