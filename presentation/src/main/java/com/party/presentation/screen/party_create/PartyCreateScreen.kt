@@ -132,7 +132,7 @@ fun PartyCreateScreenRoute(
                     partyCreateViewModel.dismissCompleteDialog()
                     // 모집하기 이동
                     navController.popBackStack()
-                    navController.navigate(Screens.RecruitmentCreateScreen(partyId = partyCreateState.partyId))
+                    navController.navigate(Screens.RecruitmentCreate(partyId = partyCreateState.partyId))
                 }
             )
         }

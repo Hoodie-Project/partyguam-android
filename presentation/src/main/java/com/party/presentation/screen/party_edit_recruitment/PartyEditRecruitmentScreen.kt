@@ -11,6 +11,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -22,9 +23,11 @@ import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.Position1
+import com.party.navigation.Screens
 import com.party.presentation.screen.party_edit_recruitment.component.PartyEditRecruitmentScaffoldArea
 import com.party.presentation.screen.party_edit_recruitment.component.PartyRecruitmentEditDescriptionArea
 import com.party.presentation.screen.party_edit_recruitment.component.PartyRecruitmentEditFilterArea
+import com.party.presentation.screen.party_edit_recruitment.component.PartyRecruitmentEditFloatingArea
 import com.party.presentation.screen.party_edit_recruitment.component.PartyRecruitmentEditHelpCard
 import com.party.presentation.screen.party_edit_recruitment.component.PartyRecruitmentListArea
 import com.party.presentation.screen.party_edit_recruitment.viewmodel.PartyRecruitmentEditViewModel
@@ -45,6 +48,7 @@ fun PartyEditRecruitmentScreenRoute(
         snackBarHostState = snackBarHostState,
         partyRecruitmentEditState = partyRecruitmentEditState,
         onNavigationClick = { navController.popBackStack() },
+        onGotoRecruitmentCreate = { navController.navigate(Screens.RecruitmentCreate(partyId = partyId)) },
         onAction = { action ->
             when(action){
                 is PartyRecruitmentEditAction.OnShowHelpCard -> partyRecruitmentEditViewModel.onAction(action)
@@ -61,62 +65,75 @@ private fun PartyEditRecruitmentScreen(
     snackBarHostState: SnackbarHostState,
     partyRecruitmentEditState: PartyRecruitmentEditState,
     onNavigationClick: () -> Unit,
+    onGotoRecruitmentCreate: () -> Unit,
     onAction: (PartyRecruitmentEditAction) -> Unit
 ) {
 
-    Scaffold(
-        snackbarHost = {
-            SnackbarHost(
-                hostState = snackBarHostState,
-            )
-        },
-        topBar = {
-            PartyEditRecruitmentScaffoldArea(
-                onShowHelpCard = { onAction(PartyRecruitmentEditAction.OnShowHelpCard(it)) },
-                onNavigationClick = onNavigationClick,
-            )
-        }
-    ){
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(WHITE)
-                .padding(it)
-                .padding(horizontal = MEDIUM_PADDING_SIZE)
-        ) {
-            // 모집공고 선택 Description
-            Box {
-                if(partyRecruitmentEditState.isShowHelpCard){
-                    PartyRecruitmentEditHelpCard(
-                        onCloseHelpCard = { onAction(PartyRecruitmentEditAction.OnShowHelpCard(false)) }
-                    )
-                }else {
-                    HeightSpacer(16.dp)
-                    PartyRecruitmentEditDescriptionArea(
-                        title = "모집공고",
-                        recruitmentCount = partyRecruitmentEditState.partyRecruitment.size,
-                        description = "편집을 원하는 모집 공고를 선택해 주세요.",
-                    )
-                }
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Scaffold(
+            snackbarHost = {
+                SnackbarHost(
+                    hostState = snackBarHostState,
+                )
+            },
+            topBar = {
+                PartyEditRecruitmentScaffoldArea(
+                    onShowHelpCard = { onAction(PartyRecruitmentEditAction.OnShowHelpCard(it)) },
+                    onNavigationClick = onNavigationClick,
+                )
             }
+        ){
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(WHITE)
+                    .padding(it)
+                    .padding(horizontal = MEDIUM_PADDING_SIZE)
+            ) {
+                // 모집공고 선택 Description
+                Box {
+                    if(partyRecruitmentEditState.isShowHelpCard){
+                        PartyRecruitmentEditHelpCard(
+                            onCloseHelpCard = { onAction(PartyRecruitmentEditAction.OnShowHelpCard(false)) }
+                        )
+                    }else {
+                        HeightSpacer(16.dp)
+                        PartyRecruitmentEditDescriptionArea(
+                            title = "모집공고",
+                            recruitmentCount = partyRecruitmentEditState.partyRecruitment.size,
+                            description = "편집을 원하는 모집 공고를 선택해 주세요.",
+                        )
+                    }
+                }
 
-            // 참여일순 정렬
-            HeightSpacer(20.dp)
-            PartyRecruitmentEditFilterArea(
-                partyRecruitmentEditState = partyRecruitmentEditState,
-                onChangeOrderBy = { isDesc -> onAction(PartyRecruitmentEditAction.OnChangeOrderBy(isDesc)) }
-            )
+                // 참여일순 정렬
+                HeightSpacer(20.dp)
+                PartyRecruitmentEditFilterArea(
+                    partyRecruitmentEditState = partyRecruitmentEditState,
+                    onChangeOrderBy = { isDesc -> onAction(PartyRecruitmentEditAction.OnChangeOrderBy(isDesc)) }
+                )
 
-            // 리스트
-            HeightSpacer(12.dp)
-            PartyRecruitmentListArea(
-                partyRecruitmentEditState = partyRecruitmentEditState,
-                onExpanded = { index -> onAction(PartyRecruitmentEditAction.OnExpanded(index, true)) },
-                onCollapsed = { index -> onAction(PartyRecruitmentEditAction.OnCollapsed(index, false)) },
-                onDelete = { }
-            )
+                // 리스트
+                HeightSpacer(12.dp)
+                PartyRecruitmentListArea(
+                    partyRecruitmentEditState = partyRecruitmentEditState,
+                    onExpanded = { index -> onAction(PartyRecruitmentEditAction.OnExpanded(index, true)) },
+                    onCollapsed = { index -> onAction(PartyRecruitmentEditAction.OnCollapsed(index, false)) },
+                    onDelete = { }
+                )
+            }
         }
+
+        PartyRecruitmentEditFloatingArea(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(bottom = 46.dp, end = 20.dp),
+            onClick = onGotoRecruitmentCreate,
+        )
     }
+
 }
 
 @Preview(showBackground = true)
@@ -150,6 +167,7 @@ private fun PartyEditRecruitmentScreenPreview() {
             ),
         ),
         onNavigationClick = {},
+        onGotoRecruitmentCreate = {},
         onAction = {},
     )
 }

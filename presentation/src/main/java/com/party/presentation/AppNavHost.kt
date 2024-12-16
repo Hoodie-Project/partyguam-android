@@ -29,7 +29,6 @@ import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen3
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen4
 import com.party.presentation.screen.home.HomeScreen
-import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import com.party.presentation.screen.join.birthday.JoinBirthDayScreen
 import com.party.presentation.screen.join.complete.JoinCompleteScreen
 import com.party.presentation.screen.join.email.JoinEmailScreen
@@ -45,7 +44,6 @@ import com.party.presentation.screen.party_edit_recruitment.PartyEditRecruitment
 import com.party.presentation.screen.party_user_manage.PartyUserManageScreenRoute
 import com.party.presentation.screen.profile.ProfileScreen
 import com.party.presentation.screen.recruitment_create.RecruitmentCreateScreenRoute
-import com.party.presentation.screen.recruitment_create.viewmodel.RecruitmentCreateViewModel
 import com.party.presentation.screen.recruitment_detail.RecruitmentDetailRoute
 import com.party.presentation.screen.search.SearchRoute
 import com.party.presentation.screen.splash.SplashScreen
@@ -273,8 +271,8 @@ fun AppNavHost() {
                 snackBarHostState = snackBarHostState,
             )
         }
-        composable<Screens.RecruitmentCreateScreen> { backStackEntry ->
-            val partyId = backStackEntry.toRoute<Screens.RecruitmentCreateScreen>().partyId
+        composable<Screens.RecruitmentCreate> { backStackEntry ->
+            val partyId = backStackEntry.toRoute<Screens.RecruitmentCreate>().partyId
             RecruitmentCreateScreenRoute(
                 navController = navController,
                 partyId = partyId

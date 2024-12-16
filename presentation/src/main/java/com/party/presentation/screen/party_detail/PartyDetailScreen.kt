@@ -63,7 +63,7 @@ fun PartyDetailRoute(
                 partyId = partyId,
                 state = state,
                 onNavigationBack = { navController.popBackStack() },
-                onAddRecruitment = { navController.navigate(Screens.RecruitmentCreateScreen(partyId = partyId)) },
+                onAddRecruitment = { navController.navigate(Screens.RecruitmentCreate(partyId = partyId)) },
                 onManageClick = { scope.launch { drawerState.open() } },
                 onAction = { action ->
                     when(action){
