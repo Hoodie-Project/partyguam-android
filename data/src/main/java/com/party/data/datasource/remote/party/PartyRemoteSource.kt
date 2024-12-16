@@ -13,6 +13,7 @@ import com.party.data.dto.party.PersonalRecruitmentListDto
 import com.party.data.dto.party.RecruitmentCreateDto
 import com.party.data.dto.party.RecruitmentDetailDto
 import com.party.data.dto.party.RecruitmentListDto
+import com.party.domain.model.party.ModifyPartyUserPositionRequest
 import com.party.domain.model.party.PartyApplyRequest
 import com.party.domain.model.party.RecruitmentCreateRequest
 import com.skydoves.sandwich.ApiResponse
@@ -72,4 +73,7 @@ interface PartyRemoteSource {
 
     // 관리자 - 파티원 리스트 조회
     suspend fun getPartyMembers(partyId: Int, page: Int, limit: Int, sort: String, order: String, main: String?): ApiResponse<PartyMembersInfoDto>
+
+    // 관리자 - 파티원 포지션 변경
+    suspend fun modifyPartyMemberPosition(partyId: Int, partyUserId: Int, modifyPartyUserPositionRequest: ModifyPartyUserPositionRequest): ApiResponse<Unit>
 }

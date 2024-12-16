@@ -43,7 +43,7 @@ import com.party.presentation.screen.party_user_manage.PartyUserState
 @Composable
 fun PartyUserListArea(
     partyUserState: PartyUserState,
-    onClick: (String) -> Unit
+    onClick: (String, Int) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -66,7 +66,7 @@ fun PartyUserListArea(
 @Composable
 fun PartyUserListItem(
     partyMemberInfo: PartyMemberInfo,
-    onClick: (String) -> Unit,
+    onClick: (String, Int) -> Unit,
 ){
     Row(
         modifier = Modifier
@@ -85,7 +85,7 @@ fun PartyUserListItem(
         )
         MoreButton(
             onClick = {
-                onClick(partyMemberInfo.authority)
+                onClick(partyMemberInfo.authority, partyMemberInfo.user.id)
             }
         )
     }
@@ -255,7 +255,9 @@ private fun PartyUserListAreaPreview() {
                 ),
             )
         ),
-        onClick = {}
+        onClick = {
+            _, _ ->
+        }
     )
 }
 
@@ -278,6 +280,8 @@ private fun PartyUserListItemPreview() {
                 sub = "안드로이드"
             )
         ),
-        onClick = {}
+        onClick = {
+            _, _ ->
+        }
     )
 }

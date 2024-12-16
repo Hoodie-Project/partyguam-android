@@ -1,6 +1,7 @@
 package com.party.domain.repository
 
 import com.party.common.ServerApiResponse
+import com.party.domain.model.party.ModifyPartyUserPositionRequest
 import com.party.domain.model.party.PartyApply
 import com.party.domain.model.party.PartyApplyRequest
 import com.party.domain.model.party.PartyCreate
@@ -102,4 +103,7 @@ interface PartyRepository {
 
     // 관리자 - 파티원 리스트 조회
     suspend fun getPartyMembers(partyId: Int, page: Int, limit: Int, sort: String, order: String, main: String?): ServerApiResponse<PartyMembersInfo>
+
+    // 관리자 - 파티원 포지션 변경
+    suspend fun modifyPartyMemberPosition(partyId: Int, partyUserId: Int, modifyPartyUserPositionRequest: ModifyPartyUserPositionRequest): ServerApiResponse<Unit>
 }

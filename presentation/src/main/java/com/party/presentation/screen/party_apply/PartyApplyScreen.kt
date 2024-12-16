@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -80,6 +81,8 @@ fun PartyApplyRoute(
                 .background(BLACK.copy(alpha = 0.2f))
         ) {
             TwoButtonDialog(
+                modifier = Modifier
+                    .height(205.dp),
                 dialogTitle = "나가기",
                 description = "입력한 내용들이 모두 초기화됩니다.\n나가시겠습니까?",
                 cancelButtonText = "취소",

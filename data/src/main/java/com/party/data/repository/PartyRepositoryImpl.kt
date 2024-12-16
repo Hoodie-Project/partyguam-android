@@ -17,6 +17,7 @@ import com.party.data.mapper.PartyMapper.mapperRecruitmentDetailResponse
 import com.party.data.mapper.PartyMapper.mapperToPartyApply
 import com.party.data.mapper.PartyMapper.mapperToPartyCreate
 import com.party.data.mapper.PartyMapper.mapperToRecruitmentCreate
+import com.party.domain.model.party.ModifyPartyUserPositionRequest
 import com.party.domain.model.party.PartyApply
 import com.party.domain.model.party.PartyApplyRequest
 import com.party.domain.model.party.PartyCreate
@@ -34,6 +35,8 @@ import com.party.domain.model.party.RecruitmentList
 import com.party.domain.model.user.PartyAuthority
 import com.party.domain.repository.PartyRepository
 import com.skydoves.sandwich.ApiResponse
+import com.skydoves.sandwich.StatusCode
+import com.skydoves.sandwich.retrofit.statusCode
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import javax.inject.Inject
@@ -328,6 +331,41 @@ class PartyRepositoryImpl @Inject constructor(
             is ApiResponse.Failure.Exception -> {
                 result.throwable.printStackTrace()
                 ExceptionResponse()
+            }
+        }
+    }
+
+    override suspend fun modifyPartyMemberPosition(
+        partyId: Int,
+        partyUserId: Int,
+        modifyPartyUserPositionRequest: ModifyPartyUserPositionRequest
+    ): ServerApiResponse<Unit> {
+        return when(val result = partyRemoteSource.modifyPartyMemberPosition(
+            partyId = partyId,
+            partyUserId = partyUserId,
+            modifyPartyUserPositionRequest = modifyPartyUserPositionRequest
+        )){
+            is ApiResponse.Success -> SuccessResponse(data = Unit)
+            is ApiResponse.Failure.Error-> {
+                when(result.statusCode){
+                    StatusCode.NotFound -> {
+                        ErrorResponse(
+                            statusCode = StatusCode.NotFound.code,
+                            data = null,
+                        )
+                    }
+                    StatusCode.Unauthorized -> {
+                        ErrorResponse(
+                            statusCode = StatusCode.Unauthorized.code,
+                            data = null,
+                        )
+                    }
+                    else -> ErrorResponse(data = null)
+                }
+            }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse(result.message)
             }
         }
     }

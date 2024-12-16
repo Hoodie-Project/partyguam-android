@@ -32,6 +32,7 @@ import com.party.common.ui.theme.WHITE
 
 @Composable
 fun TwoButtonDialog(
+    modifier: Modifier = Modifier,
     dialogTitle: String,
     description: String,
     cancelButtonText: String,
@@ -49,9 +50,8 @@ fun TwoButtonDialog(
         ),
     ) {
         Card(
-            modifier = Modifier
-                .width(312.dp)
-                .height(205.dp),
+            modifier = modifier
+                .width(312.dp),
             shape = RoundedCornerShape(LARGE_CORNER_SIZE),
             colors = CardDefaults.cardColors(
                 containerColor = WHITE
@@ -100,7 +100,7 @@ private fun DialogButtonArea(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(48.dp),
+            .height(44.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         DialogButton(
@@ -124,6 +124,7 @@ private fun TwoButtonDialogPreview(
     modifier: Modifier = Modifier
 ) {
     TwoButtonDialog(
+        modifier = modifier.height(205.dp),
         dialogTitle = "나가기",
         description = "입력한 내용들이 모두 초기화굅니다.\n나가시겠습니까?",
         cancelButtonText = "취소",
@@ -139,6 +140,7 @@ private fun TwoButtonDialogPreview2(
     modifier: Modifier = Modifier
 ) {
     TwoButtonDialog(
+        modifier = modifier.height(183.dp),
         dialogTitle = "나가기",
         description = "해당 포지션으로 변경하시나요?",
         cancelButtonText = "취소",

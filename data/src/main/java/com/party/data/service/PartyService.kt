@@ -13,6 +13,7 @@ import com.party.data.dto.party.PersonalRecruitmentListDto
 import com.party.data.dto.party.RecruitmentCreateDto
 import com.party.data.dto.party.RecruitmentDetailDto
 import com.party.data.dto.party.RecruitmentListDto
+import com.party.domain.model.party.ModifyPartyUserPositionRequest
 import com.party.domain.model.party.PartyApplyRequest
 import com.party.domain.model.party.RecruitmentCreateRequest
 import com.skydoves.sandwich.ApiResponse
@@ -148,4 +149,12 @@ interface PartyService {
         @Query("order") order: String,
         @Query("main") main: String? = null,
     ): ApiResponse<PartyMembersInfoDto>
+
+    // 관리자 - 파티원 포지션 변경
+    @PATCH("api/parties/{partyId}/users/{partyUserId}")
+    suspend fun modifyPartyMemberPosition(
+        @Path(value = "partyId") partyId: Int,
+        @Path(value = "partyUserId") partyUserId: Int,
+        @Body modifyPartyUserPositionRequest: ModifyPartyUserPositionRequest,
+    ): ApiResponse<Unit>
 }
