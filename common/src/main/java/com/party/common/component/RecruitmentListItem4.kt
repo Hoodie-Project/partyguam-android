@@ -40,60 +40,54 @@ fun RecruitmentListItem4(
     recruitingCount: Int,
     applicationCount: Int,
 ) {
-    Column(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
+            .height(130.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = WHITE,
+        ),
+        shape = RoundedCornerShape(LARGE_CORNER_SIZE),
+        border = BorderStroke(1.dp, GRAY100),
+        elevation = CardDefaults.cardElevation(4.dp),
     ) {
-        Card(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(130.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = WHITE,
-            ),
-            shape = RoundedCornerShape(LARGE_CORNER_SIZE),
-            border = BorderStroke(1.dp, GRAY100),
-            elevation = CardDefaults.cardElevation(4.dp),
+                .fillMaxSize()
+                .padding(horizontal = 20.dp, vertical = 16.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 20.dp, vertical = 16.dp)
-            ) {
-                TextComponent(
-                    text = "모집일 ${convertIsoToCustomDateFormat(createdAt)}",
-                    fontSize = B3,
-                    textColor = GRAY500
-                )
-                HeightSpacer(heightDp = 8.dp)
-                TextComponent(
-                    text = "$main | $sub",
-                    fontSize = T3,
-                    fontWeight = FontWeight.SemiBold,
-                )
-                HeightSpacer(heightDp = 20.dp)
+            TextComponent(
+                text = "모집일 ${convertIsoToCustomDateFormat(createdAt)}",
+                fontSize = B3,
+                textColor = GRAY500
+            )
+            HeightSpacer(heightDp = 8.dp)
+            TextComponent(
+                text = "$main | $sub",
+                fontSize = T3,
+                fontWeight = FontWeight.SemiBold,
+            )
+            HeightSpacer(heightDp = 20.dp)
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(20.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    RecruitingCountArea(
-                        text = "모집중",
-                        number = "$recruitedCount / $recruitingCount",
-                        textColor = RED
-                    )
-                    WidthSpacer(widthDp = 24.dp)
-                    RecruitingCountArea(
-                        text = "지원자",
-                        number = "$applicationCount",
-                        textColor = PRIMARY
-                    )
-                }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(20.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                RecruitingCountArea(
+                    text = "모집중",
+                    number = "$recruitedCount / $recruitingCount",
+                    textColor = RED
+                )
+                WidthSpacer(widthDp = 24.dp)
+                RecruitingCountArea(
+                    text = "지원자",
+                    number = "$applicationCount",
+                    textColor = PRIMARY
+                )
             }
         }
-        HeightSpacer(heightDp = 12.dp)
     }
 }
 

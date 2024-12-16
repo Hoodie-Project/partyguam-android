@@ -49,6 +49,8 @@ fun PartyEditRecruitmentScreenRoute(
             when(action){
                 is PartyRecruitmentEditAction.OnShowHelpCard -> partyRecruitmentEditViewModel.onAction(action)
                 is PartyRecruitmentEditAction.OnChangeOrderBy -> partyRecruitmentEditViewModel.onAction(action)
+                is PartyRecruitmentEditAction.OnExpanded -> partyRecruitmentEditViewModel.onAction(action)
+                is PartyRecruitmentEditAction.OnCollapsed -> partyRecruitmentEditViewModel.onAction(action)
             }
         }
     )
@@ -74,7 +76,6 @@ private fun PartyEditRecruitmentScreen(
                 onNavigationClick = onNavigationClick,
             )
         }
-
     ){
         Column(
             modifier = Modifier
@@ -109,10 +110,12 @@ private fun PartyEditRecruitmentScreen(
             // 리스트
             HeightSpacer(12.dp)
             PartyRecruitmentListArea(
-                partyRecruitmentEditState = partyRecruitmentEditState
+                partyRecruitmentEditState = partyRecruitmentEditState,
+                onExpanded = { index -> onAction(PartyRecruitmentEditAction.OnExpanded(index, true)) },
+                onCollapsed = { index -> onAction(PartyRecruitmentEditAction.OnCollapsed(index, false)) },
+                onDelete = { }
             )
         }
-
     }
 }
 
@@ -131,12 +134,22 @@ private fun PartyEditRecruitmentScreenPreview() {
                     recruitingCount = 2,
                     recruitedCount = 1,
                     applicationCount = 1,
-                    createdAt = "2024-10-25T21:38:28.850Z"
+                    createdAt = "2024-10-25T21:38:28.850Z",
+                    isOptionsRevealed = false
+                ),
+                PartyRecruitment(
+                    id = 2081,
+                    position = Position1(main = "개발자", sub = "안드로이드"),
+                    content = "Domenic",
+                    recruitingCount = 2,
+                    recruitedCount = 1,
+                    applicationCount = 1,
+                    createdAt = "2024-10-25T21:38:28.850Z",
+                    isOptionsRevealed = false
                 )
-            )
-
+            ),
         ),
         onNavigationClick = {},
-        onAction = {}
+        onAction = {},
     )
 }

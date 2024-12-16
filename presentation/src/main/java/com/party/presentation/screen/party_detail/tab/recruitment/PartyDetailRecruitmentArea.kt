@@ -96,7 +96,7 @@ private fun PartyDetailRecruitmentAreaContentPreview() {
                 recruitingCount = 3,
                 recruitedCount = 2,
                 applicationCount = 1,
-                createdAt = "2024-10-25T21:38:28.850Z"
+                createdAt = "2024-10-25T21:38:28.850Z",
             ),
             PartyRecruitment(
                 id = 2293,
@@ -108,7 +108,7 @@ private fun PartyDetailRecruitmentAreaContentPreview() {
                 recruitingCount = 3,
                 recruitedCount = 2,
                 applicationCount = 1,
-                createdAt = "2024-10-25T21:38:28.850Z"
+                createdAt = "2024-10-25T21:38:28.850Z",
             )
         ),
         selectedCreateDataOrderByDesc = true,

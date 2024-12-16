@@ -54,6 +54,32 @@ class PartyRecruitmentEditViewModel @Inject constructor(
                     )
                 }
             }
+            is PartyRecruitmentEditAction.OnExpanded -> {
+                _state.update {
+                    it.copy(
+                        partyRecruitment = it.partyRecruitment.mapIndexed { index, item ->
+                            if (index == action.index) {
+                                item.copy(isOptionsRevealed = true)
+                            } else {
+                                item.copy(isOptionsRevealed = false)
+                            }
+                        }
+                    )
+                }
+            }
+            is PartyRecruitmentEditAction.OnCollapsed -> {
+                _state.update {
+                    it.copy(
+                        partyRecruitment = it.partyRecruitment.mapIndexed { index, item ->
+                            if (index == action.index) {
+                                item.copy(isOptionsRevealed = false)
+                            } else {
+                                item.copy(isOptionsRevealed = false)
+                            }
+                        }
+                    )
+                }
+            }
         }
     }
 }

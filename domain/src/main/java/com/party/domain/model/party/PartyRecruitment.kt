@@ -8,6 +8,7 @@ data class PartyRecruitment(
     val recruitedCount: Int,
     val applicationCount: Int,
     val createdAt: String,
+    val isOptionsRevealed: Boolean = false,
 )
 
 data class Position1(

@@ -49,6 +49,7 @@ fun PartyDetailRecruitmentListArea(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(500.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             itemsIndexed(
                 items = list,
@@ -68,6 +69,7 @@ fun PartyDetailRecruitmentListArea(
                 if(index == list.size-1){
                     if(authority.authority == PartyAuthorityType.MASTER.authority){
 
+                        HeightSpacer(12.dp)
                         PartyDetailAddRecruitCard(
                             onAddRecruitment = onAddRecruitment
                         )
