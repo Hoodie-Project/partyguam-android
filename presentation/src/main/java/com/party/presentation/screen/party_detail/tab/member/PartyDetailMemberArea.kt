@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
 import com.party.domain.model.party.PartyUsers
 import com.party.domain.model.user.PartyAuthority
+import com.party.domain.model.user.PartyAuthorityPosition
 import com.party.presentation.screen.party_detail.PartyDetailState
 import com.party.presentation.screen.party_detail.component.PartyDetailTitleArea
 import com.party.presentation.screen.party_detail.tab.member.component.PartyDetailUsersListArea
@@ -52,14 +53,15 @@ private fun PartyDetailUsersAreaContent(
 
 @Preview(showBackground = true)
 @Composable
-fun PartyDetailUsersAreaContentPreview() {
+private fun PartyDetailUsersAreaContentPreview() {
     val partyUsers = PartyUsers(
         partyAdmin = listOf(),
         partyUser = listOf()
     )
     val authority = PartyAuthority(
+        id = 0,
         authority = "",
-        userId = 0
+        position = PartyAuthorityPosition(0, "", "")
     )
 
     PartyDetailUsersAreaContent(

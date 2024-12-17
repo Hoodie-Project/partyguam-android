@@ -26,6 +26,7 @@ import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyType
 import com.party.domain.model.user.PartyAuthority
+import com.party.domain.model.user.PartyAuthorityPosition
 import com.party.navigation.BottomNavigationBar
 import com.party.navigation.Screens
 import com.party.presentation.screen.party_detail.component.PartyDetailArea
@@ -174,7 +175,7 @@ private fun PartyDetailScreenPreview() {
                 createdAt = "2024-06-05T15:30:45.123Z",
                 updatedAt = "2024-06-05T15:30:45.123Z"
             ),
-            partyAuthority = PartyAuthority(userId = 1, authority = "master")
+            partyAuthority = PartyAuthority(id = 1, authority = "master", position = PartyAuthorityPosition(0, "개발자", "안드로이드"))
         ),
         onNavigationBack = {},
         onAddRecruitment = {},

@@ -7,6 +7,7 @@ import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyType
 import com.party.domain.model.party.PartyUsers
 import com.party.domain.model.user.PartyAuthority
+import com.party.domain.model.user.PartyAuthorityPosition
 import com.party.domain.usecase.party.GetPartyAuthorityUseCase
 import com.party.domain.usecase.party.GetPartyDetailUseCase
 import com.party.domain.usecase.party.GetPartyRecruitmentUseCase
@@ -105,7 +106,7 @@ class PartyViewModel @Inject constructor(
                 is ServerApiResponse.SuccessResponse -> {
                     _state.update { it.copy(
                         isLoadingPartyAuthority = false,
-                        partyAuthority = result.data ?: PartyAuthority(userId = 0, authority = ""))
+                        partyAuthority = result.data ?: PartyAuthority(id = 0, authority = "", position = PartyAuthorityPosition(0, "", "")))
                     }
                 }
                 is ServerApiResponse.ErrorResponse -> _state.update { it.copy(isLoadingPartyAuthority = false) }

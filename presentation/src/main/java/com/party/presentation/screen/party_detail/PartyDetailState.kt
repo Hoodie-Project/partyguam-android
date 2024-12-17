@@ -6,6 +6,7 @@ import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PartyType
 import com.party.domain.model.party.PartyUsers
 import com.party.domain.model.user.PartyAuthority
+import com.party.domain.model.user.PartyAuthorityPosition
 
 data class PartyDetailState(
     val selectedTabText: String = partyDetailTabList[0],
@@ -36,5 +37,5 @@ data class PartyDetailState(
 
 
     val isLoadingPartyAuthority: Boolean = false,
-    val partyAuthority: PartyAuthority = PartyAuthority(userId = 0, authority = "")
+    val partyAuthority: PartyAuthority = PartyAuthority(id = 0, authority = "", position = PartyAuthorityPosition(0, "", ""))
 )

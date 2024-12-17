@@ -35,6 +35,7 @@ import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.Position1
 import com.party.domain.model.user.PartyAuthority
+import com.party.domain.model.user.PartyAuthorityPosition
 import com.party.presentation.enum.PartyAuthorityType
 
 @Composable
@@ -151,8 +152,13 @@ fun PartyDetailAddRecruitCard(
 fun NoRecruitmentAreaPreview() {
     NoRecruitmentArea(
         authority = PartyAuthority(
-            userId = 1,
-            authority = "master"
+            id = 0,
+            authority = "master",
+            position = PartyAuthorityPosition(
+                id = 0,
+                main = "개발자",
+                sub = "안드로이드"
+            )
         ),
         onAddRecruitment = {}
     )
@@ -163,8 +169,13 @@ fun NoRecruitmentAreaPreview() {
 private fun PartyDetailRecruitmentListAreaPreview() {
     PartyDetailRecruitmentListArea(
         authority = PartyAuthority(
-            userId = 1,
-            authority = "master"
+            id = 0,
+            authority = "master",
+            position = PartyAuthorityPosition(
+                id = 0,
+                main = "개발자",
+                sub = "안드로이드"
+            )
         ),
         list = listOf(
             PartyRecruitment(

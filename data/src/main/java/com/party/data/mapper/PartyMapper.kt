@@ -58,6 +58,7 @@ import com.party.domain.model.party.RecruitmentPosition
 import com.party.domain.model.party.User
 import com.party.domain.model.party.UserCareer
 import com.party.domain.model.user.PartyAuthority
+import com.party.domain.model.user.PartyAuthorityPosition
 
 object PartyMapper {
     fun mapperPersonalRecruitmentResponse(personalRecruitmentListDto: PersonalRecruitmentListDto): PersonalRecruitmentList{
@@ -212,8 +213,13 @@ object PartyMapper {
 
     fun mapperPartyAuthority(partyAuthorityDto: PartyAuthorityDto): PartyAuthority{
         return PartyAuthority(
+            id = partyAuthorityDto.id,
             authority = partyAuthorityDto.authority,
-            userId = partyAuthorityDto.userId,
+            position = PartyAuthorityPosition(
+                id = partyAuthorityDto.position.id,
+                main = partyAuthorityDto.position.main,
+                sub = partyAuthorityDto.position.sub,
+            )
         )
     }
 

@@ -11,6 +11,7 @@ import com.party.common.HeightSpacer
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.Position1
 import com.party.domain.model.user.PartyAuthority
+import com.party.domain.model.user.PartyAuthorityPosition
 import com.party.presentation.screen.party_detail.PartyDetailState
 import com.party.presentation.screen.party_detail.component.PartyDetailTitleArea
 import com.party.presentation.screen.party_detail.tab.recruitment.component.PartyDetailRecruitmentFilterArea
@@ -116,8 +117,13 @@ private fun PartyDetailRecruitmentAreaContentPreview() {
         onReset = {},
         onApply = {},
         authority = PartyAuthority(
-            userId = 1,
-            authority = "master"
+            id = 0,
+            authority = "master",
+            position = PartyAuthorityPosition(
+                id = 0,
+                main = "개발자",
+                sub = "안드로이드"
+            )
         ),
         onAddRecruitment = {},
         onShowPositionFilter = {},
@@ -138,8 +144,13 @@ private fun PartyDetailRecruitmentAreaContentPreview1() {
         onReset = {},
         onApply = {},
         authority = PartyAuthority(
-            userId = 1,
-            authority = "master"
+            id = 0,
+            authority = "master",
+            position = PartyAuthorityPosition(
+                id = 0,
+                main = "개발자",
+                sub = "안드로이드"
+            )
         ),
         onAddRecruitment = {},
         onShowPositionFilter = {},

@@ -32,6 +32,7 @@ import com.party.domain.model.party.Position
 import com.party.domain.model.party.User
 import com.party.domain.model.party.toPartyMember
 import com.party.domain.model.user.PartyAuthority
+import com.party.domain.model.user.PartyAuthorityPosition
 
 @Composable
 fun PartyDetailUsersListArea(
@@ -106,12 +107,12 @@ fun PartyDetailUsersListItem(
                         position = "${partyMember.main} ${partyMember.sub}",
                         nickName = partyMember.nickName,
                         userId = partyMember.userId,
-                        authorityUserId = authority.userId
+                        authorityUserId = authority.id
                     )
                 }
 
                 // 나 인 경우는 신고하기 아이콘 노출X
-                if(partyMember.userId != authority.userId){
+                if(partyMember.userId != authority.id){
                     DrawableIconButton(
                         modifier = Modifier
                             .align(Alignment.TopEnd)
@@ -130,7 +131,7 @@ fun PartyDetailUsersListItem(
 
 @Preview(showBackground = true)
 @Composable
-fun PartyDetailUsersListAreaPreview() {
+private fun PartyDetailUsersListAreaPreview() {
     PartyDetailUsersListArea(
         partyUsers = PartyUsers(
             partyAdmin = listOf(
@@ -163,15 +164,20 @@ fun PartyDetailUsersListAreaPreview() {
             )
         ),
         authority = PartyAuthority(
+            id = 0,
             authority = "master",
-            userId = 1961
+            position = PartyAuthorityPosition(
+                id = 0,
+                main = "개발자",
+                sub = "안드로이드"
+            )
         )
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun PartyDetailUsersListItemPreview() {
+private fun PartyDetailUsersListItemPreview() {
     PartyDetailUsersListItem(
         partyMember = PartyMember(
             authority = "master",
@@ -182,15 +188,20 @@ fun PartyDetailUsersListItemPreview() {
             userId = 1
         ),
         authority = PartyAuthority(
+            id = 0,
             authority = "master",
-            userId = 1
+            position = PartyAuthorityPosition(
+                id = 0,
+                main = "개발자",
+                sub = "안드로이드"
+            )
         )
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun PartyDetailUsersListItemPreview2() {
+private fun PartyDetailUsersListItemPreview2() {
     PartyDetailUsersListItem(
         partyMember = PartyMember(
             authority = "member",
@@ -201,15 +212,20 @@ fun PartyDetailUsersListItemPreview2() {
             userId = 1
         ),
         authority = PartyAuthority(
+            id = 0,
             authority = "master",
-            userId = 1
+            position = PartyAuthorityPosition(
+                id = 0,
+                main = "개발자",
+                sub = "안드로이드"
+            )
         )
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun PartyDetailUsersListItemPreview3() {
+private fun PartyDetailUsersListItemPreview3() {
     PartyDetailUsersListItem(
         partyMember = PartyMember(
             authority = "deputy",
@@ -220,8 +236,13 @@ fun PartyDetailUsersListItemPreview3() {
             userId = 1
         ),
         authority = PartyAuthority(
+            id = 0,
             authority = "master",
-            userId = 2
+            position = PartyAuthorityPosition(
+                id = 0,
+                main = "개발자",
+                sub = "안드로이드"
+            )
         )
     )
 }
