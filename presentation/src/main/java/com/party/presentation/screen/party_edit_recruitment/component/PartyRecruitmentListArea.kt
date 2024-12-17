@@ -34,9 +34,7 @@ fun PartyRecruitmentListArea(
     onDelete: () -> Unit,
 ) {
     when {
-        partyRecruitmentEditState.isLoadingPartyRecruitment -> {
-            LoadingProgressBar()
-        }
+        partyRecruitmentEditState.isLoadingPartyRecruitment -> LoadingProgressBar()
         partyRecruitmentEditState.partyRecruitment.isEmpty() -> {
             Box(
                 modifier = Modifier.fillMaxWidth(),

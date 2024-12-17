@@ -3,7 +3,6 @@ package com.party.common.component
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,7 +13,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,24 +21,25 @@ import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.convertIsoToCustomDateFormat
 import com.party.common.ui.theme.B3
+import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
 
 @Composable
-fun RecruitmentListItem4(
+fun RecruitmentListItem5(
+    id: Int,
     createdAt: String,
     main: String,
     sub: String,
-    recruitedCount: Int,
-    recruitingCount: Int,
     applicationCount: Int,
+    onClick: (Int) -> Unit,
 ) {
     Card(
+        onClick = { onClick(id) },
         modifier = Modifier
             .fillMaxWidth()
             .height(130.dp),
@@ -69,49 +68,35 @@ fun RecruitmentListItem4(
             )
             HeightSpacer(heightDp = 20.dp)
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(20.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                RecruitingCountArea(
-                    text = "모집중",
-                    number = "$recruitedCount / $recruitingCount",
-                    textColor = RED
-                )
-                WidthSpacer(widthDp = 24.dp)
-                RecruitingCountArea(
-                    text = "지원자",
-                    number = "$applicationCount",
-                    textColor = PRIMARY
-                )
-            }
+            ApplicantArea(
+                applicationCount = applicationCount
+            )
         }
     }
 }
 
 @Composable
-private fun RecruitingCountArea(
-    text: String,
-    number: String,
-    textColor: Color,
+private fun ApplicantArea(
+    applicationCount: Int,
 ) {
     Row(
         modifier = Modifier
-            .fillMaxHeight(),
-        verticalAlignment = Alignment.CenterVertically,
+            .fillMaxWidth()
+            .height(20.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         TextComponent(
-            text = text,
+            text = "지원자",
             fontSize = T3,
+            textColor = BLACK,
             modifier = Modifier.alignByBaseline() // Baseline에 맞춤
         )
-        WidthSpacer(widthDp = 4.dp)
+
+        WidthSpacer(4.dp)
         TextComponent(
-            text = number,
+            text = applicationCount.toString(),
             fontSize = T3,
-            textColor = textColor,
+            textColor = PRIMARY,
             modifier = Modifier.alignByBaseline() // Baseline에 맞춤
         )
     }
@@ -119,13 +104,13 @@ private fun RecruitingCountArea(
 
 @Preview(showBackground = true)
 @Composable
-private fun RecruitmentListItem4Preview() {
-    RecruitmentListItem4(
+private fun RecruitmentListItem5Preview(modifier: Modifier = Modifier) {
+    RecruitmentListItem5(
+        id = 1,
         createdAt = "2024-06-05T15:30:45.123Z",
         main = "개발자",
         sub = "안드로이드",
-        recruitedCount = 2,
-        recruitingCount = 3,
-        applicationCount = 1,
+        applicationCount = 3,
+        onClick = {}
     )
 }
