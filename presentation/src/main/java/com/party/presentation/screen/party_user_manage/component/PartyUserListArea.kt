@@ -48,22 +48,34 @@ fun PartyUserListArea(
     partyUserState: PartyUserState,
     onClick: (String, Int) -> Unit
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        itemsIndexed(
-            items = partyUserState.filteredPartyUserList,
-            key = { index, _ ->
-                index
+    if(partyUserState.filteredPartyUserList.isEmpty()){
+        HeightSpacer(heightDp = 60.dp)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ){
+            Text(text = "해당 파티원이 없어요")
+        }
+    }else {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            itemsIndexed(
+                items = partyUserState.filteredPartyUserList,
+                key = { index, _ ->
+                    index
+                }
+            ) { _, item ->
+                PartyUserListItem(
+                    partyMemberInfo = item,
+                    onClick = onClick
+                )
             }
-        ) { _, item ->
-            PartyUserListItem(
-                partyMemberInfo = item,
-                onClick = onClick
-            )
         }
     }
+
 }
 
 @Composable
