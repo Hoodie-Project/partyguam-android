@@ -35,6 +35,9 @@ class PartyEditViewModel @Inject constructor(
     private val _state = MutableStateFlow(PartyEditState())
     val state = _state.asStateFlow()
 
+    private val _partyModifySuccess = MutableSharedFlow<Unit>()
+    val partyModifySuccess = _partyModifySuccess.asSharedFlow()
+
     private val _partyDeleteSuccess = MutableSharedFlow<Unit>()
     val partyDeleteSuccess = _partyDeleteSuccess.asSharedFlow()
 
@@ -87,6 +90,7 @@ class PartyEditViewModel @Inject constructor(
             )){
                 is ServerApiResponse.SuccessResponse -> {
                     getPartyDetail(partyId)
+                    _partyModifySuccess.emit(Unit)
                 }
                 is ServerApiResponse.ErrorResponse -> _state.update { it.copy(isPartyModifyLoading = false) }
                 is ServerApiResponse.ExceptionResponse -> _state.update { it.copy(isPartyModifyLoading = false) }

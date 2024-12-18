@@ -78,6 +78,13 @@ fun PartyEditScreenRoute(
         }
     }
 
+    // 파티 수정 완료되면 Snackbar Message
+    LaunchedEffect(key1 = Unit) {
+        partyEditViewModel.partyModifySuccess.collectLatest {
+            snackBarHostState.showSnackbar("파티 정보가 수정되었습니다.")
+        }
+    }
+
     PartyEditScreen(
         snackBarHostState = snackBarHostState,
         partyEditState = partyEditState,
