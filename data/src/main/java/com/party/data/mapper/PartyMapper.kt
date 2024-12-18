@@ -8,7 +8,6 @@ import com.party.data.dto.party.PartyDetailDto
 import com.party.data.dto.party.PartyListDto
 import com.party.data.dto.party.PartyMemberInfoDto
 import com.party.data.dto.party.PartyMemberPositionDto
-import com.party.data.dto.party.PartyMembersInfoDto
 import com.party.data.dto.party.PartyModifyDto
 import com.party.data.dto.party.PartyRecruitmentDto
 import com.party.data.dto.party.PartyTypeDto
@@ -312,7 +311,6 @@ object PartyMapper {
         return PartyMemberInfo(
             id = partyMemberInfoDto.id,
             createdAt = partyMemberInfoDto.createdAt,
-            //updatedAt = partyMemberInfoDto.updatedAt,
             status = partyMemberInfoDto.status,
             authority = partyMemberInfoDto.authority,
             user = mapperPartyUserInfo(partyMemberInfoDto.user),
@@ -322,7 +320,6 @@ object PartyMapper {
 
     private fun mapperPartyUserInfo(partyUserInfoDto: PartyUserInfoDto): PartyUserInfo {
         return PartyUserInfo(
-            //id = partyUserInfoDto.id,
             nickname = partyUserInfoDto.nickname,
             image = convertToImageUrl(partyUserInfoDto.image)
         )

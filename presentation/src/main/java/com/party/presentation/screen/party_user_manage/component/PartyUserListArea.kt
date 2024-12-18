@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
@@ -25,6 +26,7 @@ import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
+import com.party.common.component.ImageLoading
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.convertIsoToCustomDateFormat
 import com.party.common.ui.theme.B2
@@ -32,6 +34,7 @@ import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.GRAY300
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.GRAY600
+import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.domain.model.party.PartyMemberInfo
 import com.party.domain.model.party.PartyMemberPosition
 import com.party.domain.model.party.PartyUserInfo
@@ -50,7 +53,7 @@ fun PartyUserListArea(
             .fillMaxWidth()
     ) {
         itemsIndexed(
-            items = partyUserState.partyUserList,
+            items = partyUserState.filteredPartyUserList,
             key = { index, _ ->
                 index
             }
@@ -76,6 +79,7 @@ fun PartyUserListItem(
     ) {
         UserProfileArea(
             authority = partyMemberInfo.authority,
+            imageUrl = partyMemberInfo.user.image
         )
         WidthSpacer(12.dp)
         PartyUserListItemContentArea(
@@ -172,6 +176,7 @@ private fun UserJoinCreateDt(
 
 @Composable
 private fun UserProfileArea(
+    imageUrl: String? = null,
     authority: String,
 ) {
     Box(
@@ -186,7 +191,12 @@ private fun UserProfileArea(
                 containerColor = GRAY300
             )
         ) {
-
+            ImageLoading(
+                modifier = Modifier
+                    .fillMaxSize(),
+                imageUrl = imageUrl,
+                roundedCornerShape = LARGE_CORNER_SIZE,
+            )
         }
 
         // 파티장이면

@@ -197,8 +197,7 @@ private fun RecruitmentInfoArea(
 @Composable
 private fun RecruitmentImageArea(imageUrl: String? = null) {
     ImageLoading(
-        modifier =
-        Modifier
+        modifier = Modifier
             .width(120.dp)
             .height(90.dp),
         imageUrl = imageUrl,

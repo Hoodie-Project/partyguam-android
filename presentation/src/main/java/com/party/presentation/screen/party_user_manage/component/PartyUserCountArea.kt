@@ -19,7 +19,8 @@ import com.party.common.ui.theme.T3
 
 @Composable
 fun PartyUserCountArea(
-    modifier: Modifier = Modifier
+    searchedListSize: Int,
+    userListSize: Int,
 ) {
     Row(
         modifier = Modifier
@@ -33,7 +34,7 @@ fun PartyUserCountArea(
         )
         WidthSpacer(6.dp)
         Text(
-            text = "1",
+            text = searchedListSize.toString(),
             fontWeight = FontWeight.Bold,
             fontSize = T1,
             color = PRIMARY
@@ -45,7 +46,7 @@ fun PartyUserCountArea(
             color = GRAY500
         )
         Text(
-            text = "5",
+            text = userListSize.toString(),
             fontWeight = FontWeight.Bold,
             fontSize = T3,
             color = GRAY500
@@ -56,5 +57,8 @@ fun PartyUserCountArea(
 @Preview(showBackground = true)
 @Composable
 private fun PartyUserCountAreaPreview() {
-    PartyUserCountArea()
+    PartyUserCountArea(
+        searchedListSize = 2,
+        userListSize = 3
+    )
 }

@@ -16,6 +16,10 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -41,10 +45,12 @@ fun PartyUserFilterArea(
     isPartyTypeFilterClick: (Boolean) -> Unit,
     onShowPositionFilter: (Boolean) -> Unit,
     onChangeOrderBy: (Boolean) -> Unit,
-    onPositionClick: (String) -> Unit,
+    //onPositionClick: (String) -> Unit,
     onReset: () -> Unit,
-    onApply: () -> Unit,
+    onApply: (String) -> Unit,
 ) {
+    var selectedMainPosition by remember { mutableStateOf("전체") }
+
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -66,10 +72,12 @@ fun PartyUserFilterArea(
 
     if(partyUserState.isOpenPositionBottomSheet){
         MainPositionBottomSheet(
-            selectedPosition = partyUserState.selectedMainPosition,
+            selectedPosition = selectedMainPosition,
             onBottomSheetClose = { onShowPositionFilter(false) },
-            onPositionClick = onPositionClick,
-            onApply = onApply,
+            onPositionClick = {
+                selectedMainPosition = it
+            },
+            onApply = { onApply(selectedMainPosition) },
             onReset = onReset,
         )
     }
@@ -133,7 +141,7 @@ private fun PartyUserFilterAreaPreview() {
         isPartyTypeFilterClick = {},
         onShowPositionFilter = {},
         onChangeOrderBy = {},
-        onPositionClick = {},
+        //onPositionClick = {},
         onReset = {},
         onApply = {},
     )

@@ -55,7 +55,8 @@ class PartyUserViewModel @Inject constructor(
                 is ServerApiResponse.SuccessResponse -> {
                     _state.update { it.copy(
                         isLoading = false,
-                        partyUserList = result.data?.partyUser ?: emptyList()
+                        partyUserList = result.data?.partyUser ?: emptyList(),
+                        filteredPartyUserList = result.data?.partyUser ?: emptyList()
                     ) }
                 }
                 is ServerApiResponse.ErrorResponse -> _state.update { it.copy(isLoading = false) }
@@ -107,28 +108,36 @@ class PartyUserViewModel @Inject constructor(
             is PartyUserAction.OnChangeInputText -> _state.update { it.copy(inputText = action.inputText) }
             is PartyUserAction.OnChangePositionBottomSheet -> _state.update { it.copy(isOpenPositionBottomSheet = action.isOpenPositionBottomSheet) }
             is PartyUserAction.OnChangeMainPosition -> _state.update { it.copy(selectedMainPosition = action.selectedMainPosition) }
-            is PartyUserAction.OnChangeOrderBy -> _state.update { it.copy(isDesc = action.isDesc) }
+            is PartyUserAction.OnChangeOrderBy -> {
+                _state.update { currentState ->
+                    val sortedList = if(action.isDesc) {
+                        currentState.partyUserList.sortedByDescending { it.createdAt }
+                    } else {
+                        currentState.partyUserList.sortedBy { it.createdAt }
+                    }
+                    currentState.copy(
+                        filteredPartyUserList = sortedList,
+                        isDesc = action.isDesc,
+                    )
+                }
+            }
             is PartyUserAction.OnManageBottomSheet -> { _state.update { it.copy(manageBottomSheet = action.isOpenManageBottomSheet) } }
             is PartyUserAction.OnSelectedUser ->{
                 _state.update { it.copy(
                     selectedMemberAuthority = action.selectedMemberAuthority,
-                    selectedMemberId = action.selectedMemberId
+                    selectedMemberId = action.selectedMemberId,
                 ) }
             }
             is PartyUserAction.OnApply -> {
-                _state.update { it.copy(
-                    isOpenPositionBottomSheet = false,
-                ) }
+                val filteredList = _state.value.partyUserList.filter {
+                    action.selectedMainPosition == "전체" || it.position.main == action.selectedMainPosition
+                }
 
-                getPartyMembers(
-                    partyId = action.partyId,
-                    page = 1,
-                    limit = 50,
-                    sort = "createdAt",
-                    order = if(_state.value.isDesc) "DESC" else "ASC",
-                    main = if (_state.value.selectedMainPosition == "전체") null else _state.value.selectedMainPosition,
-                    nickname = if(_state.value.inputText == "") null else _state.value.inputText
-                )
+                _state.update { it.copy(
+                    selectedMainPosition = action.selectedMainPosition,
+                    isOpenPositionBottomSheet = false,
+                    filteredPartyUserList = filteredList,
+                ) }
             }
 
             is PartyUserAction.OnMainPositionClick -> { getSubPositionList(action.mainPosition) }
@@ -143,6 +152,17 @@ class PartyUserViewModel @Inject constructor(
                         positionId = _state.value.selectedSubPosition.id
                     )
                 )
+            }
+            is PartyUserAction.OnSearch -> {
+                val filteredList = _state.value.partyUserList.filter {
+                    it.user.nickname.contains(action.inputText)
+                }
+                _state.update {
+                    it.copy(
+                        inputText = action.inputText,
+                        filteredPartyUserList = filteredList
+                    )
+                }
             }
         }
     }

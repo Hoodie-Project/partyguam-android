@@ -99,6 +99,7 @@ fun PartyUserManageScreenRoute(
                         is PartyUserAction.OnChangeSelectedSubPosition -> { partyUserViewModel.onAction(action) }
                         is PartyUserAction.OnChangeModifyDialog -> { partyUserViewModel.onAction(action) }
                         is PartyUserAction.OnModifyUserPosition -> { partyUserViewModel.onAction(action) }
+                        is PartyUserAction.OnSearch -> { partyUserViewModel.onAction(action) }
                     }
                 },
                 onNavigationBack = { navController.popBackStack() },
@@ -166,7 +167,10 @@ private fun PartyUserManageScreen(
         ) {
             // 파티원
             HeightSpacer(heightDp = 16.dp)
-            PartyUserCountArea()
+            PartyUserCountArea(
+                searchedListSize = partyUserState.filteredPartyUserList.size,
+                userListSize = partyUserState.partyUserList.size
+            )
             HeightSpacer(18.dp)
 
             // 검색
@@ -177,7 +181,10 @@ private fun PartyUserManageScreen(
                     onAction(PartyUserAction.OnChangeInputText(inputText))
                 },
                 onRemoveAll = { onAction(PartyUserAction.OnChangeInputText("")) },
-                searchAction = { onAction(PartyUserAction.OnApply(partyId = partyId)) }
+                searchAction = { inputText ->
+                    onAction(PartyUserAction.OnSearch(inputText))
+                    //onAction(PartyUserAction.OnApply(partyId = partyId))
+                }
             )
 
             // 필터
@@ -187,9 +194,9 @@ private fun PartyUserManageScreen(
                 isPartyTypeFilterClick = { onAction(PartyUserAction.OnChangePositionBottomSheet(true)) },
                 onChangeOrderBy = { isDesc -> onAction(PartyUserAction.OnChangeOrderBy(isDesc)) },
                 onShowPositionFilter = { isShow -> onAction(PartyUserAction.OnChangePositionBottomSheet(isShow)) },
-                onPositionClick = { selectPosition -> onAction(PartyUserAction.OnChangeMainPosition(selectPosition)) },
+                //onPositionClick = { selectPosition -> onAction(PartyUserAction.OnChangeMainPosition(selectPosition)) },
                 onReset = { onAction(PartyUserAction.OnChangeMainPosition("")) },
-                onApply = { onAction(PartyUserAction.OnApply(partyId = partyId)) }
+                onApply = { selectedMainPosition -> onAction(PartyUserAction.OnApply(partyId = partyId, selectedMainPosition = selectedMainPosition)) }
             )
 
             PartyUserListArea(

@@ -13,7 +13,6 @@ data class PartyMembersInfoDto(
 data class PartyMemberInfoDto(
     val id: Int,
     val createdAt: String,
-    //val updatedAt: String,
     val status: String,
     val authority: String,
     val user: PartyUserInfoDto,
@@ -22,7 +21,6 @@ data class PartyMemberInfoDto(
 
 @Serializable
 data class PartyUserInfoDto(
-    //val id: Int,
     val nickname: String,
     val image: String? = null,
 )

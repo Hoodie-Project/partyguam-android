@@ -9,7 +9,8 @@ sealed interface PartyUserAction {
     data class OnChangeOrderBy(val isDesc: Boolean): PartyUserAction
     data class OnManageBottomSheet(val isOpenManageBottomSheet: Boolean): PartyUserAction
     data class OnSelectedUser(val selectedMemberAuthority: String, val selectedMemberId: Int): PartyUserAction
-    data class OnApply(val partyId: Int): PartyUserAction
+    data class OnApply(val partyId: Int, val selectedMainPosition: String): PartyUserAction
+    data class OnSearch(val inputText: String): PartyUserAction
 
     data class OnMainPositionClick(val mainPosition: String): PartyUserAction
     data class OnChangeModifyPositionSheet(val isOpenMainPositionSheet: Boolean): PartyUserAction

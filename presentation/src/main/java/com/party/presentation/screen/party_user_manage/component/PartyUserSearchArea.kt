@@ -25,7 +25,7 @@ fun PartyUserSearchArea(
     placeHolder: String,
     onValueChange: (String) -> Unit,
     onRemoveAll: () -> Unit,
-    searchAction: () -> Unit,
+    searchAction: (String) -> Unit,
 ) {
     InputField(
         inputText = inputText,
@@ -58,7 +58,7 @@ fun PartyUserSearchArea(
             autoCorrectEnabled = true
         ),
         keyboardActions = KeyboardActions(
-            onSearch = { searchAction() }
+            onSearch = { searchAction(inputText) }
         ),
     )
 }
