@@ -165,4 +165,11 @@ interface PartyService {
     suspend fun deleteParty(
         @Path(value = "partyId") partyId: Int,
     ): ApiResponse<Unit>
+
+    // 관리자 - 파티원 내보내기
+    @DELETE("api/parties/{partyId}/admin/users/{partyUserId}")
+    suspend fun deletePartyMember(
+        @Path(value = "partyId") partyId: Int,
+        @Path(value = "partyUserId") partyUserId: Int,
+    ): ApiResponse<Unit>
 }

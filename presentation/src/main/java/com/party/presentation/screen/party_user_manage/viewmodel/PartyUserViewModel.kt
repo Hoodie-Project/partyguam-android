@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.domain.model.party.ModifyPartyUserPositionRequest
+import com.party.domain.usecase.party.DeletePartyMemberUseCase
 import com.party.domain.usecase.party.GetPartyMemberInfoUseCase
 import com.party.domain.usecase.party.ModifyPartyUserPositionUseCase
 import com.party.domain.usecase.user.detail.GetPositionsUseCase
@@ -23,11 +24,20 @@ import javax.inject.Inject
 class PartyUserViewModel @Inject constructor(
     private val getPartyMemberInfoUseCase: GetPartyMemberInfoUseCase,
     private val getPositionsUseCase: GetPositionsUseCase,
-    private val modifyPartyUserPositionUseCase: ModifyPartyUserPositionUseCase
+    private val modifyPartyUserPositionUseCase: ModifyPartyUserPositionUseCase,
+    private val deletePartyMemberUseCase: DeletePartyMemberUseCase,
 ): ViewModel(){
 
     private val _errorFlow = MutableSharedFlow<String>()
     val errorFlow = _errorFlow.asSharedFlow()
+
+    // 포지션 변경 성공
+    private val _modifySuccessFlow = MutableSharedFlow<Unit>()
+    val modifySuccessFlow = _modifySuccessFlow.asSharedFlow()
+
+    // 파티원 내보내기 성공
+    private val _deleteSuccessFlow = MutableSharedFlow<Unit>()
+    val deleteSuccessFlow = _deleteSuccessFlow.asSharedFlow()
 
     private val _state = MutableStateFlow(PartyUserState())
     val state = _state.asStateFlow()
@@ -89,7 +99,18 @@ class PartyUserViewModel @Inject constructor(
     ){
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = modifyPartyUserPositionUseCase(partyId, partyUserId, modifyPartyUserPositionRequest)){
-                is ServerApiResponse.SuccessResponse -> {}
+                is ServerApiResponse.SuccessResponse -> {
+                    _modifySuccessFlow.emit(Unit)
+                    getPartyMembers(
+                        partyId = partyId,
+                        page = 1,
+                        limit = 10,
+                        sort = "createdAt",
+                        order = "DESC",
+                        main = null,
+                        nickname = null
+                    )
+                }
                 is ServerApiResponse.ErrorResponse -> {
                     _state.update { it.copy(isShowModifyDialog = false) }
                     when(result.statusCode){
@@ -99,6 +120,33 @@ class PartyUserViewModel @Inject constructor(
                     }
                 }
                 is ServerApiResponse.ExceptionResponse -> _state.update { it.copy(isShowModifyDialog = false) }
+            }
+        }
+    }
+
+    fun deletePartyMember(partyId: Int, partyUserId: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = deletePartyMemberUseCase(partyId, partyUserId)){
+                is ServerApiResponse.SuccessResponse -> {
+                    _deleteSuccessFlow.emit(Unit)
+                    getPartyMembers(
+                        partyId = partyId,
+                        page = 1,
+                        limit = 10,
+                        sort = "createdAt",
+                        order = "DESC",
+                        main = null,
+                        nickname = null
+                    )
+                }
+                is ServerApiResponse.ErrorResponse -> {
+                    when(result.statusCode){
+                        404 -> _errorFlow.emit("파티유저를 찾을 수 없습니다.")
+                        403 -> _errorFlow.emit("파티원 삭제권한이 없습니다.")
+                        else -> _errorFlow.emit("파티원 삭제에 실패했습니다.")
+                    }
+                }
+                is ServerApiResponse.ExceptionResponse -> {}
             }
         }
     }
@@ -125,7 +173,7 @@ class PartyUserViewModel @Inject constructor(
             is PartyUserAction.OnSelectedUser ->{
                 _state.update { it.copy(
                     selectedMemberAuthority = action.selectedMemberAuthority,
-                    selectedMemberId = action.selectedMemberId,
+                    selectedPartyMemberId = action.selectedMemberId,
                 ) }
             }
             is PartyUserAction.OnApply -> {
@@ -145,13 +193,15 @@ class PartyUserViewModel @Inject constructor(
             is PartyUserAction.OnChangeSelectedSubPosition -> _state.update { it.copy(selectedSubPosition = action.positionList) }
             is PartyUserAction.OnChangeModifyDialog -> _state.update { it.copy(isShowModifyDialog = action.isShowModifyDialog) }
             is PartyUserAction.OnModifyUserPosition -> {
+                _state.update { it.copy(isShowModifyDialog = false) }
                 modifyPartyUserPosition(
                     partyId = action.partyId,
-                    partyUserId = _state.value.selectedMemberId,
+                    partyUserId = _state.value.selectedPartyMemberId,
                     modifyPartyUserPositionRequest = ModifyPartyUserPositionRequest(
                         positionId = _state.value.selectedSubPosition.id
                     )
                 )
+
             }
             is PartyUserAction.OnSearch -> {
                 val filteredList = _state.value.partyUserList.filter {
@@ -163,6 +213,13 @@ class PartyUserViewModel @Inject constructor(
                         filteredPartyUserList = filteredList
                     )
                 }
+            }
+            is PartyUserAction.OnDeletePartyMember -> {
+                _state.update { it.copy(manageBottomSheet = false) }
+                deletePartyMember(
+                    partyId = action.partyId,
+                    partyUserId = _state.value.selectedPartyMemberId
+                )
             }
         }
     }

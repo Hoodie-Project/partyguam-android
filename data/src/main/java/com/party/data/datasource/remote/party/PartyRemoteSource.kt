@@ -79,4 +79,7 @@ interface PartyRemoteSource {
 
     // 관리자 - 파티 삭제
     suspend fun deleteParty(partyId: Int): ApiResponse<Unit>
+
+    // 관리자 - 파티원 내보내기
+    suspend fun deletePartyMember(partyId: Int, partyUserId: Int): ApiResponse<Unit>
 }

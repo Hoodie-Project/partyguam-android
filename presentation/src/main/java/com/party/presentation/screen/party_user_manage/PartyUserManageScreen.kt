@@ -45,6 +45,7 @@ import com.party.presentation.screen.party_user_manage.component.PartyUserListAr
 import com.party.presentation.screen.party_user_manage.component.PartyUserScaffoldArea
 import com.party.presentation.screen.party_user_manage.component.PartyUserSearchArea
 import com.party.presentation.screen.party_user_manage.viewmodel.PartyUserViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
@@ -67,8 +68,22 @@ fun PartyUserManageScreenRoute(
     }
 
     LaunchedEffect(Unit) {
-        partyUserViewModel.errorFlow.collect { errorMessage ->
+        partyUserViewModel.errorFlow.collectLatest { errorMessage ->
             snackBarMessage(snackBarHostState, errorMessage)
+        }
+    }
+
+    // 포지션 변경 성공
+    LaunchedEffect(key1 = Unit) {
+        partyUserViewModel.modifySuccessFlow.collectLatest {
+            snackBarMessage(snackBarHostState, "포지션이 변경되었어요.")
+        }
+    }
+
+    // 파티원 내보내기 성공
+    LaunchedEffect(key1 = Unit) {
+        partyUserViewModel.deleteSuccessFlow.collectLatest {
+            snackBarMessage(snackBarHostState, "파티원을 내보냈어요.")
         }
     }
 
@@ -100,6 +115,7 @@ fun PartyUserManageScreenRoute(
                         is PartyUserAction.OnChangeModifyDialog -> { partyUserViewModel.onAction(action) }
                         is PartyUserAction.OnModifyUserPosition -> { partyUserViewModel.onAction(action) }
                         is PartyUserAction.OnSearch -> { partyUserViewModel.onAction(action) }
+                        is PartyUserAction.OnDeletePartyMember -> { partyUserViewModel.onAction(action) }
                     }
                 },
                 onNavigationBack = { navController.popBackStack() },
@@ -183,7 +199,6 @@ private fun PartyUserManageScreen(
                 onRemoveAll = { onAction(PartyUserAction.OnChangeInputText("")) },
                 searchAction = { inputText ->
                     onAction(PartyUserAction.OnSearch(inputText))
-                    //onAction(PartyUserAction.OnApply(partyId = partyId))
                 }
             )
 
@@ -194,7 +209,6 @@ private fun PartyUserManageScreen(
                 isPartyTypeFilterClick = { onAction(PartyUserAction.OnChangePositionBottomSheet(true)) },
                 onChangeOrderBy = { isDesc -> onAction(PartyUserAction.OnChangeOrderBy(isDesc)) },
                 onShowPositionFilter = { isShow -> onAction(PartyUserAction.OnChangePositionBottomSheet(isShow)) },
-                //onPositionClick = { selectPosition -> onAction(PartyUserAction.OnChangeMainPosition(selectPosition)) },
                 onReset = { onAction(PartyUserAction.OnChangeMainPosition("")) },
                 onApply = { selectedMainPosition -> onAction(PartyUserAction.OnApply(partyId = partyId, selectedMainPosition = selectedMainPosition)) }
             )
@@ -240,6 +254,9 @@ private fun PartyUserManageScreen(
                     "포지션 변경" -> {
                         onAction(PartyUserAction.OnManageBottomSheet(false))
                         onAction(PartyUserAction.OnChangeModifyPositionSheet(true))
+                    }
+                    "내보내기" -> {
+                        onAction(PartyUserAction.OnDeletePartyMember(partyId = partyId))
                     }
                 }
             }

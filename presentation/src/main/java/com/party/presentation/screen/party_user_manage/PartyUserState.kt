@@ -13,7 +13,7 @@ data class PartyUserState(
     val filteredPartyUserList: List<PartyMemberInfo> = emptyList(), // 사용자에게 보여지는 것은 필터 리스트
     val manageBottomSheet: Boolean = false,
     val selectedMemberAuthority: String = "", // 유저 리스트 클릭시 해당 유저가 마스터인지 일반 유저인지 판단하기 위한 변수
-    val selectedMemberId: Int = 0, // 유저 리스트 클릭시 해당 유저의 id
+    val selectedPartyMemberId: Int = 0, // 유저 리스트 클릭시 해당 유저의 파티 id
 
     val isMainPositionBottomSheetShow: Boolean = false,
     val getSubPositionList: List<PositionList> = emptyList(),
