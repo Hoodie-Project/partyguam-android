@@ -21,7 +21,8 @@ import com.party.common.ui.theme.T2
 fun ManageApplicantScaffoldArea(
     isShowRecruitmentList: Boolean,
     onNavigationClick: () -> Unit,
-    onShowHelpCard: (Boolean) -> Unit
+    onShowHelpCard: (Boolean) -> Unit,
+    onManageClick: () -> Unit,
 ) {
     ScaffoldCenterBar(
         navigationIcon = {
@@ -58,7 +59,7 @@ fun ManageApplicantScaffoldArea(
                 iconColor = BLACK,
                 iconSize = 32.dp,
                 contentDescription = "",
-                onClick = {  }
+                onClick = onManageClick
             )
         }
     )

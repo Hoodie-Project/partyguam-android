@@ -10,13 +10,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
@@ -47,6 +50,7 @@ import com.party.common.ui.theme.WHITE
 import com.party.navigation.Screens
 import com.party.presentation.component.HelpCard
 import com.party.presentation.screen.party_create.PartyCreateAction
+import com.party.presentation.screen.party_detail.component.RightModalDrawer
 import com.party.presentation.screen.party_edit.component.PartyEditCustomShape
 import com.party.presentation.screen.party_edit.component.PartyEditDescriptionArea
 import com.party.presentation.screen.party_edit.component.PartyEditInputField
@@ -57,6 +61,7 @@ import com.party.presentation.screen.party_edit.component.PartyImageArea
 import com.party.presentation.screen.party_edit.component.SelectPartyStateButtonArea
 import com.party.presentation.screen.party_edit.viewmodel.PartyEditViewModel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 fun PartyEditScreenRoute(
@@ -85,30 +90,61 @@ fun PartyEditScreenRoute(
         }
     }
 
-    PartyEditScreen(
-        snackBarHostState = snackBarHostState,
-        partyEditState = partyEditState,
-        partyId = partyId,
-        onAction = { action ->
-            when(action){
-                is PartyEditAction.OnChangeImage -> partyEditViewModel.onAction(action)
-                is PartyEditAction.OnIsVisibleToolTip -> partyEditViewModel.onAction(action)
-                is PartyEditAction.OnRemovePartyTitle -> partyEditViewModel.onAction(action)
-                is PartyEditAction.OnChangeInputTitle -> partyEditViewModel.onAction(action)
-                is PartyEditAction.OnChangeSelectPartyType -> partyEditViewModel.onAction(action)
-                is PartyEditAction.OnChangePartyTypeSheet -> partyEditViewModel.onAction(action)
-                is PartyEditAction.OnChangeIsShowHelpCard -> partyEditViewModel.onAction(action)
-                is PartyEditAction.OnChangePartyDescription -> partyEditViewModel.onAction(action)
-                is PartyEditAction.OnChangeMainPosition -> partyEditViewModel.onAction(action)
-                is PartyEditAction.OnChangeSubPosition -> partyEditViewModel.onAction(action)
-                is PartyEditAction.OnChangeMainPositionBottomSheet -> partyEditViewModel.onAction(action)
-                is PartyEditAction.OnPartyModify -> partyEditViewModel.onAction(action)
-                is PartyEditAction.OnChangeShowPartyDeleteDialog -> partyEditViewModel.onAction(action)
-            }
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+
+    RightModalDrawer(
+        currentTitle = "파티 수정",
+        drawerState = drawerState,
+        content = {
+            PartyEditScreen(
+                snackBarHostState = snackBarHostState,
+                partyEditState = partyEditState,
+                partyId = partyId,
+                onAction = { action ->
+                    when(action){
+                        is PartyEditAction.OnChangeImage -> partyEditViewModel.onAction(action)
+                        is PartyEditAction.OnIsVisibleToolTip -> partyEditViewModel.onAction(action)
+                        is PartyEditAction.OnRemovePartyTitle -> partyEditViewModel.onAction(action)
+                        is PartyEditAction.OnChangeInputTitle -> partyEditViewModel.onAction(action)
+                        is PartyEditAction.OnChangeSelectPartyType -> partyEditViewModel.onAction(action)
+                        is PartyEditAction.OnChangePartyTypeSheet -> partyEditViewModel.onAction(action)
+                        is PartyEditAction.OnChangeIsShowHelpCard -> partyEditViewModel.onAction(action)
+                        is PartyEditAction.OnChangePartyDescription -> partyEditViewModel.onAction(action)
+                        is PartyEditAction.OnChangeMainPosition -> partyEditViewModel.onAction(action)
+                        is PartyEditAction.OnChangeSubPosition -> partyEditViewModel.onAction(action)
+                        is PartyEditAction.OnChangeMainPositionBottomSheet -> partyEditViewModel.onAction(action)
+                        is PartyEditAction.OnPartyModify -> partyEditViewModel.onAction(action)
+                        is PartyEditAction.OnChangeShowPartyDeleteDialog -> partyEditViewModel.onAction(action)
+                    }
+                },
+                onClickMainPosition = {},
+                onNavigationClick = { navController.popBackStack() },
+                onManageClick = { scope.launch { drawerState.open() } }
+            )
         },
-        onClickMainPosition = {},
-        onNavigationClick = { navController.popBackStack() }
+        onGotoPartyEdit = {
+            scope.launch { drawerState.close() }
+            navController.navigate(Screens.PartyEdit(partyId = partyId))
+        },
+        onGotoPartyUser = {
+            scope.launch { drawerState.close() }
+            navController.popBackStack()
+            navController.navigate(Screens.PartyUserManage(partyId = partyId))
+        },
+        onGotoPartyRecruitmentEdit = {
+            scope.launch { drawerState.close() }
+            navController.popBackStack()
+            navController.navigate(Screens.PartyEditRecruitment(partyId = partyId))
+        },
+        onGotoManageApplicant = {
+            scope.launch { drawerState.close() }
+            navController.popBackStack()
+            navController.navigate(Screens.ManageApplicant(partyId = partyId))
+        }
     )
+
+
 
     if(partyEditState.isShowPartyDeleteDialog){
         Box(
@@ -147,6 +183,7 @@ private fun PartyEditScreen(
     onAction: (PartyEditAction) -> Unit,
     onClickMainPosition: (String) -> Unit,
     onNavigationClick: () -> Unit,
+    onManageClick: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -163,7 +200,8 @@ private fun PartyEditScreen(
         },
         topBar = {
             PartyEditScaffoldArea(
-                onNavigationClick = onNavigationClick
+                onNavigationClick = onNavigationClick,
+                onManageClick = onManageClick
             )
         }
     ){
@@ -364,6 +402,7 @@ private fun PartyEditScreenPreview() {
         partyId = 0,
         onAction = {},
         onClickMainPosition = {},
-        onNavigationClick = {}
+        onNavigationClick = {},
+        onManageClick = {}
     )
 }

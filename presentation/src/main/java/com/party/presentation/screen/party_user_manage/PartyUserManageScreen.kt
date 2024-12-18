@@ -6,12 +6,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,14 +35,17 @@ import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyMemberInfo
 import com.party.domain.model.party.PartyMemberPosition
 import com.party.domain.model.party.PartyUserInfo
+import com.party.navigation.Screens
 import com.party.presentation.component.bottomsheet.OneSelectMainAndSubPositionBottomSheet
 import com.party.presentation.enum.PartyAuthorityType
+import com.party.presentation.screen.party_detail.component.RightModalDrawer
 import com.party.presentation.screen.party_user_manage.component.PartyUserCountArea
 import com.party.presentation.screen.party_user_manage.component.PartyUserFilterArea
 import com.party.presentation.screen.party_user_manage.component.PartyUserListArea
 import com.party.presentation.screen.party_user_manage.component.PartyUserScaffoldArea
 import com.party.presentation.screen.party_user_manage.component.PartyUserSearchArea
 import com.party.presentation.screen.party_user_manage.viewmodel.PartyUserViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun PartyUserManageScreenRoute(
@@ -60,36 +66,67 @@ fun PartyUserManageScreenRoute(
         )
     }
 
-    val partyUserState by partyUserViewModel.state.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
         partyUserViewModel.errorFlow.collect { errorMessage ->
             snackBarMessage(snackBarHostState, errorMessage)
         }
     }
 
-    PartyUserManageScreen(
-        snackBarHostState = snackBarHostState,
-        partyUserState = partyUserState,
-        partyId = partyId,
-        onAction = { action ->
-            when(action){
-                is PartyUserAction.OnChangeInputText -> { partyUserViewModel.onAction(action) }
-                is PartyUserAction.OnChangePositionBottomSheet -> { partyUserViewModel.onAction(action) }
-                is PartyUserAction.OnChangeMainPosition -> { partyUserViewModel.onAction(action) }
-                is PartyUserAction.OnChangeOrderBy -> { partyUserViewModel.onAction(action) }
-                is PartyUserAction.OnManageBottomSheet -> { partyUserViewModel.onAction(action) }
-                is PartyUserAction.OnSelectedUser -> { partyUserViewModel.onAction(action) }
-                is PartyUserAction.OnApply -> { partyUserViewModel.onAction(action)}
-                is PartyUserAction.OnChangeModifyPositionSheet -> { partyUserViewModel.onAction(action) }
-                is PartyUserAction.OnMainPositionClick -> { partyUserViewModel.onAction(action) }
-                is PartyUserAction.OnChangeSelectedSubPosition -> { partyUserViewModel.onAction(action) }
-                is PartyUserAction.OnChangeModifyDialog -> { partyUserViewModel.onAction(action) }
-                is PartyUserAction.OnModifyUserPosition -> { partyUserViewModel.onAction(action) }
-            }
+    val partyUserState by partyUserViewModel.state.collectAsStateWithLifecycle()
+
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+
+    RightModalDrawer(
+        currentTitle = "파티원 관리",
+        drawerState = drawerState,
+        content = {
+            PartyUserManageScreen(
+                snackBarHostState = snackBarHostState,
+                partyUserState = partyUserState,
+                partyId = partyId,
+                onAction = { action ->
+                    when(action){
+                        is PartyUserAction.OnChangeInputText -> { partyUserViewModel.onAction(action) }
+                        is PartyUserAction.OnChangePositionBottomSheet -> { partyUserViewModel.onAction(action) }
+                        is PartyUserAction.OnChangeMainPosition -> { partyUserViewModel.onAction(action) }
+                        is PartyUserAction.OnChangeOrderBy -> { partyUserViewModel.onAction(action) }
+                        is PartyUserAction.OnManageBottomSheet -> { partyUserViewModel.onAction(action) }
+                        is PartyUserAction.OnSelectedUser -> { partyUserViewModel.onAction(action) }
+                        is PartyUserAction.OnApply -> { partyUserViewModel.onAction(action)}
+                        is PartyUserAction.OnChangeModifyPositionSheet -> { partyUserViewModel.onAction(action) }
+                        is PartyUserAction.OnMainPositionClick -> { partyUserViewModel.onAction(action) }
+                        is PartyUserAction.OnChangeSelectedSubPosition -> { partyUserViewModel.onAction(action) }
+                        is PartyUserAction.OnChangeModifyDialog -> { partyUserViewModel.onAction(action) }
+                        is PartyUserAction.OnModifyUserPosition -> { partyUserViewModel.onAction(action) }
+                    }
+                },
+                onNavigationBack = { navController.popBackStack() },
+                onDismissBackDialog = { partyUserViewModel.dismissBackDialog() },
+                onManageClick = { scope.launch { drawerState.open() } }
+            )
         },
-        onNavigationBack = { navController.popBackStack() },
-        onDismissBackDialog = { partyUserViewModel.dismissBackDialog() }
+        onGotoPartyEdit = {
+            scope.launch { drawerState.close() }
+            navController.popBackStack()
+            navController.navigate(Screens.PartyEdit(partyId = partyId))
+        },
+        onGotoPartyUser = {
+            scope.launch { drawerState.close() }
+            navController.navigate(Screens.PartyUserManage(partyId = partyId))
+        },
+        onGotoPartyRecruitmentEdit = {
+            scope.launch { drawerState.close() }
+            navController.popBackStack()
+            navController.navigate(Screens.PartyEditRecruitment(partyId = partyId))
+        },
+        onGotoManageApplicant = {
+            scope.launch { drawerState.close() }
+            navController.popBackStack()
+            navController.navigate(Screens.ManageApplicant(partyId = partyId))
+        }
     )
+
 }
 
 @Composable
@@ -100,6 +137,7 @@ private fun PartyUserManageScreen(
     onAction: (PartyUserAction) -> Unit,
     onNavigationBack: () -> Unit,
     onDismissBackDialog: () -> Unit,
+    onManageClick: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier
@@ -114,7 +152,8 @@ private fun PartyUserManageScreen(
         },
         topBar = {
             PartyUserScaffoldArea(
-                onNavigationBack = onNavigationBack
+                onNavigationBack = onNavigationBack,
+                onManageClick = onManageClick
             )
         }
     ){
@@ -257,6 +296,7 @@ private fun PartyUserManageScreenPreview() {
         partyId = 1,
         onAction = {},
         onNavigationBack = {},
-        onDismissBackDialog = {}
+        onDismissBackDialog = {},
+        onManageClick = {}
     )
 }

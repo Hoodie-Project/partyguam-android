@@ -17,7 +17,8 @@ import com.party.common.ui.theme.T2
 @Composable
 fun PartyEditRecruitmentScaffoldArea(
     onNavigationClick: () -> Unit,
-    onShowHelpCard: (Boolean) -> Unit
+    onShowHelpCard: (Boolean) -> Unit,
+    onManageClick: () -> Unit,
 ) {
     ScaffoldCenterBar(
         navigationIcon = {
@@ -52,7 +53,7 @@ fun PartyEditRecruitmentScaffoldArea(
                 iconColor = BLACK,
                 iconSize = 32.dp,
                 contentDescription = "",
-                onClick = {  }
+                onClick = onManageClick
             )
         }
     )
@@ -63,6 +64,7 @@ fun PartyEditRecruitmentScaffoldArea(
 private fun PartyEditRecruitmentScaffoldAreaPreview() {
     PartyEditRecruitmentScaffoldArea(
         onNavigationClick = {},
-        onShowHelpCard = {}
+        onShowHelpCard = {},
+        onManageClick = {}
     )
 }

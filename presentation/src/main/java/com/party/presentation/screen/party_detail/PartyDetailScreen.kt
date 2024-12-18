@@ -55,6 +55,7 @@ fun PartyDetailRoute(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     RightModalDrawer(
+        currentTitle = "",
         drawerState = drawerState,
         content = {
             PartyDetailScreen(

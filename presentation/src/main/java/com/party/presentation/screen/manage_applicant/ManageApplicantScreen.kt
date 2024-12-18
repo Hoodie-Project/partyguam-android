@@ -4,12 +4,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,6 +24,7 @@ import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.Position1
+import com.party.navigation.Screens
 import com.party.presentation.screen.manage_applicant.component.ManageApplicantDescriptionArea
 import com.party.presentation.screen.manage_applicant.component.ManageApplicantFilterArea
 import com.party.presentation.screen.manage_applicant.component.ManageApplicantListArea
@@ -29,6 +33,8 @@ import com.party.presentation.screen.manage_applicant.component.ManageApplicantR
 import com.party.presentation.screen.manage_applicant.component.ManageApplicantScaffoldArea
 import com.party.presentation.screen.manage_applicant.component.ManageApplicantSelectCategoryArea
 import com.party.presentation.screen.manage_applicant.viewmodel.ManageApplicantViewModel
+import com.party.presentation.screen.party_detail.component.RightModalDrawer
+import kotlinx.coroutines.launch
 
 @Composable
 fun ManageApplicantScreenRoute(
@@ -43,18 +49,47 @@ fun ManageApplicantScreenRoute(
 
     val manageApplicantState by manageApplicantViewModel.state.collectAsStateWithLifecycle()
 
-    ManageApplicantScreen(
-        snackBarHostState = snackBarHostState,
-        manageApplicantState = manageApplicantState,
-        onNavigationClick = { navController.popBackStack() },
-        onAction = { action ->
-            when(action){
-                is ManageApplicantAction.OnShowHelpCard -> manageApplicantViewModel.onAction(action)
-                is ManageApplicantAction.OnChangeOrderBy -> manageApplicantViewModel.onAction(action)
-                is ManageApplicantAction.OnShowRecruitment -> manageApplicantViewModel.onAction(action)
-                is ManageApplicantAction.OnSelectRecruitmentTab -> manageApplicantViewModel.onAction(action)
-                is ManageApplicantAction.OnChangeApplicantOrderBy -> manageApplicantViewModel.onAction(action)
-            }
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+
+    RightModalDrawer(
+        currentTitle = "지원자 관리",
+        drawerState = drawerState,
+        content = {
+            ManageApplicantScreen(
+                snackBarHostState = snackBarHostState,
+                manageApplicantState = manageApplicantState,
+                onNavigationClick = { navController.popBackStack() },
+                onAction = { action ->
+                    when(action){
+                        is ManageApplicantAction.OnShowHelpCard -> manageApplicantViewModel.onAction(action)
+                        is ManageApplicantAction.OnChangeOrderBy -> manageApplicantViewModel.onAction(action)
+                        is ManageApplicantAction.OnShowRecruitment -> manageApplicantViewModel.onAction(action)
+                        is ManageApplicantAction.OnSelectRecruitmentTab -> manageApplicantViewModel.onAction(action)
+                        is ManageApplicantAction.OnChangeApplicantOrderBy -> manageApplicantViewModel.onAction(action)
+                    }
+                },
+                onManageClick = { scope.launch { drawerState.open() } }
+            )
+        },
+        onGotoPartyEdit = {
+            scope.launch { drawerState.close() }
+            navController.popBackStack()
+            navController.navigate(Screens.PartyEdit(partyId = partyId))
+        },
+        onGotoPartyUser = {
+            scope.launch { drawerState.close() }
+            navController.popBackStack()
+            navController.navigate(Screens.PartyUserManage(partyId = partyId))
+        },
+        onGotoPartyRecruitmentEdit = {
+            scope.launch { drawerState.close() }
+            navController.popBackStack()
+            navController.navigate(Screens.PartyEditRecruitment(partyId = partyId))
+        },
+        onGotoManageApplicant = {
+            scope.launch { drawerState.close() }
+            navController.navigate(Screens.ManageApplicant(partyId = partyId))
         }
     )
 }
@@ -64,6 +99,7 @@ private fun ManageApplicantScreen(
     snackBarHostState: SnackbarHostState,
     manageApplicantState: ManageApplicantState,
     onNavigationClick: () -> Unit,
+    onManageClick: () -> Unit,
     onAction: (ManageApplicantAction) -> Unit,
 ) {
     Scaffold(
@@ -77,6 +113,7 @@ private fun ManageApplicantScreen(
                 isShowRecruitmentList = manageApplicantState.isShowRecruitmentList,
                 onShowHelpCard = { isShow -> onAction(ManageApplicantAction.OnShowHelpCard(isShowHelpCard = isShow)) },
                 onNavigationClick = onNavigationClick,
+                onManageClick = onManageClick,
             )
         }
     ){
@@ -199,7 +236,8 @@ private fun ManageApplicantScreenPreview() {
                 )
         ),),
         onNavigationClick = {},
-        onAction = {}
+        onAction = {},
+        onManageClick = {}
     )
 }
 
@@ -213,6 +251,7 @@ private fun ManageApplicantScreenPreview2() {
             partyRecruitment = listOf()
         ),
         onNavigationClick = {},
-        onAction = {}
+        onAction = {},
+        onManageClick = {}
     )
 }

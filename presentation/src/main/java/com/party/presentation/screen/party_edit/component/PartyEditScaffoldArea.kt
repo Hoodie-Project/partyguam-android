@@ -15,6 +15,7 @@ import com.party.common.ui.theme.T2
 @Composable
 fun PartyEditScaffoldArea(
     onNavigationClick: () -> Unit,
+    onManageClick: () -> Unit,
 ) {
     ScaffoldCenterBar(
         navigationIcon = {
@@ -39,7 +40,7 @@ fun PartyEditScaffoldArea(
                 iconColor = BLACK,
                 iconSize = 32.dp,
                 contentDescription = "",
-                onClick = {  }
+                onClick = onManageClick
             )
         }
     )

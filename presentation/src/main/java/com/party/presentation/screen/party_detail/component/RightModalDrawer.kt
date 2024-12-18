@@ -33,11 +33,13 @@ import com.party.common.component.icon.DrawableIconButton
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.GRAY400
+import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.WHITE
 
 @Composable
 fun RightModalDrawer(
+    currentTitle: String,
     drawerState: DrawerState = DrawerState(DrawerValue.Closed),
     gesturesEnabled: Boolean = true,
     scrimColor: Color = DrawerDefaults.scrimColor,
@@ -69,6 +71,7 @@ fun RightModalDrawer(
                         ){
                             HeightSpacer(heightDp = 60.dp)
                             DrawerContentArea(
+                                currentTitle = currentTitle,
                                 onGotoPartyEdit = onGotoPartyEdit,
                                 onGotoPartyUser = onGotoPartyUser,
                                 onGotoPartyRecruitmentEdit = onGotoPartyRecruitmentEdit,
@@ -89,6 +92,7 @@ fun RightModalDrawer(
 
 @Composable
 private fun DrawerContentArea(
+    currentTitle: String,
     onGotoPartyEdit: () -> Unit,
     onGotoPartyUser: () -> Unit,
     onGotoPartyRecruitmentEdit: () -> Unit,
@@ -100,11 +104,13 @@ private fun DrawerContentArea(
             .padding(start = 20.dp)
     ){
         ManageParty(
+            currentTitle = currentTitle,
             onGotoPartyEdit = onGotoPartyEdit,
             onGotoPartyUser = onGotoPartyUser
         )
         HeightSpacer(heightDp = 40.dp)
         ManageRecruitment(
+            currentTitle = currentTitle,
             onGotoPartyRecruitmentEdit = onGotoPartyRecruitmentEdit,
             onGotoManageApplicant = onGotoManageApplicant
         )
@@ -114,15 +120,18 @@ private fun DrawerContentArea(
 
 @Composable
 private fun ManageParty(
+    currentTitle: String,
     onGotoPartyEdit: () -> Unit,
     onGotoPartyUser: () -> Unit,
 ) {
     DrawerTitle(title = "파티 관리")
     DrawerItem(
+        currentTitle = currentTitle,
         text = "파티 수정",
         onClick = onGotoPartyEdit
     )
     DrawerItem(
+        currentTitle = currentTitle,
         text = "파티원 관리",
         onClick = onGotoPartyUser
     )
@@ -130,15 +139,18 @@ private fun ManageParty(
 
 @Composable
 private fun ManageRecruitment(
+    currentTitle: String,
     onGotoPartyRecruitmentEdit: () -> Unit,
     onGotoManageApplicant: () -> Unit,
 ) {
     DrawerTitle(title = "모집 관리")
     DrawerItem(
+        currentTitle = currentTitle,
         text = "모집 편집",
         onClick = onGotoPartyRecruitmentEdit
     )
     DrawerItem(
+        currentTitle = currentTitle,
         text = "지원자 관리",
         onClick = onGotoManageApplicant
     )
@@ -159,6 +171,7 @@ private fun DrawerTitle(
 
 @Composable
 private fun DrawerItem(
+    currentTitle: String,
     text: String,
     onClick: () -> Unit,
 ) {
@@ -166,7 +179,7 @@ private fun DrawerItem(
         modifier = Modifier
             .fillMaxWidth()
             .height(42.dp)
-            .noRippleClickable { onClick() },
+            .noRippleClickable { if(currentTitle != text) onClick() }, // 이미 선택된 메뉴는 클릭되지 않게
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -174,7 +187,7 @@ private fun DrawerItem(
             text = text,
             fontSize = B1,
             fontWeight = FontWeight.SemiBold,
-            textColor = GRAY400,
+            textColor = if(currentTitle == text) PRIMARY else GRAY400,
         )
 
         DrawableIconButton(
@@ -191,6 +204,7 @@ private fun DrawerItem(
 @Composable
 private fun RightModalDrawerPreview() {
     RightModalDrawer(
+        currentTitle = "",
         drawerState = DrawerState(DrawerValue.Closed), // Preview용 상태 고정
         content = {
             CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
@@ -208,6 +222,7 @@ private fun RightModalDrawerPreview() {
                     ){
                         HeightSpacer(heightDp = 60.dp)
                         DrawerContentArea(
+                            currentTitle = "",
                             onGotoPartyEdit = {},
                             onGotoPartyUser = {},
                             onGotoPartyRecruitmentEdit = {},
