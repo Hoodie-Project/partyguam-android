@@ -23,6 +23,7 @@ import com.party.common.WidthSpacer
 import com.party.common.component.icon.DrawableIcon
 import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.B2
+import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
@@ -72,7 +73,9 @@ private fun PointMe() {
     ){
         Text(
             text = "나",
-            color = WHITE
+            color = WHITE,
+            fontSize = B3,
+            fontWeight = FontWeight.Bold,
         )
     }
 }

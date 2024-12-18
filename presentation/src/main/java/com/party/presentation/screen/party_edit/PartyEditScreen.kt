@@ -1,6 +1,7 @@
 package com.party.presentation.screen.party_edit
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,13 +32,17 @@ import com.party.common.TextComponent
 import com.party.common.component.bottomsheet.OneSelectBottomSheet
 import com.party.common.component.bottomsheet.list.partyTypeList
 import com.party.common.component.button.CustomButton
+import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.MultiLineInputField
+import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B2
+import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.WHITE
+import com.party.navigation.Screens
 import com.party.presentation.component.HelpCard
 import com.party.presentation.screen.party_create.PartyCreateAction
 import com.party.presentation.screen.party_edit.component.PartyEditCustomShape
@@ -80,11 +85,41 @@ fun PartyEditScreenRoute(
                 is PartyEditAction.OnChangeSubPosition -> partyEditViewModel.onAction(action)
                 is PartyEditAction.OnChangeMainPositionBottomSheet -> partyEditViewModel.onAction(action)
                 is PartyEditAction.OnPartyModify -> partyEditViewModel.onAction(action)
+                is PartyEditAction.OnChangeShowPartyDeleteDialog -> partyEditViewModel.onAction(action)
             }
         },
         onClickMainPosition = {},
         onNavigationClick = { navController.popBackStack() }
     )
+
+
+
+    if(partyEditState.isShowPartyDeleteDialog){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(BLACK.copy(alpha = 0.7f))
+                .noRippleClickable { partyEditViewModel.dismissDeleteDialog() }
+        ) {
+            TwoButtonDialog(
+                modifier = Modifier
+                    .height(205.dp),
+                dialogTitle = "파티 삭제",
+                description = "한 번 삭제한 파티는 복구할 수 없어요.\n정말로 이 파티를 삭제하시나요?",
+                cancelButtonText = "닫기",
+                confirmButtonText = "삭제하기",
+                onCancel = {
+                    partyEditViewModel.dismissDeleteDialog()
+                },
+                onConfirm = {
+                    partyEditViewModel.dismissDeleteDialog()
+                    // 모집하기 이동
+                    navController.popBackStack()
+                    //navController.navigate(Screens.RecruitmentCreate(partyId = partyCreateState.partyId))
+                }
+            )
+        }
+    }
 }
 
 @Composable
@@ -275,6 +310,7 @@ private fun PartyEditScreen(
                     textColor = RED,
                     textDecoration = TextDecoration.Underline,
                     textAlign = Alignment.Center,
+                    onClick = { onAction(PartyEditAction.OnChangeShowPartyDeleteDialog(true)) }
                 )
 
                 HeightSpacer(heightDp = 48.dp)
@@ -293,6 +329,8 @@ private fun PartyEditScreen(
             )
         }
     }
+
+
 }
 
 @Preview(showBackground = true)

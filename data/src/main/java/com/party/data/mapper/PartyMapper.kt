@@ -225,6 +225,7 @@ object PartyMapper {
 
     private fun mapperPartyAdmin(partyAdminDto: PartyAdminDto): PartyAdmin{
         return PartyAdmin(
+            id = partyAdminDto.id,
             authority = partyAdminDto.authority,
             position = mapperPosition(partyAdminDto.position),
             user = mapperToUser(partyAdminDto.user)
@@ -233,6 +234,7 @@ object PartyMapper {
 
     private fun mapperPartyUser(partyUserDto: PartyUserDto): PartyUser{
         return PartyUser(
+            id = partyUserDto.id,
             authority = partyUserDto.authority,
             position = mapperPosition(partyUserDto.position),
             user = mapperToUser(partyUserDto.user)
@@ -249,7 +251,6 @@ object PartyMapper {
 
     private fun mapperToUser(userDto: UserDto): User {
         return User(
-            id = userDto.id,
             nickname = userDto.nickname,
             image = convertToImageUrl(userDto.image),
             userCareers = userDto.userCareers.map {

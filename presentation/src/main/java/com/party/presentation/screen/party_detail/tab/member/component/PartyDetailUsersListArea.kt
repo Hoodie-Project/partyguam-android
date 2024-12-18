@@ -136,12 +136,15 @@ private fun PartyDetailUsersListAreaPreview() {
         partyUsers = PartyUsers(
             partyAdmin = listOf(
                 PartyAdmin(
-                    authority = "master", position = Position(
+                    id = 0,
+                    authority = "master",
+                    position = Position(
                         id = 5047,
                         main = "개발자",
                         sub = "안드로이드"
-                    ), user = User(
-                        id = 1961,
+                    ),
+                    user = User(
+                        //id = 1961,
                         nickname = "닉네임입니다",
                         image = null,
                         userCareers = listOf()
@@ -150,12 +153,15 @@ private fun PartyDetailUsersListAreaPreview() {
             ),
             partyUser = listOf(
                 PartyUser(
-                    authority = "member", position = Position(
+                    id = 0,
+                    authority = "member",
+                    position = Position(
                         id = 1727,
                         main = "기획자",
                         sub = "PM"
-                    ), user = User(
-                        id = 4098,
+                    ),
+                    user = User(
+                        //id = 4098,
                         nickname = "나의 닉네임은",
                         image = null,
                         userCareers = listOf()

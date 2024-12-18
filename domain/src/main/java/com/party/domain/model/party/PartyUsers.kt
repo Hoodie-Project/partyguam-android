@@ -6,17 +6,18 @@ data class PartyUsers(
 )
 
 data class PartyAdmin(
+    val id: Int,
     val authority: String,
     val position: Position,
     val user: User
 )
 
 data class PartyUser(
+    val id: Int,
     val authority: String,
     val position: Position,
     val user: User
 )
-
 
 data class Position(
     val id: Int,
@@ -25,7 +26,7 @@ data class Position(
 )
 
 data class User(
-    val id: Int,
+    //val id: Int,
     val nickname: String,
     val image: String?,
     val userCareers: List<UserCareer>
@@ -48,8 +49,6 @@ data class PartyMember(
     val userId: Int,
 )
 
-
-
 fun PartyAdmin.toPartyMember(): PartyMember {
     return PartyMember(
         authority = this.authority,
@@ -57,7 +56,7 @@ fun PartyAdmin.toPartyMember(): PartyMember {
         sub = this.position.sub,
         nickName = this.user.nickname,
         image = this.user.image ?: "", // 이미지가 null일 경우 기본값 사용
-        userId = this.user.id
+        userId = this.id
     )
 }
 
@@ -68,6 +67,6 @@ fun PartyUser.toPartyMember(): PartyMember {
         sub = this.position.sub,
         nickName = this.user.nickname,
         image = this.user.image ?: "",
-        userId = this.user.id
+        userId = this.id
     )
 }

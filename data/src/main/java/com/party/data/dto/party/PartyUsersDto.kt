@@ -10,6 +10,7 @@ data class PartyUsersDto(
 
 @Serializable
 data class PartyAdminDto(
+    val id: Int,
     val authority: String,
     val position: PositionDto,
     val user: UserDto
@@ -17,6 +18,7 @@ data class PartyAdminDto(
 
 @Serializable
 data class PartyUserDto(
+    val id: Int,
     val authority: String,
     val position: PositionDto,
     val user: UserDto
@@ -31,7 +33,7 @@ data class PositionDto(
 
 @Serializable
 data class UserDto(
-    val id: Int,
+    //val id: Int,
     val nickname: String,
     val image: String?,
     val userCareers: List<UserCareerDto> = emptyList()
