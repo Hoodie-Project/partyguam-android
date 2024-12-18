@@ -20,6 +20,7 @@ import com.skydoves.sandwich.ApiResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.PATCH
@@ -157,5 +158,11 @@ interface PartyService {
         @Path(value = "partyId") partyId: Int,
         @Path(value = "partyUserId") partyUserId: Int,
         @Body modifyPartyUserPositionRequest: ModifyPartyUserPositionRequest,
+    ): ApiResponse<Unit>
+
+    // 관리자 - 파티 삭제
+    @DELETE("api/parties/{partyId}/admin")
+    suspend fun deleteParty(
+        @Path(value = "partyId") partyId: Int,
     ): ApiResponse<Unit>
 }

@@ -6,13 +6,16 @@ import com.party.common.ServerApiResponse
 import com.party.common.component.bottomsheet.list.partyTypeList
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyType
+import com.party.domain.usecase.party.DeletePartyUseCase
 import com.party.domain.usecase.party.GetPartyDetailUseCase
 import com.party.domain.usecase.party.PartyModifyUseCase
 import com.party.presentation.screen.party_edit.PartyEditAction
 import com.party.presentation.screen.party_edit.PartyEditState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -26,10 +29,14 @@ import javax.inject.Inject
 class PartyEditViewModel @Inject constructor(
     private val getPartyDetailUseCase: GetPartyDetailUseCase,
     private val partyModifyUseCase: PartyModifyUseCase,
+    private val deletePartyUseCase: DeletePartyUseCase,
 ): ViewModel(){
 
     private val _state = MutableStateFlow(PartyEditState())
     val state = _state.asStateFlow()
+
+    private val _partyDeleteSuccess = MutableSharedFlow<Unit>()
+    val partyDeleteSuccess = _partyDeleteSuccess.asSharedFlow()
 
     fun getPartyDetail(partyId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -83,6 +90,20 @@ class PartyEditViewModel @Inject constructor(
                 }
                 is ServerApiResponse.ErrorResponse -> _state.update { it.copy(isPartyModifyLoading = false) }
                 is ServerApiResponse.ExceptionResponse -> _state.update { it.copy(isPartyModifyLoading = false) }
+            }
+        }
+    }
+
+    fun deleteParty(partyId: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = deletePartyUseCase(partyId = partyId)){
+                is ServerApiResponse.SuccessResponse -> {
+                    _state.update { it.copy(isShowPartyDeleteDialog = false) }
+                    _partyDeleteSuccess.emit(Unit)
+                }
+                is ServerApiResponse.ErrorResponse -> {}
+                is ServerApiResponse.ExceptionResponse -> {}
+
             }
         }
     }

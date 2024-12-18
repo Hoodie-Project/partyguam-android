@@ -157,4 +157,8 @@ class PartyRemoteSourceImpl @Inject constructor(
     ): ApiResponse<Unit> {
         return partyService.modifyPartyMemberPosition(partyId = partyId, partyUserId = partyUserId, modifyPartyUserPositionRequest = modifyPartyUserPositionRequest)
     }
+
+    override suspend fun deleteParty(partyId: Int): ApiResponse<Unit> {
+        return partyService.deleteParty(partyId = partyId)
+    }
 }

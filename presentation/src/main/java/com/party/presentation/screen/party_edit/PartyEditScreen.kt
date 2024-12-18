@@ -15,9 +15,11 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -54,6 +56,7 @@ import com.party.presentation.screen.party_edit.component.PartyEditValidField
 import com.party.presentation.screen.party_edit.component.PartyImageArea
 import com.party.presentation.screen.party_edit.component.SelectPartyStateButtonArea
 import com.party.presentation.screen.party_edit.viewmodel.PartyEditViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun PartyEditScreenRoute(
@@ -66,6 +69,14 @@ fun PartyEditScreenRoute(
         partyEditViewModel.getPartyDetail(partyId = partyId)
     }
     val partyEditState by partyEditViewModel.state.collectAsStateWithLifecycle()
+
+    // 파티 삭제 완료되면 뒤로가기
+    LaunchedEffect(key1 = Unit) {
+        partyEditViewModel.partyDeleteSuccess.collectLatest {
+            navController.popBackStack()
+            navController.popBackStack()
+        }
+    }
 
     PartyEditScreen(
         snackBarHostState = snackBarHostState,
@@ -92,13 +103,11 @@ fun PartyEditScreenRoute(
         onNavigationClick = { navController.popBackStack() }
     )
 
-
-
     if(partyEditState.isShowPartyDeleteDialog){
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(BLACK.copy(alpha = 0.7f))
+                .background(BLACK.copy(alpha = 0.3f))
                 .noRippleClickable { partyEditViewModel.dismissDeleteDialog() }
         ) {
             TwoButtonDialog(
@@ -113,8 +122,9 @@ fun PartyEditScreenRoute(
                 },
                 onConfirm = {
                     partyEditViewModel.dismissDeleteDialog()
-                    // 모집하기 이동
-                    navController.popBackStack()
+                    // 삭제하기
+                    partyEditViewModel.deleteParty(partyId = partyId)
+                    //navController.popBackStack()
                     //navController.navigate(Screens.RecruitmentCreate(partyId = partyCreateState.partyId))
                 }
             )
@@ -134,6 +144,11 @@ private fun PartyEditScreen(
     val scrollState = rememberScrollState()
 
     Scaffold(
+        modifier = Modifier
+            .blur(
+                radiusX = if (partyEditState.isShowPartyDeleteDialog) 10.dp else 0.dp,
+                radiusY = if (partyEditState.isShowPartyDeleteDialog) 10.dp else 0.dp,
+            ),
         snackbarHost = {
             SnackbarHost(
                 hostState = snackBarHostState,

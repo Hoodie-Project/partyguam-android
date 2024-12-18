@@ -76,4 +76,7 @@ interface PartyRemoteSource {
 
     // 관리자 - 파티원 포지션 변경
     suspend fun modifyPartyMemberPosition(partyId: Int, partyUserId: Int, modifyPartyUserPositionRequest: ModifyPartyUserPositionRequest): ApiResponse<Unit>
+
+    // 관리자 - 파티 삭제
+    suspend fun deleteParty(partyId: Int): ApiResponse<Unit>
 }

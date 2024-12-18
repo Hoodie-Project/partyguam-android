@@ -371,4 +371,31 @@ class PartyRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun deleteParty(partyId: Int): ServerApiResponse<Unit> {
+        return when(val result = partyRemoteSource.deleteParty(partyId)){
+            is ApiResponse.Success -> { SuccessResponse(data = Unit) }
+            is ApiResponse.Failure.Error-> {
+                when(result.statusCode){
+                    StatusCode.Forbidden -> {
+                        ErrorResponse(
+                            statusCode = StatusCode.Forbidden.code,
+                            data = null,
+                        )
+                    }
+                    StatusCode.NotFound -> {
+                        ErrorResponse(
+                            statusCode = StatusCode.NotFound.code,
+                            data = null,
+                        )
+                    }
+                    else -> ErrorResponse(data = null)
+                }
+            }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse(result.message)
+            }
+        }
+    }
 }
