@@ -126,9 +126,6 @@ class PartyEditViewModel @Inject constructor(
             is PartyEditAction.OnChangeSelectPartyType -> _state.update { it.copy(selectedPartyType = action.partyType) }
             is PartyEditAction.OnChangeIsShowHelpCard -> _state.update { it.copy(isHelpCardOpen = action.isShowHelpCard) }
             is PartyEditAction.OnChangePartyDescription -> _state.update { it.copy(partyDescription = action.description) }
-            is PartyEditAction.OnChangeMainPosition -> _state.update { it.copy(selectedMainPosition = action.position) }
-            is PartyEditAction.OnChangeMainPositionBottomSheet -> _state.update { it.copy(isMainPositionBottomSheetShow = action.isMainPositionBottomSheetShow) }
-            is PartyEditAction.OnChangeSubPosition -> _state.update { it.copy(selectedSubPosition = action.positionList) }
             is PartyEditAction.OnPartyModify -> {
                 modifyParty(
                     partyId = action.partyId,

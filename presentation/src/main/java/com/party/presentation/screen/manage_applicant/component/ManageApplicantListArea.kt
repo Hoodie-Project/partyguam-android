@@ -32,8 +32,7 @@ fun ManageApplicantListArea(
             title = "지원자가 없어요",
             modifier = Modifier.padding(top = 50.dp),
         )
-
-    }else {
+    } else {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp),

@@ -70,7 +70,7 @@ fun PartyArea(
     }
 
     LaunchedEffect(Unit) {
-        homeViewModel.getPartyList(page = 1, size = 10, sort = "createdAt", order = "DESC", titleSearch = null, status = null)
+        homeViewModel.getPartyList(page = 1, size = 50, sort = "createdAt", order = "DESC", titleSearch = null, status = null)
     }
 
     val getPartyListState by homeViewModel.getPartyListState.collectAsStateWithLifecycle()
@@ -123,7 +123,7 @@ fun PartyArea(
                 isPartyTypeSheetOpen = false
                 homeViewModel.getPartyList(
                     page = 1,
-                    size = 20,
+                    size = 50,
                     sort = "createdAt",
                     order = "DESC",
                     partyTypes = convertToIntList(selectedPartyTypeList),

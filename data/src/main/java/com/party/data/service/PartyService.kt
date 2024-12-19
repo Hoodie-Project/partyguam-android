@@ -177,7 +177,7 @@ interface PartyService {
     ): ApiResponse<Unit>
 
     // 관리자 - 파티장 위임하기
-    @POST("api/parties/{partyId}/admin/delegation")
+    @PATCH("api/parties/{partyId}/admin/delegation")
     suspend fun changeMaster(
         @Path(value = "partyId") partyId: Int,
         @Body delegatePartyMasterRequest: DelegatePartyMasterRequest,

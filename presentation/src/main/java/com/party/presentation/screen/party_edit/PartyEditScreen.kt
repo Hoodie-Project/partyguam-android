@@ -111,14 +111,10 @@ fun PartyEditScreenRoute(
                         is PartyEditAction.OnChangePartyTypeSheet -> partyEditViewModel.onAction(action)
                         is PartyEditAction.OnChangeIsShowHelpCard -> partyEditViewModel.onAction(action)
                         is PartyEditAction.OnChangePartyDescription -> partyEditViewModel.onAction(action)
-                        is PartyEditAction.OnChangeMainPosition -> partyEditViewModel.onAction(action)
-                        is PartyEditAction.OnChangeSubPosition -> partyEditViewModel.onAction(action)
-                        is PartyEditAction.OnChangeMainPositionBottomSheet -> partyEditViewModel.onAction(action)
                         is PartyEditAction.OnPartyModify -> partyEditViewModel.onAction(action)
                         is PartyEditAction.OnChangeShowPartyDeleteDialog -> partyEditViewModel.onAction(action)
                     }
                 },
-                onClickMainPosition = {},
                 onNavigationClick = { navController.popBackStack() },
                 onManageClick = { scope.launch { drawerState.open() } }
             )
@@ -143,8 +139,6 @@ fun PartyEditScreenRoute(
             navController.navigate(Screens.ManageApplicant(partyId = partyId))
         }
     )
-
-
 
     if(partyEditState.isShowPartyDeleteDialog){
         Box(
@@ -177,7 +171,6 @@ private fun PartyEditScreen(
     partyEditState: PartyEditState,
     partyId: Int,
     onAction: (PartyEditAction) -> Unit,
-    onClickMainPosition: (String) -> Unit,
     onNavigationClick: () -> Unit,
     onManageClick: () -> Unit,
 ) {
@@ -322,7 +315,7 @@ private fun PartyEditScreen(
                 )
 
                 // 내 포지션
-                HeightSpacer(heightDp = 30.dp)
+                /*HeightSpacer(heightDp = 30.dp)
                 PartyEditDescriptionArea(
                     title = "내 포지션",
                     description = "파티 내에서 본인의 포지션을 선택해주세요."
@@ -342,7 +335,7 @@ private fun PartyEditScreen(
                         onAction(PartyEditAction.OnChangeMainPositionBottomSheet(isShow))
                     },
                     onClickMainPosition = onClickMainPosition
-                )
+                )*/
 
                 // 파티 상태
                 HeightSpacer(heightDp = 60.dp)
@@ -395,7 +388,6 @@ private fun PartyEditScreenPreview() {
         partyEditState = PartyEditState(),
         partyId = 0,
         onAction = {},
-        onClickMainPosition = {},
         onNavigationClick = {},
         onManageClick = {}
     )

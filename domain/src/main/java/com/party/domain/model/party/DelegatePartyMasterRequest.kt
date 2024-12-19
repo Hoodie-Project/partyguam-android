@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DelegatePartyMasterRequest(
-    val delegateUserId: Int,
+    val partyUserId: Int,
 )

@@ -33,7 +33,7 @@ fun PartyListArea(
     val partyListResponse = getPartyListState.data
 
     LaunchedEffect(Unit) {
-        homeViewModel.getPartyList(page = 1, size = 10, sort = "createdAt", order = "DESC", titleSearch = null, status = null)
+        homeViewModel.getPartyList(page = 1, size = 50, sort = "createdAt", order = "DESC", titleSearch = null, status = null)
     }
 
     HomeListTitleArea(
