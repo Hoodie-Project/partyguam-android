@@ -26,7 +26,7 @@ data class PositionDto(
 data class PartyDto(
     val id: Int,
     val title: String,
-    val image: String,
+    val image: String?,
     val status: String,
     val partyType: PartyTypeDto
 )

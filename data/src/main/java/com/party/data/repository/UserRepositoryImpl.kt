@@ -308,6 +308,7 @@ class UserRepositoryImpl @Inject constructor(
                 ErrorResponse()
             }
             is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
                 ExceptionResponse(message = result.message)
             }
         }

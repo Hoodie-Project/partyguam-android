@@ -20,7 +20,7 @@ data class Position(
 data class Party(
     val id: Int,
     val title: String,
-    val image: String,
+    val image: String?,
     val status: String,
     val partyType: PartyType
 )
