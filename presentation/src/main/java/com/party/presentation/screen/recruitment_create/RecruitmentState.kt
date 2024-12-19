@@ -10,7 +10,7 @@ data class RecruitmentState(
     val subPositionList: List<PositionList> = emptyList(), // 서브 포지션 리스트
 
     // 모집인원
-    val selectedCount: String = "",
+    val selectedCount: Int = 1,
     val isPeopleCountSheetOpen: Boolean = false,
 
     // 모집소개글

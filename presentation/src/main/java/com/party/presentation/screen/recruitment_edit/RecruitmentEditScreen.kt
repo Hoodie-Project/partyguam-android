@@ -41,7 +41,6 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun RecruitmentEditRoute(
-    snackBarHostState: SnackbarHostState,
     navController: NavHostController,
     partyRecruitmentId: Int,
     partyId: Int,

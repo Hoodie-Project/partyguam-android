@@ -69,7 +69,7 @@ class RecruitmentCreateViewModel @Inject constructor(
             is RecruitmentCreateAction.OnChangeMainPositionBottomSheet -> _state.update { it.copy(isMainPositionBottomSheetShow = action.isMainPositionBottomSheetShow) }
             is RecruitmentCreateAction.OnChangeMainPosition -> _state.update { it.copy(selectedMainPosition = action.position) }
             is RecruitmentCreateAction.OnChangeSubPosition -> _state.update { it.copy(selectedSubPosition = action.positionList) }
-            is RecruitmentCreateAction.OnSetSelectedCount -> _state.update { it.copy(selectedCount = action.selectedCount) }
+            is RecruitmentCreateAction.OnSetSelectedCount -> _state.update { it.copy(selectedCount = action.selectedCount.toInt()) }
             is RecruitmentCreateAction.OnChangePeopleCountSheet -> _state.update { it.copy(isPeopleCountSheetOpen = action.isPeopleCountSheetOpen) }
             is RecruitmentCreateAction.OnChangeHelpCardOpen -> _state.update { it.copy(isHelpCardOpen = action.isHelpCardOpen) }
             is RecruitmentCreateAction.OnChangeRecruitmentDescription -> _state.update { it.copy(recruitmentDescription = action.recruitmentDescription) }
@@ -77,7 +77,7 @@ class RecruitmentCreateViewModel @Inject constructor(
                 val recruitmentCreateRequest = RecruitmentCreateRequest(
                     positionId = _state.value.selectedSubPosition.id,
                     content = _state.value.recruitmentDescription,
-                    recruiting_count = _state.value.selectedCount.toInt(),
+                    recruiting_count = _state.value.selectedCount,
                 )
                 createRecruitment(action.partyId, recruitmentCreateRequest)
             }
