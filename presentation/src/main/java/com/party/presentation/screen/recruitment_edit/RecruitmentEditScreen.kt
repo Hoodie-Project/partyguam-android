@@ -136,7 +136,7 @@ private fun RecruitmentEditScreen(
                 )
                 HeightSpacer(heightDp = 20.dp)
                 RecruitmentCreateInputField(
-                    inputText = recruitmentEditState.selectedCount,
+                    inputText = "${recruitmentEditState.selectedCount}명" ,
                     placeHolder = "인원을 선택해 주세요.",
                     readOnly = true,
                     icon = {
@@ -153,7 +153,7 @@ private fun RecruitmentEditScreen(
                 if(recruitmentEditState.isPeopleCountSheetOpen){
                     OneSelectPickerBottomSheet(
                         bottomSheetTitle = "모집 인원",
-                        selectedText = recruitmentEditState.selectedCount,
+                        selectedText = "${recruitmentEditState.selectedCount}명",
                         peopleCountList = peopleCountList,
                         onBottomSheetClose = { onAction(RecruitmentEditAction.OnChangePeopleCountSheet(false)) },
                         onApply = { selectedData ->

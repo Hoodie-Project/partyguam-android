@@ -73,7 +73,7 @@ class RecruitmentEditViewModel @Inject constructor(
                         it.copy(
                             selectedMainPosition = recruitmentDetail.position.main,
                             selectedSubPosition = PositionList(0, recruitmentDetail.position.main, recruitmentDetail.position.sub),
-                            selectedCount = "${recruitmentDetail.recruitingCount}명",
+                            selectedCount = recruitmentDetail.recruitingCount,
                             recruitmentDescription = recruitmentDetail.content,
                         )
                     }
@@ -105,7 +105,7 @@ class RecruitmentEditViewModel @Inject constructor(
             is RecruitmentEditAction.OnChangeMainPositionBottomSheet -> _state.update { it.copy(isMainPositionBottomSheetShow = action.isMainPositionBottomSheetShow) }
             is RecruitmentEditAction.OnChangeMainPosition -> _state.update { it.copy(selectedMainPosition = action.position) }
             is RecruitmentEditAction.OnChangeSubPosition -> _state.update { it.copy(selectedSubPosition = action.positionList) }
-            is RecruitmentEditAction.OnSetSelectedCount -> _state.update { it.copy(selectedCount = action.selectedCount) }
+            is RecruitmentEditAction.OnSetSelectedCount -> _state.update { it.copy(selectedCount = action.selectedCount.toInt()) }
             is RecruitmentEditAction.OnChangePeopleCountSheet -> _state.update { it.copy(isPeopleCountSheetOpen = action.isPeopleCountSheetOpen) }
             is RecruitmentEditAction.OnChangeHelpCardOpen -> _state.update { it.copy(isHelpCardOpen = action.isHelpCardOpen) }
             is RecruitmentEditAction.OnChangeRecruitmentDescription -> _state.update { it.copy(recruitmentDescription = action.recruitmentDescription) }
@@ -113,7 +113,7 @@ class RecruitmentEditViewModel @Inject constructor(
                 val modifyRecruitmentRequest = ModifyRecruitmentRequest(
                     positionId = _state.value.selectedSubPosition.id,
                     content = _state.value.recruitmentDescription,
-                    recruiting_count = _state.value.selectedCount.split("명")[0].toInt(),
+                    recruiting_count = _state.value.selectedCount,
                 )
                 modifyRecruitment(action.partyId, action.partyRecruitmentId, modifyRecruitmentRequest)
             }
