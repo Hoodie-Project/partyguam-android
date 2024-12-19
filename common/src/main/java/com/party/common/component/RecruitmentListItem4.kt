@@ -39,8 +39,10 @@ fun RecruitmentListItem4(
     recruitedCount: Int,
     recruitingCount: Int,
     applicationCount: Int,
+    onClick: () -> Unit = { },
 ) {
     Card(
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .height(130.dp),

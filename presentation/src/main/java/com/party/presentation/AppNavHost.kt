@@ -46,6 +46,7 @@ import com.party.presentation.screen.party_user_manage.PartyUserManageScreenRout
 import com.party.presentation.screen.profile.ProfileScreen
 import com.party.presentation.screen.recruitment_create.RecruitmentCreateScreenRoute
 import com.party.presentation.screen.recruitment_detail.RecruitmentDetailRoute
+import com.party.presentation.screen.recruitment_edit.RecruitmentEditRoute
 import com.party.presentation.screen.search.SearchRoute
 import com.party.presentation.screen.splash.SplashScreen
 import com.party.presentation.screen.state.StateScreenRoute
@@ -314,6 +315,15 @@ fun AppNavHost() {
                 snackBarHostState = snackBarHostState,
                 navController = navController,
                 partyId = partyId
+            )
+        }
+        composable<Screens.RecruitmentEdit> { backStackEntry ->
+            val partyRecruitmentId = backStackEntry.toRoute<Screens.RecruitmentEdit>().partyRecruitmentId
+            val partyId = backStackEntry.toRoute<Screens.RecruitmentEdit>().partyId
+            RecruitmentEditRoute(
+                navController = navController,
+                partyRecruitmentId = partyRecruitmentId,
+                partyId = partyId,
             )
         }
     }

@@ -29,8 +29,7 @@ class RecruitmentDetailViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _recruitmentDetailState.update { it.copy(isLoading = true) }
 
-            when (val result =
-                getRecruitmentDetailUseCase(partyRecruitmentId = partyRecruitmentId)) {
+            when (val result = getRecruitmentDetailUseCase(partyRecruitmentId = partyRecruitmentId)) {
                 is ServerApiResponse.SuccessResponse<RecruitmentDetail> -> {
                     _recruitmentDetailState.update {
                         it.copy(

@@ -32,6 +32,7 @@ fun PartyRecruitmentListArea(
     onExpanded: (Int) -> Unit,
     onCollapsed: (Int) -> Unit,
     onDelete: (Int) -> Unit,
+    onClick: (Int) -> Unit,
 ) {
     when {
         partyRecruitmentEditState.isLoadingPartyRecruitment -> LoadingProgressBar()
@@ -50,6 +51,7 @@ fun PartyRecruitmentListArea(
                 onExpanded = onExpanded,
                 onCollapsed = onCollapsed,
                 onDelete = onDelete,
+                onClick = onClick
             )
         }
     }
@@ -61,6 +63,7 @@ private fun RecruitmentList(
     onExpanded: (Int) -> Unit,
     onCollapsed: (Int) -> Unit,
     onDelete: (Int) -> Unit,
+    onClick: (Int) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -92,6 +95,7 @@ private fun RecruitmentList(
                         recruitedCount = item.recruitedCount,
                         recruitingCount = item.recruitingCount,
                         applicationCount = item.applicationCount,
+                        onClick = { onClick(item.id) }
                     )
                 }
             )

@@ -91,7 +91,10 @@ fun PartyEditRecruitmentScreenRoute(
                         is PartyRecruitmentEditAction.OnDeleteRecruitment -> partyRecruitmentEditViewModel.deleteRecruitment(action.partyId, action.partyRecruitmentId)
                     }
                 },
-                onManageClick = { scope.launch { drawerState.open() } }
+                onManageClick = { scope.launch { drawerState.open() } },
+                onClick = { partyRecruitmentId ->
+                    navController.navigate(Screens.RecruitmentEdit(partyId = partyId, partyRecruitmentId = partyRecruitmentId))
+                }
             )
         },
         onGotoPartyEdit = {
@@ -124,6 +127,7 @@ private fun PartyEditRecruitmentScreen(
     onNavigationClick: () -> Unit,
     onGotoRecruitmentCreate: () -> Unit,
     onManageClick: () -> Unit,
+    onClick: (Int) -> Unit,
     onAction: (PartyRecruitmentEditAction) -> Unit
 ) {
     var selectedRecruitmentId by remember { mutableIntStateOf(0) }
@@ -189,7 +193,8 @@ private fun PartyEditRecruitmentScreen(
                     onDelete = { selectedRecruitmentId1 ->
                         selectedRecruitmentId = selectedRecruitmentId1
                         onAction(PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog(true))
-                    }
+                    },
+                    onClick = onClick
                 )
             }
         }
@@ -258,6 +263,7 @@ private fun PartyEditRecruitmentScreenPreview() {
         onNavigationClick = {},
         onGotoRecruitmentCreate = {},
         onAction = {},
-        onManageClick = {}
+        onManageClick = {},
+        onClick = {}
     )
 }
