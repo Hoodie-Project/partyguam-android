@@ -87,6 +87,14 @@ fun PartyUserManageScreenRoute(
         }
     }
 
+    // 파티장 위임하기 성공
+    LaunchedEffect(key1 = Unit) {
+        partyUserViewModel.delegateMasterSuccessFlow.collectLatest {
+            snackBarMessage(snackBarHostState, "파티장을 위임했어요.")
+            navController.popBackStack()
+        }
+    }
+
     val partyUserState by partyUserViewModel.state.collectAsStateWithLifecycle()
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -116,10 +124,13 @@ fun PartyUserManageScreenRoute(
                         is PartyUserAction.OnModifyUserPosition -> { partyUserViewModel.onAction(action) }
                         is PartyUserAction.OnSearch -> { partyUserViewModel.onAction(action) }
                         is PartyUserAction.OnDeletePartyMember -> { partyUserViewModel.onAction(action) }
+                        is PartyUserAction.OnChangeMasterDialog -> { partyUserViewModel.onAction(action) }
+                        is PartyUserAction.OnChangeMaster -> { partyUserViewModel.onAction(action) }
                     }
                 },
                 onNavigationBack = { navController.popBackStack() },
                 onDismissBackDialog = { partyUserViewModel.dismissBackDialog() },
+                onDismissChangeMasterDialog = { partyUserViewModel.dismissChangeMasterDialog() },
                 onManageClick = { scope.launch { drawerState.open() } }
             )
         },
@@ -154,13 +165,14 @@ private fun PartyUserManageScreen(
     onAction: (PartyUserAction) -> Unit,
     onNavigationBack: () -> Unit,
     onDismissBackDialog: () -> Unit,
+    onDismissChangeMasterDialog: () -> Unit,
     onManageClick: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier
             .blur(
-                radiusX = if (partyUserState.isShowModifyDialog) 10.dp else 0.dp,
-                radiusY = if (partyUserState.isShowModifyDialog) 10.dp else 0.dp,
+                radiusX = if (partyUserState.isShowModifyDialog || partyUserState.isShowChangeMaster) 10.dp else 0.dp,
+                radiusY = if (partyUserState.isShowModifyDialog || partyUserState.isShowChangeMaster) 10.dp else 0.dp,
             ),
         snackbarHost = {
             SnackbarHost(
@@ -258,6 +270,10 @@ private fun PartyUserManageScreen(
                     "내보내기" -> {
                         onAction(PartyUserAction.OnDeletePartyMember(partyId = partyId))
                     }
+                    "파티장 위임" -> {
+                        onAction(PartyUserAction.OnManageBottomSheet(false))
+                        onAction(PartyUserAction.OnChangeMasterDialog(true))
+                    }
                 }
             }
         )
@@ -277,6 +293,26 @@ private fun PartyUserManageScreen(
             },
             onClickMainPosition = { onAction(PartyUserAction.OnMainPositionClick(it)) }
         )
+    }
+
+    if(partyUserState.isShowChangeMaster){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(BLACK.copy(alpha = 0.2f))
+                .noRippleClickable { onDismissChangeMasterDialog() }
+        ) {
+            TwoButtonDialog(
+                modifier = Modifier
+                    .height(183.dp),
+                dialogTitle = "파티장 위임",
+                description = "위임 후에는 되돌릴 수 없어요.\n정말 이 파티원에게 위임하시나요?",
+                cancelButtonText = "닫기",
+                confirmButtonText = "위임하기",
+                onCancel = onDismissChangeMasterDialog,
+                onConfirm = { onAction(PartyUserAction.OnChangeMaster(partyId)) }
+            )
+        }
     }
 }
 
@@ -321,6 +357,7 @@ private fun PartyUserManageScreenPreview() {
         onAction = {},
         onNavigationBack = {},
         onDismissBackDialog = {},
-        onManageClick = {}
+        onManageClick = {},
+        onDismissChangeMasterDialog = {}
     )
 }

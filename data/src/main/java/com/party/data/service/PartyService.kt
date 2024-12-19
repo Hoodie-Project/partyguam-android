@@ -13,6 +13,7 @@ import com.party.data.dto.party.PersonalRecruitmentListDto
 import com.party.data.dto.party.RecruitmentCreateDto
 import com.party.data.dto.party.RecruitmentDetailDto
 import com.party.data.dto.party.RecruitmentListDto
+import com.party.domain.model.party.DelegatePartyMasterRequest
 import com.party.domain.model.party.ModifyPartyUserPositionRequest
 import com.party.domain.model.party.PartyApplyRequest
 import com.party.domain.model.party.RecruitmentCreateRequest
@@ -171,5 +172,12 @@ interface PartyService {
     suspend fun deletePartyMember(
         @Path(value = "partyId") partyId: Int,
         @Path(value = "partyUserId") partyUserId: Int,
+    ): ApiResponse<Unit>
+
+    // 관리자 - 파티장 위임하기
+    @POST("api/parties/{partyId}/admin/delegation")
+    suspend fun changeMaster(
+        @Path(value = "partyId") partyId: Int,
+        @Body delegatePartyMasterRequest: DelegatePartyMasterRequest,
     ): ApiResponse<Unit>
 }

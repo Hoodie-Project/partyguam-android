@@ -14,6 +14,7 @@ import com.party.data.dto.party.RecruitmentCreateDto
 import com.party.data.dto.party.RecruitmentDetailDto
 import com.party.data.dto.party.RecruitmentListDto
 import com.party.data.service.PartyService
+import com.party.domain.model.party.DelegatePartyMasterRequest
 import com.party.domain.model.party.ModifyPartyUserPositionRequest
 import com.party.domain.model.party.PartyApplyRequest
 import com.party.domain.model.party.RecruitmentCreateRequest
@@ -164,5 +165,12 @@ class PartyRemoteSourceImpl @Inject constructor(
 
     override suspend fun deletePartyMember(partyId: Int, partyUserId: Int): ApiResponse<Unit> {
         return partyService.deletePartyMember(partyId = partyId, partyUserId = partyUserId)
+    }
+
+    override suspend fun changeMaster(
+        partyId: Int,
+        delegatePartyMasterRequest: DelegatePartyMasterRequest
+    ): ApiResponse<Unit> {
+        return partyService.changeMaster(partyId = partyId, delegatePartyMasterRequest = delegatePartyMasterRequest)
     }
 }

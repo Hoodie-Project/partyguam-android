@@ -17,6 +17,7 @@ import com.party.data.mapper.PartyMapper.mapperRecruitmentDetailResponse
 import com.party.data.mapper.PartyMapper.mapperToPartyApply
 import com.party.data.mapper.PartyMapper.mapperToPartyCreate
 import com.party.data.mapper.PartyMapper.mapperToRecruitmentCreate
+import com.party.domain.model.party.DelegatePartyMasterRequest
 import com.party.domain.model.party.ModifyPartyUserPositionRequest
 import com.party.domain.model.party.PartyApply
 import com.party.domain.model.party.PartyApplyRequest
@@ -422,6 +423,20 @@ class PartyRepositoryImpl @Inject constructor(
                     else -> ErrorResponse(data = null)
                 }
             }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse(result.message)
+            }
+        }
+    }
+
+    override suspend fun changeMaster(
+        partyId: Int,
+        delegatePartyMasterRequest: DelegatePartyMasterRequest
+    ): ServerApiResponse<Unit> {
+        return when(val result = partyRemoteSource.changeMaster(partyId = partyId, delegatePartyMasterRequest = delegatePartyMasterRequest)){
+            is ApiResponse.Success -> { SuccessResponse(data = Unit) }
+            is ApiResponse.Failure.Error-> { ErrorResponse(data = null) }
             is ApiResponse.Failure.Exception -> {
                 result.throwable.printStackTrace()
                 ExceptionResponse(result.message)

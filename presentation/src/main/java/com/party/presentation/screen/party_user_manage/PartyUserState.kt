@@ -20,4 +20,5 @@ data class PartyUserState(
     val selectedSubPosition: PositionList = PositionList(0, "", ""), // 선택된 서브 포지션
 
     val isShowModifyDialog: Boolean = false,
+    val isShowChangeMaster: Boolean = false,
 )

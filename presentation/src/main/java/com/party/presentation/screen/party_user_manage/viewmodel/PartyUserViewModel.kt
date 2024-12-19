@@ -3,7 +3,9 @@ package com.party.presentation.screen.party_user_manage.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
+import com.party.domain.model.party.DelegatePartyMasterRequest
 import com.party.domain.model.party.ModifyPartyUserPositionRequest
+import com.party.domain.usecase.party.DelegatePartyMasterUseCase
 import com.party.domain.usecase.party.DeletePartyMemberUseCase
 import com.party.domain.usecase.party.GetPartyMemberInfoUseCase
 import com.party.domain.usecase.party.ModifyPartyUserPositionUseCase
@@ -26,6 +28,7 @@ class PartyUserViewModel @Inject constructor(
     private val getPositionsUseCase: GetPositionsUseCase,
     private val modifyPartyUserPositionUseCase: ModifyPartyUserPositionUseCase,
     private val deletePartyMemberUseCase: DeletePartyMemberUseCase,
+    private val delegatePartyMasterUseCase: DelegatePartyMasterUseCase,
 ): ViewModel(){
 
     private val _errorFlow = MutableSharedFlow<String>()
@@ -38,6 +41,10 @@ class PartyUserViewModel @Inject constructor(
     // 파티원 내보내기 성공
     private val _deleteSuccessFlow = MutableSharedFlow<Unit>()
     val deleteSuccessFlow = _deleteSuccessFlow.asSharedFlow()
+
+    // 파티장 위임하기 성공
+    private val _delegateMasterSuccessFlow = MutableSharedFlow<Unit>()
+    val delegateMasterSuccessFlow = _delegateMasterSuccessFlow.asSharedFlow()
 
     private val _state = MutableStateFlow(PartyUserState())
     val state = _state.asStateFlow()
@@ -77,6 +84,10 @@ class PartyUserViewModel @Inject constructor(
 
     fun dismissBackDialog(){
         _state.update { it.copy(isShowModifyDialog = false) }
+    }
+
+    fun dismissChangeMasterDialog(){
+        _state.update { it.copy(isShowChangeMaster = false) }
     }
 
     // 서브 포지션 조회
@@ -124,7 +135,7 @@ class PartyUserViewModel @Inject constructor(
         }
     }
 
-    fun deletePartyMember(partyId: Int, partyUserId: Int){
+    private fun deletePartyMember(partyId: Int, partyUserId: Int){
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = deletePartyMemberUseCase(partyId, partyUserId)){
                 is ServerApiResponse.SuccessResponse -> {
@@ -146,6 +157,18 @@ class PartyUserViewModel @Inject constructor(
                         else -> _errorFlow.emit("파티원 삭제에 실패했습니다.")
                     }
                 }
+                is ServerApiResponse.ExceptionResponse -> {}
+            }
+        }
+    }
+
+    private fun changeMaster(partyId: Int, delegatePartyMasterRequest: DelegatePartyMasterRequest){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = delegatePartyMasterUseCase(partyId = partyId, delegatePartyMasterRequest = delegatePartyMasterRequest)){
+                is ServerApiResponse.SuccessResponse -> {
+                    _delegateMasterSuccessFlow.emit(Unit)
+                }
+                is ServerApiResponse.ErrorResponse -> {}
                 is ServerApiResponse.ExceptionResponse -> {}
             }
         }
@@ -216,10 +239,12 @@ class PartyUserViewModel @Inject constructor(
             }
             is PartyUserAction.OnDeletePartyMember -> {
                 _state.update { it.copy(manageBottomSheet = false) }
-                deletePartyMember(
-                    partyId = action.partyId,
-                    partyUserId = _state.value.selectedPartyMemberId
-                )
+                deletePartyMember(partyId = action.partyId, partyUserId = _state.value.selectedPartyMemberId)
+            }
+            is PartyUserAction.OnChangeMasterDialog -> _state.update { it.copy(isShowChangeMaster = action.isShowChangeMaster) }
+            is PartyUserAction.OnChangeMaster -> {
+                _state.update { it.copy(isShowChangeMaster = false) }
+                changeMaster(action.partyId, DelegatePartyMasterRequest(_state.value.selectedPartyMemberId))
             }
         }
     }

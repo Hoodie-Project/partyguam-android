@@ -13,6 +13,7 @@ import com.party.data.dto.party.PersonalRecruitmentListDto
 import com.party.data.dto.party.RecruitmentCreateDto
 import com.party.data.dto.party.RecruitmentDetailDto
 import com.party.data.dto.party.RecruitmentListDto
+import com.party.domain.model.party.DelegatePartyMasterRequest
 import com.party.domain.model.party.ModifyPartyUserPositionRequest
 import com.party.domain.model.party.PartyApplyRequest
 import com.party.domain.model.party.RecruitmentCreateRequest
@@ -82,4 +83,7 @@ interface PartyRemoteSource {
 
     // 관리자 - 파티원 내보내기
     suspend fun deletePartyMember(partyId: Int, partyUserId: Int): ApiResponse<Unit>
+
+    // 관리자 - 파티장 위임하기
+    suspend fun changeMaster(partyId: Int, delegatePartyMasterRequest: DelegatePartyMasterRequest,): ApiResponse<Unit>
 }

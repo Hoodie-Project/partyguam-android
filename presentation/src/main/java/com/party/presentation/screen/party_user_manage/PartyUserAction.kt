@@ -20,4 +20,6 @@ sealed interface PartyUserAction {
     data class OnModifyUserPosition(val partyId: Int): PartyUserAction
 
     data class OnDeletePartyMember(val partyId: Int): PartyUserAction
+    data class OnChangeMasterDialog(val isShowChangeMaster: Boolean): PartyUserAction
+    data class OnChangeMaster(val partyId: Int): PartyUserAction
 }
