@@ -24,7 +24,6 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,9 +36,9 @@ import com.party.common.component.icon.DrawableIconButton
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.GRAY400
+import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.INPUT_FIELD_HEIGHT
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
@@ -59,7 +58,7 @@ fun InputField(
     borderCornerSize: Dp = LARGE_CORNER_SIZE,
     readOnly: Boolean = false,
     placeHolder: String,
-    placeHolderText: Color = BLACK,
+    placeHolderColor: Color = GRAY500,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     onValueChange: (String) -> Unit,
     leadingIcon: @Composable () -> Unit = {},
@@ -114,7 +113,7 @@ fun InputField(
                             Text(
                                 text = placeHolder,
                                 fontSize = T3,
-                                color = placeHolderText,
+                                color = placeHolderColor,
                             )
                         }
                     }
@@ -127,7 +126,7 @@ fun InputField(
 
 @Preview(showBackground = true)
 @Composable
-fun InputFieldPreview() {
+private fun InputFieldPreview() {
     InputField(
         inputText = "",
         inputTextColor = Color.Black,
@@ -156,7 +155,7 @@ fun InputFieldPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun InputFieldPreview2() {
+private fun InputFieldPreview2() {
     InputField(
         inputText = "입력값을 입력했어요",
         inputTextColor = Color.Black,

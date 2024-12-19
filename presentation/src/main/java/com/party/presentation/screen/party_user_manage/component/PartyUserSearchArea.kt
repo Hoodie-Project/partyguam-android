@@ -30,7 +30,7 @@ fun PartyUserSearchArea(
     InputField(
         inputText = inputText,
         placeHolder = placeHolder,
-        placeHolderText = GRAY500,
+        placeHolderColor = GRAY500,
         containerColor = GRAY100,
         borderColor = GRAY100,
         borderCornerSize = 8.dp,
