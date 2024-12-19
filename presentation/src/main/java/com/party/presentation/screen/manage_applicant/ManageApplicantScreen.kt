@@ -43,11 +43,18 @@ fun ManageApplicantScreenRoute(
     partyId: Int,
     manageApplicantViewModel: ManageApplicantViewModel = hiltViewModel(),
 ) {
-    LaunchedEffect(Unit) {
-        manageApplicantViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = null)
-    }
 
     val manageApplicantState by manageApplicantViewModel.state.collectAsStateWithLifecycle()
+
+    if(!manageApplicantState.isShowRecruitmentList){
+        LaunchedEffect(key1 = Unit) {
+            manageApplicantViewModel.getRecruitmentApplicant(partyId = partyId, partyRecruitmentId = manageApplicantState.selectedRecruitmentId, page = 1, limit = 50, sort = "createdAt", order = "DESC")
+        }
+    }else {
+        LaunchedEffect(Unit) {
+            manageApplicantViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = null)
+        }
+    }
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -67,6 +74,7 @@ fun ManageApplicantScreenRoute(
                         is ManageApplicantAction.OnShowRecruitment -> manageApplicantViewModel.onAction(action)
                         is ManageApplicantAction.OnSelectRecruitmentTab -> manageApplicantViewModel.onAction(action)
                         is ManageApplicantAction.OnChangeApplicantOrderBy -> manageApplicantViewModel.onAction(action)
+                        is ManageApplicantAction.OnSelectRecruitmentId -> manageApplicantViewModel.onAction(action)
                     }
                 },
                 onManageClick = { scope.launch { drawerState.open() } }
@@ -128,8 +136,9 @@ private fun ManageApplicantScreen(
                 ManageApplicantRecruitmentList(
                     manageApplicantState = manageApplicantState,
                     onChangeOrderBy = { isDesc -> onAction(ManageApplicantAction.OnChangeOrderBy(isDesc)) },
-                    onClick = {
+                    onClick = { selectedRecruitmentId ->
                         onAction(ManageApplicantAction.OnShowRecruitment(isShow = false)) // 지원자 관리로 이동
+                        onAction(ManageApplicantAction.OnSelectRecruitmentId(selectedRecruitmentId))
                     }
                 )
             } else {
@@ -183,7 +192,7 @@ private fun ManageApplicantArea(
     ManageApplicantPositionTitle(
         main = "개발자",
         sub = "안드로이드",
-        recounting = 3,
+        recounting = manageApplicantState.recruitmentApplicantList.size,
     )
 
     ManageApplicantSelectCategoryArea(

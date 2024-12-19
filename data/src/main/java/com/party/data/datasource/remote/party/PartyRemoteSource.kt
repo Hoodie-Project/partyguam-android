@@ -10,6 +10,7 @@ import com.party.data.dto.party.PartyModifyDto
 import com.party.data.dto.party.PartyRecruitmentDto
 import com.party.data.dto.party.PartyUsersDto
 import com.party.data.dto.party.PersonalRecruitmentListDto
+import com.party.data.dto.party.RecruitmentApplicantDto
 import com.party.data.dto.party.RecruitmentCreateDto
 import com.party.data.dto.party.RecruitmentDetailDto
 import com.party.data.dto.party.RecruitmentListDto
@@ -93,4 +94,7 @@ interface PartyRemoteSource {
 
     // 관리자 - 파티모집 수정
     suspend fun modifyRecruitment(partyId: Int, partyRecruitmentId: Int, modifyRecruitmentRequest: ModifyRecruitmentRequest): ApiResponse<Unit>
+
+    // 관리자 - 파티모집별 지원자 조회
+    suspend fun getRecruitmentApplicants(partyId: Int, partyRecruitmentId: Int, page: Int, limit: Int, sort: String, order: String): ApiResponse<RecruitmentApplicantDto>
 }

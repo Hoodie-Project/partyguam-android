@@ -14,6 +14,7 @@ import com.party.domain.model.party.PartyModify
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PartyUsers
 import com.party.domain.model.party.PersonalRecruitmentList
+import com.party.domain.model.party.RecruitmentApplicant
 import com.party.domain.model.party.RecruitmentCreate
 import com.party.domain.model.party.RecruitmentCreateRequest
 import com.party.domain.model.party.RecruitmentDetail
@@ -123,4 +124,7 @@ interface PartyRepository {
 
     // 관리자 - 파티모집 수정
     suspend fun modifyRecruitment(partyId: Int, partyRecruitmentId: Int, modifyRecruitmentRequest: ModifyRecruitmentRequest): ServerApiResponse<Unit>
+
+    // 관리자 - 파티모집별 지원자 조회
+    suspend fun getRecruitmentApplicants(partyId: Int, partyRecruitmentId: Int, page: Int, limit: Int, sort: String, order: String): ServerApiResponse<RecruitmentApplicant>
 }

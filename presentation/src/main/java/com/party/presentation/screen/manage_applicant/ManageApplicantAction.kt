@@ -6,4 +6,5 @@ sealed interface ManageApplicantAction {
     data class OnShowRecruitment(val isShow: Boolean): ManageApplicantAction
     data class OnSelectRecruitmentTab(val selectedRecruitmentTabText: String): ManageApplicantAction
     data class OnChangeApplicantOrderBy(val isDesc: Boolean): ManageApplicantAction
+    data class OnSelectRecruitmentId(val partyRecruitmentId: Int): ManageApplicantAction
 }

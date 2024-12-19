@@ -10,6 +10,7 @@ import com.party.data.dto.party.PartyModifyDto
 import com.party.data.dto.party.PartyRecruitmentDto
 import com.party.data.dto.party.PartyUsersDto
 import com.party.data.dto.party.PersonalRecruitmentListDto
+import com.party.data.dto.party.RecruitmentApplicantDto
 import com.party.data.dto.party.RecruitmentCreateDto
 import com.party.data.dto.party.RecruitmentDetailDto
 import com.party.data.dto.party.RecruitmentListDto
@@ -196,4 +197,15 @@ interface PartyService {
         @Path(value = "partyRecruitmentId") partyRecruitmentId: Int,
         @Body modifyRecruitmentRequest: ModifyRecruitmentRequest,
     ): ApiResponse<Unit>
+
+    // 관리자 - 파티모집별 지원자 조회
+    @GET("api/parties/{partyId}/recruitments/{partyRecruitmentId}/applications")
+    suspend fun getRecruitmentApplicants(
+        @Path(value = "partyId") partyId: Int,
+        @Path(value = "partyRecruitmentId") partyRecruitmentId: Int,
+        @Query("page") page: Int,
+        @Query("limit") limit: Int,
+        @Query("sort") sort: String,
+        @Query("order") order: String,
+    ): ApiResponse<RecruitmentApplicantDto>
 }

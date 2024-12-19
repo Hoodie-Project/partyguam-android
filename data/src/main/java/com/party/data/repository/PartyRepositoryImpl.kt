@@ -16,6 +16,7 @@ import com.party.data.mapper.PartyMapper.mapperPersonalRecruitmentResponse
 import com.party.data.mapper.PartyMapper.mapperRecruitmentDetailResponse
 import com.party.data.mapper.PartyMapper.mapperToPartyApply
 import com.party.data.mapper.PartyMapper.mapperToPartyCreate
+import com.party.data.mapper.PartyMapper.mapperToRecruitmentApplicant
 import com.party.data.mapper.PartyMapper.mapperToRecruitmentCreate
 import com.party.domain.model.party.DelegatePartyMasterRequest
 import com.party.domain.model.party.ModifyPartyUserPositionRequest
@@ -30,6 +31,7 @@ import com.party.domain.model.party.PartyModify
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.PartyUsers
 import com.party.domain.model.party.PersonalRecruitmentList
+import com.party.domain.model.party.RecruitmentApplicant
 import com.party.domain.model.party.RecruitmentCreate
 import com.party.domain.model.party.RecruitmentCreateRequest
 import com.party.domain.model.party.RecruitmentDetail
@@ -470,6 +472,24 @@ class PartyRepositoryImpl @Inject constructor(
             is ApiResponse.Failure.Exception -> {
                 result.throwable.printStackTrace()
                 ExceptionResponse(result.message)
+            }
+        }
+    }
+
+    override suspend fun getRecruitmentApplicants(
+        partyId: Int,
+        partyRecruitmentId: Int,
+        page: Int,
+        limit: Int,
+        sort: String,
+        order: String
+    ): ServerApiResponse<RecruitmentApplicant> {
+        return when(val result = partyRemoteSource.getRecruitmentApplicants(partyId = partyId, partyRecruitmentId = partyRecruitmentId, page = page, limit = limit, sort = sort, order = order)){
+            is ApiResponse.Success -> { SuccessResponse(data = mapperToRecruitmentApplicant(result.data)) }
+            is ApiResponse.Failure.Error -> { ErrorResponse() }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse()
             }
         }
     }

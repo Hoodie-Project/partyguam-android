@@ -10,6 +10,7 @@ import com.party.data.dto.party.PartyModifyDto
 import com.party.data.dto.party.PartyRecruitmentDto
 import com.party.data.dto.party.PartyUsersDto
 import com.party.data.dto.party.PersonalRecruitmentListDto
+import com.party.data.dto.party.RecruitmentApplicantDto
 import com.party.data.dto.party.RecruitmentCreateDto
 import com.party.data.dto.party.RecruitmentDetailDto
 import com.party.data.dto.party.RecruitmentListDto
@@ -188,5 +189,16 @@ class PartyRemoteSourceImpl @Inject constructor(
         modifyRecruitmentRequest: ModifyRecruitmentRequest
     ): ApiResponse<Unit> {
         return partyService.modifyRecruitment(partyId = partyId, partyRecruitmentId = partyRecruitmentId, modifyRecruitmentRequest = modifyRecruitmentRequest)
+    }
+
+    override suspend fun getRecruitmentApplicants(
+        partyId: Int,
+        partyRecruitmentId: Int,
+        page: Int,
+        limit: Int,
+        sort: String,
+        order: String
+    ): ApiResponse<RecruitmentApplicantDto> {
+        return partyService.getRecruitmentApplicants(partyId = partyId, partyRecruitmentId = partyRecruitmentId, page = page, limit = limit, sort = sort, order = order)
     }
 }

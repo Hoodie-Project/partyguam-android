@@ -1,6 +1,7 @@
 package com.party.data.mapper
 
 import com.party.data.dto.party.PartyAdminDto
+import com.party.data.dto.party.PartyApplicationUserDto
 import com.party.data.dto.party.PartyApplyDto
 import com.party.data.dto.party.PartyAuthorityDto
 import com.party.data.dto.party.PartyCreateDto
@@ -16,13 +17,16 @@ import com.party.data.dto.party.PartyUserInfoDto
 import com.party.data.dto.party.PartyUsersDto
 import com.party.data.dto.party.PersonalRecruitmentListDto
 import com.party.data.dto.party.PositionDto
+import com.party.data.dto.party.RecruitmentApplicantDto
 import com.party.data.dto.party.RecruitmentCreateDto
 import com.party.data.dto.party.RecruitmentDetailDto
 import com.party.data.dto.party.RecruitmentListDto
 import com.party.data.dto.party.UserCareerDto
 import com.party.data.dto.party.UserDto
 import com.party.data.util.convertToImageUrl
+import com.party.domain.model.party.ApplicantUser
 import com.party.domain.model.party.PartyAdmin
+import com.party.domain.model.party.PartyApplicationUser
 import com.party.domain.model.party.PartyApply
 import com.party.domain.model.party.PartyCreate
 import com.party.domain.model.party.PartyDetail
@@ -44,6 +48,7 @@ import com.party.domain.model.party.PersonalRecruitmentPartyType
 import com.party.domain.model.party.PersonalRecruitmentPosition
 import com.party.domain.model.party.Position
 import com.party.domain.model.party.Position1
+import com.party.domain.model.party.RecruitmentApplicant
 import com.party.domain.model.party.RecruitmentCreate
 import com.party.domain.model.party.RecruitmentDetail
 import com.party.domain.model.party.RecruitmentDetailParty
@@ -329,6 +334,29 @@ object PartyMapper {
         return PartyMemberPosition(
             main = partyMemberPositionDto.main,
             sub = partyMemberPositionDto.sub
+        )
+    }
+
+    fun mapperToRecruitmentApplicant(recruitmentApplicantDto: RecruitmentApplicantDto): RecruitmentApplicant{
+        return RecruitmentApplicant(
+            total = recruitmentApplicantDto.total,
+            partyApplicationUser = recruitmentApplicantDto.partyApplicationUser.map {
+                mapperToPartyApplicationUser(it)
+            }
+        )
+    }
+
+    private fun mapperToPartyApplicationUser(partyApplicationUserDto: PartyApplicationUserDto): PartyApplicationUser{
+        return PartyApplicationUser(
+            id = partyApplicationUserDto.id,
+            message = partyApplicationUserDto.message,
+            status = partyApplicationUserDto.status,
+            createdAt = partyApplicationUserDto.createdAt,
+            user = ApplicantUser(
+                id = partyApplicationUserDto.user.id,
+                nickname = partyApplicationUserDto.user.nickname,
+                image = convertToImageUrl(partyApplicationUserDto.user.image)
+            )
         )
     }
 }

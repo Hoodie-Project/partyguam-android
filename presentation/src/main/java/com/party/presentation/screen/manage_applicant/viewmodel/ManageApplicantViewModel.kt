@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.domain.usecase.party.GetPartyRecruitmentUseCase
+import com.party.domain.usecase.party.GetRecruitmentApplicantUseCase
 import com.party.presentation.screen.manage_applicant.ManageApplicantAction
 import com.party.presentation.screen.manage_applicant.ManageApplicantState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,10 +18,27 @@ import javax.inject.Inject
 @HiltViewModel
 class ManageApplicantViewModel @Inject constructor(
     private val getPartyRecruitmentUseCase: GetPartyRecruitmentUseCase,
+    private val getRecruitmentApplicantUseCase: GetRecruitmentApplicantUseCase,
 ): ViewModel(){
 
     private val _state = MutableStateFlow(ManageApplicantState())
     val state = _state.asStateFlow()
+
+    fun getRecruitmentApplicant(partyId: Int, partyRecruitmentId: Int, page: Int, limit: Int, sort: String, order: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _state.update { it.copy(isLoadingRecruitmentApplicant = true) }
+            when (val result = getRecruitmentApplicantUseCase(partyId = partyId, partyRecruitmentId = partyRecruitmentId, page = page, limit = limit, sort = sort, order = order)) {
+                is ServerApiResponse.SuccessResponse -> {
+                    _state.update { it.copy(
+                        isLoadingRecruitmentApplicant = false,
+                        recruitmentApplicantList = result.data?.partyApplicationUser ?: emptyList()
+                    ) }
+                }
+                is ServerApiResponse.ErrorResponse -> { _state.update { it.copy(isLoadingRecruitmentApplicant = false) } }
+                is ServerApiResponse.ExceptionResponse -> { _state.update { it.copy(isLoadingRecruitmentApplicant = false) } }
+            }
+        }
+    }
 
     fun getPartyRecruitment(partyId: Int, sort: String, order: String, main: String?) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -59,6 +77,7 @@ class ManageApplicantViewModel @Inject constructor(
             is ManageApplicantAction.OnChangeApplicantOrderBy -> {
                 _state.update { it.copy(isShowApplicantCreatedDt = action.isDesc) }
             }
+            is ManageApplicantAction.OnSelectRecruitmentId -> _state.update { it.copy(selectedRecruitmentId = action.partyRecruitmentId) }
         }
     }
 }
