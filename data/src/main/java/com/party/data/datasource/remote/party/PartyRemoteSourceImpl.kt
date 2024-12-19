@@ -173,4 +173,11 @@ class PartyRemoteSourceImpl @Inject constructor(
     ): ApiResponse<Unit> {
         return partyService.changeMaster(partyId = partyId, delegatePartyMasterRequest = delegatePartyMasterRequest)
     }
+
+    override suspend fun deleteRecruitment(
+        partyId: Int,
+        partyRecruitmentId: Int
+    ): ApiResponse<Unit> {
+        return partyService.deleteRecruitment(partyId = partyId, partyRecruitmentId = partyRecruitmentId)
+    }
 }

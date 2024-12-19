@@ -154,8 +154,6 @@ fun PartyEditScreenRoute(
                 .noRippleClickable { partyEditViewModel.dismissDeleteDialog() }
         ) {
             TwoButtonDialog(
-                modifier = Modifier
-                    .height(205.dp),
                 dialogTitle = "파티 삭제",
                 description = "한 번 삭제한 파티는 복구할 수 없어요.\n정말로 이 파티를 삭제하시나요?",
                 cancelButtonText = "닫기",
@@ -167,8 +165,6 @@ fun PartyEditScreenRoute(
                     partyEditViewModel.dismissDeleteDialog()
                     // 삭제하기
                     partyEditViewModel.deleteParty(partyId = partyId)
-                    //navController.popBackStack()
-                    //navController.navigate(Screens.RecruitmentCreate(partyId = partyCreateState.partyId))
                 }
             )
         }

@@ -116,4 +116,7 @@ interface PartyRepository {
 
     // 관리자 - 파티장 위임하기
     suspend fun changeMaster(partyId: Int, delegatePartyMasterRequest: DelegatePartyMasterRequest): ServerApiResponse<Unit>
+
+    // 관리자 - 파티모집 삭제
+    suspend fun deleteRecruitment(partyId: Int, partyRecruitmentId: Int): ServerApiResponse<Unit>
 }

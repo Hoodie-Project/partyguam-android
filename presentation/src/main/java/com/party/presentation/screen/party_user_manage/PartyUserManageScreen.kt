@@ -243,8 +243,6 @@ private fun PartyUserManageScreen(
                 .noRippleClickable { onDismissBackDialog() }
         ) {
             TwoButtonDialog(
-                modifier = Modifier
-                    .height(183.dp),
                 dialogTitle = "포지션 변경",
                 description = "해당 포지션으로 변경하시나요?",
                 cancelButtonText = "닫기",
@@ -303,8 +301,6 @@ private fun PartyUserManageScreen(
                 .noRippleClickable { onDismissChangeMasterDialog() }
         ) {
             TwoButtonDialog(
-                modifier = Modifier
-                    .height(183.dp),
                 dialogTitle = "파티장 위임",
                 description = "위임 후에는 되돌릴 수 없어요.\n정말 이 파티원에게 위임하시나요?",
                 cancelButtonText = "닫기",

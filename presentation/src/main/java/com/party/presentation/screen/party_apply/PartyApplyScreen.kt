@@ -81,8 +81,6 @@ fun PartyApplyRoute(
                 .background(BLACK.copy(alpha = 0.2f))
         ) {
             TwoButtonDialog(
-                modifier = Modifier
-                    .height(205.dp),
                 dialogTitle = "나가기",
                 description = "입력한 내용들이 모두 초기화됩니다.\n나가시겠습니까?",
                 cancelButtonText = "취소",

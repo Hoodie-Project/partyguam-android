@@ -443,4 +443,18 @@ class PartyRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun deleteRecruitment(
+        partyId: Int,
+        partyRecruitmentId: Int
+    ): ServerApiResponse<Unit> {
+        return when(val result = partyRemoteSource.deleteRecruitment(partyId = partyId, partyRecruitmentId = partyRecruitmentId)){
+            is ApiResponse.Success -> { SuccessResponse(data = Unit) }
+            is ApiResponse.Failure.Error-> { ErrorResponse(data = null) }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse(result.message)
+            }
+        }
+    }
 }

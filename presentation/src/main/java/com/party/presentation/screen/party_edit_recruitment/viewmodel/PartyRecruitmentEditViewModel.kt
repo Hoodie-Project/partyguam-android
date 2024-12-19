@@ -3,11 +3,13 @@ package com.party.presentation.screen.party_edit_recruitment.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
+import com.party.domain.usecase.party.DeleteRecruitmentUseCase
 import com.party.domain.usecase.party.GetPartyRecruitmentUseCase
 import com.party.presentation.screen.party_edit_recruitment.PartyRecruitmentEditAction
 import com.party.presentation.screen.party_edit_recruitment.PartyRecruitmentEditState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -17,10 +19,15 @@ import javax.inject.Inject
 @HiltViewModel
 class PartyRecruitmentEditViewModel @Inject constructor(
     private val getPartyRecruitmentUseCase: GetPartyRecruitmentUseCase,
+    private val deleteRecruitmentUseCase: DeleteRecruitmentUseCase,
 ): ViewModel(){
 
     private val _state = MutableStateFlow(PartyRecruitmentEditState())
     val state = _state.asStateFlow()
+
+    // 모집공고 삭제 flow
+    private val _deleteRecruitment = MutableSharedFlow<Unit>()
+    val deleteRecruitment = _deleteRecruitment
 
     fun getPartyRecruitment(partyId: Int, sort: String, order: String, main: String?) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -34,6 +41,16 @@ class PartyRecruitmentEditViewModel @Inject constructor(
                 }
                 is ServerApiResponse.ErrorResponse -> { _state.update { it.copy(isLoadingPartyRecruitment = false) } }
                 is ServerApiResponse.ExceptionResponse -> { _state.update { it.copy(isLoadingPartyRecruitment = false) } }
+            }
+        }
+    }
+
+    fun deleteRecruitment(partyId: Int, partyRecruitmentId: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = deleteRecruitmentUseCase(partyId = partyId, partyRecruitmentId = partyRecruitmentId)){
+                is ServerApiResponse.SuccessResponse -> { _deleteRecruitment.emit(Unit) }
+                is ServerApiResponse.ErrorResponse -> {}
+                is ServerApiResponse.ExceptionResponse -> {}
             }
         }
     }
@@ -79,6 +96,10 @@ class PartyRecruitmentEditViewModel @Inject constructor(
                         }
                     )
                 }
+            }
+            is PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog -> _state.update { it.copy(isShowRecruitmentDeleteDialog = action.isShowRecruitmentDeleteDialog) }
+            is PartyRecruitmentEditAction.OnDeleteRecruitment -> {
+                deleteRecruitment(partyId = action.partyId, partyRecruitmentId = action.partyRecruitmentId)
             }
         }
     }

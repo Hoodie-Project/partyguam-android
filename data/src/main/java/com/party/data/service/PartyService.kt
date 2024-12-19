@@ -180,4 +180,11 @@ interface PartyService {
         @Path(value = "partyId") partyId: Int,
         @Body delegatePartyMasterRequest: DelegatePartyMasterRequest,
     ): ApiResponse<Unit>
+
+    // 관리자 - 파티모집 삭제
+    @DELETE("api/parties/{partyId}/recruitments/{partyRecruitmentId}")
+    suspend fun deleteRecruitment(
+        @Path(value = "partyId") partyId: Int,
+        @Path(value = "partyRecruitmentId") partyRecruitmentId: Int,
+    ): ApiResponse<Unit>
 }

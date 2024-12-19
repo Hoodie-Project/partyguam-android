@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
@@ -13,15 +14,24 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
+import com.party.common.component.dialog.TwoButtonDialog
+import com.party.common.noRippleClickable
+import com.party.common.snackBarMessage
+import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyRecruitment
@@ -35,6 +45,8 @@ import com.party.presentation.screen.party_edit_recruitment.component.PartyRecru
 import com.party.presentation.screen.party_edit_recruitment.component.PartyRecruitmentEditHelpCard
 import com.party.presentation.screen.party_edit_recruitment.component.PartyRecruitmentListArea
 import com.party.presentation.screen.party_edit_recruitment.viewmodel.PartyRecruitmentEditViewModel
+import com.party.presentation.screen.party_user_manage.PartyUserAction
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
@@ -47,6 +59,13 @@ fun PartyEditRecruitmentScreenRoute(
     LaunchedEffect(Unit) {
         partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = null)
     }
+
+    LaunchedEffect(key1 = Unit) {
+        partyRecruitmentEditViewModel.deleteRecruitment.collectLatest {
+            snackBarMessage(snackBarHostState, "모집공고가 삭제되었어요.")
+            partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = null)
+        }
+    }
     val partyRecruitmentEditState by partyRecruitmentEditViewModel.state.collectAsStateWithLifecycle()
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -58,6 +77,7 @@ fun PartyEditRecruitmentScreenRoute(
         content = {
             PartyEditRecruitmentScreen(
                 snackBarHostState = snackBarHostState,
+                partyId = partyId,
                 partyRecruitmentEditState = partyRecruitmentEditState,
                 onNavigationClick = { navController.popBackStack() },
                 onGotoRecruitmentCreate = { navController.navigate(Screens.RecruitmentCreate(partyId = partyId)) },
@@ -67,6 +87,8 @@ fun PartyEditRecruitmentScreenRoute(
                         is PartyRecruitmentEditAction.OnChangeOrderBy -> partyRecruitmentEditViewModel.onAction(action)
                         is PartyRecruitmentEditAction.OnExpanded -> partyRecruitmentEditViewModel.onAction(action)
                         is PartyRecruitmentEditAction.OnCollapsed -> partyRecruitmentEditViewModel.onAction(action)
+                        is PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog -> partyRecruitmentEditViewModel.onAction(action)
+                        is PartyRecruitmentEditAction.OnDeleteRecruitment -> partyRecruitmentEditViewModel.deleteRecruitment(action.partyId, action.partyRecruitmentId)
                     }
                 },
                 onManageClick = { scope.launch { drawerState.open() } }
@@ -92,24 +114,29 @@ fun PartyEditRecruitmentScreenRoute(
             navController.navigate(Screens.ManageApplicant(partyId = partyId))
         }
     )
-
-
 }
 
 @Composable
 private fun PartyEditRecruitmentScreen(
     snackBarHostState: SnackbarHostState,
+    partyId: Int,
     partyRecruitmentEditState: PartyRecruitmentEditState,
     onNavigationClick: () -> Unit,
     onGotoRecruitmentCreate: () -> Unit,
     onManageClick: () -> Unit,
     onAction: (PartyRecruitmentEditAction) -> Unit
 ) {
+    var selectedRecruitmentId by remember { mutableIntStateOf(0) }
 
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
         Scaffold(
+            modifier = Modifier
+                .blur(
+                    radiusX = if (partyRecruitmentEditState.isShowRecruitmentDeleteDialog) 10.dp else 0.dp,
+                    radiusY = if (partyRecruitmentEditState.isShowRecruitmentDeleteDialog) 10.dp else 0.dp,
+                ),
             snackbarHost = {
                 SnackbarHost(
                     hostState = snackBarHostState,
@@ -159,7 +186,10 @@ private fun PartyEditRecruitmentScreen(
                     partyRecruitmentEditState = partyRecruitmentEditState,
                     onExpanded = { index -> onAction(PartyRecruitmentEditAction.OnExpanded(index, true)) },
                     onCollapsed = { index -> onAction(PartyRecruitmentEditAction.OnCollapsed(index, false)) },
-                    onDelete = { }
+                    onDelete = { selectedRecruitmentId1 ->
+                        selectedRecruitmentId = selectedRecruitmentId1
+                        onAction(PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog(true))
+                    }
                 )
             }
         }
@@ -172,6 +202,26 @@ private fun PartyEditRecruitmentScreen(
         )
     }
 
+    if(partyRecruitmentEditState.isShowRecruitmentDeleteDialog){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(BLACK.copy(alpha = 0.2f))
+                .noRippleClickable { onAction(PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog(false)) }
+        ) {
+            TwoButtonDialog(
+                dialogTitle = "모집공고 삭제",
+                description = "지원자에게 모집 완료 알림이 전송돼요.\n정말로 모집을 삭제하시나요?",
+                cancelButtonText = "닫기",
+                confirmButtonText = "삭제하기",
+                onCancel = { onAction(PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog(false)) },
+                onConfirm = {
+                    onAction(PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog(false))
+                    onAction(PartyRecruitmentEditAction.OnDeleteRecruitment(partyId = partyId, partyRecruitmentId = selectedRecruitmentId))
+                }
+            )
+        }
+    }
 }
 
 @Preview(showBackground = true)
@@ -179,6 +229,7 @@ private fun PartyEditRecruitmentScreen(
 private fun PartyEditRecruitmentScreenPreview() {
     PartyEditRecruitmentScreen(
         snackBarHostState = SnackbarHostState(),
+        partyId = 1,
         partyRecruitmentEditState = PartyRecruitmentEditState(
             isShowHelpCard = false,
             partyRecruitment = listOf(

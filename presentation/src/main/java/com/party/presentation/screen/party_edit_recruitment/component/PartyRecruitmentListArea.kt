@@ -31,7 +31,7 @@ fun PartyRecruitmentListArea(
     partyRecruitmentEditState: PartyRecruitmentEditState,
     onExpanded: (Int) -> Unit,
     onCollapsed: (Int) -> Unit,
-    onDelete: () -> Unit,
+    onDelete: (Int) -> Unit,
 ) {
     when {
         partyRecruitmentEditState.isLoadingPartyRecruitment -> LoadingProgressBar()
@@ -60,7 +60,7 @@ private fun RecruitmentList(
     list: List<PartyRecruitment>,
     onExpanded: (Int) -> Unit,
     onCollapsed: (Int) -> Unit,
-    onDelete: () -> Unit,
+    onDelete: (Int) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -79,7 +79,7 @@ private fun RecruitmentList(
                 onCollapsed = { onCollapsed(index) },
                 actions = {
                     ActionIcon(
-                        onClick = onDelete,
+                        onClick = { onDelete(item.id) },
                         backgroundColor = Color(0XFFFF6262),
                         icon = Icons.Default.Delete,
                     )

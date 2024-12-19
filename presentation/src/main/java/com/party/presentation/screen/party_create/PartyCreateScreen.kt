@@ -98,8 +98,6 @@ fun PartyCreateScreenRoute(
                 .noRippleClickable { partyCreateViewModel.dismissBackDialog() }
         ) {
             TwoButtonDialog(
-                modifier = Modifier
-                    .height(205.dp),
                 dialogTitle = "나가기",
                 description = "입력한 내용들이 모두 초기화됩니다.\n나가시겠습니까?",
                 cancelButtonText = "취소",
@@ -118,8 +116,6 @@ fun PartyCreateScreenRoute(
                 .noRippleClickable { partyCreateViewModel.dismissCompleteDialog() }
         ) {
             TwoButtonDialog(
-                modifier = Modifier
-                    .height(205.dp),
                 dialogTitle = "생성 완료",
                 description = "파티가 생성되었어요!\n파티원을 모집해 볼까요?",
                 cancelButtonText = "닫기",

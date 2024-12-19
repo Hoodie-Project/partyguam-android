@@ -3,24 +3,22 @@ package com.party.common.component.dialog
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.party.common.HeightSpacer
-import com.party.common.R
 import com.party.common.component.dialog.component.DialogButton
 import com.party.common.component.dialog.component.DialogDescription
 import com.party.common.component.dialog.component.DialogTitle
@@ -32,7 +30,6 @@ import com.party.common.ui.theme.WHITE
 
 @Composable
 fun TwoButtonDialog(
-    modifier: Modifier = Modifier,
     dialogTitle: String,
     description: String,
     cancelButtonText: String,
@@ -50,8 +47,9 @@ fun TwoButtonDialog(
         ),
     ) {
         Card(
-            modifier = modifier
-                .width(312.dp),
+            modifier = Modifier
+                .width(312.dp)
+                .wrapContentHeight(),
             shape = RoundedCornerShape(LARGE_CORNER_SIZE),
             colors = CardDefaults.cardColors(
                 containerColor = WHITE
@@ -60,12 +58,12 @@ fun TwoButtonDialog(
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize(),
+                    .wrapContentHeight(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Column(
                     modifier = Modifier
-                        .weight(1f)
+                        .wrapContentHeight(),
                 ) {
                     HeightSpacer(heightDp = 32.dp)
                     DialogTitle(
@@ -76,9 +74,11 @@ fun TwoButtonDialog(
                     )
                 }
 
+                //HeightSpacer(heightDp = 32.dp)
                 DialogButtonArea(
                     modifier = Modifier
-                        .align(Alignment.CenterHorizontally),
+                        .align(Alignment.CenterHorizontally)
+                        .padding(top = 32.dp),
                     cancelButtonText = cancelButtonText,
                     confirmButtonText = confirmButtonText,
                     onCancel = onCancel,
@@ -124,9 +124,10 @@ private fun TwoButtonDialogPreview(
     modifier: Modifier = Modifier
 ) {
     TwoButtonDialog(
-        modifier = modifier.height(205.dp),
         dialogTitle = "나가기",
-        description = "입력한 내용들이 모두 초기화굅니다.\n나가시겠습니까?",
+        description = "입력한 내용들이 모두 초기화굅니다.\n나가시겠습니까?\n" +
+                "나가시겠습니까?\n" +
+                "나가시겠습니까?",
         cancelButtonText = "취소",
         confirmButtonText = "나가기",
         onCancel = {},
@@ -140,7 +141,6 @@ private fun TwoButtonDialogPreview2(
     modifier: Modifier = Modifier
 ) {
     TwoButtonDialog(
-        modifier = modifier.height(183.dp),
         dialogTitle = "나가기",
         description = "해당 포지션으로 변경하시나요?",
         cancelButtonText = "취소",
