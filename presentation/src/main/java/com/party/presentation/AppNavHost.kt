@@ -321,6 +321,7 @@ fun AppNavHost() {
             val partyRecruitmentId = backStackEntry.toRoute<Screens.RecruitmentEdit>().partyRecruitmentId
             val partyId = backStackEntry.toRoute<Screens.RecruitmentEdit>().partyId
             RecruitmentEditRoute(
+                snackBarHostState = snackBarHostState,
                 navController = navController,
                 partyRecruitmentId = partyRecruitmentId,
                 partyId = partyId,

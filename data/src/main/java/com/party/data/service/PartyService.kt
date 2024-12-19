@@ -15,6 +15,7 @@ import com.party.data.dto.party.RecruitmentDetailDto
 import com.party.data.dto.party.RecruitmentListDto
 import com.party.domain.model.party.DelegatePartyMasterRequest
 import com.party.domain.model.party.ModifyPartyUserPositionRequest
+import com.party.domain.model.party.ModifyRecruitmentRequest
 import com.party.domain.model.party.PartyApplyRequest
 import com.party.domain.model.party.RecruitmentCreateRequest
 import com.skydoves.sandwich.ApiResponse
@@ -186,5 +187,13 @@ interface PartyService {
     suspend fun deleteRecruitment(
         @Path(value = "partyId") partyId: Int,
         @Path(value = "partyRecruitmentId") partyRecruitmentId: Int,
+    ): ApiResponse<Unit>
+
+    // 관리자 - 파티모집 수정
+    @PATCH("api/parties/{partyId}/recruitments/{partyRecruitmentId}")
+    suspend fun modifyRecruitment(
+        @Path(value = "partyId") partyId: Int,
+        @Path(value = "partyRecruitmentId") partyRecruitmentId: Int,
+        @Body modifyRecruitmentRequest: ModifyRecruitmentRequest,
     ): ApiResponse<Unit>
 }

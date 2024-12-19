@@ -19,6 +19,7 @@ import com.party.data.mapper.PartyMapper.mapperToPartyCreate
 import com.party.data.mapper.PartyMapper.mapperToRecruitmentCreate
 import com.party.domain.model.party.DelegatePartyMasterRequest
 import com.party.domain.model.party.ModifyPartyUserPositionRequest
+import com.party.domain.model.party.ModifyRecruitmentRequest
 import com.party.domain.model.party.PartyApply
 import com.party.domain.model.party.PartyApplyRequest
 import com.party.domain.model.party.PartyCreate
@@ -449,6 +450,21 @@ class PartyRepositoryImpl @Inject constructor(
         partyRecruitmentId: Int
     ): ServerApiResponse<Unit> {
         return when(val result = partyRemoteSource.deleteRecruitment(partyId = partyId, partyRecruitmentId = partyRecruitmentId)){
+            is ApiResponse.Success -> { SuccessResponse(data = Unit) }
+            is ApiResponse.Failure.Error-> { ErrorResponse(data = null) }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse(result.message)
+            }
+        }
+    }
+
+    override suspend fun modifyRecruitment(
+        partyId: Int,
+        partyRecruitmentId: Int,
+        modifyRecruitmentRequest: ModifyRecruitmentRequest
+    ): ServerApiResponse<Unit> {
+        return when(val result = partyRemoteSource.modifyRecruitment(partyId = partyId, partyRecruitmentId = partyRecruitmentId, modifyRecruitmentRequest = modifyRecruitmentRequest)){
             is ApiResponse.Success -> { SuccessResponse(data = Unit) }
             is ApiResponse.Failure.Error-> { ErrorResponse(data = null) }
             is ApiResponse.Failure.Exception -> {

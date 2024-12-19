@@ -3,13 +3,14 @@ package com.party.presentation.screen.recruitment_edit.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
-import com.party.domain.model.party.RecruitmentCreateRequest
+import com.party.domain.model.party.ModifyRecruitmentRequest
 import com.party.domain.model.party.RecruitmentDetail
 import com.party.domain.model.party.RecruitmentDetailParty
 import com.party.domain.model.party.RecruitmentDetailPartyType
 import com.party.domain.model.party.RecruitmentDetailPosition
 import com.party.domain.model.user.detail.PositionList
 import com.party.domain.usecase.party.GetRecruitmentDetailUseCase
+import com.party.domain.usecase.party.ModifyRecruitmentUseCase
 import com.party.domain.usecase.user.detail.GetPositionsUseCase
 import com.party.presentation.screen.recruitment_edit.RecruitmentEditAction
 import com.party.presentation.screen.recruitment_edit.RecruitmentEditState
@@ -27,6 +28,7 @@ import javax.inject.Inject
 class RecruitmentEditViewModel @Inject constructor(
     private val getPositionsUseCase: GetPositionsUseCase,
     private val getRecruitmentDetailUseCase: GetRecruitmentDetailUseCase,
+    private val modifyRecruitmentUseCase: ModifyRecruitmentUseCase,
 ): ViewModel(){
 
     private val _state = MutableStateFlow(RecruitmentEditState())
@@ -35,11 +37,21 @@ class RecruitmentEditViewModel @Inject constructor(
     private val _successModify = MutableSharedFlow<Unit>()
     val successModify = _successModify.asSharedFlow()
 
+    private fun modifyRecruitment(partyId: Int, partyRecruitmentId: Int, modifyRecruitmentRequest: ModifyRecruitmentRequest){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = modifyRecruitmentUseCase(partyId = partyId, partyRecruitmentId = partyRecruitmentId, modifyRecruitmentRequest = modifyRecruitmentRequest)){
+                is ServerApiResponse.SuccessResponse -> _successModify.emit(Unit)
+                is ServerApiResponse.ErrorResponse -> {}
+                is ServerApiResponse.ExceptionResponse -> {}
+            }
+        }
+    }
+
     fun getRecruitmentDetail(partyRecruitmentId: Int){
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = getRecruitmentDetailUseCase(partyRecruitmentId = partyRecruitmentId)){
                 is ServerApiResponse.SuccessResponse<RecruitmentDetail> -> {
-                    val resu = result.data ?: RecruitmentDetail(
+                    val recruitmentDetail = result.data ?: RecruitmentDetail(
                         party = RecruitmentDetailParty(
                             title = "",
                             image = "",
@@ -59,10 +71,10 @@ class RecruitmentEditViewModel @Inject constructor(
 
                     _state.update {
                         it.copy(
-                            selectedMainPosition = resu.position.main,
-                            selectedSubPosition = PositionList(0, resu.position.main, resu.position.sub),
-                            selectedCount = "${resu.recruitingCount}명",
-                            recruitmentDescription = resu.content,
+                            selectedMainPosition = recruitmentDetail.position.main,
+                            selectedSubPosition = PositionList(0, recruitmentDetail.position.main, recruitmentDetail.position.sub),
+                            selectedCount = "${recruitmentDetail.recruitingCount}명",
+                            recruitmentDescription = recruitmentDetail.content,
                         )
                     }
                 }
@@ -97,13 +109,13 @@ class RecruitmentEditViewModel @Inject constructor(
             is RecruitmentEditAction.OnChangePeopleCountSheet -> _state.update { it.copy(isPeopleCountSheetOpen = action.isPeopleCountSheetOpen) }
             is RecruitmentEditAction.OnChangeHelpCardOpen -> _state.update { it.copy(isHelpCardOpen = action.isHelpCardOpen) }
             is RecruitmentEditAction.OnChangeRecruitmentDescription -> _state.update { it.copy(recruitmentDescription = action.recruitmentDescription) }
-            is RecruitmentEditAction.OnRecruitmentCreate -> {
-                val recruitmentCreateRequest = RecruitmentCreateRequest(
+            is RecruitmentEditAction.OnModifyRecruitment -> {
+                val modifyRecruitmentRequest = ModifyRecruitmentRequest(
                     positionId = _state.value.selectedSubPosition.id,
                     content = _state.value.recruitmentDescription,
-                    recruiting_count = _state.value.selectedCount.toInt(),
+                    recruiting_count = _state.value.selectedCount.split("명")[0].toInt(),
                 )
-                //createRecruitment(action.partyId, recruitmentCreateRequest)
+                modifyRecruitment(action.partyId, action.partyRecruitmentId, modifyRecruitmentRequest)
             }
         }
     }

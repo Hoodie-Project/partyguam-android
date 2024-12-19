@@ -16,6 +16,7 @@ import com.party.data.dto.party.RecruitmentListDto
 import com.party.data.service.PartyService
 import com.party.domain.model.party.DelegatePartyMasterRequest
 import com.party.domain.model.party.ModifyPartyUserPositionRequest
+import com.party.domain.model.party.ModifyRecruitmentRequest
 import com.party.domain.model.party.PartyApplyRequest
 import com.party.domain.model.party.RecruitmentCreateRequest
 import com.skydoves.sandwich.ApiResponse
@@ -179,5 +180,13 @@ class PartyRemoteSourceImpl @Inject constructor(
         partyRecruitmentId: Int
     ): ApiResponse<Unit> {
         return partyService.deleteRecruitment(partyId = partyId, partyRecruitmentId = partyRecruitmentId)
+    }
+
+    override suspend fun modifyRecruitment(
+        partyId: Int,
+        partyRecruitmentId: Int,
+        modifyRecruitmentRequest: ModifyRecruitmentRequest
+    ): ApiResponse<Unit> {
+        return partyService.modifyRecruitment(partyId = partyId, partyRecruitmentId = partyRecruitmentId, modifyRecruitmentRequest = modifyRecruitmentRequest)
     }
 }

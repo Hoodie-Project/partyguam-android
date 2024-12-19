@@ -15,6 +15,7 @@ import com.party.data.dto.party.RecruitmentDetailDto
 import com.party.data.dto.party.RecruitmentListDto
 import com.party.domain.model.party.DelegatePartyMasterRequest
 import com.party.domain.model.party.ModifyPartyUserPositionRequest
+import com.party.domain.model.party.ModifyRecruitmentRequest
 import com.party.domain.model.party.PartyApplyRequest
 import com.party.domain.model.party.RecruitmentCreateRequest
 import com.skydoves.sandwich.ApiResponse
@@ -89,4 +90,7 @@ interface PartyRemoteSource {
 
     // 관리자 - 파티모집 삭제
     suspend fun deleteRecruitment(partyId: Int, partyRecruitmentId: Int): ApiResponse<Unit>
+
+    // 관리자 - 파티모집 수정
+    suspend fun modifyRecruitment(partyId: Int, partyRecruitmentId: Int, modifyRecruitmentRequest: ModifyRecruitmentRequest): ApiResponse<Unit>
 }

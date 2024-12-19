@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -15,6 +16,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -27,6 +29,7 @@ import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.UIState
 import com.party.common.component.button.CustomButton
 import com.party.common.convertToText
+import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
@@ -139,7 +142,10 @@ fun RecruitmentDetailScreen(
                 HeightSpacer(heightDp = 24.dp)
                 CustomButton(
                     modifier = Modifier
+                        .height(48.dp)
                         .padding(horizontal = MEDIUM_PADDING_SIZE),
+                    textSize = B2,
+                    textWeight = FontWeight.Bold,
                     onClick = { onAction(RecruitmentDetailAction.OnApply) },
                 )
                 HeightSpacer(heightDp = 12.dp)

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -27,6 +28,7 @@ import com.party.common.component.bottomsheet.component.ApplyButton
 import com.party.common.component.bottomsheet.list.peopleCountList
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.MultiLineInputField
+import com.party.common.snackBarMessage
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.presentation.component.HelpCard
@@ -35,9 +37,11 @@ import com.party.presentation.screen.recruitment_create.component.RecruitmentCre
 import com.party.presentation.screen.recruitment_edit.component.RecruitmentEditDescriptionArea
 import com.party.presentation.screen.recruitment_edit.component.RecruitmentEditScaffoldArea
 import com.party.presentation.screen.recruitment_edit.viewmodel.RecruitmentEditViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun RecruitmentEditRoute(
+    snackBarHostState: SnackbarHostState,
     navController: NavHostController,
     partyRecruitmentId: Int,
     partyId: Int,
@@ -49,8 +53,15 @@ fun RecruitmentEditRoute(
         recruitmentEditViewModel.getRecruitmentDetail(partyRecruitmentId)
     }
 
+    LaunchedEffect(key1 = Unit) {
+        recruitmentEditViewModel.successModify.collectLatest {
+            navController.popBackStack()
+        }
+    }
+
     RecruitmentEditScreen(
         partyId = partyId,
+        partyRecruitmentId = partyRecruitmentId,
         recruitmentEditState = recruitmentEditState,
         onBackNavigation = { navController.popBackStack() },
         onClickMainPosition = { recruitmentEditViewModel.getSubPositionList(it) },
@@ -63,7 +74,7 @@ fun RecruitmentEditRoute(
                 is RecruitmentEditAction.OnChangePeopleCountSheet -> recruitmentEditViewModel.onAction(action)
                 is RecruitmentEditAction.OnChangeHelpCardOpen -> recruitmentEditViewModel.onAction(action)
                 is RecruitmentEditAction.OnChangeRecruitmentDescription -> recruitmentEditViewModel.onAction(action)
-                is RecruitmentEditAction.OnRecruitmentCreate -> recruitmentEditViewModel.onAction(action)
+                is RecruitmentEditAction.OnModifyRecruitment -> recruitmentEditViewModel.onAction(action)
             }
         }
     )
@@ -72,6 +83,7 @@ fun RecruitmentEditRoute(
 @Composable
 private fun RecruitmentEditScreen(
     partyId: Int,
+    partyRecruitmentId: Int,
     recruitmentEditState: RecruitmentEditState,
     onBackNavigation: () -> Unit,
     onClickMainPosition: (String) -> Unit,
@@ -192,7 +204,7 @@ private fun RecruitmentEditScreen(
                         .fillMaxWidth()
                         .height(48.dp),
                     onClick = {
-                        onAction(RecruitmentEditAction.OnRecruitmentCreate(partyId = partyId))
+                        onAction(RecruitmentEditAction.OnModifyRecruitment(partyId = partyId, partyRecruitmentId = partyRecruitmentId))
                     }
                 )
                 HeightSpacer(heightDp = 20.dp)
@@ -206,6 +218,7 @@ private fun RecruitmentEditScreen(
 private fun RecruitmentEditScreenPreview() {
     RecruitmentEditScreen(
         partyId = 0,
+        partyRecruitmentId = 0,
         recruitmentEditState = RecruitmentEditState(),
         onBackNavigation = {},
         onAction = {},

@@ -385,8 +385,6 @@ private fun PartyEditScreen(
             )
         }
     }
-
-
 }
 
 @Preview(showBackground = true)
