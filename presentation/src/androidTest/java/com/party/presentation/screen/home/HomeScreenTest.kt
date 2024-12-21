@@ -11,6 +11,7 @@ import com.party.domain.model.party.PersonalRecruitmentList
 import com.party.domain.model.party.PersonalRecruitmentParty
 import com.party.domain.model.party.PersonalRecruitmentPartyType
 import com.party.domain.model.party.PersonalRecruitmentPosition
+import com.party.presentation.screen.home.component.HomeTopTabArea
 import com.party.presentation.screen.home.tab_main.PersonalRecruitmentListArea
 import org.junit.Rule
 import org.junit.Test

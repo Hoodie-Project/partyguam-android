@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.BLACK
@@ -28,6 +29,8 @@ import com.party.common.ui.theme.WHITE
 import com.party.navigation.BottomNavigationBar
 import com.party.navigation.Screens
 import com.party.presentation.component.FloatingButtonArea
+import com.party.presentation.screen.home.component.HomeTopBar
+import com.party.presentation.screen.home.component.HomeTopTabArea
 import com.party.presentation.screen.home.tab_main.MainArea
 import com.party.presentation.screen.home.tab_party.PartyArea
 import com.party.presentation.screen.home.tab_recruitment.RecruitmentArea
@@ -35,44 +38,52 @@ import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import com.party.presentation.shared.SharedViewModel
 
 @Composable
-fun HomeScreen(
+fun HomeScreenRoute(
     context: Context,
     snackBarHostState: SnackbarHostState,
     navController: NavHostController,
-    selectedTabText: String,
     homeTopTabList: List<String>,
     homeViewModel: HomeViewModel = hiltViewModel(),
-    onTabClick: (String) -> Unit,
-    onGoRecruitment: () -> Unit,
     onRecruitmentItemClick: (Int, Int) -> Unit,
     sharedViewModel: SharedViewModel,
 ) {
-    HomeScreenContent(
+    val homeState by homeViewModel.state.collectAsStateWithLifecycle()
+
+    HomeScreen(
         context = context,
         snackBarHostState = snackBarHostState,
         navController = navController,
-        selectedTabText = selectedTabText,
+        homeState = homeState,
         homeTopTabList = homeTopTabList,
         homeViewModel = homeViewModel,
-        onTabClick = onTabClick,
-        onGoRecruitment = onGoRecruitment,
         onRecruitmentItemClick = onRecruitmentItemClick,
-        sharedViewModel = sharedViewModel
+        sharedViewModel = sharedViewModel,
+        onGotoSearch = { navController.navigate(Screens.Search) },
+        onGotoRecruitmentDetail = { partyId, partyRecruitmentId -> navController.navigate(Screens.RecruitmentDetail(partyId = partyId, partyRecruitmentId = partyRecruitmentId)) },
+        onGotoPartyDetail = { partyId -> navController.navigate(Screens.PartyDetail(partyId = partyId)) },
+        onAction = { action ->
+            when(action){
+                is HomeAction.OnTabClick -> { homeViewModel.onAction(action) }
+                is HomeAction.OnPersonalRecruitmentReload -> { homeViewModel.onAction(action) }
+            }
+        }
     )
 }
 
 @Composable
-fun HomeScreenContent(
+private fun HomeScreen(
     context: Context,
     snackBarHostState: SnackbarHostState,
     navController: NavHostController,
-    selectedTabText: String,
+    homeState: HomeState,
     homeTopTabList: List<String>,
-    homeViewModel: HomeViewModel = hiltViewModel(),
-    onTabClick: (String) -> Unit,
-    onGoRecruitment: () -> Unit,
+    homeViewModel: HomeViewModel,
+    onGotoSearch: () -> Unit,
     onRecruitmentItemClick: (Int, Int) -> Unit,
     sharedViewModel: SharedViewModel,
+    onGotoRecruitmentDetail: (Int, Int) -> Unit,
+    onGotoPartyDetail: (Int) -> Unit,
+    onAction: (HomeAction) -> Unit,
 ){
     var isExpandedFloatingButton by remember {
         mutableStateOf(false)
@@ -105,21 +116,24 @@ fun HomeScreenContent(
                     .padding(horizontal = MEDIUM_PADDING_SIZE)
             ) {
                 HomeTopBar(
-                    onGoToSearch = { navController.navigate(Screens.Search) },
+                    onGoToSearch = onGotoSearch,
                     onGoToAlarm = {}
                 )
 
                 HomeTopTabArea(
                     homeTopTabList = homeTopTabList,
-                    selectedTabText = selectedTabText,
-                    onTabClick = { onTabClick(it) }
+                    selectedTabText = homeState.selectedTabText,
+                    onTabClick = { selectedTabText -> onAction(HomeAction.OnTabClick(tabText = selectedTabText)) }
                 )
-                when (selectedTabText) {
+                when (homeState.selectedTabText) {
                     homeTopTabList[0] -> {
                         MainArea(
-                            homeViewModel = homeViewModel,
-                            snackBarHostState = snackBarHostState,
-                            onGoRecruitment = onGoRecruitment
+                            homeState = homeState,
+                            onReload = { onAction(HomeAction.OnPersonalRecruitmentReload) },
+                            onGoRecruitment = { onAction(HomeAction.OnTabClick(tabText = homeTopTabList[2])) },
+                            onGoParty = { onAction(HomeAction.OnTabClick(tabText = homeTopTabList[1])) },
+                            onGotoRecruitmentDetail = onGotoRecruitmentDetail,
+                            onGotoPartyDetail = onGotoPartyDetail
                         )
                     }
 
@@ -160,12 +174,12 @@ fun HomeScreenContent(
                 .padding(bottom = 98.dp, end = 20.dp)
                 .zIndex(1f),
             isExpandedFloatingButton = isExpandedFloatingButton,
-            selectedTabText = selectedTabText,
             currentScreens = Screens.Home,
             onExpanded = {
                 isExpandedFloatingButton = it},
             sharedViewModel = sharedViewModel,
-            navHostController = navController
+            navHostController = navController,
+            selectedTabText = homeState.selectedTabText
         )
     }
 }

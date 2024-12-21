@@ -19,26 +19,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
 import com.party.common.R
-import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.TextComponent
-import com.party.common.UIState
 import com.party.common.component.ImageLoading
-import com.party.common.snackBarMessage
 import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.DARK100
 import com.party.common.ui.theme.GRAY100
@@ -48,44 +41,32 @@ import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PersonalRecruitmentItem
 import com.party.domain.model.party.PersonalRecruitmentList
-import com.party.presentation.screen.home.HomeListTitleArea
-import com.party.presentation.screen.home.PartyCategory
-import com.party.presentation.screen.home.PositionArea
-import com.party.presentation.screen.home.RecruitmentCountArea
-import com.party.presentation.screen.home.viewmodel.HomeViewModel
+import com.party.presentation.screen.home.HomeState
+import com.party.presentation.screen.home.component.HomeListTitleArea
+import com.party.presentation.screen.home.component.PartyCategory
+import com.party.presentation.screen.home.component.PositionArea
+import com.party.presentation.screen.home.component.RecruitmentCountArea
 
 @Composable
 fun PersonalRecruitmentArea(
-    homeViewModel: HomeViewModel,
-    snackBarHostState: SnackbarHostState,
+    homeState: HomeState,
+    onReload: () -> Unit,
 ) {
-    LaunchedEffect(Unit) {
-        homeViewModel.getPersonalRecruitmentList(page = 1, size = 10, sort = "createdAt", order = "DESC")
-    }
-
-    val getPersonalRecruitmentListState by homeViewModel.getPersonalRecruitmentListState.collectAsStateWithLifecycle()
-    val personalRecruitmentListResponse = getPersonalRecruitmentListState.data
-
     HeightSpacer(heightDp = 40.dp)
 
     HomeListTitleArea(
         title = stringResource(id = R.string.home_list_personal_title),
         titleIcon = painterResource(id = R.drawable.reload),
         description = stringResource(id = R.string.home_list_personal_description),
-        onClick = {
-            homeViewModel.getPersonalRecruitmentList(page = 1, size = 10, sort = "createdAt", order = "DESC")
-        },
+        onClick = onReload
     )
 
-    when(getPersonalRecruitmentListState){
-        is UIState.Idle -> {}
-        is UIState.Loading -> { LoadingProgressBar() }
-        is UIState.Success -> {
-            val successResult = personalRecruitmentListResponse as SuccessResponse<PersonalRecruitmentList>
-            PersonalRecruitmentListArea(successResult.data)
+    when {
+        homeState.isLoadingPersonalRecruitmentList -> LoadingProgressBar()
+        homeState.isNotProfileError -> ErrorArea()
+        homeState.personalRecruitmentList.partyRecruitments.isNotEmpty() -> {
+            PersonalRecruitmentListArea(homeState.personalRecruitmentList)
         }
-        is UIState.Error -> {ErrorArea()}
-        is UIState.Exception -> { snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState) }
     }
 }
 
@@ -124,7 +105,6 @@ fun ErrorArea() {
             }
         }
     }
-
 }
 
 @Composable

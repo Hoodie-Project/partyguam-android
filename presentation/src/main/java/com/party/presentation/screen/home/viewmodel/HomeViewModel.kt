@@ -14,10 +14,13 @@ import com.party.domain.usecase.party.GetPartyListUseCase
 import com.party.domain.usecase.party.GetPersonalRecruitmentListUseCase
 import com.party.domain.usecase.party.GetRecruitmentListUseCase
 import com.party.domain.usecase.user.detail.GetPositionsUseCase
+import com.party.presentation.screen.home.HomeAction
+import com.party.presentation.screen.home.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,11 +33,10 @@ class HomeViewModel @Inject constructor(
     private val getBannerListUseCase: GetBannerListUseCase,
 ) : ViewModel() {
 
-    private val _getPersonalRecruitmentListState = MutableStateFlow<UIState<ServerApiResponse<PersonalRecruitmentList>>>(UIState.Idle)
-    val getPersonalRecruitmentListState: StateFlow<UIState<ServerApiResponse<PersonalRecruitmentList>>> = _getPersonalRecruitmentListState
+    private val _state = MutableStateFlow(HomeState())
+    val state: StateFlow<HomeState> = _state
 
-    private val _getRecruitmentListState =
-        MutableStateFlow<UIState<ServerApiResponse<RecruitmentList>>>(UIState.Idle)
+    private val _getRecruitmentListState = MutableStateFlow<UIState<ServerApiResponse<RecruitmentList>>>(UIState.Idle)
     val getRecruitmentListState: StateFlow<UIState<ServerApiResponse<RecruitmentList>>> = _getRecruitmentListState
 
     private val _getPartyListState = MutableStateFlow<UIState<ServerApiResponse<PartyList>>>(UIState.Idle)
@@ -43,21 +45,21 @@ class HomeViewModel @Inject constructor(
     private val _positionsState = MutableStateFlow<UIState<ServerApiResponse<List<PositionList>>>>(UIState.Idle)
     val positionsState: StateFlow<UIState<ServerApiResponse<List<PositionList>>>> = _positionsState
 
-    private val _bannerListState = MutableStateFlow<UIState<ServerApiResponse<Banner>>>(UIState.Idle)
-    val bannerListState: StateFlow<UIState<ServerApiResponse<Banner>>> = _bannerListState
-
     init {
         getBannerList()
+        getPersonalRecruitmentList(1, 50, "createdAt", "DESC")
+        getRecruitmentList(page = 1, size = 50, sort = "createdAt", order = "DESC", titleSearch = null)
+        getPartyList(page = 1, size = 50, sort = "createdAt", order = "DESC", titleSearch = null, status = null)
     }
 
-    fun getPersonalRecruitmentList(
+    private fun getPersonalRecruitmentList(
         page: Int,
         size: Int,
         sort: String,
         order: String
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            _getPersonalRecruitmentListState.value = UIState.Loading
+            _state.update { it.copy(isLoadingPersonalRecruitmentList = true) }
             when (val result = getPersonalRecruitmentListUseCase(
                 page = page,
                 size = size,
@@ -65,16 +67,17 @@ class HomeViewModel @Inject constructor(
                 order = order
             )) {
                 is ServerApiResponse.SuccessResponse<PersonalRecruitmentList> -> {
-                    _getPersonalRecruitmentListState.value = UIState.Success(result)
+                    _state.update {
+                        it.copy(
+                            isLoadingPersonalRecruitmentList = false,
+                            personalRecruitmentList = result.data ?: PersonalRecruitmentList(emptyList(), 0),
+                            isNotProfileError = false
+                        )
+                    }
                 }
 
-                is ServerApiResponse.ErrorResponse<PersonalRecruitmentList> -> {
-                    _getPersonalRecruitmentListState.value = UIState.Error()
-                }
-
-                is ServerApiResponse.ExceptionResponse -> {
-                    _getPersonalRecruitmentListState.value = UIState.Idle
-                }
+                is ServerApiResponse.ErrorResponse -> _state.update { it.copy(isLoadingPersonalRecruitmentList = false, isNotProfileError = true) }
+                is ServerApiResponse.ExceptionResponse -> _state.update { it.copy(isLoadingPersonalRecruitmentList = false) }
             }
         }
     }
@@ -89,20 +92,19 @@ class HomeViewModel @Inject constructor(
         position: List<Int> = emptyList(),
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            _getRecruitmentListState.value = UIState.Loading
-            when (val result =
-                getRecruitmentListUseCase(page = page, size = size, sort = sort, order = order, titleSearch = titleSearch, partyTypes = partyTypes, position = position)) {
+            _state.update { it.copy(isLoadingRecruitmentList = true) }
+            when (val result = getRecruitmentListUseCase(page = page, size = size, sort = sort, order = order, titleSearch = titleSearch, partyTypes = partyTypes, position = position)) {
                 is ServerApiResponse.SuccessResponse<RecruitmentList> -> {
-                    _getRecruitmentListState.value = UIState.Success(result)
+                    _state.update {
+                        it.copy(
+                            isLoadingRecruitmentList = false,
+                            recruitmentList = result.data ?: RecruitmentList(emptyList(), 0)
+                        )
+                    }
                 }
 
-                is ServerApiResponse.ErrorResponse<RecruitmentList> -> {
-                    _getRecruitmentListState.value = UIState.Idle
-                }
-
-                is ServerApiResponse.ExceptionResponse -> {
-                    _getRecruitmentListState.value = UIState.Idle
-                }
+                is ServerApiResponse.ErrorResponse<RecruitmentList> -> _state.update { it.copy(isLoadingRecruitmentList = false) }
+                is ServerApiResponse.ExceptionResponse -> _state.update { it.copy(isLoadingRecruitmentList = false) }
             }
         }
     }
@@ -117,7 +119,7 @@ class HomeViewModel @Inject constructor(
         status: String?,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            _getPartyListState.value = UIState.Loading
+            _state.update { it.copy(isLoadingPartyList = true) }
             when (val result = getPartyListUseCase(
                 page = page,
                 size = size,
@@ -128,16 +130,15 @@ class HomeViewModel @Inject constructor(
                 status = status
             )) {
                 is ServerApiResponse.SuccessResponse<PartyList> -> {
-                    _getPartyListState.value = UIState.Success(result)
+                    _state.update {
+                        it.copy(
+                            isLoadingPartyList = false,
+                            partyList = result.data ?: PartyList(emptyList(), 0)
+                        )
+                    }
                 }
-
-                is ServerApiResponse.ErrorResponse<PartyList> -> {
-                    _getPartyListState.value = UIState.Idle
-                }
-
-                is ServerApiResponse.ExceptionResponse -> {
-                    _getPartyListState.value = UIState.Idle
-                }
+                is ServerApiResponse.ErrorResponse<PartyList> -> _state.update { it.copy(isLoadingPartyList = false) }
+                is ServerApiResponse.ExceptionResponse -> _state.update { it.copy(isLoadingPartyList = false) }
             }
         }
     }
@@ -163,22 +164,29 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getBannerList() {
+    private fun getBannerList() {
         viewModelScope.launch(Dispatchers.IO) {
-            _bannerListState.value = UIState.Loading
+            _state.update { it.copy(isLoadingBanner = true) }
             when (val result = getBannerListUseCase()) {
                 is ServerApiResponse.SuccessResponse<Banner> -> {
-                    _bannerListState.value = UIState.Success(result)
+                    _state.update {
+                        it.copy(
+                            isLoadingBanner = false,
+                            banner = result.data ?: Banner(0, emptyList())
+                        )
+                    }
                 }
 
-                is ServerApiResponse.ErrorResponse<Banner> -> {
-                    _bannerListState.value = UIState.Error()
-                }
-
-                is ServerApiResponse.ExceptionResponse -> {
-                    _bannerListState.value = UIState.Exception
-                }
+                is ServerApiResponse.ErrorResponse<Banner> -> _state.update { it.copy(isLoadingBanner = false) }
+                is ServerApiResponse.ExceptionResponse -> _state.update { it.copy(isLoadingBanner = false) }
             }
+        }
+    }
+
+    fun onAction(action: HomeAction) {
+        when(action){
+            is HomeAction.OnTabClick -> _state.update { it.copy(selectedTabText = action.tabText) }
+            is HomeAction.OnPersonalRecruitmentReload -> getPersonalRecruitmentList(1, 50, "createdAt", "DESC")
         }
     }
 }

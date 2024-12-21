@@ -1,4 +1,4 @@
-package com.party.presentation.screen.home
+package com.party.presentation.screen.home.component
 
 import androidx.compose.runtime.Composable
 import com.party.common.component.TabArea

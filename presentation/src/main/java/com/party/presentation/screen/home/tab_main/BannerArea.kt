@@ -1,12 +1,10 @@
 package com.party.presentation.screen.home.tab_main
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,13 +14,10 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
@@ -35,12 +30,11 @@ import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.UIState
 import com.party.common.component.ImageLoading
 import com.party.common.snackBarMessage
-import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY300
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.domain.model.banner.Banner
 import com.party.domain.model.banner.BannerItem
+import com.party.presentation.screen.home.HomeState
 import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import kotlinx.coroutines.delay
 
@@ -49,21 +43,14 @@ val pageSpacing = 6.dp //  페이지 사이 간격
 
 @Composable
 fun BannerArea(
-    homeViewModel: HomeViewModel,
-    snackBarHostState: SnackbarHostState
+    homeState: HomeState,
 ) {
-    val bannerList by homeViewModel.bannerListState.collectAsStateWithLifecycle()
-
-    when(bannerList){
-        is UIState.Idle -> {}
-        is UIState.Loading -> { LoadingProgressBar() }
-        is UIState.Success -> {
-            val successResult = bannerList.data as SuccessResponse<Banner>
-            val imageListResult = successResult.data?.banner ?: emptyList()
-
+    when {
+        homeState.isLoadingBanner -> LoadingProgressBar()
+        homeState.banner.banner.isNotEmpty() -> {
             val pagerState = rememberPagerState(
                 initialPage = 0,
-                pageCount = { imageListResult.size }
+                pageCount = { homeState.banner.banner.size }
             )
 
             LaunchedEffect(key1 = pagerState){
@@ -77,15 +64,13 @@ fun BannerArea(
                 contentPadding = PaddingValues(horizontal = contentPadding),
                 pageSpacing = pageSpacing,
             ) { page ->
-                BannerItemImage(bannerItem = imageListResult[page])
+                BannerItemImage(bannerItem = homeState.banner.banner[page])
             }
 
             HeightSpacer(heightDp = 12.dp)
 
             BannerIndicator(pagerState = pagerState)
         }
-        is UIState.Error -> {}
-        is UIState.Exception -> { snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState) }
     }
 }
 

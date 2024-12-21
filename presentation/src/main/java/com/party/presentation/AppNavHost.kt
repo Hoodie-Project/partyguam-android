@@ -6,10 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -28,7 +25,7 @@ import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen2
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen3
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen4
-import com.party.presentation.screen.home.HomeScreen
+import com.party.presentation.screen.home.HomeScreenRoute
 import com.party.presentation.screen.join.birthday.JoinBirthDayScreen
 import com.party.presentation.screen.join.complete.JoinCompleteScreen
 import com.party.presentation.screen.join.email.JoinEmailScreen
@@ -59,10 +56,6 @@ fun AppNavHost() {
     val context = LocalContext.current
     val navController = rememberNavController()
     val snackBarHostState = remember { SnackbarHostState() }
-
-    var selectedTabText by remember {
-        mutableStateOf(homeTopTabList[0])
-    }
 
     val sharedViewModel = hiltViewModel<SharedViewModel>()
 
@@ -210,14 +203,11 @@ fun AppNavHost() {
             )
         }
         composable<Screens.Home> {
-            HomeScreen(
+            HomeScreenRoute(
                 context = context,
                 snackBarHostState = snackBarHostState,
                 navController = navController,
-                selectedTabText = selectedTabText,
                 homeTopTabList = homeTopTabList,
-                onTabClick = { selectedText -> selectedTabText = selectedText },
-                onGoRecruitment = { selectedTabText = homeTopTabList[2] },
                 onRecruitmentItemClick = { partyRecruitmentId, partyId ->
                     navController.navigate(Screens.RecruitmentDetail(partyRecruitmentId = partyRecruitmentId, partyId = partyId))
                 },

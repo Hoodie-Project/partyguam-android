@@ -1,4 +1,4 @@
-package com.party.presentation.screen.home
+package com.party.presentation.screen.home.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -77,7 +77,7 @@ fun HomeListTitleArea(
         )
 
         IconButton(
-            onClick = { onClick() },
+            onClick = onClick,
         ) {
             Icon(
                 modifier = Modifier.size(ICON_SIZE),

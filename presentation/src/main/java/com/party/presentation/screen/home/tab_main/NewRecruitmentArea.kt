@@ -13,25 +13,18 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
 import com.party.common.R
-import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.TextComponent
-import com.party.common.UIState
 import com.party.common.component.ImageLoading
-import com.party.common.snackBarMessage
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.MEDIUM_CORNER_SIZE
@@ -39,47 +32,41 @@ import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.RecruitmentItem
 import com.party.domain.model.party.RecruitmentList
-import com.party.presentation.screen.home.HomeListTitleArea
-import com.party.presentation.screen.home.PartyCategory
-import com.party.presentation.screen.home.PositionArea
-import com.party.presentation.screen.home.RecruitmentCountArea
-import com.party.presentation.screen.home.viewmodel.HomeViewModel
+import com.party.presentation.screen.home.HomeState
+import com.party.presentation.screen.home.component.HomeListTitleArea
+import com.party.presentation.screen.home.component.PartyCategory
+import com.party.presentation.screen.home.component.PositionArea
+import com.party.presentation.screen.home.component.RecruitmentCountArea
 
 @Composable
 fun NewRecruitmentArea(
-    homeViewModel: HomeViewModel,
-    snackBarHostState: SnackbarHostState,
+    homeState: HomeState,
     onGoRecruitment: () -> Unit,
+    onClick: (Int, Int) -> Unit,
 ) {
-    val getRecruitmentListState by homeViewModel.getRecruitmentListState.collectAsStateWithLifecycle()
-    val recruitmentListResponse = getRecruitmentListState.data
-
-    LaunchedEffect(Unit) {
-        homeViewModel.getRecruitmentList(page = 1, size = 10, sort = "createdAt", order = "DESC", titleSearch = null)
-    }
 
     HomeListTitleArea(
         title = stringResource(id = R.string.home_list_new_title),
         titleIcon = painterResource(id = R.drawable.arrow_right_icon),
         description = stringResource(id = R.string.home_list_new_description),
-        onClick = { onGoRecruitment() },
+        onClick = onGoRecruitment,
     )
 
-    when (getRecruitmentListState) {
-        is UIState.Idle -> {}
-        is UIState.Loading -> { LoadingProgressBar() }
-        is UIState.Success -> {
-            val successResult = recruitmentListResponse as SuccessResponse<RecruitmentList>
-            RecruitmentListArea(successResult.data)
+    when {
+        homeState.isLoadingRecruitmentList -> { LoadingProgressBar() }
+        homeState.recruitmentList.partyRecruitments.isNotEmpty() -> {
+            RecruitmentListArea(
+                recruitmentListResponse = homeState.recruitmentList,
+                onClick = onClick,
+            )
         }
-        is UIState.Error -> {}
-        is UIState.Exception -> { snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState) }
     }
 }
 
 @Composable
-fun RecruitmentListArea(
+private fun RecruitmentListArea(
     recruitmentListResponse: RecruitmentList?,
+    onClick: (Int, Int) -> Unit,
 ) {
     HeightSpacer(heightDp = 20.dp)
 
@@ -96,7 +83,7 @@ fun RecruitmentListArea(
         ) { _, item ->
             RecruitmentItem(
                 recruitmentLisItemResponse = item,
-                onClick = {},
+                onClick = onClick,
             )
         }
     }
@@ -104,12 +91,12 @@ fun RecruitmentListArea(
 
 
 @Composable
-fun RecruitmentItem(
+private fun RecruitmentItem(
     recruitmentLisItemResponse: RecruitmentItem,
-    onClick: () -> Unit,
+    onClick: (Int, Int) -> Unit,
 ) {
     Card(
-        onClick = {},
+        onClick = { onClick(recruitmentLisItemResponse.party.id, recruitmentLisItemResponse.id) },
         modifier = Modifier.wrapContentSize(),
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
         colors = CardDefaults.cardColors(

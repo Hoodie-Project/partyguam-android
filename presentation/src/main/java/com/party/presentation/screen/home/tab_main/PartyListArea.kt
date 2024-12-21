@@ -4,62 +4,47 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
 import com.party.common.R
-import com.party.common.ServerApiResponse.SuccessResponse
-import com.party.common.UIState
 import com.party.common.component.PartyListItem1
-import com.party.common.snackBarMessage
 import com.party.domain.model.party.PartyList
-import com.party.presentation.screen.home.HomeListTitleArea
-import com.party.presentation.screen.home.viewmodel.HomeViewModel
+import com.party.presentation.screen.home.HomeState
+import com.party.presentation.screen.home.component.HomeListTitleArea
 
 @Composable
 fun PartyListArea(
-    homeViewModel: HomeViewModel,
-    snackBarHostState: SnackbarHostState,
+    homeState: HomeState,
+    onGoParty: () -> Unit,
+    onClick: (Int) -> Unit,
 ) {
-    val getPartyListState by homeViewModel.getPartyListState.collectAsStateWithLifecycle()
-    val partyListResponse = getPartyListState.data
-
-    LaunchedEffect(Unit) {
-        homeViewModel.getPartyList(page = 1, size = 50, sort = "createdAt", order = "DESC", titleSearch = null, status = null)
-    }
-
     HomeListTitleArea(
         title = stringResource(id = R.string.home_list_party_title),
         titleIcon = painterResource(id = R.drawable.arrow_right_icon),
         description = stringResource(id = R.string.home_list_party_description),
-        onClick = {},
+        onClick = onGoParty,
     )
 
-    when(getPartyListState){
-        is UIState.Idle -> {}
-        is UIState.Loading -> { LoadingProgressBar() }
-        is UIState.Success -> {
-            val successResult = partyListResponse as SuccessResponse<PartyList>
+    when {
+        homeState.isLoadingPartyList -> LoadingProgressBar()
+        homeState.partyList.parties.isNotEmpty() -> {
             PartyListArea(
-                partyListResponse = successResult.data,
+                partyListResponse = homeState.partyList,
+                onClick = onClick,
             )
         }
-        is UIState.Error -> {}
-        is UIState.Exception -> { snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState) }
     }
 }
 
 @Composable
-fun PartyListArea(
+private fun PartyListArea(
     partyListResponse: PartyList?,
+    onClick: (Int) -> Unit,
 ) {
     HeightSpacer(heightDp = 20.dp)
 
@@ -79,7 +64,7 @@ fun PartyListArea(
                 type = item.partyType.type,
                 title = item.title,
                 recruitmentCount = item.recruitmentCount,
-                onClick = {}
+                onClick = {onClick(item.id)}
             )
         }
     }
