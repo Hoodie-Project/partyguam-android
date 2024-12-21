@@ -77,7 +77,7 @@ class ManageApplicantViewModel @Inject constructor(
             is ManageApplicantAction.OnChangeApplicantOrderBy -> {
                 _state.update { it.copy(isShowApplicantCreatedDt = action.isDesc) }
             }
-            is ManageApplicantAction.OnSelectRecruitmentId -> _state.update { it.copy(selectedRecruitmentId = action.partyRecruitmentId) }
+            is ManageApplicantAction.OnSelectRecruitmentId -> _state.update { it.copy(selectedRecruitmentId = action.partyRecruitmentId, selectedRecruitmentMain = action.main, selectedRecruitmentSub = action.sub) }
         }
     }
 }

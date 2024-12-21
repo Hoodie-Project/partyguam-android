@@ -136,9 +136,9 @@ private fun ManageApplicantScreen(
                 ManageApplicantRecruitmentList(
                     manageApplicantState = manageApplicantState,
                     onChangeOrderBy = { isDesc -> onAction(ManageApplicantAction.OnChangeOrderBy(isDesc)) },
-                    onClick = { selectedRecruitmentId ->
+                    onClick = { selectedRecruitmentId, selectedMain, selectedSub ->
                         onAction(ManageApplicantAction.OnShowRecruitment(isShow = false)) // 지원자 관리로 이동
-                        onAction(ManageApplicantAction.OnSelectRecruitmentId(selectedRecruitmentId))
+                        onAction(ManageApplicantAction.OnSelectRecruitmentId(selectedRecruitmentId, selectedMain, selectedSub))
                     }
                 )
             } else {
@@ -158,7 +158,7 @@ private fun ManageApplicantScreen(
 private fun ManageApplicantRecruitmentList(
     manageApplicantState: ManageApplicantState,
     onChangeOrderBy: (Boolean) -> Unit,
-    onClick: (Int) -> Unit,
+    onClick: (Int, String, String) -> Unit,
 ) {
     // Description Area
     HeightSpacer(16.dp)
@@ -190,8 +190,8 @@ private fun ManageApplicantArea(
     onChangeOrderBy: (Boolean) -> Unit,
 ) {
     ManageApplicantPositionTitle(
-        main = "개발자",
-        sub = "안드로이드",
+        main = manageApplicantState.selectedRecruitmentMain,
+        sub = manageApplicantState.selectedRecruitmentSub,
         recounting = manageApplicantState.recruitmentApplicantList.size,
     )
 

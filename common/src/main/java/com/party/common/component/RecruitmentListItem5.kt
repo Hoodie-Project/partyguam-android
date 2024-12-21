@@ -36,10 +36,10 @@ fun RecruitmentListItem5(
     main: String,
     sub: String,
     applicationCount: Int,
-    onClick: (Int) -> Unit,
+    onClick: (Int, String, String) -> Unit,
 ) {
     Card(
-        onClick = { onClick(id) },
+        onClick = { onClick(id, main, sub) },
         modifier = Modifier
             .fillMaxWidth()
             .height(130.dp),
@@ -111,6 +111,6 @@ private fun RecruitmentListItem5Preview(modifier: Modifier = Modifier) {
         main = "개발자",
         sub = "안드로이드",
         applicationCount = 3,
-        onClick = {}
+        onClick = { _, _, _ -> }
     )
 }

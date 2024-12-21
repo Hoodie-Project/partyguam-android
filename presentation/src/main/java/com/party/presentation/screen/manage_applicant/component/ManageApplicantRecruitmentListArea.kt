@@ -20,7 +20,7 @@ import com.party.presentation.screen.manage_applicant.ManageApplicantState
 @Composable
 fun ManageApplicantRecruitmentListArea(
     manageApplicantState: ManageApplicantState,
-    onClick: (Int) -> Unit,
+    onClick: (Int, String, String) -> Unit,
 ) {
     when {
         manageApplicantState.isLoadingRecruitment -> LoadingProgressBar()
@@ -45,7 +45,7 @@ fun ManageApplicantRecruitmentListArea(
 @Composable
 private fun RecruitmentList(
     list: List<PartyRecruitment>,
-    onClick: (Int) -> Unit,
+    onClick: (Int, String, String) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier

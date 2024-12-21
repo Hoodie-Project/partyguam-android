@@ -22,4 +22,6 @@ data class ManageApplicantState(
 
     // 선택된 모집공고
     val selectedRecruitmentId: Int = 0,
+    val selectedRecruitmentMain: String = "",
+    val selectedRecruitmentSub: String = "",
 )

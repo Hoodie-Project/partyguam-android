@@ -100,17 +100,10 @@ fun RecruitmentListItem6(
                     HeightSpacer(heightDp = 12.dp)
 
                     when(status){
-                        "응답대기" -> {
+                        "검토중" -> {
                             CancelAndApplyButtonArea(
                                 onRefusal = onRefusal,
                                 onAccept = onAccept,
-                            )
-                        }
-                        "검토중" -> {
-                            CancelButton(
-                                onCancel = {
-
-                                }
                             )
                         }
                     }
@@ -126,22 +119,6 @@ fun RecruitmentListItem6(
             )
         }
     }
-}
-
-// 지원 취소 - 검토중일 경우 보이기
-@Composable
-private fun CancelButton(
-    onCancel: () -> Unit,
-) {
-    CustomButton(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(36.dp),
-        buttonText = "지원 취소",
-        textWeight = FontWeight.SemiBold,
-        containerColor = WHITE,
-        onClick = onCancel,
-    )
 }
 
 // 거절하기, 수락하기 버튼 - 응답대기인 경우 보이기
@@ -271,7 +248,7 @@ private fun ChangeApplicationFormVisible(
 private fun RecruitmentListItem6Preview() {
     RecruitmentListItem6(
         date = "2024-12-05T08:09:19.765Z",
-        status = "지원완료",
+        status = "검토중",
         statusColor = Color.Red,
         profileImage = null,
         nickName = "김철수",
