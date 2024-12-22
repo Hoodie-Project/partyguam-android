@@ -27,4 +27,14 @@ data class HomeState(
     // Main 파티
     val isLoadingPartyList: Boolean = false,
     val partyList: PartyList = PartyList(emptyList(), 0),
+
+    // Party Area - 파티유형 bottom sheet
+    val isPartyTypeSheetOpen: Boolean = false,
+    val selectedPartyTypeListParty: List<String> = emptyList(),
+
+    // Party Area - 진행중 토글
+    val isActivePartyToggle: Boolean = true,
+
+    // Party Area - 등록일 순 내림차순
+    val isDescPartyArea: Boolean = true,
 )

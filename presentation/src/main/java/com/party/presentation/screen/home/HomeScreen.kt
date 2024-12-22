@@ -65,6 +65,12 @@ fun HomeScreenRoute(
             when(action){
                 is HomeAction.OnTabClick -> { homeViewModel.onAction(action) }
                 is HomeAction.OnPersonalRecruitmentReload -> { homeViewModel.onAction(action) }
+                is HomeAction.OnPartyTypeSheetOpen -> { homeViewModel.onAction(action) }
+                is HomeAction.OnSelectedPartyType -> { homeViewModel.onAction(action) }
+                is HomeAction.OnSelectedPartyTypeReset -> { homeViewModel.onAction(action) }
+                is HomeAction.OnPartyTypeApply -> { homeViewModel.onAction(action) }
+                is HomeAction.OnActivePartyToggle -> { homeViewModel.onAction(action) }
+                is HomeAction.OnDescPartyArea -> { homeViewModel.onAction(action) }
             }
         }
     )
@@ -139,10 +145,15 @@ private fun HomeScreen(
 
                     homeTopTabList[1] -> {
                         PartyArea(
-                            homeViewModel = homeViewModel,
-                            snackBarHostState = snackBarHostState,
+                            homeState = homeState,
                             sharedViewModel = sharedViewModel,
-                            onClick = { navController.navigate(Screens.PartyDetail(partyId = it)) }
+                            onClick = { navController.navigate(Screens.PartyDetail(partyId = it)) },
+                            onPartyTypeModal = { isOpen -> onAction(HomeAction.OnPartyTypeSheetOpen(isOpen)) },
+                            onSelectPartyType = { selectedPartyType -> onAction(HomeAction.OnSelectedPartyType(selectedPartyType)) },
+                            onReset = { onAction(HomeAction.OnSelectedPartyTypeReset) },
+                            onApply = { onAction(HomeAction.OnPartyTypeApply) },
+                            onActivePartyToggle = { onToggle -> onAction(HomeAction.OnActivePartyToggle(onToggle)) },
+                            onChangeOrderByPartyArea = { isDesc -> onAction(HomeAction.OnDescPartyArea(isDesc)) }
                         )
                     }
 

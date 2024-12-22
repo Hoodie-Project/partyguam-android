@@ -14,6 +14,7 @@ import com.party.domain.usecase.party.GetPartyListUseCase
 import com.party.domain.usecase.party.GetPersonalRecruitmentListUseCase
 import com.party.domain.usecase.party.GetRecruitmentListUseCase
 import com.party.domain.usecase.user.detail.GetPositionsUseCase
+import com.party.presentation.enum.PartyType
 import com.party.presentation.screen.home.HomeAction
 import com.party.presentation.screen.home.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -187,6 +188,69 @@ class HomeViewModel @Inject constructor(
         when(action){
             is HomeAction.OnTabClick -> _state.update { it.copy(selectedTabText = action.tabText) }
             is HomeAction.OnPersonalRecruitmentReload -> getPersonalRecruitmentList(1, 50, "createdAt", "DESC")
+            is HomeAction.OnPartyTypeSheetOpen -> _state.update { it.copy(isPartyTypeSheetOpen = action.isVisibleModal) }
+
+            // 클릭시 이미 저장되있으면 삭제하고 없으면 추가한다.
+            is HomeAction.OnSelectedPartyType -> {
+                _state.update { state ->
+                    val updatedList = state.selectedPartyTypeListParty.toMutableList().apply {
+                        if(action.partyType == "전체"){
+                            clear()
+                            add("전체")
+                        }else {
+                            remove("전체")
+                            if (contains(action.partyType)) remove(action.partyType) else add(
+                                action.partyType
+                            )
+                        }
+                    }
+                    state.copy(selectedPartyTypeListParty = updatedList)
+                }
+            }
+            is HomeAction.OnSelectedPartyTypeReset -> _state.update { it.copy(selectedPartyTypeListParty = emptyList()) }
+            is HomeAction.OnPartyTypeApply -> {
+                _state.update { it.copy(isPartyTypeSheetOpen = false) }
+
+                val selectedPartyTypeList = _state.value.selectedPartyTypeListParty
+                getPartyList(
+                    page = 1,
+                    size = 50,
+                    sort = "createdAt",
+                    order = "DESC",
+                    partyTypes = selectedPartyTypeList.mapNotNull { type ->
+                        PartyType.entries.find { it.type == type }?.id
+                    },
+                    titleSearch = null,
+                    status = null
+                )
+            }
+            is HomeAction.OnActivePartyToggle -> {
+                _state.update { it.copy(isActivePartyToggle = action.isActive) }
+                getPartyList(
+                    page = 1,
+                    size = 50,
+                    sort = "createdAt",
+                    order = "DESC",
+                    partyTypes = _state.value.selectedPartyTypeListParty.mapNotNull { type ->
+                        PartyType.entries.find { it.type == type }?.id
+                    },
+                    titleSearch = null,
+                    status = if(_state.value.isActivePartyToggle) "active" else "archived"
+                )
+            }
+            is HomeAction.OnDescPartyArea -> {
+                _state.update { currentState ->
+                    val sortedList = if(action.isDesc){
+                        currentState.partyList.parties.sortedByDescending { it.createdAt }
+                    } else {
+                        currentState.partyList.parties.sortedBy { it.createdAt }
+                    }
+                    currentState.copy(
+                        isDescPartyArea = action.isDesc,
+                        partyList = currentState.partyList.copy(parties = sortedList)
+                    )
+                }
+            }
         }
     }
 }

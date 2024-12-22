@@ -36,9 +36,7 @@ fun FilterArea(
         SelectFilterItem(
             filterName = "파티유형",
             isSheetOpen = false,
-            onClick = {
-                isPartyTypeFilterClick(it)
-            }
+            onClick = { isPartyTypeFilterClick(it) }
         )
 
         IngToggle(

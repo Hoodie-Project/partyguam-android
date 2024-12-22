@@ -13,7 +13,7 @@ import com.party.common.component.chip.OrderByCreateDtChip
 @Composable
 fun FilterDate(
     selectedCreateDataOrderByDesc: Boolean,
-    onChangeOrderBy: (Boolean) -> Unit,
+    onChangeOrderByPartyArea: (Boolean) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -23,16 +23,16 @@ fun FilterDate(
         OrderByCreateDtChip(
             text = stringResource(id = R.string.filter1),
             orderByDesc = selectedCreateDataOrderByDesc,
-            onChangeSelected = { onChangeOrderBy(it) }
+            onChangeSelected = { onChangeOrderByPartyArea(it) }
         )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun FilterDatePreview() {
+private fun FilterDatePreview() {
     FilterDate(
         selectedCreateDataOrderByDesc = true,
-        onChangeOrderBy = {}
+        onChangeOrderByPartyArea = {}
     )
 }
