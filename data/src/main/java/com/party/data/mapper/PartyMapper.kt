@@ -309,6 +309,8 @@ object PartyMapper {
             title = partyModifyDto.title,
             content = partyModifyDto.content,
             image = convertToImageUrl(partyModifyDto.image),
+            status = partyModifyDto.status,
+            updatedAt = partyModifyDto.updatedAt,
         )
     }
 

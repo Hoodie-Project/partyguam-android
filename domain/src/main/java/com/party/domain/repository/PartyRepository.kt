@@ -87,8 +87,8 @@ interface PartyRepository {
         title: RequestBody?,
         content: RequestBody?,
         partyTypeId: RequestBody?,
-        positionId: RequestBody?,
-        image: MultipartBody.Part?
+        image: MultipartBody.Part?,
+        status: RequestBody?
     ): ServerApiResponse<PartyModify>
 
     // 파티지원하기 - 모집공고 지원

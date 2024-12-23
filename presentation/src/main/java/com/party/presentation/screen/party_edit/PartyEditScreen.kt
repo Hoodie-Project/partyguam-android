@@ -17,7 +17,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -49,13 +48,12 @@ import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.Screens
 import com.party.presentation.component.HelpCard
-import com.party.presentation.screen.party_create.PartyCreateAction
+import com.party.presentation.enum.StatusType
 import com.party.presentation.screen.party_detail.component.RightModalDrawer
 import com.party.presentation.screen.party_edit.component.PartyEditCustomShape
 import com.party.presentation.screen.party_edit.component.PartyEditDescriptionArea
 import com.party.presentation.screen.party_edit.component.PartyEditInputField
 import com.party.presentation.screen.party_edit.component.PartyEditScaffoldArea
-import com.party.presentation.screen.party_edit.component.PartyEditSelectPositionArea
 import com.party.presentation.screen.party_edit.component.PartyEditValidField
 import com.party.presentation.screen.party_edit.component.PartyImageArea
 import com.party.presentation.screen.party_edit.component.SelectPartyStateButtonArea
@@ -113,6 +111,7 @@ fun PartyEditScreenRoute(
                         is PartyEditAction.OnChangePartyDescription -> partyEditViewModel.onAction(action)
                         is PartyEditAction.OnPartyModify -> partyEditViewModel.onAction(action)
                         is PartyEditAction.OnChangeShowPartyDeleteDialog -> partyEditViewModel.onAction(action)
+                        is PartyEditAction.OnChangePartyStatus -> partyEditViewModel.onAction(action)
                     }
                 },
                 onNavigationClick = { navController.popBackStack() },
@@ -211,7 +210,8 @@ private fun PartyEditScreen(
 
                 PartyImageArea(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
-                    onSetImage = { image -> onAction(PartyEditAction.OnChangeImage(image = image)) }
+                    imageUrl = partyEditState.networkImage,
+                    onSelectImage = { image -> onAction(PartyEditAction.OnChangeImage(image = image)) }
                 )
 
                 // ToolTip
@@ -314,29 +314,6 @@ private fun PartyEditScreen(
                     onAllDeleteInputText = { onAction(PartyEditAction.OnChangePartyDescription("")) }
                 )
 
-                // 내 포지션
-                /*HeightSpacer(heightDp = 30.dp)
-                PartyEditDescriptionArea(
-                    title = "내 포지션",
-                    description = "파티 내에서 본인의 포지션을 선택해주세요."
-                )
-
-                HeightSpacer(heightDp = 20.dp)
-                PartyEditSelectPositionArea(
-                    subPositionList = partyEditState.subPositionList,
-                    isMainPositionBottomSheetShow = partyEditState.isMainPositionBottomSheetShow,
-                    selectedMainPosition = partyEditState.selectedMainPosition,
-                    selectedSubPosition = partyEditState.selectedSubPosition,
-                    onApply = { mainPosition, selectedSubPosition->
-                        onAction(PartyEditAction.OnChangeMainPosition(mainPosition))
-                        onAction(PartyEditAction.OnChangeSubPosition(selectedSubPosition))
-                    },
-                    onShowPositionBottomSheet = { isShow ->
-                        onAction(PartyEditAction.OnChangeMainPositionBottomSheet(isShow))
-                    },
-                    onClickMainPosition = onClickMainPosition
-                )*/
-
                 // 파티 상태
                 HeightSpacer(heightDp = 60.dp)
                 PartyEditDescriptionArea(
@@ -345,8 +322,9 @@ private fun PartyEditScreen(
                 )
                 HeightSpacer(heightDp = 20.dp)
                 SelectPartyStateButtonArea(
-                    onProgress = {},
-                    onFinish = {}
+                    selectedStatus = partyEditState.partyStatus,
+                    onProgress = { onAction(PartyEditAction.OnChangePartyStatus(StatusType.ACTIVE.type)) },
+                    onFinish = { onAction(PartyEditAction.OnChangePartyStatus(StatusType.ARCHIVED.type)) },
                 )
 
                 // 파티 삭제하기

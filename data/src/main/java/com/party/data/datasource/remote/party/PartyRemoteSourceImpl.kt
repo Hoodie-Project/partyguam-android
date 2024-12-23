@@ -113,16 +113,16 @@ class PartyRemoteSourceImpl @Inject constructor(
         title: RequestBody?,
         content: RequestBody?,
         partyTypeId: RequestBody?,
-        positionId: RequestBody?,
-        image: MultipartBody.Part?
+        image: MultipartBody.Part?,
+        status: RequestBody?
     ): ApiResponse<PartyModifyDto> {
         return partyService.modifyParty(
             partyId = partyId,
             title = title,
             content = content,
             partyTypeId = partyTypeId,
-            positionId = positionId,
-            image = image
+            image = image,
+            status = status
         )
     }
 

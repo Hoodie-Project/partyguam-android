@@ -6,6 +6,8 @@ import okhttp3.RequestBody.Companion.toRequestBody
 data class PartyEditState(
     val isLoadingPartyDetail: Boolean = false,
     val isVisibleToolTip: Boolean = true, // 툴팁
+
+    val networkImage: String = "",
     val image: MultipartBody.Part = MultipartBody.Part.createFormData("image", "", byteArrayOf().toRequestBody()), // 이미지
 
     val partyStatus: String = "", // 파티 상태

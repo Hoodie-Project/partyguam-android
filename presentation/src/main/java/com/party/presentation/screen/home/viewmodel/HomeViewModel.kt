@@ -48,8 +48,8 @@ class HomeViewModel @Inject constructor(
     init {
         getBannerList()
         getPersonalRecruitmentList(1, 50, "createdAt", "DESC")
-        getRecruitmentList(page = 1, size = 50, sort = "createdAt", order = "DESC", titleSearch = null)
-        getPartyList(page = 1, size = 50, sort = "createdAt", order = "DESC", titleSearch = null, status = null)
+        //getRecruitmentList(page = 1, size = 50, sort = "createdAt", order = "DESC", titleSearch = null)
+        //getPartyList(page = 1, size = 50, sort = "createdAt", order = "DESC", titleSearch = null, status = null)
     }
 
     private fun getPersonalRecruitmentList(
@@ -82,7 +82,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getRecruitmentList(
+    fun getRecruitmentList(
         page: Int,
         size: Int,
         sort: String,
@@ -109,7 +109,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getPartyList(
+    fun getPartyList(
         page: Int,
         size: Int,
         sort: String,

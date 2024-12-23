@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.party.common.R
+import com.party.common.component.NetworkImageLoad
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.createMultipartBody
 import com.party.common.ui.theme.GRAY300
@@ -36,7 +37,8 @@ import okhttp3.MultipartBody
 @Composable
 fun PartyImageArea(
     modifier: Modifier,
-    onSetImage: (MultipartBody.Part) -> Unit
+    imageUrl: String?,
+    onSelectImage: (MultipartBody.Part) -> Unit
 ) {
     var uri by remember {
         mutableStateOf<Uri?>(null)
@@ -49,9 +51,8 @@ fun PartyImageArea(
         onResult = { selectedUri ->
             uri = selectedUri
             selectedUri?.let {
-                // Uri -> MultipartBody.Part 변환 후 상위로 전달
                 val multipartBody = createMultipartBody(context, selectedUri)
-                onSetImage(multipartBody)
+                onSelectImage(multipartBody)
             }
         }
     )
@@ -62,21 +63,28 @@ fun PartyImageArea(
             .height(170.dp),
         contentAlignment = Alignment.Center,
     ) {
-        Card(
-            modifier = Modifier
-                .width(200.dp)
-                .height(150.dp),
-            shape = RoundedCornerShape(LARGE_CORNER_SIZE),
-            colors = CardDefaults.cardColors(
-                containerColor = GRAY300
-            )
-        ) {
-            AsyncImage(
+        if(uri != null){
+            Card(
                 modifier = Modifier
-                    .fillMaxSize(),
-                contentScale = ContentScale.FillBounds,
-                model = uri,
-                contentDescription = "Party Image",
+                    .width(200.dp)
+                    .height(150.dp),
+                shape = RoundedCornerShape(LARGE_CORNER_SIZE),
+                colors = CardDefaults.cardColors(
+                    containerColor = GRAY300
+                )
+            ) {
+                AsyncImage(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentScale = ContentScale.FillBounds,
+                    model = uri,
+                    contentDescription = "Party Image",
+                )
+            }
+        }else {
+            NetworkImageLoad(
+                url = imageUrl,
+                modifier = Modifier.fillMaxSize()
             )
         }
 
@@ -101,6 +109,7 @@ fun PartyImageArea(
 private fun PartyImageAreaPreview() {
     PartyImageArea(
         modifier = Modifier,
-        onSetImage = { }
+        imageUrl = "",
+        onSelectImage = { }
     )
 }

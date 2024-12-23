@@ -244,16 +244,16 @@ class PartyRepositoryImpl @Inject constructor(
         title: RequestBody?,
         content: RequestBody?,
         partyTypeId: RequestBody?,
-        positionId: RequestBody?,
-        image: MultipartBody.Part?
+        image: MultipartBody.Part?,
+        status: RequestBody?
     ): ServerApiResponse<PartyModify> {
         return when(val result = partyRemoteSource.modifyParty(
             partyId = partyId,
             title = title,
             content = content,
             partyTypeId = partyTypeId,
-            positionId = positionId,
-            image = image
+            image = image,
+            status = status
         )){
             is ApiResponse.Success -> {
                 SuccessResponse(data = mapperPartyModify(result.data))

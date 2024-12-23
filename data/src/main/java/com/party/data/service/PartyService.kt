@@ -123,8 +123,8 @@ interface PartyService {
         @Part("title") title: RequestBody? = null,
         @Part("content") content: RequestBody? = null,
         @Part("partyTypeId") partyTypeId: RequestBody? = null,
-        @Part("positionId") positionId: RequestBody? = null,
         @Part image: MultipartBody.Part? = null,
+        @Part("status") status: RequestBody? = null,
     ): ApiResponse<PartyModifyDto>
 
 

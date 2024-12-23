@@ -1,6 +1,7 @@
 package com.party.presentation.screen.party_edit.component
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -13,9 +14,11 @@ import com.party.common.ui.theme.DARK100
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.LIGHT300
 import com.party.common.ui.theme.WHITE
+import com.party.presentation.enum.StatusType
 
 @Composable
 fun SelectPartyStateButtonArea(
+    selectedStatus: String,
     onProgress: () -> Unit,
     onFinish: () -> Unit,
 ) {
@@ -25,19 +28,19 @@ fun SelectPartyStateButtonArea(
             .height(52.dp)
     ) {
         CustomButton(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f).fillMaxHeight(),
             onClick = onProgress,
-            buttonText = "진행중",
-            containerColor = LIGHT300,
-            borderColor = DARK100,
+            buttonText = StatusType.ACTIVE.toDisplayText(),
+            containerColor = if(selectedStatus == StatusType.ACTIVE.type) LIGHT300 else WHITE,
+            borderColor = if(selectedStatus == StatusType.ACTIVE.type) DARK100 else GRAY200,
         )
         WidthSpacer(widthDp = 12.dp)
         CustomButton(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f).fillMaxHeight(),
             onClick = onFinish,
-            buttonText = "종료",
-            containerColor = WHITE,
-            borderColor = GRAY200,
+            buttonText = StatusType.ARCHIVED.toDisplayText(),
+            containerColor = if(selectedStatus == StatusType.ARCHIVED.type) LIGHT300 else WHITE,
+            borderColor = if(selectedStatus == StatusType.ARCHIVED.type) DARK100 else GRAY200,
         )
     }
 }
@@ -46,6 +49,7 @@ fun SelectPartyStateButtonArea(
 @Composable
 private fun SelectPartyStateButtonAreaPreview() {
     SelectPartyStateButtonArea(
+        selectedStatus = StatusType.ARCHIVED.type,
         onProgress = {},
         onFinish = {},
     )

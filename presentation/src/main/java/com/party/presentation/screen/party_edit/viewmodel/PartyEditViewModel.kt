@@ -59,6 +59,7 @@ class PartyEditViewModel @Inject constructor(
 
                     _state.update { it.copy(
                         isLoadingPartyDetail = false,
+                        networkImage = partyDetail.image ?: "",
                         inputPartyTitle = partyDetail.title,
                         selectedPartyType = partyDetail.partyType.type,
                         partyDescription = partyDetail.content,
@@ -76,7 +77,7 @@ class PartyEditViewModel @Inject constructor(
         title: RequestBody?,
         content: RequestBody?,
         partyTypeId: RequestBody?,
-        positionId: RequestBody?,
+        status: RequestBody?,
         image: MultipartBody.Part?
     ){
         viewModelScope.launch(Dispatchers.IO) {
@@ -85,8 +86,8 @@ class PartyEditViewModel @Inject constructor(
                 title = title,
                 content = content,
                 partyTypeId = partyTypeId,
-                positionId = positionId,
-                image = image
+                image = image,
+                status = status,
             )){
                 is ServerApiResponse.SuccessResponse -> {
                     getPartyDetail(partyId)
@@ -132,11 +133,12 @@ class PartyEditViewModel @Inject constructor(
                     title = createRequestBody(_state.value.inputPartyTitle),
                     content = createRequestBody(_state.value.partyDescription),
                     partyTypeId = createRequestBody(partyTypeList.first { it.first == _state.value.selectedPartyType }.second.toString()),
-                    positionId = null,
+                    status = createRequestBody(_state.value.partyStatus),
                     image = _state.value.image
                 )
             }
             is PartyEditAction.OnChangeShowPartyDeleteDialog -> _state.update { it.copy(isShowPartyDeleteDialog = action.isShowPartyDeleteDialog) }
+            is PartyEditAction.OnChangePartyStatus -> _state.update { it.copy(partyStatus = action.partyStatus) }
         }
     }
 

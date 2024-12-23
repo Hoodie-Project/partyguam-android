@@ -6,4 +6,6 @@ data class PartyModify(
     val title: String,
     val content: String,
     val image: String? = null,
+    val status: String,
+    val updatedAt: String,
 )

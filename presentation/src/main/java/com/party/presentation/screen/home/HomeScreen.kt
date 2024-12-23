@@ -74,6 +74,11 @@ fun HomeScreenRoute(
         }
     }
 
+    LaunchedEffect(key1 = Unit) {
+        homeViewModel.getPartyList(page = 1, size = 50, sort = "createdAt", order = "DESC", titleSearch = null, status = null)
+        homeViewModel.getRecruitmentList(page = 1, size = 50, sort = "createdAt", order = "DESC", titleSearch = null)
+    }
+
     HomeScreen(
         context = context,
         snackBarHostState = snackBarHostState,
