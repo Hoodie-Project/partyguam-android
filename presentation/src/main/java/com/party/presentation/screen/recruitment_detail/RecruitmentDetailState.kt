@@ -15,6 +15,7 @@ data class RecruitmentDetailState(
             partyType = RecruitmentDetailPartyType(type = "")
         ),
         position = RecruitmentDetailPosition(
+            id = 0,
             main = "",
             sub = ""
         ),

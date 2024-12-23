@@ -59,6 +59,7 @@ class RecruitmentEditViewModel @Inject constructor(
                             partyType = RecruitmentDetailPartyType(type = "")
                         ),
                         position = RecruitmentDetailPosition(
+                            id = 0,
                             main = "",
                             sub = ""
                         ),
@@ -72,7 +73,7 @@ class RecruitmentEditViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             selectedMainPosition = recruitmentDetail.position.main,
-                            selectedSubPosition = PositionList(0, recruitmentDetail.position.main, recruitmentDetail.position.sub),
+                            selectedSubPosition = PositionList(recruitmentDetail.position.id, recruitmentDetail.position.main, recruitmentDetail.position.sub),
                             selectedCount = recruitmentDetail.recruitingCount,
                             recruitmentDescription = recruitmentDetail.content,
                         )

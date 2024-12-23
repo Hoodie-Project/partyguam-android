@@ -28,6 +28,7 @@ data class RecruitmentDetailPartyTypeDto(
 
 @Serializable
 data class RecruitmentDetailPositionDto(
+    val id: Int,
     val main: String,
     val sub: String,
 )
