@@ -4,49 +4,22 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.party.common.HeightSpacer
-import com.party.common.LoadingProgressBar
-import com.party.common.R
-import com.party.common.ServerApiResponse.SuccessResponse
-import com.party.common.UIState
 import com.party.common.component.RecruitmentListItem2
 import com.party.common.component.no_data.NoDataColumn
-import com.party.common.snackBarMessage
-import com.party.domain.model.party.RecruitmentItem
-import com.party.domain.model.party.RecruitmentList
 import com.party.presentation.screen.home.HomeState
-import com.party.presentation.screen.home.viewmodel.HomeViewModel
-import com.party.presentation.shared.SharedViewModel
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun RecruitmentColumnListArea(
+    listState: LazyListState,
     homeState: HomeState,
     onRecruitmentItemClick: (Int, Int) -> Unit,
-    sharedViewModel: SharedViewModel,
 ) {
-    val listState = rememberLazyListState()
-    val isFabVisible = remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
-    sharedViewModel.isScrollRecruitmentArea = isFabVisible.value
-
-    LaunchedEffect(Unit) {
-        sharedViewModel.scrollToUp.collectLatest {
-            listState.animateScrollToItem(0)
-        }
-    }
-
     if(homeState.recruitmentList.partyRecruitments.isEmpty()){
         HeightSpacer(heightDp = 76.dp)
         NoDataColumn(title = "모집공고가 없어요.")

@@ -26,4 +26,8 @@ sealed interface HomeAction {
     data class OnSelectedPartyTypeRecruitment(val partyType: String) : HomeAction
     data object OnSelectedPartyTypeResetRecruitmentReset : HomeAction
     data object OnPartyTypeApplyRecruitment : HomeAction
+
+
+    data class OnExpandedFloating(val isExpandedFloating: Boolean): HomeAction
+
 }

@@ -1,4 +1,4 @@
-package com.party.presentation.screen.state.component
+package com.party.presentation.screen.home.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
@@ -11,7 +11,7 @@ import com.party.common.R
 import com.party.common.component.floating.FabItem
 
 @Composable
-fun StateFloatingArea(
+fun HomeFloatingArea(
     modifier: Modifier,
     isExpandedFloatingButton: Boolean,
     partyCreateFloating: @Composable () -> Unit = {},

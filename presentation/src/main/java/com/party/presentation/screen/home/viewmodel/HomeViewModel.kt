@@ -3,7 +3,7 @@ package com.party.presentation.screen.home.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
-import com.party.common.UIState
+import com.party.common.component.homeTopTabList
 import com.party.domain.model.banner.Banner
 import com.party.domain.model.party.PartyList
 import com.party.domain.model.party.PersonalRecruitmentList
@@ -19,8 +19,10 @@ import com.party.presentation.screen.home.HomeAction
 import com.party.presentation.screen.home.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,11 +39,11 @@ class HomeViewModel @Inject constructor(
     private val _state = MutableStateFlow(HomeState())
     val state: StateFlow<HomeState> = _state
 
-    private val _getRecruitmentListState = MutableStateFlow<UIState<ServerApiResponse<RecruitmentList>>>(UIState.Idle)
-    val getRecruitmentListState: StateFlow<UIState<ServerApiResponse<RecruitmentList>>> = _getRecruitmentListState
+    private val _scrollToUpParty = MutableSharedFlow<Unit>()
+    val scrollToUpParty = _scrollToUpParty.asSharedFlow()
 
-    private val _positionsState = MutableStateFlow<UIState<ServerApiResponse<List<PositionList>>>>(UIState.Idle)
-    val positionsState: StateFlow<UIState<ServerApiResponse<List<PositionList>>>> = _positionsState
+    private val _scrollToUpRecruitment = MutableSharedFlow<Unit>()
+    val scrollToUpRecruitment = _scrollToUpRecruitment.asSharedFlow()
 
     init {
         getBannerList()
@@ -80,7 +82,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getRecruitmentList(
+    private fun getRecruitmentList(
         page: Int,
         size: Int,
         sort: String,
@@ -107,7 +109,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getPartyList(
+    private fun getPartyList(
         page: Int,
         size: Int,
         sort: String,
@@ -141,11 +143,8 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getSubPositionList(
-        main: String,
-    ) {
+    private fun getSubPositionList(main: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            _positionsState.value = UIState.Loading
             when (val result = getPositionsUseCase(main = main)) {
                 is ServerApiResponse.SuccessResponse<List<PositionList>> -> { _state.update { state -> state.copy(selectedMainPosition = main, getSubPositionList = result.data ?: emptyList()) } }
                 is ServerApiResponse.ErrorResponse<List<PositionList>> -> {}
@@ -360,6 +359,16 @@ class HomeViewModel @Inject constructor(
                         PartyType.entries.find { it.type == type }?.id
                     }
                 )
+            }
+            is HomeAction.OnExpandedFloating -> _state.update { it.copy(isExpandedFloating = action.isExpandedFloating) }
+        }
+    }
+
+    fun scrollToTop(){
+        viewModelScope.launch(Dispatchers.Main) {
+            when (_state.value.selectedTabText) {
+                homeTopTabList[1] -> _scrollToUpParty.emit(Unit)
+                homeTopTabList[2] -> _scrollToUpRecruitment.emit(Unit)
             }
         }
     }

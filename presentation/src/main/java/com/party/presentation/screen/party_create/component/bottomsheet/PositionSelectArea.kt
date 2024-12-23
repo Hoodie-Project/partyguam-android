@@ -1,6 +1,8 @@
 package com.party.presentation.screen.party_create.component.bottomsheet
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -8,29 +10,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.party.common.LoadingProgressBar
 import com.party.common.R
-import com.party.common.ServerApiResponse.SuccessResponse
-import com.party.common.UIState
 import com.party.common.WidthSpacer
+import com.party.common.component.bottomsheet.list.positionList
 import com.party.common.noRippleClickable
-import com.party.common.snackBarMessage
 import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.BLACK
+import com.party.common.ui.theme.LIGHT400
 import com.party.domain.model.user.detail.PositionList
-import com.party.presentation.screen.home.tab_recruitment.MainPositionListArea
-import com.party.presentation.screen.home.viewmodel.HomeViewModel
 
 @Composable
 fun PositionSelectArea(
@@ -62,7 +59,7 @@ fun PositionSelectArea(
 }
 
 @Composable
-fun SubPositionListArea(
+private fun SubPositionListArea(
     modifier: Modifier = Modifier,
     subPositionList: List<PositionList>,
     selectedSubPosition: PositionList,
@@ -76,7 +73,7 @@ fun SubPositionListArea(
             key = { index, _ ->
                 index
             }
-        ) { index, item ->
+        ) { _, item ->
             SubPositionListItem(
                 item = item,
                 selectedSubPosition = selectedSubPosition,
@@ -84,38 +81,10 @@ fun SubPositionListArea(
             )
         }
     }
-    /*val subPositionListState by homeViewModel.positionsState.collectAsStateWithLifecycle()
-    val subPositionListResult = subPositionListState.data
-
-    when (subPositionListState) {
-        is UIState.Idle -> {}
-        is UIState.Loading -> { LoadingProgressBar() }
-        is UIState.Success -> {
-            val successResult = subPositionListResult as SuccessResponse
-            LazyColumn(
-                modifier = modifier,
-            ) {
-                itemsIndexed(
-                    items = successResult.data ?: emptyList(),
-                    key = { index, _ ->
-                        index
-                    }
-                ) { index, item ->
-                    SubPositionListItem(
-                        item = item,
-                        selectedSubPosition = selectedSubPosition,
-                        onClick = { onSelectSubPosition(it) }
-                    )
-                }
-            }
-        }
-        is UIState.Error -> {}
-        is UIState.Exception -> { snackBarMessage(message = stringResource(id = R.string.common6), snackBarHostState = snackBarHostState) }
-    }*/
 }
 
 @Composable
-fun SubPositionListItem(
+private fun SubPositionListItem(
     item: PositionList,
     selectedSubPosition: PositionList,
     onClick: (PositionList) -> Unit,
@@ -140,6 +109,61 @@ fun SubPositionListItem(
             color = BLACK,
             fontWeight = if (selectedSubPosition.sub == item.sub) FontWeight.Bold else FontWeight.Normal,
             fontSize = B1,
+        )
+    }
+}
+
+@Composable
+private fun MainPositionListArea(
+    modifier: Modifier,
+    selectedMainPosition: String,
+    onMainPositionClick: (String) -> Unit,
+) {
+    LazyColumn(
+        modifier = modifier
+    ) {
+        itemsIndexed(
+            items = positionList,
+            key = { index, _ ->
+                index
+            }
+        ) { _, item ->
+            MainPositionListItem(
+                modifier = Modifier.fillMaxWidth(),
+                text = item,
+                selectedMainPosition = selectedMainPosition,
+                containerColor = if (item == selectedMainPosition) LIGHT400 else White,
+                onClick = { onMainPositionClick(it) }
+            )
+        }
+    }
+}
+
+@Composable
+private fun MainPositionListItem(
+    modifier: Modifier,
+    text: String,
+    selectedMainPosition: String,
+    containerColor: Color,
+    onClick: (String) -> Unit
+) {
+    Row(
+        modifier = modifier
+            .noRippleClickable { onClick(text) }
+            .background(containerColor)
+            .padding(start = 20.dp, end = 12.dp)
+            .height(52.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        Text(
+            text = text,
+            fontWeight = if (text == selectedMainPosition) FontWeight.Bold else FontWeight.Normal,
+        )
+        Icon(
+            modifier = Modifier.size(16.dp),
+            painter = painterResource(id = R.drawable.arrow_right_icon),
+            contentDescription = "arrow right",
         )
     }
 }

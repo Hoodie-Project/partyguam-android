@@ -6,14 +6,18 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
@@ -22,20 +26,22 @@ import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.party.common.component.floating.NavigateUpFloatingButton
+import com.party.common.component.floating.PartyCreateFloatingButton
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.BottomNavigationBar
 import com.party.navigation.Screens
-import com.party.presentation.component.FloatingButtonArea
+import com.party.presentation.screen.home.component.HomeFloatingArea
 import com.party.presentation.screen.home.component.HomeTopBar
 import com.party.presentation.screen.home.component.HomeTopTabArea
 import com.party.presentation.screen.home.tab_main.MainArea
 import com.party.presentation.screen.home.tab_party.PartyArea
 import com.party.presentation.screen.home.tab_recruitment.RecruitmentArea
 import com.party.presentation.screen.home.viewmodel.HomeViewModel
-import com.party.presentation.shared.SharedViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun HomeScreenRoute(
@@ -45,21 +51,43 @@ fun HomeScreenRoute(
     homeTopTabList: List<String>,
     homeViewModel: HomeViewModel = hiltViewModel(),
     onRecruitmentItemClick: (Int, Int) -> Unit,
-    sharedViewModel: SharedViewModel,
 ) {
     val homeState by homeViewModel.state.collectAsStateWithLifecycle()
+
+    val gridState = rememberLazyGridState()
+    val listState = rememberLazyListState()
+
+    val isFabVisibleParty = remember { derivedStateOf { gridState.firstVisibleItemIndex > 0}}
+    val isFabVisibleRecruitment = remember { derivedStateOf { listState.firstVisibleItemIndex > 0}}
+
+    homeState.isScrollParty = isFabVisibleParty.value
+    homeState.isScrollRecruitment = isFabVisibleRecruitment.value
+
+    LaunchedEffect(Unit) {
+        homeViewModel.scrollToUpParty.collectLatest {
+            gridState.animateScrollToItem(0)
+        }
+    }
+    LaunchedEffect(key1 = Unit) {
+        homeViewModel.scrollToUpRecruitment.collectLatest {
+            listState.animateScrollToItem(0)
+        }
+    }
 
     HomeScreen(
         context = context,
         snackBarHostState = snackBarHostState,
         navController = navController,
+        listState = listState,
+        gridState = gridState,
         homeState = homeState,
         homeTopTabList = homeTopTabList,
         onRecruitmentItemClick = onRecruitmentItemClick,
-        sharedViewModel = sharedViewModel,
         onGotoSearch = { navController.navigate(Screens.Search) },
         onGotoRecruitmentDetail = { partyId, partyRecruitmentId -> navController.navigate(Screens.RecruitmentDetail(partyId = partyId, partyRecruitmentId = partyRecruitmentId)) },
         onGotoPartyDetail = { partyId -> navController.navigate(Screens.PartyDetail(partyId = partyId)) },
+        onNavigateUp = { homeViewModel.scrollToTop() },
+        onGoPartyCreate = { navController.navigate(Screens.PartyCreate) },
         onAction = { action ->
             when(action){
                 is HomeAction.OnTabClick -> { homeViewModel.onAction(action) }
@@ -81,6 +109,7 @@ fun HomeScreenRoute(
                 is HomeAction.OnSelectedPartyTypeResetRecruitmentReset -> { homeViewModel.onAction(action) }
                 is HomeAction.OnSelectedPartyTypeRecruitment -> { homeViewModel.onAction(action) }
                 is HomeAction.OnPartyTypeApplyRecruitment -> { homeViewModel.onAction(action) }
+                is HomeAction.OnExpandedFloating -> { homeViewModel.onAction(action) }
             }
         }
     )
@@ -91,25 +120,28 @@ private fun HomeScreen(
     context: Context,
     snackBarHostState: SnackbarHostState,
     navController: NavHostController,
+    listState: LazyListState,
+    gridState: LazyGridState,
     homeState: HomeState,
     homeTopTabList: List<String>,
     onGotoSearch: () -> Unit,
     onRecruitmentItemClick: (Int, Int) -> Unit,
-    sharedViewModel: SharedViewModel,
     onGotoRecruitmentDetail: (Int, Int) -> Unit,
     onGotoPartyDetail: (Int) -> Unit,
+    onNavigateUp: () -> Unit,
+    onGoPartyCreate: () -> Unit,
     onAction: (HomeAction) -> Unit,
 ){
-    var isExpandedFloatingButton by remember {
-        mutableStateOf(false)
-    }
-
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
         Scaffold(
-            modifier = Modifier.then(if (isExpandedFloatingButton) { Modifier.blur(10.dp) } else { Modifier }),
+            modifier = Modifier
+                .blur(
+                    radiusX = if (homeState.isExpandedFloating) 10.dp else 0.dp,
+                    radiusY = if (homeState.isExpandedFloating) 10.dp else 0.dp,
+                ),
             snackbarHost = {
                 SnackbarHost(
                     hostState = snackBarHostState,
@@ -119,7 +151,7 @@ private fun HomeScreen(
                 BottomNavigationBar(
                     context = context,
                     navController = navController,
-                    isExpandedFloatingButton = isExpandedFloatingButton,
+                    isExpandedFloatingButton = homeState.isExpandedFloating,
                 )
             },
         ) {
@@ -154,8 +186,8 @@ private fun HomeScreen(
 
                     homeTopTabList[1] -> {
                         PartyArea(
+                            gridState = gridState,
                             homeState = homeState,
-                            sharedViewModel = sharedViewModel,
                             onClick = { navController.navigate(Screens.PartyDetail(partyId = it)) },
                             onPartyTypeModal = { isOpen -> onAction(HomeAction.OnPartyTypeSheetOpen(isOpen)) },
                             onSelectPartyType = { selectedPartyType -> onAction(HomeAction.OnSelectedPartyType(selectedPartyType)) },
@@ -168,9 +200,9 @@ private fun HomeScreen(
 
                     homeTopTabList[2] -> {
                         RecruitmentArea(
+                            listState = listState,
                             homeState = homeState,
                             onRecruitmentItemClick = onRecruitmentItemClick,
-                            sharedViewModel = sharedViewModel,
                             onPositionSheetClick = { isOpen -> onAction(HomeAction.OnPositionSheetOpen(isOpen)) },
                             onPartyTypeFilterClick = { isOpen -> onAction(HomeAction.OnPartyTypeSheetOpenRecruitment(isOpen)) },
                             onChangeOrderBy = { selectedPartyType -> onAction(HomeAction.OnDescRecruitment(selectedPartyType)) },
@@ -189,28 +221,42 @@ private fun HomeScreen(
             }
         }
 
-        if (isExpandedFloatingButton) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(BLACK.copy(alpha = 0.7f))
-                    .noRippleClickable { isExpandedFloatingButton = false }
-                    .zIndex(0f)
-            )
-        }
-
-        FloatingButtonArea(
+        HomeFloatingArea(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(bottom = 98.dp, end = 20.dp)
                 .zIndex(1f),
-            isExpandedFloatingButton = isExpandedFloatingButton,
-            currentScreens = Screens.Home,
-            onExpanded = {
-                isExpandedFloatingButton = it},
-            sharedViewModel = sharedViewModel,
-            navHostController = navController,
-            selectedTabText = homeState.selectedTabText
+            isExpandedFloatingButton = homeState.isExpandedFloating,
+            partyCreateFloating = {
+                when(homeState.selectedTabText){
+                    homeTopTabList[0], homeTopTabList[1] -> {
+                        PartyCreateFloatingButton(
+                            isExpandedFloatingButton = homeState.isExpandedFloating,
+                            onClick = {
+                                onAction(HomeAction.OnExpandedFloating(!homeState.isExpandedFloating))
+                            }
+                        )
+                    }
+                }
+            },
+            navigateUpFloating = {
+                NavigateUpFloatingButton(
+                    isShowNavigateUpFloatingButton = if(homeState.selectedTabText == homeTopTabList[1]) homeState.isScrollParty else if(homeState.selectedTabText == homeTopTabList[2]) homeState.isScrollRecruitment else false,
+                    isExpandedFloatingButton = homeState.isExpandedFloating,
+                    onClick = onNavigateUp
+                )
+            },
+            onGoPartyCreate = onGoPartyCreate
         )
+
+        if(homeState.isExpandedFloating){
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(BLACK.copy(alpha = 0.7f))
+                    .noRippleClickable { onAction(HomeAction.OnExpandedFloating(false)) }
+                    .zIndex(0f)
+            )
+        }
     }
 }

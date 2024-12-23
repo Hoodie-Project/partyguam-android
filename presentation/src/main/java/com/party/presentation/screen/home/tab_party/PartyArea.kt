@@ -4,14 +4,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -25,13 +21,11 @@ import com.party.presentation.screen.home.HomeState
 import com.party.presentation.screen.home.tab_party.component.FilterArea
 import com.party.presentation.screen.home.tab_party.component.FilterDate
 import com.party.presentation.screen.home.tab_recruitment.PartyTypeModal
-import com.party.presentation.shared.SharedViewModel
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun PartyArea(
+    gridState: LazyGridState,
     homeState: HomeState,
-    sharedViewModel: SharedViewModel,
     onClick: (Int) -> Unit,
     onPartyTypeModal: (Boolean) -> Unit,
     onSelectPartyType: (String) -> Unit,
@@ -40,12 +34,6 @@ fun PartyArea(
     onActivePartyToggle: (Boolean) -> Unit,
     onChangeOrderByPartyArea: (Boolean) -> Unit,
 ) {
-    DisposableEffect(Unit) {
-        onDispose {
-            sharedViewModel.isScrollPartyArea = false
-        }
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,8 +51,8 @@ fun PartyArea(
         HeightSpacer(heightDp = 12.dp)
 
         PartyListArea(
+            gridState = gridState,
             homeState = homeState,
-            sharedViewModel = sharedViewModel,
             onClick = onClick
         )
     }
@@ -83,26 +71,16 @@ fun PartyArea(
 
 @Composable
 private fun PartyListArea(
+    gridState: LazyGridState,
     homeState: HomeState,
-    sharedViewModel: SharedViewModel,
     onClick: (Int) -> Unit,
 ) {
-    val listState = rememberLazyGridState()
-    val isFabVisible = remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
-    sharedViewModel.isScrollPartyArea = isFabVisible.value
-
-    LaunchedEffect(Unit) {
-        sharedViewModel.scrollToUp.collectLatest {
-            listState.animateScrollToItem(0)
-        }
-    }
-
     if(homeState.partyList.parties.isEmpty()){
         HeightSpacer(heightDp = 76.dp)
         NoDataColumn(title = "파티가 없어요.")
     } else {
         LazyVerticalGrid(
-            state = listState,
+            state = gridState,
             columns = GridCells.Fixed(2),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),

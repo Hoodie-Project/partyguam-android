@@ -2,14 +2,8 @@ package com.party.presentation.screen.home.tab_recruitment
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.SnackbarHostState
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -17,14 +11,12 @@ import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.component.bottomsheet.PositionBottomSheet
 import com.party.presentation.screen.home.HomeState
-import com.party.presentation.screen.home.viewmodel.HomeViewModel
-import com.party.presentation.shared.SharedViewModel
 
 @Composable
 fun RecruitmentArea(
+    listState: LazyListState,
     homeState: HomeState,
     onRecruitmentItemClick: (Int, Int) -> Unit,
-    sharedViewModel: SharedViewModel,
     onPositionSheetClick: (Boolean) -> Unit,
     onPartyTypeFilterClick: (Boolean) -> Unit,
     onChangeOrderBy: (Boolean) -> Unit,
@@ -38,12 +30,6 @@ fun RecruitmentArea(
     onPartyTypeSheetReset: () -> Unit,
     onPartyTypeSheetApply: () -> Unit,
 ) {
-
-    DisposableEffect(Unit) {
-        onDispose {
-            sharedViewModel.isScrollRecruitmentArea = false
-        }
-    }
 
     Column(
         modifier = Modifier
@@ -63,9 +49,9 @@ fun RecruitmentArea(
         )
         HeightSpacer(heightDp = 16.dp)
         RecruitmentColumnListArea(
+            listState = listState,
             homeState = homeState,
             onRecruitmentItemClick = onRecruitmentItemClick,
-            sharedViewModel = sharedViewModel
         )
     }
 

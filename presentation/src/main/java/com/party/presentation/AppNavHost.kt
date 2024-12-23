@@ -47,7 +47,6 @@ import com.party.presentation.screen.recruitment_edit.RecruitmentEditRoute
 import com.party.presentation.screen.search.SearchRoute
 import com.party.presentation.screen.splash.SplashScreen
 import com.party.presentation.screen.state.StateScreenRoute
-import com.party.presentation.shared.SharedViewModel
 
 const val ANIMATION_DURATION = 500
 
@@ -56,8 +55,6 @@ fun AppNavHost() {
     val context = LocalContext.current
     val navController = rememberNavController()
     val snackBarHostState = remember { SnackbarHostState() }
-
-    val sharedViewModel = hiltViewModel<SharedViewModel>()
 
     NavHost(
         navController = navController,
@@ -211,7 +208,6 @@ fun AppNavHost() {
                 onRecruitmentItemClick = { partyRecruitmentId, partyId ->
                     navController.navigate(Screens.RecruitmentDetail(partyRecruitmentId = partyRecruitmentId, partyId = partyId))
                 },
-                sharedViewModel = sharedViewModel
             )
         }
         composable<Screens.State> {

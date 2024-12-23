@@ -21,7 +21,7 @@ import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
 
 @Composable
-private fun FabItem(
+fun FabItem(
     title: String,
     onClicked: () -> Unit
 ) {
