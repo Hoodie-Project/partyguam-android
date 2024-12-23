@@ -431,8 +431,7 @@ class SearchViewModel @Inject constructor(
             }
             is SearchAction.OnDelete -> {
                 _searchState.update { state ->
-                    val updatedSubPositionList =
-                        state.selectedSubPositionList.toMutableList().apply {
+                    val updatedSubPositionList = state.selectedSubPositionList.toMutableList().apply {
                             removeIf { it.sub == action.position.second }
                         }
 
@@ -453,8 +452,6 @@ class SearchViewModel @Inject constructor(
                 val matchingIds = _searchState.value.selectedSubPositionList.filter { position ->
                     _searchState.value.selectedMainAndSubPosition.any { it.second == position.sub }
                 }.map { it.id }
-
-                println("Matching IDs: $matchingIds")
 
                 // matchingIds 리스트 반환 또는 다음 동작 수행
                 recruitmentSearch(

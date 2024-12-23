@@ -40,9 +40,6 @@ class HomeViewModel @Inject constructor(
     private val _getRecruitmentListState = MutableStateFlow<UIState<ServerApiResponse<RecruitmentList>>>(UIState.Idle)
     val getRecruitmentListState: StateFlow<UIState<ServerApiResponse<RecruitmentList>>> = _getRecruitmentListState
 
-    private val _getPartyListState = MutableStateFlow<UIState<ServerApiResponse<PartyList>>>(UIState.Idle)
-    val getPartyListState: StateFlow<UIState<ServerApiResponse<PartyList>>> = _getPartyListState
-
     private val _positionsState = MutableStateFlow<UIState<ServerApiResponse<List<PositionList>>>>(UIState.Idle)
     val positionsState: StateFlow<UIState<ServerApiResponse<List<PositionList>>>> = _positionsState
 
@@ -150,17 +147,9 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _positionsState.value = UIState.Loading
             when (val result = getPositionsUseCase(main = main)) {
-                is ServerApiResponse.SuccessResponse<List<PositionList>> -> {
-                    _positionsState.value = UIState.Success(result)
-                }
-
-                is ServerApiResponse.ErrorResponse<List<PositionList>> -> {
-                    _positionsState.value = UIState.Idle
-                }
-
-                is ServerApiResponse.ExceptionResponse -> {
-                    _positionsState.value = UIState.Idle
-                }
+                is ServerApiResponse.SuccessResponse<List<PositionList>> -> { _state.update { state -> state.copy(selectedMainPosition = main, getSubPositionList = result.data ?: emptyList()) } }
+                is ServerApiResponse.ErrorResponse<List<PositionList>> -> {}
+                is ServerApiResponse.ExceptionResponse -> {}
             }
         }
     }
@@ -250,6 +239,127 @@ class HomeViewModel @Inject constructor(
                         partyList = currentState.partyList.copy(parties = sortedList)
                     )
                 }
+            }
+            is HomeAction.OnPositionSheetOpen -> _state.update { it.copy(isPositionSheetOpen = action.isVisibleModal) }
+            is HomeAction.OnPartyTypeSheetOpenRecruitment -> _state.update { it.copy(isPartyTypeSheetOpenRecruitment = action.isVisibleModal) }
+            is HomeAction.OnDescRecruitment -> {
+                _state.update { currentState ->
+                    val sortedList = if(action.isDesc){
+                        currentState.recruitmentList.partyRecruitments.sortedByDescending { it.createdAt }
+                    } else {
+                        currentState.recruitmentList.partyRecruitments.sortedBy { it.createdAt }
+                    }
+                    currentState.copy(
+                        isDescRecruitment = action.isDesc,
+                        recruitmentList = currentState.recruitmentList.copy(partyRecruitments = sortedList)
+                    )
+                }
+            }
+
+            is HomeAction.OnMainPositionClick -> {
+                _state.update { it.copy(selectedMainPosition = action.mainPosition) }
+                getSubPositionList(action.mainPosition)
+            }
+            is HomeAction.OnSubPositionClick -> {
+                _state.update { currentState ->
+                    val updatedSubPositionList = currentState.selectedSubPositionList.toMutableList().apply {
+                        if (any { it.sub == action.subPosition }) {
+                            // 이미 선택된 서브 포지션을 제거
+                            removeIf { it.sub == action.subPosition }
+                        } else {
+                            // 새로운 서브 포지션을 추가
+                            currentState.getSubPositionList.find { it.sub == action.subPosition }?.let { add(it) }
+                        }
+                    }
+
+                    val updatedMainAndSubPosition = currentState.selectedMainAndSubPosition.toMutableList().apply {
+                        // 서브 포지션 클릭으로 업데이트된 조합을 반영
+                        removeIf { pair -> pair.first == currentState.selectedMainPosition && pair.second == action.subPosition } // 중복 제거
+                        updatedSubPositionList.find { it.sub == action.subPosition }?.let {
+                            add(Pair(currentState.selectedMainPosition, it.sub))
+                        }
+                    }
+
+                    currentState.copy(
+                        selectedSubPositionList = updatedSubPositionList,
+                        selectedMainAndSubPosition = updatedMainAndSubPosition
+                    )
+                }
+            }
+            is HomeAction.OnDelete -> {
+                _state.update { currentState ->
+                    val updatedSubPositionList = currentState.selectedSubPositionList.toMutableList().apply {
+                        removeIf { it.sub == action.position.second }
+                    }
+
+                    val updatedMainAndSubPosition = currentState.selectedMainAndSubPosition.toMutableList().apply {
+                        removeIf { pair -> pair.first == action.position.first && pair.second == action.position.second }
+                    }
+
+                    currentState.copy(
+                        selectedSubPositionList = updatedSubPositionList,
+                        selectedMainAndSubPosition = updatedMainAndSubPosition
+                    )
+                }
+            }
+            is HomeAction.OnPositionApply -> {
+                _state.update { it.copy(isPositionSheetOpen = false) }
+                val matchingIds = _state.value.selectedSubPositionList.filter { position ->
+                    _state.value.selectedMainAndSubPosition.any { it.second == position.sub }
+                }.map { it.id }
+
+                getRecruitmentList(
+                    page = 1,
+                    size = 50,
+                    sort = "createdAt",
+                    order = "DESC",
+                    titleSearch = null,
+                    partyTypes = _state.value.selectedPartyTypeListParty.mapNotNull { type ->
+                        PartyType.entries.find { it.type == type }?.id
+                    },
+                    position = matchingIds
+                )
+            }
+            is HomeAction.OnPositionSheetReset -> {
+                _state.update {
+                    it.copy(
+                        selectedMainPosition = "전체",
+                        selectedSubPositionList = emptyList(),
+                        selectedMainAndSubPosition = emptyList()
+                    )
+                }
+            }
+            is HomeAction.OnSelectedPartyTypeResetRecruitmentReset -> _state.update { it.copy(selectedPartyTypeListRecruitment = emptyList())}
+            is HomeAction.OnSelectedPartyTypeRecruitment -> {
+                _state.update { state ->
+                    val updatedList = state.selectedPartyTypeListRecruitment.toMutableList().apply {
+                        if(action.partyType == "전체"){
+                            clear()
+                            add("전체")
+                        }else {
+                            remove("전체")
+                            if (contains(action.partyType)) remove(action.partyType) else add(
+                                action.partyType
+                            )
+                        }
+                    }
+                    state.copy(selectedPartyTypeListRecruitment = updatedList)
+                }
+            }
+            is HomeAction.OnPartyTypeApplyRecruitment -> {
+                _state.update { it.copy(isPartyTypeSheetOpenRecruitment = false) }
+
+                val selectedPartyTypeList = _state.value.selectedPartyTypeListRecruitment
+                getRecruitmentList(
+                    page = 1,
+                    size = 50,
+                    sort = "createdAt",
+                    order = "DESC",
+                    titleSearch = null,
+                    partyTypes = selectedPartyTypeList.mapNotNull { type ->
+                        PartyType.entries.find { it.type == type }?.id
+                    }
+                )
             }
         }
     }

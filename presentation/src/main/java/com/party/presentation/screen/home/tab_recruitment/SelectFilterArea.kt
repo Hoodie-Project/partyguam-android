@@ -38,14 +38,13 @@ import com.party.common.ui.theme.WHITE
 fun SelectFilterArea(
     filterName1: String,
     filterName2: String,
-    filterName3: String,
     isPositionSheetOpen: Boolean,
     isPartyTypeSheetOpen: Boolean,
     isPositionFilterClick: (Boolean) -> Unit,
     isPartyTypeFilterClick: (Boolean) -> Unit,
     selectedCreateDataOrderByDesc: Boolean,
     onChangeOrderBy: (Boolean) -> Unit,
-    selectedPartyTypeList: MutableList<String>,
+    selectedPartyTypeList: List<String>,
 ) {
     Row(
         modifier = Modifier
@@ -135,11 +134,10 @@ fun SelectFilterItem(
 
 @Preview(showBackground = true)
 @Composable
-fun SelectFilterAreaPreview() {
+private fun SelectFilterAreaPreview() {
     SelectFilterArea(
         filterName1 = "직무1",
         filterName2 = "파티유형",
-        filterName3 = stringResource(id = R.string.filter1),
         isPositionSheetOpen = false,
         isPartyTypeSheetOpen = false,
         isPositionFilterClick = {},
@@ -152,7 +150,7 @@ fun SelectFilterAreaPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun SelectFilterItemPreview() {
+private fun SelectFilterItemPreview() {
     SelectFilterItem(
         filterName = "직무",
         isSheetOpen = false,

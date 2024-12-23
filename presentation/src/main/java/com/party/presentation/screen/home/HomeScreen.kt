@@ -55,7 +55,6 @@ fun HomeScreenRoute(
         navController = navController,
         homeState = homeState,
         homeTopTabList = homeTopTabList,
-        homeViewModel = homeViewModel,
         onRecruitmentItemClick = onRecruitmentItemClick,
         sharedViewModel = sharedViewModel,
         onGotoSearch = { navController.navigate(Screens.Search) },
@@ -71,6 +70,17 @@ fun HomeScreenRoute(
                 is HomeAction.OnPartyTypeApply -> { homeViewModel.onAction(action) }
                 is HomeAction.OnActivePartyToggle -> { homeViewModel.onAction(action) }
                 is HomeAction.OnDescPartyArea -> { homeViewModel.onAction(action) }
+                is HomeAction.OnPositionSheetOpen -> { homeViewModel.onAction(action) }
+                is HomeAction.OnPartyTypeSheetOpenRecruitment -> { homeViewModel.onAction(action) }
+                is HomeAction.OnDescRecruitment -> { homeViewModel.onAction(action) }
+                is HomeAction.OnMainPositionClick -> { homeViewModel.onAction(action) }
+                is HomeAction.OnSubPositionClick -> { homeViewModel.onAction(action) }
+                is HomeAction.OnDelete -> { homeViewModel.onAction(action) }
+                is HomeAction.OnPositionApply -> { homeViewModel.onAction(action) }
+                is HomeAction.OnPositionSheetReset -> { homeViewModel.onAction(action) }
+                is HomeAction.OnSelectedPartyTypeResetRecruitmentReset -> { homeViewModel.onAction(action) }
+                is HomeAction.OnSelectedPartyTypeRecruitment -> { homeViewModel.onAction(action) }
+                is HomeAction.OnPartyTypeApplyRecruitment -> { homeViewModel.onAction(action) }
             }
         }
     )
@@ -83,7 +93,6 @@ private fun HomeScreen(
     navController: NavHostController,
     homeState: HomeState,
     homeTopTabList: List<String>,
-    homeViewModel: HomeViewModel,
     onGotoSearch: () -> Unit,
     onRecruitmentItemClick: (Int, Int) -> Unit,
     sharedViewModel: SharedViewModel,
@@ -159,10 +168,21 @@ private fun HomeScreen(
 
                     homeTopTabList[2] -> {
                         RecruitmentArea(
-                            homeViewModel = homeViewModel,
-                            snackBarHostState = snackBarHostState,
+                            homeState = homeState,
                             onRecruitmentItemClick = onRecruitmentItemClick,
-                            sharedViewModel = sharedViewModel
+                            sharedViewModel = sharedViewModel,
+                            onPositionSheetClick = { isOpen -> onAction(HomeAction.OnPositionSheetOpen(isOpen)) },
+                            onPartyTypeFilterClick = { isOpen -> onAction(HomeAction.OnPartyTypeSheetOpenRecruitment(isOpen)) },
+                            onChangeOrderBy = { selectedPartyType -> onAction(HomeAction.OnDescRecruitment(selectedPartyType)) },
+                            onMainPositionClick = { selectedMainPosition -> onAction(HomeAction.OnMainPositionClick(selectedMainPosition)) },
+                            onSubPositionClick = { selectedSubPosition -> onAction(HomeAction.OnSubPositionClick(selectedSubPosition)) },
+                            onDelete = { position -> onAction(HomeAction.OnDelete(position)) },
+                            onPositionSheetReset = { onAction(HomeAction.OnPositionSheetReset) },
+                            onPositionApply = { onAction(HomeAction.OnPositionApply) },
+                            onPositionSheetClose = { isOpen -> onAction(HomeAction.OnPositionSheetOpen(isOpen)) },
+                            onPartyTypeSheetClick = { selectedPartyType -> onAction(HomeAction.OnSelectedPartyTypeRecruitment(selectedPartyType)) },
+                            onPartyTypeSheetApply = { onAction(HomeAction.OnPartyTypeApplyRecruitment) },
+                            onPartyTypeSheetReset = { onAction(HomeAction.OnSelectedPartyTypeResetRecruitmentReset) },
                         )
                     }
                 }
