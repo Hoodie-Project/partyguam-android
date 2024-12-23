@@ -1,5 +1,6 @@
 package com.party.data.datasource.remote.party
 
+import com.party.data.dto.party.ApprovalAndRejectionDto
 import com.party.data.dto.party.PartyApplyDto
 import com.party.data.dto.party.PartyAuthorityDto
 import com.party.data.dto.party.PartyCreateDto
@@ -97,4 +98,10 @@ interface PartyRemoteSource {
 
     // 관리자 - 파티모집별 지원자 조회
     suspend fun getRecruitmentApplicants(partyId: Int, partyRecruitmentId: Int, page: Int, limit: Int, sort: String, order: String): ApiResponse<RecruitmentApplicantDto>
+
+    // 파티장이 지원자 수락
+    suspend fun acceptApplicant(partyId: Int, partyApplicationId: Int): ApiResponse<ApprovalAndRejectionDto>
+
+    // 파티장이 지원자 거절
+    suspend fun rejectApplicant(partyId: Int, partyApplicationId: Int): ApiResponse<ApprovalAndRejectionDto>
 }

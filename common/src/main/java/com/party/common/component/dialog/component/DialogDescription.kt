@@ -11,12 +11,13 @@ import com.party.common.TextComponent
 
 @Composable
 fun DialogDescription(
+    modifier: Modifier = Modifier,
     description: String,
 ) {
     HeightSpacer(heightDp = 24.dp)
 
     TextComponent(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth(),
         text = description,
         fontSize = 16.sp,

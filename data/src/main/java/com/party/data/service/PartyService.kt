@@ -1,5 +1,6 @@
 package com.party.data.service
 
+import com.party.data.dto.party.ApprovalAndRejectionDto
 import com.party.data.dto.party.PartyApplyDto
 import com.party.data.dto.party.PartyAuthorityDto
 import com.party.data.dto.party.PartyCreateDto
@@ -208,4 +209,18 @@ interface PartyService {
         @Query("sort") sort: String,
         @Query("order") order: String,
     ): ApiResponse<RecruitmentApplicantDto>
+
+    // 파티장이 지원자 수락
+    @POST("api/parties/{partyId}/admin/applications/{partyApplicationId}/approval")
+    suspend fun acceptApplicant(
+        @Path(value = "partyId") partyId: Int,
+        @Path(value = "partyApplicationId") partyApplicationId: Int,
+    ): ApiResponse<ApprovalAndRejectionDto>
+
+    // 파티장이 지원자 거절
+    @DELETE("api/parties/{partyId}/admin/applications/{partyApplicationId}/rejection")
+    suspend fun rejectApplicant(
+        @Path(value = "partyId") partyId: Int,
+        @Path(value = "partyApplicationId") partyApplicationId: Int,
+    ): ApiResponse<ApprovalAndRejectionDto>
 }

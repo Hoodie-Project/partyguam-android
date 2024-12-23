@@ -1,5 +1,6 @@
 package com.party.data.mapper
 
+import com.party.data.dto.party.ApprovalAndRejectionDto
 import com.party.data.dto.party.PartyAdminDto
 import com.party.data.dto.party.PartyApplicationUserDto
 import com.party.data.dto.party.PartyApplyDto
@@ -25,6 +26,7 @@ import com.party.data.dto.party.UserCareerDto
 import com.party.data.dto.party.UserDto
 import com.party.data.util.convertToImageUrl
 import com.party.domain.model.party.ApplicantUser
+import com.party.domain.model.party.ApprovalAndRejection
 import com.party.domain.model.party.PartyAdmin
 import com.party.domain.model.party.PartyApplicationUser
 import com.party.domain.model.party.PartyApply
@@ -360,6 +362,12 @@ object PartyMapper {
                 nickname = partyApplicationUserDto.user.nickname,
                 image = convertToImageUrl(partyApplicationUserDto.user.image)
             )
+        )
+    }
+
+    fun mapperApprovalAndRejection(approvalAndRejectionDto: ApprovalAndRejectionDto): ApprovalAndRejection{
+        return ApprovalAndRejection(
+            message = approvalAndRejectionDto.message,
         )
     }
 }

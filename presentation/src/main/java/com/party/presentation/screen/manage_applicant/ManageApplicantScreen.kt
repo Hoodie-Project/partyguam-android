@@ -20,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.party.common.HeightSpacer
+import com.party.common.component.dialog.OneButtonDialog
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyRecruitment
@@ -34,6 +35,7 @@ import com.party.presentation.screen.manage_applicant.component.ManageApplicantS
 import com.party.presentation.screen.manage_applicant.component.ManageApplicantSelectCategoryArea
 import com.party.presentation.screen.manage_applicant.viewmodel.ManageApplicantViewModel
 import com.party.presentation.screen.party_detail.component.RightModalDrawer
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
@@ -43,6 +45,21 @@ fun ManageApplicantScreenRoute(
     partyId: Int,
     manageApplicantViewModel: ManageApplicantViewModel = hiltViewModel(),
 ) {
+    LaunchedEffect(key1 = Unit) {
+        manageApplicantViewModel.acceptSuccess.collectLatest {
+            snackBarHostState.showSnackbar("지원을 수락하였습니다.")
+        }
+
+        manageApplicantViewModel.rejectSuccess.collectLatest {
+            snackBarHostState.showSnackbar("지원을 거절하였습니다.")
+        }
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        manageApplicantViewModel.acceptAndRejectFail.collectLatest {
+            snackBarHostState.showSnackbar(it)
+        }
+    }
 
     val manageApplicantState by manageApplicantViewModel.state.collectAsStateWithLifecycle()
 
@@ -66,6 +83,7 @@ fun ManageApplicantScreenRoute(
             ManageApplicantScreen(
                 snackBarHostState = snackBarHostState,
                 manageApplicantState = manageApplicantState,
+                partyId = partyId,
                 onNavigationClick = { navController.popBackStack() },
                 onAction = { action ->
                     when(action){
@@ -75,6 +93,10 @@ fun ManageApplicantScreenRoute(
                         is ManageApplicantAction.OnSelectRecruitmentTab -> manageApplicantViewModel.onAction(action)
                         is ManageApplicantAction.OnChangeApplicantOrderBy -> manageApplicantViewModel.onAction(action)
                         is ManageApplicantAction.OnSelectRecruitmentId -> manageApplicantViewModel.onAction(action)
+                        is ManageApplicantAction.OnAccept -> manageApplicantViewModel.onAction(action)
+                        is ManageApplicantAction.OnReject -> manageApplicantViewModel.onAction(action)
+                        is ManageApplicantAction.OnShowAcceptDialog -> manageApplicantViewModel.onAction(action)
+                        is ManageApplicantAction.OnShowRejectDialog -> manageApplicantViewModel.onAction(action)
                     }
                 },
                 onManageClick = { scope.launch { drawerState.open() } }
@@ -106,6 +128,7 @@ fun ManageApplicantScreenRoute(
 private fun ManageApplicantScreen(
     snackBarHostState: SnackbarHostState,
     manageApplicantState: ManageApplicantState,
+    partyId: Int,
     onNavigationClick: () -> Unit,
     onManageClick: () -> Unit,
     onAction: (ManageApplicantAction) -> Unit,
@@ -148,9 +171,31 @@ private fun ManageApplicantScreen(
                         selectedRecruitmentTab -> onAction(ManageApplicantAction.OnSelectRecruitmentTab(selectedRecruitmentTab))
                     },
                     onChangeOrderBy = { isDesc -> onAction(ManageApplicantAction.OnChangeApplicantOrderBy(isDesc)) },
+                    onRefusal = { id -> onAction(ManageApplicantAction.OnReject(partyId = partyId, partyApplicationId = id)) },
+                    onAccept = { id -> onAction(ManageApplicantAction.OnAccept(partyId = partyId, partyApplicationId = id)) },
                 )
             }
         }
+    }
+
+    if(manageApplicantState.isShowAcceptDialog){
+        OneButtonDialog(
+            dialogTitle = "지원자를 수락했어요",
+            description = "지원자가 합류를 결정하면\n파티 활동을 시작할 수 있어요.",
+            buttonText = "확인",
+            onCancel = { onAction(ManageApplicantAction.OnShowAcceptDialog(isShow = false)) },
+            onConfirm = { onAction(ManageApplicantAction.OnShowAcceptDialog(isShow = false)) }
+        )
+    }
+
+    if(manageApplicantState.isShowRejectDialog){
+        OneButtonDialog(
+            dialogTitle = "지원자를 거절했어요",
+            description = "이 지원자는 파티에 참여할 수 없어요.",
+            buttonText = "확인",
+            onCancel = { onAction(ManageApplicantAction.OnShowRejectDialog(isShow = false)) },
+            onConfirm = { onAction(ManageApplicantAction.OnShowRejectDialog(isShow = false)) }
+        )
     }
 }
 
@@ -188,6 +233,8 @@ private fun ManageApplicantArea(
     manageApplicantState: ManageApplicantState,
     onSelectRecruitmentTab: (String) -> Unit,
     onChangeOrderBy: (Boolean) -> Unit,
+    onRefusal: (Int) -> Unit,
+    onAccept: (Int) -> Unit,
 ) {
     ManageApplicantPositionTitle(
         main = manageApplicantState.selectedRecruitmentMain,
@@ -212,6 +259,8 @@ private fun ManageApplicantArea(
     HeightSpacer(12.dp)
     ManageApplicantListArea(
         manageApplicantState = manageApplicantState,
+        onRefusal = onRefusal,
+        onAccept = onAccept,
     )
 }
 
@@ -244,6 +293,7 @@ private fun ManageApplicantScreenPreview() {
                     isOptionsRevealed = false
                 )
         ),),
+        partyId = 1,
         onNavigationClick = {},
         onAction = {},
         onManageClick = {}
@@ -259,6 +309,7 @@ private fun ManageApplicantScreenPreview2() {
             isShowRecruitmentList = false,
             partyRecruitment = listOf()
         ),
+        partyId = 0,
         onNavigationClick = {},
         onAction = {},
         onManageClick = {}

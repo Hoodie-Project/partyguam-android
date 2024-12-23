@@ -1,6 +1,7 @@
 package com.party.domain.repository
 
 import com.party.common.ServerApiResponse
+import com.party.domain.model.party.ApprovalAndRejection
 import com.party.domain.model.party.DelegatePartyMasterRequest
 import com.party.domain.model.party.ModifyPartyUserPositionRequest
 import com.party.domain.model.party.ModifyRecruitmentRequest
@@ -127,4 +128,10 @@ interface PartyRepository {
 
     // 관리자 - 파티모집별 지원자 조회
     suspend fun getRecruitmentApplicants(partyId: Int, partyRecruitmentId: Int, page: Int, limit: Int, sort: String, order: String): ServerApiResponse<RecruitmentApplicant>
+
+    // 파티장이 지원자 수락
+    suspend fun acceptApplicant(partyId: Int, partyApplicationId: Int): ServerApiResponse<ApprovalAndRejection>
+
+    // 파티장이 지원자 거절
+    suspend fun rejectApplicant(partyId: Int, partyApplicationId: Int): ServerApiResponse<ApprovalAndRejection>
 }

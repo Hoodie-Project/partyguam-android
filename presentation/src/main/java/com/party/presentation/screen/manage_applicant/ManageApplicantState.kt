@@ -24,4 +24,8 @@ data class ManageApplicantState(
     val selectedRecruitmentId: Int = 0,
     val selectedRecruitmentMain: String = "",
     val selectedRecruitmentSub: String = "",
+
+    // 수락 / 거절 후 다일러로그
+    val isShowAcceptDialog: Boolean = false,
+    val isShowRejectDialog: Boolean = false,
 )
