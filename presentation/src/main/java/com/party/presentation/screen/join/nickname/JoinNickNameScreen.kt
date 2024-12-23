@@ -56,7 +56,7 @@ import com.skydoves.sandwich.StatusCode
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun JoinNickNameScreen(
+fun JoinNickNameScreenRoute(
     context: Context,
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
@@ -117,7 +117,7 @@ fun JoinNickNameScreen(
     }
 
 
-    JoinNickNameScreenContent(
+    JoinNickNameScreen(
         context = context,
         snackBarHostState = snackBarHostState,
         userNickName = userNickName,
@@ -144,7 +144,7 @@ fun JoinNickNameScreen(
 }
 
 @Composable
-fun JoinNickNameScreenContent(
+private fun JoinNickNameScreen(
     context: Context,
     snackBarHostState: SnackbarHostState,
     userNickName: String,
@@ -236,8 +236,8 @@ fun aaa(isValidUserNickNameServerResponse: Boolean, isValidUserNickName: Boolean
 
 @Preview(showBackground = true)
 @Composable
-fun JoinNickNameScreenContentPreview() {
-    JoinNickNameScreenContent(
+private fun JoinNickNameScreenContentPreview() {
+    JoinNickNameScreen(
         context = LocalContext.current,
         snackBarHostState = SnackbarHostState(),
         userNickName = "",

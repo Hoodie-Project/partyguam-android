@@ -26,12 +26,12 @@ import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen3
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen4
 import com.party.presentation.screen.home.HomeScreenRoute
-import com.party.presentation.screen.join.birthday.JoinBirthDayScreen
-import com.party.presentation.screen.join.complete.JoinCompleteScreen
-import com.party.presentation.screen.join.email.JoinEmailScreen
-import com.party.presentation.screen.join.gender.JoinGenderScreen
-import com.party.presentation.screen.join.nickname.JoinNickNameScreen
-import com.party.presentation.screen.login.LoginScreen
+import com.party.presentation.screen.join.birthday.JoinBirthDayScreenRoute
+import com.party.presentation.screen.join.complete.JoinCompleteScreenRoute
+import com.party.presentation.screen.join.email.JoinEmailScreenRoute
+import com.party.presentation.screen.join.gender.JoinGenderScreenRoute
+import com.party.presentation.screen.join.nickname.JoinNickNameScreenRoute
+import com.party.presentation.screen.login.LoginScreenRoute
 import com.party.presentation.screen.manage_applicant.ManageApplicantScreenRoute
 import com.party.presentation.screen.party_apply.PartyApplyRoute
 import com.party.presentation.screen.party_create.PartyCreateScreenRoute
@@ -45,7 +45,7 @@ import com.party.presentation.screen.recruitment_create.RecruitmentCreateScreenR
 import com.party.presentation.screen.recruitment_detail.RecruitmentDetailRoute
 import com.party.presentation.screen.recruitment_edit.RecruitmentEditRoute
 import com.party.presentation.screen.search.SearchRoute
-import com.party.presentation.screen.splash.SplashScreen
+import com.party.presentation.screen.splash.SplashScreenRoute
 import com.party.presentation.screen.state.StateScreenRoute
 
 const val ANIMATION_DURATION = 500
@@ -89,12 +89,12 @@ fun AppNavHost() {
         },
     ){
         composable<Screens.Splash> {
-            SplashScreen(
+            SplashScreenRoute(
                 navController = navController,
             )
         }
         composable<Screens.Login> {
-            LoginScreen(
+            LoginScreenRoute(
                 navController = navController,
                 context = context,
                 snackBarHostState = snackBarHostState
@@ -103,7 +103,7 @@ fun AppNavHost() {
         composable<Screens.JoinEmail> { backStackEntry ->
             val userEmail = backStackEntry.toRoute<Screens.JoinEmail>().userEmail
             val signupAccessToken = backStackEntry.toRoute<Screens.JoinEmail>().signupAccessToken
-            JoinEmailScreen(
+            JoinEmailScreenRoute(
                 navController = navController,
                 userEmail = userEmail,
                 signupAccessToken = signupAccessToken,
@@ -112,7 +112,7 @@ fun AppNavHost() {
         composable<Screens.JoinNickName> { backStackEntry ->
             val userEmail = backStackEntry.toRoute<Screens.JoinEmail>().userEmail
             val signupAccessToken = backStackEntry.toRoute<Screens.JoinEmail>().signupAccessToken
-            JoinNickNameScreen(
+            JoinNickNameScreenRoute(
                 context = context,
                 navController = navController,
                 snackBarHostState = snackBarHostState,
@@ -124,7 +124,7 @@ fun AppNavHost() {
             val userEmail = backStackEntry.toRoute<Screens.JoinBirthDay>().userEmail
             val signupAccessToken = backStackEntry.toRoute<Screens.JoinBirthDay>().signupAccessToken
             val userNickName = backStackEntry.toRoute<Screens.JoinBirthDay>().userNickName
-            JoinBirthDayScreen(
+            JoinBirthDayScreenRoute(
                 navController = navController,
                 userEmail = userEmail,
                 signupAccessToken = signupAccessToken,
@@ -136,7 +136,7 @@ fun AppNavHost() {
             val signupAccessToken = backStackEntry.toRoute<Screens.JoinGender>().signupAccessToken
             val userNickName = backStackEntry.toRoute<Screens.JoinGender>().userNickName
             val userBirthDay = backStackEntry.toRoute<Screens.JoinGender>().userBirthDay
-            JoinGenderScreen(
+            JoinGenderScreenRoute(
                 context = context,
                 navController = navController,
                 snackBarHostState = snackBarHostState,
@@ -147,7 +147,7 @@ fun AppNavHost() {
             )
         }
         composable<Screens.JoinComplete> {
-            JoinCompleteScreen(navController = navController)
+            JoinCompleteScreenRoute(navController = navController)
         }
         composable<Screens.DetailProfile> {
             DetailProfileScreen(

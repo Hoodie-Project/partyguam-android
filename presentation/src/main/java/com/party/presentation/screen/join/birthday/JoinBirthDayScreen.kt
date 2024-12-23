@@ -38,7 +38,7 @@ import com.party.presentation.screen.join.TimeTransFormation
 import com.party.presentation.screen.join.birthday.component.JoinBirthdayScaffoldArea
 
 @Composable
-fun JoinBirthDayScreen(
+fun JoinBirthDayScreenRoute(
     navController: NavHostController,
     userEmail: String,
     signupAccessToken: String,
@@ -53,7 +53,7 @@ fun JoinBirthDayScreen(
         mutableStateOf(false)
     }.apply { value = isValidBirthdate(userBirthDay) }
 
-    JoinBirthDayScreenContent(
+    JoinBirthDayScreen(
         userBirthDay = userBirthDay,
         isValidUserBirthDay = isValidUserBirthDay,
         onString = {
@@ -69,7 +69,7 @@ fun JoinBirthDayScreen(
 }
 
 @Composable
-fun JoinBirthDayScreenContent(
+private fun JoinBirthDayScreen(
     userBirthDay: String,
     isValidUserBirthDay: Boolean,
     onString: (String) -> Unit,
@@ -135,8 +135,8 @@ fun isValidBirthdate(birthdate: String): Boolean {
 
 @Preview(showBackground = true)
 @Composable
-fun JoinBirthDayScreenContentPreview() {
-    JoinBirthDayScreenContent(
+private fun JoinBirthDayScreenContentPreview() {
+    JoinBirthDayScreen(
         userBirthDay = "19900101",
         isValidUserBirthDay = true,
         onString = {},

@@ -15,21 +15,20 @@ import com.party.navigation.Screens
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(
+fun SplashScreenRoute(
     navController: NavController,
 ) {
     LaunchedEffect(key1 = Unit) {
         delay(1000L)
 
-        navController.navigate(Screens.Home)
+        navController.navigate(Screens.Login)
     }
 
-    SplashScreenContent()
+    SplashScreen()
 }
 
 @Composable
-fun SplashScreenContent(
-) {
+private fun SplashScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,6 +44,6 @@ fun SplashScreenContent(
 
 @Preview(showBackground = true)
 @Composable
-fun SplashScreenContentPreview() {
-    SplashScreenContent()
+private fun SplashScreenContentPreview() {
+    SplashScreen()
 }

@@ -37,7 +37,7 @@ import com.party.presentation.screen.login.viewmodel.LoginViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun LoginScreen(
+fun LoginScreenRoute(
     context: Context,
     snackBarHostState: SnackbarHostState,
     navController: NavHostController,
@@ -76,7 +76,7 @@ fun LoginScreen(
         loginViewModel.googleSignIn(activityResult = it, context = context)
     }
 
-    LoginScreenContent(
+    LoginScreen(
         context = context,
         kakaoCallback = kakaoCallback,
         launcher = launcher,
@@ -84,7 +84,7 @@ fun LoginScreen(
 }
 
 @Composable
-fun LoginScreenContent(
+private fun LoginScreen(
     context: Context,
     kakaoCallback: (OAuthToken?, Throwable?) -> Unit,
     launcher: ManagedActivityResultLauncher<Intent, ActivityResult>,
@@ -115,20 +115,6 @@ fun LoginScreenContent(
             LoginScreenBottomArea()
         }
     }
-
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreview() {
-    LoginScreenContent(
-        context = LocalContext.current,
-        kakaoCallback = { _, _ -> },
-        launcher = rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.StartActivityForResult()
-        ) {
-        }
-    )
 }
 
 private fun loginWithKakaoNickName(context: Context, token: OAuthToken, loginViewModel: LoginViewModel){
@@ -145,4 +131,17 @@ private fun loginWithKakaoNickName(context: Context, token: OAuthToken, loginVie
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun LoginScreenPreview() {
+    LoginScreen(
+        context = LocalContext.current,
+        kakaoCallback = { _, _ -> },
+        launcher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.StartActivityForResult()
+        ) {
+        }
+    )
 }

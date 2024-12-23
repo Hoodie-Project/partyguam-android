@@ -47,7 +47,7 @@ import com.party.presentation.screen.join.gender.component.SelectGenderArea
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun JoinGenderScreen(
+fun JoinGenderScreenRoute(
     context: Context,
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
@@ -91,8 +91,7 @@ fun JoinGenderScreen(
         }
     }
 
-
-    JoinGenderScreenContent(
+    JoinGenderScreen(
         context = context,
         selectedGender = selectedGender,
         onSelect = { selectedGender = it },
@@ -101,7 +100,7 @@ fun JoinGenderScreen(
                 joinViewModel.userSignUp(
                     signupAccessToken = makeAccessToken(context = context, token = signUpToken),
                     userSignUpRequest = UserSignUpRequest(
-                        email = email,
+                        //email = email,
                         nickname = nickName,
                         birth = formatBirthDay(birthday),
                         gender = formatGender(selectedGender),
@@ -113,7 +112,7 @@ fun JoinGenderScreen(
 }
 
 @Composable
-private fun JoinGenderScreenContent(
+private fun JoinGenderScreen(
     context: Context,
     selectedGender: String,
     onSelect: (String) -> Unit,
@@ -186,8 +185,8 @@ private fun formatBirthDay(birth: String): String {
 
 @Preview(showBackground = true)
 @Composable
-fun JoinGenderScreenContentPreview() {
-    JoinGenderScreenContent(
+private fun JoinGenderScreenContentPreview() {
+    JoinGenderScreen(
         context = LocalContext.current,
         selectedGender = "",
         onSelect = {},

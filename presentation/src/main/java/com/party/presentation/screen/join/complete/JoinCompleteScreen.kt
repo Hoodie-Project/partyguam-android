@@ -23,17 +23,17 @@ import com.party.common.ui.theme.WHITE
 import com.party.navigation.Screens
 
 @Composable
-fun JoinCompleteScreen(
+fun JoinCompleteScreenRoute(
     navController: NavHostController,
 ) {
-    JoinCompleteScreenContent(
+    JoinCompleteScreen(
         onGotoHome = { navController.navigate(Screens.Home) },
         onGotoDetailProfile = { navController.navigate(Screens.DetailProfile) }
     )
 }
 
 @Composable
-fun JoinCompleteScreenContent(
+private fun JoinCompleteScreen(
     onGotoHome: () -> Unit,
     onGotoDetailProfile: () -> Unit
 ) {
@@ -66,11 +66,10 @@ fun JoinCompleteScreenContent(
             HeightSpacer(heightDp = 12.dp)
         }
     }
-
 }
 
 @Preview
 @Composable
-fun JoinCompleteScreenPreview() {
-    JoinCompleteScreen(navController = rememberNavController())
+private fun JoinCompleteScreenPreview() {
+    JoinCompleteScreenRoute(navController = rememberNavController())
 }

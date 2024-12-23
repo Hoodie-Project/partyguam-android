@@ -37,7 +37,7 @@ import com.party.presentation.screen.join.JoinScreenInputField
 import com.party.presentation.screen.join.email.component.JoinEmailScaffoldArea
 
 @Composable
-fun JoinEmailScreen(
+fun JoinEmailScreenRoute(
     navController: NavHostController,
     userEmail: String,
     signupAccessToken: String,
@@ -45,7 +45,7 @@ fun JoinEmailScreen(
     var email by rememberSaveable { mutableStateOf(userEmail) }
     val signUpToken by rememberSaveable { mutableStateOf(signupAccessToken) }
 
-    JoinEmailScreenContent(
+    JoinEmailScreen(
         userEmail = email,
         onClick = {
             navController.navigate(Screens.JoinNickName(
@@ -58,7 +58,7 @@ fun JoinEmailScreen(
 }
 
 @Composable
-fun JoinEmailScreenContent(
+private fun JoinEmailScreen(
     userEmail: String,
     onClick: () -> Unit,
     onString: (String) -> Unit,
@@ -111,13 +111,12 @@ fun JoinEmailScreenContent(
             HeightSpacer(heightDp = 12.dp)
         }
     }
-
 }
 
 @Preview(showBackground = true)
 @Composable
-fun JoinEmailScreenPreview() {
-    JoinEmailScreen(
+private fun JoinEmailScreenPreview() {
+    JoinEmailScreenRoute(
         navController = rememberNavController(),
         userEmail = "test123@gmail.com",
         signupAccessToken = "123123",
@@ -126,7 +125,7 @@ fun JoinEmailScreenPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun JoinEmailScreenButtonValidPreview(){
+private fun JoinEmailScreenButtonValidPreview(){
     val email = "tmfrl1590@gmail.com"
     JoinScreenButton(
         modifier = Modifier.fillMaxWidth(),
@@ -144,7 +143,7 @@ fun JoinEmailScreenButtonValidPreview(){
 
 @Preview(showBackground = true)
 @Composable
-fun JoinEmailScreenButtonInvalidPreview(){
+private fun JoinEmailScreenButtonInvalidPreview(){
     val email = ""
     JoinScreenButton(
         modifier = Modifier.fillMaxWidth(),
