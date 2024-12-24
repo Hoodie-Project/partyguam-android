@@ -35,7 +35,7 @@ fun PartyEditRecruitmentScaffoldArea(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "모집 수정",
+                    text = "모집 편집",
                     fontWeight = FontWeight.Bold,
                     fontSize = T2
                 )

@@ -285,7 +285,7 @@ private fun PartyEditScreen(
                 }
 
                 // 파티 소개글
-                HeightSpacer(heightDp = 80.dp)
+                HeightSpacer(heightDp = 60.dp)
                 PartyEditDescriptionArea(
                     title = "파티 소개글",
                     description = "파티의 방향성, 참고사항 등을 자유롭게 적어주세요.",
@@ -315,7 +315,7 @@ private fun PartyEditScreen(
                 )
 
                 // 파티 상태
-                HeightSpacer(heightDp = 60.dp)
+                HeightSpacer(heightDp = 30.dp)
                 PartyEditDescriptionArea(
                     title = "파티 상태",
                     description = "파티 종료 시 일부 기능이 제한되며, 이후 다시 진행 중으로 변경할 수 있어요."

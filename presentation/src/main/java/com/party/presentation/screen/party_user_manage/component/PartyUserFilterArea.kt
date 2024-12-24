@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -23,7 +22,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.R
@@ -31,11 +29,11 @@ import com.party.common.WidthSpacer
 import com.party.common.component.bottomsheet.MainPositionBottomSheet
 import com.party.common.component.chip.OrderByCreateDtChip
 import com.party.common.ui.theme.B2
+import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
 import com.party.presentation.screen.party_user_manage.PartyUserState
 
@@ -45,7 +43,6 @@ fun PartyUserFilterArea(
     isPartyTypeFilterClick: (Boolean) -> Unit,
     onShowPositionFilter: (Boolean) -> Unit,
     onChangeOrderBy: (Boolean) -> Unit,
-    //onPositionClick: (String) -> Unit,
     onReset: () -> Unit,
     onApply: (String) -> Unit,
 ) {
@@ -59,8 +56,7 @@ fun PartyUserFilterArea(
     ) {
         SelectFilterItem(
             filterName = partyUserState.selectedMainPosition,
-            isSheetOpen = false,
-            onClick = { isPartyTypeFilterClick(it) }
+            onClick = { isPartyTypeFilterClick(true) }
         )
 
         OrderByCreateDtChip(
@@ -86,12 +82,10 @@ fun PartyUserFilterArea(
 @Composable
 private fun SelectFilterItem(
     filterName: String,
-    isSheetOpen: Boolean,
-    number: Int = 0,
-    onClick: (Boolean) -> Unit,
+    onClick: () -> Unit,
 ) {
     Card(
-        onClick = { onClick(!isSheetOpen) },
+        onClick = onClick,
         modifier = Modifier
             .wrapContentWidth()
             .height(36.dp),
@@ -110,18 +104,9 @@ private fun SelectFilterItem(
         ) {
             Text(
                 text = filterName,
-                color = GRAY500,
+                color = if(filterName == "전체") GRAY500 else BLACK,
                 fontSize = B2
             )
-            if(number > 0){
-                Text(
-                    text = number.toString(),
-                    color = PRIMARY,
-                    fontSize = B2,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.offset(x = (2).dp, y = (1).dp),
-                )
-            }
             WidthSpacer(widthDp = 2.dp)
             Icon(
                 modifier = Modifier.size(16.dp),
@@ -141,7 +126,6 @@ private fun PartyUserFilterAreaPreview() {
         isPartyTypeFilterClick = {},
         onShowPositionFilter = {},
         onChangeOrderBy = {},
-        //onPositionClick = {},
         onReset = {},
         onApply = {},
     )
