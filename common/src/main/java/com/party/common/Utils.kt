@@ -40,6 +40,8 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.FileOutputStream
+import java.time.LocalDate
+import java.time.Period
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -233,5 +235,18 @@ fun getMimeType(file: File): String? {
         "jpg", "jpeg" -> "image/jpeg"
         "png" -> "image/png"
         else -> null // 허용되지 않는 타입의 경우 null 처리
+    }
+}
+
+// 나이를 계산하는 함수
+fun calculateAgeSafely(birthDateString: String): Int {
+    return try {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val birthDate = LocalDate.parse(birthDateString, formatter)
+        val currentDate = LocalDate.now()
+        Period.between(birthDate, currentDate).years
+    } catch (e: Exception) {
+        println("Invalid date format: $birthDateString")
+        0
     }
 }

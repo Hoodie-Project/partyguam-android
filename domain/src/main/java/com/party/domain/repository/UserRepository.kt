@@ -12,6 +12,7 @@ import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.detail.SaveCarrier
 import com.party.domain.model.user.detail.SaveInterestLocation
 import com.party.domain.model.user.party.MyParty
+import com.party.domain.model.user.profile.UserProfile
 import com.party.domain.model.user.recruitment.MyRecruitment
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.model.user.signup.UserSignUp
@@ -53,5 +54,8 @@ interface UserRepository {
 
     // 내 지원목록 리스트 조회
     suspend fun getMyRecruitments(page: Int, limit: Int, sort: String, order: String): ServerApiResponse<MyRecruitment>
+
+    // 유저의 프로필 조회
+    suspend fun getUserProfile(): ServerApiResponse<UserProfile>
 
 }

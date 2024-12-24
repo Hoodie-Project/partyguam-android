@@ -11,6 +11,14 @@ import com.party.data.dto.user.detail.PositionListDto
 import com.party.data.dto.user.detail.SaveCarrierItem
 import com.party.data.dto.user.party.MyPartyDto
 import com.party.data.dto.user.party.PartyUserDto
+import com.party.data.dto.user.profile.PersonalityOptionDto
+import com.party.data.dto.user.profile.PersonalityQuestionDto
+import com.party.data.dto.user.profile.UserCareerDto
+import com.party.data.dto.user.profile.UserLocationDto
+import com.party.data.dto.user.profile.UserPersonalityDto
+import com.party.data.dto.user.profile.UserProfileDto
+import com.party.data.dto.user.profile.UserProfileLocationDto
+import com.party.data.dto.user.profile.UserProfilePositionDto
 import com.party.data.dto.user.recruitment.MyRecruitmentDto
 import com.party.data.dto.user.recruitment.PartyApplicationDto
 import com.party.domain.model.user.detail.Location
@@ -28,6 +36,14 @@ import com.party.domain.model.user.party.Party
 import com.party.domain.model.user.party.PartyType
 import com.party.domain.model.user.party.PartyUser
 import com.party.domain.model.user.party.Position
+import com.party.domain.model.user.profile.PersonalityOption
+import com.party.domain.model.user.profile.PersonalityQuestion
+import com.party.domain.model.user.profile.UserCareer
+import com.party.domain.model.user.profile.UserLocation
+import com.party.domain.model.user.profile.UserPersonality
+import com.party.domain.model.user.profile.UserProfile
+import com.party.domain.model.user.profile.UserProfileLocation
+import com.party.domain.model.user.profile.UserProfilePosition
 import com.party.domain.model.user.recruitment.MyRecruitment
 import com.party.domain.model.user.recruitment.PartyApplication
 import com.party.domain.model.user.recruitment.PartyRecruitment
@@ -165,6 +181,78 @@ object UserMapper {
                     )
                 )
             )
+        )
+    }
+
+    fun mapperToUserProfile(userProfileDto: UserProfileDto): UserProfile{
+        return UserProfile(
+            nickname = userProfileDto.nickname,
+            birth = userProfileDto.birth,
+            birthVisible = userProfileDto.birthVisible,
+            gender = userProfileDto.gender,
+            genderVisible = userProfileDto.genderVisible,
+            portfolioTitle = userProfileDto.portfolioTitle,
+            portfolio = userProfileDto.portfolio,
+            image = userProfileDto.image,
+            createdAt = userProfileDto.createdAt,
+            updatedAt = userProfileDto.updatedAt,
+            userPersonalities = userProfileDto.userPersonalities.map { mapperToUserPersonality(it) },
+            userCareers = userProfileDto.userCareers.map { mapperToUserCareer(it) },
+            userLocations = userProfileDto.userLocations.map { mapperToUserLocation(it) }
+        )
+    }
+
+    private fun mapperToUserPersonality(userPersonalityDto: UserPersonalityDto): UserPersonality {
+        return UserPersonality(
+            id = userPersonalityDto.id,
+            personalityOption = mapperToPersonalityOption(userPersonalityDto.personalityOption)
+        )
+    }
+
+    private fun mapperToPersonalityOption(personalityOptionDto: PersonalityOptionDto): PersonalityOption {
+        return PersonalityOption(
+            id = personalityOptionDto.id,
+            content = personalityOptionDto.content,
+            personalityQuestion = mapperToPersonalityQuestion(personalityOptionDto.personalityQuestion)
+        )
+    }
+
+    private fun mapperToPersonalityQuestion(personalityQuestionDto: PersonalityQuestionDto): PersonalityQuestion {
+        return PersonalityQuestion(
+            id = personalityQuestionDto.id,
+            content = personalityQuestionDto.content,
+            responseCount = personalityQuestionDto.responseCount
+        )
+    }
+
+    private fun mapperToUserCareer(userCareerDto: UserCareerDto): UserCareer {
+        return UserCareer(
+            id = userCareerDto.id,
+            years = userCareerDto.years,
+            careerType = userCareerDto.careerType,
+            position = mapperToUserProfilePosition(userCareerDto.position)
+        )
+    }
+
+    private fun mapperToUserProfilePosition(userProfilePositionDto: UserProfilePositionDto): UserProfilePosition {
+        return UserProfilePosition(
+            main = userProfilePositionDto.main,
+            sub = userProfilePositionDto.sub
+        )
+    }
+
+    private fun mapperToUserLocation(userLocationDto: UserLocationDto): UserLocation {
+        return UserLocation(
+            id = userLocationDto.id,
+            location = mapperToUserProfileLocation(userLocationDto.location)
+        )
+    }
+
+    private fun mapperToUserProfileLocation(userProfileLocationDto: UserProfileLocationDto): UserProfileLocation {
+        return UserProfileLocation(
+            id = userProfileLocationDto.id,
+            province = userProfileLocationDto.province,
+            city = userProfileLocationDto.city
         )
     }
 }
