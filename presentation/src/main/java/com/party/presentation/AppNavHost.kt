@@ -17,6 +17,7 @@ import androidx.navigation.toRoute
 import com.party.common.component.homeTopTabList
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.Screens
+import com.party.presentation.screen.auth_setting.AuthSettingScreenRoute
 import com.party.presentation.screen.detail.choice_carrier_position.ChoiceCarrierPositionScreen
 import com.party.presentation.screen.detail.detail_carrier.DetailCarrierScreen
 import com.party.presentation.screen.detail.detail_profile.DetailProfileScreen
@@ -40,7 +41,7 @@ import com.party.presentation.screen.party_detail.viewmodel.PartyViewModel
 import com.party.presentation.screen.party_edit.PartyEditScreenRoute
 import com.party.presentation.screen.party_edit_recruitment.PartyEditRecruitmentScreenRoute
 import com.party.presentation.screen.party_user_manage.PartyUserManageScreenRoute
-import com.party.presentation.screen.profile.ProfileScreen
+import com.party.presentation.screen.profile.ProfileScreenRoute
 import com.party.presentation.screen.recruitment_create.RecruitmentCreateScreenRoute
 import com.party.presentation.screen.recruitment_detail.RecruitmentDetailRoute
 import com.party.presentation.screen.recruitment_edit.RecruitmentEditRoute
@@ -217,7 +218,7 @@ fun AppNavHost() {
             )
         }
         composable<Screens.Profile> {
-            ProfileScreen(
+            ProfileScreenRoute(
                 context = context,
                 navController = navController,
             )
@@ -310,6 +311,11 @@ fun AppNavHost() {
                 navController = navController,
                 partyRecruitmentId = partyRecruitmentId,
                 partyId = partyId,
+            )
+        }
+        composable<Screens.ManageAuth> {
+            AuthSettingScreenRoute(
+                navController = navController
             )
         }
     }

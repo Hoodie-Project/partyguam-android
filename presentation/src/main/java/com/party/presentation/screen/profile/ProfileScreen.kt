@@ -21,36 +21,39 @@ import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.profile.UserProfile
 import com.party.navigation.BottomNavigationBar
+import com.party.navigation.Screens
 import com.party.presentation.screen.profile.component.ProfileScaffoldArea
 import com.party.presentation.screen.profile.component.ProfileTopArea
 import com.party.presentation.screen.profile.viewmodel.ProfileViewModel
 
 @Composable
-fun ProfileScreen(
+fun ProfileScreenRoute(
     context: Context,
     navController: NavHostController,
     profileViewModel: ProfileViewModel = hiltViewModel()
 ) {
     val userProfileState by profileViewModel.state.collectAsStateWithLifecycle()
 
-    ProfileScreenContent(
+    ProfileScreen(
         context = context,
         navController = navController,
         userProfileState = userProfileState,
+        onGoSetting = { navController.navigate(Screens.ManageAuth) }
     )
 }
 
 @Composable
-fun ProfileScreenContent(
+private fun ProfileScreen(
     context: Context,
     navController: NavHostController,
     userProfileState: UserProfileState,
+    onGoSetting: () -> Unit,
 ) {
     Scaffold(
         topBar = {
             ProfileScaffoldArea(
                 onGoToAlarm = {},
-                onGoSetting = {},
+                onGoSetting = onGoSetting,
             )
         },
         bottomBar = {
@@ -81,7 +84,7 @@ fun ProfileScreenContent(
 @Preview(showBackground = true)
 @Composable
 private fun ProfileScreenContentPreview() {
-    ProfileScreenContent(
+    ProfileScreen(
         context = LocalContext.current,
         navController = rememberNavController(),
         userProfileState = UserProfileState(
@@ -100,6 +103,7 @@ private fun ProfileScreenContentPreview() {
                 userCareers = emptyList(),
                 userLocations = emptyList()
             )
-        )
+        ),
+        onGoSetting = {}
     )
 }
