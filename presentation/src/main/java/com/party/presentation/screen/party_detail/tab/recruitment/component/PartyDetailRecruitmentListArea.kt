@@ -129,7 +129,7 @@ fun PartyDetailAddRecruitCard(
                 verticalArrangement = Arrangement.Center
             ) {
                 DrawableIcon(
-                    icon = painterResource(id = R.drawable.add_circle),
+                    icon = painterResource(id = R.drawable.icon_add_circle),
                     contentDescription = "add_circle",
                     modifier = Modifier
                         .size(32.dp),

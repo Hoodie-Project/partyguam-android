@@ -13,7 +13,6 @@ import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.component.ImageLoading
 import com.party.common.component.icon.DrawableIcon
-import com.party.common.ui.theme.WHITE
 import com.party.presentation.enum.PartyAuthorityType
 
 @Composable
@@ -33,7 +32,7 @@ fun PartyDetailUserProfileImageArea(
         )
         if(authority == PartyAuthorityType.MASTER.authority){
             DrawableIcon(
-                icon = painterResource(id = R.drawable.master_icon),
+                icon = painterResource(id = R.drawable.icon_master),
                 contentDescription = "master",
                 modifier = Modifier.size(24.dp).align(Alignment.BottomEnd),
                 tintColor = Color.Unspecified

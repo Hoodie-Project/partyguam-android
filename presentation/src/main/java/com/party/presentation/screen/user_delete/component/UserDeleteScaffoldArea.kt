@@ -18,7 +18,7 @@ fun UserDeleteScaffoldArea(
     ScaffoldCenterBar(
         navigationIcon = {
             DrawableIconButton(
-                icon = painterResource(id = R.drawable.arrow_back),
+                icon = painterResource(id = R.drawable.icon_arrow_back),
                 iconColor = BLACK,
                 iconSize = 24.dp,
                 contentDescription = "back",

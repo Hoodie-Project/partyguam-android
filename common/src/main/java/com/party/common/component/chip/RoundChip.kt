@@ -33,7 +33,7 @@ import com.party.common.ui.theme.LARGE_CORNER_SIZE
 fun RoundChip(
     text: String,
     spacer: Dp = 4.dp,
-    painter: Painter = painterResource(id = R.drawable.close2),
+    painter: Painter = painterResource(id = R.drawable.icon_close2),
     iconSize: Dp = 16.dp,
     onIconClick: () -> Unit,
 ) {

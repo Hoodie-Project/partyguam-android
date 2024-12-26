@@ -38,7 +38,7 @@ fun ProfileScaffoldArea(
             ) {
                 DrawableIconButton(
                     modifier = Modifier.size(24.dp),
-                    icon = painterResource(id = R.drawable.alarm_icon),
+                    icon = painterResource(id = R.drawable.icon_alarm),
                     contentDescription = "alarm",
                     onClick = onGoToAlarm,
                     iconColor = BLACK

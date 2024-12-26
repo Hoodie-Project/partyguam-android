@@ -234,7 +234,7 @@ private fun PartyEditScreen(
                     readOnly = false,
                     icon = {
                         DrawableIconButton(
-                            icon = painterResource(id = R.drawable.close),
+                            icon = painterResource(id = R.drawable.icon_close),
                             contentDescription = "",
                             onClick = { onAction(PartyEditAction.OnRemovePartyTitle) }
                         )
@@ -263,7 +263,7 @@ private fun PartyEditScreen(
                     readOnly = true,
                     icon = {
                         DrawableIconButton(
-                            icon = painterResource(id = R.drawable.arrow_down_icon),
+                            icon = painterResource(id = R.drawable.icon_arrow_down),
                             contentDescription = "",
                             onClick = { onAction(PartyEditAction.OnChangePartyTypeSheet(true)) }
                         )
@@ -291,7 +291,7 @@ private fun PartyEditScreen(
                     description = "파티의 방향성, 참고사항 등을 자유롭게 적어주세요.",
                     icon = {
                         DrawableIconButton(
-                            icon = painterResource(id = R.drawable.help),
+                            icon = painterResource(id = R.drawable.icon_help),
                             contentDescription = "",
                             onClick = { onAction(PartyEditAction.OnChangeIsShowHelpCard(true)) },
                             modifier = Modifier.size(20.dp)

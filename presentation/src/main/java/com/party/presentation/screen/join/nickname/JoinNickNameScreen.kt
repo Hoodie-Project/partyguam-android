@@ -187,7 +187,7 @@ private fun JoinNickNameScreen(
                     textColor = GRAY400,
                     containerColor = WHITE,
                     borderColor = setInputFieldBorderColor(text = userNickName),
-                    closeIcon = if(userNickName.isNotEmpty()) { painterResource(id = R.drawable.close) } else null,
+                    closeIcon = if(userNickName.isNotEmpty()) { painterResource(id = R.drawable.icon_close) } else null,
                     readOnly = false,
                     inputText = userNickName,
                     placeHolder = stringResource(id = R.string.join_nickname3),

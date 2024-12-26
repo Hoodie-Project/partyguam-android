@@ -56,7 +56,7 @@ fun PersonalRecruitmentArea(
 
     HomeListTitleArea(
         title = stringResource(id = R.string.home_list_personal_title),
-        titleIcon = painterResource(id = R.drawable.reload),
+        titleIcon = painterResource(id = R.drawable.icon_reload),
         description = stringResource(id = R.string.home_list_personal_description),
         onClick = onReload
     )

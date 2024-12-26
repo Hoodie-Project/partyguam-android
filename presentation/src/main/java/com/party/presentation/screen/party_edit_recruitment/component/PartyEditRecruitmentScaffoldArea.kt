@@ -23,7 +23,7 @@ fun PartyEditRecruitmentScaffoldArea(
     ScaffoldCenterBar(
         navigationIcon = {
             DrawableIconButton(
-                icon = painterResource(id = R.drawable.arrow_back),
+                icon = painterResource(id = R.drawable.icon_arrow_back),
                 iconColor = BLACK,
                 iconSize = 24.dp,
                 contentDescription = "back",
@@ -40,7 +40,7 @@ fun PartyEditRecruitmentScaffoldArea(
                     fontSize = T2
                 )
                 DrawableIconButton(
-                    icon = painterResource(id = R.drawable.help),
+                    icon = painterResource(id = R.drawable.icon_help),
                     contentDescription = "help",
                     onClick = { onShowHelpCard(true) }
                 )

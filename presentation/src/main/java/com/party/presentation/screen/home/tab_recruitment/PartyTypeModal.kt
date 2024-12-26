@@ -21,11 +21,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.WidthSpacer
-import com.party.common.component.bottomsheet.list.partyTypeList
 import com.party.common.component.bottomsheet.list.partyTypeList2
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B1
@@ -126,7 +124,7 @@ fun ModalCheckListItem(
     ) {
         Image(
             modifier = Modifier.size(20.dp),
-            painter = if(selectedPartyType.contains(text.first)) painterResource(id = R.drawable.checed_icon) else painterResource(id = R.drawable.uncheckd_icon),
+            painter = if(selectedPartyType.contains(text.first)) painterResource(id = R.drawable.icon_checed) else painterResource(id = R.drawable.icon_uncheckd),
             contentDescription = "check",
         )
 

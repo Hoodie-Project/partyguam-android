@@ -2,12 +2,7 @@ package com.party.presentation.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -22,7 +17,6 @@ import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.PRIMARY
 import com.party.domain.model.user.detail.PositionList
 import com.party.presentation.component.bottomsheet.OneSelectMainAndSubPositionBottomSheet
-import com.party.presentation.screen.home.viewmodel.HomeViewModel
 
 @Composable
 fun SelectMainAndSubPositionArea(
@@ -51,7 +45,7 @@ fun SelectMainAndSubPositionArea(
             onValueChange = {},
             icon = {
                 DrawableIconButton(
-                    icon = painterResource(id = R.drawable.arrow_down_icon),
+                    icon = painterResource(id = R.drawable.icon_arrow_down),
                     contentDescription = "arrow_down",
                     onClick = { onShowPositionBottomSheet(true) }
                 )
@@ -70,7 +64,7 @@ fun SelectMainAndSubPositionArea(
             onValueChange = {},
             icon = {
                 DrawableIconButton(
-                    icon = painterResource(id = R.drawable.arrow_down_icon),
+                    icon = painterResource(id = R.drawable.icon_arrow_down),
                     contentDescription = "arrow_down",
                     onClick = { onShowPositionBottomSheet(true) }
                 )

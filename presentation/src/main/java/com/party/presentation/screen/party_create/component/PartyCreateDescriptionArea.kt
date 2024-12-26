@@ -66,7 +66,7 @@ private fun PartyCreateDescriptionAreaPreview() {
             DrawableIconButton(
                 modifier = Modifier
                     .size(20.dp),
-                icon = painterResource(id = R.drawable.help),
+                icon = painterResource(id = R.drawable.icon_help),
                 contentDescription = "help",
                 iconColor = GRAY400,
                 onClick = { }

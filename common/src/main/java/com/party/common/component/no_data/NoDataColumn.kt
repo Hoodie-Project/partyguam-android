@@ -33,7 +33,7 @@ fun NoDataColumn(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             DrawableIcon(
-                icon = painterResource(id = R.drawable.info),
+                icon = painterResource(id = R.drawable.icon_info),
                 contentDescription = "info",
                 modifier = Modifier
                     .size(24.dp),

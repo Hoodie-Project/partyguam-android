@@ -10,14 +10,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,11 +29,8 @@ import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.MultiLineInputField
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.party.RecruitmentCreateRequest
-import com.party.domain.model.user.detail.PositionList
 import com.party.presentation.component.HelpCard
 import com.party.presentation.component.SelectMainAndSubPositionArea
-import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import com.party.presentation.screen.recruitment_create.component.RecruitmentCreateDescriptionArea
 import com.party.presentation.screen.recruitment_create.component.RecruitmentCreateInputField
 import com.party.presentation.screen.recruitment_create.component.RecruitmentCreateScaffoldArea
@@ -137,7 +129,7 @@ fun RecruitmentCreateScreen(
                     readOnly = true,
                     icon = {
                         DrawableIconButton(
-                            icon = painterResource(id = R.drawable.arrow_down_icon),
+                            icon = painterResource(id = R.drawable.icon_arrow_down),
                             contentDescription = "",
                             onClick = {
                                 onAction(RecruitmentCreateAction.OnChangePeopleCountSheet(true))
@@ -165,7 +157,7 @@ fun RecruitmentCreateScreen(
                     description = "파티의 방향성, 참고사항 등을 자유롭게 적어 주세요.",
                     icon = {
                         DrawableIconButton(
-                            icon = painterResource(id = R.drawable.help),
+                            icon = painterResource(id = R.drawable.icon_help),
                             contentDescription = "",
                             onClick = { onAction(RecruitmentCreateAction.OnChangeHelpCardOpen(true)) },
                             modifier = Modifier.size(20.dp)

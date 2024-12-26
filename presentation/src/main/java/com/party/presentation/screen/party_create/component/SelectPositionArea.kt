@@ -45,7 +45,7 @@ fun PartyCreateSelectPositionArea(
             onValueChange = {},
             icon = {
                 DrawableIconButton(
-                    icon = painterResource(id = R.drawable.arrow_down_icon),
+                    icon = painterResource(id = R.drawable.icon_arrow_down),
                     contentDescription = "arrow_down",
                     onClick = { onShowPositionBottomSheet(true) }
                 )
@@ -64,7 +64,7 @@ fun PartyCreateSelectPositionArea(
             onValueChange = {},
             icon = {
                 DrawableIconButton(
-                    icon = painterResource(id = R.drawable.arrow_down_icon),
+                    icon = painterResource(id = R.drawable.icon_arrow_down),
                     contentDescription = "arrow_down",
                     onClick = { onShowPositionBottomSheet(true) }
                 )

@@ -189,7 +189,7 @@ private fun SelectedPositionItem(
             ) {
                 Icon(
                     modifier = Modifier.size(16.dp),
-                    painter = painterResource(id = R.drawable.close2),
+                    painter = painterResource(id = R.drawable.icon_close2),
                     contentDescription = "close icon",
                     tint = Color.Gray
                 )

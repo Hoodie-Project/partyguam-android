@@ -185,7 +185,7 @@ private fun RecruitmentState(
         Text(text = "지원상태")
         WidthSpacer(widthDp = 2.dp)
         DrawableIcon(
-            icon = painterResource(id = R.drawable.help),
+            icon = painterResource(id = R.drawable.icon_help),
             contentDescription = "help",
             tintColor = GRAY500,
             modifier =
@@ -241,7 +241,7 @@ private fun StateHelpCard(
                         fontWeight = FontWeight.Bold,
                     )
                     DrawableIconButton(
-                        icon = painterResource(id = R.drawable.close2),
+                        icon = painterResource(id = R.drawable.icon_close2),
                         iconColor = WHITE,
                         iconSize = 16.dp,
                         contentDescription = "close",

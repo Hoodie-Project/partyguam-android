@@ -2,7 +2,6 @@ package com.party.presentation.screen.party_edit.component
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -20,7 +19,7 @@ fun PartyEditScaffoldArea(
     ScaffoldCenterBar(
         navigationIcon = {
             DrawableIconButton(
-                icon = painterResource(id = R.drawable.arrow_back),
+                icon = painterResource(id = R.drawable.icon_arrow_back),
                 iconColor = BLACK,
                 iconSize = 24.dp,
                 contentDescription = "back",

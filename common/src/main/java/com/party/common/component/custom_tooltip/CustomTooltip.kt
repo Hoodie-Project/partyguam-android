@@ -101,7 +101,7 @@ fun CustomTooltip(
                 DrawableIconButton(
                     modifier = Modifier
                         .size(12.dp),
-                    icon = painterResource(id = R.drawable.close2),
+                    icon = painterResource(id = R.drawable.icon_close2),
                     contentDescription = "close",
                     iconColor = WHITE,
                     onClick = { onClick() }

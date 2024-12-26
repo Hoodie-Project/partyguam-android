@@ -35,7 +35,7 @@ fun NoDataRow(
             verticalAlignment = Alignment.CenterVertically,
         ){
             DrawableIcon(
-                icon = painterResource(id = R.drawable.info),
+                icon = painterResource(id = R.drawable.icon_info),
                 contentDescription = "info",
                 modifier = Modifier
                     .size(16.dp),

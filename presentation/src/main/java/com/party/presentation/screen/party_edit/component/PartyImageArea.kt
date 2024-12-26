@@ -92,7 +92,7 @@ fun PartyImageArea(
             modifier = Modifier
                 .size(32.dp)
                 .align(Alignment.BottomEnd),
-            icon = painterResource(id = R.drawable.select_image),
+            icon = painterResource(id = R.drawable.icon_select_image),
             contentDescription = "Select Image",
             onClick = {
                 singlePhotoPicker.launch(

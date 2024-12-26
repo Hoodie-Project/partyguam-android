@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,7 +27,6 @@ import com.party.common.component.bottomsheet.component.ApplyButton
 import com.party.common.component.bottomsheet.list.peopleCountList
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.MultiLineInputField
-import com.party.common.snackBarMessage
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.presentation.component.HelpCard
@@ -140,7 +138,7 @@ private fun RecruitmentEditScreen(
                     readOnly = true,
                     icon = {
                         DrawableIconButton(
-                            icon = painterResource(id = R.drawable.arrow_down_icon),
+                            icon = painterResource(id = R.drawable.icon_arrow_down),
                             contentDescription = "",
                             onClick = {
                                 onAction(RecruitmentEditAction.OnChangePeopleCountSheet(true))
@@ -169,7 +167,7 @@ private fun RecruitmentEditScreen(
                     description = "파티의 방향성, 참고사항 등을 자유롭게 적어 주세요.",
                     icon = {
                         DrawableIconButton(
-                            icon = painterResource(id = R.drawable.help),
+                            icon = painterResource(id = R.drawable.icon_help),
                             contentDescription = "",
                             onClick = { onAction(RecruitmentEditAction.OnChangeHelpCardOpen(true)) },
                             modifier = Modifier.size(20.dp)

@@ -68,7 +68,7 @@ private fun PartyCreateInputFieldPreview() {
         readOnly = false,
         icon = {
             DrawableIconButton(
-                icon = painterResource(id = R.drawable.close),
+                icon = painterResource(id = R.drawable.icon_close),
                 contentDescription = "",
                 onClick = {}
             )

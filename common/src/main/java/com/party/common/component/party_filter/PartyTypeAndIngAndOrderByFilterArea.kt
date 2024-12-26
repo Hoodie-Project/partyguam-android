@@ -121,7 +121,7 @@ private fun SelectFilterItem(
             WidthSpacer(widthDp = 2.dp)
             Icon(
                 modifier = Modifier.size(16.dp),
-                painter = painterResource(id = R.drawable.arrow_down_icon),
+                painter = painterResource(id = R.drawable.icon_arrow_down),
                 contentDescription = "Arrow Down",
                 tint = GRAY400,
             )
@@ -146,7 +146,7 @@ private fun IngToggle(
 
         WidthSpacer(widthDp = 2.dp)
         Image(
-            painter = if (isActiveParty == "active") painterResource(id = R.drawable.toggle_on) else painterResource(id = R.drawable.toggle_off),
+            painter = if (isActiveParty == "active") painterResource(id = R.drawable.icon_toggle_on) else painterResource(id = R.drawable.icon_toggle_off),
             contentDescription = "toggle",
             modifier = Modifier.noRippleClickable {
                 if (isActiveParty == "active") { onToggle("archived") } else { onToggle("active") }

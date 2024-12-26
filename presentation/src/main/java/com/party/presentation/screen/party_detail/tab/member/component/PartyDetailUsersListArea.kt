@@ -117,7 +117,7 @@ fun PartyDetailUsersListItem(
                         modifier = Modifier
                             .align(Alignment.TopEnd)
                             .padding(top = 10.dp, end = 10.dp),
-                        icon = painterResource(id = R.drawable.emergency),
+                        icon = painterResource(id = R.drawable.icon_emergency),
                         contentDescription = "emergency",
                         onClick = {}
                     )

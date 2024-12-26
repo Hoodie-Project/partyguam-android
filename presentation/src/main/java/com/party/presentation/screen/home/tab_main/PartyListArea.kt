@@ -25,7 +25,7 @@ fun PartyListArea(
 ) {
     HomeListTitleArea(
         title = stringResource(id = R.string.home_list_party_title),
-        titleIcon = painterResource(id = R.drawable.arrow_right_icon),
+        titleIcon = painterResource(id = R.drawable.icon_arrow_right),
         description = stringResource(id = R.string.home_list_party_description),
         onClick = onGoParty,
     )

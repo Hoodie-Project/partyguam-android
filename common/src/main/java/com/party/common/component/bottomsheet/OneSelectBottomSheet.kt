@@ -135,7 +135,7 @@ private fun PartyTypeBottomSheetContentItem(
     ) {
         Image(
             modifier = Modifier.size(20.dp),
-            painter = if(selectedPartyType == text) painterResource(id = R.drawable.checed_icon) else painterResource(id = R.drawable.uncheckd_icon),
+            painter = if(selectedPartyType == text) painterResource(id = R.drawable.icon_checed) else painterResource(id = R.drawable.icon_uncheckd),
             contentDescription = "check",
         )
 

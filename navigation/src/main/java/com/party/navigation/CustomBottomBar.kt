@@ -160,9 +160,9 @@ private val NavController.shouldShowBottomBar
 @Composable
 private fun bottomIconSetting(screens: BottomBarScreen): Painter {
     return when (screens) {
-        BottomBarScreen.Home -> painterResource(id = R.drawable.home_icon)
-        BottomBarScreen.State -> painterResource(id = R.drawable.state_icon)
-        BottomBarScreen.Profile -> painterResource(id = R.drawable.profile_icon)
+        BottomBarScreen.Home -> painterResource(id = R.drawable.icon_home)
+        BottomBarScreen.State -> painterResource(id = R.drawable.icon_state)
+        BottomBarScreen.Profile -> painterResource(id = R.drawable.icon_profile)
     }
 }
 

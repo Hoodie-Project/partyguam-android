@@ -168,7 +168,7 @@ private fun EditProfileCard(
                 )
                 WidthSpacer(widthDp = 4.dp)
                 DrawableIcon(
-                    icon = painterResource(id = R.drawable.arrow_right_icon),
+                    icon = painterResource(id = R.drawable.icon_arrow_right),
                     contentDescription = "프로필 편집",
                     tintColor = GRAY400,
                     modifier = Modifier.size(12.dp)

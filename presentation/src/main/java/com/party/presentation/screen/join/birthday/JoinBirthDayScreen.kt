@@ -105,7 +105,7 @@ private fun JoinBirthDayScreen(
                     textColor = GRAY400,
                     containerColor = WHITE,
                     borderColor = if(userBirthDay.isEmpty()) GRAY200 else if(isValidBirthdate(userBirthDay)) DARK100 else RED,
-                    closeIcon = if(userBirthDay.isNotEmpty()) { painterResource(id = R.drawable.close) } else null,
+                    closeIcon = if(userBirthDay.isNotEmpty()) { painterResource(id = R.drawable.icon_close) } else null,
                     readOnly = false,
                     inputText = userBirthDay,
                     placeHolder = stringResource(id = R.string.join_birthday3),

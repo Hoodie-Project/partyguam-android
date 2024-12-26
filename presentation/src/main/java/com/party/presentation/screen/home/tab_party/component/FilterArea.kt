@@ -63,7 +63,7 @@ fun IngToggle(
 
         WidthSpacer(widthDp = 2.dp)
         Image(
-            painter = if (checked) painterResource(id = R.drawable.toggle_on) else painterResource(id = R.drawable.toggle_off),
+            painter = if (checked) painterResource(id = R.drawable.icon_toggle_on) else painterResource(id = R.drawable.icon_toggle_off),
             contentDescription = "toggle",
             modifier = Modifier.noRippleClickable {
                 onToggle(!checked)

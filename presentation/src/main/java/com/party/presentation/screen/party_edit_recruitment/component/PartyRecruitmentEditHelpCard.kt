@@ -77,7 +77,7 @@ fun PartyRecruitmentEditHelpCard(
                         fontWeight = FontWeight.Bold,
                     )
                     DrawableIconButton(
-                        icon = painterResource(id = R.drawable.close2),
+                        icon = painterResource(id = R.drawable.icon_close2),
                         iconColor = WHITE,
                         iconSize = 16.dp,
                         contentDescription = "close",

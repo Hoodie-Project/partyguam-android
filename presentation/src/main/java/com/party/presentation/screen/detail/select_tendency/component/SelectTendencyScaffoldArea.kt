@@ -2,7 +2,6 @@ package com.party.presentation.screen.detail.select_tendency.component
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -19,7 +18,7 @@ fun SelectTendencyScaffoldArea(
     ScaffoldCenterBar(
         navigationIcon = {
             DrawableIconButton(
-                icon = painterResource(id = R.drawable.arrow_back),
+                icon = painterResource(id = R.drawable.icon_arrow_back),
                 iconColor = BLACK,
                 iconSize = 24.dp,
                 contentDescription = "back",
@@ -35,7 +34,7 @@ fun SelectTendencyScaffoldArea(
         },
         actionIcons = {
             DrawableIconButton(
-                icon = painterResource(id = R.drawable.close2),
+                icon = painterResource(id = R.drawable.icon_close2),
                 iconColor = BLACK,
                 iconSize = 24.dp,
                 contentDescription = "back",

@@ -105,7 +105,7 @@ private fun HelpCardTitle(
             )
         }
         DrawableIconButton(
-            icon = painterResource(id = R.drawable.close2),
+            icon = painterResource(id = R.drawable.icon_close2),
             contentDescription = "close",
             iconColor = GRAY500,
             onClick = { onClose() }

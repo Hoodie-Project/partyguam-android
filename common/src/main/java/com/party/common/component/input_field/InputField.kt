@@ -137,7 +137,7 @@ private fun InputFieldPreview() {
         onValueChange = {},
         leadingIcon = {
             DrawableIcon(
-                icon = painterResource(id = R.drawable.close),
+                icon = painterResource(id = R.drawable.icon_close),
                 contentDescription = "",
                 modifier = Modifier.padding(end = 8.dp),
                 tintColor = GRAY400
@@ -145,7 +145,7 @@ private fun InputFieldPreview() {
         },
         icon = {
             DrawableIconButton(
-                icon = painterResource(id = R.drawable.emergency),
+                icon = painterResource(id = R.drawable.icon_emergency),
                 contentDescription = "",
                 onClick = {}
             )
@@ -166,7 +166,7 @@ private fun InputFieldPreview2() {
         onValueChange = {},
         icon = {
             DrawableIconButton(
-                icon = painterResource(id = R.drawable.close),
+                icon = painterResource(id = R.drawable.icon_close),
                 contentDescription = "",
                 onClick = {}
             )

@@ -40,7 +40,7 @@ fun PartyDetailRecruitmentFilterArea(
             isSheetOpen = false,
             onClick = { onShowPositionFilter(!state.isShowPositionFilter) },
             spacer = 0.dp,
-            painter = painterResource(id = R.drawable.arrow_drop_down),
+            painter = painterResource(id = R.drawable.icon_arrow_drop_down),
         )
 
         OrderByCreateDtChip(

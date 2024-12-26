@@ -100,7 +100,7 @@ private fun SubPositionListItem(
     ) {
         Image(
             modifier = Modifier.size(20.dp),
-            painter = if (selectedSubPosition.sub == item.sub) painterResource(id = R.drawable.checed_icon) else painterResource(id = R.drawable.uncheckd_icon),
+            painter = if (selectedSubPosition.sub == item.sub) painterResource(id = R.drawable.icon_checed) else painterResource(id = R.drawable.icon_uncheckd),
             contentDescription = "check icon",
         )
         WidthSpacer(widthDp = 6.dp)
@@ -162,7 +162,7 @@ private fun MainPositionListItem(
         )
         Icon(
             modifier = Modifier.size(16.dp),
-            painter = painterResource(id = R.drawable.arrow_right_icon),
+            painter = painterResource(id = R.drawable.icon_arrow_right),
             contentDescription = "arrow right",
         )
     }

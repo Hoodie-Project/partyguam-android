@@ -65,7 +65,7 @@ fun HomeTopBarIconArea(
     ) {
         DrawableIconButton(
             modifier = Modifier.size(24.dp),
-            icon = painterResource(id = R.drawable.search_icon),
+            icon = painterResource(id = R.drawable.icon_search),
             contentDescription = "",
             onClick = onGoToSearch,
             iconColor = BLACK
@@ -73,7 +73,7 @@ fun HomeTopBarIconArea(
         WidthSpacer(widthDp = 12.dp)
         DrawableIconButton(
             modifier = Modifier.size(24.dp),
-            icon = painterResource(id = R.drawable.alarm_icon),
+            icon = painterResource(id = R.drawable.icon_alarm),
             contentDescription = "",
             onClick = onGoToAlarm,
             iconColor = BLACK

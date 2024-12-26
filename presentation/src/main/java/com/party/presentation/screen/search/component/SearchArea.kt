@@ -35,7 +35,7 @@ fun SearchArea(
         ScaffoldCenterBar(
             navigationIcon = {
                 DrawableIconButton(
-                    icon = painterResource(id = R.drawable.arrow_back),
+                    icon = painterResource(id = R.drawable.icon_arrow_back),
                     iconColor = BLACK,
                     iconSize = 24.dp,
                     contentDescription = "back",
@@ -65,7 +65,7 @@ fun SearchArea(
             },
             actionIcons = {
                 DrawableIconButton(
-                    icon = painterResource(id = R.drawable.search_icon),
+                    icon = painterResource(id = R.drawable.icon_search),
                     iconColor = BLACK,
                     iconSize = 24.dp,
                     contentDescription = "search",

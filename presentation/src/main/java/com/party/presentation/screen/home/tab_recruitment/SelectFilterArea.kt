@@ -124,7 +124,7 @@ fun SelectFilterItem(
             WidthSpacer(widthDp = 2.dp)
             Icon(
                 modifier = Modifier.size(16.dp),
-                painter = painterResource(id = R.drawable.arrow_down_icon),
+                painter = painterResource(id = R.drawable.icon_arrow_down),
                 contentDescription = "Arrow Down",
                 tint = GRAY400,
             )

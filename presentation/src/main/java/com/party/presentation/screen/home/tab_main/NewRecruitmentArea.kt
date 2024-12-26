@@ -47,7 +47,7 @@ fun NewRecruitmentArea(
 
     HomeListTitleArea(
         title = stringResource(id = R.string.home_list_new_title),
-        titleIcon = painterResource(id = R.drawable.arrow_right_icon),
+        titleIcon = painterResource(id = R.drawable.icon_arrow_right),
         description = stringResource(id = R.string.home_list_new_description),
         onClick = onGoRecruitment,
     )

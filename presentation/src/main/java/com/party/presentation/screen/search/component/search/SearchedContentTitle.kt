@@ -34,7 +34,7 @@ fun SearchedContentTitle(
         )
 
         DrawableIconButton(
-            icon = painterResource(id = com.party.common.R.drawable.arrow_right_icon),
+            icon = painterResource(id = com.party.common.R.drawable.icon_arrow_right),
             contentDescription = "더보기",
             onClick = onClick,
             iconColor = GRAY500,

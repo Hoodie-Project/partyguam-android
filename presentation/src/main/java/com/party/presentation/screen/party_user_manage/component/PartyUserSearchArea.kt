@@ -38,7 +38,7 @@ fun PartyUserSearchArea(
         onValueChange = onValueChange,
         leadingIcon = {
             DrawableIcon(
-                icon = painterResource(id = R.drawable.search_icon),
+                icon = painterResource(id = R.drawable.icon_search),
                 contentDescription = "search",
                 modifier = Modifier.padding(end = 8.dp),
                 tintColor = GRAY400,
@@ -46,7 +46,7 @@ fun PartyUserSearchArea(
         },
         icon = {
             DrawableIconButton(
-                icon = painterResource(id = R.drawable.close),
+                icon = painterResource(id = R.drawable.icon_close),
                 contentDescription = "clear",
                 onClick = onRemoveAll
             )
