@@ -42,6 +42,7 @@ import com.party.presentation.screen.party_edit.PartyEditScreenRoute
 import com.party.presentation.screen.party_edit_recruitment.PartyEditRecruitmentScreenRoute
 import com.party.presentation.screen.party_user_manage.PartyUserManageScreenRoute
 import com.party.presentation.screen.profile.ProfileScreenRoute
+import com.party.presentation.screen.profile_edit.ProfileEditScreenRoute
 import com.party.presentation.screen.recruitment_create.RecruitmentCreateScreenRoute
 import com.party.presentation.screen.recruitment_detail.RecruitmentDetailRoute
 import com.party.presentation.screen.recruitment_edit.RecruitmentEditRoute
@@ -321,6 +322,11 @@ fun AppNavHost() {
         }
         composable<Screens.UserDelete> {
             UserDeleteScreenRoute(
+                navController = navController
+            )
+        }
+        composable<Screens.ProfileEdit> {
+            ProfileEditScreenRoute(
                 navController = navController
             )
         }

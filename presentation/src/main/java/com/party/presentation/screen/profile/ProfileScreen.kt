@@ -56,7 +56,8 @@ fun ProfileScreenRoute(
         navController = navController,
         userProfileState = userProfileState,
         onGoSetting = { navController.navigate(Screens.ManageAuth) },
-        onMyPageCardClick = { partyId -> navController.navigate(Screens.PartyDetail(partyId)) }
+        onMyPageCardClick = { partyId -> navController.navigate(Screens.PartyDetail(partyId)) },
+        onProfileEditClick = { navController.navigate(Screens.ProfileEdit) }
     )
 }
 
@@ -67,6 +68,7 @@ private fun ProfileScreen(
     userProfileState: UserProfileState,
     onGoSetting: () -> Unit,
     onMyPageCardClick: (Int) -> Unit,
+    onProfileEditClick: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -97,7 +99,7 @@ private fun ProfileScreen(
             HeightSpacer(heightDp = 16.dp)
             ProfileTopArea(
                 userProfileState = userProfileState,
-                onProfileEditClick = {}
+                onProfileEditClick = onProfileEditClick
             )
 
             // 세부프로필 설정하기
@@ -178,6 +180,7 @@ private fun ProfileScreenContentPreview() {
             )
         ),
         onGoSetting = {},
-        onMyPageCardClick = {}
+        onMyPageCardClick = {},
+        onProfileEditClick = {}
     )
 }

@@ -65,4 +65,6 @@ sealed interface Screens {
     data object ManageAuth: Screens
     @Serializable
     data object UserDelete: Screens
+    @Serializable
+    data object ProfileEdit: Screens
 }
