@@ -20,8 +20,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
@@ -30,17 +32,23 @@ import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.calculateAgeSafely
 import com.party.common.component.NetworkImageLoad
+import com.party.common.component.chip.Chip
 import com.party.common.component.icon.DrawableIcon
 import com.party.common.ui.theme.B2
+import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
+import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.T1
 import com.party.common.ui.theme.T3
+import com.party.common.ui.theme.TYPE_COLOR_BACKGROUND
 import com.party.common.ui.theme.WHITE
+import com.party.domain.model.user.profile.UserCareer
 import com.party.domain.model.user.profile.UserProfile
+import com.party.domain.model.user.profile.UserProfilePosition
 import com.party.presentation.enum.GenderType
 import com.party.presentation.screen.profile.UserProfileState
 
@@ -82,6 +90,25 @@ fun ProfileTopArea(
                 birth = userProfileState.userProfile.birth,
                 birthVisible = userProfileState.userProfile.birthVisible,
             )
+
+            if(userProfileState.userProfile.userCareers.isNotEmpty()){
+                // 커리어
+                HeightSpacer(heightDp = 20.dp)
+                UserCareerArea(
+                    userCareers = userProfileState.userProfile.userCareers
+                )
+
+                // 포트폴리오
+                HeightSpacer(heightDp = 20.dp)
+                userProfileState.userProfile.portfolio.let {
+                    TextComponent(
+                        text = userProfileState.userProfile.portfolioTitle ?: "",
+                        fontSize = B2,
+                        textDecoration = TextDecoration.Underline,
+                        textColor = Color.Blue
+                    )
+                }
+            }
 
             HeightSpacer(heightDp = 12.dp)
 
@@ -178,6 +205,50 @@ private fun EditProfileCard(
     }
 }
 
+@Composable
+private fun UserCareerArea(
+    userCareers: List<UserCareer>
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        UserCareerAreaItem(
+            years = userCareers[0].years,
+            main = userCareers[0].position.main,
+            sub = userCareers[0].position.sub,
+            containerColor = LIGHT400
+        )
+
+        if(userCareers.size > 1){
+            HeightSpacer(heightDp = 8.dp)
+            UserCareerAreaItem(
+                years = userCareers[1].years,
+                main = userCareers[1].position.main,
+                sub = userCareers[1].position.sub
+            )
+        }
+    }
+}
+
+@Composable
+private fun UserCareerAreaItem(
+    years: Int,
+    main: String,
+    sub: String,
+    containerColor: Color = TYPE_COLOR_BACKGROUND,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+    ) {
+        Chip(text = "${years}년", containerColor = containerColor)
+        WidthSpacer(widthDp = 8.dp)
+        Chip(text = "$main | $sub", containerColor = containerColor)
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun ProfileTopAreaPreview() {
@@ -189,13 +260,26 @@ private fun ProfileTopAreaPreview() {
                 birthVisible = true,
                 gender = "M",
                 genderVisible = true,
-                portfolioTitle = "",
-                portfolio = "",
+                portfolioTitle = "나의 이력서",
+                portfolio = "https://www.naver.com",
                 image = "",
                 createdAt = "",
                 updatedAt = "",
                 userPersonalities = emptyList(),
-                userCareers = emptyList(),
+                userCareers = listOf(
+                    UserCareer(
+                        id = 0,
+                        years = 2,
+                        careerType = "",
+                        position = UserProfilePosition(main = "개발자", sub = "안드로이드")
+                    ),
+                    UserCareer(
+                        id = 0,
+                        years = 0,
+                        careerType = "",
+                        position = UserProfilePosition(main = "개발자", sub = "IOS")
+                    )
+                ),
                 userLocations = emptyList()
             )
         ),

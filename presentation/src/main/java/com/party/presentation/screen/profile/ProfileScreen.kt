@@ -5,6 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,9 +21,24 @@ import androidx.navigation.compose.rememberNavController
 import com.party.common.HeightSpacer
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
+import com.party.domain.model.user.party.MyParty
+import com.party.domain.model.user.party.Party
+import com.party.domain.model.user.party.PartyType
+import com.party.domain.model.user.party.PartyUser
+import com.party.domain.model.user.party.Position
+import com.party.domain.model.user.profile.PersonalityOption
+import com.party.domain.model.user.profile.PersonalityQuestion
+import com.party.domain.model.user.profile.UserCareer
+import com.party.domain.model.user.profile.UserLocation
+import com.party.domain.model.user.profile.UserPersonality
 import com.party.domain.model.user.profile.UserProfile
+import com.party.domain.model.user.profile.UserProfileLocation
+import com.party.domain.model.user.profile.UserProfilePosition
 import com.party.navigation.BottomNavigationBar
 import com.party.navigation.Screens
+import com.party.presentation.screen.profile.component.DetailProfileSettingArea
+import com.party.presentation.screen.profile.component.HopeLocationArea
+import com.party.presentation.screen.profile.component.MyPartyListArea
 import com.party.presentation.screen.profile.component.ProfileScaffoldArea
 import com.party.presentation.screen.profile.component.ProfileTopArea
 import com.party.presentation.screen.profile.viewmodel.ProfileViewModel
@@ -38,7 +55,8 @@ fun ProfileScreenRoute(
         context = context,
         navController = navController,
         userProfileState = userProfileState,
-        onGoSetting = { navController.navigate(Screens.ManageAuth) }
+        onGoSetting = { navController.navigate(Screens.ManageAuth) },
+        onMyPageCardClick = { partyId -> navController.navigate(Screens.PartyDetail(partyId)) }
     )
 }
 
@@ -48,7 +66,10 @@ private fun ProfileScreen(
     navController: NavHostController,
     userProfileState: UserProfileState,
     onGoSetting: () -> Unit,
+    onMyPageCardClick: (Int) -> Unit,
 ) {
+    val scrollState = rememberScrollState()
+
     Scaffold(
         topBar = {
             ProfileScaffoldArea(
@@ -69,6 +90,7 @@ private fun ProfileScreen(
                 .background(WHITE)
                 .padding(it)
                 .padding(horizontal = MEDIUM_PADDING_SIZE)
+                .verticalScroll(scrollState)
         ) {
 
             // 유저 프로필 영역
@@ -77,6 +99,28 @@ private fun ProfileScreen(
                 userProfileState = userProfileState,
                 onProfileEditClick = {}
             )
+
+            // 세부프로필 설정하기
+            HeightSpacer(heightDp = 40.dp)
+            DetailProfileSettingArea(
+                userProfileState = userProfileState,
+            )
+
+            // 희망장소
+            if(userProfileState.userProfile.userLocations.isNotEmpty()){
+                HeightSpacer(heightDp = 40.dp)
+                HopeLocationArea(
+                    userProfileState = userProfileState
+                )
+            }
+
+            // 참여파티목록
+            HeightSpacer(heightDp = 60.dp)
+            MyPartyListArea(
+                userProfileState = userProfileState,
+                onClick = onMyPageCardClick
+            )
+            HeightSpacer(heightDp = 20.dp)
         }
     }
 }
@@ -99,11 +143,41 @@ private fun ProfileScreenContentPreview() {
                 image = "",
                 createdAt = "",
                 updatedAt = "",
-                userPersonalities = emptyList(),
-                userCareers = emptyList(),
-                userLocations = emptyList()
+                userPersonalities = listOf(
+                    UserPersonality(
+                        id = 0,
+                        personalityOption = PersonalityOption(
+                            id = 0,
+                            content = "",
+                            personalityQuestion = PersonalityQuestion(
+                                id = 0,
+                                content = "",
+                                responseCount = 0
+                            )
+                        )
+                    )
+                ),
+                userCareers = listOf(
+                    UserCareer(
+                        id = 0,
+                        years = 2,
+                        careerType = "",
+                        position = UserProfilePosition(main = "개발자", sub = "안드로이드")
+                    )
+                ),
+                userLocations = listOf(
+                    UserLocation(
+                        id = 0,
+                        location = UserProfileLocation(
+                            id = 0,
+                            province = "서울",
+                            city = "영등포구"
+                        )
+                    ),
+                )
             )
         ),
-        onGoSetting = {}
+        onGoSetting = {},
+        onMyPageCardClick = {}
     )
 }

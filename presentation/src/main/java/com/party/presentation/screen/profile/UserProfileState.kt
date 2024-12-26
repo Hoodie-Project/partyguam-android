@@ -1,5 +1,6 @@
 package com.party.presentation.screen.profile
 
+import com.party.domain.model.user.party.MyParty
 import com.party.domain.model.user.profile.UserProfile
 
 data class UserProfileState(
@@ -19,5 +20,8 @@ data class UserProfileState(
         userPersonalities = emptyList(),
         userCareers = emptyList(),
         userLocations = emptyList()
-    )
+    ),
+
+    val isMyPartyLoading: Boolean = true,
+    val myPartyList: MyParty = MyParty(total = 0, partyUsers = emptyList()),
 )

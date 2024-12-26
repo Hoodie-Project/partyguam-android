@@ -21,6 +21,7 @@ import com.party.data.dto.user.profile.UserProfileLocationDto
 import com.party.data.dto.user.profile.UserProfilePositionDto
 import com.party.data.dto.user.recruitment.MyRecruitmentDto
 import com.party.data.dto.user.recruitment.PartyApplicationDto
+import com.party.data.util.convertToImageUrl
 import com.party.domain.model.user.detail.Location
 import com.party.domain.model.user.SocialLoginError
 import com.party.domain.model.user.SocialLogin
@@ -144,7 +145,7 @@ object UserMapper {
             party = Party(
                 id = partyUserDto.party.id,
                 title = partyUserDto.party.title,
-                image = partyUserDto.party.image,
+                image = convertToImageUrl(partyUserDto.party.image),
                 status = partyUserDto.party.status,
                 partyType = PartyType(
                     type = partyUserDto.party.partyType.type
