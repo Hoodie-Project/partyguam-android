@@ -18,7 +18,7 @@ import com.party.common.ui.theme.RED
 @Composable
 fun LogoutAndDeletionArea(
     onLogout: () -> Unit,
-    onDelete: () -> Unit,
+    onUserDelete: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -40,7 +40,7 @@ fun LogoutAndDeletionArea(
             fontSize = B2,
             fontWeight = FontWeight.SemiBold,
             textColor = RED,
-            onClick = onDelete
+            onClick = onUserDelete
         )
     }
 }
@@ -50,6 +50,6 @@ fun LogoutAndDeletionArea(
 private fun PreviewLogoutAndDeletionArea() {
     LogoutAndDeletionArea(
         onLogout = {},
-        onDelete = {},
+        onUserDelete = {},
     )
 }

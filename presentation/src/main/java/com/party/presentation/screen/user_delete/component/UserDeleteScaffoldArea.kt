@@ -1,4 +1,4 @@
-package com.party.presentation.screen.auth_setting.component
+package com.party.presentation.screen.user_delete.component
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,7 +12,7 @@ import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.T2
 
 @Composable
-fun AuthSettingScaffoldArea(
+fun UserDeleteScaffoldArea(
     onNavigationBack: () -> Unit
 ) {
     ScaffoldCenterBar(
@@ -27,7 +27,7 @@ fun AuthSettingScaffoldArea(
         },
         title = {
             Text(
-                text = "계정 설정",
+                text = "회원 탈퇴",
                 fontWeight = FontWeight.Bold,
                 fontSize = T2
             )

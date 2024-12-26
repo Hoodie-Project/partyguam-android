@@ -63,4 +63,6 @@ sealed interface Screens {
     data class RecruitmentEdit(val partyRecruitmentId: Int, val partyId: Int): Screens
     @Serializable
     data object ManageAuth: Screens
+    @Serializable
+    data object UserDelete: Screens
 }
