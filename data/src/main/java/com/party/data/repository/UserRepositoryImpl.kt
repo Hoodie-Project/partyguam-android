@@ -253,6 +253,26 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun deleteCareer(): ServerApiResponse<Unit> {
+        return when(val result = userRemoteSource.deleteCareer()){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = Unit)
+            }
+            is ApiResponse.Failure.Error -> {
+                when(result.statusCode){
+                    StatusCode.Forbidden -> ErrorResponse(statusCode = StatusCode.Forbidden.code)
+                    StatusCode.NotFound -> ErrorResponse(statusCode = StatusCode.NotFound.code)
+                    StatusCode.InternalServerError -> ErrorResponse(statusCode = StatusCode.InternalServerError.code)
+                    else -> ErrorResponse(data = Unit)
+                }
+            }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse(message = result.message)
+            }
+        }
+    }
+
     override suspend fun getPersonalities(): ServerApiResponse<List<PersonalityList>> {
         return when(val result = userRemoteSource.getPersonalities()){
             is ApiResponse.Success -> {

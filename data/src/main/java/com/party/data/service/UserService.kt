@@ -14,6 +14,7 @@ import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -43,6 +44,10 @@ interface UserService {
     suspend fun saveCareer(
         @Body career: SaveCarrierList,
     ): ApiResponse<SaveCarrierDto>
+
+    // 유저 경력 삭제
+    @DELETE("api/users/me/careers")
+    suspend fun deleteCareer(): ApiResponse<Unit>
 
     // 성향 질문 리스트 전체 조회
     @GET("api/personalities")

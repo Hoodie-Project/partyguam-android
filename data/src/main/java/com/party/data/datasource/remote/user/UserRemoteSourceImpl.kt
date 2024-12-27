@@ -68,6 +68,10 @@ class UserRemoteSourceImpl @Inject constructor(
         return userService.saveCareer(career = career)
     }
 
+    override suspend fun deleteCareer(): ApiResponse<Unit> {
+        return userService.deleteCareer()
+    }
+
     override suspend fun getPersonalities(): ApiResponse<List<PersonalityListDto>> {
         return userService.getPersonalities()
     }

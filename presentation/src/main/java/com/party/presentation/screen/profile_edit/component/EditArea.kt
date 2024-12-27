@@ -26,6 +26,7 @@ import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T2
+import com.party.presentation.screen.profile.UserProfileState
 
 val editList = listOf(
     "경력/포지션",
@@ -37,7 +38,8 @@ val editList = listOf(
 
 @Composable
 fun EditArea(
-    count: Int,
+    userProfileState: UserProfileState,
+    onGotoProfileEditCareer: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -47,7 +49,12 @@ fun EditArea(
         HeightSpacer(heightDp = 32.dp)
         EditAreaItem(
             text = editList[0],
-            onClick = {},
+            onClick = onGotoProfileEditCareer,
+            content = {
+                UserProfileMainAndSubPositionArea(
+                    userCareers = userProfileState.userProfile.userCareers
+                )
+            }
         )
         HeightSpacer(heightDp = 60.dp)
         EditAreaItem(
@@ -79,7 +86,7 @@ fun EditArea(
                     color = PRIMARY
                 )
             ){
-                append("$count")
+                append("${userProfileState.myPartyList.total}")
             }
             append("건")
         }
@@ -97,26 +104,35 @@ fun EditArea(
 private fun EditAreaItem(
     text: String,
     onClick: () -> Unit,
+    content: @Composable () -> Unit = {},
 ) {
-    Row(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(25.dp)
-            .noRippleClickable { onClick() },
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
     ) {
-        TextComponent(
-            text = text,
-            fontSize = T2,
-            fontWeight = FontWeight.SemiBold,
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(25.dp)
+                .noRippleClickable { onClick() },
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            TextComponent(
+                text = text,
+                fontSize = T2,
+                fontWeight = FontWeight.SemiBold,
+            )
 
-        DrawableIcon(
-            icon = painterResource(id = R.drawable.icon_arrow_right),
-            contentDescription = "",
-            tintColor = GRAY500,
-        )
+            DrawableIcon(
+                icon = painterResource(id = R.drawable.icon_arrow_right),
+                contentDescription = "",
+                tintColor = GRAY500,
+            )
+        }
+
+        HeightSpacer(heightDp = 20.dp)
+        content()
     }
 }
 
@@ -124,6 +140,7 @@ private fun EditAreaItem(
 @Composable
 private fun EditAreaPreview() {
     EditArea(
-        count = 5
+        userProfileState = UserProfileState(),
+        onGotoProfileEditCareer = {}
     )
 }

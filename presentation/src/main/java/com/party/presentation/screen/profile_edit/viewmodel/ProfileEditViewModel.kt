@@ -20,11 +20,7 @@ class ProfileEditViewModel @Inject constructor(
     private val _state = MutableStateFlow(UserProfileState())
     val state = _state.asStateFlow()
 
-    init {
-        getUserProfile()
-    }
-
-    private fun getUserProfile() {
+    fun getUserProfile() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             when(val result = getUserProfileUseCase()){

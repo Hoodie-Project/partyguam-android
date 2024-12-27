@@ -250,3 +250,20 @@ fun calculateAgeSafely(birthDateString: String): Int {
         0
     }
 }
+
+fun convertToIntFromYear(year: String): Int{
+    return when(year){
+        "신입" -> 0
+        "1년" -> 1
+        "2년" -> 2
+        "3년" -> 3
+        "4년" -> 4
+        "5년" -> 5
+        "6년" -> 6
+        "7년" -> 7
+        "8년" -> 8
+        "9년" -> 9
+        "10년" -> 10
+        else -> 0
+    }
+}

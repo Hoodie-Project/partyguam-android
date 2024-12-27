@@ -11,6 +11,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
@@ -29,6 +30,7 @@ import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.WHITE
+import com.party.navigation.Screens
 import com.party.presentation.screen.profile.UserProfileState
 import com.party.presentation.screen.profile_edit.component.EditArea
 import com.party.presentation.screen.profile_edit.component.ProfileEditScaffoldArea
@@ -40,18 +42,24 @@ fun ProfileEditScreenRoute(
     navController: NavHostController,
     profileEditViewModel: ProfileEditViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(Unit) {
+        profileEditViewModel.getUserProfile()
+    }
+
     val userProfileState by profileEditViewModel.state.collectAsStateWithLifecycle()
 
     ProfileEditScreen(
         userProfileState = userProfileState,
-        onNavigationClick = { navController.popBackStack() }
+        onNavigationClick = { navController.popBackStack() },
+        onGotoProfileEditCareer = { navController.navigate(Screens.ProfileEditCareer)}
     )
 }
 
 @Composable
 private fun ProfileEditScreen(
     userProfileState: UserProfileState,
-    onNavigationClick: () -> Unit
+    onNavigationClick: () -> Unit,
+    onGotoProfileEditCareer: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -89,12 +97,10 @@ private fun ProfileEditScreen(
 
                 // 수정영역
                 EditArea(
-                    count = userProfileState.myPartyList.partyUsers.size
+                    userProfileState = userProfileState,
+                    onGotoProfileEditCareer = onGotoProfileEditCareer
                 )
-
-
             }
-
 
             // 수정하기 버튼
             CustomButton(
@@ -115,6 +121,7 @@ private fun ProfileEditScreen(
 private fun ProfileEditScreenPreview() {
     ProfileEditScreen(
         userProfileState = UserProfileState(),
-        onNavigationClick = {}
+        onNavigationClick = {},
+        onGotoProfileEditCareer = {}
     )
 }

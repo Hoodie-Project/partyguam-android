@@ -99,8 +99,8 @@ fun ProfileTopArea(
                 )
 
                 // 포트폴리오
-                HeightSpacer(heightDp = 20.dp)
-                userProfileState.userProfile.portfolio.let {
+                if(userProfileState.userProfile.portfolio != null) {
+                    HeightSpacer(heightDp = 20.dp)
                     TextComponent(
                         text = userProfileState.userProfile.portfolioTitle ?: "",
                         fontSize = B2,
@@ -243,9 +243,17 @@ private fun UserCareerAreaItem(
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
     ) {
-        Chip(text = "${years}년", containerColor = containerColor)
+        Chip(
+            text = "${years}년",
+            containerColor = containerColor,
+            fontWeight = FontWeight.Normal,
+        )
         WidthSpacer(widthDp = 8.dp)
-        Chip(text = "$main | $sub", containerColor = containerColor)
+        Chip(
+            text = "$main | $sub",
+            containerColor = containerColor,
+            fontWeight = FontWeight.Normal,
+        )
     }
 }
 

@@ -9,6 +9,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -49,6 +50,10 @@ fun ProfileScreenRoute(
     navController: NavHostController,
     profileViewModel: ProfileViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(Unit) {
+        profileViewModel.getUserProfile()
+    }
+
     val userProfileState by profileViewModel.state.collectAsStateWithLifecycle()
 
     ProfileScreen(

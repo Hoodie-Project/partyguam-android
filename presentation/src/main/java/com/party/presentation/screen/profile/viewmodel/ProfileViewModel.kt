@@ -26,11 +26,10 @@ class ProfileViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        getUserProfile()
         getMyParty(1, 50, "createdAt", "DESC")
     }
 
-    private fun getUserProfile() {
+    fun getUserProfile() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             when(val result = getUserProfileUseCase()){

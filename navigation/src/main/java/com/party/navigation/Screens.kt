@@ -67,4 +67,6 @@ sealed interface Screens {
     data object UserDelete: Screens
     @Serializable
     data object ProfileEdit: Screens
+    @Serializable
+    data object ProfileEditCareer: Screens
 }

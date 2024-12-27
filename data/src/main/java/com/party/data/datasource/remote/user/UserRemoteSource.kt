@@ -43,6 +43,9 @@ interface UserRemoteSource {
     // 유저 경력 저장
     suspend fun saveCarrier(career: SaveCarrierList): ApiResponse<SaveCarrierDto>
 
+    // 유저 경력 전체 삭제
+    suspend fun deleteCareer(): ApiResponse<Unit>
+
     // 성향 질문 리스트 전체 조회
     suspend fun getPersonalities(): ApiResponse<List<PersonalityListDto>>
 
