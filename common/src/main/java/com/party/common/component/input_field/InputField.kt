@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -67,6 +68,8 @@ fun InputField(
     Box(
         modifier = modifier
             .fillMaxWidth()
+            .heightIn(min = INPUT_FIELD_HEIGHT) // 최소 높이 설정
+            .wrapContentHeight()
             .shadow(
                 elevation = elevation,
                 shape = RoundedCornerShape(borderCornerSize),
@@ -78,7 +81,8 @@ fun InputField(
             keyboardOptions = keyboardOptions,
             modifier = modifier
                 .fillMaxWidth()
-                .height(INPUT_FIELD_HEIGHT)
+                .heightIn(min = INPUT_FIELD_HEIGHT) // 최소 높이 설정
+                .wrapContentHeight() // 내용에 따라 동적 높이
                 .clip(RoundedCornerShape(LARGE_CORNER_SIZE))
                 .border(BorderStroke(1.dp, borderColor), RoundedCornerShape(LARGE_CORNER_SIZE))
                 .background(containerColor)
@@ -86,8 +90,8 @@ fun InputField(
             value = inputText,
             onValueChange = { onValueChange(it) },
             readOnly = readOnly,
-            maxLines = 1,
-            singleLine = true,
+            maxLines = 2,
+            singleLine = false,
             textStyle = TextStyle(
                 color = inputTextColor,
                 fontSize = T3,
@@ -96,7 +100,9 @@ fun InputField(
             decorationBox = { innerTextField ->
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .heightIn(min = INPUT_FIELD_HEIGHT) // 최소 높이 설정
+                        .wrapContentHeight(), // 내용에 따라 동적 높이,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     WidthSpacer(widthDp = 12.dp)
@@ -157,7 +163,7 @@ private fun InputFieldPreview() {
 @Composable
 private fun InputFieldPreview2() {
     InputField(
-        inputText = "입력값을 입력했어요",
+        inputText = "입력값을 입력했어요입력값을 입력했어요입력값을 입력했어요입력값을 입력했어요입력값을",
         inputTextColor = Color.Black,
         containerColor = Color.White,
         borderColor = PRIMARY,

@@ -40,6 +40,7 @@ val editList = listOf(
 fun EditArea(
     userProfileState: UserProfileState,
     onGotoProfileEditCareer: () -> Unit,
+    onGotoProfileEditPortfolio: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -74,7 +75,7 @@ fun EditArea(
         HeightSpacer(heightDp = 60.dp)
         EditAreaItem(
             text = editList[4],
-            onClick = {},
+            onClick = onGotoProfileEditPortfolio,
         )
         HeightSpacer(heightDp = 60.dp)
 
@@ -141,6 +142,7 @@ private fun EditAreaItem(
 private fun EditAreaPreview() {
     EditArea(
         userProfileState = UserProfileState(),
-        onGotoProfileEditCareer = {}
+        onGotoProfileEditCareer = {},
+        onGotoProfileEditPortfolio = {}
     )
 }

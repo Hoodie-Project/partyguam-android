@@ -51,7 +51,8 @@ fun ProfileEditScreenRoute(
     ProfileEditScreen(
         userProfileState = userProfileState,
         onNavigationClick = { navController.popBackStack() },
-        onGotoProfileEditCareer = { navController.navigate(Screens.ProfileEditCareer)}
+        onGotoProfileEditCareer = { navController.navigate(Screens.ProfileEditCareer)},
+        onGotoProfileEditPortfolio = { navController.navigate(Screens.ProfileEditPortfolio)}
     )
 }
 
@@ -60,6 +61,7 @@ private fun ProfileEditScreen(
     userProfileState: UserProfileState,
     onNavigationClick: () -> Unit,
     onGotoProfileEditCareer: () -> Unit,
+    onGotoProfileEditPortfolio: () -> Unit
 ) {
     val scrollState = rememberScrollState()
 
@@ -98,7 +100,8 @@ private fun ProfileEditScreen(
                 // 수정영역
                 EditArea(
                     userProfileState = userProfileState,
-                    onGotoProfileEditCareer = onGotoProfileEditCareer
+                    onGotoProfileEditCareer = onGotoProfileEditCareer,
+                    onGotoProfileEditPortfolio = onGotoProfileEditPortfolio
                 )
             }
 
@@ -122,6 +125,7 @@ private fun ProfileEditScreenPreview() {
     ProfileEditScreen(
         userProfileState = UserProfileState(),
         onNavigationClick = {},
-        onGotoProfileEditCareer = {}
+        onGotoProfileEditCareer = {},
+        onGotoProfileEditPortfolio = {}
     )
 }
