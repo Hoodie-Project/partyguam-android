@@ -26,6 +26,7 @@ import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T2
+import com.party.presentation.enum.PersonalityType
 import com.party.presentation.screen.profile.UserProfileState
 
 val editList = listOf(
@@ -40,6 +41,7 @@ val editList = listOf(
 fun EditArea(
     userProfileState: UserProfileState,
     onGotoProfileEditCareer: () -> Unit,
+    onGotoProfileEditTime: () -> Unit,
     onGotoProfileEditPortfolio: () -> Unit,
 ) {
     Column(
@@ -65,7 +67,13 @@ fun EditArea(
         HeightSpacer(heightDp = 60.dp)
         EditAreaItem(
             text = editList[2],
-            onClick = {},
+            onClick = onGotoProfileEditTime,
+            content = {
+                val userPersonalityList = userProfileState.userProfile.userPersonalities.filter { it.personalityOption.personalityQuestion.id == PersonalityType.TIME.id }
+                UserTimeArea(
+                    userPersonalityList = userPersonalityList
+                )
+            }
         )
         HeightSpacer(heightDp = 60.dp)
         EditAreaItem(
@@ -151,6 +159,7 @@ private fun EditAreaPreview() {
     EditArea(
         userProfileState = UserProfileState(),
         onGotoProfileEditCareer = {},
+        onGotoProfileEditTime = {},
         onGotoProfileEditPortfolio = {}
     )
 }

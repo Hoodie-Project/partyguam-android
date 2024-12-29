@@ -109,4 +109,8 @@ class UserRemoteSourceImpl @Inject constructor(
     override suspend fun updateUserProfile(userProfileRequest: UserProfileRequest): ApiResponse<UserProfileModifyDto> {
         return userService.updateUserProfile(userProfileRequest = userProfileRequest)
     }
+
+    override suspend fun deletePersonalities(personalityQuestionId: Int): ApiResponse<Unit> {
+        return userService.deletePersonalities(personalityQuestionId = personalityQuestionId)
+    }
 }

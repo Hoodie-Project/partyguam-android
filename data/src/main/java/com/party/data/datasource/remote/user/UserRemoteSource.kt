@@ -65,4 +65,7 @@ interface UserRemoteSource {
 
     // 유저의 프로필 수정
     suspend fun updateUserProfile(userProfileRequest: UserProfileRequest): ApiResponse<UserProfileModifyDto>
+
+    // 질문에 대한 저장된 응답 전체 삭제
+    suspend fun deletePersonalities(personalityQuestionId: Int): ApiResponse<Unit>
 }

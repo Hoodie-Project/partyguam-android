@@ -22,11 +22,6 @@ import androidx.navigation.compose.rememberNavController
 import com.party.common.HeightSpacer
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.user.party.MyParty
-import com.party.domain.model.user.party.Party
-import com.party.domain.model.user.party.PartyType
-import com.party.domain.model.user.party.PartyUser
-import com.party.domain.model.user.party.Position
 import com.party.domain.model.user.profile.PersonalityOption
 import com.party.domain.model.user.profile.PersonalityQuestion
 import com.party.domain.model.user.profile.UserCareer
@@ -37,8 +32,10 @@ import com.party.domain.model.user.profile.UserProfileLocation
 import com.party.domain.model.user.profile.UserProfilePosition
 import com.party.navigation.BottomNavigationBar
 import com.party.navigation.Screens
+import com.party.presentation.enum.PersonalityType
 import com.party.presentation.screen.profile.component.DetailProfileSettingArea
 import com.party.presentation.screen.profile.component.HopeLocationArea
+import com.party.presentation.screen.profile.component.HopeTimeArea
 import com.party.presentation.screen.profile.component.MyPartyListArea
 import com.party.presentation.screen.profile.component.ProfileScaffoldArea
 import com.party.presentation.screen.profile.component.ProfileTopArea
@@ -118,6 +115,15 @@ private fun ProfileScreen(
                 HeightSpacer(heightDp = 40.dp)
                 HopeLocationArea(
                     userProfileState = userProfileState
+                )
+            }
+
+            // 희망시간
+            val userPersonalityList = userProfileState.userProfile.userPersonalities.filter { it.personalityOption.personalityQuestion.id == PersonalityType.TIME.id }
+            if(userPersonalityList.isNotEmpty()){
+                HeightSpacer(heightDp = 40.dp)
+                HopeTimeArea(
+                    userPersonalityList = userPersonalityList
                 )
             }
 

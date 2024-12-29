@@ -9,15 +9,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -27,8 +23,6 @@ import com.party.common.HeightSpacer
 import com.party.common.component.button.CustomButton
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
-import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.Screens
 import com.party.presentation.screen.profile.UserProfileState
@@ -52,6 +46,7 @@ fun ProfileEditScreenRoute(
         userProfileState = userProfileState,
         onNavigationClick = { navController.popBackStack() },
         onGotoProfileEditCareer = { navController.navigate(Screens.ProfileEditCareer)},
+        onGotoProfileEditTime = { navController.navigate(Screens.ProfileEditTime)},
         onGotoProfileEditPortfolio = { navController.navigate(Screens.ProfileEditPortfolio)}
     )
 }
@@ -61,6 +56,7 @@ private fun ProfileEditScreen(
     userProfileState: UserProfileState,
     onNavigationClick: () -> Unit,
     onGotoProfileEditCareer: () -> Unit,
+    onGotoProfileEditTime: () -> Unit,
     onGotoProfileEditPortfolio: () -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -101,6 +97,7 @@ private fun ProfileEditScreen(
                 EditArea(
                     userProfileState = userProfileState,
                     onGotoProfileEditCareer = onGotoProfileEditCareer,
+                    onGotoProfileEditTime = onGotoProfileEditTime,
                     onGotoProfileEditPortfolio = onGotoProfileEditPortfolio
                 )
             }
@@ -126,6 +123,7 @@ private fun ProfileEditScreenPreview() {
         userProfileState = UserProfileState(),
         onNavigationClick = {},
         onGotoProfileEditCareer = {},
+        onGotoProfileEditTime = {},
         onGotoProfileEditPortfolio = {}
     )
 }

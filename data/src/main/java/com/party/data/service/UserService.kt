@@ -20,6 +20,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface UserService {
@@ -89,4 +90,10 @@ interface UserService {
     suspend fun updateUserProfile(
         @Body userProfileRequest: UserProfileRequest,
     ): ApiResponse<UserProfileModifyDto>
+
+    // 질문에 대한 저장된 응답 전체 삭제
+    @DELETE("api/users/me/personalities/questions/{personalityQuestionId}")
+    suspend fun deletePersonalities(
+        @Path("personalityQuestionId") personalityQuestionId: Int,
+    ): ApiResponse<Unit>
 }
