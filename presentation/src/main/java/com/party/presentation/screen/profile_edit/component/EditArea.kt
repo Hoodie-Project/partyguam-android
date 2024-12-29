@@ -77,9 +77,10 @@ fun EditArea(
             text = editList[4],
             onClick = onGotoProfileEditPortfolio,
             content = {
-                userProfileState.userProfile.portfolio.let {
+                val portfolio = userProfileState.userProfile.portfolio
+                if(!portfolio.isNullOrBlank()){
                     ProfileEditPortfolioArea(
-                        portfolioLink = it
+                        portfolioLink = portfolio
                     )
                 }
             }

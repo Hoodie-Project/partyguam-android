@@ -100,7 +100,8 @@ fun ProfileTopArea(
                 )
 
                 // 포트폴리오
-                if(userProfileState.userProfile.portfolio != null) {
+                val portfolio = userProfileState.userProfile.portfolio
+                if(!portfolio.isNullOrBlank()){
                     HeightSpacer(heightDp = 20.dp)
                     TextComponent(
                         text = userProfileState.userProfile.portfolioTitle ?: "",
