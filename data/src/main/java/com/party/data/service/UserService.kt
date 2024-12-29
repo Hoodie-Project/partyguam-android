@@ -12,10 +12,13 @@ import com.party.data.dto.user.recruitment.MyRecruitmentDto
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
+import com.party.domain.model.user.profile.UserProfileModifyDto
+import com.party.domain.model.user.profile.UserProfileRequest
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -80,4 +83,10 @@ interface UserService {
     // 유저의 프로필 조회
     @GET("api/users/me")
     suspend fun getUserProfile(): ApiResponse<UserProfileDto>
+
+    // 유저의 프로필 수정
+    @PATCH("api/users/me")
+    suspend fun updateUserProfile(
+        @Body userProfileRequest: UserProfileRequest,
+    ): ApiResponse<UserProfileModifyDto>
 }

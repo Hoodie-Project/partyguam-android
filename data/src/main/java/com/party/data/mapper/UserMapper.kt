@@ -44,6 +44,8 @@ import com.party.domain.model.user.profile.UserLocation
 import com.party.domain.model.user.profile.UserPersonality
 import com.party.domain.model.user.profile.UserProfile
 import com.party.domain.model.user.profile.UserProfileLocation
+import com.party.domain.model.user.profile.UserProfileModify
+import com.party.domain.model.user.profile.UserProfileModifyDto
 import com.party.domain.model.user.profile.UserProfilePosition
 import com.party.domain.model.user.recruitment.MyRecruitment
 import com.party.domain.model.user.recruitment.PartyApplication
@@ -254,6 +256,21 @@ object UserMapper {
             id = userProfileLocationDto.id,
             province = userProfileLocationDto.province,
             city = userProfileLocationDto.city
+        )
+    }
+
+    fun mapperToUserProfileModify(userProfileModifyDto: UserProfileModifyDto): UserProfileModify{
+        return UserProfileModify(
+            nickname = userProfileModifyDto.nickname,
+            birth = userProfileModifyDto.birth,
+            birthVisible = userProfileModifyDto.birthVisible,
+            gender = userProfileModifyDto.gender,
+            genderVisible = userProfileModifyDto.genderVisible,
+            portfolioTitle = userProfileModifyDto.portfolioTitle,
+            portfolio = userProfileModifyDto.portfolio,
+            image = convertToImageUrl(userProfileModifyDto.image),
+            createdAt = userProfileModifyDto.createdAt,
+            updatedAt = userProfileModifyDto.updatedAt,
         )
     }
 }

@@ -14,6 +14,8 @@ import com.party.data.dto.user.recruitment.MyRecruitmentDto
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
+import com.party.domain.model.user.profile.UserProfileModifyDto
+import com.party.domain.model.user.profile.UserProfileRequest
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
 
@@ -60,4 +62,7 @@ interface UserRemoteSource {
 
     // 유저의 프로필 조회
     suspend fun getUserProfile(): ApiResponse<UserProfileDto>
+
+    // 유저의 프로필 수정
+    suspend fun updateUserProfile(userProfileRequest: UserProfileRequest): ApiResponse<UserProfileModifyDto>
 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,12 +21,19 @@ import com.party.presentation.screen.profile_edit_portfolio.component.InputLinkA
 import com.party.presentation.screen.profile_edit_portfolio.component.ProfileEditPortfolioScaffoldArea
 import com.party.presentation.screen.profile_edit_portfolio.component.ResetAndApplyButtonArea
 import com.party.presentation.screen.profile_edit_portfolio.viewmodel.ProfileEditPortfolioViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun ProfileEditPortfolioScreenRoute(
     navController: NavHostController,
     profileEditPortfolioViewModel: ProfileEditPortfolioViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(key1 = Unit) {
+        profileEditPortfolioViewModel.successState.collectLatest {
+             navController.popBackStack()
+        }
+    }
+
     val state by profileEditPortfolioViewModel.state.collectAsStateWithLifecycle()
 
     ProfileEditPortfolioScreen(

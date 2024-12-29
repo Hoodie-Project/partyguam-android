@@ -76,6 +76,13 @@ fun EditArea(
         EditAreaItem(
             text = editList[4],
             onClick = onGotoProfileEditPortfolio,
+            content = {
+                userProfileState.userProfile.portfolio.let {
+                    ProfileEditPortfolioArea(
+                        portfolioLink = it
+                    )
+                }
+            }
         )
         HeightSpacer(heightDp = 60.dp)
 

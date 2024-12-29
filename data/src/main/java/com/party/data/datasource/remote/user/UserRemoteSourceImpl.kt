@@ -16,6 +16,8 @@ import com.party.data.service.UserService
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
+import com.party.domain.model.user.profile.UserProfileModifyDto
+import com.party.domain.model.user.profile.UserProfileRequest
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
 import javax.inject.Inject
@@ -102,5 +104,9 @@ class UserRemoteSourceImpl @Inject constructor(
 
     override suspend fun getUserProfile(): ApiResponse<UserProfileDto> {
         return userService.getUserProfile()
+    }
+
+    override suspend fun updateUserProfile(userProfileRequest: UserProfileRequest): ApiResponse<UserProfileModifyDto> {
+        return userService.updateUserProfile(userProfileRequest = userProfileRequest)
     }
 }

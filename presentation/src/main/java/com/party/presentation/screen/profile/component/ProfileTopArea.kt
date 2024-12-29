@@ -42,6 +42,7 @@ import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.LIGHT400
+import com.party.common.ui.theme.LINK_COLOR
 import com.party.common.ui.theme.T1
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.TYPE_COLOR_BACKGROUND
@@ -105,7 +106,7 @@ fun ProfileTopArea(
                         text = userProfileState.userProfile.portfolioTitle ?: "",
                         fontSize = B2,
                         textDecoration = TextDecoration.Underline,
-                        textColor = Color.Blue
+                        textColor = LINK_COLOR
                     )
                 }
             }

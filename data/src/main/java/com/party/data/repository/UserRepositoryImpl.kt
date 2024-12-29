@@ -21,6 +21,8 @@ import com.party.domain.model.user.detail.SaveCarrier
 import com.party.domain.model.user.detail.SaveInterestLocation
 import com.party.domain.model.user.party.MyParty
 import com.party.domain.model.user.profile.UserProfile
+import com.party.domain.model.user.profile.UserProfileModify
+import com.party.domain.model.user.profile.UserProfileRequest
 import com.party.domain.model.user.recruitment.MyRecruitment
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.model.user.signup.UserSignUp
@@ -362,6 +364,21 @@ class UserRepositoryImpl @Inject constructor(
         return when(val result = userRemoteSource.getUserProfile()){
             is ApiResponse.Success -> SuccessResponse(data = UserMapper.mapperToUserProfile(result.data))
             is ApiResponse.Failure.Error -> ErrorResponse()
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse(message = result.message)
+            }
+        }
+    }
+
+    override suspend fun updateUserProfile(userProfileRequest: UserProfileRequest): ServerApiResponse<UserProfileModify> {
+        return when(val result = userRemoteSource.updateUserProfile(userProfileRequest = userProfileRequest)){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = UserMapper.mapperToUserProfileModify(result.data))
+            }
+            is ApiResponse.Failure.Error -> {
+                ErrorResponse()
+            }
             is ApiResponse.Failure.Exception -> {
                 result.throwable.printStackTrace()
                 ExceptionResponse(message = result.message)
