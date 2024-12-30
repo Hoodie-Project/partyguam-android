@@ -196,7 +196,7 @@ object UserMapper {
             genderVisible = userProfileDto.genderVisible,
             portfolioTitle = userProfileDto.portfolioTitle,
             portfolio = userProfileDto.portfolio,
-            image = userProfileDto.image,
+            image = convertToImageUrl(userProfileDto.image),
             createdAt = userProfileDto.createdAt,
             updatedAt = userProfileDto.updatedAt,
             userPersonalities = userProfileDto.userPersonalities.map { mapperToUserPersonality(it) },

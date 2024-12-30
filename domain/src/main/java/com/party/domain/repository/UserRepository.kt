@@ -1,23 +1,24 @@
 package com.party.domain.repository
 
 import com.party.common.ServerApiResponse
-import com.party.domain.model.user.detail.Location
 import com.party.domain.model.user.SocialLogin
 import com.party.domain.model.user.detail.InterestLocationList
+import com.party.domain.model.user.detail.Location
 import com.party.domain.model.user.detail.PersonalityList
-import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.PersonalitySave
+import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.PositionList
-import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.detail.SaveCarrier
+import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.detail.SaveInterestLocation
 import com.party.domain.model.user.party.MyParty
 import com.party.domain.model.user.profile.UserProfile
 import com.party.domain.model.user.profile.UserProfileModify
-import com.party.domain.model.user.profile.UserProfileRequest
 import com.party.domain.model.user.recruitment.MyRecruitment
-import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.model.user.signup.UserSignUp
+import com.party.domain.model.user.signup.UserSignUpRequest
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 interface UserRepository {
 
@@ -64,7 +65,13 @@ interface UserRepository {
     suspend fun getUserProfile(): ServerApiResponse<UserProfile>
 
     // 유저의 프로필 수정
-    suspend fun updateUserProfile(userProfileRequest: UserProfileRequest): ServerApiResponse<UserProfileModify>
+    suspend fun updateUserProfile(
+        image: MultipartBody.Part?,
+        genderVisible: Boolean?,
+        birthVisible: Boolean?,
+        portfolioTitle: RequestBody?,
+        portfolio: RequestBody?,
+    ): ServerApiResponse<UserProfileModify>
 
     // 질문에 대한 저장된 응답 전체 삭제
     suspend fun deletePersonalities(personalityQuestionId: Int): ServerApiResponse<Unit>

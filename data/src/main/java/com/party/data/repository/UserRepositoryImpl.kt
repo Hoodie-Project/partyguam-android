@@ -13,25 +13,26 @@ import com.party.domain.model.user.SocialLogin
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.Location
 import com.party.domain.model.user.detail.PersonalityList
-import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.PersonalitySave
+import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.PositionList
-import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.detail.SaveCarrier
+import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.detail.SaveInterestLocation
 import com.party.domain.model.user.party.MyParty
 import com.party.domain.model.user.profile.UserProfile
 import com.party.domain.model.user.profile.UserProfileModify
-import com.party.domain.model.user.profile.UserProfileRequest
 import com.party.domain.model.user.recruitment.MyRecruitment
-import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.model.user.signup.UserSignUp
+import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.repository.UserRepository
 import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.StatusCode
 import com.skydoves.sandwich.retrofit.errorBody
 import com.skydoves.sandwich.retrofit.statusCode
 import kotlinx.serialization.json.Json
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -371,8 +372,20 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateUserProfile(userProfileRequest: UserProfileRequest): ServerApiResponse<UserProfileModify> {
-        return when(val result = userRemoteSource.updateUserProfile(userProfileRequest = userProfileRequest)){
+    override suspend fun updateUserProfile(
+        image: MultipartBody.Part?,
+        genderVisible: Boolean?,
+        birthVisible: Boolean?,
+        portfolioTitle: RequestBody?,
+        portfolio: RequestBody?,
+    ): ServerApiResponse<UserProfileModify> {
+        return when(val result = userRemoteSource.updateUserProfile(
+            image = image,
+            genderVisible = genderVisible,
+            birthVisible = birthVisible,
+            portfolioTitle = portfolioTitle,
+            portfolio = portfolio
+        )){
             is ApiResponse.Success -> {
                 SuccessResponse(data = UserMapper.mapperToUserProfileModify(result.data))
             }

@@ -60,6 +60,7 @@ fun ProfileEditScreenRoute(
         onGotoProfileEditPortfolio = { navController.navigate(Screens.ProfileEditPortfolio)},
         onAction = { action ->
             when(action){
+                is ProfileEditAction.OnChangeImage -> profileEditViewModel.onAction(action)
                 is ProfileEditAction.OnChangeGenderVisible -> profileEditViewModel.onAction(action)
                 is ProfileEditAction.OnChangeBirthVisible -> profileEditViewModel.onAction(action)
                 is ProfileEditAction.OnModify -> profileEditViewModel.onAction(action)
@@ -103,6 +104,7 @@ private fun ProfileEditScreen(
                 HeightSpacer(heightDp = 16.dp)
                 UserProfileInfoArea(
                     userProfileState = userProfileState,
+                    onSetImage = { image -> onAction(ProfileEditAction.OnChangeImage(image)) },
                     onChangeGenderVisible = { onAction(ProfileEditAction.OnChangeGenderVisible) },
                     onChangeBirthVisible = { onAction(ProfileEditAction.OnChangeBirthVisible) }
                 )

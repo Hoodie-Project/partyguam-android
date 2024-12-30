@@ -15,9 +15,10 @@ import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.profile.UserProfileModifyDto
-import com.party.domain.model.user.profile.UserProfileRequest
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 interface UserRemoteSource {
 
@@ -64,7 +65,13 @@ interface UserRemoteSource {
     suspend fun getUserProfile(): ApiResponse<UserProfileDto>
 
     // 유저의 프로필 수정
-    suspend fun updateUserProfile(userProfileRequest: UserProfileRequest): ApiResponse<UserProfileModifyDto>
+    suspend fun updateUserProfile(
+        image: MultipartBody.Part?,
+        genderVisible: Boolean?,
+        birthVisible: Boolean?,
+        portfolioTitle: RequestBody?,
+        portfolio: RequestBody?,
+    ): ApiResponse<UserProfileModifyDto>
 
     // 질문에 대한 저장된 응답 전체 삭제
     suspend fun deletePersonalities(personalityQuestionId: Int): ApiResponse<Unit>

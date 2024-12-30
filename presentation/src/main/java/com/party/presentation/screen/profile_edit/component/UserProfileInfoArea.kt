@@ -36,6 +36,7 @@ import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.calculateAgeSafely
+import com.party.common.component.NetworkImageLoad
 import com.party.common.component.icon.DrawableIcon
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.createMultipartBody
@@ -55,6 +56,7 @@ import okhttp3.MultipartBody
 @Composable
 fun UserProfileInfoArea(
     userProfileState: UserProfileState,
+    onSetImage: (MultipartBody.Part) -> Unit,
     onChangeGenderVisible: () -> Unit,
     onChangeBirthVisible: () -> Unit
 ) {
@@ -65,7 +67,8 @@ fun UserProfileInfoArea(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         UserProfileImageArea(
-            onSetImage = {}
+            imageUrl = userProfileState.userProfile.image,
+            onSetImage = onSetImage
         )
 
         // 유저 닉네임
@@ -89,6 +92,7 @@ fun UserProfileInfoArea(
 
 @Composable
 private fun UserProfileImageArea(
+    imageUrl: String?,
     onSetImage: (MultipartBody.Part) -> Unit
 ) {
     var uri by remember {
@@ -114,21 +118,37 @@ private fun UserProfileImageArea(
             .size(120.dp),
         contentAlignment = Alignment.Center,
     ) {
-        Card(
-            modifier = Modifier
-                .size(120.dp),
-            shape = CircleShape,
-            colors = CardDefaults.cardColors(
-                containerColor = GRAY300
-            )
-        ) {
-            AsyncImage(
+        if(uri != null){
+            Card(
                 modifier = Modifier
-                    .fillMaxSize(),
-                contentScale = ContentScale.FillBounds,
-                model = uri,
-                contentDescription = "Party Image",
-            )
+                    .size(120.dp),
+                shape = CircleShape,
+                colors = CardDefaults.cardColors(
+                    containerColor = GRAY300
+                )
+            ) {
+                AsyncImage(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentScale = ContentScale.FillBounds,
+                    model = uri,
+                    contentDescription = "Party Image",
+                )
+            }
+        }else {
+            Card(
+                modifier = Modifier
+                    .size(120.dp),
+                shape = CircleShape,
+                colors = CardDefaults.cardColors(
+                    containerColor = GRAY300
+                )
+            ) {
+                NetworkImageLoad(
+                    url = imageUrl,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
         }
 
         DrawableIconButton(
@@ -252,6 +272,7 @@ private fun UserProfileInfoAreaPreview() {
                 userCareers = emptyList(),
             )
         ),
+        onSetImage = {},
         onChangeGenderVisible = {},
         onChangeBirthVisible = {}
     )

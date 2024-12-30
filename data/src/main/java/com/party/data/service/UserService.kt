@@ -1,11 +1,11 @@
 package com.party.data.service
 
 import com.party.data.dto.user.detail.LocationDto
-import com.party.data.dto.user.detail.SaveInterestLocationDto
 import com.party.data.dto.user.detail.PersonalityListDto
 import com.party.data.dto.user.detail.PersonalitySaveDto
 import com.party.data.dto.user.detail.PositionListDto
 import com.party.data.dto.user.detail.SaveCarrierDto
+import com.party.data.dto.user.detail.SaveInterestLocationDto
 import com.party.data.dto.user.party.MyPartyDto
 import com.party.data.dto.user.profile.UserProfileDto
 import com.party.data.dto.user.recruitment.MyRecruitmentDto
@@ -13,13 +13,16 @@ import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.profile.UserProfileModifyDto
-import com.party.domain.model.user.profile.UserProfileRequest
 import com.skydoves.sandwich.ApiResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -86,9 +89,14 @@ interface UserService {
     suspend fun getUserProfile(): ApiResponse<UserProfileDto>
 
     // 유저의 프로필 수정
+    @Multipart
     @PATCH("api/users/me")
     suspend fun updateUserProfile(
-        @Body userProfileRequest: UserProfileRequest,
+        @Part image: MultipartBody.Part? = null,
+        @Part("genderVisible") genderVisible: Boolean? = null,
+        @Part("birthVisible") birthVisible: Boolean? = null,
+        @Part("portfolioTitle") portfolioTitle: RequestBody? = null,
+        @Part("portfolio") portfolio: RequestBody? = null,
     ): ApiResponse<UserProfileModifyDto>
 
     // 질문에 대한 저장된 응답 전체 삭제

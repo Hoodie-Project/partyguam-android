@@ -2,6 +2,8 @@ package com.party.presentation.screen.profile
 
 import com.party.domain.model.user.party.MyParty
 import com.party.domain.model.user.profile.UserProfile
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 data class UserProfileState(
 
@@ -21,6 +23,8 @@ data class UserProfileState(
         userCareers = emptyList(),
         userLocations = emptyList()
     ),
+
+    val image: MultipartBody.Part? = null,
 
     val isVisibleGender: Boolean = false,
     val isVisibleBirth: Boolean = false,

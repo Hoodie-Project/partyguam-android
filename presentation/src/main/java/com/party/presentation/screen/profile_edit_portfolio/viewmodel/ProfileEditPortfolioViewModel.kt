@@ -14,6 +14,9 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,13 +30,12 @@ class ProfileEditPortfolioViewModel @Inject constructor(
     private val _successState = MutableSharedFlow<Unit>()
     val successState = _successState.asSharedFlow()
 
-    private fun modifyPortfolio(portfolioTitle: String, portfolio: String){
+    private fun modifyPortfolio(portfolioTitle: RequestBody, portfolio: RequestBody){
         viewModelScope.launch {
             when(val result = modifyUserProfileUseCase(
-                userProfileRequest = UserProfileRequest(
-                    portfolioTitle = portfolioTitle,
-                    portfolio = portfolio
-                )
+                image = null,
+                portfolioTitle = portfolioTitle,
+                portfolio = portfolio
             )){
                 is ServerApiResponse.SuccessResponse -> { _successState.emit(Unit) }
                 is ServerApiResponse.ErrorResponse -> {}
@@ -49,12 +51,16 @@ class ProfileEditPortfolioViewModel @Inject constructor(
             is ProfileEditPortfolioAction.OnReset -> _state.update { it.copy(linkText = "", titleText = "") }
             is ProfileEditPortfolioAction.OnApply -> {
                 modifyPortfolio(
-                    portfolioTitle = _state.value.titleText,
-                    portfolio = _state.value.linkText
+                    portfolioTitle = createRequestBody(_state.value.titleText) ,
+                    portfolio = createRequestBody(_state.value.linkText)
                 )
             }
             is ProfileEditPortfolioAction.OnDeleteLink -> _state.update { it.copy(linkText = "") }
             is ProfileEditPortfolioAction.OnDeleteTitle -> _state.update { it.copy(titleText = "") }
         }
+    }
+
+    private fun createRequestBody(value: String): RequestBody {
+        return value.toRequestBody("text/plain".toMediaTypeOrNull())
     }
 }

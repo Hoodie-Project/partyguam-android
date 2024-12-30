@@ -17,9 +17,10 @@ import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.profile.UserProfileModifyDto
-import com.party.domain.model.user.profile.UserProfileRequest
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 class UserRemoteSourceImpl @Inject constructor(
@@ -106,8 +107,20 @@ class UserRemoteSourceImpl @Inject constructor(
         return userService.getUserProfile()
     }
 
-    override suspend fun updateUserProfile(userProfileRequest: UserProfileRequest): ApiResponse<UserProfileModifyDto> {
-        return userService.updateUserProfile(userProfileRequest = userProfileRequest)
+    override suspend fun updateUserProfile(
+        image: MultipartBody.Part?,
+        genderVisible: Boolean?,
+        birthVisible: Boolean?,
+        portfolioTitle: RequestBody?,
+        portfolio: RequestBody?,
+    ): ApiResponse<UserProfileModifyDto> {
+        return userService.updateUserProfile(
+            image = image,
+            genderVisible = genderVisible,
+            birthVisible = birthVisible,
+            portfolioTitle = portfolioTitle,
+            portfolio = portfolio
+        )
     }
 
     override suspend fun deletePersonalities(personalityQuestionId: Int): ApiResponse<Unit> {

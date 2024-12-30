@@ -19,6 +19,10 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -54,13 +58,12 @@ class ProfileEditViewModel @Inject constructor(
         }
     }
 
-    private fun modifyPortfolio(isVisibleGender: Boolean, isVisibleBirth: Boolean){
+    private fun modifyPortfolio(image: MultipartBody.Part?, isVisibleGender: Boolean, isVisibleBirth: Boolean){
         viewModelScope.launch {
             when(val result = modifyUserProfileUseCase(
-                userProfileRequest = UserProfileRequest(
-                    genderVisible = isVisibleGender,
-                    birthVisible = isVisibleBirth,
-                )
+                image = image,
+                genderVisible = isVisibleGender,
+                birthVisible = isVisibleBirth,
             )) {
                 is ServerApiResponse.SuccessResponse -> { _successState.emit(Unit) }
                 is ServerApiResponse.ErrorResponse -> {}
@@ -90,12 +93,14 @@ class ProfileEditViewModel @Inject constructor(
 
     fun onAction(action: ProfileEditAction){
         when(action){
+            is ProfileEditAction.OnChangeImage -> _state.update { it.copy(image = action.image) }
             is ProfileEditAction.OnChangeGenderVisible -> _state.update { it.copy(isVisibleGender = !it.isVisibleGender) }
             is ProfileEditAction.OnChangeBirthVisible -> _state.update { it.copy(isVisibleBirth = !it.isVisibleBirth) }
             is ProfileEditAction.OnModify -> {
                 modifyPortfolio(
-                    isVisibleGender = _state.value.isVisibleGender,
-                    isVisibleBirth = _state.value.isVisibleBirth
+                    isVisibleGender =  _state.value.isVisibleGender,
+                    isVisibleBirth = _state.value.isVisibleBirth,
+                    image = if( _state.value.image != null) _state.value.image else null,
                 )
             }
         }
