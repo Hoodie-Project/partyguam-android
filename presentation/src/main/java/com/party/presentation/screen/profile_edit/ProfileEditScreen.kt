@@ -38,6 +38,7 @@ fun ProfileEditScreenRoute(
 ) {
     LaunchedEffect(Unit) {
         profileEditViewModel.getUserProfile()
+        profileEditViewModel.getMyParty(1, 50, "createdAt", "DESC")
     }
 
     val userProfileState by profileEditViewModel.state.collectAsStateWithLifecycle()
