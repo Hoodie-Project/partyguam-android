@@ -17,6 +17,7 @@ import com.party.common.component.chip.Chip
 import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.LIGHT400
+import com.party.common.ui.theme.T3
 import com.party.domain.model.user.profile.UserCareer
 import com.party.domain.model.user.profile.UserProfilePosition
 
@@ -67,6 +68,8 @@ private fun UserProfileMainAndSubPositionAreaItem(
         Chip(
             text = "${userCareer.years}년",
             containerColor = containerColor,
+            fontSize = T3,
+            fontWeight = FontWeight.Normal,
         )
 
         val main = userCareer.position.main
