@@ -44,6 +44,7 @@ import com.party.presentation.screen.party_user_manage.PartyUserManageScreenRout
 import com.party.presentation.screen.profile.ProfileScreenRoute
 import com.party.presentation.screen.profile_edit.ProfileEditScreenRoute
 import com.party.presentation.screen.profile_edit_career.ProfileEditCareerScreenRoute
+import com.party.presentation.screen.profile_edit_locations.ProfileEditLocationScreenRoute
 import com.party.presentation.screen.profile_edit_portfolio.ProfileEditPortfolioScreenRoute
 import com.party.presentation.screen.profile_edit_time.ProfileEditTimeScreenRoute
 import com.party.presentation.screen.recruitment_create.RecruitmentCreateScreenRoute
@@ -345,6 +346,12 @@ fun AppNavHost() {
         }
         composable<Screens.ProfileEditTime> {
             ProfileEditTimeScreenRoute(
+                snackBarHostState = snackBarHostState,
+                navController = navController
+            )
+        }
+        composable<Screens.ProfileEditLocation> {
+            ProfileEditLocationScreenRoute(
                 snackBarHostState = snackBarHostState,
                 navController = navController
             )

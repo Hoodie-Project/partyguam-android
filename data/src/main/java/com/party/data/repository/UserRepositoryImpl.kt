@@ -406,4 +406,24 @@ class UserRepositoryImpl @Inject constructor(
 
         }
     }
+
+    override suspend fun deleteInterestLocation(): ServerApiResponse<Unit> {
+        return when(val result = userRemoteSource.deleteInterestLocation()){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = Unit)
+            }
+            is ApiResponse.Failure.Error -> {
+                when(result.statusCode){
+                    StatusCode.Forbidden -> ErrorResponse(statusCode = StatusCode.Forbidden.code)
+                    StatusCode.NotFound -> ErrorResponse(statusCode = StatusCode.NotFound.code)
+                    StatusCode.InternalServerError -> ErrorResponse(statusCode = StatusCode.InternalServerError.code)
+                    else -> ErrorResponse(data = Unit)
+                }
+            }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse(message = result.message)
+            }
+        }
+    }
 }

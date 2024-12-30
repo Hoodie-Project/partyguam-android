@@ -46,6 +46,7 @@ fun ProfileEditScreenRoute(
         userProfileState = userProfileState,
         onNavigationClick = { navController.popBackStack() },
         onGotoProfileEditCareer = { navController.navigate(Screens.ProfileEditCareer)},
+        onGotoProfileEditLocation = { navController.navigate(Screens.ProfileEditLocation)},
         onGotoProfileEditTime = { navController.navigate(Screens.ProfileEditTime)},
         onGotoProfileEditPortfolio = { navController.navigate(Screens.ProfileEditPortfolio)}
     )
@@ -56,6 +57,7 @@ private fun ProfileEditScreen(
     userProfileState: UserProfileState,
     onNavigationClick: () -> Unit,
     onGotoProfileEditCareer: () -> Unit,
+    onGotoProfileEditLocation: () -> Unit,
     onGotoProfileEditTime: () -> Unit,
     onGotoProfileEditPortfolio: () -> Unit
 ) {
@@ -97,6 +99,7 @@ private fun ProfileEditScreen(
                 EditArea(
                     userProfileState = userProfileState,
                     onGotoProfileEditCareer = onGotoProfileEditCareer,
+                    onGotoProfileEditLocation = onGotoProfileEditLocation,
                     onGotoProfileEditTime = onGotoProfileEditTime,
                     onGotoProfileEditPortfolio = onGotoProfileEditPortfolio
                 )
@@ -123,6 +126,7 @@ private fun ProfileEditScreenPreview() {
         userProfileState = UserProfileState(),
         onNavigationClick = {},
         onGotoProfileEditCareer = {},
+        onGotoProfileEditLocation = {},
         onGotoProfileEditTime = {},
         onGotoProfileEditPortfolio = {}
     )

@@ -113,4 +113,8 @@ class UserRemoteSourceImpl @Inject constructor(
     override suspend fun deletePersonalities(personalityQuestionId: Int): ApiResponse<Unit> {
         return userService.deletePersonalities(personalityQuestionId = personalityQuestionId)
     }
+
+    override suspend fun deleteInterestLocation(): ApiResponse<Unit> {
+        return userService.deleteInterestLocations()
+    }
 }

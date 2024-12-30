@@ -96,4 +96,8 @@ interface UserService {
     suspend fun deletePersonalities(
         @Path("personalityQuestionId") personalityQuestionId: Int,
     ): ApiResponse<Unit>
+
+    // 관심지역 전체 삭제
+    @DELETE("api/users/me/locations")
+    suspend fun deleteInterestLocations(): ApiResponse<Unit>
 }

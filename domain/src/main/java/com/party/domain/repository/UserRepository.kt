@@ -69,4 +69,7 @@ interface UserRepository {
     // 질문에 대한 저장된 응답 전체 삭제
     suspend fun deletePersonalities(personalityQuestionId: Int): ServerApiResponse<Unit>
 
+    // 관심지역 전체 삭제
+    suspend fun deleteInterestLocation(): ServerApiResponse<Unit>
+
 }
