@@ -35,9 +35,11 @@ import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
+import com.party.common.calculateAgeSafely
 import com.party.common.component.icon.DrawableIcon
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.createMultipartBody
+import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.GRAY300
@@ -45,12 +47,16 @@ import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T1
+import com.party.domain.model.user.profile.UserProfile
+import com.party.presentation.enum.GenderType
 import com.party.presentation.screen.profile.UserProfileState
 import okhttp3.MultipartBody
 
 @Composable
 fun UserProfileInfoArea(
     userProfileState: UserProfileState,
+    onChangeGenderVisible: () -> Unit,
+    onChangeBirthVisible: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -65,12 +71,19 @@ fun UserProfileInfoArea(
         // 유저 닉네임
         HeightSpacer(heightDp = 12.dp)
         UserNickNameArea(
-            nickName = ""
+            nickName = userProfileState.userProfile.nickname
         )
 
         // 성별, 나이
         HeightSpacer(heightDp = 12.dp)
-        UserGenderAndAge()
+        UserGenderAndAge(
+            gender = GenderType.fromType(userProfileState.userProfile.gender).toDisplayText(),
+            genderVisible = userProfileState.isVisibleGender,
+            birth = "${calculateAgeSafely(userProfileState.userProfile.birth)}살",
+            birthVisible = userProfileState.isVisibleBirth,
+            onChangeGenderVisible = onChangeGenderVisible,
+            onChangeBirthVisible = onChangeBirthVisible,
+        )
     }
 }
 
@@ -147,19 +160,26 @@ private fun UserNickNameArea(
 
 @Composable
 private fun UserGenderAndAge(
-    modifier: Modifier = Modifier
+    gender: String,
+    genderVisible: Boolean,
+    birth: String,
+    birthVisible: Boolean,
+    onChangeGenderVisible: () -> Unit,
+    onChangeBirthVisible: () -> Unit
 ) {
     UserGenderAndAgeItem(
         title = "성별",
-        gender = "남자",
-        isVisible = false
+        gender = gender,
+        isVisible = genderVisible,
+        onClick = onChangeGenderVisible
     )
 
     HeightSpacer(heightDp = 12.dp)
     UserGenderAndAgeItem(
         title = "나이",
-        gender = "24살",
-        isVisible = true
+        gender = birth,
+        isVisible = birthVisible,
+        onClick = onChangeBirthVisible
     )
 }
 
@@ -168,12 +188,14 @@ private fun UserGenderAndAgeItem(
     title: String,
     gender: String,
     isVisible: Boolean,
+    onClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(40.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Row {
             TextComponent(
@@ -200,8 +222,10 @@ private fun UserGenderAndAgeItem(
             WidthSpacer(widthDp = 2.dp)
             DrawableIcon(
                 icon = if(isVisible) painterResource(id = R.drawable.icon_toggle_on) else painterResource(id = R.drawable.icon_toggle_off),
-                contentDescription = "",
-                tintColor = if (isVisible) PRIMARY else GRAY400
+                contentDescription = "isVisible",
+                tintColor = if (isVisible) PRIMARY else GRAY400,
+                iconSize = 40.dp,
+                modifier = Modifier.noRippleClickable { onClick() },
             )
         }
     }
@@ -211,6 +235,24 @@ private fun UserGenderAndAgeItem(
 @Composable
 private fun UserProfileInfoAreaPreview() {
     UserProfileInfoArea(
-        userProfileState = UserProfileState()
+        userProfileState = UserProfileState(
+            userProfile = UserProfile(
+                nickname = "닉네임",
+                birthVisible = false,
+                genderVisible = true,
+                birth = "1992-01-01",
+                gender = "M",
+                image = null,
+                createdAt = "2021-01-01",
+                updatedAt = "2021-01-01",
+                portfolioTitle = "포트폴리오 제목",
+                portfolio = "포트폴리오 내용",
+                userPersonalities = emptyList(),
+                userLocations = emptyList(),
+                userCareers = emptyList(),
+            )
+        ),
+        onChangeGenderVisible = {},
+        onChangeBirthVisible = {}
     )
 }

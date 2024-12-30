@@ -22,6 +22,9 @@ data class UserProfileState(
         userLocations = emptyList()
     ),
 
+    val isVisibleGender: Boolean = false,
+    val isVisibleBirth: Boolean = false,
+
     val isMyPartyLoading: Boolean = true,
     val myPartyList: MyParty = MyParty(total = 0, partyUsers = emptyList()),
 )

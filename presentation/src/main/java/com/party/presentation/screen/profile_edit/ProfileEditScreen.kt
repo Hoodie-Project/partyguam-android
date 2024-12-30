@@ -30,15 +30,23 @@ import com.party.presentation.screen.profile_edit.component.EditArea
 import com.party.presentation.screen.profile_edit.component.ProfileEditScaffoldArea
 import com.party.presentation.screen.profile_edit.component.UserProfileInfoArea
 import com.party.presentation.screen.profile_edit.viewmodel.ProfileEditViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlin.math.acos
 
 @Composable
 fun ProfileEditScreenRoute(
     navController: NavHostController,
     profileEditViewModel: ProfileEditViewModel = hiltViewModel()
 ) {
-    LaunchedEffect(Unit) {
+    LaunchedEffect(key1 = Unit) {
         profileEditViewModel.getUserProfile()
         profileEditViewModel.getMyParty(1, 50, "createdAt", "DESC")
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        profileEditViewModel.successState.collectLatest {
+            navController.popBackStack()
+        }
     }
 
     val userProfileState by profileEditViewModel.state.collectAsStateWithLifecycle()
@@ -49,7 +57,14 @@ fun ProfileEditScreenRoute(
         onGotoProfileEditCareer = { navController.navigate(Screens.ProfileEditCareer)},
         onGotoProfileEditLocation = { navController.navigate(Screens.ProfileEditLocation)},
         onGotoProfileEditTime = { navController.navigate(Screens.ProfileEditTime)},
-        onGotoProfileEditPortfolio = { navController.navigate(Screens.ProfileEditPortfolio)}
+        onGotoProfileEditPortfolio = { navController.navigate(Screens.ProfileEditPortfolio)},
+        onAction = { action ->
+            when(action){
+                is ProfileEditAction.OnChangeGenderVisible -> profileEditViewModel.onAction(action)
+                is ProfileEditAction.OnChangeBirthVisible -> profileEditViewModel.onAction(action)
+                is ProfileEditAction.OnModify -> profileEditViewModel.onAction(action)
+            }
+        }
     )
 }
 
@@ -60,7 +75,8 @@ private fun ProfileEditScreen(
     onGotoProfileEditCareer: () -> Unit,
     onGotoProfileEditLocation: () -> Unit,
     onGotoProfileEditTime: () -> Unit,
-    onGotoProfileEditPortfolio: () -> Unit
+    onGotoProfileEditPortfolio: () -> Unit,
+    onAction: (ProfileEditAction) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -86,7 +102,9 @@ private fun ProfileEditScreen(
                 // 유저 정보
                 HeightSpacer(heightDp = 16.dp)
                 UserProfileInfoArea(
-                    userProfileState = userProfileState
+                    userProfileState = userProfileState,
+                    onChangeGenderVisible = { onAction(ProfileEditAction.OnChangeGenderVisible) },
+                    onChangeBirthVisible = { onAction(ProfileEditAction.OnChangeBirthVisible) }
                 )
 
                 // 구분선
@@ -108,7 +126,7 @@ private fun ProfileEditScreen(
 
             // 수정하기 버튼
             CustomButton(
-                onClick = { /*TODO*/ },
+                onClick = { onAction(ProfileEditAction.OnModify) },
                 modifier = Modifier
                     .height(48.dp)
                     .padding(horizontal = MEDIUM_PADDING_SIZE),
@@ -129,6 +147,7 @@ private fun ProfileEditScreenPreview() {
         onGotoProfileEditCareer = {},
         onGotoProfileEditLocation = {},
         onGotoProfileEditTime = {},
-        onGotoProfileEditPortfolio = {}
+        onGotoProfileEditPortfolio = {},
+        onAction = {}
     )
 }
