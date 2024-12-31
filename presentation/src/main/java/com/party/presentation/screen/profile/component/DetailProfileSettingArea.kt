@@ -15,12 +15,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.ProgressIndicatorDefaults.drawStopIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.painter.Painter
@@ -49,6 +49,9 @@ import com.party.domain.model.user.profile.UserPersonality
 import com.party.domain.model.user.profile.UserProfile
 import com.party.domain.model.user.profile.UserProfileLocation
 import com.party.domain.model.user.profile.UserProfilePosition
+import com.party.navigation.Screens
+import com.party.presentation.enum.DetailProfileCardType
+import com.party.presentation.enum.PersonalityType
 import com.party.presentation.screen.profile.UserProfileState
 
 val profileCardTypeList = listOf(
@@ -61,14 +64,19 @@ val profileCardTypeList = listOf(
 @Composable
 fun DetailProfileSettingArea(
     userProfileState: UserProfileState,
+    onClick: (Screens) -> Unit,
 ) {
-    val progress = remember {
-        val countNotEmpty = profileCardTypeList.count {
-            when (it) {
-                DetailProfileCardType.CAREER_POSITION -> userProfileState.userProfile.userCareers.isEmpty()
-                DetailProfileCardType.LIKE_LOCATION -> userProfileState.userProfile.userLocations.isEmpty()
-                DetailProfileCardType.CHECK_PERSONALITY -> userProfileState.userProfile.userPersonalities.isEmpty()
-                else -> true
+    val progress = remember(userProfileState) {
+        val countNotEmpty = profileCardTypeList.count { cardType ->
+            when (cardType) {
+                DetailProfileCardType.CAREER_POSITION -> userProfileState.userProfile.userCareers.isNotEmpty()
+                DetailProfileCardType.LIKE_LOCATION -> userProfileState.userProfile.userLocations.isNotEmpty()
+                DetailProfileCardType.LIKE_TIME -> userProfileState.userProfile.userPersonalities.any {
+                    it.personalityOption.personalityQuestion.id == PersonalityType.TIME.id
+                }
+                DetailProfileCardType.CHECK_PERSONALITY -> userProfileState.userProfile.userPersonalities.any {
+                    it.personalityOption.personalityQuestion.id != PersonalityType.TIME.id
+                }
             }
         }
         countNotEmpty.toFloat() / profileCardTypeList.size
@@ -92,7 +100,8 @@ fun DetailProfileSettingArea(
         // 세부프로필 카드
         HeightSpacer(heightDp = 16.dp)
         DetailProfileCardArea(
-            userProfileState = userProfileState
+            userProfileState = userProfileState,
+            onClick = onClick
         )
     }
 }
@@ -101,12 +110,16 @@ fun DetailProfileSettingArea(
 private fun DetailProfileSettingAreaTitle(
     userProfileState: UserProfileState
 ) {
-    val countNotEmpty = profileCardTypeList.count {
-        when (it) {
-            DetailProfileCardType.CAREER_POSITION -> userProfileState.userProfile.userCareers.isEmpty()
-            DetailProfileCardType.LIKE_LOCATION -> userProfileState.userProfile.userLocations.isEmpty()
-            DetailProfileCardType.CHECK_PERSONALITY -> userProfileState.userProfile.userPersonalities.isEmpty()
-            else -> true
+    val countNotEmpty = profileCardTypeList.count { cardType ->
+        when (cardType) {
+            DetailProfileCardType.CAREER_POSITION -> userProfileState.userProfile.userCareers.isNotEmpty()
+            DetailProfileCardType.LIKE_LOCATION -> userProfileState.userProfile.userLocations.isNotEmpty()
+            DetailProfileCardType.LIKE_TIME -> userProfileState.userProfile.userPersonalities.any {
+                it.personalityOption.personalityQuestion.id == PersonalityType.TIME.id
+            }
+            DetailProfileCardType.CHECK_PERSONALITY -> userProfileState.userProfile.userPersonalities.any {
+                it.personalityOption.personalityQuestion.id != PersonalityType.TIME.id
+            }
         }
     }
 
@@ -144,25 +157,34 @@ private fun LinearProgressIndicator(
     LinearProgressIndicator(
         modifier = Modifier
             .fillMaxWidth()
-            .height(8.dp)
-            .clip(RoundedCornerShape(4.dp)),
+            .height(8.dp),
         progress = { if(progress == 0f) 0.01f else progress },
         strokeCap = StrokeCap.Round,
         trackColor = GRAY100,
         color = PRIMARY,
+        gapSize = 0.dp,
+        drawStopIndicator = {
+            drawStopIndicator(
+                drawScope = this,
+                stopSize = 0.dp,
+                color = Color.Transparent,
+                strokeCap = StrokeCap.Round,
+            )
+        }
     )
 }
 
 @Composable
 private fun DetailProfileCardArea(
-    userProfileState: UserProfileState
+    userProfileState: UserProfileState,
+    onClick: (Screens) -> Unit,
 ) {
     val filteredList = profileCardTypeList.filter { cardType ->
         when (cardType) {
             DetailProfileCardType.CAREER_POSITION -> userProfileState.userProfile.userCareers.isEmpty()
             DetailProfileCardType.LIKE_LOCATION -> userProfileState.userProfile.userLocations.isEmpty()
-            DetailProfileCardType.CHECK_PERSONALITY -> userProfileState.userProfile.userPersonalities.isEmpty()
-            else -> true // 다른 경우 기본적으로 표시
+            DetailProfileCardType.LIKE_TIME -> userProfileState.userProfile.userPersonalities.none { it.personalityOption.personalityQuestion.id == PersonalityType.TIME.id }
+            DetailProfileCardType.CHECK_PERSONALITY -> userProfileState.userProfile.userPersonalities.none { it.personalityOption.personalityQuestion.id != PersonalityType.TIME.id }
         }
     }
 
@@ -181,6 +203,7 @@ private fun DetailProfileCardArea(
                 icon = convertProfileTypeIcon(item),
                 title = item.title,
                 content = item.content,
+                onClick = { onClick(item.screens) }
             )
         }
     }
@@ -201,8 +224,10 @@ private fun DetailProfileCard(
     icon: Painter,
     title: String,
     content: String,
+    onClick: () -> Unit,
 ) {
     Card(
+        onClick = onClick,
         modifier = Modifier
             .width(200.dp)
             .height(118.dp),
@@ -263,37 +288,37 @@ private fun DetailProfileSettingAreaPreview() {
                 updatedAt = "",
                 userPersonalities = listOf(
                     UserPersonality(
-                        id = 0, personalityOption = PersonalityOption(
-                            id = 0,
-                            content = "",
+                        id = 737, personalityOption = PersonalityOption(
+                            id = 2571,
+                            content = "Roshawnda",
                             personalityQuestion = PersonalityQuestion(
-                                id = 0,
-                                content = "",
-                                responseCount = 0
+                                id = 1,
+                                content = "Theron",
+                                responseCount = 553
                             )
                         )
                     )
                 ),
                 userCareers = listOf(
                     UserCareer(
-                        id = 0,
-                        years = 0,
-                        careerType = "",
-                        position = UserProfilePosition(main = "", sub = "")
+                        id = 6007, years = 238, careerType = "Judith", position = UserProfilePosition(
+                            main = "Natoya",
+                            sub = "Danah"
+                        )
                     )
                 ),
                 userLocations = listOf(
                     UserLocation(
-                        id = 0,
-                        location = UserProfileLocation(
-                            id = 0,
-                            province = "",
-                            city = ""
+                        id = 3695, location = UserProfileLocation(
+                            id = 7617,
+                            province = "Ramie",
+                            city = "Vicki"
                         )
                     )
-                )
-            )
-        )
+                ),
+            ),
+        ),
+        onClick = {}
     )
 }
 
@@ -304,27 +329,6 @@ private fun DetailProfileCardPreview() {
         icon = painterResource(id = R.drawable.icon_profile),
         title = DetailProfileCardType.CAREER_POSITION.title,
         content = DetailProfileCardType.CAREER_POSITION.content,
+        onClick = {}
     )
-}
-
-enum class DetailProfileCardType(
-    val title: String,
-    val content: String
-) {
-    CAREER_POSITION(
-        title = "경력/포지션",
-        content = "경력과 포지션을 입력하면\n파티 합류 가능성 UP"
-    ),
-    LIKE_LOCATION(
-        title = "관심 장소",
-        content = "관심 지역을 선택하고\n파티를 추천 받아보세요!"
-    ),
-    LIKE_TIME(
-        title = "희망 시간",
-        content = "주로 작업하는 시간대는\n어떻게 되시나요?"
-    ),
-    CHECK_PERSONALITY(
-        title = "성향 체크",
-        content = "성향을 체크하고\n파티원을 추천받으세요"
-    ),
 }

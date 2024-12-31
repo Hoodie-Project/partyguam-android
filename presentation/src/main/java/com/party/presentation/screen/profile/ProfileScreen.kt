@@ -59,7 +59,8 @@ fun ProfileScreenRoute(
         userProfileState = userProfileState,
         onGoSetting = { navController.navigate(Screens.ManageAuth) },
         onMyPageCardClick = { partyId -> navController.navigate(Screens.PartyDetail(partyId)) },
-        onProfileEditClick = { navController.navigate(Screens.ProfileEdit) }
+        onProfileEditClick = { navController.navigate(Screens.ProfileEdit) },
+        onClick = { screens -> navController.navigate(screens) }
     )
 }
 
@@ -71,6 +72,7 @@ private fun ProfileScreen(
     onGoSetting: () -> Unit,
     onMyPageCardClick: (Int) -> Unit,
     onProfileEditClick: () -> Unit,
+    onClick: (Screens) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -108,6 +110,7 @@ private fun ProfileScreen(
             HeightSpacer(heightDp = 40.dp)
             DetailProfileSettingArea(
                 userProfileState = userProfileState,
+                onClick = onClick
             )
 
             // 희망장소
@@ -192,6 +195,7 @@ private fun ProfileScreenContentPreview() {
         ),
         onGoSetting = {},
         onMyPageCardClick = {},
-        onProfileEditClick = {}
+        onProfileEditClick = {},
+        onClick = {}
     )
 }
