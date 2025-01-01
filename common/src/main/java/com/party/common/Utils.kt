@@ -161,7 +161,7 @@ fun ScreenExplainArea(
         fontSize = T3,
     )
 
-    HeightSpacer(heightDp = 40.dp)
+    //HeightSpacer(heightDp = 40.dp)
 }
 
 @Composable

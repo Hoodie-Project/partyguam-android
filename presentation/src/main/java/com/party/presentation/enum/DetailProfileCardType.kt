@@ -25,6 +25,6 @@ enum class DetailProfileCardType(
     CHECK_PERSONALITY(
         title = "성향 체크",
         content = "성향을 체크하고\n파티원을 추천받으세요",
-        screens = Screens.ProfileEditTime,
+        screens = Screens.ProfileEditTendency,
     ),
 }

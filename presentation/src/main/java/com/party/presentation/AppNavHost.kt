@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.party.common.component.homeTopTabList
+import com.party.common.component.profileEditTendencyTabList
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.Screens
 import com.party.presentation.screen.auth_setting.AuthSettingScreenRoute
@@ -46,6 +47,7 @@ import com.party.presentation.screen.profile_edit.ProfileEditScreenRoute
 import com.party.presentation.screen.profile_edit_career.ProfileEditCareerScreenRoute
 import com.party.presentation.screen.profile_edit_locations.ProfileEditLocationScreenRoute
 import com.party.presentation.screen.profile_edit_portfolio.ProfileEditPortfolioScreenRoute
+import com.party.presentation.screen.profile_edit_tendency.ProfileEditTendencyScreenRoute
 import com.party.presentation.screen.profile_edit_time.ProfileEditTimeScreenRoute
 import com.party.presentation.screen.recruitment_create.RecruitmentCreateScreenRoute
 import com.party.presentation.screen.recruitment_detail.RecruitmentDetailRoute
@@ -354,6 +356,13 @@ fun AppNavHost() {
             ProfileEditLocationScreenRoute(
                 snackBarHostState = snackBarHostState,
                 navController = navController
+            )
+        }
+        composable<Screens.ProfileEditTendency> {
+            ProfileEditTendencyScreenRoute(
+                snackBarHostState = snackBarHostState,
+                navController = navController,
+                profileEditTendencyTabList = profileEditTendencyTabList
             )
         }
     }

@@ -36,6 +36,8 @@ val searchTabList = listOf("전체", "파티", "모집공고")
 
 val stateTabList = listOf("내 파티", "지원목록")
 
+val profileEditTendencyTabList = listOf("1단계", "2단계", "3단계")
+
 @Composable
 fun TabArea(
     modifier: Modifier = Modifier,

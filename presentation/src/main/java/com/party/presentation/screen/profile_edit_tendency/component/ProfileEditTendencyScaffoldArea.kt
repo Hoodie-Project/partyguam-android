@@ -1,9 +1,7 @@
-package com.party.presentation.screen.profile_edit.component
+package com.party.presentation.screen.profile_edit_tendency.component
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -11,13 +9,11 @@ import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.scaffold.ScaffoldCenterBar
-import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.DARK100
 import com.party.common.ui.theme.T2
 
 @Composable
-fun ProfileEditScaffoldArea(
+fun ProfileEditTendencyScaffoldArea(
     onNavigationClick: () -> Unit,
 ) {
     ScaffoldCenterBar(
@@ -32,28 +28,18 @@ fun ProfileEditScaffoldArea(
         },
         title = {
             Text(
-                text = "프로필 편집",
+                text = "성향",
                 fontWeight = FontWeight.Bold,
                 fontSize = T2
             )
         },
-        actionIcons = {
-            Text(
-                text = "미리보기",
-                fontWeight = FontWeight.Bold,
-                fontSize = B2,
-                color = DARK100,
-                modifier = Modifier
-                    .padding(end = 20.dp)
-            )
-        }
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun ProfileEditScaffoldAreaPreview() {
-    ProfileEditScaffoldArea(
+private fun ProfileEditTendencyScaffoldAreaPreview() {
+    ProfileEditTendencyScaffoldArea(
         onNavigationClick = {}
     )
 }
