@@ -49,6 +49,7 @@ private fun AuthSettingScreen(
                 .padding(it)
         ) {
             // 소셜 로그인 관리
+            HeightSpacer(heightDp = 24.dp)
             ManageAuthArea(
                 modifier = Modifier
                     .padding(horizontal = 20.dp)

@@ -79,6 +79,8 @@ private fun UserProfileMainAndSubPositionAreaItem(
         Chip(
             text = "$main | $sub",
             containerColor = containerColor,
+            fontSize = T3,
+            fontWeight = FontWeight.Normal,
         )
     }
 }

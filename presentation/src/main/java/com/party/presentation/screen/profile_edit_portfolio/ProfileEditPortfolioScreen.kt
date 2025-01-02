@@ -73,6 +73,7 @@ private fun ProfileEditPortfolioScreen(
                 .padding(horizontal = MEDIUM_PADDING_SIZE)
         ) {
             // 입력 Area
+            HeightSpacer(heightDp = 24.dp)
             InputLinkAndTitleArea(
                 modifier = Modifier.weight(1f),
                 linkText = state.linkText,

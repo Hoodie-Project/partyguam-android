@@ -197,6 +197,7 @@ private fun ProfileEditCareerScreen(
                 )
 
                 // 주포지션, 부포지션
+                HeightSpacer(heightDp = 40.dp)
                 ProfileEditCareerSelectedPositionArea(
                     selectedCareerFirst = selectedCareerFirst,
                     selectedMainPositionFirst = selectedMainPositionFirst,
