@@ -48,7 +48,7 @@ fun ProfileEditSelectLocationArea(
 ) {
     Row(
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = Alignment.Top,
     ) {
         SelectProvinceArea(
             modifier = Modifier.weight(1f),
@@ -169,7 +169,7 @@ private fun LocationComponent(
         onClick = onClick,
         modifier = Modifier
             .height(EXTRA_LARGE_BUTTON_HEIGHT2)
-            .padding(horizontal = 1.dp, vertical = 0.dp),
+            .padding(horizontal = 1.dp, vertical = 0.5.dp),
         colors = CardDefaults.cardColors(
             containerColor = WHITE
         ),

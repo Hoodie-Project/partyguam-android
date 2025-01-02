@@ -23,7 +23,10 @@ fun TendencyArea(
     selectedTabText: String,
     onSelectTendency: (PersonalityListOption) -> Unit,
     onSelectConfidence: (PersonalityListOption) -> Unit,
-    onSelectChallenge: (PersonalityListOption) -> Unit
+    onSelectChallenge: (PersonalityListOption) -> Unit,
+    onResetFirstArea: () -> Unit,
+    onResetSecondArea: () -> Unit,
+    onResetThirdArea: () -> Unit
 ) {
     val scrollState = rememberScrollState()
 
@@ -45,7 +48,8 @@ fun TendencyArea(
                 .bringIntoViewRequester(bringIntoViewRequesters[0]),
             personalityList = state.personalityList,
             selectedList = state.selectedTendencyList,
-            onSelect = onSelectTendency
+            onSelect = onSelectTendency,
+            onReset = onResetFirstArea
         )
         HeightSpacer(heightDp = 80.dp)
         SecondLevelArea(
@@ -53,7 +57,8 @@ fun TendencyArea(
                 .bringIntoViewRequester(bringIntoViewRequesters[1]),
             personalityList = state.personalityList,
             selectedList = state.selectedConfidenceList,
-            onSelect = onSelectConfidence
+            onSelect = onSelectConfidence,
+            onReset = onResetSecondArea
         )
         HeightSpacer(heightDp = 80.dp)
         ThirdLevelArea(
@@ -61,7 +66,8 @@ fun TendencyArea(
                 .bringIntoViewRequester(bringIntoViewRequesters[2]),
             personalityList = state.personalityList,
             selectedList = state.selectedChallengeList,
-            onSelect = onSelectChallenge
+            onSelect = onSelectChallenge,
+            onReset = onResetThirdArea
         )
         HeightSpacer(heightDp = 160.dp)
     }

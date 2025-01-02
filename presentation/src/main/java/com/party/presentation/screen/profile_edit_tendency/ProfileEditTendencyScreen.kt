@@ -71,6 +71,9 @@ fun ProfileEditTendencyScreenRoute(
                 is ProfileEditTendencyAction.OnSelectTendency -> profileEditTendencyViewModel.action(action)
                 is ProfileEditTendencyAction.OnSelectConfidence -> profileEditTendencyViewModel.action(action)
                 is ProfileEditTendencyAction.OnSelectChallenge -> profileEditTendencyViewModel.action(action)
+                is ProfileEditTendencyAction.OnResetFirstArea -> profileEditTendencyViewModel.action(action)
+                is ProfileEditTendencyAction.OnResetSecondArea -> profileEditTendencyViewModel.action(action)
+                is ProfileEditTendencyAction.OnResetThirdArea -> profileEditTendencyViewModel.action(action)
             }
         }
     )
@@ -122,7 +125,10 @@ private fun ProfileEditTendencyScreen(
                     selectedTabText = state.selectedTab,
                     onSelectTendency = { personalityListOption -> onAction(ProfileEditTendencyAction.OnSelectTendency(personalityListOption)) },
                     onSelectConfidence = { personalityListOption -> onAction(ProfileEditTendencyAction.OnSelectConfidence(personalityListOption)) },
-                    onSelectChallenge = { personalityListOption -> onAction(ProfileEditTendencyAction.OnSelectChallenge(personalityListOption)) }
+                    onSelectChallenge = { personalityListOption -> onAction(ProfileEditTendencyAction.OnSelectChallenge(personalityListOption)) },
+                    onResetFirstArea = { onAction(ProfileEditTendencyAction.OnResetFirstArea) },
+                    onResetSecondArea = { onAction(ProfileEditTendencyAction.OnResetSecondArea) },
+                    onResetThirdArea = { onAction(ProfileEditTendencyAction.OnResetThirdArea) }
                 )
             }
 

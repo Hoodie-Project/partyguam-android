@@ -149,6 +149,9 @@ class ProfileEditTendencyViewModel @Inject constructor(
                     state.copy(selectedChallengeList = updatedList)
                 }
             }
+            is ProfileEditTendencyAction.OnResetFirstArea -> _state.update { it.copy(selectedTendencyList = emptyList()) }
+            is ProfileEditTendencyAction.OnResetSecondArea -> _state.update { it.copy(selectedConfidenceList = emptyList()) }
+            is ProfileEditTendencyAction.OnResetThirdArea -> _state.update { it.copy(selectedChallengeList = emptyList()) }
         }
     }
 

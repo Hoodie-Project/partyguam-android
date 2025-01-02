@@ -42,6 +42,12 @@ fun ProfileEditLocationScreenRoute(
         }
     }
 
+    LaunchedEffect(key1 = Unit) {
+        profileEditLocationViewModel.saveSuccess.collectLatest {
+            navController.popBackStack()
+        }
+    }
+
     val state by profileEditLocationViewModel.state.collectAsStateWithLifecycle()
 
     ProfileEditLocationScreen(

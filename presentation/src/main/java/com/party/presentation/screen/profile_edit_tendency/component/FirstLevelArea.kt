@@ -22,7 +22,8 @@ fun FirstLevelArea(
     modifier: Modifier,
     personalityList: List<PersonalityList>,
     selectedList: List<PersonalityListOption> = emptyList(),
-    onSelect: (PersonalityListOption) -> Unit
+    onSelect: (PersonalityListOption) -> Unit,
+    onReset: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -33,7 +34,7 @@ fun FirstLevelArea(
         )
         HeightSpacer(heightDp = 12.dp)
         ResetTextAndIconArea(
-            onReset = {}
+            onReset = onReset
         )
         HeightSpacer(heightDp = 8.dp)
         if(personalityList.isNotEmpty()){

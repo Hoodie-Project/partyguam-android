@@ -43,6 +43,7 @@ fun EditArea(
     onGotoProfileEditCareer: () -> Unit,
     onGotoProfileEditLocation: () -> Unit,
     onGotoProfileEditTime: () -> Unit,
+    onGotoProfileEditTendency: () -> Unit,
     onGotoProfileEditPortfolio: () -> Unit,
 ) {
     Column(
@@ -84,7 +85,8 @@ fun EditArea(
         HeightSpacer(heightDp = 60.dp)
         EditAreaItem(
             text = editList[3],
-            onClick = {},
+            onClick = onGotoProfileEditTendency,
+            content = {}
         )
         HeightSpacer(heightDp = 60.dp)
         EditAreaItem(
@@ -167,6 +169,7 @@ private fun EditAreaPreview() {
         onGotoProfileEditCareer = {},
         onGotoProfileEditLocation = {},
         onGotoProfileEditTime = {},
+        onGotoProfileEditTendency = {},
         onGotoProfileEditPortfolio = {}
     )
 }
