@@ -36,7 +36,7 @@ fun HomeListTitleArea(
     title: String,
     titleIcon: Painter,
     description: String,
-    onClick: () -> Unit,
+    onReload: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -47,7 +47,7 @@ fun HomeListTitleArea(
             modifier = Modifier.height(25.dp),
             title = title,
             icon = titleIcon,
-            onClick = onClick,
+            onClick = onReload,
         )
         HeightSpacer(heightDp = 8.dp)
         HomeListDescriptionArea(

@@ -73,13 +73,14 @@ object PartyMapper {
             partyRecruitments = personalRecruitmentListDto.partyRecruitments.map {
                 PersonalRecruitmentItem(
                     id = it.id,
-                    partyId = it.partyId,
-                    positionId = it.positionId,
+                    //partyId = it.partyId,
+                    //positionId = it.positionId,
                     recruitingCount = it.recruitingCount,
                     recruitedCount = it.recruitedCount,
                     content = it.content,
                     createdAt = it.createdAt,
                     party = PersonalRecruitmentParty(
+                        id = it.party.id,
                         title = it.party.title,
                         image = convertToImageUrl(it.party.image),
                         partyType = PersonalRecruitmentPartyType(

@@ -50,7 +50,7 @@ import com.party.presentation.screen.home.component.RecruitmentCountArea
 @Composable
 fun PersonalRecruitmentArea(
     homeState: HomeState,
-    onReload: () -> Unit,
+    onReload: () -> Unit,onClick: (Int, Int) -> Unit,
 ) {
     HeightSpacer(heightDp = 40.dp)
 
@@ -58,14 +58,17 @@ fun PersonalRecruitmentArea(
         title = stringResource(id = R.string.home_list_personal_title),
         titleIcon = painterResource(id = R.drawable.icon_reload),
         description = stringResource(id = R.string.home_list_personal_description),
-        onClick = onReload
+        onReload = onReload
     )
 
     when {
         homeState.isLoadingPersonalRecruitmentList -> LoadingProgressBar()
         homeState.isNotProfileError -> ErrorArea()
         homeState.personalRecruitmentList.partyRecruitments.isNotEmpty() -> {
-            PersonalRecruitmentListArea(homeState.personalRecruitmentList)
+            PersonalRecruitmentListArea(
+                personalRecruitmentListResponse = homeState.personalRecruitmentList,
+                onClick = onClick
+            )
         }
     }
 }
@@ -110,6 +113,7 @@ fun ErrorArea() {
 @Composable
 fun PersonalRecruitmentListArea(
     personalRecruitmentListResponse: PersonalRecruitmentList?,
+    onClick: (Int, Int) -> Unit,
 ) {
     HeightSpacer(heightDp = 20.dp)
 
@@ -126,7 +130,7 @@ fun PersonalRecruitmentListArea(
         ) { _, item ->
             PersonalRecruitmentItem(
                 personalRecruitmentLisItemResponse = item,
-                onClick = { /*TODO*/ }
+                onClick = onClick
             )
         }
     }
@@ -135,10 +139,10 @@ fun PersonalRecruitmentListArea(
 @Composable
 fun PersonalRecruitmentItem(
     personalRecruitmentLisItemResponse: PersonalRecruitmentItem,
-    onClick: () -> Unit,
+    onClick: (Int, Int) -> Unit,
 ) {
     Card(
-        onClick = { onClick() },
+        onClick = { onClick(personalRecruitmentLisItemResponse.party.id, personalRecruitmentLisItemResponse.id) },
         modifier = Modifier.wrapContentSize(),
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
         colors = CardDefaults.cardColors(

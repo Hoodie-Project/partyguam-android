@@ -32,7 +32,8 @@ fun MainArea(
 
         PersonalRecruitmentArea(
             homeState = homeState,
-            onReload = onReload
+            onReload = onReload,
+            onClick = onGotoRecruitmentDetail,
         )
 
         HeightSpacer(heightDp = 60.dp)

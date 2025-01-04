@@ -67,6 +67,7 @@ class PartyRepositoryImpl @Inject constructor(
             }
 
             is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
                 ExceptionResponse(
                     result.message,
                 )
