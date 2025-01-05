@@ -86,7 +86,12 @@ fun EditArea(
         EditAreaItem(
             text = editList[3],
             onClick = onGotoProfileEditTendency,
-            content = {}
+            content = {
+                val userTendencyList = userProfileState.userProfile.userPersonalities.filter { it.personalityOption.personalityQuestion.id != PersonalityType.TIME.id }
+                UserTendencyArea(
+                    userTendencyList = userTendencyList
+                )
+            }
         )
         HeightSpacer(heightDp = 60.dp)
         EditAreaItem(

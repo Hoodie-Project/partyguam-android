@@ -14,6 +14,8 @@ import com.party.presentation.screen.profile_edit_tendency.ProfileEditTendencySt
 import com.party.presentation.screen.profile_edit_time.ProfileEditTimeAction
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -51,11 +53,11 @@ class ProfileEditTendencyViewModel @Inject constructor(
         }
     }
 
-    private fun deletePersonality(personalitySaveRequest: PersonalitySaveRequest, personalityQuestionId: Int){
+    private fun deletePersonality(personalityQuestionId: Int){
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = deleteUserPersonalityUseCase(personalityQuestionId = personalityQuestionId)){
                 is ServerApiResponse.SuccessResponse -> {
-                    savePersonality(personalitySaveRequest = personalitySaveRequest)
+                    //savePersonality(personalitySaveRequest = personalitySaveRequest)
                 }
                 is ServerApiResponse.ErrorResponse -> {}
                 is ServerApiResponse.ExceptionResponse -> {}
@@ -63,12 +65,30 @@ class ProfileEditTendencyViewModel @Inject constructor(
         }
     }
 
+    private fun deleteMultiplePersonalities(
+        personalitySaveRequest: PersonalitySaveRequest,
+        personalityQuestionIds: List<Int>
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            // 모든 deletePersonality 호출을 비동기로 실행
+            val results = personalityQuestionIds.map { questionId ->
+                async {
+                    deletePersonality(questionId)
+                }
+            }
+
+            // 모든 비동기 작업이 끝날 때까지 대기
+            results.awaitAll()
+
+            // 모든 작업이 끝난 후 추가 작업 실행
+            savePersonality(personalitySaveRequest)
+        }
+    }
+
     private fun savePersonality(personalitySaveRequest: PersonalitySaveRequest){
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = savePersonalityUseCase(personalitySaveRequest = personalitySaveRequest)){
-                is ServerApiResponse.SuccessResponse -> {
-                    _modifySuccess.emit(Unit)
-                }
+                is ServerApiResponse.SuccessResponse -> { _modifySuccess.emit(Unit) }
                 is ServerApiResponse.ErrorResponse -> {}
                 is ServerApiResponse.ExceptionResponse -> {}
             }
@@ -82,12 +102,29 @@ class ProfileEditTendencyViewModel @Inject constructor(
                 val personalitySaveRequest = PersonalitySaveRequest(
                     personality = listOf(
                         PersonalitySaveRequest2(
-                            personalityQuestionId = 1,
-                            personalityOptionId = listOf()
+                            personalityQuestionId = PersonalityType.TENDENCY.id,
+                            personalityOptionId = _state.value.selectedTendencyList.map { it.id }
+                        ),
+                        PersonalitySaveRequest2(
+                            personalityQuestionId = PersonalityType.CONFIDENCE.id,
+                            personalityOptionId = _state.value.selectedConfidenceList.map { it.id }
+                        ),
+                        PersonalitySaveRequest2(
+                            personalityQuestionId = PersonalityType.CHALLENGE.id,
+                            personalityOptionId = _state.value.selectedChallengeList.map { it.id }
                         ),
                     )
                 )
-                deletePersonality(personalitySaveRequest, PersonalityType.TENDENCY.id)
+
+                deleteMultiplePersonalities(
+                    personalitySaveRequest,
+                    listOf(
+                        PersonalityType.TENDENCY.id,
+                        PersonalityType.CONFIDENCE.id,
+                        PersonalityType.CHALLENGE.id
+                    )
+                )
+
             }
             is ProfileEditTendencyAction.OnSelectTendency -> {
                 _state.update { state ->

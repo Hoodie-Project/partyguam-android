@@ -39,6 +39,7 @@ import com.party.presentation.screen.profile.component.HopeTimeArea
 import com.party.presentation.screen.profile.component.MyPartyListArea
 import com.party.presentation.screen.profile.component.ProfileScaffoldArea
 import com.party.presentation.screen.profile.component.ProfileTopArea
+import com.party.presentation.screen.profile.component.TendencyArea
 import com.party.presentation.screen.profile.viewmodel.ProfileViewModel
 
 @Composable
@@ -115,7 +116,7 @@ private fun ProfileScreen(
 
             // 희망장소
             if(userProfileState.userProfile.userLocations.isNotEmpty()){
-                HeightSpacer(heightDp = 40.dp)
+                HeightSpacer(heightDp = 60.dp)
                 HopeLocationArea(
                     userProfileState = userProfileState
                 )
@@ -124,9 +125,18 @@ private fun ProfileScreen(
             // 희망시간
             val userPersonalityList = userProfileState.userProfile.userPersonalities.filter { it.personalityOption.personalityQuestion.id == PersonalityType.TIME.id }
             if(userPersonalityList.isNotEmpty()){
-                HeightSpacer(heightDp = 40.dp)
+                HeightSpacer(heightDp = 60.dp)
                 HopeTimeArea(
                     userPersonalityList = userPersonalityList
+                )
+            }
+
+            // 성향
+            val userTendencyList = userProfileState.userProfile.userPersonalities.filter { it.personalityOption.personalityQuestion.id != PersonalityType.TIME.id }
+            if(userTendencyList.isNotEmpty()){
+                HeightSpacer(heightDp = 60.dp)
+                TendencyArea(
+                    userTendencyList = userTendencyList
                 )
             }
 
