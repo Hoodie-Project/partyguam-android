@@ -51,6 +51,12 @@ fun ProfileEditTendencyScreenRoute(
     }
 
     LaunchedEffect(key1 = Unit) {
+        profileEditTendencyViewModel.oneOverWarning.collectLatest {
+            snackBarMessage(snackBarHostState, "최대 1개까지 선택 가능합니다.")
+        }
+    }
+
+    LaunchedEffect(key1 = Unit) {
         profileEditTendencyViewModel.modifySuccess.collectLatest {
             snackBarMessage(snackBarHostState, "수정되었습니다.")
             navController.popBackStack()

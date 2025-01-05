@@ -38,6 +38,9 @@ class ProfileEditTendencyViewModel @Inject constructor(
     private val _twoOverWarning = MutableSharedFlow<Unit>()
     val twoOverWarning = _twoOverWarning.asSharedFlow()
 
+    private val _oneOverWarning = MutableSharedFlow<Unit>()
+    val oneOverWarning = _oneOverWarning.asSharedFlow()
+
     fun getPersonalityList(){
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = getPersonalityUseCase()){
@@ -95,11 +98,11 @@ class ProfileEditTendencyViewModel @Inject constructor(
                         updatedList.remove(action.personalityListOption)
                     } else {
                         // 포함되지 않은 경우 추가
-                        if (updatedList.size < 2) {
+                        if (updatedList.size < 1) {
                             updatedList.add(action.personalityListOption)
                         } else {
                             // 2개를 초과하면 알림 emit
-                            //emitTwo()
+                            emitOne()
                         }
                     }
 
@@ -158,6 +161,12 @@ class ProfileEditTendencyViewModel @Inject constructor(
     private fun emitTwo(){
         viewModelScope.launch(Dispatchers.Main) {
             _twoOverWarning.emit(Unit)
+        }
+    }
+
+    private fun emitOne(){
+        viewModelScope.launch(Dispatchers.Main) {
+            _oneOverWarning.emit(Unit)
         }
     }
 }
