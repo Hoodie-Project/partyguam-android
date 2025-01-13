@@ -19,7 +19,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "IMAGE_URL", "\"https://partyguam.net/dev/api/\"")
+            buildConfigField("String", "IMAGE_URL", "\"https://partyguham.com/dev/api/\"")
         }
 
         release {
@@ -29,7 +29,7 @@ android {
                 "proguard-rules.pro"
             )
 
-            buildConfigField("String", "IMAGE_URL", "\"https://partyguam.net/api/\"")
+            buildConfigField("String", "IMAGE_URL", "\"https://partyguham.com/api/\"")
         }
     }
     compileOptions {

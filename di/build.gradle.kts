@@ -20,7 +20,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://partyguam.net/dev/\"")
+            buildConfigField("String", "BASE_URL", "\"https://partyguham.com/dev/\"")
         }
 
         release {
@@ -30,7 +30,7 @@ android {
                 "proguard-rules.pro"
             )
 
-            buildConfigField("String", "BASE_URL", "\"https://partyguam.net/\"")
+            buildConfigField("String", "BASE_URL", "\"https://partyguham.com/\"")
         }
     }
     compileOptions {

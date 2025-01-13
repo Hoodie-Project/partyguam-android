@@ -1,44 +1,26 @@
 {
   "project_info": {
-    "project_number": "505253143343",
-    "project_id": "party-guam-9a8eb",
-    "storage_bucket": "party-guam-9a8eb.appspot.com"
+    "project_number": "969352360034",
+    "project_id": "guam-6b56b",
+    "storage_bucket": "guam-6b56b.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:505253143343:android:048fda2aaceef17033b7da",
+        "mobilesdk_app_id": "1:969352360034:android:3e85b6380e9fa83e4d613b",
         "android_client_info": {
           "package_name": "com.party.guam"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "505253143343-g8gutp1m7q2pm0ejr4hctsp8rn92m8j0.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.party.guam",
-            "certificate_hash": "460ca57f3a0e68f56a8601f287572c0d8348f9e0"
-          }
-        },
-        {
-          "client_id": "505253143343-o8r4rgiqd4nu78vrtcld1e1th95v806u.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCyJlr8F7GWmS7arAriEJ1tPhZ8CLo35gQ"
+          "current_key": "AIzaSyD8AlqcsGP-cb10uJ3bV8bR1rrpwvPIqnQ"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "505253143343-o8r4rgiqd4nu78vrtcld1e1th95v806u.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
