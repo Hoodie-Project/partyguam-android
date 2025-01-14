@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -46,9 +47,8 @@ class AuthSettingViewModel @Inject constructor(
 
     fun onAction(action: AuthSettingAction){
         when(action){
-            is AuthSettingAction.OnLogout -> {
-                logout()
-            }
+            is AuthSettingAction.OnShowLogoutDialog -> _state.update { it.copy(isShowLogoutDialog = action.isShow) }
+            is AuthSettingAction.OnLogout -> logout()
             is AuthSettingAction.OnUserDelete -> {
                 // 회원탈퇴
             }
