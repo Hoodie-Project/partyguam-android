@@ -41,4 +41,12 @@ class DataStoreLocalSourceImpl(context: Context): DataStoreLocalSource {
                 token
             }
     }
+
+    override suspend fun deleteAccessToken(): String {
+        dataStore.edit { preferences ->
+            preferences.remove(ACCESS_TOKEN)
+        }
+
+        return ""
+    }
 }

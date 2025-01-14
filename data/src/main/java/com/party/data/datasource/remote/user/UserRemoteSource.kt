@@ -78,4 +78,7 @@ interface UserRemoteSource {
 
     // 관심지역 전체 삭제
     suspend fun deleteInterestLocation(): ApiResponse<Unit>
+
+    // 로그아웃
+    suspend fun logout(): ApiResponse<Unit>
 }

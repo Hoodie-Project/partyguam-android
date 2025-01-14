@@ -15,4 +15,8 @@ class DataStoreRepositoryImpl @Inject constructor(
     override fun getAccessToken(): Flow<String> {
         return dataStoreLocalSource.getAccessToken()
     }
+
+    override suspend fun deleteAccessToken(): String {
+        return dataStoreLocalSource.deleteAccessToken()
+    }
 }
