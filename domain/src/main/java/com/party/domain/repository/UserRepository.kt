@@ -82,4 +82,7 @@ interface UserRepository {
     // 로그아웃
     suspend fun logout(): ServerApiResponse<Unit>
 
+    // 회원탈퇴
+    suspend fun signOut(): ServerApiResponse<Unit>
+
 }

@@ -112,4 +112,8 @@ interface UserService {
     // 로그아웃
     @DELETE("api/users/logout")
     suspend fun logout(): ApiResponse<Unit>
+
+    // 회원탈퇴
+    @DELETE("api/users/signout")
+    suspend fun signOut(): ApiResponse<Unit>
 }

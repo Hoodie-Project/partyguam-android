@@ -1,12 +1,12 @@
-package com.party.presentation.screen.auth_setting.viewmodel
+package com.party.presentation.screen.user_delete.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.domain.usecase.datastore.DeleteAccessTokenUseCase
-import com.party.domain.usecase.user.UserLogoutUseCase
-import com.party.presentation.screen.auth_setting.AuthSettingAction
-import com.party.presentation.screen.auth_setting.AuthSettingState
+import com.party.domain.usecase.user.UserSignOutUseCase
+import com.party.presentation.screen.user_delete.UserDeleteAction
+import com.party.presentation.screen.user_delete.UserDeleteState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -18,24 +18,24 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthSettingViewModel @Inject constructor(
-    private val userLogoutUseCase: UserLogoutUseCase,
+class UserDeleteViewModel @Inject constructor(
+    private val userSignOutUseCase: UserSignOutUseCase,
     private val deleteAccessTokenUseCase: DeleteAccessTokenUseCase,
 ): ViewModel(){
 
-    private val _state = MutableStateFlow(AuthSettingState())
+    private val _state = MutableStateFlow(UserDeleteState())
     val state = _state.asStateFlow()
 
-    private val _successLogout = MutableSharedFlow<Unit>()
-    val successLogout = _successLogout.asSharedFlow()
+    private val _successSignOut = MutableSharedFlow<Unit>()
+    val successSignOut = _successSignOut.asSharedFlow()
 
-    private fun logout(){
+    private fun signOut(){
         viewModelScope.launch(Dispatchers.IO) {
-            when(val result = userLogoutUseCase()){
+            when(val result = userSignOutUseCase()){
                 is ServerApiResponse.SuccessResponse -> {
                     val resu = deleteAccessTokenUseCase()
                     if(resu == ""){
-                        _successLogout.emit(Unit)
+                        _successSignOut.emit(Unit)
                     }
                 }
 
@@ -45,10 +45,10 @@ class AuthSettingViewModel @Inject constructor(
         }
     }
 
-    fun onAction(action: AuthSettingAction){
+    fun onAction(action: UserDeleteAction){
         when(action){
-            is AuthSettingAction.OnShowLogoutDialog -> _state.update { it.copy(isShowLogoutDialog = action.isShow) }
-            is AuthSettingAction.OnLogout -> logout()
+            is UserDeleteAction.OnShowDeleteDialog -> _state.update { it.copy(isShowUserDeleteDialog = action.isShow)}
+            is UserDeleteAction.OnDelete -> signOut()
         }
     }
 }

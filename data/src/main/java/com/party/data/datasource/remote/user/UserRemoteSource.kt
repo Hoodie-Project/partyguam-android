@@ -81,4 +81,7 @@ interface UserRemoteSource {
 
     // 로그아웃
     suspend fun logout(): ApiResponse<Unit>
+
+    // 회원탈퇴
+    suspend fun signOut(): ApiResponse<Unit>
 }

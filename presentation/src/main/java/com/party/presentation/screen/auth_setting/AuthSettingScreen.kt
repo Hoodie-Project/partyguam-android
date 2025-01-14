@@ -57,7 +57,6 @@ fun AuthSettingScreenRoute(
             when(action) {
                 is AuthSettingAction.OnShowLogoutDialog -> authSettingViewModel.onAction(action)
                 is AuthSettingAction.OnLogout -> authSettingViewModel.onAction(action)
-                is AuthSettingAction.OnUserDelete -> authSettingViewModel.onAction(action)
             }
         }
     )

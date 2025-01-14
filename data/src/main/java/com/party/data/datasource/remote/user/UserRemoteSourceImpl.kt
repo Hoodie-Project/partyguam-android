@@ -134,4 +134,8 @@ class UserRemoteSourceImpl @Inject constructor(
     override suspend fun logout(): ApiResponse<Unit> {
         return userService.logout()
     }
+
+    override suspend fun signOut(): ApiResponse<Unit> {
+        return userService.signOut()
+    }
 }
