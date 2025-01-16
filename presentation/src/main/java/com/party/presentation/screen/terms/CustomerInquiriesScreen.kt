@@ -61,17 +61,15 @@ private fun CustomerInquiriesScreen(
 }
 
 @Composable
-private fun InquiriesArea(
-    modifier: Modifier = Modifier
-) {
+private fun InquiriesArea() {
     InquiriesAreaItem(
-        title = "이메일",
-        content = "hoodiev.team@gmail.com",
+        title = CustomerInquiriesDescription.EMAIL.title,
+        content = CustomerInquiriesDescription.EMAIL.description,
     )
     HeightSpacer(heightDp = 20.dp)
     InquiriesAreaItem(
-        title = "카카오톡 오픈채팅",
-        content = "오픈채팅 주소...",
+        title = CustomerInquiriesDescription.OPEN_CHAT.title,
+        content = CustomerInquiriesDescription.OPEN_CHAT.description,
     )
 }
 
@@ -105,5 +103,19 @@ private fun CustomerInquiriesScreenPreview(
 ) {
     CustomerInquiriesScreen(
         onNavigationClick = {}
+    )
+}
+
+private enum class CustomerInquiriesDescription(
+    val title: String,
+    val description: String
+){
+    EMAIL(
+        title = "이메일",
+        description = "hoodiev.team@gmail.com"
+    ),
+    OPEN_CHAT(
+        title = "카카오톡 오픈채팅",
+        description = "오픈채팅 주소..."
     )
 }
