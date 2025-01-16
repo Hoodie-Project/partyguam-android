@@ -25,7 +25,7 @@ fun TendencyArea(
             .fillMaxWidth()
     ) {
         TextComponent(
-            text = "희망 시간",
+            text = "성향",
             fontSize = T2,
             fontWeight = FontWeight.SemiBold,
         )
