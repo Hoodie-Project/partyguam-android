@@ -13,19 +13,25 @@ import com.party.common.TextComponent
 import com.party.common.ui.theme.T3
 
 @Composable
-fun TermsArea() {
+fun TermsArea(
+    onGotoCustomerInquiries: () -> Unit,
+) {
     Column {
         TermsAreaItem(
-            text = "서비스 소개"
+            text = "서비스 소개",
+            onClick = {}
         )
         TermsAreaItem(
-            text = "고객문의"
+            text = "고객문의",
+            onClick = onGotoCustomerInquiries
         )
         TermsAreaItem(
-            text = "이용약관"
+            text = "이용약관",
+            onClick = {}
         )
         TermsAreaItem(
-            text = "개인정보 처리방침"
+            text = "개인정보 처리방침",
+            onClick = {}
         )
     }
 }
@@ -33,6 +39,7 @@ fun TermsArea() {
 @Composable
 private fun TermsAreaItem(
     text: String,
+    onClick: () -> Unit,
 ) {
     TextComponent(
         modifier = Modifier
@@ -41,12 +48,15 @@ private fun TermsAreaItem(
             .padding(start = 20.dp),
         text = text,
         fontSize = T3,
-        fontWeight = FontWeight.SemiBold
+        fontWeight = FontWeight.SemiBold,
+        onClick = onClick
     )
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun TermsAreaPreview() {
-    TermsArea()
+    TermsArea(
+        onGotoCustomerInquiries = {}
+    )
 }

@@ -55,6 +55,7 @@ import com.party.presentation.screen.recruitment_edit.RecruitmentEditRoute
 import com.party.presentation.screen.search.SearchRoute
 import com.party.presentation.screen.splash.SplashScreenRoute
 import com.party.presentation.screen.state.StateScreenRoute
+import com.party.presentation.screen.terms.CustomerInquiriesScreenRoute
 import com.party.presentation.screen.user_delete.UserDeleteScreenRoute
 
 const val ANIMATION_DURATION = 500
@@ -361,6 +362,11 @@ fun AppNavHost() {
                 snackBarHostState = snackBarHostState,
                 navController = navController,
                 profileEditTendencyTabList = profileEditTendencyTabList
+            )
+        }
+        composable<Screens.CustomerInquiries> {
+            CustomerInquiriesScreenRoute(
+                navController = navController
             )
         }
     }
