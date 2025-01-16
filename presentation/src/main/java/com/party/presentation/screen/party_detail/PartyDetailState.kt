@@ -34,7 +34,7 @@ data class PartyDetailState(
     val selectedOrderBy: Boolean = true,
     val isShowPositionFilter: Boolean = false,
     val selectedPosition: String = "전체",
-
+    val isProgress: Boolean = true,
 
     val isLoadingPartyAuthority: Boolean = false,
     val partyAuthority: PartyAuthority = PartyAuthority(id = 0, authority = "", position = PartyAuthorityPosition(0, "", ""))

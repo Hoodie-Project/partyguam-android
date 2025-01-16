@@ -29,7 +29,8 @@ fun PartyDetailArea(
     onReset: () -> Unit,
     onApply: () -> Unit,
     onAddRecruitment: () -> Unit,
-    onChangeOrderBy: (Boolean) -> Unit
+    onChangeOrderBy: (Boolean) -> Unit,
+    onChangeProgress: (Boolean) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -55,7 +56,7 @@ fun PartyDetailArea(
             PartyDetailTitleArea(
                 modifier = Modifier
                     .padding(horizontal = 20.dp),
-                title = state.partyDetail.title
+                title = state.partyDetail.title,
             )
             HeightSpacer(heightDp = 32.dp)
 
@@ -98,7 +99,8 @@ fun PartyDetailArea(
                         onReset = onReset,
                         onApply = onApply,
                         onAddRecruitment = onAddRecruitment,
-                        onChangeOrderBy = onChangeOrderBy
+                        onChangeOrderBy = onChangeOrderBy,
+                        onChangeProgress = onChangeProgress
                     )
                 }
             }
@@ -119,6 +121,7 @@ private fun PartyDetailAreaPreview() {
         onAddRecruitment = {},
         onChangeOrderBy = {},
         onShowPositionFilter = {},
-        onPositionClick = {}
+        onPositionClick = {},
+        onChangeProgress = {}
     )
 }

@@ -40,7 +40,7 @@ private fun PartyDetailUsersAreaContent(
     ) {
         PartyDetailTitleArea(
             title = "파티원",
-            number = "${partyAdminListSize + partyUserListSize}"
+            number = "${partyAdminListSize + partyUserListSize}",
         )
         HeightSpacer(heightDp = 24.dp)
 

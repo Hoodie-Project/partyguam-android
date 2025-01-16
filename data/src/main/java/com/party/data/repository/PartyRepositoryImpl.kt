@@ -187,8 +187,9 @@ class PartyRepositoryImpl @Inject constructor(
         sort: String,
         order: String,
         main: String?,
+        status: String
     ): ServerApiResponse<List<PartyRecruitment>> {
-        return when(val result = partyRemoteSource.getPartyRecruitmentList(partyId = partyId, sort = sort, order = order, main = main)){
+        return when(val result = partyRemoteSource.getPartyRecruitmentList(partyId = partyId, sort = sort, order = order, main = main, status = status)){
             is ApiResponse.Success -> {
                 SuccessResponse(data = result.data.map {
                     mapperPartyRecruitment(it)

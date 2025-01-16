@@ -83,10 +83,10 @@ class PartyViewModel @Inject constructor(
         }
     }
 
-    fun getPartyRecruitment(partyId: Int, sort: String, order: String, main: String?) {
+    fun getPartyRecruitment(partyId: Int, sort: String, order: String, main: String?, status: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(isLoadingPartyRecruitment = true) }
-            when (val result = getPartyRecruitmentUseCase(partyId = partyId, sort = sort, order = order, main = main)) {
+            when (val result = getPartyRecruitmentUseCase(partyId = partyId, sort = sort, order = order, main = main, status = status)) {
                 is ServerApiResponse.SuccessResponse -> {
                     _state.update { it.copy(
                         isLoadingPartyRecruitment = false,
@@ -132,7 +132,8 @@ class PartyViewModel @Inject constructor(
                     partyId = action.partyId,
                     sort = "createdAt",
                     order = "DESC",
-                    main = if (_state.value.selectedPosition == "전체") null else _state.value.selectedPosition
+                    main = if (_state.value.selectedPosition == "전체") null else _state.value.selectedPosition,
+                    status = if(_state.value.isProgress) "active" else "completed"
                 )
             }
             is PartyDetailAction.OnChangeOrderBy -> {
@@ -147,6 +148,17 @@ class PartyViewModel @Inject constructor(
                         partyRecruitment = sortedList
                     )
                 }
+            }
+            is PartyDetailAction.OnChangeProgress -> {
+                _state.update { it.copy(isProgress = action.isProgress) }
+
+                getPartyRecruitment(
+                    partyId = action.partyId,
+                    sort = "createdAt",
+                    order = "DESC",
+                    main = if (_state.value.selectedPosition == "전체") null else _state.value.selectedPosition,
+                    status = if(_state.value.isProgress) "active" else "completed"
+                )
             }
         }
     }

@@ -29,10 +29,10 @@ class PartyRecruitmentEditViewModel @Inject constructor(
     private val _deleteRecruitment = MutableSharedFlow<Unit>()
     val deleteRecruitment = _deleteRecruitment
 
-    fun getPartyRecruitment(partyId: Int, sort: String, order: String, main: String?) {
+    fun getPartyRecruitment(partyId: Int, sort: String, order: String, main: String?, status: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(isLoadingPartyRecruitment = true) }
-            when (val result = getPartyRecruitmentUseCase(partyId = partyId, sort = sort, order = order, main = main)) {
+            when (val result = getPartyRecruitmentUseCase(partyId = partyId, sort = sort, order = order, main = main, status = status)) {
                 is ServerApiResponse.SuccessResponse -> {
                     _state.update { it.copy(
                         isLoadingPartyRecruitment = false,

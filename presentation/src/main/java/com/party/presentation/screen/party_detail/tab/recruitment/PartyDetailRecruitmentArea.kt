@@ -1,13 +1,23 @@
 package com.party.presentation.screen.party_detail.tab.recruitment
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
+import com.party.common.R
+import com.party.common.TextComponent
+import com.party.common.WidthSpacer
+import com.party.common.noRippleClickable
+import com.party.common.ui.theme.B2
+import com.party.common.ui.theme.DARK100
+import com.party.common.ui.theme.GRAY500
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.Position1
 import com.party.domain.model.user.PartyAuthority
@@ -25,7 +35,8 @@ fun PartyDetailRecruitmentArea(
     onApply: () -> Unit,
     onShowPositionFilter: (Boolean) -> Unit,
     onAddRecruitment: () -> Unit,
-    onChangeOrderBy: (Boolean) -> Unit
+    onChangeOrderBy: (Boolean) -> Unit,
+    onChangeProgress: (Boolean) -> Unit,
 ) {
     PartyDetailRecruitmentAreaContent(
         state = state,
@@ -37,7 +48,8 @@ fun PartyDetailRecruitmentArea(
         onReset = onReset,
         onApply = onApply,
         onAddRecruitment = onAddRecruitment,
-        onShowPositionFilter = onShowPositionFilter
+        onShowPositionFilter = onShowPositionFilter,
+        onChangeProgress = onChangeProgress
     )
 }
 
@@ -53,6 +65,7 @@ fun PartyDetailRecruitmentAreaContent(
     onApply: () -> Unit,
     onShowPositionFilter: (Boolean) -> Unit,
     onAddRecruitment: () -> Unit,
+    onChangeProgress: (Boolean) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -61,7 +74,13 @@ fun PartyDetailRecruitmentAreaContent(
     ) {
         PartyDetailTitleArea(
             title = "모집공고",
-            number = "${list.size}"
+            number = "${list.size}",
+            progressContent = {
+                changeProgress(
+                    isProgress = state.isProgress,
+                    onChangeProgress = onChangeProgress
+                )
+            }
         )
         HeightSpacer(heightDp = 16.dp)
         PartyDetailRecruitmentFilterArea(
@@ -80,6 +99,25 @@ fun PartyDetailRecruitmentAreaContent(
             onAddRecruitment = onAddRecruitment
         )
     }
+}
+
+@Composable
+private fun changeProgress(
+    isProgress: Boolean,
+    onChangeProgress: (Boolean) -> Unit,
+) {
+    TextComponent(
+        text = "진행중",
+        fontSize = B2,
+        textColor = if(isProgress) DARK100 else GRAY500,
+        fontWeight = FontWeight.SemiBold,
+    )
+    WidthSpacer(widthDp = 2.dp)
+    Image(
+        painter = if(isProgress) painterResource(id = R.drawable.icon_toggle_on) else painterResource(id = R.drawable.icon_toggle_off),
+        contentDescription = "toggle",
+        modifier = Modifier.noRippleClickable { onChangeProgress(!isProgress) }
+    )
 }
 
 @Preview(showBackground = true)
@@ -128,7 +166,8 @@ private fun PartyDetailRecruitmentAreaContentPreview() {
         onAddRecruitment = {},
         onShowPositionFilter = {},
         state = PartyDetailState(),
-        onPositionClick = {}
+        onPositionClick = {},
+        onChangeProgress = {}
     )
 }
 
@@ -155,6 +194,7 @@ private fun PartyDetailRecruitmentAreaContentPreview1() {
         onAddRecruitment = {},
         onShowPositionFilter = {},
         state = PartyDetailState(),
-        onPositionClick = {}
+        onPositionClick = {},
+        onChangeProgress = {}
     )
 }

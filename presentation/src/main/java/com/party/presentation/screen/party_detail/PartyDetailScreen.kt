@@ -18,6 +18,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -40,13 +41,13 @@ fun PartyDetailRoute(
     context: Context,
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
-    partyViewModel: PartyViewModel,
+    partyViewModel: PartyViewModel = hiltViewModel(),
     partyId: Int,
 ) {
     LaunchedEffect(Unit) {
         partyViewModel.getPartyDetail(partyId = partyId)
         partyViewModel.getPartyUsers(partyId = partyId, page = 1, limit = 50, sort = "createdAt", order = "DESC")
-        partyViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = null)
+        partyViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = null, status = "active")
         partyViewModel.getPartyAuthority(partyId = partyId)
     }
 
@@ -75,6 +76,7 @@ fun PartyDetailRoute(
                         is PartyDetailAction.OnReset -> { partyViewModel.onAction(action) }
                         is PartyDetailAction.OnApply -> { partyViewModel.onAction(action) }
                         is PartyDetailAction.OnChangeOrderBy -> { partyViewModel.onAction(action) }
+                        is PartyDetailAction.OnChangeProgress -> { partyViewModel.onAction(action)}
                     }
                 }
             )
@@ -150,7 +152,8 @@ private fun PartyDetailScreen(
                     onReset = { onAction(PartyDetailAction.OnReset) },
                     onApply = { onAction(PartyDetailAction.OnApply(partyId = partyId)) },
                     onAddRecruitment = onAddRecruitment,
-                    onChangeOrderBy = { orderBy -> onAction(PartyDetailAction.OnChangeOrderBy(orderBy)) }
+                    onChangeOrderBy = { orderBy -> onAction(PartyDetailAction.OnChangeOrderBy(orderBy)) },
+                    onChangeProgress = { isProgress -> onAction(PartyDetailAction.OnChangeProgress(isProgress = isProgress, partyId = partyId)) }
                 )
             }
         }

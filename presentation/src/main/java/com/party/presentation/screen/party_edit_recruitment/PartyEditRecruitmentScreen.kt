@@ -57,13 +57,13 @@ fun PartyEditRecruitmentScreenRoute(
     partyRecruitmentEditViewModel: PartyRecruitmentEditViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
-        partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = null)
+        partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = null, status = "active")
     }
 
     LaunchedEffect(key1 = Unit) {
         partyRecruitmentEditViewModel.deleteRecruitment.collectLatest {
             snackBarMessage(snackBarHostState, "모집공고가 삭제되었어요.")
-            partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = null)
+            partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = null, status = "active")
         }
     }
     val partyRecruitmentEditState by partyRecruitmentEditViewModel.state.collectAsStateWithLifecycle()

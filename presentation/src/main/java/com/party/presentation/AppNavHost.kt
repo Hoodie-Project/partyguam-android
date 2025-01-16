@@ -253,12 +253,10 @@ fun AppNavHost() {
         }
         composable<Screens.PartyDetail> { backStackEntry ->
             val partyId = backStackEntry.toRoute<Screens.PartyDetail>().partyId
-            val partyViewModel = hiltViewModel<PartyViewModel>()
             PartyDetailRoute(
                 context = context,
                 navController = navController,
                 snackBarHostState = snackBarHostState,
-                partyViewModel = partyViewModel,
                 partyId = partyId,
             )
         }

@@ -56,10 +56,10 @@ class ManageApplicantViewModel @Inject constructor(
         }
     }
 
-    fun getPartyRecruitment(partyId: Int, sort: String, order: String, main: String?) {
+    fun getPartyRecruitment(partyId: Int, sort: String, order: String, main: String?, status: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(isLoadingRecruitment = true) }
-            when (val result = getPartyRecruitmentUseCase(partyId = partyId, sort = sort, order = order, main = main)) {
+            when (val result = getPartyRecruitmentUseCase(partyId = partyId, sort = sort, order = order, main = main, status = status)) {
                 is ServerApiResponse.SuccessResponse -> {
                     _state.update { it.copy(
                         isLoadingRecruitment = false,

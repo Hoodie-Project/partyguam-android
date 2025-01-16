@@ -69,7 +69,7 @@ fun ManageApplicantScreenRoute(
         }
     }else {
         LaunchedEffect(Unit) {
-            manageApplicantViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = null)
+            manageApplicantViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = null, status = "active")
         }
     }
 
