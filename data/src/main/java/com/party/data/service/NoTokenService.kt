@@ -38,6 +38,6 @@ interface NoTokenService {
     ): ApiResponse<UserSignUpDto>
 
     // 홈 - 배너 리스트 조회
-    @GET("api/banner")
+    @GET("api/banner/app")
     suspend fun getBannerList(): ApiResponse<BannerDto>
 }

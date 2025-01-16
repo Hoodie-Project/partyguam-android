@@ -18,13 +18,14 @@ object BannerMapper {
 
     private fun mapperBannerItem(bannerItemDto: BannerItemDto): BannerItem {
         return BannerItem(
-            id = bannerItemDto.id,
-            image = convertToImageUrl(bannerItemDto.image),
-            title = bannerItemDto.title,
             status = bannerItemDto.status,
             createdAt = bannerItemDto.createdAt,
             updatedAt = bannerItemDto.updatedAt,
-
+            id = bannerItemDto.id,
+            platform = bannerItemDto.platform,
+            title = bannerItemDto.title,
+            image = convertToImageUrl(bannerItemDto.image),
+            link = bannerItemDto.link
         )
     }
 }

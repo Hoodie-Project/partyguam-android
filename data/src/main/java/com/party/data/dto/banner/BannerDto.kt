@@ -10,10 +10,12 @@ data class BannerDto(
 
 @Serializable
 data class BannerItemDto(
-    val id: Int,
-    val title: String,
-    val image: String,
     val status: String,
     val createdAt: String,
     val updatedAt: String,
+    val id: Int,
+    val platform: String,
+    val title: String,
+    val image: String,
+    val link: String,
 )
