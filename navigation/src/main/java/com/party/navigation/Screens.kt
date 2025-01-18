@@ -79,4 +79,6 @@ sealed interface Screens {
     data object ProfileEditTendency: Screens
     @Serializable
     data object CustomerInquiries: Screens
+    @Serializable
+    data object ServiceIntroduce: Screens
 }

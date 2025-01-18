@@ -59,6 +59,9 @@ fun AuthSettingScreenRoute(
                 is AuthSettingAction.OnLogout -> authSettingViewModel.onAction(action)
             }
         },
+        onGotoServiceIntroduce = {
+            navController.navigate(Screens.ServiceIntroduce)
+        },
         onGotoCustomerInquiries = {
             navController.navigate(Screens.CustomerInquiries)
         }
@@ -71,6 +74,7 @@ private fun AuthSettingScreen(
     onNavigationBack: () -> Unit,
     onUserDelete: () -> Unit,
     onAction: (AuthSettingAction) -> Unit,
+    onGotoServiceIntroduce: () -> Unit,
     onGotoCustomerInquiries: () -> Unit,
 ) {
     Box(
@@ -112,6 +116,7 @@ private fun AuthSettingScreen(
 
                 // 이용약관 영역
                 TermsArea(
+                    onGotoServiceIntroduce = onGotoServiceIntroduce,
                     onGotoCustomerInquiries = onGotoCustomerInquiries
                 )
 
@@ -165,6 +170,7 @@ private fun AuthSettingScreenPreview() {
         onNavigationBack = {},
         onUserDelete = {},
         onAction = {},
+        onGotoServiceIntroduce = {},
         onGotoCustomerInquiries = {}
     )
 }

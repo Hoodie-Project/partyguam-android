@@ -56,6 +56,7 @@ import com.party.presentation.screen.search.SearchRoute
 import com.party.presentation.screen.splash.SplashScreenRoute
 import com.party.presentation.screen.state.StateScreenRoute
 import com.party.presentation.screen.terms.CustomerInquiriesScreenRoute
+import com.party.presentation.screen.terms.ServiceIntroduceScreenRoute
 import com.party.presentation.screen.user_delete.UserDeleteScreenRoute
 
 const val ANIMATION_DURATION = 500
@@ -366,6 +367,11 @@ fun AppNavHost() {
         }
         composable<Screens.CustomerInquiries> {
             CustomerInquiriesScreenRoute(
+                navController = navController
+            )
+        }
+        composable<Screens.ServiceIntroduce> {
+            ServiceIntroduceScreenRoute(
                 navController = navController
             )
         }

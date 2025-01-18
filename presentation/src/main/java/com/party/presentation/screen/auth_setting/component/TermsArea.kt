@@ -14,12 +14,13 @@ import com.party.common.ui.theme.T3
 
 @Composable
 fun TermsArea(
+    onGotoServiceIntroduce: () -> Unit,
     onGotoCustomerInquiries: () -> Unit,
 ) {
     Column {
         TermsAreaItem(
             text = "서비스 소개",
-            onClick = {}
+            onClick = onGotoServiceIntroduce
         )
         TermsAreaItem(
             text = "고객문의",
@@ -57,6 +58,7 @@ private fun TermsAreaItem(
 @Composable
 private fun TermsAreaPreview() {
     TermsArea(
+        onGotoServiceIntroduce = {},
         onGotoCustomerInquiries = {}
     )
 }
