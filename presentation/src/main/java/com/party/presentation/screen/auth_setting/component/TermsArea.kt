@@ -16,6 +16,7 @@ import com.party.common.ui.theme.T3
 fun TermsArea(
     onGotoServiceIntroduce: () -> Unit,
     onGotoCustomerInquiries: () -> Unit,
+    onGotoTerms: () -> Unit,
 ) {
     Column {
         TermsAreaItem(
@@ -28,7 +29,7 @@ fun TermsArea(
         )
         TermsAreaItem(
             text = "이용약관",
-            onClick = {}
+            onClick = onGotoTerms
         )
         TermsAreaItem(
             text = "개인정보 처리방침",
@@ -59,6 +60,7 @@ private fun TermsAreaItem(
 private fun TermsAreaPreview() {
     TermsArea(
         onGotoServiceIntroduce = {},
-        onGotoCustomerInquiries = {}
+        onGotoCustomerInquiries = {},
+        onGotoTerms = {}
     )
 }

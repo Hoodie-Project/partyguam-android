@@ -81,4 +81,6 @@ sealed interface Screens {
     data object CustomerInquiries: Screens
     @Serializable
     data object ServiceIntroduce: Screens
+    @Serializable
+    data object Terms: Screens
 }
