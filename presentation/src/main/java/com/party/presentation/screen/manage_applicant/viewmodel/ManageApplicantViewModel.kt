@@ -121,6 +121,17 @@ class ManageApplicantViewModel @Inject constructor(
     fun onAction(action: ManageApplicantAction){
         when(action){
             is ManageApplicantAction.OnShowHelpCard -> _state.update { it.copy(isShowHelpIcon = action.isShowHelpCard) }
+            is ManageApplicantAction.OnChangeProgress ->{
+                _state.update { it.copy(isProgress = action.isProgress) }
+
+                getPartyRecruitment(
+                    partyId = action.partyId,
+                    sort = "createdAt",
+                    order = "DESC",
+                    main = null,
+                    status = if(_state.value.isProgress) "active" else "completed"
+                )
+            }
             is ManageApplicantAction.OnChangeOrderBy -> {
                 _state.update { currentState ->
                     val sortedList = if (action.isDesc) {

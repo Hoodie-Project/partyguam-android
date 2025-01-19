@@ -76,7 +76,7 @@ fun PartyDetailRecruitmentAreaContent(
             title = "모집공고",
             number = "${list.size}",
             progressContent = {
-                changeProgress(
+                ChangeProgress(
                     isProgress = state.isProgress,
                     onChangeProgress = onChangeProgress
                 )
@@ -102,7 +102,7 @@ fun PartyDetailRecruitmentAreaContent(
 }
 
 @Composable
-private fun changeProgress(
+private fun ChangeProgress(
     isProgress: Boolean,
     onChangeProgress: (Boolean) -> Unit,
 ) {

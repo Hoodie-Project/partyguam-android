@@ -8,6 +8,7 @@ data class ManageApplicantState(
     val isShowHelpIcon: Boolean = false,
 
     // 모집공고 리스트
+    val isProgress: Boolean = true,
     val isDesc: Boolean = true,
     val isLoadingRecruitment: Boolean = false,
     val partyRecruitment: List<PartyRecruitment> = emptyList(),

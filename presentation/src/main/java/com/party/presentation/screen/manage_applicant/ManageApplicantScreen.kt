@@ -2,7 +2,9 @@ package com.party.presentation.screen.manage_applicant
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
@@ -13,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,6 +29,7 @@ import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.Position1
 import com.party.navigation.Screens
+import com.party.presentation.screen.manage_applicant.component.ManageApplicantChangeProgress
 import com.party.presentation.screen.manage_applicant.component.ManageApplicantDescriptionArea
 import com.party.presentation.screen.manage_applicant.component.ManageApplicantFilterArea
 import com.party.presentation.screen.manage_applicant.component.ManageApplicantListArea
@@ -88,6 +92,7 @@ fun ManageApplicantScreenRoute(
                 onAction = { action ->
                     when(action){
                         is ManageApplicantAction.OnShowHelpCard -> manageApplicantViewModel.onAction(action)
+                        is ManageApplicantAction.OnChangeProgress -> manageApplicantViewModel.onAction(action)
                         is ManageApplicantAction.OnChangeOrderBy -> manageApplicantViewModel.onAction(action)
                         is ManageApplicantAction.OnShowRecruitment -> manageApplicantViewModel.onAction(action)
                         is ManageApplicantAction.OnSelectRecruitmentTab -> manageApplicantViewModel.onAction(action)
@@ -158,6 +163,7 @@ private fun ManageApplicantScreen(
             if(manageApplicantState.isShowRecruitmentList){
                 ManageApplicantRecruitmentList(
                     manageApplicantState = manageApplicantState,
+                    onChangeProgress = { isProgress -> onAction(ManageApplicantAction.OnChangeProgress(isProgress = isProgress, partyId = partyId))},
                     onChangeOrderBy = { isDesc -> onAction(ManageApplicantAction.OnChangeOrderBy(isDesc)) },
                     onClick = { selectedRecruitmentId, selectedMain, selectedSub ->
                         onAction(ManageApplicantAction.OnShowRecruitment(isShow = false)) // 지원자 관리로 이동
@@ -202,6 +208,7 @@ private fun ManageApplicantScreen(
 @Composable
 private fun ManageApplicantRecruitmentList(
     manageApplicantState: ManageApplicantState,
+    onChangeProgress: (Boolean) -> Unit,
     onChangeOrderBy: (Boolean) -> Unit,
     onClick: (Int, String, String) -> Unit,
 ) {
@@ -212,13 +219,27 @@ private fun ManageApplicantRecruitmentList(
         description = "지원자 관리를 원하는 모집 공고를 선택해주세요."
     )
 
-    // 모집일순 정렬
     HeightSpacer(20.dp)
-    ManageApplicantFilterArea(
-        text = "모집일순",
-        isDesc = manageApplicantState.isDesc,
-        onChangeOrderBy = onChangeOrderBy,
-    )
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // 진랭중 필터
+        ManageApplicantChangeProgress(
+            isProgress = manageApplicantState.isProgress,
+            onChangeProgress = onChangeProgress
+        )
+
+        // 모집일순 정렬
+
+        ManageApplicantFilterArea(
+            text = "모집일순",
+            isDesc = manageApplicantState.isDesc,
+            onChangeOrderBy = onChangeOrderBy,
+        )
+    }
+
 
     // 모집공고 리스트
     HeightSpacer(12.dp)
