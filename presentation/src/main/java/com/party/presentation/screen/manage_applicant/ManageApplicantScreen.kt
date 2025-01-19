@@ -287,6 +287,7 @@ private fun ManageApplicantScreenPreview() {
             partyRecruitment = listOf(
                 PartyRecruitment(
                     id = 2081,
+                    status = "active",
                     position = Position1(main = "개발자", sub = "안드로이드"),
                     content = "Domenic",
                     recruitingCount = 2,
@@ -297,6 +298,7 @@ private fun ManageApplicantScreenPreview() {
                 ),
                 PartyRecruitment(
                     id = 2081,
+                    status = "active",
                     position = Position1(main = "개발자", sub = "안드로이드"),
                     content = "Domenic",
                     recruitingCount = 2,

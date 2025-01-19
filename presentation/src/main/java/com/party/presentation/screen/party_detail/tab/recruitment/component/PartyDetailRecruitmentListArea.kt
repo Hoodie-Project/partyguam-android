@@ -59,6 +59,7 @@ fun PartyDetailRecruitmentListArea(
                 }
             ){ index, item ->
                 RecruitmentListItem4(
+                    status = item.status,
                     createdAt = item.createdAt,
                     main = item.position.main,
                     sub = item.position.sub,
@@ -184,6 +185,7 @@ private fun PartyDetailRecruitmentListAreaPreview() {
                     main = "개발자",
                     sub = "안드로이드"
                 ),
+                status = "active",
                 content = "error",
                 recruitingCount = 3,
                 recruitedCount = 2,
@@ -192,6 +194,7 @@ private fun PartyDetailRecruitmentListAreaPreview() {
             ),
             PartyRecruitment(
                 id = 2293,
+                status = "active",
                 position = Position1(
                     main = "개발자",
                     sub = "안드로이드"

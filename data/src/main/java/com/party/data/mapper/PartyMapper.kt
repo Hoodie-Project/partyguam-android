@@ -196,6 +196,7 @@ object PartyMapper {
     fun mapperPartyRecruitment(partyRecruitmentDto: PartyRecruitmentDto): PartyRecruitment {
         return PartyRecruitment(
             id = partyRecruitmentDto.id,
+            status = partyRecruitmentDto.status,
             position = Position1(
                 main = partyRecruitmentDto.position.main,
                 sub = partyRecruitmentDto.position.sub

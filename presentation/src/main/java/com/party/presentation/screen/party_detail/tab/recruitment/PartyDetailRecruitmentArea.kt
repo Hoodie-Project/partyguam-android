@@ -127,6 +127,7 @@ private fun PartyDetailRecruitmentAreaContentPreview() {
         list = listOf(
             PartyRecruitment(
                 id = 2293,
+                status = "active",
                 position = Position1(
                     main = "개발자",
                     sub = "안드로이드"
@@ -139,6 +140,7 @@ private fun PartyDetailRecruitmentAreaContentPreview() {
             ),
             PartyRecruitment(
                 id = 2293,
+                status = "active",
                 position = Position1(
                     main = "개발자",
                     sub = "안드로이드"

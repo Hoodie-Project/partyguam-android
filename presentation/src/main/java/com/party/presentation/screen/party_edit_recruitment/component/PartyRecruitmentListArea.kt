@@ -89,6 +89,7 @@ private fun RecruitmentList(
                 },
                 content = {
                     RecruitmentListItem4(
+                        status = item.status,
                         createdAt = item.createdAt,
                         main = item.position.main,
                         sub = item.position.sub,

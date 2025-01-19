@@ -22,6 +22,7 @@ import com.party.common.HeightSpacer
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.convertIsoToCustomDateFormat
+import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY500
@@ -33,6 +34,7 @@ import com.party.common.ui.theme.WHITE
 
 @Composable
 fun RecruitmentListItem4(
+    status: String,
     createdAt: String,
     main: String,
     sub: String,
@@ -77,17 +79,24 @@ fun RecruitmentListItem4(
                     .height(20.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                RecruitingCountArea(
-                    text = "모집중",
-                    number = "$recruitedCount / $recruitingCount",
-                    textColor = RED
-                )
-                WidthSpacer(widthDp = 24.dp)
-                RecruitingCountArea(
-                    text = "지원자",
-                    number = "$applicationCount",
-                    textColor = PRIMARY
-                )
+                if(status == "completed"){
+                    TextComponent(
+                        text = "모집마감",
+                        fontSize = B2,
+                    )
+                }else{
+                    RecruitingCountArea(
+                        text = "모집중",
+                        number = "$recruitedCount / $recruitingCount",
+                        textColor = RED
+                    )
+                    WidthSpacer(widthDp = 24.dp)
+                    RecruitingCountArea(
+                        text = "지원자",
+                        number = "$applicationCount",
+                        textColor = PRIMARY
+                    )
+                }
             }
         }
     }
@@ -129,5 +138,20 @@ private fun RecruitmentListItem4Preview() {
         recruitedCount = 2,
         recruitingCount = 3,
         applicationCount = 1,
+        status = "active"
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun RecruitmentListItem4Preview1() {
+    RecruitmentListItem4(
+        createdAt = "2024-06-05T15:30:45.123Z",
+        main = "개발자",
+        sub = "안드로이드",
+        recruitedCount = 2,
+        recruitingCount = 3,
+        applicationCount = 1,
+        status = "completed"
     )
 }

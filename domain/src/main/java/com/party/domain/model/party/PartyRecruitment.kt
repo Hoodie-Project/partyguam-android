@@ -4,6 +4,7 @@ data class PartyRecruitment(
     val id: Int,
     val position: Position1,
     val content: String,
+    val status: String,
     val recruitingCount: Int,
     val recruitedCount: Int,
     val applicationCount: Int,

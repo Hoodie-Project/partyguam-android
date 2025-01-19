@@ -240,6 +240,7 @@ private fun PartyEditRecruitmentScreenPreview() {
             partyRecruitment = listOf(
                 PartyRecruitment(
                     id = 2081,
+                    status = "active",
                     position = Position1(main = "개발자", sub = "안드로이드"),
                     content = "Domenic",
                     recruitingCount = 2,
@@ -250,6 +251,7 @@ private fun PartyEditRecruitmentScreenPreview() {
                 ),
                 PartyRecruitment(
                     id = 2081,
+                    status = "active",
                     position = Position1(main = "개발자", sub = "안드로이드"),
                     content = "Domenic",
                     recruitingCount = 2,
