@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.party.common.component.RecruitmentListItem3
 import com.party.common.component.RecruitmentListItem6
 import com.party.common.component.no_data.NoDataColumn
 import com.party.presentation.enum.RecruitmentStatusType
@@ -18,8 +17,6 @@ import com.party.presentation.screen.manage_applicant.ManageApplicantState
 @Composable
 fun ManageApplicantListArea(
     manageApplicantState: ManageApplicantState,
-    onRefusal: (Int) -> Unit,
-    onAccept: (Int) -> Unit,
 ) {
     val filteredList = if(manageApplicantState.selectedRecruitmentStatus == "전체"){
         manageApplicantState.recruitmentApplicantList
@@ -52,8 +49,6 @@ fun ManageApplicantListArea(
                     profileImage = item.user.image,
                     nickName = item.user.nickname,
                     message = item.message,
-                    onRefusal = { onRefusal(item.id) },
-                    onAccept = { onAccept(item.id) },
                 )
             }
         }
@@ -63,10 +58,8 @@ fun ManageApplicantListArea(
 
 @Preview(showBackground = true)
 @Composable
-fun ManageApplicantListAreaPreview() {
+private fun ManageApplicantListAreaPreview() {
     ManageApplicantListArea(
         manageApplicantState = ManageApplicantState(),
-        onRefusal = {},
-        onAccept = {},
     )
 }

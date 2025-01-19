@@ -5,11 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.domain.usecase.party.GetPartyRecruitmentUseCase
 import com.party.domain.usecase.party.GetRecruitmentApplicantUseCase
-import com.party.domain.usecase.party.PartyAcceptUseCase
-import com.party.domain.usecase.party.PartyRejectUseCase
 import com.party.presentation.screen.manage_applicant.ManageApplicantAction
 import com.party.presentation.screen.manage_applicant.ManageApplicantState
-import com.skydoves.sandwich.StatusCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -24,8 +21,6 @@ import javax.inject.Inject
 class ManageApplicantViewModel @Inject constructor(
     private val getPartyRecruitmentUseCase: GetPartyRecruitmentUseCase,
     private val getRecruitmentApplicantUseCase: GetRecruitmentApplicantUseCase,
-    private val partyRejectUseCase: PartyRejectUseCase,
-    private val partyAcceptUseCase: PartyAcceptUseCase,
 ): ViewModel(){
 
     private val _state = MutableStateFlow(ManageApplicantState())
@@ -72,52 +67,6 @@ class ManageApplicantViewModel @Inject constructor(
         }
     }
 
-    private fun partyAccept(partyId: Int, partyApplicationId: Int){
-        viewModelScope.launch(Dispatchers.IO) {
-            when(val result = partyAcceptUseCase(partyId = partyId, partyApplicationId = partyApplicationId)){
-                is ServerApiResponse.SuccessResponse -> {
-                    _acceptSuccess.emit(Unit)
-                    getRecruitmentApplicant(partyId = partyId, partyRecruitmentId = _state.value.selectedRecruitmentId, page = 1, limit = 50, sort = "createdAt", order = "DESC")
-                    _state.update { it.copy(isShowAcceptDialog = true) }
-                }
-                is ServerApiResponse.ErrorResponse -> {
-                    when(result.statusCode){
-                        StatusCode.Forbidden.code -> {
-                            _acceptAndRejectFail.emit("권한이 없습니다")
-                        }
-                        StatusCode.NotFound.code -> {
-                            _acceptAndRejectFail.emit("데이터가 존재하지 않습니다.")
-                        }
-                    }
-                }
-                is ServerApiResponse.ExceptionResponse -> {  }
-            }
-        }
-    }
-
-    private fun partyReject(partyId: Int, partyApplicationId: Int){
-        viewModelScope.launch(Dispatchers.IO) {
-            when(val result = partyRejectUseCase(partyId = partyId, partyApplicationId = partyApplicationId)){
-                is ServerApiResponse.SuccessResponse -> {
-                    _rejectSuccess.emit(Unit)
-                    getRecruitmentApplicant(partyId = partyId, partyRecruitmentId = _state.value.selectedRecruitmentId, page = 1, limit = 50, sort = "createdAt", order = "DESC")
-                    _state.update { it.copy(isShowRejectDialog = true) }
-                }
-                is ServerApiResponse.ErrorResponse -> {
-                    when(result.statusCode){
-                        StatusCode.Forbidden.code -> {
-                            _acceptAndRejectFail.emit("권한이 없습니다")
-                        }
-                        StatusCode.NotFound.code -> {
-                            _acceptAndRejectFail.emit("데이터가 존재하지 않습니다.")
-                        }
-                    }
-                }
-                is ServerApiResponse.ExceptionResponse -> {  }
-            }
-        }
-    }
-
     fun onAction(action: ManageApplicantAction){
         when(action){
             is ManageApplicantAction.OnShowHelpCard -> _state.update { it.copy(isShowHelpIcon = action.isShowHelpCard) }
@@ -151,8 +100,6 @@ class ManageApplicantViewModel @Inject constructor(
                 _state.update { it.copy(isShowApplicantCreatedDt = action.isDesc) }
             }
             is ManageApplicantAction.OnSelectRecruitmentId -> _state.update { it.copy(selectedRecruitmentId = action.partyRecruitmentId, selectedRecruitmentMain = action.main, selectedRecruitmentSub = action.sub) }
-            is ManageApplicantAction.OnAccept -> partyAccept(action.partyId, action.partyApplicationId)
-            is ManageApplicantAction.OnReject -> partyReject(action.partyId, action.partyApplicationId)
             is ManageApplicantAction.OnShowAcceptDialog -> _state.update { it.copy(isShowAcceptDialog = action.isShow) }
             is ManageApplicantAction.OnShowRejectDialog -> _state.update { it.copy(isShowRejectDialog = action.isShow) }
         }

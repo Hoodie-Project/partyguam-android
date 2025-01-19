@@ -98,8 +98,6 @@ fun ManageApplicantScreenRoute(
                         is ManageApplicantAction.OnSelectRecruitmentTab -> manageApplicantViewModel.onAction(action)
                         is ManageApplicantAction.OnChangeApplicantOrderBy -> manageApplicantViewModel.onAction(action)
                         is ManageApplicantAction.OnSelectRecruitmentId -> manageApplicantViewModel.onAction(action)
-                        is ManageApplicantAction.OnAccept -> manageApplicantViewModel.onAction(action)
-                        is ManageApplicantAction.OnReject -> manageApplicantViewModel.onAction(action)
                         is ManageApplicantAction.OnShowAcceptDialog -> manageApplicantViewModel.onAction(action)
                         is ManageApplicantAction.OnShowRejectDialog -> manageApplicantViewModel.onAction(action)
                     }
@@ -177,8 +175,6 @@ private fun ManageApplicantScreen(
                         selectedRecruitmentTab -> onAction(ManageApplicantAction.OnSelectRecruitmentTab(selectedRecruitmentTab))
                     },
                     onChangeOrderBy = { isDesc -> onAction(ManageApplicantAction.OnChangeApplicantOrderBy(isDesc)) },
-                    onRefusal = { id -> onAction(ManageApplicantAction.OnReject(partyId = partyId, partyApplicationId = id)) },
-                    onAccept = { id -> onAction(ManageApplicantAction.OnAccept(partyId = partyId, partyApplicationId = id)) },
                 )
             }
         }
@@ -254,8 +250,6 @@ private fun ManageApplicantArea(
     manageApplicantState: ManageApplicantState,
     onSelectRecruitmentTab: (String) -> Unit,
     onChangeOrderBy: (Boolean) -> Unit,
-    onRefusal: (Int) -> Unit,
-    onAccept: (Int) -> Unit,
 ) {
     ManageApplicantPositionTitle(
         main = manageApplicantState.selectedRecruitmentMain,
@@ -280,8 +274,6 @@ private fun ManageApplicantArea(
     HeightSpacer(12.dp)
     ManageApplicantListArea(
         manageApplicantState = manageApplicantState,
-        onRefusal = onRefusal,
-        onAccept = onAccept,
     )
 }
 

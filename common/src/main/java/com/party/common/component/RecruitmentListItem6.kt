@@ -5,7 +5,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,14 +23,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
-import com.party.common.component.button.CustomButton
 import com.party.common.component.icon.DrawableIcon
 import com.party.common.convertIsoToCustomDateFormat
 import com.party.common.noRippleClickable
@@ -53,8 +50,6 @@ fun RecruitmentListItem6(
     profileImage: String?,
     nickName: String,
     message: String,
-    onRefusal: () -> Unit,
-    onAccept: () -> Unit,
 ) {
     var isContentVisible by remember { mutableStateOf(true) }
 
@@ -98,15 +93,6 @@ fun RecruitmentListItem6(
                         textColor = GRAY600,
                     )
                     HeightSpacer(heightDp = 12.dp)
-
-                    when(status){
-                        "검토중" -> {
-                            CancelAndApplyButtonArea(
-                                onRefusal = onRefusal,
-                                onAccept = onAccept,
-                            )
-                        }
-                    }
                 }
             }
 
@@ -118,39 +104,6 @@ fun RecruitmentListItem6(
                 onToggle = { isContentVisible = !isContentVisible },
             )
         }
-    }
-}
-
-// 거절하기, 수락하기 버튼 - 응답대기인 경우 보이기
-@Composable
-private fun CancelAndApplyButtonArea(
-    onRefusal: () -> Unit,
-    onAccept: () -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(36.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        CustomButton(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight(),
-            buttonText = "거절하기",
-            textWeight = FontWeight.SemiBold,
-            containerColor = WHITE,
-            onClick = onRefusal,
-        )
-        WidthSpacer(widthDp = 8.dp)
-        CustomButton(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight(),
-            buttonText = "수락하기",
-            textWeight = FontWeight.SemiBold,
-            onClick = onAccept,
-        )
     }
 }
 
@@ -253,7 +206,5 @@ private fun RecruitmentListItem6Preview() {
         profileImage = null,
         nickName = "김철수",
         message = "안녕하세요",
-        onRefusal = {},
-        onAccept = {},
     )
 }
