@@ -56,6 +56,7 @@ import com.party.presentation.screen.search.SearchRoute
 import com.party.presentation.screen.splash.SplashScreenRoute
 import com.party.presentation.screen.state.StateScreenRoute
 import com.party.presentation.screen.terms.CustomerInquiriesScreenRoute
+import com.party.presentation.screen.terms.PrivacyPolicyScreenRoute
 import com.party.presentation.screen.terms.ServiceIntroduceScreenRoute
 import com.party.presentation.screen.terms.TermsScreenRoute
 import com.party.presentation.screen.user_delete.UserDeleteScreenRoute
@@ -378,6 +379,11 @@ fun AppNavHost() {
         }
         composable<Screens.Terms> {
             TermsScreenRoute(
+                navController = navController
+            )
+        }
+        composable<Screens.PrivacyPolicy> {
+            PrivacyPolicyScreenRoute(
                 navController = navController
             )
         }

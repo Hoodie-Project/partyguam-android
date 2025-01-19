@@ -67,6 +67,9 @@ fun AuthSettingScreenRoute(
         },
         onGotoTerms = {
             navController.navigate(Screens.Terms)
+        },
+        onGotoPrivacyPolicy = {
+            navController.navigate(Screens.PrivacyPolicy)
         }
     )
 }
@@ -80,6 +83,7 @@ private fun AuthSettingScreen(
     onGotoServiceIntroduce: () -> Unit,
     onGotoCustomerInquiries: () -> Unit,
     onGotoTerms: () -> Unit,
+    onGotoPrivacyPolicy: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -123,6 +127,7 @@ private fun AuthSettingScreen(
                     onGotoServiceIntroduce = onGotoServiceIntroduce,
                     onGotoCustomerInquiries = onGotoCustomerInquiries,
                     onGotoTerms = onGotoTerms,
+                    onGotoPrivacyPolicy = onGotoPrivacyPolicy,
                 )
 
                 HeightSpacer(heightDp = 40.dp)
@@ -177,6 +182,7 @@ private fun AuthSettingScreenPreview() {
         onAction = {},
         onGotoServiceIntroduce = {},
         onGotoCustomerInquiries = {},
-        onGotoTerms = {}
+        onGotoTerms = {},
+        onGotoPrivacyPolicy = {}
     )
 }

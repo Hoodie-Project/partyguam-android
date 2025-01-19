@@ -83,4 +83,6 @@ sealed interface Screens {
     data object ServiceIntroduce: Screens
     @Serializable
     data object Terms: Screens
+    @Serializable
+    data object PrivacyPolicy: Screens
 }

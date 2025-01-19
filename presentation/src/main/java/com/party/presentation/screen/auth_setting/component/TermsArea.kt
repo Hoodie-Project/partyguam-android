@@ -17,6 +17,7 @@ fun TermsArea(
     onGotoServiceIntroduce: () -> Unit,
     onGotoCustomerInquiries: () -> Unit,
     onGotoTerms: () -> Unit,
+    onGotoPrivacyPolicy: () -> Unit,
 ) {
     Column {
         TermsAreaItem(
@@ -33,7 +34,7 @@ fun TermsArea(
         )
         TermsAreaItem(
             text = "개인정보 처리방침",
-            onClick = {}
+            onClick = onGotoPrivacyPolicy
         )
     }
 }
@@ -61,6 +62,7 @@ private fun TermsAreaPreview() {
     TermsArea(
         onGotoServiceIntroduce = {},
         onGotoCustomerInquiries = {},
-        onGotoTerms = {}
+        onGotoTerms = {},
+        onGotoPrivacyPolicy = {}
     )
 }
