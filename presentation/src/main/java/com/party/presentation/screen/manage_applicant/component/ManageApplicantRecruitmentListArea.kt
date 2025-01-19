@@ -59,6 +59,7 @@ private fun RecruitmentList(
             }
         ) { _, item ->
             RecruitmentListItem5(
+                status = item.status,
                 id = item.id,
                 createdAt = item.createdAt,
                 main = item.position.main,

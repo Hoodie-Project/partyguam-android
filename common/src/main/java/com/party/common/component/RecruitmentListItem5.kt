@@ -20,6 +20,7 @@ import com.party.common.HeightSpacer
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.convertIsoToCustomDateFormat
+import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
@@ -31,6 +32,7 @@ import com.party.common.ui.theme.WHITE
 
 @Composable
 fun RecruitmentListItem5(
+    status: String,
     id: Int,
     createdAt: String,
     main: String,
@@ -69,6 +71,7 @@ fun RecruitmentListItem5(
             HeightSpacer(heightDp = 20.dp)
 
             ApplicantArea(
+                status = status,
                 applicationCount = applicationCount
             )
         }
@@ -77,6 +80,7 @@ fun RecruitmentListItem5(
 
 @Composable
 private fun ApplicantArea(
+    status: String,
     applicationCount: Int,
 ) {
     Row(
@@ -85,27 +89,51 @@ private fun ApplicantArea(
             .height(20.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        TextComponent(
-            text = "지원자",
-            fontSize = T3,
-            textColor = BLACK,
-            modifier = Modifier.alignByBaseline() // Baseline에 맞춤
-        )
+        if(status == "active"){
+            TextComponent(
+                text = "지원자",
+                fontSize = T3,
+                textColor = BLACK,
+                modifier = Modifier.alignByBaseline() // Baseline에 맞춤
+            )
 
-        WidthSpacer(4.dp)
-        TextComponent(
-            text = applicationCount.toString(),
-            fontSize = T3,
-            textColor = PRIMARY,
-            modifier = Modifier.alignByBaseline() // Baseline에 맞춤
-        )
+            WidthSpacer(4.dp)
+            TextComponent(
+                text = applicationCount.toString(),
+                fontSize = T3,
+                textColor = PRIMARY,
+                modifier = Modifier.alignByBaseline() // Baseline에 맞춤
+            )
+        }else {
+            TextComponent(
+                text = "모집마감",
+                fontSize = B2,
+                textColor = BLACK,
+            )
+        }
+
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun RecruitmentListItem5Preview(modifier: Modifier = Modifier) {
+private fun RecruitmentListItem5Preview() {
     RecruitmentListItem5(
+        status = "completed",
+        id = 1,
+        createdAt = "2024-06-05T15:30:45.123Z",
+        main = "개발자",
+        sub = "안드로이드",
+        applicationCount = 3,
+        onClick = { _, _, _ -> }
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun RecruitmentListItem5Preview2() {
+    RecruitmentListItem5(
+        status = "active",
         id = 1,
         createdAt = "2024-06-05T15:30:45.123Z",
         main = "개발자",
