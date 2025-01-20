@@ -59,6 +59,7 @@ fun MyRecruitmentArea(
     onChangeOrderBy: (Boolean) -> Unit,
     onRefusal: () -> Unit,
     onAccept: () -> Unit,
+    onCancel: (Int, Int) -> Unit,
 ) {
 
     val filteredList = if (myPartyState.selectedRecruitmentStatus == "전체") {
@@ -102,6 +103,7 @@ fun MyRecruitmentArea(
                         filteredList = filteredList,
                         onRefusal = onRefusal,
                         onAccept = onAccept,
+                        onCancel = onCancel
                     )
                 }
             }
@@ -121,6 +123,7 @@ private fun MyRecruitmentList(
     filteredList: List<PartyApplication>,
     onRefusal: () -> Unit,
     onAccept: () -> Unit,
+    onCancel: (Int, Int) -> Unit,
 ) {
     LazyColumn(
         state = listState,
@@ -146,6 +149,9 @@ private fun MyRecruitmentList(
                 onClick = {},
                 onRefusal = onRefusal,
                 onAccept = onAccept,
+                onCancel = {
+                    onCancel(item.partyRecruitment.party.id, item.id)
+                }
             )
         }
     }
@@ -302,6 +308,7 @@ private fun MyRecruitmentAreaPreview() {
         onChangeOrderBy = {},
         onRefusal = {},
         onAccept = {},
+        onCancel = { _, _ -> },
     )
 }
 

@@ -552,4 +552,34 @@ class PartyRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun cancelRecruitment(
+        partyId: Int,
+        partyApplicationId: Int
+    ): ServerApiResponse<Unit> {
+        return when(val result = partyRemoteSource.cancelRecruitment(partyId = partyId, partyApplicationId = partyApplicationId)){
+            is ApiResponse.Success -> { SuccessResponse(data = result.data)}
+            is ApiResponse.Failure.Error -> {
+                when(result.statusCode){
+                    StatusCode.Forbidden -> {
+                        ErrorResponse(
+                            statusCode = StatusCode.Forbidden.code,
+                            data = null,
+                        )
+                    }
+                    StatusCode.NotFound -> {
+                        ErrorResponse(
+                            statusCode = StatusCode.NotFound.code,
+                            data = null,
+                        )
+                    }
+                    else -> ErrorResponse(data = null)
+                }
+            }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse()
+            }
+        }
+    }
 }

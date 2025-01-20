@@ -70,6 +70,7 @@ fun RecruitmentListItem3(
     onClick: () -> Unit,
     onRefusal: () -> Unit,
     onAccept: () -> Unit,
+    onCancel: () -> Unit,
 ) {
     var isContentVisible by remember { mutableStateOf(true) }
 
@@ -150,9 +151,7 @@ fun RecruitmentListItem3(
                         }
                         "검토중" -> {
                             CancelButton(
-                                onCancel = {
-
-                                }
+                                onCancel = onCancel
                             )
                         }
                     }
@@ -384,6 +383,7 @@ private fun CancelButton(
         textWeight = FontWeight.SemiBold,
         containerColor = WHITE,
         onClick = onCancel,
+        textSize = B3,
     )
 }
 
@@ -468,6 +468,7 @@ private fun RecruitmentListItem3Preview() {
         onClick = {},
         onRefusal = {},
         onAccept = {},
+        onCancel = {}
     )
 }
 
@@ -476,7 +477,7 @@ private fun RecruitmentListItem3Preview() {
 private fun RecruitmentListItem3Preview1() {
     RecruitmentListItem3(
         date = "2024-12-05T08:09:19.765Z",
-        status = "응답대기",
+        status = "검토중",
         activeOrComplete = "completed",
         statusColor = YELLOW,
         partyType = "스터디",
@@ -487,6 +488,7 @@ private fun RecruitmentListItem3Preview1() {
         onClick = {},
         onRefusal = {},
         onAccept = {},
+        onCancel = {}
     )
 }
 

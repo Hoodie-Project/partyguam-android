@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.domain.model.user.party.MyParty
 import com.party.domain.model.user.recruitment.MyRecruitment
+import com.party.domain.usecase.party.CancelRecruitmentUseCase
 import com.party.domain.usecase.user.party.GetMyPartyUseCase
 import com.party.domain.usecase.user.recruitment.GetMyRecruitmentUseCase
 import com.party.presentation.screen.state.MyPartyAction
@@ -23,13 +24,29 @@ import javax.inject.Inject
 class StateViewModel @Inject constructor(
     private val getMyPartyUseCase: GetMyPartyUseCase,
     private val getMyRecruitmentUseCase: GetMyRecruitmentUseCase,
+    private val cancelRecruitmentUseCase: CancelRecruitmentUseCase,
 ): ViewModel(){
 
     private val _myPartyState = MutableStateFlow(MyPartyState())
     val myPartyState = _myPartyState.asStateFlow()
 
+    private val _successCancel = MutableSharedFlow<Unit>()
+    val successCancel = _successCancel.asSharedFlow()
+
     private val _scrollToUp = MutableSharedFlow<Unit>()
     val scrollToUp = _scrollToUp.asSharedFlow()
+
+    private fun cancelRecruitment(partyId: Int, partyApplicationId: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = cancelRecruitmentUseCase(partyId = partyId, partyApplicationId = partyApplicationId)){
+                is ServerApiResponse.SuccessResponse -> {
+                    _successCancel.emit(Unit)
+                }
+                is ServerApiResponse.ErrorResponse -> {}
+                is ServerApiResponse.ExceptionResponse -> {}
+            }
+        }
+    }
 
     fun getMyParty(page: Int, limit: Int, sort: String, order: String){
         viewModelScope.launch(Dispatchers.IO) {
@@ -102,6 +119,9 @@ class StateViewModel @Inject constructor(
             is MyPartyAction.OnShowHelpCard -> _myPartyState.update { it.copy(isShowHelpCard = action.isShowHelpCard) }
             is MyPartyAction.OnExpandedFloating -> _myPartyState.update { it.copy(isExpandedFloating = action.isExpandedFloating) }
             is MyPartyAction.OnSelectStatus -> _myPartyState.update { currentState -> currentState.copy(selectedStatus = action.selectedStatus) }
+            is MyPartyAction.OnCancelRecruitment -> {
+                cancelRecruitment(partyId = action.partyId, partyApplicationId = action.partyApplicationId)
+            }
         }
     }
 

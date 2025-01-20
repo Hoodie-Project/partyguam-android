@@ -134,4 +134,7 @@ interface PartyRepository {
 
     // 파티장이 지원자 거절
     suspend fun rejectApplicant(partyId: Int, partyApplicationId: Int): ServerApiResponse<ApprovalAndRejection>
+
+    // 지원한 모집공고 취소하기(검토중일때)
+    suspend fun cancelRecruitment(partyId: Int, partyApplicationId: Int): ServerApiResponse<Unit>
 }

@@ -224,4 +224,11 @@ interface PartyService {
         @Path(value = "partyId") partyId: Int,
         @Path(value = "partyApplicationId") partyApplicationId: Int,
     ): ApiResponse<ApprovalAndRejectionDto>
+
+    // 지원한 모집공고 취소하기(검토중일때)
+    @DELETE("api/parties/{partyId}/applications/{partyApplicationId}")
+    suspend fun cancelRecruitment(
+        @Path(value = "partyId") partyId: Int,
+        @Path(value = "partyApplicationId") partyApplicationId: Int,
+    ): ApiResponse<Unit>
 }

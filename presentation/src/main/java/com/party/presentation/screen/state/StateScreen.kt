@@ -61,6 +61,12 @@ fun StateScreenRoute(
         stateViewModel.getMyRecruitment(1, 50, "createdAt", "DESC")
     }
 
+    LaunchedEffect(Unit) {
+        stateViewModel.successCancel.collectLatest {
+            stateViewModel.getMyRecruitment(1, 50, "createdAt", "DESC")
+        }
+    }
+
     val myPartyState by stateViewModel.myPartyState.collectAsStateWithLifecycle()
 
     // listState 를 내파티 영역, 내 모집공고 영역 동시에 적용
@@ -89,6 +95,7 @@ fun StateScreenRoute(
                 is MyPartyAction.OnOrderByChange -> stateViewModel.onAction(action)
                 is MyPartyAction.OnRecruitmentOrderByChange -> stateViewModel.onAction(action)
                 is MyPartyAction.OnExpandedFloating -> stateViewModel.onAction(action)
+                is MyPartyAction.OnCancelRecruitment -> stateViewModel.onAction(action)
             }
         },
         onGoToSearch = { navController.navigate(Screens.Search) },
@@ -161,6 +168,7 @@ private fun StateScreen(
                         onChangeOrderBy = { orderByDesc -> onAction(MyPartyAction.OnRecruitmentOrderByChange(orderByDesc)) },
                         onRefusal = { },
                         onAccept = { },
+                        onCancel = { partyId, partyApplicationId -> onAction(MyPartyAction.OnCancelRecruitment(partyId = partyId, partyApplicationId = partyApplicationId))}
                     )
                 }
             }
