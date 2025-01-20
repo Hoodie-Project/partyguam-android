@@ -101,6 +101,7 @@ fun StateScreenRoute(
         onGoToSearch = { navController.navigate(Screens.Search) },
         onGoPartyCreate = { navController.navigate(Screens.PartyCreate) },
         onNavigateUp = { stateViewModel.scrollToTopFun()},
+        onMyPartyCardClick = { navController.navigate(Screens.PartyDetail(partyId = it))}
     )
 }
 
@@ -115,6 +116,7 @@ private fun StateScreen(
     onGoToSearch: () -> Unit,
     onGoPartyCreate: () -> Unit,
     onNavigateUp: () -> Unit,
+    onMyPartyCardClick: (Int) -> Unit,
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -158,6 +160,7 @@ private fun StateScreen(
                         myPartyState = myPartyState,
                         onSelectStatus = { status -> onAction(MyPartyAction.OnSelectStatus(status)) },
                         onChangeOrderBy = { orderByDesc -> onAction(MyPartyAction.OnOrderByChange(orderByDesc)) },
+                        onClick = onMyPartyCardClick,
                     )
                 } else {
                     MyRecruitmentArea(
@@ -249,6 +252,7 @@ private fun StateScreenContentPreview() {
         onGoToSearch = {},
         onGoPartyCreate = {},
         onNavigateUp = {},
+        onMyPartyCardClick = {}
     )
 }
 
@@ -313,5 +317,6 @@ private fun StateScreenContentPreview2() {
         onGoToSearch = {},
         onGoPartyCreate = {},
         onNavigateUp = {},
+        onMyPartyCardClick = {}
     )
 }

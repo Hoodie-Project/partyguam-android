@@ -3,6 +3,7 @@ package com.party.presentation.screen.state.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -33,6 +34,7 @@ fun MyPartyArea(
     myPartyState: MyPartyState,
     onChangeOrderBy: (Boolean) -> Unit,
     onSelectStatus: (String) -> Unit,
+    onClick: (Int) -> Unit,
 ) {
     val filteredList = if (myPartyState.selectedStatus == "전체") {
         myPartyState.myPartyList.partyUsers // 전체 리스트 반환
@@ -71,7 +73,8 @@ fun MyPartyArea(
             else -> {
                 MyPartyList(
                     listState = listState,
-                    filteredList = filteredList
+                    filteredList = filteredList,
+                    onClick = onClick
                 )
             }
         }
@@ -82,11 +85,12 @@ fun MyPartyArea(
 private fun MyPartyList(
     listState: LazyListState,
     filteredList: List<PartyUser>,
+    onClick: (Int) -> Unit,
 ) {
     LazyColumn(
         state = listState,
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         itemsIndexed(
@@ -104,7 +108,7 @@ private fun MyPartyList(
                 title = item.party.title,
                 main = item.position.main,
                 sub = item.position.sub,
-                onClick = {}
+                onClick = { onClick(item.party.id) }
             )
         }
     }
@@ -139,7 +143,8 @@ private fun MyPartyAreaPreview() {
         ),
         onSelectStatus = {},
         onChangeOrderBy = {},
-        listState = rememberLazyListState()
+        listState = rememberLazyListState(),
+        onClick = {}
     )
 }
 
@@ -153,7 +158,8 @@ private fun MyPartyAreaPreview1() {
         ),
         onSelectStatus = {},
         onChangeOrderBy = {},
-        listState = rememberLazyListState()
+        listState = rememberLazyListState(),
+        onClick = {}
     )
 }
 
@@ -183,6 +189,7 @@ private fun MyPartyAreaPreview2() {
         ),
         onSelectStatus = {},
         onChangeOrderBy = {},
-        listState = rememberLazyListState()
+        listState = rememberLazyListState(),
+        onClick = {}
     )
 }
