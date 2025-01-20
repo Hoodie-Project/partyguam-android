@@ -171,6 +171,8 @@ object UserMapper {
             status = partyApplicationDto.status,
             createdAt = partyApplicationDto.createdAt,
             partyRecruitment = PartyRecruitment(
+                id = partyApplicationDto.id,
+                status = partyApplicationDto.status,
                 position = com.party.domain.model.user.recruitment.Position(
                     main = partyApplicationDto.partyRecruitment.position.main,
                     sub = partyApplicationDto.partyRecruitment.position.sub
@@ -178,7 +180,7 @@ object UserMapper {
                 party = com.party.domain.model.user.recruitment.Party(
                     id = partyApplicationDto.partyRecruitment.party.id,
                     title = partyApplicationDto.partyRecruitment.party.title,
-                    image = partyApplicationDto.partyRecruitment.party.image,
+                    image = convertToImageUrl(partyApplicationDto.partyRecruitment.party.image),
                     partyType = com.party.domain.model.user.recruitment.PartyType(
                         type = partyApplicationDto.partyRecruitment.party.partyType.type
                     )

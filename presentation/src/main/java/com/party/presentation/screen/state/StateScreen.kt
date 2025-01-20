@@ -285,6 +285,8 @@ private fun StateScreenContentPreview2() {
                         status = "ancillae",
                         createdAt = "2024-06-05T15:30:45.123Z",
                         partyRecruitment = PartyRecruitment(
+                            id = 0,
+                            status = "active",
                             position = com.party.domain.model.user.recruitment.Position(
                                 main = "vitae",
                                 sub = "tristique"

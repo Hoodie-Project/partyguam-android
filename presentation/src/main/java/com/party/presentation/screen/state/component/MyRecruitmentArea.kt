@@ -136,6 +136,7 @@ private fun MyRecruitmentList(
             RecruitmentListItem3(
                 date = item.createdAt,
                 status = RecruitmentStatusType.fromStatus(item.status).toDisplayText(),
+                activeOrComplete = item.partyRecruitment.status,
                 statusColor = RecruitmentStatusType.fromStatus(item.status).toColor(),
                 partyType = item.partyRecruitment.party.partyType.type,
                 title = item.partyRecruitment.party.title,

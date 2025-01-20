@@ -19,6 +19,8 @@ data class PartyApplicationDto(
 
 @Serializable
 data class PartyRecruitmentDto(
+    val id: Int,
+    val status: String,
     val position: PositionDto,
     val party: PartyDto
 )
@@ -33,7 +35,7 @@ data class PositionDto(
 data class PartyDto(
     val id: Int,
     val title: String,
-    val image: String,
+    val image: String?,
     val partyType: PartyTypeDto
 )
 

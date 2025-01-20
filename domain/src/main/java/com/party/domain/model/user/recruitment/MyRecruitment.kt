@@ -14,6 +14,8 @@ data class PartyApplication(
 )
 
 data class PartyRecruitment(
+    val id: Int,
+    val status: String,
     val position: Position,
     val party: Party
 )
@@ -26,7 +28,7 @@ data class Position(
 data class Party(
     val id: Int,
     val title: String,
-    val image: String,
+    val image: String?,
     val partyType: PartyType
 )
 
