@@ -1,5 +1,7 @@
 package com.party.presentation.screen.auth_setting
 
+import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,12 +14,18 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.kakao.sdk.user.UserApiClient
 import com.party.common.HeightSpacer
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.noRippleClickable
@@ -31,10 +39,13 @@ import com.party.presentation.screen.auth_setting.component.ManageAuthArea
 import com.party.presentation.screen.auth_setting.component.TermsArea
 import com.party.presentation.screen.auth_setting.viewmodel.AuthSettingViewModel
 import com.party.presentation.screen.home.HomeAction
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 fun AuthSettingScreenRoute(
+    context: Context,
     navController: NavHostController,
     authSettingViewModel: AuthSettingViewModel = hiltViewModel()
 ) {
@@ -50,6 +61,7 @@ fun AuthSettingScreenRoute(
     }
 
     AuthSettingScreen(
+        context = context,
         authSettingState = authSettingState,
         onNavigationBack = { navController.popBackStack() },
         onUserDelete = { navController.navigate(Screens.UserDelete)},
@@ -76,6 +88,7 @@ fun AuthSettingScreenRoute(
 
 @Composable
 private fun AuthSettingScreen(
+    context: Context,
     authSettingState: AuthSettingState,
     onNavigationBack: () -> Unit,
     onUserDelete: () -> Unit,
@@ -133,10 +146,9 @@ private fun AuthSettingScreen(
                 HeightSpacer(heightDp = 40.dp)
 
                 LogoutAndDeletionArea(
-                    /*onLogout = {
-                        onAction(AuthSettingAction.OnLogout)
-                    },*/
                     onLogout = {
+                        googleLogout(context = context)
+                        kakaoLogout()
                         onAction(AuthSettingAction.OnShowLogoutDialog(true))
                     },
                     onUserDelete = onUserDelete
@@ -172,10 +184,41 @@ private fun AuthSettingScreen(
     }
 }
 
+private fun kakaoLogout(){
+    UserApiClient.instance.logout { error ->
+        if (error != null) {
+            Log.d("kakaoLogout", "logoutKakao: $error")
+        }else {
+            Log.d("kakaoLogout", "logoutKakao: 로그아웃 성공")
+        }
+    }
+}
+
+private fun googleLogout(context: Context){
+    // GoogleSignInOptions 설정
+    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        .requestEmail()
+        .build()
+
+    val googleSignInClient: GoogleSignInClient = GoogleSignIn.getClient(context, gso)
+
+    googleSignInClient.signOut()
+        .addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                // 로그아웃 성공
+                Log.d("googleLogout", "googleLogout: 성공")
+            } else {
+                // 로그아웃 실패
+                Log.d("googleLogout", "googleLogout: 실패")
+            }
+        }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun AuthSettingScreenPreview() {
     AuthSettingScreen(
+        context = LocalContext.current,
         authSettingState = AuthSettingState(),
         onNavigationBack = {},
         onUserDelete = {},

@@ -325,6 +325,7 @@ fun AppNavHost() {
         }
         composable<Screens.ManageAuth> {
             AuthSettingScreenRoute(
+                context = context,
                 navController = navController
             )
         }

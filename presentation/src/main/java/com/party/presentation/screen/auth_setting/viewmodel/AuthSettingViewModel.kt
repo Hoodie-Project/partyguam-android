@@ -1,7 +1,12 @@
 package com.party.presentation.screen.auth_setting.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.kakao.sdk.user.UserApiClient
 import com.party.common.ServerApiResponse
 import com.party.domain.usecase.datastore.DeleteAccessTokenUseCase
 import com.party.domain.usecase.user.UserLogoutUseCase
