@@ -16,7 +16,7 @@ data class RecruitmentDetailDto(
 @Serializable
 data class RecruitmentDetailPartyDto(
     val title: String,
-    val image: String,
+    val image: String?,
     val status: String,
     val partyType: RecruitmentDetailPartyTypeDto,
 )

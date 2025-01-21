@@ -79,7 +79,7 @@ fun RecruitmentCategory(
 
 @Composable
 fun RecruitmentImageArea(
-    imageUrl: String,
+    imageUrl: String?,
     title: String,
     tag: String,
     type: String,
