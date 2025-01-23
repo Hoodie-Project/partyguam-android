@@ -5,11 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.party.domain.usecase.datastore.GetAccessTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
@@ -22,6 +25,16 @@ class SplashViewModel @Inject constructor(
     fun getAccessToken() = viewModelScope.launch(Dispatchers.IO) {
         getAccessTokenUseCase().collectLatest { accessToken ->
             _accessToken.emit(accessToken)
+        }
+    }
+
+    private var _isLoading = MutableStateFlow(true)
+    val isLoading = _isLoading.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            delay(2.seconds)
+            _isLoading.value = false
         }
     }
 }

@@ -54,7 +54,8 @@ private fun SplashScreen() {
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) {
-            Text(text = "파티괌 인트로 페이지", fontSize = 30.sp)
+            println("splash screen")
+            //Text(text = "파티괌 인트로 페이지", fontSize = 30.sp)
         }
     }
 }

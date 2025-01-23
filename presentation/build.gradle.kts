@@ -97,4 +97,6 @@ dependencies {
     // Coil
     implementation(libs.coil.compose)
 
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
 }
