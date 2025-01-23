@@ -1,5 +1,6 @@
 package com.party.data.service
 
+import com.party.data.dto.user.auth.LinkKakaoDto
 import com.party.data.dto.user.detail.LocationDto
 import com.party.data.dto.user.detail.PersonalityListDto
 import com.party.data.dto.user.detail.PersonalitySaveDto
@@ -9,6 +10,7 @@ import com.party.data.dto.user.detail.SaveInterestLocationDto
 import com.party.data.dto.user.party.MyPartyDto
 import com.party.data.dto.user.profile.UserProfileDto
 import com.party.data.dto.user.recruitment.MyRecruitmentDto
+import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
@@ -19,6 +21,7 @@ import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -116,4 +119,10 @@ interface UserService {
     // 회원탈퇴
     @DELETE("api/users/signout")
     suspend fun signOut(): ApiResponse<Unit>
+
+    // 카카오 계정 연동
+    @POST("api/users/kakao/app/link")
+    suspend fun linkKakao(
+        @Body linkKakaoRequest: LinkKakaoRequest
+    ): ApiResponse<LinkKakaoDto>
 }

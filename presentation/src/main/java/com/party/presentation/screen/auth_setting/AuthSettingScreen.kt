@@ -20,14 +20,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.model.ClientError
+import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.party.common.HeightSpacer
 import com.party.common.component.dialog.TwoButtonDialog
+import com.party.common.makeAccessToken
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY200
@@ -38,10 +41,7 @@ import com.party.presentation.screen.auth_setting.component.LogoutAndDeletionAre
 import com.party.presentation.screen.auth_setting.component.ManageAuthArea
 import com.party.presentation.screen.auth_setting.component.TermsArea
 import com.party.presentation.screen.auth_setting.viewmodel.AuthSettingViewModel
-import com.party.presentation.screen.home.HomeAction
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @Composable
 fun AuthSettingScreenRoute(
@@ -82,6 +82,9 @@ fun AuthSettingScreenRoute(
         },
         onGotoPrivacyPolicy = {
             navController.navigate(Screens.PrivacyPolicy)
+        },
+        onLinkKakao = { token ->
+            authSettingViewModel.linkKakao(oauthAccessToken = token)
         }
     )
 }
@@ -97,7 +100,26 @@ private fun AuthSettingScreen(
     onGotoCustomerInquiries: () -> Unit,
     onGotoTerms: () -> Unit,
     onGotoPrivacyPolicy: () -> Unit,
+    onLinkKakao: (String) -> Unit,
 ) {
+    val kakaoCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+        when {
+            error != null -> {
+                Log.e("KAKAO", "로그인 실패", error)
+            }
+            token != null -> {
+                println("토큰토큰 ${token.accessToken}")
+                println("토큰토큰 ${token.refreshToken}")
+                println("토큰토큰 ${token.idToken}")
+                loginWithKakaoNickName(
+                    context = context,
+                    token = token,
+                    onLink = onLinkKakao,
+                )
+            }
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -124,7 +146,11 @@ private fun AuthSettingScreen(
                 HeightSpacer(heightDp = 24.dp)
                 ManageAuthArea(
                     modifier = Modifier
-                        .padding(horizontal = 20.dp)
+                        .padding(horizontal = 20.dp),
+                    onLinkKakao = {
+                        loginWithKakao(context, kakaoCallback)
+                    },
+                    onLinkGoogle = {}
                 )
 
                 HeightSpacer(heightDp = 32.dp)
@@ -214,6 +240,48 @@ private fun googleLogout(context: Context){
         }
 }
 
+private fun loginWithKakaoNickName(
+    context: Context,
+    token: OAuthToken,
+    onLink: (String) -> Unit,
+){
+    UserApiClient.instance.me { user, error ->
+        when {
+            error != null -> Log.e("KAKAO", "사용자 정보 요청 실패", error)
+            user != null -> {
+                //Log.i("KAKAO", "사용자 정보 요청 성공 ${token.accessToken} ${user.properties?.get("email").orEmpty()}")
+                //Log.i("KAKAO", "사용자 정보 요청 성공 ${user.kakaoAccount?.email}")
+                /*loginViewModel.serveToKakaoLogin(
+                    userEmail = user.kakaoAccount?.email.orEmpty(),
+                    accessToken = makeAccessToken(context = context, token = token.accessToken),
+                )*/
+
+                // 연결하기 api
+                onLink(token.accessToken)
+            }
+        }
+    }
+}
+
+private fun loginWithKakao(context: Context, kakaoCallback: (OAuthToken?, Throwable?) -> Unit){
+    if(UserApiClient.instance.isKakaoTalkLoginAvailable(context)){
+        // 카카오톡 설치되있는거
+        UserApiClient.instance.loginWithKakaoTalk(context){ token, error ->
+            if(error != null){
+                Log.e("KAKAO", "로그인 실패", error)
+            }
+            if (error is ClientError && error.reason == ClientErrorCause.Cancelled){
+                return@loginWithKakaoTalk
+            }
+
+            UserApiClient.instance.loginWithKakaoAccount(context, callback = kakaoCallback)
+        }
+    }else {
+        // 카카오톡 설치 안 되있는거
+        UserApiClient.instance.loginWithKakaoAccount(context, callback = kakaoCallback)
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun AuthSettingScreenPreview() {
@@ -226,6 +294,7 @@ private fun AuthSettingScreenPreview() {
         onGotoServiceIntroduce = {},
         onGotoCustomerInquiries = {},
         onGotoTerms = {},
-        onGotoPrivacyPolicy = {}
+        onGotoPrivacyPolicy = {},
+        onLinkKakao = {}
     )
 }

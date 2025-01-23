@@ -1,5 +1,6 @@
 package com.party.data.datasource.remote.user
 
+import com.party.data.dto.user.auth.LinkKakaoDto
 import com.party.data.dto.user.auth.SocialLoginDto
 import com.party.data.dto.user.auth.UserSignUpDto
 import com.party.data.dto.user.detail.LocationDto
@@ -13,6 +14,7 @@ import com.party.data.dto.user.profile.UserProfileDto
 import com.party.data.dto.user.recruitment.MyRecruitmentDto
 import com.party.data.service.NoTokenService
 import com.party.data.service.UserService
+import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
@@ -33,6 +35,10 @@ class UserRemoteSourceImpl @Inject constructor(
 
     override suspend fun kakaoLogin(accessToken: String): ApiResponse<SocialLoginDto> {
         return noTokenService.loginKakao(accessToken = accessToken)
+    }
+
+    override suspend fun linkKakao(linkKakaoRequest: LinkKakaoRequest): ApiResponse<LinkKakaoDto> {
+        return userService.linkKakao(linkKakaoRequest = linkKakaoRequest)
     }
 
     override suspend fun checkNickName(

@@ -8,7 +8,10 @@ import com.party.data.datasource.remote.user.UserRemoteSource
 import com.party.data.dto.user.auth.SocialLoginErrorDto
 import com.party.data.dto.user.auth.SocialLoginSuccessDto
 import com.party.data.mapper.UserMapper
+import com.party.data.mapper.UserMapper.mapperToLinkKakao
 import com.party.data.mapper.UserMapper.mapperUserSignUpResponse
+import com.party.domain.model.user.LinkKakao
+import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.SocialLogin
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.Location
@@ -107,6 +110,24 @@ class UserRepositoryImpl @Inject constructor(
                         )
                     }
                     else -> ErrorResponse(data = null)
+                }
+            }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse(message = result.message)
+            }
+        }
+    }
+
+    override suspend fun linkKakao(linkKakaoRequest: LinkKakaoRequest): ServerApiResponse<LinkKakao> {
+        return when(val result = userRemoteSource.linkKakao(linkKakaoRequest = linkKakaoRequest)){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = mapperToLinkKakao(result.data))
+            }
+            is ApiResponse.Failure.Error-> {
+                when(result.statusCode){
+                    StatusCode.Conflict -> ErrorResponse()
+                    else -> ErrorResponse()
                 }
             }
             is ApiResponse.Failure.Exception -> {

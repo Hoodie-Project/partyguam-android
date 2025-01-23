@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.TextComponent
+import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
@@ -26,6 +27,7 @@ fun LinkAuthCard(
     text: String,
     containerColor: Color,
     borderColor: Color,
+    onClick: () -> Unit,
 ) {
     Card(
         modifier = Modifier
@@ -43,6 +45,7 @@ fun LinkAuthCard(
             contentAlignment = Alignment.Center
         ){
             TextComponent(
+                onClick = onClick,
                 text = text,
                 fontSize = B3,
                 fontWeight = FontWeight.SemiBold
@@ -55,6 +58,7 @@ fun LinkAuthCard(
 @Composable
 private fun LinkAuthCardPreview() {
     LinkAuthCard(
+        onClick = {},
         text = "연결하기",
         containerColor = WHITE,
         borderColor = GRAY100,

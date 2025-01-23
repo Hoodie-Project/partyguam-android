@@ -1,5 +1,6 @@
 package com.party.data.datasource.remote.user
 
+import com.party.data.dto.user.auth.LinkKakaoDto
 import com.party.data.dto.user.auth.SocialLoginDto
 import com.party.data.dto.user.auth.UserSignUpDto
 import com.party.data.dto.user.detail.LocationDto
@@ -11,6 +12,7 @@ import com.party.data.dto.user.detail.SaveInterestLocationDto
 import com.party.data.dto.user.party.MyPartyDto
 import com.party.data.dto.user.profile.UserProfileDto
 import com.party.data.dto.user.recruitment.MyRecruitmentDto
+import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
@@ -27,6 +29,9 @@ interface UserRemoteSource {
 
     // 카카오 로그인
     suspend fun kakaoLogin(accessToken: String): ApiResponse<SocialLoginDto>
+
+    // 카카오 계정 연동
+    suspend fun linkKakao(linkKakaoRequest: LinkKakaoRequest): ApiResponse<LinkKakaoDto>
 
     // 유저 닉네임 중복체크
     suspend fun checkNickName(signupAccessToken: String, nickname: String): ApiResponse<String>

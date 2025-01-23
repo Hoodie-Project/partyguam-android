@@ -34,6 +34,8 @@ import com.party.common.ui.theme.WHITE
 @Composable
 fun ManageAuthArea(
     modifier: Modifier,
+    onLinkKakao: () -> Unit,
+    onLinkGoogle: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -48,12 +50,14 @@ fun ManageAuthArea(
 
         AuthType(
             icon = painterResource(id = R.drawable.kakao),
-            authText = "카카오톡 계정"
+            authText = "카카오톡 계정",
+            onClick = onLinkKakao
         )
         HeightSpacer(heightDp = 12.dp)
         AuthType(
             icon = painterResource(id = R.drawable.google),
-            authText = "구글 계정"
+            authText = "구글 계정",
+            onClick = onLinkGoogle
         )
     }
 }
@@ -62,6 +66,7 @@ fun ManageAuthArea(
 private fun AuthType(
     icon: Painter,
     authText: String,
+    onClick: () -> Unit,
 ) {
     Card(
         modifier = Modifier
@@ -102,6 +107,7 @@ private fun AuthType(
             }
 
             LinkAuthCard(
+                onClick = onClick,
                 text = "연결하기",
                 containerColor = PRIMARY,
                 borderColor = PRIMARY
@@ -115,6 +121,8 @@ private fun AuthType(
 private fun ManageAuthAreaPreview() {
     ManageAuthArea(
         modifier = Modifier,
+        onLinkKakao = {},
+        onLinkGoogle = {}
     )
 }
 
@@ -123,6 +131,7 @@ private fun ManageAuthAreaPreview() {
 private fun AuthTypePreview() {
     AuthType(
         icon = painterResource(id = R.drawable.google),
-        authText = "카카오톡 계정"
+        authText = "카카오톡 계정",
+        onClick = {}
     )
 }

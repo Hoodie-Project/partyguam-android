@@ -1,6 +1,8 @@
 package com.party.domain.repository
 
 import com.party.common.ServerApiResponse
+import com.party.domain.model.user.LinkKakao
+import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.SocialLogin
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.Location
@@ -27,6 +29,9 @@ interface UserRepository {
 
     // 카카오 로그인
     suspend fun kakaoLogin(accessToken: String): ServerApiResponse<SocialLogin>
+
+    // 카카오 계정 연동
+    suspend fun linkKakao(linkKakaoRequest: LinkKakaoRequest): ServerApiResponse<LinkKakao>
 
     // 유저 닉네임 중복체크
     suspend fun checkNickName(signupAccessToken: String, nickname: String): ServerApiResponse<String>

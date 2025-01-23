@@ -1,5 +1,6 @@
 package com.party.data.mapper
 
+import com.party.data.dto.user.auth.LinkKakaoDto
 import com.party.data.dto.user.detail.LocationDto
 import com.party.data.dto.user.detail.SaveInterestLocationDto
 import com.party.data.dto.user.auth.SocialLoginErrorDto
@@ -22,6 +23,7 @@ import com.party.data.dto.user.profile.UserProfilePositionDto
 import com.party.data.dto.user.recruitment.MyRecruitmentDto
 import com.party.data.dto.user.recruitment.PartyApplicationDto
 import com.party.data.util.convertToImageUrl
+import com.party.domain.model.user.LinkKakao
 import com.party.domain.model.user.detail.Location
 import com.party.domain.model.user.SocialLoginError
 import com.party.domain.model.user.SocialLogin
@@ -273,6 +275,12 @@ object UserMapper {
             image = convertToImageUrl(userProfileModifyDto.image),
             createdAt = userProfileModifyDto.createdAt,
             updatedAt = userProfileModifyDto.updatedAt,
+        )
+    }
+
+    fun mapperToLinkKakao(linkKakaoDto: LinkKakaoDto): LinkKakao{
+        return LinkKakao(
+            message = linkKakaoDto.message
         )
     }
 }

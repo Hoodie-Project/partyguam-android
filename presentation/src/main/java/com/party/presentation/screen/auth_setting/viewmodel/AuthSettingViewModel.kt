@@ -1,15 +1,12 @@
 package com.party.presentation.screen.auth_setting.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.kakao.sdk.user.UserApiClient
 import com.party.common.ServerApiResponse
+import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.usecase.datastore.DeleteAccessTokenUseCase
 import com.party.domain.usecase.user.UserLogoutUseCase
+import com.party.domain.usecase.user.auth.LinkKakaoUseCase
 import com.party.presentation.screen.auth_setting.AuthSettingAction
 import com.party.presentation.screen.auth_setting.AuthSettingState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,6 +23,7 @@ import javax.inject.Inject
 class AuthSettingViewModel @Inject constructor(
     private val userLogoutUseCase: UserLogoutUseCase,
     private val deleteAccessTokenUseCase: DeleteAccessTokenUseCase,
+    private val linkKakaoUseCase: LinkKakaoUseCase,
 ): ViewModel(){
 
     private val _state = MutableStateFlow(AuthSettingState())
@@ -33,6 +31,23 @@ class AuthSettingViewModel @Inject constructor(
 
     private val _successLogout = MutableSharedFlow<Unit>()
     val successLogout = _successLogout.asSharedFlow()
+
+    private val _successLinkKakao = MutableSharedFlow<Unit>()
+    val successLinkKakao = _successLinkKakao.asSharedFlow()
+
+    fun linkKakao(oauthAccessToken: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = linkKakaoUseCase(
+                linkKakaoRequest = LinkKakaoRequest(
+                    oauthAccessToken = oauthAccessToken
+                )
+            )){
+                is ServerApiResponse.SuccessResponse -> {}
+                is ServerApiResponse.ErrorResponse -> {}
+                is ServerApiResponse.ExceptionResponse -> {}
+            }
+        }
+    }
 
     private fun logout(){
         viewModelScope.launch(Dispatchers.IO) {
