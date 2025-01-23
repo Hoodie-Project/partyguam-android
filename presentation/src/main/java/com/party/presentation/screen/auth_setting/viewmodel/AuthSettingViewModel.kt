@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.domain.model.user.LinkKakaoRequest
+import com.party.domain.model.user.MySocialOauth
 import com.party.domain.usecase.datastore.DeleteAccessTokenUseCase
 import com.party.domain.usecase.user.UserLogoutUseCase
 import com.party.domain.usecase.user.auth.LinkKakaoUseCase
+import com.party.domain.usecase.user.auth.MySocialOauthUseCase
 import com.party.presentation.screen.auth_setting.AuthSettingAction
 import com.party.presentation.screen.auth_setting.AuthSettingState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,6 +25,7 @@ import javax.inject.Inject
 class AuthSettingViewModel @Inject constructor(
     private val userLogoutUseCase: UserLogoutUseCase,
     private val deleteAccessTokenUseCase: DeleteAccessTokenUseCase,
+    private val mySocialOauthUseCase: MySocialOauthUseCase,
     private val linkKakaoUseCase: LinkKakaoUseCase,
 ): ViewModel(){
 
@@ -32,8 +35,21 @@ class AuthSettingViewModel @Inject constructor(
     private val _successLogout = MutableSharedFlow<Unit>()
     val successLogout = _successLogout.asSharedFlow()
 
-    private val _successLinkKakao = MutableSharedFlow<Unit>()
-    val successLinkKakao = _successLinkKakao.asSharedFlow()
+    init {
+        mySocialOauth()
+    }
+
+    private fun mySocialOauth(){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = mySocialOauthUseCase()){
+                is ServerApiResponse.SuccessResponse -> {
+                    _state.update { it.copy(mySocialOauth = result.data ?: emptyList()) }
+                }
+                is ServerApiResponse.ErrorResponse -> {}
+                is ServerApiResponse.ExceptionResponse -> {}
+            }
+        }
+    }
 
     fun linkKakao(oauthAccessToken: String){
         viewModelScope.launch(Dispatchers.IO) {
@@ -42,7 +58,7 @@ class AuthSettingViewModel @Inject constructor(
                     oauthAccessToken = oauthAccessToken
                 )
             )){
-                is ServerApiResponse.SuccessResponse -> {}
+                is ServerApiResponse.SuccessResponse -> mySocialOauth()
                 is ServerApiResponse.ErrorResponse -> {}
                 is ServerApiResponse.ExceptionResponse -> {}
             }

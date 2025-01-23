@@ -1,6 +1,7 @@
 package com.party.data.datasource.remote.user
 
 import com.party.data.dto.user.auth.LinkKakaoDto
+import com.party.data.dto.user.auth.MySocialOauthDto
 import com.party.data.dto.user.auth.SocialLoginDto
 import com.party.data.dto.user.auth.UserSignUpDto
 import com.party.data.dto.user.detail.LocationDto
@@ -35,6 +36,10 @@ class UserRemoteSourceImpl @Inject constructor(
 
     override suspend fun kakaoLogin(accessToken: String): ApiResponse<SocialLoginDto> {
         return noTokenService.loginKakao(accessToken = accessToken)
+    }
+
+    override suspend fun getMySocialOauth(): ApiResponse<List<MySocialOauthDto>> {
+        return userService.getMySocialOauth()
     }
 
     override suspend fun linkKakao(linkKakaoRequest: LinkKakaoRequest): ApiResponse<LinkKakaoDto> {

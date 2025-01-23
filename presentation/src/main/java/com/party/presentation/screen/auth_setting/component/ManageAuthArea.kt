@@ -30,10 +30,13 @@ import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
+import com.party.domain.model.user.MySocialOauth
+import com.party.presentation.screen.auth_setting.AuthSettingState
 
 @Composable
 fun ManageAuthArea(
     modifier: Modifier,
+    authSettingState: AuthSettingState,
     onLinkKakao: () -> Unit,
     onLinkGoogle: () -> Unit,
 ) {
@@ -49,12 +52,16 @@ fun ManageAuthArea(
         HeightSpacer(heightDp = 20.dp)
 
         AuthType(
+            isLink = aa(authSettingState.mySocialOauth , "kakao"),
+            //isLink = false,
             icon = painterResource(id = R.drawable.kakao),
             authText = "카카오톡 계정",
             onClick = onLinkKakao
         )
         HeightSpacer(heightDp = 12.dp)
         AuthType(
+            isLink = aa(authSettingState.mySocialOauth, "google"),
+            //isLink = true,
             icon = painterResource(id = R.drawable.google),
             authText = "구글 계정",
             onClick = onLinkGoogle
@@ -62,8 +69,14 @@ fun ManageAuthArea(
     }
 }
 
+fun aa(mySocialOauth: List<MySocialOauth>, social: String): Boolean {
+    val a = mySocialOauth.filter { it.provider == social }
+    return a.isNotEmpty()
+}
+
 @Composable
 private fun AuthType(
+    isLink: Boolean,
     icon: Painter,
     authText: String,
     onClick: () -> Unit,
@@ -108,8 +121,8 @@ private fun AuthType(
 
             LinkAuthCard(
                 onClick = onClick,
-                text = "연결하기",
-                containerColor = PRIMARY,
+                text = if(isLink) "연결중" else "연결하기",
+                containerColor = if(isLink) WHITE else PRIMARY,
                 borderColor = PRIMARY
             )
         }
@@ -121,6 +134,7 @@ private fun AuthType(
 private fun ManageAuthAreaPreview() {
     ManageAuthArea(
         modifier = Modifier,
+        authSettingState = AuthSettingState(),
         onLinkKakao = {},
         onLinkGoogle = {}
     )
@@ -130,6 +144,7 @@ private fun ManageAuthAreaPreview() {
 @Composable
 private fun AuthTypePreview() {
     AuthType(
+        isLink = true,
         icon = painterResource(id = R.drawable.google),
         authText = "카카오톡 계정",
         onClick = {}

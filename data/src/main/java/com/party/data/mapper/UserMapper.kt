@@ -1,15 +1,16 @@
 package com.party.data.mapper
 
 import com.party.data.dto.user.auth.LinkKakaoDto
-import com.party.data.dto.user.detail.LocationDto
-import com.party.data.dto.user.detail.SaveInterestLocationDto
+import com.party.data.dto.user.auth.MySocialOauthDto
 import com.party.data.dto.user.auth.SocialLoginErrorDto
 import com.party.data.dto.user.auth.SocialLoginSuccessDto
 import com.party.data.dto.user.auth.UserSignUpDto
+import com.party.data.dto.user.detail.LocationDto
 import com.party.data.dto.user.detail.PersonalityListDto
 import com.party.data.dto.user.detail.PersonalitySaveDto
 import com.party.data.dto.user.detail.PositionListDto
 import com.party.data.dto.user.detail.SaveCarrierItem
+import com.party.data.dto.user.detail.SaveInterestLocationDto
 import com.party.data.dto.user.party.MyPartyDto
 import com.party.data.dto.user.party.PartyUserDto
 import com.party.data.dto.user.profile.PersonalityOptionDto
@@ -24,12 +25,13 @@ import com.party.data.dto.user.recruitment.MyRecruitmentDto
 import com.party.data.dto.user.recruitment.PartyApplicationDto
 import com.party.data.util.convertToImageUrl
 import com.party.domain.model.user.LinkKakao
-import com.party.domain.model.user.detail.Location
-import com.party.domain.model.user.SocialLoginError
+import com.party.domain.model.user.MySocialOauth
 import com.party.domain.model.user.SocialLogin
+import com.party.domain.model.user.SocialLoginError
 import com.party.domain.model.user.SocialLoginSuccess
-import com.party.domain.model.user.detail.PersonalityListOption
+import com.party.domain.model.user.detail.Location
 import com.party.domain.model.user.detail.PersonalityList
+import com.party.domain.model.user.detail.PersonalityListOption
 import com.party.domain.model.user.detail.PersonalitySave
 import com.party.domain.model.user.detail.PositionList
 import com.party.domain.model.user.detail.SaveCarrier
@@ -281,6 +283,14 @@ object UserMapper {
     fun mapperToLinkKakao(linkKakaoDto: LinkKakaoDto): LinkKakao{
         return LinkKakao(
             message = linkKakaoDto.message
+        )
+    }
+
+    fun mapperToMySocialOauth(mySocialOauthDto: MySocialOauthDto): MySocialOauth{
+        return MySocialOauth(
+            provider = mySocialOauthDto.provider,
+            email = mySocialOauthDto.email,
+            image = convertToImageUrl(mySocialOauthDto.image),
         )
     }
 }

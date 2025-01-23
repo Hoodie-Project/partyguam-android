@@ -9,9 +9,11 @@ import com.party.data.dto.user.auth.SocialLoginErrorDto
 import com.party.data.dto.user.auth.SocialLoginSuccessDto
 import com.party.data.mapper.UserMapper
 import com.party.data.mapper.UserMapper.mapperToLinkKakao
+import com.party.data.mapper.UserMapper.mapperToMySocialOauth
 import com.party.data.mapper.UserMapper.mapperUserSignUpResponse
 import com.party.domain.model.user.LinkKakao
 import com.party.domain.model.user.LinkKakaoRequest
+import com.party.domain.model.user.MySocialOauth
 import com.party.domain.model.user.SocialLogin
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.Location
@@ -112,6 +114,19 @@ class UserRepositoryImpl @Inject constructor(
                     else -> ErrorResponse(data = null)
                 }
             }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse(message = result.message)
+            }
+        }
+    }
+
+    override suspend fun getMySocialOauth(): ServerApiResponse<List<MySocialOauth>> {
+        return when(val result = userRemoteSource.getMySocialOauth()){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = result.data.map { mapperToMySocialOauth(it) })
+            }
+            is ApiResponse.Failure.Error-> ErrorResponse()
             is ApiResponse.Failure.Exception -> {
                 result.throwable.printStackTrace()
                 ExceptionResponse(message = result.message)

@@ -1,6 +1,7 @@
 package com.party.data.service
 
 import com.party.data.dto.user.auth.LinkKakaoDto
+import com.party.data.dto.user.auth.MySocialOauthDto
 import com.party.data.dto.user.detail.LocationDto
 import com.party.data.dto.user.detail.PersonalityListDto
 import com.party.data.dto.user.detail.PersonalitySaveDto
@@ -119,6 +120,10 @@ interface UserService {
     // 회원탈퇴
     @DELETE("api/users/signout")
     suspend fun signOut(): ApiResponse<Unit>
+
+    // 나의 소셜 계정 조회
+    @GET("api/users/me/oauth")
+    suspend fun getMySocialOauth(): ApiResponse<List<MySocialOauthDto>>
 
     // 카카오 계정 연동
     @POST("api/users/kakao/app/link")

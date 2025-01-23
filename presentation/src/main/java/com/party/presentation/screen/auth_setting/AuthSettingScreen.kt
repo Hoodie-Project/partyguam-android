@@ -147,6 +147,7 @@ private fun AuthSettingScreen(
                 ManageAuthArea(
                     modifier = Modifier
                         .padding(horizontal = 20.dp),
+                    authSettingState = authSettingState,
                     onLinkKakao = {
                         loginWithKakao(context, kakaoCallback)
                     },

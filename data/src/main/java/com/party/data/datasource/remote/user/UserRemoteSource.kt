@@ -1,6 +1,7 @@
 package com.party.data.datasource.remote.user
 
 import com.party.data.dto.user.auth.LinkKakaoDto
+import com.party.data.dto.user.auth.MySocialOauthDto
 import com.party.data.dto.user.auth.SocialLoginDto
 import com.party.data.dto.user.auth.UserSignUpDto
 import com.party.data.dto.user.detail.LocationDto
@@ -29,6 +30,9 @@ interface UserRemoteSource {
 
     // 카카오 로그인
     suspend fun kakaoLogin(accessToken: String): ApiResponse<SocialLoginDto>
+
+    // 나의 소셜 계정 조회
+    suspend fun getMySocialOauth(): ApiResponse<List<MySocialOauthDto>>
 
     // 카카오 계정 연동
     suspend fun linkKakao(linkKakaoRequest: LinkKakaoRequest): ApiResponse<LinkKakaoDto>
