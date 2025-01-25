@@ -21,7 +21,7 @@ fun DrawableIconButton(
     onClick: () -> Unit,
 ) {
     IconButton(
-        onClick = { onClick() },
+        onClick = onClick,
         modifier = modifier
     ) {
         Icon(

@@ -1,6 +1,8 @@
 package com.party.presentation.screen.party_detail
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +20,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -44,6 +48,9 @@ fun PartyDetailRoute(
     partyViewModel: PartyViewModel = hiltViewModel(),
     partyId: Int,
 ) {
+    println("currentRoute ${navController.currentBackStackEntry?.destination?.route}")
+
+    val context1 = LocalContext.current
     LaunchedEffect(Unit) {
         partyViewModel.getPartyDetail(partyId = partyId)
         partyViewModel.getPartyUsers(partyId = partyId, page = 1, limit = 50, sort = "createdAt", order = "DESC")
@@ -67,6 +74,21 @@ fun PartyDetailRoute(
                 state = state,
                 onNavigationBack = { navController.popBackStack() },
                 onAddRecruitment = { navController.navigate(Screens.RecruitmentCreate(partyId = partyId)) },
+                onSharedClick = {
+                    // 딥링크 URL 생성
+                    val deepLinkUrl = "intent://navigate#Intent;scheme=gps;package=com.party.guam;S.destination=Seoul;end"
+
+                    val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                        type = "text/plain" // 이미지 타입
+                        putExtra(
+                            Intent.EXTRA_TEXT,
+                            "이 링크를 확인하세요: $deepLinkUrl" // 딥링크 포함
+                        )
+                    }
+
+                    // Intent chooser 띄우기
+                    context1.startActivity(Intent.createChooser(shareIntent, "공유하기"))
+                },
                 onManageClick = { scope.launch { drawerState.open() } },
                 onAction = { action ->
                     when(action){
@@ -109,6 +131,7 @@ private fun PartyDetailScreen(
     state: PartyDetailState,
     onNavigationBack: () -> Unit,
     onAddRecruitment: () -> Unit,
+    onSharedClick: () -> Unit,
     onManageClick: () -> Unit,
     onAction: (PartyDetailAction) -> Unit,
 ){
@@ -128,10 +151,8 @@ private fun PartyDetailScreen(
             PartyDetailScaffoldArea(
                 state = state,
                 onNavigationClick = onNavigationBack,
-                onSharedClick = {},
-                onManageClick = {
-                    onManageClick()
-                },
+                onSharedClick = onSharedClick,
+                onManageClick = onManageClick,
                 onMoreClick = {},
             )
         },
@@ -183,6 +204,7 @@ private fun PartyDetailScreenPreview() {
         ),
         onNavigationBack = {},
         onAddRecruitment = {},
+        onSharedClick = {},
         onManageClick = {},
         onAction = {},
     )

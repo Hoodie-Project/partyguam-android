@@ -13,6 +13,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
 import com.party.common.component.homeTopTabList
 import com.party.common.component.profileEditTendencyTabList
@@ -255,8 +256,15 @@ fun AppNavHost() {
                 partyRecruitmentId = partyRecruitmentId,
             )
         }
-        composable<Screens.PartyDetail> { backStackEntry ->
+        composable<Screens.PartyDetail>(
+            deepLinks = listOf(
+                navDeepLink<Screens.PartyDetail>(
+                    basePath = "rally://Screen.PartyDetail.id/{name}"
+                )
+            )
+        ) { backStackEntry ->
             val partyId = backStackEntry.toRoute<Screens.PartyDetail>().partyId
+
             PartyDetailRoute(
                 context = context,
                 navController = navController,

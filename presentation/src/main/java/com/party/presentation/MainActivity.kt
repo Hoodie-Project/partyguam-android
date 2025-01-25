@@ -1,6 +1,7 @@
 package com.party.presentation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -23,6 +24,14 @@ class MainActivity : ComponentActivity() {
             }
         }
         enableEdgeToEdge()
+
+        // 딥링크 데이터 확인
+        intent?.data?.let { uri ->
+            val scheme = uri.scheme // "ys_weather"
+            val host = uri.host // "testlink"
+            Log.d("DeepLink", "Scheme: $scheme, Host: $host")
+        }
+
         setContent {
             GuamTheme {
                 AppNavHost()
