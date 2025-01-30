@@ -10,6 +10,7 @@ import com.party.domain.usecase.party.DeletePartyMemberUseCase
 import com.party.domain.usecase.party.GetPartyMemberInfoUseCase
 import com.party.domain.usecase.party.ModifyPartyUserPositionUseCase
 import com.party.domain.usecase.user.detail.GetPositionsUseCase
+import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.party_user_manage.PartyUserAction
 import com.party.presentation.screen.party_user_manage.PartyUserState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -117,7 +118,7 @@ class PartyUserViewModel @Inject constructor(
                         page = 1,
                         limit = 10,
                         sort = "createdAt",
-                        order = "DESC",
+                        order = OrderDescType.DESC.type,
                         main = null,
                         nickname = null
                     )
@@ -145,7 +146,7 @@ class PartyUserViewModel @Inject constructor(
                         page = 1,
                         limit = 10,
                         sort = "createdAt",
-                        order = "DESC",
+                        order = OrderDescType.DESC.type,
                         main = null,
                         nickname = null
                     )

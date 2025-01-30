@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.domain.usecase.party.GetPartyRecruitmentUseCase
 import com.party.domain.usecase.party.GetRecruitmentApplicantUseCase
+import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.manage_applicant.ManageApplicantAction
 import com.party.presentation.screen.manage_applicant.ManageApplicantState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -76,7 +77,7 @@ class ManageApplicantViewModel @Inject constructor(
                 getPartyRecruitment(
                     partyId = action.partyId,
                     sort = "createdAt",
-                    order = "DESC",
+                    order = OrderDescType.DESC.type,
                     main = null,
                     status = if(_state.value.isProgress) "active" else "completed"
                 )

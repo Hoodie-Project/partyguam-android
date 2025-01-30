@@ -6,6 +6,7 @@ import com.party.common.ServerApiResponse
 import com.party.domain.model.user.party.MyParty
 import com.party.domain.usecase.user.party.GetMyPartyUseCase
 import com.party.domain.usecase.user.profile.GetUserProfileUseCase
+import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.profile.UserProfileAction
 import com.party.presentation.screen.profile.UserProfileState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +27,7 @@ class ProfileViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        getMyParty(1, 50, "createdAt", "DESC")
+        getMyParty(1, 50, "createdAt", OrderDescType.DESC.type)
     }
 
     fun getUserProfile() {

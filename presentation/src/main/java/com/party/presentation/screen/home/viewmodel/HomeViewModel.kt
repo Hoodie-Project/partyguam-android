@@ -14,6 +14,7 @@ import com.party.domain.usecase.party.GetPartyListUseCase
 import com.party.domain.usecase.party.GetPersonalRecruitmentListUseCase
 import com.party.domain.usecase.party.GetRecruitmentListUseCase
 import com.party.domain.usecase.user.detail.GetPositionsUseCase
+import com.party.presentation.enum.OrderDescType
 import com.party.presentation.enum.PartyType
 import com.party.presentation.screen.home.HomeAction
 import com.party.presentation.screen.home.HomeState
@@ -47,7 +48,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         getBannerList()
-        getPersonalRecruitmentList(1, 50, "createdAt", "DESC")
+        getPersonalRecruitmentList(1, 50, "createdAt", OrderDescType.DESC.type)
     }
 
     private fun getPersonalRecruitmentList(
@@ -173,7 +174,7 @@ class HomeViewModel @Inject constructor(
     fun onAction(action: HomeAction) {
         when(action){
             is HomeAction.OnTabClick -> _state.update { it.copy(selectedTabText = action.tabText) }
-            is HomeAction.OnPersonalRecruitmentReload -> getPersonalRecruitmentList(1, 50, "createdAt", "DESC")
+            is HomeAction.OnPersonalRecruitmentReload -> getPersonalRecruitmentList(1, 50, "createdAt", OrderDescType.DESC.type)
             is HomeAction.OnPartyTypeSheetOpen -> _state.update { it.copy(isPartyTypeSheetOpen = action.isVisibleModal) }
 
             // 클릭시 이미 저장되있으면 삭제하고 없으면 추가한다.
@@ -202,7 +203,7 @@ class HomeViewModel @Inject constructor(
                     page = 1,
                     size = 50,
                     sort = "createdAt",
-                    order = "DESC",
+                    order = OrderDescType.DESC.type,
                     partyTypes = selectedPartyTypeList.mapNotNull { type ->
                         PartyType.entries.find { it.type == type }?.id
                     },
@@ -216,7 +217,7 @@ class HomeViewModel @Inject constructor(
                     page = 1,
                     size = 50,
                     sort = "createdAt",
-                    order = "DESC",
+                    order = OrderDescType.DESC.type,
                     partyTypes = _state.value.selectedPartyTypeListParty.mapNotNull { type ->
                         PartyType.entries.find { it.type == type }?.id
                     },
@@ -309,7 +310,7 @@ class HomeViewModel @Inject constructor(
                     page = 1,
                     size = 50,
                     sort = "createdAt",
-                    order = "DESC",
+                    order = OrderDescType.DESC.type,
                     titleSearch = null,
                     partyTypes = _state.value.selectedPartyTypeListParty.mapNotNull { type ->
                         PartyType.entries.find { it.type == type }?.id
@@ -351,7 +352,7 @@ class HomeViewModel @Inject constructor(
                     page = 1,
                     size = 50,
                     sort = "createdAt",
-                    order = "DESC",
+                    order = OrderDescType.DESC.type,
                     titleSearch = null,
                     partyTypes = selectedPartyTypeList.mapNotNull { type ->
                         PartyType.entries.find { it.type == type }?.id

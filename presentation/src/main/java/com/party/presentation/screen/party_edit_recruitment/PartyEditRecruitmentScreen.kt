@@ -37,6 +37,7 @@ import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.Position1
 import com.party.navigation.Screens
+import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.party_detail.component.RightModalDrawer
 import com.party.presentation.screen.party_edit_recruitment.component.PartyEditRecruitmentScaffoldArea
 import com.party.presentation.screen.party_edit_recruitment.component.PartyRecruitmentEditDescriptionArea
@@ -57,13 +58,13 @@ fun PartyEditRecruitmentScreenRoute(
     partyRecruitmentEditViewModel: PartyRecruitmentEditViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
-        partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = null, status = "active")
+        partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = OrderDescType.DESC.type, main = null, status = "active")
     }
 
     LaunchedEffect(key1 = Unit) {
         partyRecruitmentEditViewModel.deleteRecruitment.collectLatest {
             snackBarMessage(snackBarHostState, "모집공고가 삭제되었어요.")
-            partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = null, status = "active")
+            partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = OrderDescType.DESC.type, main = null, status = "active")
         }
     }
     val partyRecruitmentEditState by partyRecruitmentEditViewModel.state.collectAsStateWithLifecycle()

@@ -42,6 +42,7 @@ import com.party.domain.model.user.recruitment.PartyApplication
 import com.party.domain.model.user.recruitment.PartyRecruitment
 import com.party.navigation.BottomNavigationBar
 import com.party.navigation.Screens
+import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.state.component.MyPartyArea
 import com.party.presentation.screen.state.component.MyRecruitmentArea
 import com.party.presentation.screen.state.component.StateFloatingArea
@@ -57,13 +58,13 @@ fun StateScreenRoute(
     stateViewModel: StateViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(key1 = Unit) {
-        stateViewModel.getMyParty(1, 50, "createdAt", "DESC")
-        stateViewModel.getMyRecruitment(1, 50, "createdAt", "DESC")
+        stateViewModel.getMyParty(1, 50, "createdAt", OrderDescType.DESC.type)
+        stateViewModel.getMyRecruitment(1, 50, "createdAt", OrderDescType.DESC.type)
     }
 
     LaunchedEffect(Unit) {
         stateViewModel.successCancel.collectLatest {
-            stateViewModel.getMyRecruitment(1, 50, "createdAt", "DESC")
+            stateViewModel.getMyRecruitment(1, 50, "createdAt", OrderDescType.DESC.type)
         }
     }
 

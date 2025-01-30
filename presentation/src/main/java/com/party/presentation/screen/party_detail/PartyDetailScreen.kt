@@ -34,6 +34,7 @@ import com.party.domain.model.user.PartyAuthority
 import com.party.domain.model.user.PartyAuthorityPosition
 import com.party.navigation.BottomNavigationBar
 import com.party.navigation.Screens
+import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.party_detail.component.PartyDetailArea
 import com.party.presentation.screen.party_detail.component.PartyDetailScaffoldArea
 import com.party.presentation.screen.party_detail.component.RightModalDrawer
@@ -53,8 +54,8 @@ fun PartyDetailRoute(
     val context1 = LocalContext.current
     LaunchedEffect(Unit) {
         partyViewModel.getPartyDetail(partyId = partyId)
-        partyViewModel.getPartyUsers(partyId = partyId, page = 1, limit = 50, sort = "createdAt", order = "DESC")
-        partyViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = "DESC", main = null, status = "active")
+        partyViewModel.getPartyUsers(partyId = partyId, page = 1, limit = 50, sort = "createdAt", order = OrderDescType.DESC.type)
+        partyViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = OrderDescType.DESC.type, main = null, status = "active")
         partyViewModel.getPartyAuthority(partyId = partyId)
     }
 

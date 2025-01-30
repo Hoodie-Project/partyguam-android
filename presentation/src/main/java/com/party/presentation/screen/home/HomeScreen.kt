@@ -34,6 +34,7 @@ import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.navigation.BottomNavigationBar
 import com.party.navigation.Screens
+import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.home.component.HomeFloatingArea
 import com.party.presentation.screen.home.component.HomeTopBar
 import com.party.presentation.screen.home.component.HomeTopTabArea
@@ -75,8 +76,8 @@ fun HomeScreenRoute(
     }
 
     LaunchedEffect(key1 = Unit) {
-        homeViewModel.getPartyList(page = 1, size = 50, sort = "createdAt", order = "DESC", titleSearch = null, status = null)
-        homeViewModel.getRecruitmentList(page = 1, size = 50, sort = "createdAt", order = "DESC", titleSearch = null)
+        homeViewModel.getPartyList(page = 1, size = 50, sort = "createdAt", order = OrderDescType.DESC.type, titleSearch = null, status = null)
+        homeViewModel.getRecruitmentList(page = 1, size = 50, sort = "createdAt", order = OrderDescType.DESC.type, titleSearch = null)
     }
 
     HomeScreen(
