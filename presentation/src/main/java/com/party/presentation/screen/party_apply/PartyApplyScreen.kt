@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -21,15 +20,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
-import com.party.common.component.button.CustomButton
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.GRAY400
-import com.party.common.ui.theme.LIGHT200
-import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
-import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
+import com.party.presentation.screen.party_apply.component.PartyApplyButton
 import com.party.presentation.screen.party_apply.component.PartyApplyInputReasonArea
 import com.party.presentation.screen.party_apply.component.PartyApplyScaffoldArea
 import com.party.presentation.screen.party_apply.component.PartyApplyTitleArea
@@ -144,11 +139,9 @@ fun PartyApplyScreen(
                     )
                 }
 
-                CustomButton(
-                    containerColor = if (applyState.inputApplyReason.isNotEmpty()) PRIMARY else LIGHT400,
-                    contentColor = if (applyState.inputApplyReason.isNotEmpty()) BLACK else GRAY400,
-                    borderColor = if (applyState.inputApplyReason.isNotEmpty()) PRIMARY else LIGHT200,
-                    onClick = { onAction(PartyApplyAction.OnApply(partyId = partyId, partyRecruitmentId = partyRecruitmentId)) },
+                PartyApplyButton(
+                    inputApplyReason = applyState.inputApplyReason,
+                    onClick = { onAction(PartyApplyAction.OnApply(partyId = partyId, partyRecruitmentId = partyRecruitmentId)) }
                 )
                 HeightSpacer(heightDp = 12.dp)
             }
