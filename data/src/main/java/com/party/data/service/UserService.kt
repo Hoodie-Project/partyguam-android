@@ -1,5 +1,6 @@
 package com.party.data.service
 
+import com.party.data.dto.user.ReportsDto
 import com.party.data.dto.user.auth.LinkKakaoDto
 import com.party.data.dto.user.auth.MySocialOauthDto
 import com.party.data.dto.user.detail.LocationDto
@@ -12,6 +13,7 @@ import com.party.data.dto.user.party.MyPartyDto
 import com.party.data.dto.user.profile.UserProfileDto
 import com.party.data.dto.user.recruitment.MyRecruitmentDto
 import com.party.domain.model.user.LinkKakaoRequest
+import com.party.domain.model.user.ReportsRequest
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
@@ -130,4 +132,10 @@ interface UserService {
     suspend fun linkKakao(
         @Body linkKakaoRequest: LinkKakaoRequest
     ): ApiResponse<LinkKakaoDto>
+
+    // 신고하기
+    @POST("api/reports")
+    suspend fun reports(
+        @Body reportsRequest: ReportsRequest
+    ): ApiResponse<ReportsDto>
 }

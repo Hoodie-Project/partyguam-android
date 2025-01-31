@@ -38,6 +38,7 @@ import com.party.domain.model.user.PartyAuthorityPosition
 fun PartyDetailUsersListArea(
     partyUsers: PartyUsers,
     authority: PartyAuthority,
+    onReports: (Int) -> Unit,
 ) {
     val partyAdminList = partyUsers.partyAdmin
     val partyUserList = partyUsers.partyUser
@@ -61,7 +62,8 @@ fun PartyDetailUsersListArea(
         ){ _, item ->
             PartyDetailUsersListItem(
                 partyMember = item,
-                authority = authority
+                authority = authority,
+                onReports = onReports
             )
         }
     }
@@ -70,7 +72,8 @@ fun PartyDetailUsersListArea(
 @Composable
 fun PartyDetailUsersListItem(
     partyMember: PartyMember,
-    authority: PartyAuthority
+    authority: PartyAuthority,
+    onReports: (Int) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -119,7 +122,7 @@ fun PartyDetailUsersListItem(
                             .padding(top = 10.dp, end = 10.dp),
                         icon = painterResource(id = R.drawable.icon_emergency),
                         contentDescription = "emergency",
-                        onClick = {}
+                        onClick = { onReports(partyMember.userId)}
                     )
                 }
 
@@ -177,7 +180,8 @@ private fun PartyDetailUsersListAreaPreview() {
                 main = "개발자",
                 sub = "안드로이드"
             )
-        )
+        ),
+        onReports = {}
     )
 }
 
@@ -201,7 +205,8 @@ private fun PartyDetailUsersListItemPreview() {
                 main = "개발자",
                 sub = "안드로이드"
             )
-        )
+        ),
+        onReports = {}
     )
 }
 
@@ -225,7 +230,8 @@ private fun PartyDetailUsersListItemPreview2() {
                 main = "개발자",
                 sub = "안드로이드"
             )
-        )
+        ),
+        onReports = {}
     )
 }
 
@@ -249,6 +255,7 @@ private fun PartyDetailUsersListItemPreview3() {
                 main = "개발자",
                 sub = "안드로이드"
             )
-        )
+        ),
+        onReports = {}
     )
 }

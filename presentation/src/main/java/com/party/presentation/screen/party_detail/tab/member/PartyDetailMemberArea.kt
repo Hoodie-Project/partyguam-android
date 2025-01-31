@@ -18,17 +18,20 @@ import com.party.presentation.screen.party_detail.tab.member.component.PartyDeta
 @Composable
 fun PartyDetailUserArea(
     state: PartyDetailState,
+    onReports: (Int) -> Unit,
 ) {
     PartyDetailUsersAreaContent(
         partyUsers = state.partyUser,
         authority = state.partyAuthority,
+        onReports = onReports
     )
 }
 
 @Composable
 private fun PartyDetailUsersAreaContent(
     partyUsers: PartyUsers,
-    authority: PartyAuthority
+    authority: PartyAuthority,
+    onReports: (Int) -> Unit,
 ) {
     val partyAdminListSize = partyUsers.partyAdmin.size
     val partyUserListSize = partyUsers.partyUser.size
@@ -46,7 +49,8 @@ private fun PartyDetailUsersAreaContent(
 
         PartyDetailUsersListArea(
             partyUsers = partyUsers,
-            authority = authority
+            authority = authority,
+            onReports = onReports
         )
     }
 }
@@ -66,6 +70,7 @@ private fun PartyDetailUsersAreaContentPreview() {
 
     PartyDetailUsersAreaContent(
         partyUsers = partyUsers,
-        authority = authority
+        authority = authority,
+        onReports = {}
     )
 }

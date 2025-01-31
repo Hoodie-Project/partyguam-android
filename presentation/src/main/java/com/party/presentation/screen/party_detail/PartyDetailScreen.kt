@@ -101,7 +101,8 @@ fun PartyDetailRoute(
                         is PartyDetailAction.OnChangeOrderBy -> { partyViewModel.onAction(action) }
                         is PartyDetailAction.OnChangeProgress -> { partyViewModel.onAction(action)}
                     }
-                }
+                },
+                onReports = { userId -> navController.navigate(Screens.Reports(typeId = userId))}
             )
         },
         onGotoPartyEdit = {
@@ -135,6 +136,7 @@ private fun PartyDetailScreen(
     onSharedClick: () -> Unit,
     onManageClick: () -> Unit,
     onAction: (PartyDetailAction) -> Unit,
+    onReports: (Int) -> Unit,
 ){
     Scaffold(
         snackbarHost = {
@@ -175,7 +177,8 @@ private fun PartyDetailScreen(
                     onApply = { onAction(PartyDetailAction.OnApply(partyId = partyId)) },
                     onAddRecruitment = onAddRecruitment,
                     onChangeOrderBy = { orderBy -> onAction(PartyDetailAction.OnChangeOrderBy(orderBy)) },
-                    onChangeProgress = { isProgress -> onAction(PartyDetailAction.OnChangeProgress(isProgress = isProgress, partyId = partyId)) }
+                    onChangeProgress = { isProgress -> onAction(PartyDetailAction.OnChangeProgress(isProgress = isProgress, partyId = partyId)) },
+                    onReports = onReports
                 )
             }
         }
@@ -208,5 +211,6 @@ private fun PartyDetailScreenPreview() {
         onSharedClick = {},
         onManageClick = {},
         onAction = {},
+        onReports = {}
     )
 }

@@ -4,6 +4,8 @@ import com.party.common.ServerApiResponse
 import com.party.domain.model.user.LinkKakao
 import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.MySocialOauth
+import com.party.domain.model.user.Reports
+import com.party.domain.model.user.ReportsRequest
 import com.party.domain.model.user.SocialLogin
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.Location
@@ -92,5 +94,8 @@ interface UserRepository {
 
     // 회원탈퇴
     suspend fun signOut(): ServerApiResponse<Unit>
+
+    // 신고하기
+    suspend fun reports(reportsRequest: ReportsRequest): ServerApiResponse<Reports>
 
 }

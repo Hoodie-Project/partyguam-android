@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -39,7 +38,6 @@ import com.party.presentation.screen.manage_applicant.ManageApplicantScreenRoute
 import com.party.presentation.screen.party_apply.PartyApplyRoute
 import com.party.presentation.screen.party_create.PartyCreateScreenRoute
 import com.party.presentation.screen.party_detail.PartyDetailRoute
-import com.party.presentation.screen.party_detail.viewmodel.PartyViewModel
 import com.party.presentation.screen.party_edit.PartyEditScreenRoute
 import com.party.presentation.screen.party_edit_recruitment.PartyEditRecruitmentScreenRoute
 import com.party.presentation.screen.party_user_manage.PartyUserManageScreenRoute
@@ -53,6 +51,7 @@ import com.party.presentation.screen.profile_edit_time.ProfileEditTimeScreenRout
 import com.party.presentation.screen.recruitment_create.RecruitmentCreateScreenRoute
 import com.party.presentation.screen.recruitment_detail.RecruitmentDetailRoute
 import com.party.presentation.screen.recruitment_edit.RecruitmentEditRoute
+import com.party.presentation.screen.reports.ReportsScreenRoute
 import com.party.presentation.screen.search.SearchRoute
 import com.party.presentation.screen.splash.SplashScreenRoute
 import com.party.presentation.screen.state.StateScreenRoute
@@ -394,6 +393,14 @@ fun AppNavHost() {
         composable<Screens.PrivacyPolicy> {
             PrivacyPolicyScreenRoute(
                 navController = navController
+            )
+        }
+        composable<Screens.Reports> { backStackEntry ->
+            val typeId = backStackEntry.toRoute<Screens.Reports>().typeId
+            ReportsScreenRoute(
+                navController = navController,
+                snackBarHostState = snackBarHostState,
+                typeId = typeId
             )
         }
     }

@@ -10,10 +10,13 @@ import com.party.data.dto.user.auth.SocialLoginSuccessDto
 import com.party.data.mapper.UserMapper
 import com.party.data.mapper.UserMapper.mapperToLinkKakao
 import com.party.data.mapper.UserMapper.mapperToMySocialOauth
+import com.party.data.mapper.UserMapper.mapperToReports
 import com.party.data.mapper.UserMapper.mapperUserSignUpResponse
 import com.party.domain.model.user.LinkKakao
 import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.MySocialOauth
+import com.party.domain.model.user.Reports
+import com.party.domain.model.user.ReportsRequest
 import com.party.domain.model.user.SocialLogin
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.Location
@@ -491,6 +494,17 @@ class UserRepositoryImpl @Inject constructor(
         return when(val result = userRemoteSource.signOut()){
             is ApiResponse.Success -> SuccessResponse(data = Unit)
             is ApiResponse.Failure.Error -> ErrorResponse(data = Unit)
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse(message = result.message)
+            }
+        }
+    }
+
+    override suspend fun reports(reportsRequest: ReportsRequest): ServerApiResponse<Reports> {
+        return when(val result = userRemoteSource.reports(reportsRequest = reportsRequest)){
+            is ApiResponse.Success -> SuccessResponse(data = mapperToReports(result.data))
+            is ApiResponse.Failure.Error -> ErrorResponse()
             is ApiResponse.Failure.Exception -> {
                 result.throwable.printStackTrace()
                 ExceptionResponse(message = result.message)

@@ -1,5 +1,6 @@
 package com.party.data.datasource.remote.user
 
+import com.party.data.dto.user.ReportsDto
 import com.party.data.dto.user.auth.LinkKakaoDto
 import com.party.data.dto.user.auth.MySocialOauthDto
 import com.party.data.dto.user.auth.SocialLoginDto
@@ -16,6 +17,7 @@ import com.party.data.dto.user.recruitment.MyRecruitmentDto
 import com.party.data.service.NoTokenService
 import com.party.data.service.UserService
 import com.party.domain.model.user.LinkKakaoRequest
+import com.party.domain.model.user.ReportsRequest
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
@@ -148,5 +150,9 @@ class UserRemoteSourceImpl @Inject constructor(
 
     override suspend fun signOut(): ApiResponse<Unit> {
         return userService.signOut()
+    }
+
+    override suspend fun reports(reportsRequest: ReportsRequest): ApiResponse<ReportsDto> {
+        return userService.reports(reportsRequest = reportsRequest)
     }
 }

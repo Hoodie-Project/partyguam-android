@@ -1,5 +1,6 @@
 package com.party.data.mapper
 
+import com.party.data.dto.user.ReportsDto
 import com.party.data.dto.user.auth.LinkKakaoDto
 import com.party.data.dto.user.auth.MySocialOauthDto
 import com.party.data.dto.user.auth.SocialLoginErrorDto
@@ -26,6 +27,7 @@ import com.party.data.dto.user.recruitment.PartyApplicationDto
 import com.party.data.util.convertToImageUrl
 import com.party.domain.model.user.LinkKakao
 import com.party.domain.model.user.MySocialOauth
+import com.party.domain.model.user.Reports
 import com.party.domain.model.user.SocialLogin
 import com.party.domain.model.user.SocialLoginError
 import com.party.domain.model.user.SocialLoginSuccess
@@ -289,6 +291,15 @@ object UserMapper {
     fun mapperToMySocialOauth(mySocialOauthDto: MySocialOauthDto): MySocialOauth{
         return MySocialOauth(
             provider = mySocialOauthDto.provider,
+        )
+    }
+
+    fun mapperToReports(reportsDto: ReportsDto): Reports{
+        return Reports(
+            id = reportsDto.id,
+            type = reportsDto.type,
+            typeId = reportsDto.typeId,
+            content = reportsDto.content,
         )
     }
 }

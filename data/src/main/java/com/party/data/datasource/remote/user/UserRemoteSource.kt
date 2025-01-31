@@ -1,5 +1,6 @@
 package com.party.data.datasource.remote.user
 
+import com.party.data.dto.user.ReportsDto
 import com.party.data.dto.user.auth.LinkKakaoDto
 import com.party.data.dto.user.auth.MySocialOauthDto
 import com.party.data.dto.user.auth.SocialLoginDto
@@ -14,6 +15,7 @@ import com.party.data.dto.user.party.MyPartyDto
 import com.party.data.dto.user.profile.UserProfileDto
 import com.party.data.dto.user.recruitment.MyRecruitmentDto
 import com.party.domain.model.user.LinkKakaoRequest
+import com.party.domain.model.user.ReportsRequest
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
@@ -93,4 +95,7 @@ interface UserRemoteSource {
 
     // 회원탈퇴
     suspend fun signOut(): ApiResponse<Unit>
+
+    // 신고하기
+    suspend fun reports(reportsRequest: ReportsRequest): ApiResponse<ReportsDto>
 }
