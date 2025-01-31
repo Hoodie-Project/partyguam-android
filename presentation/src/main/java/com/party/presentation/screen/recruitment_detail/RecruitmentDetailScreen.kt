@@ -36,6 +36,7 @@ import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.RecruitmentDetail
 import com.party.navigation.BottomNavigationBar
 import com.party.navigation.Screens
+import com.party.presentation.screen.recruitment_detail.component.RecruitmentButton
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentCurrentInfoArea
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentDescription
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentImageArea
@@ -43,6 +44,7 @@ import com.party.presentation.screen.recruitment_detail.component.RecruitmentPos
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentScaffoldArea
 import com.party.presentation.screen.recruitment_detail.viewmodel.RecruitmentDetailViewModel
 import com.party.presentation.screen.search.SearchAction
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun RecruitmentDetailRoute(
@@ -54,7 +56,8 @@ fun RecruitmentDetailRoute(
 ) {
 
     LaunchedEffect(Unit) {
-        recruitmentDetailViewModel.getRecruitmentDetail(partyRecruitmentId)
+        recruitmentDetailViewModel.getRecruitmentDetail(partyRecruitmentId = partyRecruitmentId)
+        recruitmentDetailViewModel.checkUserApplicationStatus(partyId = partyId, partyRecruitmentId = partyRecruitmentId)
     }
 
     val recruitmentDetailState by recruitmentDetailViewModel.recruitmentDetailState.collectAsStateWithLifecycle()
@@ -140,12 +143,10 @@ fun RecruitmentDetailScreen(
                 }
 
                 HeightSpacer(heightDp = 24.dp)
-                CustomButton(
-                    modifier = Modifier
-                        .height(48.dp)
-                        .padding(horizontal = MEDIUM_PADDING_SIZE),
-                    textSize = B2,
-                    textWeight = FontWeight.Bold,
+
+
+                RecruitmentButton(
+                    isRecruitment = recruitmentDetailState.isRecruitment,
                     onClick = { onAction(RecruitmentDetailAction.OnApply) },
                 )
                 HeightSpacer(heightDp = 12.dp)

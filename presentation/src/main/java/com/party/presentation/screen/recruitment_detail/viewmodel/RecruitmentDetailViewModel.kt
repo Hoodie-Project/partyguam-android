@@ -3,12 +3,16 @@ package com.party.presentation.screen.recruitment_detail.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
+import com.party.common.UIState
+import com.party.domain.model.party.CheckUserApplicationStatus
 import com.party.domain.model.party.RecruitmentDetail
 import com.party.domain.model.party.RecruitmentDetailParty
 import com.party.domain.model.party.RecruitmentDetailPartyType
 import com.party.domain.model.party.RecruitmentDetailPosition
+import com.party.domain.usecase.party.CheckUserApplicationStatusUseCase
 import com.party.domain.usecase.party.GetRecruitmentDetailUseCase
 import com.party.presentation.screen.recruitment_detail.RecruitmentDetailState
+import com.skydoves.sandwich.StatusCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,10 +24,30 @@ import javax.inject.Inject
 @HiltViewModel
 class RecruitmentDetailViewModel @Inject constructor(
     private val getRecruitmentDetailUseCase: GetRecruitmentDetailUseCase,
+    private val checkUserApplicationStatusUseCase: CheckUserApplicationStatusUseCase,
 ) : ViewModel() {
 
     private val _recruitmentDetailState = MutableStateFlow(RecruitmentDetailState())
     val recruitmentDetailState = _recruitmentDetailState.asStateFlow()
+
+    fun checkUserApplicationStatus(partyId: Int, partyRecruitmentId: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = checkUserApplicationStatusUseCase(partyId = partyId, partyRecruitmentId = partyRecruitmentId)){
+                is ServerApiResponse.SuccessResponse -> {
+                    _recruitmentDetailState.update { it.copy(isRecruitment = true) } // 이미 지원한 경우
+                }
+                is ServerApiResponse.ErrorResponse -> {
+                    when(result.statusCode){
+                        StatusCode.NotFound.code -> {
+                            _recruitmentDetailState.update { it.copy(isRecruitment = false) } // 지원하지 않은 경우
+                        }
+                        StatusCode.Forbidden.code -> {} // 데이터가 잘못된 경우
+                    }
+                }
+                is ServerApiResponse.ExceptionResponse -> {}
+            }
+        }
+    }
 
     fun getRecruitmentDetail(partyRecruitmentId: Int) {
         viewModelScope.launch(Dispatchers.IO) {

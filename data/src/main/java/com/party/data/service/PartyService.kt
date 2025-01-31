@@ -1,6 +1,7 @@
 package com.party.data.service
 
 import com.party.data.dto.party.ApprovalAndRejectionDto
+import com.party.data.dto.party.CheckUserApplicationStatusDto
 import com.party.data.dto.party.PartyApplyDto
 import com.party.data.dto.party.PartyAuthorityDto
 import com.party.data.dto.party.PartyCreateDto
@@ -231,4 +232,11 @@ interface PartyService {
         @Path(value = "partyId") partyId: Int,
         @Path(value = "partyApplicationId") partyApplicationId: Int,
     ): ApiResponse<Unit>
+
+    // 모집공고에 유저가 지원했는지 여부
+    @GET("api/parties/{partyId}/recruitments/{partyRecruitmentId}/applications/me")
+    suspend fun checkUserApplicationStatus(
+        @Path(value = "partyId") partyId: Int,
+        @Path(value = "partyRecruitmentId") partyRecruitmentId: Int,
+    ): ApiResponse<CheckUserApplicationStatusDto>
 }

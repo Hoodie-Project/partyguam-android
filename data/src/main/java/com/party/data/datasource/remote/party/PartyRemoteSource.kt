@@ -1,6 +1,7 @@
 package com.party.data.datasource.remote.party
 
 import com.party.data.dto.party.ApprovalAndRejectionDto
+import com.party.data.dto.party.CheckUserApplicationStatusDto
 import com.party.data.dto.party.PartyApplyDto
 import com.party.data.dto.party.PartyAuthorityDto
 import com.party.data.dto.party.PartyCreateDto
@@ -107,4 +108,7 @@ interface PartyRemoteSource {
 
     // 지원한 모집공고 취소하기(검토중일때)
     suspend fun cancelRecruitment(partyId: Int, partyApplicationId: Int): ApiResponse<Unit>
+
+    // 모집공고에 유저가 지원했는지 여부
+    suspend fun checkUserApplicationStatus(partyId: Int, partyRecruitmentId: Int): ApiResponse<CheckUserApplicationStatusDto>
 }

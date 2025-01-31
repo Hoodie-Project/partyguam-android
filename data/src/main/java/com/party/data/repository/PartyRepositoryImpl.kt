@@ -15,11 +15,13 @@ import com.party.data.mapper.PartyMapper.mapperPartyResponse
 import com.party.data.mapper.PartyMapper.mapperPartyUsers
 import com.party.data.mapper.PartyMapper.mapperPersonalRecruitmentResponse
 import com.party.data.mapper.PartyMapper.mapperRecruitmentDetailResponse
+import com.party.data.mapper.PartyMapper.mapperToCheckUserApplicationStatus
 import com.party.data.mapper.PartyMapper.mapperToPartyApply
 import com.party.data.mapper.PartyMapper.mapperToPartyCreate
 import com.party.data.mapper.PartyMapper.mapperToRecruitmentApplicant
 import com.party.data.mapper.PartyMapper.mapperToRecruitmentCreate
 import com.party.domain.model.party.ApprovalAndRejection
+import com.party.domain.model.party.CheckUserApplicationStatus
 import com.party.domain.model.party.DelegatePartyMasterRequest
 import com.party.domain.model.party.ModifyPartyUserPositionRequest
 import com.party.domain.model.party.ModifyRecruitmentRequest
@@ -559,6 +561,36 @@ class PartyRepositoryImpl @Inject constructor(
     ): ServerApiResponse<Unit> {
         return when(val result = partyRemoteSource.cancelRecruitment(partyId = partyId, partyApplicationId = partyApplicationId)){
             is ApiResponse.Success -> { SuccessResponse(data = result.data)}
+            is ApiResponse.Failure.Error -> {
+                when(result.statusCode){
+                    StatusCode.Forbidden -> {
+                        ErrorResponse(
+                            statusCode = StatusCode.Forbidden.code,
+                            data = null,
+                        )
+                    }
+                    StatusCode.NotFound -> {
+                        ErrorResponse(
+                            statusCode = StatusCode.NotFound.code,
+                            data = null,
+                        )
+                    }
+                    else -> ErrorResponse(data = null)
+                }
+            }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse()
+            }
+        }
+    }
+
+    override suspend fun checkUserApplicationStatus(
+        partyId: Int,
+        partyRecruitmentId: Int
+    ): ServerApiResponse<CheckUserApplicationStatus> {
+        return when(val result = partyRemoteSource.checkUserApplicationStatus(partyId = partyId, partyRecruitmentId = partyRecruitmentId)){
+            is ApiResponse.Success -> SuccessResponse(data = mapperToCheckUserApplicationStatus(result.data))
             is ApiResponse.Failure.Error -> {
                 when(result.statusCode){
                     StatusCode.Forbidden -> {

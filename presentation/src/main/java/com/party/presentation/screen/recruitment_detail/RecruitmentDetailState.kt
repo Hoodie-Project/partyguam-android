@@ -25,4 +25,6 @@ data class RecruitmentDetailState(
         applicationCount = 0,
         createdAt = "2024-06-05T15:30:45.123Z"
     ),
+
+    val isRecruitment: Boolean = false
 )

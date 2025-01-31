@@ -1,6 +1,7 @@
 package com.party.data.datasource.remote.party
 
 import com.party.data.dto.party.ApprovalAndRejectionDto
+import com.party.data.dto.party.CheckUserApplicationStatusDto
 import com.party.data.dto.party.PartyApplyDto
 import com.party.data.dto.party.PartyAuthorityDto
 import com.party.data.dto.party.PartyCreateDto
@@ -223,5 +224,12 @@ class PartyRemoteSourceImpl @Inject constructor(
         partyApplicationId: Int
     ): ApiResponse<Unit> {
         return partyService.cancelRecruitment(partyId = partyId, partyApplicationId = partyApplicationId)
+    }
+
+    override suspend fun checkUserApplicationStatus(
+        partyId: Int,
+        partyRecruitmentId: Int
+    ): ApiResponse<CheckUserApplicationStatusDto> {
+        return partyService.checkUserApplicationStatus(partyId = partyId, partyRecruitmentId = partyRecruitmentId)
     }
 }

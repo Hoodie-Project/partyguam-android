@@ -2,6 +2,7 @@ package com.party.domain.repository
 
 import com.party.common.ServerApiResponse
 import com.party.domain.model.party.ApprovalAndRejection
+import com.party.domain.model.party.CheckUserApplicationStatus
 import com.party.domain.model.party.DelegatePartyMasterRequest
 import com.party.domain.model.party.ModifyPartyUserPositionRequest
 import com.party.domain.model.party.ModifyRecruitmentRequest
@@ -137,4 +138,7 @@ interface PartyRepository {
 
     // 지원한 모집공고 취소하기(검토중일때)
     suspend fun cancelRecruitment(partyId: Int, partyApplicationId: Int): ServerApiResponse<Unit>
+
+    // 모집공고에 유저가 지원했는지 여부
+    suspend fun checkUserApplicationStatus(partyId: Int, partyRecruitmentId: Int): ServerApiResponse<CheckUserApplicationStatus>
 }

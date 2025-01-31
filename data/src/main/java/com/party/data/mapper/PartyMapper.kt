@@ -1,6 +1,7 @@
 package com.party.data.mapper
 
 import com.party.data.dto.party.ApprovalAndRejectionDto
+import com.party.data.dto.party.CheckUserApplicationStatusDto
 import com.party.data.dto.party.PartyAdminDto
 import com.party.data.dto.party.PartyApplicationUserDto
 import com.party.data.dto.party.PartyApplyDto
@@ -27,6 +28,7 @@ import com.party.data.dto.party.UserDto
 import com.party.data.util.convertToImageUrl
 import com.party.domain.model.party.ApplicantUser
 import com.party.domain.model.party.ApprovalAndRejection
+import com.party.domain.model.party.CheckUserApplicationStatus
 import com.party.domain.model.party.PartyAdmin
 import com.party.domain.model.party.PartyApplicationUser
 import com.party.domain.model.party.PartyApply
@@ -370,6 +372,15 @@ object PartyMapper {
     fun mapperApprovalAndRejection(approvalAndRejectionDto: ApprovalAndRejectionDto): ApprovalAndRejection{
         return ApprovalAndRejection(
             message = approvalAndRejectionDto.message,
+        )
+    }
+
+    fun mapperToCheckUserApplicationStatus(checkUserApplicationStatusDto: CheckUserApplicationStatusDto): CheckUserApplicationStatus {
+        return CheckUserApplicationStatus(
+            id = checkUserApplicationStatusDto.id,
+            message = checkUserApplicationStatusDto.message,
+            status = checkUserApplicationStatusDto.status,
+            createdAt = checkUserApplicationStatusDto.createdAt
         )
     }
 }
