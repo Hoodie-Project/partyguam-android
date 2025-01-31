@@ -289,8 +289,6 @@ object UserMapper {
     fun mapperToMySocialOauth(mySocialOauthDto: MySocialOauthDto): MySocialOauth{
         return MySocialOauth(
             provider = mySocialOauthDto.provider,
-            email = mySocialOauthDto.email,
-            image = convertToImageUrl(mySocialOauthDto.image),
         )
     }
 }

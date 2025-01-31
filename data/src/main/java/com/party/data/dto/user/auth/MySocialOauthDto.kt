@@ -5,6 +5,4 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class MySocialOauthDto(
     val provider: String,
-    val email: String,
-    val image: String?
 )
