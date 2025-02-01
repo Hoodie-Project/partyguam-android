@@ -3,6 +3,7 @@ package com.party.data.service
 import com.party.data.dto.banner.BannerDto
 import com.party.data.dto.user.auth.SocialLoginSuccessDto
 import com.party.data.dto.user.auth.UserSignUpDto
+import com.party.domain.model.user.AccessTokenRequest
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.Body
@@ -15,7 +16,7 @@ interface NoTokenService {
 
     @POST("api/users/google/app/login")
     suspend fun loginGoogle(
-        @Header("Authorization") accessToken: String
+        @Body accessTokenRequest: AccessTokenRequest,
     ): ApiResponse<SocialLoginSuccessDto>
 
     @POST("api/users/kakao/app/login")

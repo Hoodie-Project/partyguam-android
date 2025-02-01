@@ -12,6 +12,7 @@ import com.party.data.mapper.UserMapper.mapperToLinkKakao
 import com.party.data.mapper.UserMapper.mapperToMySocialOauth
 import com.party.data.mapper.UserMapper.mapperToReports
 import com.party.data.mapper.UserMapper.mapperUserSignUpResponse
+import com.party.domain.model.user.AccessTokenRequest
 import com.party.domain.model.user.LinkKakao
 import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.MySocialOauth
@@ -46,13 +47,11 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val userRemoteSource: UserRemoteSource,
 ): UserRepository{
-    override suspend fun googleLogin(accessToken: String): ServerApiResponse<SocialLogin> {
-        return when(val result = userRemoteSource.googleLogin(accessToken = accessToken)){
+    override suspend fun googleLogin(accessTokenRequest: AccessTokenRequest): ServerApiResponse<SocialLogin> {
+        return when(val result = userRemoteSource.googleLogin(accessTokenRequest = accessTokenRequest)){
             is ApiResponse.Success -> {
                 val resultSuccess = Json.decodeFromString<SocialLoginSuccessDto>(result.data.toString())
-                SuccessResponse(
-                    data = UserMapper.mapperToSocialLoginResponse(resultSuccess),
-                )
+                SuccessResponse(data = UserMapper.mapperToSocialLoginResponse(resultSuccess))
             }
             is ApiResponse.Failure.Error-> {
                 val errorBody = result.errorBody?.string()

@@ -16,6 +16,7 @@ import com.party.data.dto.user.profile.UserProfileDto
 import com.party.data.dto.user.recruitment.MyRecruitmentDto
 import com.party.data.service.NoTokenService
 import com.party.data.service.UserService
+import com.party.domain.model.user.AccessTokenRequest
 import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.ReportsRequest
 import com.party.domain.model.user.detail.InterestLocationList
@@ -32,8 +33,8 @@ class UserRemoteSourceImpl @Inject constructor(
     private val noTokenService: NoTokenService,
     private val userService: UserService,
 ): UserRemoteSource{
-    override suspend fun googleLogin(accessToken: String): ApiResponse<SocialLoginDto> {
-        return noTokenService.loginGoogle(accessToken = accessToken)
+    override suspend fun googleLogin(accessTokenRequest: AccessTokenRequest): ApiResponse<SocialLoginDto> {
+        return noTokenService.loginGoogle(accessTokenRequest = accessTokenRequest)
     }
 
     override suspend fun kakaoLogin(accessToken: String): ApiResponse<SocialLoginDto> {

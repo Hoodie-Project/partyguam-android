@@ -9,6 +9,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.party.common.ServerApiResponse
 import com.party.common.makeAccessToken
+import com.party.domain.model.user.AccessTokenRequest
 import com.party.domain.model.user.SocialLoginError
 import com.party.domain.model.user.SocialLogin
 import com.party.domain.model.user.SocialLoginSuccess
@@ -44,20 +45,16 @@ class LoginViewModel @Inject constructor(
                     val account = completedTask.getResult(ApiException::class.java)
                     val idToken = account.idToken
                     if (idToken != null) {
-                        //println("account : $idToken")
-                        //println("account : ${account.email}")
-                        //println("account : ${account.displayName}")
-                        //println("account : ${account.isExpired}")
 
                         serverToGoogleLogin(
                             userEmail = account.email.orEmpty(),
-                            accessToken = makeAccessToken(context = context, token = idToken),
+                            accessToken = idToken
                         )
                     } else {
                         Log.e("Google Login Error", "Google ID Token is null")
                     }
                 } catch (e: ApiException) {
-                    println("Google Login Exception : ${e.message} ${e.statusCode}")
+                    Log.e("Google Login Exception", "${e.message} ${e.statusCode}")
                 }
             }
         }
@@ -65,7 +62,7 @@ class LoginViewModel @Inject constructor(
 
     private fun serverToGoogleLogin(userEmail: String, accessToken: String){
         viewModelScope.launch(Dispatchers.IO) {
-            when(val result = googleLoginUseCase(accessToken = accessToken)){
+            when(val result = googleLoginUseCase(accessTokenRequest = AccessTokenRequest(idToken = accessToken))){
                 is ServerApiResponse.SuccessResponse<*> -> {
                     println("result123 Success : ${result.data}")
                 }

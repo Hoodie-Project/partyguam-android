@@ -14,6 +14,7 @@ import com.party.data.dto.user.detail.SaveInterestLocationDto
 import com.party.data.dto.user.party.MyPartyDto
 import com.party.data.dto.user.profile.UserProfileDto
 import com.party.data.dto.user.recruitment.MyRecruitmentDto
+import com.party.domain.model.user.AccessTokenRequest
 import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.ReportsRequest
 import com.party.domain.model.user.detail.InterestLocationList
@@ -28,7 +29,7 @@ import okhttp3.RequestBody
 interface UserRemoteSource {
 
     // 구글 로그인
-    suspend fun googleLogin(accessToken: String): ApiResponse<SocialLoginDto>
+    suspend fun googleLogin(accessTokenRequest: AccessTokenRequest): ApiResponse<SocialLoginDto>
 
     // 카카오 로그인
     suspend fun kakaoLogin(accessToken: String): ApiResponse<SocialLoginDto>
