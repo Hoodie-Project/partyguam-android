@@ -1,6 +1,7 @@
 package com.party.data.mapper
 
 import com.party.data.dto.user.ReportsDto
+import com.party.data.dto.user.auth.LinkGoogleDto
 import com.party.data.dto.user.auth.LinkKakaoDto
 import com.party.data.dto.user.auth.MySocialOauthDto
 import com.party.data.dto.user.auth.SocialLoginErrorDto
@@ -25,6 +26,7 @@ import com.party.data.dto.user.profile.UserProfilePositionDto
 import com.party.data.dto.user.recruitment.MyRecruitmentDto
 import com.party.data.dto.user.recruitment.PartyApplicationDto
 import com.party.data.util.convertToImageUrl
+import com.party.domain.model.user.LinkGoogle
 import com.party.domain.model.user.LinkKakao
 import com.party.domain.model.user.MySocialOauth
 import com.party.domain.model.user.Reports
@@ -285,6 +287,12 @@ object UserMapper {
     fun mapperToLinkKakao(linkKakaoDto: LinkKakaoDto): LinkKakao{
         return LinkKakao(
             message = linkKakaoDto.message
+        )
+    }
+
+    fun mapperToLinkGoogle(linkGoogleDto: LinkGoogleDto): LinkGoogle{
+        return LinkGoogle(
+            message = linkGoogleDto.message
         )
     }
 

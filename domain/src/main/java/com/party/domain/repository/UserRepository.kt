@@ -2,6 +2,7 @@ package com.party.domain.repository
 
 import com.party.common.ServerApiResponse
 import com.party.domain.model.user.AccessTokenRequest
+import com.party.domain.model.user.LinkGoogle
 import com.party.domain.model.user.LinkKakao
 import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.MySocialOauth
@@ -36,8 +37,12 @@ interface UserRepository {
 
     // 나의 소셜 계정 조회
     suspend fun getMySocialOauth(): ServerApiResponse<List<MySocialOauth>>
+
     // 카카오 계정 연동
     suspend fun linkKakao(linkKakaoRequest: LinkKakaoRequest): ServerApiResponse<LinkKakao>
+
+    // 구글 계정 연동
+    suspend fun linkGoogle(accessTokenRequest: AccessTokenRequest): ServerApiResponse<LinkGoogle>
 
     // 유저 닉네임 중복체크
     suspend fun checkNickName(signupAccessToken: String, nickname: String): ServerApiResponse<String>

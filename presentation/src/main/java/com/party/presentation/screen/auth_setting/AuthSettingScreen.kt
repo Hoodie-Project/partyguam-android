@@ -2,6 +2,9 @@ package com.party.presentation.screen.auth_setting
 
 import android.content.Context
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +27,7 @@ import androidx.navigation.NavHostController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -71,21 +75,12 @@ fun AuthSettingScreenRoute(
                 is AuthSettingAction.OnLogout -> authSettingViewModel.onAction(action)
             }
         },
-        onGotoServiceIntroduce = {
-            navController.navigate(Screens.ServiceIntroduce)
-        },
-        onGotoCustomerInquiries = {
-            navController.navigate(Screens.CustomerInquiries)
-        },
-        onGotoTerms = {
-            navController.navigate(Screens.Terms)
-        },
-        onGotoPrivacyPolicy = {
-            navController.navigate(Screens.PrivacyPolicy)
-        },
-        onLinkKakao = { token ->
-            authSettingViewModel.linkKakao(oauthAccessToken = token)
-        }
+        onGotoServiceIntroduce = { navController.navigate(Screens.ServiceIntroduce) },
+        onGotoCustomerInquiries = { navController.navigate(Screens.CustomerInquiries) },
+        onGotoTerms = { navController.navigate(Screens.Terms) },
+        onGotoPrivacyPolicy = { navController.navigate(Screens.PrivacyPolicy) },
+        onLinkKakao = { token -> authSettingViewModel.linkKakao(oauthAccessToken = token) },
+        onLinkGoogle = { token -> authSettingViewModel.linkGoogle(accessToken = token) }
     )
 }
 
@@ -101,6 +96,7 @@ private fun AuthSettingScreen(
     onGotoTerms: () -> Unit,
     onGotoPrivacyPolicy: () -> Unit,
     onLinkKakao: (String) -> Unit,
+    onLinkGoogle: (String) -> Unit,
 ) {
     val kakaoCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         when {
@@ -108,9 +104,6 @@ private fun AuthSettingScreen(
                 Log.e("KAKAO", "로그인 실패", error)
             }
             token != null -> {
-                println("토큰토큰 ${token.accessToken}")
-                println("토큰토큰 ${token.refreshToken}")
-                println("토큰토큰 ${token.idToken}")
                 loginWithKakaoNickName(
                     context = context,
                     token = token,
@@ -118,6 +111,15 @@ private fun AuthSettingScreen(
                 )
             }
         }
+    }
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) {
+        googleSignIn(
+            activityResult = it,
+            onLinkGoogle = onLinkGoogle
+        )
     }
 
     Box(
@@ -151,7 +153,17 @@ private fun AuthSettingScreen(
                     onLinkKakao = {
                         loginWithKakao(context, kakaoCallback)
                     },
-                    onLinkGoogle = {}
+                    onLinkGoogle = {
+                        // google 로그인
+                        val googleSignInOptions = GoogleSignInOptions
+                            .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                            .requestIdToken("697659482179-ish7bgg19g5le6b1urrss97tjgasi91f.apps.googleusercontent.com")
+                            .requestEmail()
+                            .build()
+
+                        val googleSignInClient = GoogleSignIn.getClient(context, googleSignInOptions)
+                        launcher.launch(googleSignInClient.signInIntent)
+                    }
                 )
 
                 HeightSpacer(heightDp = 32.dp)
@@ -283,6 +295,22 @@ private fun loginWithKakao(context: Context, kakaoCallback: (OAuthToken?, Throwa
     }
 }
 
+private fun googleSignIn(
+    activityResult: ActivityResult,
+    onLinkGoogle: (String) -> Unit,
+){
+    val task = GoogleSignIn.getSignedInAccountFromIntent(activityResult.data)
+    task.addOnCompleteListener { completedTask ->
+        try {
+            val account = completedTask.getResult(ApiException::class.java)
+            val idToken = account.idToken
+            onLinkGoogle(idToken ?: "")
+        } catch (e: ApiException) {
+            Log.e("Google Login Exception", "${e.message} ${e.statusCode}")
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun AuthSettingScreenPreview() {
@@ -296,6 +324,7 @@ private fun AuthSettingScreenPreview() {
         onGotoCustomerInquiries = {},
         onGotoTerms = {},
         onGotoPrivacyPolicy = {},
-        onLinkKakao = {}
+        onLinkKakao = {},
+        onLinkGoogle = {}
     )
 }

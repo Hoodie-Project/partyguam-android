@@ -3,10 +3,12 @@ package com.party.presentation.screen.auth_setting.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
+import com.party.domain.model.user.AccessTokenRequest
 import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.MySocialOauth
 import com.party.domain.usecase.datastore.DeleteAccessTokenUseCase
 import com.party.domain.usecase.user.UserLogoutUseCase
+import com.party.domain.usecase.user.auth.LinkGoogleUseCase
 import com.party.domain.usecase.user.auth.LinkKakaoUseCase
 import com.party.domain.usecase.user.auth.MySocialOauthUseCase
 import com.party.presentation.screen.auth_setting.AuthSettingAction
@@ -27,6 +29,7 @@ class AuthSettingViewModel @Inject constructor(
     private val deleteAccessTokenUseCase: DeleteAccessTokenUseCase,
     private val mySocialOauthUseCase: MySocialOauthUseCase,
     private val linkKakaoUseCase: LinkKakaoUseCase,
+    private val linkGoogleUseCase: LinkGoogleUseCase,
 ): ViewModel(){
 
     private val _state = MutableStateFlow(AuthSettingState())
@@ -45,6 +48,16 @@ class AuthSettingViewModel @Inject constructor(
                 is ServerApiResponse.SuccessResponse -> {
                     _state.update { it.copy(mySocialOauth = result.data ?: emptyList()) }
                 }
+                is ServerApiResponse.ErrorResponse -> {}
+                is ServerApiResponse.ExceptionResponse -> {}
+            }
+        }
+    }
+
+    fun linkGoogle(accessToken: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = linkGoogleUseCase(accessTokenRequest = AccessTokenRequest(idToken = accessToken))){
+                is ServerApiResponse.SuccessResponse -> mySocialOauth()
                 is ServerApiResponse.ErrorResponse -> {}
                 is ServerApiResponse.ExceptionResponse -> {}
             }

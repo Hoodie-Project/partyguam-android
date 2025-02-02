@@ -8,11 +8,13 @@ import com.party.data.datasource.remote.user.UserRemoteSource
 import com.party.data.dto.user.auth.SocialLoginErrorDto
 import com.party.data.dto.user.auth.SocialLoginSuccessDto
 import com.party.data.mapper.UserMapper
+import com.party.data.mapper.UserMapper.mapperToLinkGoogle
 import com.party.data.mapper.UserMapper.mapperToLinkKakao
 import com.party.data.mapper.UserMapper.mapperToMySocialOauth
 import com.party.data.mapper.UserMapper.mapperToReports
 import com.party.data.mapper.UserMapper.mapperUserSignUpResponse
 import com.party.domain.model.user.AccessTokenRequest
+import com.party.domain.model.user.LinkGoogle
 import com.party.domain.model.user.LinkKakao
 import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.MySocialOauth
@@ -141,6 +143,22 @@ class UserRepositoryImpl @Inject constructor(
             is ApiResponse.Success -> {
                 SuccessResponse(data = mapperToLinkKakao(result.data))
             }
+            is ApiResponse.Failure.Error-> {
+                when(result.statusCode){
+                    StatusCode.Conflict -> ErrorResponse()
+                    else -> ErrorResponse()
+                }
+            }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse(message = result.message)
+            }
+        }
+    }
+
+    override suspend fun linkGoogle(accessTokenRequest: AccessTokenRequest): ServerApiResponse<LinkGoogle> {
+        return when(val result = userRemoteSource.linkGoogle(accessTokenRequest = accessTokenRequest)){
+            is ApiResponse.Success -> SuccessResponse(data = mapperToLinkGoogle(result.data))
             is ApiResponse.Failure.Error-> {
                 when(result.statusCode){
                     StatusCode.Conflict -> ErrorResponse()

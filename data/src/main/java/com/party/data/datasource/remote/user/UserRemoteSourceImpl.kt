@@ -1,6 +1,7 @@
 package com.party.data.datasource.remote.user
 
 import com.party.data.dto.user.ReportsDto
+import com.party.data.dto.user.auth.LinkGoogleDto
 import com.party.data.dto.user.auth.LinkKakaoDto
 import com.party.data.dto.user.auth.MySocialOauthDto
 import com.party.data.dto.user.auth.SocialLoginDto
@@ -47,6 +48,10 @@ class UserRemoteSourceImpl @Inject constructor(
 
     override suspend fun linkKakao(linkKakaoRequest: LinkKakaoRequest): ApiResponse<LinkKakaoDto> {
         return userService.linkKakao(linkKakaoRequest = linkKakaoRequest)
+    }
+
+    override suspend fun linkGoogle(accessTokenRequest: AccessTokenRequest): ApiResponse<LinkGoogleDto> {
+        return userService.linkGoogle(accessTokenRequest = accessTokenRequest)
     }
 
     override suspend fun checkNickName(
