@@ -8,5 +8,6 @@ sealed interface PartyDetailAction {
     data class OnApply(val partyId: Int): PartyDetailAction
     data class OnChangeOrderBy(val selectedOrderBy: Boolean): PartyDetailAction
     data class OnChangeProgress(val isProgress: Boolean, val partyId: Int): PartyDetailAction
+    data class OnShowMoreBottomSheet(val isShow: Boolean): PartyDetailAction
 
 }

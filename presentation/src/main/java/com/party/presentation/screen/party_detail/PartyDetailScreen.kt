@@ -26,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.party.common.component.bottomsheet.MoreBottomSheet
 import com.party.common.component.partyDetailTabList
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyDetail
@@ -49,8 +50,6 @@ fun PartyDetailRoute(
     partyViewModel: PartyViewModel = hiltViewModel(),
     partyId: Int,
 ) {
-    println("currentRoute ${navController.currentBackStackEntry?.destination?.route}")
-
     val context1 = LocalContext.current
     LaunchedEffect(Unit) {
         partyViewModel.getPartyDetail(partyId = partyId)
@@ -63,6 +62,7 @@ fun PartyDetailRoute(
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
     RightModalDrawer(
         currentTitle = "",
         drawerState = drawerState,
@@ -100,9 +100,12 @@ fun PartyDetailRoute(
                         is PartyDetailAction.OnApply -> { partyViewModel.onAction(action) }
                         is PartyDetailAction.OnChangeOrderBy -> { partyViewModel.onAction(action) }
                         is PartyDetailAction.OnChangeProgress -> { partyViewModel.onAction(action)}
+                        is PartyDetailAction.OnShowMoreBottomSheet -> { partyViewModel.onAction(action)}
                     }
                 },
-                onReports = { userId -> navController.navigate(Screens.Reports(typeId = userId))}
+                onReports = { userId -> navController.navigate(Screens.Reports(typeId = userId))},
+                onPartyReports = { partyId -> navController.navigate(Screens.Reports(typeId = partyId))},
+                onExitParty = {}
             )
         },
         onGotoPartyEdit = {
@@ -120,7 +123,7 @@ fun PartyDetailRoute(
         onGotoManageApplicant = {
             scope.launch { drawerState.close() }
             navController.navigate(Screens.ManageApplicant(partyId = partyId))
-        }
+        },
     )
 }
 
@@ -137,6 +140,8 @@ private fun PartyDetailScreen(
     onManageClick: () -> Unit,
     onAction: (PartyDetailAction) -> Unit,
     onReports: (Int) -> Unit,
+    onPartyReports: (Int) -> Unit,
+    onExitParty: (Int) -> Unit,
 ){
     Scaffold(
         snackbarHost = {
@@ -156,7 +161,7 @@ private fun PartyDetailScreen(
                 onNavigationClick = onNavigationBack,
                 onSharedClick = onSharedClick,
                 onManageClick = onManageClick,
-                onMoreClick = {},
+                onMoreClick = { onAction(PartyDetailAction.OnShowMoreBottomSheet(true))},
             )
         },
     ) {
@@ -182,6 +187,17 @@ private fun PartyDetailScreen(
                 )
             }
         }
+    }
+
+    if(state.isShowMoreBottomSheet){
+        MoreBottomSheet(
+            onBottomSheetClose = { onAction(PartyDetailAction.OnShowMoreBottomSheet(false))},
+            onReport = {
+                onAction(PartyDetailAction.OnShowMoreBottomSheet(false))
+                onPartyReports(partyId)
+            },
+            onExitParty = { onExitParty(partyId)}
+        )
     }
 }
 
@@ -211,6 +227,40 @@ private fun PartyDetailScreenPreview() {
         onSharedClick = {},
         onManageClick = {},
         onAction = {},
-        onReports = {}
+        onReports = {},
+        onPartyReports = {},
+        onExitParty = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PartyDetailScreenPreview2() {
+    PartyDetailScreen(
+        context = LocalContext.current,
+        navController = rememberNavController(),
+        snackBarHostState = SnackbarHostState(),
+        partyId = 1,
+        state = PartyDetailState(
+            partyDetail = PartyDetail(
+                id = 0,
+                partyType = PartyType(id = 1308, type = "포트폴리오"),
+                title = "테스트 제목입니다.",
+                content = "같이 파티할 사람 구합니다.",
+                image = null,
+                    status = "completed",
+                createdAt = "2024-06-05T15:30:45.123Z",
+                updatedAt = "2024-06-05T15:30:45.123Z"
+            ),
+            partyAuthority = PartyAuthority(id = 1, authority = "member", position = PartyAuthorityPosition(0, "개발자", "안드로이드"))
+        ),
+        onNavigationBack = {},
+        onAddRecruitment = {},
+        onSharedClick = {},
+        onManageClick = {},
+        onAction = {},
+        onReports = {},
+        onPartyReports = {},
+        onExitParty = {}
     )
 }

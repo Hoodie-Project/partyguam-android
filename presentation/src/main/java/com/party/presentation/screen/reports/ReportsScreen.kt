@@ -45,6 +45,7 @@ fun ReportsScreenRoute(
         snackBarHostState = snackBarHostState,
         state = state,
         typeId = typeId,
+        onNavigationClick = { navController.popBackStack()},
         onAction = { action ->
             when(action){
                 is ReportsAction.OnChangeInputText -> { reportsViewModel.onAction(action)}
@@ -60,6 +61,7 @@ private fun ReportsScreen(
     snackBarHostState: SnackbarHostState,
     state: ReportsState,
     typeId: Int,
+    onNavigationClick: () -> Unit,
     onAction: (ReportsAction) -> Unit,
 ) {
     Scaffold(
@@ -70,7 +72,7 @@ private fun ReportsScreen(
         },
         topBar = {
             ReportsScaffoldArea(
-                onNavigationClick = {}
+                onNavigationClick = onNavigationClick
             )
         }
     ){

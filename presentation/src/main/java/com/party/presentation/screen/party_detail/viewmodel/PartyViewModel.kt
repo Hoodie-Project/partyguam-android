@@ -161,6 +161,7 @@ class PartyViewModel @Inject constructor(
                     status = if(_state.value.isProgress) "active" else "completed"
                 )
             }
+            is PartyDetailAction.OnShowMoreBottomSheet -> { _state.update { it.copy(isShowMoreBottomSheet = action.isShow) }}
         }
     }
 }

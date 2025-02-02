@@ -37,5 +37,7 @@ data class PartyDetailState(
     val isProgress: Boolean = true,
 
     val isLoadingPartyAuthority: Boolean = false,
-    val partyAuthority: PartyAuthority = PartyAuthority(id = 0, authority = "", position = PartyAuthorityPosition(0, "", ""))
+    val partyAuthority: PartyAuthority = PartyAuthority(id = 0, authority = "", position = PartyAuthorityPosition(0, "", "")),
+
+    val isShowMoreBottomSheet: Boolean = false,
 )

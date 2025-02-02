@@ -54,7 +54,7 @@ fun PartyDetailScaffoldArea(
                     )
                 }
 
-                if(state.partyAuthority.authority == PartyAuthorityType.MEMBER.authority) {
+                if(state.partyAuthority.authority != PartyAuthorityType.MASTER.authority) {
                     DrawableIconButton(
                         icon = painterResource(id = R.drawable.icon_more),
                         iconColor = BLACK,
