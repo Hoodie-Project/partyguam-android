@@ -9,5 +9,6 @@ sealed interface PartyDetailAction {
     data class OnChangeOrderBy(val selectedOrderBy: Boolean): PartyDetailAction
     data class OnChangeProgress(val isProgress: Boolean, val partyId: Int): PartyDetailAction
     data class OnShowMoreBottomSheet(val isShow: Boolean): PartyDetailAction
-
+    data class OnShowExitPartyDialog(val isShow: Boolean): PartyDetailAction
+    data class OnExitParty(val partyId: Int): PartyDetailAction
 }

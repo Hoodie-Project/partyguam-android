@@ -27,7 +27,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.party.common.component.bottomsheet.MoreBottomSheet
+import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.partyDetailTabList
+import com.party.common.noRippleClickable
+import com.party.common.snackBarMessage
+import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyType
@@ -40,6 +44,8 @@ import com.party.presentation.screen.party_detail.component.PartyDetailArea
 import com.party.presentation.screen.party_detail.component.PartyDetailScaffoldArea
 import com.party.presentation.screen.party_detail.component.RightModalDrawer
 import com.party.presentation.screen.party_detail.viewmodel.PartyViewModel
+import com.party.presentation.screen.party_user_manage.PartyUserAction
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
@@ -56,6 +62,13 @@ fun PartyDetailRoute(
         partyViewModel.getPartyUsers(partyId = partyId, page = 1, limit = 50, sort = "createdAt", order = OrderDescType.DESC.type)
         partyViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = OrderDescType.DESC.type, main = null, status = "active")
         partyViewModel.getPartyAuthority(partyId = partyId)
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        partyViewModel.successExitParty.collectLatest {
+            snackBarMessage(snackBarHostState, "파티를 떠났어요")
+            navController.popBackStack()
+        }
     }
 
     val state by partyViewModel.state.collectAsStateWithLifecycle()
@@ -101,6 +114,8 @@ fun PartyDetailRoute(
                         is PartyDetailAction.OnChangeOrderBy -> { partyViewModel.onAction(action) }
                         is PartyDetailAction.OnChangeProgress -> { partyViewModel.onAction(action)}
                         is PartyDetailAction.OnShowMoreBottomSheet -> { partyViewModel.onAction(action)}
+                        is PartyDetailAction.OnShowExitPartyDialog -> { partyViewModel.onAction(action)}
+                        is PartyDetailAction.OnExitParty -> { partyViewModel.onAction(action)}
                     }
                 },
                 onReports = { userId -> navController.navigate(Screens.Reports(typeId = userId))},
@@ -196,8 +211,29 @@ private fun PartyDetailScreen(
                 onAction(PartyDetailAction.OnShowMoreBottomSheet(false))
                 onPartyReports(partyId)
             },
-            onExitParty = { onExitParty(partyId)}
+            onExitParty = { onAction(PartyDetailAction.OnShowExitPartyDialog(true))}
         )
+    }
+
+    if(state.isShowExitPartyDialog){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(BLACK.copy(alpha = 0.2f))
+                .noRippleClickable { onAction(PartyDetailAction.OnShowExitPartyDialog(false)) }
+        ) {
+            TwoButtonDialog(
+                dialogTitle = "파티 떠나기",
+                description = "정말로 이 파티를 떠나시겠습니까?",
+                cancelButtonText = "닫기",
+                confirmButtonText = "떠나기",
+                onCancel = { onAction(PartyDetailAction.OnShowExitPartyDialog(false))},
+                onConfirm = {
+                    onAction(PartyDetailAction.OnShowExitPartyDialog(false))
+                    onAction(PartyDetailAction.OnExitParty(partyId))
+                }
+            )
+        }
     }
 }
 

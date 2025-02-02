@@ -8,6 +8,7 @@ import com.party.domain.model.party.PartyType
 import com.party.domain.model.party.PartyUsers
 import com.party.domain.model.user.PartyAuthority
 import com.party.domain.model.user.PartyAuthorityPosition
+import com.party.domain.usecase.party.ExitPartyUseCase
 import com.party.domain.usecase.party.GetPartyAuthorityUseCase
 import com.party.domain.usecase.party.GetPartyDetailUseCase
 import com.party.domain.usecase.party.GetPartyRecruitmentUseCase
@@ -17,7 +18,9 @@ import com.party.presentation.screen.party_detail.PartyDetailAction
 import com.party.presentation.screen.party_detail.PartyDetailState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -29,10 +32,24 @@ class PartyViewModel @Inject constructor(
     private val getPartyRecruitmentUseCase: GetPartyRecruitmentUseCase,
     private val getPartyUsersUseCase: GetPartyUsersUseCase,
     private val getPartyAuthorityUseCase: GetPartyAuthorityUseCase,
+    private val exitPartyUseCase: ExitPartyUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(PartyDetailState())
     val state = _state.asStateFlow()
+
+    private val _successExitParty = MutableSharedFlow<Unit>()
+    val successExitParty = _successExitParty.asSharedFlow()
+
+    private fun exitParty(partyId: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = exitPartyUseCase(partyId = partyId)){
+                is ServerApiResponse.SuccessResponse -> _successExitParty.emit(Unit)
+                is ServerApiResponse.ErrorResponse -> {}
+                is ServerApiResponse.ExceptionResponse -> {}
+            }
+        }
+    }
 
     fun getPartyDetail(partyId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -162,6 +179,8 @@ class PartyViewModel @Inject constructor(
                 )
             }
             is PartyDetailAction.OnShowMoreBottomSheet -> { _state.update { it.copy(isShowMoreBottomSheet = action.isShow) }}
+            is PartyDetailAction.OnShowExitPartyDialog -> { _state.update { it.copy(isShowExitPartyDialog = action.isShow) }}
+            is PartyDetailAction.OnExitParty -> { exitParty(partyId = action.partyId)}
         }
     }
 }

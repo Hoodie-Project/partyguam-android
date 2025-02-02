@@ -141,4 +141,7 @@ interface PartyRepository {
 
     // 모집공고에 유저가 지원했는지 여부
     suspend fun checkUserApplicationStatus(partyId: Int, partyRecruitmentId: Int): ServerApiResponse<CheckUserApplicationStatus>
+
+    // 파티 나가기 (파티유저가)
+    suspend fun exitParty(partyId: Int): ServerApiResponse<Unit>
 }

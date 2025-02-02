@@ -239,4 +239,10 @@ interface PartyService {
         @Path(value = "partyId") partyId: Int,
         @Path(value = "partyRecruitmentId") partyRecruitmentId: Int,
     ): ApiResponse<CheckUserApplicationStatusDto>
+
+    // 파티 나가기 (파티유저가)
+    @DELETE("api/parties/{partyId}/users/me")
+    suspend fun exitParty(
+        @Path(value = "partyId") partyId: Int,
+    ): ApiResponse<Unit>
 }

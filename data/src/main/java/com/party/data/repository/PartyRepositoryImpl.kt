@@ -614,4 +614,31 @@ class PartyRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun exitParty(partyId: Int): ServerApiResponse<Unit> {
+        return when(val result = partyRemoteSource.exitParty(partyId = partyId)){
+            is ApiResponse.Success -> { SuccessResponse(data = null)}
+            is ApiResponse.Failure.Error -> {
+                when(result.statusCode){
+                    StatusCode.Forbidden -> {
+                        ErrorResponse(
+                            statusCode = StatusCode.Forbidden.code,
+                            data = null,
+                        )
+                    }
+                    StatusCode.NotFound -> {
+                        ErrorResponse(
+                            statusCode = StatusCode.NotFound.code,
+                            data = null,
+                        )
+                    }
+                    else -> ErrorResponse(data = null)
+                }
+            }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse()
+            }
+        }
+    }
 }

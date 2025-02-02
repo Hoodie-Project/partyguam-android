@@ -232,4 +232,8 @@ class PartyRemoteSourceImpl @Inject constructor(
     ): ApiResponse<CheckUserApplicationStatusDto> {
         return partyService.checkUserApplicationStatus(partyId = partyId, partyRecruitmentId = partyRecruitmentId)
     }
+
+    override suspend fun exitParty(partyId: Int): ApiResponse<Unit> {
+        return partyService.exitParty(partyId = partyId)
+    }
 }

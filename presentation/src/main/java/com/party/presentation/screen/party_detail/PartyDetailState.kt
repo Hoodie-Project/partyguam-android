@@ -40,4 +40,5 @@ data class PartyDetailState(
     val partyAuthority: PartyAuthority = PartyAuthority(id = 0, authority = "", position = PartyAuthorityPosition(0, "", "")),
 
     val isShowMoreBottomSheet: Boolean = false,
+    val isShowExitPartyDialog: Boolean = false,
 )
