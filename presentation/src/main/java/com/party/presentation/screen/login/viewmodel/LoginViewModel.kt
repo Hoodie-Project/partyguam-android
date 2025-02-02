@@ -64,7 +64,9 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = googleLoginUseCase(accessTokenRequest = AccessTokenRequest(idToken = accessToken))){
                 is ServerApiResponse.SuccessResponse<*> -> {
-                    println("result123 Success : ${result.data}")
+                    val socialLoginResponse = result.data as SocialLoginSuccess
+                    saveAccessToken(token = socialLoginResponse.accessToken)
+                    _goToHomeScreen.emit(Unit)
                 }
                 is ServerApiResponse.ErrorResponse<*> -> {
                     when(result.statusCode){

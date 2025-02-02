@@ -52,7 +52,7 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun googleLogin(accessTokenRequest: AccessTokenRequest): ServerApiResponse<SocialLogin> {
         return when(val result = userRemoteSource.googleLogin(accessTokenRequest = accessTokenRequest)){
             is ApiResponse.Success -> {
-                val resultSuccess = Json.decodeFromString<SocialLoginSuccessDto>(result.data.toString())
+                val resultSuccess = result.data as SocialLoginSuccessDto
                 SuccessResponse(data = UserMapper.mapperToSocialLoginResponse(resultSuccess))
             }
             is ApiResponse.Failure.Error-> {
