@@ -59,9 +59,9 @@ fun BottomNavigationBar(
         bottomDestinations.forEach { screenItem ->
             AppBottomNavigationBarItem(
                 icon = bottomIconSetting(screenItem),
-                label = screenItem.name,
+                label = bottomLabelSetting(screenItem),
                 onTabClick = {
-                    navController.navigate(screenItem.screen){
+                    navController.navigate(screenItem){
                         popUpTo(navController.graph.findStartDestination().route!!){
                             saveState = true
                         }
@@ -69,7 +69,24 @@ fun BottomNavigationBar(
                     }
                 },
                 selected = currentScreen == screenItem,
-                onBack = { if (currentScreen == BottomBarScreen.Home) (context as Activity).finish() else navController.navigate(Screens.Home) },
+                onBack = {
+                    when (currentScreen) {
+                        Screens.Home -> (context as Activity).finish() // ✅ 홈에서 뒤로 가기 → 앱 종료
+                        Screens.State, Screens.Profile -> {
+                            // ✅ 활동 & 프로필에서 뒤로 가기 → 홈으로 이동
+                            navController.navigate(Screens.Home) {
+                                popUpTo(Screens.Home) { saveState = true }
+                                launchSingleTop = true
+                            }
+                        }
+                        else -> {
+                            // ✅ 디테일 화면 같은 다른 화면에서 뒤로 가기 → 이전 화면으로 이동
+                            if (!navController.popBackStack()) {
+                                (context as Activity).finish() // 이전 화면이 없으면 앱 종료
+                            }
+                        }
+                    }
+                }
             )
         }
     }
@@ -97,7 +114,7 @@ fun AppBottomNavigationBar(
                 HorizontalDivider(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(if(isExpandedFloatingButton) 0.dp else 1.dp),
+                        .height(if (isExpandedFloatingButton) 0.dp else 1.dp),
                     color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)
                 )
                 Row(
@@ -154,29 +171,54 @@ fun RowScope.AppBottomNavigationBarItem(
 
 private val NavController.shouldShowBottomBar
     get() = when (this.currentBackStackEntry.fromBottomRoute()) {
-        BottomBarScreen.Home,
-        BottomBarScreen.State,
-        BottomBarScreen.Profile
+        Screens.Home,
+        Screens.State,
+        Screens.Profile,
+        Screens.Search,
+        Screens.PartyDetail(partyId = 0),
+        Screens.RecruitmentDetail(partyRecruitmentId = 0, partyId = 0)
         -> true
+
+        else -> false
     }
 
 @Composable
-private fun bottomIconSetting(screens: BottomBarScreen): Painter {
+private fun bottomIconSetting(screens: Screens): Painter {
     return when (screens) {
-        BottomBarScreen.Home -> painterResource(id = R.drawable.icon_home)
-        BottomBarScreen.State -> painterResource(id = R.drawable.icon_state)
-        BottomBarScreen.Profile -> painterResource(id = R.drawable.icon_profile)
+        Screens.Home -> painterResource(id = R.drawable.icon_home)
+        Screens.State -> painterResource(id = R.drawable.icon_state)
+        Screens.Profile -> painterResource(id = R.drawable.icon_profile)
+        else -> painterResource(id = R.drawable.icon_home)
     }
 }
 
-fun NavBackStackEntry?.fromBottomRoute(): BottomBarScreen{
+@Composable
+private fun bottomLabelSetting(screens: Screens): String {
+    return when(screens){
+        Screens.Home -> "홈"
+        Screens.State -> "활동"
+        Screens.Profile -> "프로필"
+        else -> ""
+    }
+}
+
+fun NavBackStackEntry?.fromBottomRoute(): Screens? {
     this?.destination?.route?.substringBefore("?")?.substringBefore("/")?.substringAfterLast(".")?.let {
         return when (it) {
-            BottomBarScreen.Home::class.simpleName -> BottomBarScreen.Home
-            BottomBarScreen.State::class.simpleName -> BottomBarScreen.State
-            BottomBarScreen.Profile::class.simpleName -> BottomBarScreen.Profile
-            else -> BottomBarScreen.Home
+            Screens.Home::class.simpleName -> Screens.Home
+            Screens.State::class.simpleName -> Screens.State
+            Screens.Profile::class.simpleName -> Screens.Profile
+            Screens.Search::class.simpleName -> Screens.Search
+            Screens.PartyDetail::class.simpleName -> Screens.PartyDetail(partyId = 0)
+            Screens.RecruitmentDetail::class.simpleName -> Screens.RecruitmentDetail(partyId = 0, partyRecruitmentId = 0)
+            else -> null
         }
     }
-    return BottomBarScreen.Home
+    return null
 }
+
+val bottomDestinations = listOf(
+    Screens.Home,
+    Screens.State,
+    Screens.Profile,
+)

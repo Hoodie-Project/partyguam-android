@@ -286,6 +286,7 @@ fun AppNavHost() {
         }
         composable<Screens.Search> {
             SearchRoute(
+                context = context,
                 navController = navController,
             )
         }
