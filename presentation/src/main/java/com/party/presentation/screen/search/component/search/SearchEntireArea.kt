@@ -26,6 +26,8 @@ import com.party.domain.model.search.SearchedRecruitmentData
 fun SearchEntireArea(
     partyList: List<SearchedPartyData>,
     recruitmentList: List<SearchedRecruitmentData>,
+    onPartyClick: (Int) -> Unit,
+    onRecruitmentClick: (Int, Int) -> Unit,
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -38,7 +40,8 @@ fun SearchEntireArea(
         )
         HeightSpacer(heightDp = 20.dp)
         SearchedPartyList(
-            partyList = partyList
+            partyList = partyList,
+            onPartyClick = onPartyClick
         )
 
         HeightSpacer(heightDp = 60.dp)
@@ -49,7 +52,8 @@ fun SearchEntireArea(
         )
         HeightSpacer(heightDp = 8.dp)
         SearchedRecruitmentList(
-            recruitmentList = recruitmentList
+            recruitmentList = recruitmentList,
+            onRecruitmentClick = onRecruitmentClick
         )
     }
 }
@@ -57,6 +61,7 @@ fun SearchEntireArea(
 @Composable
 private fun SearchedPartyList(
     partyList: List<SearchedPartyData>,
+    onPartyClick: (Int) -> Unit,
 ) {
     if(partyList.isNotEmpty()){
         LazyRow(
@@ -75,7 +80,7 @@ private fun SearchedPartyList(
                     type = item.partyType.type,
                     title = item.title,
                     recruitmentCount = item.recruitmentCount,
-                    onClick = {}
+                    onClick = { onPartyClick(item.id) }
                 )
             }
         }
@@ -89,7 +94,8 @@ private fun SearchedPartyList(
 
 @Composable
 private fun SearchedRecruitmentList(
-    recruitmentList: List<SearchedRecruitmentData>
+    recruitmentList: List<SearchedRecruitmentData>,
+    onRecruitmentClick: (Int, Int) -> Unit,
 ) {
     if(recruitmentList.isNotEmpty()){
         LazyRow(
@@ -111,7 +117,8 @@ private fun SearchedRecruitmentList(
                     main = item.position.main,
                     sub = item.position.sub,
                     recruitingCount = 1,
-                    recruitedCount = 0
+                    recruitedCount = 0,
+                    onClick = { onRecruitmentClick(item.id, item.party.id) }
                 )
             }
         }
@@ -190,7 +197,7 @@ private fun SearchEntireAreaPreview() {
                     id = 1,
                     main = "개발자",
                     sub = "안드로이드"
-                )
+                ),
             ),
             SearchedRecruitmentData(
                 id = 1,
@@ -236,9 +243,11 @@ private fun SearchEntireAreaPreview() {
                     main = "개발자",
                     sub = "안드로이드"
                 ),
-                status = "active"
+                status = "active",
             ),
-        )
+        ),
+        onPartyClick = {},
+        onRecruitmentClick = {_, _ ->}
     )
 }
 
@@ -247,6 +256,8 @@ private fun SearchEntireAreaPreview() {
 private fun SearchEntireAreaPreview2() {
     SearchEntireArea(
         partyList = emptyList(),
-        recruitmentList = emptyList()
+        recruitmentList = emptyList(),
+        onPartyClick = {},
+        onRecruitmentClick = {_, _ ->}
     )
 }

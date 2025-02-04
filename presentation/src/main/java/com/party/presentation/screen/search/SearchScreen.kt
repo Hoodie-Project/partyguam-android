@@ -28,6 +28,7 @@ import com.party.domain.model.search.SearchedParty
 import com.party.domain.model.search.SearchedPartyRecruitment
 import com.party.domain.model.search.SearchedRecruitmentData
 import com.party.navigation.BottomNavigationBar
+import com.party.navigation.Screens
 import com.party.presentation.screen.search.component.SearchArea
 import com.party.presentation.screen.search.component.keyword.RecentSearchedArea
 import com.party.presentation.screen.search.component.search.SearchedDataContent
@@ -134,7 +135,9 @@ fun SearchScreen(
                     onMainPositionClick = { selectedMainPosition -> onAction(SearchAction.OnMainPositionClick(selectedMainPosition)) },
                     onSubPositionClick = { selectedSubPosition -> onAction(SearchAction.OnSubPositionClick(selectedSubPosition)) },
                     onDelete = { position -> onAction(SearchAction.OnDelete(position)) },
-                    onPositionApply = { onAction(SearchAction.OnPositionApply) }
+                    onPositionApply = { onAction(SearchAction.OnPositionApply) },
+                    onPartyClick = { partyId -> navController.navigate(Screens.PartyDetail(partyId = partyId))},
+                    onRecruitmentClick = { recruitmentId,  partyId -> navController.navigate(Screens.RecruitmentDetail(partyRecruitmentId = recruitmentId, partyId = partyId))}
                 )
             }
         }

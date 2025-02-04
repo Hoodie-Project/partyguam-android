@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -47,9 +46,10 @@ fun RecruitmentListItem1(
     sub: String,
     recruitingCount: Int,
     recruitedCount: Int,
+    onClick: () -> Unit,
 ) {
     Card(
-        onClick = {},
+        onClick = onClick,
         modifier = Modifier.wrapContentSize(),
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
         colors = CardDefaults.cardColors(
@@ -213,5 +213,6 @@ private fun RecruitmentListItem1Preview(
         sub = "안드로이드",
         recruitingCount = 1,
         recruitedCount = 0,
+        onClick = {}
     )
 }

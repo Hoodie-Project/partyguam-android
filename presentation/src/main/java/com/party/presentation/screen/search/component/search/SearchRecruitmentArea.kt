@@ -40,6 +40,7 @@ fun SearchRecruitmentArea(
     onSubPositionClick: (String) -> Unit,
     onDelete: (Pair<String, String>) -> Unit,
     onPositionApply: () -> Unit,
+    onRecruitmentClick: (Int, Int) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -61,6 +62,7 @@ fun SearchRecruitmentArea(
             searchState.recruitmentSearchedList.partyRecruitments.isNotEmpty() -> {
                 RecruitmentListArea(
                     recruitmentList = searchState.recruitmentSearchedList.partyRecruitments,
+                    onRecruitmentClick = onRecruitmentClick
                 )
             }
         }
@@ -95,7 +97,8 @@ fun SearchRecruitmentArea(
 
 @Composable
 private fun RecruitmentListArea(
-    recruitmentList: List<RecruitmentItem>
+    recruitmentList: List<RecruitmentItem>,
+    onRecruitmentClick: (Int, Int) -> Unit,
 ) {
     if(recruitmentList.isNotEmpty()){
         LazyColumn(
@@ -119,7 +122,7 @@ private fun RecruitmentListArea(
                     sub = item.position.sub,
                     recruitingCount = item.recruitingCount,
                     recruitedCount = item.recruitedCount,
-                    onClick = { _, _ -> }
+                    onClick = onRecruitmentClick
                 )
             }
         }
@@ -142,6 +145,7 @@ private fun SearchRecruitmentAreaPreview1() {
         onSubPositionClick = {},
         onDelete = {},
         onPositionApply = {},
+        onRecruitmentClick = { _ , _ -> }
     )
 }
 
@@ -187,6 +191,7 @@ private fun SearchRecruitmentAreaPreview2() {
         onMainPositionClick = {},
         onSubPositionClick = {},
         onDelete = {},
-        onPositionApply = {}
+        onPositionApply = {},
+        onRecruitmentClick = { _ , _ -> }
     )
 }

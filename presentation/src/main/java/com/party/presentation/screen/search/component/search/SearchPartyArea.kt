@@ -39,6 +39,7 @@ fun SearchPartyArea(
     onClick: (String) -> Unit,
     onReset: () -> Unit,
     onPartyTypeApply: () -> Unit,
+    onPartyClick: (Int) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -57,7 +58,10 @@ fun SearchPartyArea(
         when{
             searchState.isLoadingParty -> LoadingProgressBar()
             searchState.partySearchedList.parties.isEmpty() -> NoDataColumn(title = "파티가 없어요.", modifier = Modifier.padding(60.dp))
-            searchState.partySearchedList.parties.isNotEmpty() -> PartyListArea(partyList = searchState.partySearchedList.parties)
+            searchState.partySearchedList.parties.isNotEmpty() -> PartyListArea(
+                partyList = searchState.partySearchedList.parties,
+                onPartyClick = onPartyClick
+            )
         }
     }
 
@@ -76,6 +80,7 @@ fun SearchPartyArea(
 @Composable
 private fun PartyListArea(
     partyList: List<PartyItem>,
+    onPartyClick: (Int) -> Unit,
 ) {
     val listState = rememberLazyGridState()
 
@@ -107,7 +112,7 @@ private fun PartyListArea(
                             text = StatusType.fromType(item.status).toDisplayText(),
                         )
                     },
-                    onClick = {}
+                    onClick = { onPartyClick(item.id) }
                 )
             }
         }
@@ -126,7 +131,8 @@ private fun SearchPartyAreaPreview1(
         onToggle = {},
         onPartyTypeModel = {},
         onClick = {},
-        onReset = {}
+        onReset = {},
+        onPartyClick = {}
     )
 }
 
@@ -142,7 +148,8 @@ private fun SearchPartyAreaPreview2(
         onToggle = {},
         onPartyTypeModel = {},
         onClick = {},
-        onReset = {}
+        onReset = {},
+        onPartyClick = {}
     )
 }
 
@@ -198,6 +205,7 @@ private fun SearchPartyAreaPreview3(
         onToggle = {},
         onPartyTypeModel = {},
         onClick = {},
-        onReset = {}
+        onReset = {},
+        onPartyClick = {}
     )
 }

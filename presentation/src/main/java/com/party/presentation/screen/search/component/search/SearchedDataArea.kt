@@ -29,9 +29,10 @@ fun SearchedDataContent(
     onMainPositionClick: (String) -> Unit,
     onSubPositionClick: (String) -> Unit,
     onDelete: (Pair<String, String>) -> Unit,
-    onPositionApply: () -> Unit
+    onPositionApply: () -> Unit,
+    onPartyClick: (Int) -> Unit,
+    onRecruitmentClick: (Int, Int) -> Unit
 ) {
-    println("searchState ${searchState.allSearchedList}")
     Column {
         SearchTopTabArea(
             modifier = Modifier.height(48.dp),
@@ -46,7 +47,9 @@ fun SearchedDataContent(
             searchTabList[0] -> {
                 SearchEntireArea(
                     partyList = searchState.allSearchedList.party.parties,
-                    recruitmentList = searchState.allSearchedList.partyRecruitment.partyRecruitments
+                    recruitmentList = searchState.allSearchedList.partyRecruitment.partyRecruitments,
+                    onPartyClick = onPartyClick,
+                    onRecruitmentClick = onRecruitmentClick,
                 )
             }
             searchTabList[1] -> {
@@ -57,7 +60,8 @@ fun SearchedDataContent(
                     onPartyTypeModel = onPartyTypeModel,
                     onClick = onPartyTypeItem1,
                     onReset = onReset,
-                    onPartyTypeApply = onPartyTypeApply
+                    onPartyTypeApply = onPartyTypeApply,
+                    onPartyClick = onPartyClick
                 )
             }
             searchTabList[2] -> {
@@ -73,7 +77,8 @@ fun SearchedDataContent(
                     onMainPositionClick = onMainPositionClick,
                     onSubPositionClick = onSubPositionClick,
                     onDelete = onDelete,
-                    onPositionApply = onPositionApply
+                    onPositionApply = onPositionApply,
+                    onRecruitmentClick = onRecruitmentClick,
                 )
             }
         }
@@ -103,6 +108,8 @@ private fun SearchedDataContentPreview1() {
         onMainPositionClick = {},
         onSubPositionClick = {},
         onDelete = {},
-        onPositionApply = {}
+        onPositionApply = {},
+        onPartyClick = {},
+        onRecruitmentClick = { _, _ ->}
     )
 }
