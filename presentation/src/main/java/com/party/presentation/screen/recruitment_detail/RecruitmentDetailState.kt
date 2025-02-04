@@ -4,6 +4,8 @@ import com.party.domain.model.party.RecruitmentDetail
 import com.party.domain.model.party.RecruitmentDetailParty
 import com.party.domain.model.party.RecruitmentDetailPartyType
 import com.party.domain.model.party.RecruitmentDetailPosition
+import com.party.domain.model.user.PartyAuthority
+import com.party.domain.model.user.PartyAuthorityPosition
 
 data class RecruitmentDetailState(
     val isLoading: Boolean = false,
@@ -26,5 +28,7 @@ data class RecruitmentDetailState(
         createdAt = "2024-06-05T15:30:45.123Z"
     ),
 
-    val isRecruitment: Boolean = false
+    val isRecruitment: Boolean = false,
+
+    val partyAuthority: PartyAuthority = PartyAuthority(id = 0, authority = "", position = PartyAuthorityPosition(0, "", "")),
 )

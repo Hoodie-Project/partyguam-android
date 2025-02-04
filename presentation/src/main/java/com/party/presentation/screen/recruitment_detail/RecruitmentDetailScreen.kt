@@ -34,8 +34,11 @@ import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.RecruitmentDetail
+import com.party.domain.model.user.PartyAuthority
+import com.party.domain.model.user.PartyAuthorityPosition
 import com.party.navigation.BottomNavigationBar
 import com.party.navigation.Screens
+import com.party.presentation.enum.PartyAuthorityType
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentButton
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentCurrentInfoArea
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentDescription
@@ -58,6 +61,7 @@ fun RecruitmentDetailRoute(
     LaunchedEffect(Unit) {
         recruitmentDetailViewModel.getRecruitmentDetail(partyRecruitmentId = partyRecruitmentId)
         recruitmentDetailViewModel.checkUserApplicationStatus(partyId = partyId, partyRecruitmentId = partyRecruitmentId)
+        recruitmentDetailViewModel.getPartyAuthority(partyId = partyId)
     }
 
     val recruitmentDetailState by recruitmentDetailViewModel.recruitmentDetailState.collectAsStateWithLifecycle()
@@ -145,10 +149,13 @@ fun RecruitmentDetailScreen(
                 HeightSpacer(heightDp = 24.dp)
 
 
-                RecruitmentButton(
-                    isRecruitment = recruitmentDetailState.isRecruitment,
-                    onClick = { onAction(RecruitmentDetailAction.OnApply) },
-                )
+                if (recruitmentDetailState.partyAuthority.authority !in listOf(PartyAuthorityType.MASTER.authority, PartyAuthorityType.MEMBER.authority)) {
+                    RecruitmentButton(
+                        isRecruitment = recruitmentDetailState.isRecruitment,
+                        onClick = { onAction(RecruitmentDetailAction.OnApply) },
+                    )
+                }
+
                 HeightSpacer(heightDp = 12.dp)
             }
         }
@@ -161,7 +168,22 @@ fun RecruitmentDetailScreenPreview1() {
     RecruitmentDetailScreen(
         context = LocalContext.current,
         navController = rememberNavController(),
-        recruitmentDetailState = RecruitmentDetailState(),
+        recruitmentDetailState = RecruitmentDetailState(
+            partyAuthority = PartyAuthority(id = 0, authority = "member", position = PartyAuthorityPosition(0, "", ""))
+        ),
+        onAction = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RecruitmentDetailScreenPreview2() {
+    RecruitmentDetailScreen(
+        context = LocalContext.current,
+        navController = rememberNavController(),
+        recruitmentDetailState = RecruitmentDetailState(
+            partyAuthority = PartyAuthority(id = 0, authority = "", position = PartyAuthorityPosition(0, "", ""))
+        ),
         onAction = {}
     )
 }

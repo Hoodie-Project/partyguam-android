@@ -9,7 +9,10 @@ import com.party.domain.model.party.RecruitmentDetail
 import com.party.domain.model.party.RecruitmentDetailParty
 import com.party.domain.model.party.RecruitmentDetailPartyType
 import com.party.domain.model.party.RecruitmentDetailPosition
+import com.party.domain.model.user.PartyAuthority
+import com.party.domain.model.user.PartyAuthorityPosition
 import com.party.domain.usecase.party.CheckUserApplicationStatusUseCase
+import com.party.domain.usecase.party.GetPartyAuthorityUseCase
 import com.party.domain.usecase.party.GetRecruitmentDetailUseCase
 import com.party.presentation.screen.recruitment_detail.RecruitmentDetailState
 import com.skydoves.sandwich.StatusCode
@@ -25,6 +28,7 @@ import javax.inject.Inject
 class RecruitmentDetailViewModel @Inject constructor(
     private val getRecruitmentDetailUseCase: GetRecruitmentDetailUseCase,
     private val checkUserApplicationStatusUseCase: CheckUserApplicationStatusUseCase,
+    private val getPartyAuthorityUseCase: GetPartyAuthorityUseCase,
 ) : ViewModel() {
 
     private val _recruitmentDetailState = MutableStateFlow(RecruitmentDetailState())
@@ -82,6 +86,18 @@ class RecruitmentDetailViewModel @Inject constructor(
 
                 is ServerApiResponse.ErrorResponse<RecruitmentDetail> -> { _recruitmentDetailState.update { it.copy(isLoading = false) } }
                 is ServerApiResponse.ExceptionResponse -> { _recruitmentDetailState.update { it.copy(isLoading = false) } }
+            }
+        }
+    }
+
+    fun getPartyAuthority(partyId: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = getPartyAuthorityUseCase(partyId = partyId)){
+                is ServerApiResponse.SuccessResponse -> {
+                    _recruitmentDetailState.update { it.copy(partyAuthority = result.data ?: PartyAuthority(id = 0, authority = "", position = PartyAuthorityPosition(0, "", ""))) }
+                }
+                is ServerApiResponse.ErrorResponse -> {}
+                is ServerApiResponse.ExceptionResponse -> {}
             }
         }
     }
