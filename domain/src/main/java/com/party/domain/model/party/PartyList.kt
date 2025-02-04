@@ -8,10 +8,9 @@ data class PartyList(
 data class PartyItem(
     val id: Int,
     val partyType: PartyTypeItem,
-    //val tag: String,
     val title: String,
     val content: String,
-    val image: String?,
+    val image: String? = null,
     val status: String,
     val createdAt: String,
     val updatedAt: String,

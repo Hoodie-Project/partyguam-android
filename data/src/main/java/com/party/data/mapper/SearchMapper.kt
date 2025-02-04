@@ -44,7 +44,6 @@ object SearchMapper {
         return SearchedPartyData(
             id = searchedPartyDataDto.id,
             partyType = mapperPartyType(searchedPartyDataDto.partyType),
-            //tag = searchedPartyDataDto.tag,
             title = searchedPartyDataDto.title,
             content = searchedPartyDataDto.content,
             image = convertToImageUrl(searchedPartyDataDto.image),

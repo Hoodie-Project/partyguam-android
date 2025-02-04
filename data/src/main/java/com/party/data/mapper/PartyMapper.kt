@@ -139,7 +139,6 @@ object PartyMapper {
                         id = it.partyType.id,
                         type = it.partyType.type
                     ),
-                    //tag = it.tag,
                     title = it.title,
                     content = it.content,
                     image = convertToImageUrl(it.image),

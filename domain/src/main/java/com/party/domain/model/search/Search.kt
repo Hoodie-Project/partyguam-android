@@ -15,7 +15,7 @@ data class SearchedPartyData(
     val partyType: PartyType,
     val title: String,
     val content: String,
-    val image: String?,
+    val image: String? = null,
     val status: String,
     val createdAt: String,
     val updatedAt: String,
@@ -46,7 +46,7 @@ data class SearchedRecruitmentData(
 data class Party(
     val id: Int,
     val title: String,
-    val image: String?,
+    val image: String? = null,
     val status: String,
     val partyType: PartyType,
 )

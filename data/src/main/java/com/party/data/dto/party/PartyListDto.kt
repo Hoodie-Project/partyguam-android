@@ -12,10 +12,9 @@ data class PartyListDto(
 data class PartyItemDto(
     val id: Int,
     val partyType: PartyTypeItemDto,
-    //val tag: String,
     val title: String,
     val content: String,
-    val image: String?,
+    val image: String? = null,
     val status: String,
     val createdAt: String,
     val updatedAt: String,
