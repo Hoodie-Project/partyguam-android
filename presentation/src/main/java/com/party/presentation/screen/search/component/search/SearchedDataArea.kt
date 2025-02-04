@@ -31,6 +31,7 @@ fun SearchedDataContent(
     onDelete: (Pair<String, String>) -> Unit,
     onPositionApply: () -> Unit
 ) {
+    println("searchState ${searchState.allSearchedList}")
     Column {
         SearchTopTabArea(
             modifier = Modifier.height(48.dp),

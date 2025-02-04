@@ -18,10 +18,9 @@ data class SearchedPartyDto(
 data class SearchedPartyDataDto(
     val id: Int,
     val partyType: PartyTypeDto,
-    //val tag: String,
     val title: String,
     val content: String,
-    val image: String,
+    val image: String?,
     val status: String,
     val createdAt: String,
     val updatedAt: String,
@@ -48,6 +47,7 @@ data class SearchedRecruitmentDataDto(
     val recruitingCount: Int,
     val recruitedCount: Int,
     val createdAt: String,
+    val status: String,
     val party: PartyDto,
     val position: PositionDto,
 )
@@ -56,7 +56,8 @@ data class SearchedRecruitmentDataDto(
 data class PartyDto(
     val id: Int,
     val title: String,
-    val image: String,
+    val image: String?,
+    val status: String,
     val partyType: PartyTypeDto,
 )
 

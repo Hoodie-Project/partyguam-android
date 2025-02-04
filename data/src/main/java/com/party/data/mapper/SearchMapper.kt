@@ -62,6 +62,7 @@ object SearchMapper {
             recruitingCount = searchedRecruitmentDataDto.recruitingCount,
             recruitedCount = searchedRecruitmentDataDto.recruitedCount,
             createdAt = searchedRecruitmentDataDto.createdAt,
+            status = searchedRecruitmentDataDto.status,
             party = mapperParty(searchedRecruitmentDataDto.party),
             position = mapperPositionDto(searchedRecruitmentDataDto.position)
         )
@@ -87,6 +88,7 @@ object SearchMapper {
             id = partyDto.id,
             title = partyDto.title,
             image = convertToImageUrl(partyDto.image),
+            status = partyDto.status,
             partyType = mapperPartyType(partyDto.partyType)
         )
     }

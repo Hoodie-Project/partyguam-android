@@ -210,12 +210,14 @@ private fun SearchScreenPreview3() {
                                 id = 4589,
                                 title = "같이 개발 할 사람",
                                 image = "verear",
+                                status = "active",
                                 partyType = PartyType(id = 7121, type = "포트폴리오")
                             ),
+                            status = "active",
                             position = Position(
                                 id = 1907,
                                 main = "개발자",
-                                sub = "안드로이드"
+                                sub = "안드로이드",
                             )
                         )
                     )

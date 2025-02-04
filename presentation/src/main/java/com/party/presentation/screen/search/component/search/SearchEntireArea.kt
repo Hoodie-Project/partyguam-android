@@ -181,9 +181,11 @@ private fun SearchEntireAreaPreview() {
                     image = "https://cdn",
                     partyType = PartyType(
                         id = 1,
-                        type = "포르폴리오"
-                    )
+                        type = "포르폴리오",
+                    ),
+                    status = "active"
                 ),
+                status = "active",
                 position = Position(
                     id = 1,
                     main = "개발자",
@@ -203,13 +205,15 @@ private fun SearchEntireAreaPreview() {
                     partyType = PartyType(
                         id = 1,
                         type = "파티 타입"
-                    )
+                    ),
+                    status = "active"
                 ),
                 position = Position(
                     id = 1,
                     main = "메인",
                     sub = "서브"
-                )
+                ),
+                status = "active"
             ),
             SearchedRecruitmentData(
                 id = 1,
@@ -224,13 +228,15 @@ private fun SearchEntireAreaPreview() {
                     partyType = PartyType(
                         id = 1,
                         type = "해커톤"
-                    )
+                    ),
+                    status = "active"
                 ),
                 position = Position(
                     id = 1,
                     main = "개발자",
                     sub = "안드로이드"
-                )
+                ),
+                status = "active"
             ),
         )
     )
