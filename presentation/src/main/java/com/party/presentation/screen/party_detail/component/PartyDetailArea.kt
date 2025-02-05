@@ -32,6 +32,7 @@ fun PartyDetailArea(
     onChangeOrderBy: (Boolean) -> Unit,
     onChangeProgress: (Boolean) -> Unit,
     onReports: (Int) -> Unit,
+    onClickRecruitment: (Int) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -102,7 +103,8 @@ fun PartyDetailArea(
                         onApply = onApply,
                         onAddRecruitment = onAddRecruitment,
                         onChangeOrderBy = onChangeOrderBy,
-                        onChangeProgress = onChangeProgress
+                        onChangeProgress = onChangeProgress,
+                        onClickRecruitment = onClickRecruitment
                     )
                 }
             }
@@ -125,6 +127,7 @@ private fun PartyDetailAreaPreview() {
         onShowPositionFilter = {},
         onPositionClick = {},
         onChangeProgress = {},
-        onReports = {}
+        onReports = {},
+        onClickRecruitment = {}
     )
 }

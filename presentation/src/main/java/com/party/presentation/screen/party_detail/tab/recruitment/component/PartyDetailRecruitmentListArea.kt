@@ -43,6 +43,7 @@ fun PartyDetailRecruitmentListArea(
     authority: PartyAuthority,
     list: List<PartyRecruitment>,
     onAddRecruitment: () -> Unit,
+    onClickRecruitment: (Int) -> Unit,
 ) {
 
     if(list.isNotEmpty()){
@@ -66,6 +67,7 @@ fun PartyDetailRecruitmentListArea(
                     recruitedCount = item.recruitedCount,
                     recruitingCount = item.recruitingCount,
                     applicationCount = item.applicationCount,
+                    onClick = { onClickRecruitment(item.id) }
                 )
 
                 if(index == list.size-1){
@@ -206,6 +208,7 @@ private fun PartyDetailRecruitmentListAreaPreview() {
                 createdAt = "2024-10-25T21:38:28.850Z"
             )
         ),
-        onAddRecruitment = {}
+        onAddRecruitment = {},
+        onClickRecruitment = {}
     )
 }

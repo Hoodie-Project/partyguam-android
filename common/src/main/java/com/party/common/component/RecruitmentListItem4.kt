@@ -41,7 +41,7 @@ fun RecruitmentListItem4(
     recruitedCount: Int,
     recruitingCount: Int,
     applicationCount: Int,
-    onClick: () -> Unit = { },
+    onClick: () -> Unit,
 ) {
     Card(
         onClick = onClick,
@@ -138,7 +138,8 @@ private fun RecruitmentListItem4Preview() {
         recruitedCount = 2,
         recruitingCount = 3,
         applicationCount = 1,
-        status = "active"
+        status = "active",
+        onClick = {},
     )
 }
 
@@ -152,6 +153,7 @@ private fun RecruitmentListItem4Preview1() {
         recruitedCount = 2,
         recruitingCount = 3,
         applicationCount = 1,
-        status = "completed"
+        status = "completed",
+        onClick = {},
     )
 }

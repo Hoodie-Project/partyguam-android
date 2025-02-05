@@ -2,7 +2,6 @@ package com.party.presentation.screen.party_detail
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,8 +19,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -44,7 +41,6 @@ import com.party.presentation.screen.party_detail.component.PartyDetailArea
 import com.party.presentation.screen.party_detail.component.PartyDetailScaffoldArea
 import com.party.presentation.screen.party_detail.component.RightModalDrawer
 import com.party.presentation.screen.party_detail.viewmodel.PartyViewModel
-import com.party.presentation.screen.party_user_manage.PartyUserAction
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -120,7 +116,7 @@ fun PartyDetailRoute(
                 },
                 onReports = { userId -> navController.navigate(Screens.Reports(typeId = userId))},
                 onPartyReports = { partyId -> navController.navigate(Screens.Reports(typeId = partyId))},
-                onExitParty = {}
+                onClickRecruitment = {partyRecruitmentId -> navController.navigate(Screens.RecruitmentDetail(partyId = partyId, partyRecruitmentId = partyRecruitmentId))}
             )
         },
         onGotoPartyEdit = {
@@ -156,7 +152,7 @@ private fun PartyDetailScreen(
     onAction: (PartyDetailAction) -> Unit,
     onReports: (Int) -> Unit,
     onPartyReports: (Int) -> Unit,
-    onExitParty: (Int) -> Unit,
+    onClickRecruitment: (Int) -> Unit,
 ){
     Scaffold(
         snackbarHost = {
@@ -198,7 +194,8 @@ private fun PartyDetailScreen(
                     onAddRecruitment = onAddRecruitment,
                     onChangeOrderBy = { orderBy -> onAction(PartyDetailAction.OnChangeOrderBy(orderBy)) },
                     onChangeProgress = { isProgress -> onAction(PartyDetailAction.OnChangeProgress(isProgress = isProgress, partyId = partyId)) },
-                    onReports = onReports
+                    onReports = onReports,
+                    onClickRecruitment = onClickRecruitment
                 )
             }
         }
@@ -265,7 +262,7 @@ private fun PartyDetailScreenPreview() {
         onAction = {},
         onReports = {},
         onPartyReports = {},
-        onExitParty = {}
+        onClickRecruitment = {}
     )
 }
 
@@ -297,6 +294,6 @@ private fun PartyDetailScreenPreview2() {
         onAction = {},
         onReports = {},
         onPartyReports = {},
-        onExitParty = {}
+        onClickRecruitment = {}
     )
 }

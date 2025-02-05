@@ -37,6 +37,7 @@ fun PartyDetailRecruitmentArea(
     onAddRecruitment: () -> Unit,
     onChangeOrderBy: (Boolean) -> Unit,
     onChangeProgress: (Boolean) -> Unit,
+    onClickRecruitment: (Int) -> Unit,
 ) {
     PartyDetailRecruitmentAreaContent(
         state = state,
@@ -49,7 +50,8 @@ fun PartyDetailRecruitmentArea(
         onApply = onApply,
         onAddRecruitment = onAddRecruitment,
         onShowPositionFilter = onShowPositionFilter,
-        onChangeProgress = onChangeProgress
+        onChangeProgress = onChangeProgress,
+        onClickRecruitment = onClickRecruitment
     )
 }
 
@@ -66,6 +68,7 @@ fun PartyDetailRecruitmentAreaContent(
     onShowPositionFilter: (Boolean) -> Unit,
     onAddRecruitment: () -> Unit,
     onChangeProgress: (Boolean) -> Unit,
+    onClickRecruitment: (Int) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -96,7 +99,8 @@ fun PartyDetailRecruitmentAreaContent(
         PartyDetailRecruitmentListArea(
             authority = authority,
             list = list,
-            onAddRecruitment = onAddRecruitment
+            onAddRecruitment = onAddRecruitment,
+            onClickRecruitment = onClickRecruitment
         )
     }
 }
@@ -169,7 +173,8 @@ private fun PartyDetailRecruitmentAreaContentPreview() {
         onShowPositionFilter = {},
         state = PartyDetailState(),
         onPositionClick = {},
-        onChangeProgress = {}
+        onChangeProgress = {},
+        onClickRecruitment = {},
     )
 }
 
@@ -197,6 +202,7 @@ private fun PartyDetailRecruitmentAreaContentPreview1() {
         onShowPositionFilter = {},
         state = PartyDetailState(),
         onPositionClick = {},
-        onChangeProgress = {}
+        onChangeProgress = {},
+        onClickRecruitment = {},
     )
 }
