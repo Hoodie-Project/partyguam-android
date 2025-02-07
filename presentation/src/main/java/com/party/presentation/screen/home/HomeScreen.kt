@@ -252,9 +252,13 @@ private fun HomeScreen(
                     onClick = onNavigateUp
                 )
             },
-            onGoPartyCreate = onGoPartyCreate
+            onGoPartyCreate = {
+                onGoPartyCreate()
+                onAction(HomeAction.OnExpandedFloating(false)) // PartyCreate 화면으로 이동하면 현재 플로팅은 닫아줌
+            }
         )
 
+        // 플로팅이 Expand 됐을 때 검은 배경을 깔아줌
         if(homeState.isExpandedFloating){
             Box(
                 modifier = Modifier
