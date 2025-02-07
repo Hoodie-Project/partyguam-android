@@ -33,7 +33,7 @@ import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.detail.SaveCarrierRequest
-import com.party.navigation.Screens
+import com.party.common.Screens
 import com.party.presentation.screen.detail.ProfileIndicatorArea
 import com.party.presentation.screen.detail.detail_carrier.component.DetailCarrierBottomArea
 import com.party.presentation.screen.detail.detail_carrier.component.DetailCarrierScaffoldArea

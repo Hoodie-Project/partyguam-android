@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -16,7 +15,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -25,19 +23,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
-import com.party.common.ServerApiResponse.SuccessResponse
-import com.party.common.UIState
-import com.party.common.component.button.CustomButton
 import com.party.common.convertToText
-import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.GRAY100
-import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.party.RecruitmentDetail
 import com.party.domain.model.user.PartyAuthority
 import com.party.domain.model.user.PartyAuthorityPosition
-import com.party.navigation.BottomNavigationBar
-import com.party.navigation.Screens
+import com.party.common.component.BottomNavigationBar
+import com.party.common.Screens
 import com.party.presentation.enum.PartyAuthorityType
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentButton
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentCurrentInfoArea
@@ -46,8 +38,6 @@ import com.party.presentation.screen.recruitment_detail.component.RecruitmentIma
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentPositionAndCountArea
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentScaffoldArea
 import com.party.presentation.screen.recruitment_detail.viewmodel.RecruitmentDetailViewModel
-import com.party.presentation.screen.search.SearchAction
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun RecruitmentDetailRoute(

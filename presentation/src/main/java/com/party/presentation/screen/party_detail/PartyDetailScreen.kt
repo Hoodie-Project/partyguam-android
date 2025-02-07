@@ -34,8 +34,8 @@ import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyType
 import com.party.domain.model.user.PartyAuthority
 import com.party.domain.model.user.PartyAuthorityPosition
-import com.party.navigation.BottomNavigationBar
-import com.party.navigation.Screens
+import com.party.common.component.BottomNavigationBar
+import com.party.common.Screens
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.party_detail.component.PartyDetailArea
 import com.party.presentation.screen.party_detail.component.PartyDetailScaffoldArea

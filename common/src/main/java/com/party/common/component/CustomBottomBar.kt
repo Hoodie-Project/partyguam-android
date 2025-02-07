@@ -1,4 +1,4 @@
-package com.party.navigation
+package com.party.common.component
 
 import android.app.Activity
 import android.content.Context
@@ -33,6 +33,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.party.common.R
+import com.party.common.Screens
 import com.party.common.component.icon.DrawableIcon
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.BOTTOM_NAVIGATION_SELECTED_TEXT

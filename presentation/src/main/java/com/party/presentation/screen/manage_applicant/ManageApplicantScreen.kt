@@ -28,7 +28,7 @@ import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.Position1
-import com.party.navigation.Screens
+import com.party.common.Screens
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.manage_applicant.component.ManageApplicantChangeProgress
 import com.party.presentation.screen.manage_applicant.component.ManageApplicantDescriptionArea

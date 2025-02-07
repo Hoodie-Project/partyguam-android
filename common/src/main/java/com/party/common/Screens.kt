@@ -1,4 +1,4 @@
-package com.party.navigation
+package com.party.common
 
 import kotlinx.serialization.Serializable
 
@@ -12,9 +12,11 @@ sealed interface Screens {
     @Serializable
     data class JoinNickName(val userEmail: String, val signupAccessToken: String): Screens
     @Serializable
-    data class JoinBirthDay(val userEmail: String, val signupAccessToken: String, val userNickName: String): Screens
+    data class JoinBirthDay(val userEmail: String, val signupAccessToken: String, val userNickName: String):
+        Screens
     @Serializable
-    data class JoinGender(val userEmail: String, val signupAccessToken: String, val userNickName: String, val userBirthDay: String): Screens
+    data class JoinGender(val userEmail: String, val signupAccessToken: String, val userNickName: String, val userBirthDay: String):
+        Screens
     @Serializable
     data object JoinComplete: Screens
     @Serializable

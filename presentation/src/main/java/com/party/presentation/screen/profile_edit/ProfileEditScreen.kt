@@ -24,7 +24,7 @@ import com.party.common.component.button.CustomButton
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
-import com.party.navigation.Screens
+import com.party.common.Screens
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.profile.UserProfileState
 import com.party.presentation.screen.profile_edit.component.EditArea
@@ -32,7 +32,6 @@ import com.party.presentation.screen.profile_edit.component.ProfileEditScaffoldA
 import com.party.presentation.screen.profile_edit.component.UserProfileInfoArea
 import com.party.presentation.screen.profile_edit.viewmodel.ProfileEditViewModel
 import kotlinx.coroutines.flow.collectLatest
-import kotlin.math.acos
 
 @Composable
 fun ProfileEditScreenRoute(

@@ -40,8 +40,8 @@ import com.party.domain.model.user.party.Position
 import com.party.domain.model.user.recruitment.MyRecruitment
 import com.party.domain.model.user.recruitment.PartyApplication
 import com.party.domain.model.user.recruitment.PartyRecruitment
-import com.party.navigation.BottomNavigationBar
-import com.party.navigation.Screens
+import com.party.common.component.BottomNavigationBar
+import com.party.common.Screens
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.state.component.MyPartyArea
 import com.party.presentation.screen.state.component.MyRecruitmentArea

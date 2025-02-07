@@ -43,7 +43,7 @@ import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.PersonalityListOption
 import com.party.domain.model.user.detail.PersonalitySaveRequest2
-import com.party.navigation.Screens
+import com.party.common.Screens
 import com.party.presentation.screen.detail.ProfileIndicatorArea
 import com.party.presentation.screen.detail.select_tendency.SavePersonalityData.personalitySaveRequest3
 import com.party.presentation.screen.detail.select_tendency.component.SelectTendencyScaffoldArea

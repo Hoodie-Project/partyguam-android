@@ -32,8 +32,8 @@ import com.party.common.noRippleClickable
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
-import com.party.navigation.BottomNavigationBar
-import com.party.navigation.Screens
+import com.party.common.component.BottomNavigationBar
+import com.party.common.Screens
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.home.component.HomeFloatingArea
 import com.party.presentation.screen.home.component.HomeTopBar

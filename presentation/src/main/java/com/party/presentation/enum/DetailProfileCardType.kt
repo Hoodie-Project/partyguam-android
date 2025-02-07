@@ -1,6 +1,6 @@
 package com.party.presentation.enum
 
-import com.party.navigation.Screens
+import com.party.common.Screens
 
 enum class DetailProfileCardType(
     val title: String,

@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
@@ -15,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -36,7 +34,7 @@ import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.Position1
-import com.party.navigation.Screens
+import com.party.common.Screens
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.party_detail.component.RightModalDrawer
 import com.party.presentation.screen.party_edit_recruitment.component.PartyEditRecruitmentScaffoldArea
@@ -46,7 +44,6 @@ import com.party.presentation.screen.party_edit_recruitment.component.PartyRecru
 import com.party.presentation.screen.party_edit_recruitment.component.PartyRecruitmentEditHelpCard
 import com.party.presentation.screen.party_edit_recruitment.component.PartyRecruitmentListArea
 import com.party.presentation.screen.party_edit_recruitment.viewmodel.PartyRecruitmentEditViewModel
-import com.party.presentation.screen.party_user_manage.PartyUserAction
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 

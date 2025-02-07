@@ -9,7 +9,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -40,7 +39,7 @@ import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.InterestLocationRequest
 import com.party.domain.model.user.detail.Location
-import com.party.navigation.Screens
+import com.party.common.Screens
 import com.party.presentation.screen.detail.ProfileIndicatorArea
 import com.party.presentation.screen.detail.detail_profile.component.DetailProfileScaffoldArea
 import com.party.presentation.screen.detail.detail_profile.component.ProvinceComponent

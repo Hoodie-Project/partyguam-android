@@ -25,7 +25,7 @@ import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T1
 import com.party.common.ui.theme.WHITE
-import com.party.navigation.Screens
+import com.party.common.Screens
 
 @Composable
 fun SelectTendencyCompleteScreen(

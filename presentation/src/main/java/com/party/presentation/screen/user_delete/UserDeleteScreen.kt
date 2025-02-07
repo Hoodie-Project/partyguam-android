@@ -28,8 +28,7 @@ import com.party.common.noRippleClickable
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
-import com.party.navigation.Screens
-import com.party.presentation.screen.auth_setting.AuthSettingAction
+import com.party.common.Screens
 import com.party.presentation.screen.user_delete.component.UserDeleteButton
 import com.party.presentation.screen.user_delete.component.UserDeleteScaffoldArea
 import com.party.presentation.screen.user_delete.component.WarningAgreeArea

@@ -31,7 +31,7 @@ import com.party.common.makeAccessToken
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
-import com.party.navigation.Screens
+import com.party.common.Screens
 import com.party.presentation.screen.login.component.LoginButtonArea
 import com.party.presentation.screen.login.component.LoginScaffoldArea
 import com.party.presentation.screen.login.component.LoginScreenBottomArea
@@ -49,7 +49,8 @@ fun LoginScreenRoute(
         loginViewModel.nextScreen.collectLatest {
             snackBarMessage(snackBarHostState, it.message)
 
-            navController.navigate(Screens.JoinEmail(
+            navController.navigate(
+                Screens.JoinEmail(
                 userEmail = it.userEmail ?: "",
                 signupAccessToken = it.signupAccessToken
             ))

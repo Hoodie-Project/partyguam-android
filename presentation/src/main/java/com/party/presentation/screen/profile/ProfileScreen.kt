@@ -30,8 +30,8 @@ import com.party.domain.model.user.profile.UserPersonality
 import com.party.domain.model.user.profile.UserProfile
 import com.party.domain.model.user.profile.UserProfileLocation
 import com.party.domain.model.user.profile.UserProfilePosition
-import com.party.navigation.BottomNavigationBar
-import com.party.navigation.Screens
+import com.party.common.component.BottomNavigationBar
+import com.party.common.Screens
 import com.party.presentation.enum.PersonalityType
 import com.party.presentation.screen.profile.component.DetailProfileSettingArea
 import com.party.presentation.screen.profile.component.HopeLocationArea

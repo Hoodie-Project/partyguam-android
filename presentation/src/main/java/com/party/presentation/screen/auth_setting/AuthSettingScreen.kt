@@ -34,12 +34,11 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.party.common.HeightSpacer
 import com.party.common.component.dialog.TwoButtonDialog
-import com.party.common.makeAccessToken
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.WHITE
-import com.party.navigation.Screens
+import com.party.common.Screens
 import com.party.presentation.screen.auth_setting.component.AuthSettingScaffoldArea
 import com.party.presentation.screen.auth_setting.component.LogoutAndDeletionArea
 import com.party.presentation.screen.auth_setting.component.ManageAuthArea

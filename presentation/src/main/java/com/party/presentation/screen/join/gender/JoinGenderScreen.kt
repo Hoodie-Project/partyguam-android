@@ -39,7 +39,7 @@ import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.signup.UserSignUpRequest
-import com.party.navigation.Screens
+import com.party.common.Screens
 import com.party.presentation.screen.join.JoinScreenButton
 import com.party.presentation.screen.join.JoinViewModel
 import com.party.presentation.screen.join.gender.component.JoinGenderScaffoldArea

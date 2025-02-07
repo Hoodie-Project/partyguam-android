@@ -14,10 +14,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
+import com.party.common.Screens
 import com.party.common.component.homeTopTabList
 import com.party.common.component.profileEditTendencyTabList
 import com.party.common.ui.theme.WHITE
-import com.party.navigation.Screens
 import com.party.presentation.screen.auth_setting.AuthSettingScreenRoute
 import com.party.presentation.screen.detail.choice_carrier_position.ChoiceCarrierPositionScreen
 import com.party.presentation.screen.detail.detail_carrier.DetailCarrierScreen
@@ -71,7 +71,7 @@ fun AppNavHost() {
 
     NavHost(
         navController = navController,
-        startDestination = Screens.Splash,
+        startDestination = Screens.Home,
         modifier = Modifier
             .fillMaxSize()
             .background(WHITE),
