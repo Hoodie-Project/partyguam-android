@@ -43,6 +43,7 @@ import com.party.common.ui.theme.KakaoLoginColor
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
+import com.party.presentation.BuildConfig
 
 @Composable
 fun LoginButtonArea(
@@ -73,7 +74,7 @@ fun LoginButtonArea(
             // google 로그인
             val googleSignInOptions = GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("697659482179-ish7bgg19g5le6b1urrss97tjgasi91f.apps.googleusercontent.com")
+                .requestIdToken(BuildConfig.GOOGLE_KEY)
                 .requestEmail()
                 .build()
 

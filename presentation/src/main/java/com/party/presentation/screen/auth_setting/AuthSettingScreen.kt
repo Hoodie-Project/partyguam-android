@@ -39,6 +39,7 @@ import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.WHITE
 import com.party.common.Screens
+import com.party.presentation.BuildConfig
 import com.party.presentation.screen.auth_setting.component.AuthSettingScaffoldArea
 import com.party.presentation.screen.auth_setting.component.LogoutAndDeletionArea
 import com.party.presentation.screen.auth_setting.component.ManageAuthArea
@@ -156,7 +157,7 @@ private fun AuthSettingScreen(
                         // google 로그인
                         val googleSignInOptions = GoogleSignInOptions
                             .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                            .requestIdToken("697659482179-ish7bgg19g5le6b1urrss97tjgasi91f.apps.googleusercontent.com")
+                            .requestIdToken(BuildConfig.GOOGLE_KEY)
                             .requestEmail()
                             .build()
 
