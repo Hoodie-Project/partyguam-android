@@ -87,10 +87,11 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
 
     // Google Play services
-    implementation("com.google.gms:google-services:4.3.15")
-    implementation("com.google.firebase:firebase-auth:22.0.0")
-    implementation("com.google.firebase:firebase-bom:32.0.0")
-    implementation("com.google.android.gms:play-services-auth:20.5.0")
+    implementation(libs.google.services)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.bom)
+    implementation(libs.play.services.auth)
 
-    implementation("com.kakao.sdk:v2-user:2.13.0")
+    // kakao login
+    implementation(libs.v2.user)
 }
