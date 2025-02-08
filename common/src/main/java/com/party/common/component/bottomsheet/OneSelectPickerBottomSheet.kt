@@ -41,7 +41,8 @@ fun OneSelectPickerBottomSheet(
     onApply: (String) -> Unit,
 ) {
     val sheetState = rememberStandardBottomSheetState(
-        initialValue = SheetValue.Expanded
+        initialValue = SheetValue.Expanded,
+        skipHiddenState = false
     )
 
     var selectedItem by remember { mutableStateOf(selectedText) }

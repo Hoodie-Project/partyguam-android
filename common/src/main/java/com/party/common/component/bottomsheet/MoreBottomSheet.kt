@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetValue
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,16 +35,15 @@ fun MoreBottomSheet(
     onExitParty: () -> Unit,
 ) {
     val sheetState = rememberStandardBottomSheetState(
-        initialValue = SheetValue.Expanded
+        initialValue = SheetValue.Expanded,
+        skipHiddenState = false
     )
 
     var selectContent by remember { mutableStateOf("") }
 
     ModalBottomSheet(
         sheetState = sheetState,
-        onDismissRequest = {
-            onBottomSheetClose()
-        },
+        onDismissRequest = onBottomSheetClose,
         containerColor = White,
         dragHandle = null,
     ) {
