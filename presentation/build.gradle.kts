@@ -15,7 +15,7 @@ properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
     namespace = "com.party.presentation"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 28

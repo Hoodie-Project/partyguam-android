@@ -1,42 +1,42 @@
 [versions]
 agp = "8.5.2"
-kotlin = "2.0.0"
-coreKtx = "1.13.1"
+kotlin = "2.1.0"
+coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-kotlinxCoroutinesAndroid = "1.8.1"
-lifecycleRuntimeKtx = "2.8.4"
-activityCompose = "1.9.1"
-composeBom = "2024.11.00"
+kotlinxCoroutinesAndroid = "1.9.0"
+lifecycleRuntimeKtx = "2.8.7"
+activityCompose = "1.10.0"
+composeBom = "2025.01.01"
 appcompat = "1.7.0"
-uiTooling = "1.7.5"
+uiTooling = "1.7.7"
 
 # Add Library
 coreSplashscreen = "1.0.1" # Splash
-materialIconsExtended = "1.6.8" # Material Icons Extended
-navigationCompose = "2.8.0-beta06" # Navigation
-coilCompose = "2.5.0" # Coil
+materialIconsExtended = "1.7.7" # Material Icons Extended
+navigationCompose = "2.8.6" # Navigation
+coilCompose = "2.6.0" # Coil
 hiltAndroid = "2.51.1" # Hilt
 hiltNavigationCompose = "1.2.0"
 okhttp = "4.12.0" # OkHttp
 retrofit = "2.11.0" # Retrofit
 sandwichRetrofit = "2.0.6" # Sandwich Retrofit
 loggingInterceptor = "4.12.0" # Logging Interceptor
-retrofit2KotlinxSerializationConverter = "0.8.0" # Retrofit2 Kotlinx Serialization Converter
+retrofit2KotlinxSerializationConverter = "1.0.0" # Retrofit2 Kotlinx Serialization Converter
 mszProgressIndicator = "0.8.0" # MSZ Progress Indicator
 gson = "2.10.1" # Gson
-kotlinxSerializationJson = "1.7.1" # Kotlinx Serialization
-datastorePreferences = "1.1.1" # Datastore Preferences
+kotlinxSerializationJson = "1.7.3" # Kotlinx Serialization
+datastorePreferences = "1.1.2" # Datastore Preferences
 roomRuntime = "2.6.1"
-activity = "1.9.1"
-constraintlayout = "2.1.4"
-firebaseMessaging = "24.0.0" # Firebase Messaging
+activity = "1.10.0"
+constraintlayout = "2.2.0"
+firebaseMessaging = "24.1.0" # Firebase Messaging
 appUpdateKtx = "2.1.0" # App Update
 playServicesLocation = "21.3.0" # Play Services Location
 ossLicenses = "17.1.0" # OSS Licenses
 ossLicensesPlugin = "0.10.6" # OSS Licenses Plugin
-ksp = "2.0.0-1.0.22" # KSP
+ksp = "2.0.20-1.0.24" # KSP
 googleServices = "4.4.2"
 material = "1.12.0" # Google Services
 
@@ -152,8 +152,6 @@ v2-user = { module = "com.kakao.sdk:v2-user", version.ref = "v2User" }
 # Splash
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 
-
-
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -164,4 +162,3 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
-

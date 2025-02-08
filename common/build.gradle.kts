@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.party.common"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 28
