@@ -45,6 +45,7 @@ fun EditArea(
     onGotoProfileEditTime: () -> Unit,
     onGotoProfileEditTendency: () -> Unit,
     onGotoProfileEditPortfolio: () -> Unit,
+    onGotoWebView: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -101,7 +102,8 @@ fun EditArea(
                 val portfolio = userProfileState.userProfile.portfolio
                 if(!portfolio.isNullOrBlank()){
                     ProfileEditPortfolioArea(
-                        portfolioLink = portfolio
+                        portfolioLink = portfolio,
+                        onClick = { onGotoWebView(portfolio)}
                     )
                 }
             }
@@ -175,6 +177,7 @@ private fun EditAreaPreview() {
         onGotoProfileEditLocation = {},
         onGotoProfileEditTime = {},
         onGotoProfileEditTendency = {},
-        onGotoProfileEditPortfolio = {}
+        onGotoProfileEditPortfolio = {},
+        onGotoWebView = {},
     )
 }

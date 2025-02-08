@@ -60,6 +60,7 @@ import com.party.presentation.screen.terms.PrivacyPolicyScreenRoute
 import com.party.presentation.screen.terms.ServiceIntroduceScreenRoute
 import com.party.presentation.screen.terms.TermsScreenRoute
 import com.party.presentation.screen.user_delete.UserDeleteScreenRoute
+import com.party.presentation.screen.webview.WebViewScreenRoute
 
 const val ANIMATION_DURATION = 500
 
@@ -402,6 +403,12 @@ fun AppNavHost() {
                 navController = navController,
                 snackBarHostState = snackBarHostState,
                 typeId = typeId
+            )
+        }
+        composable<Screens.WebView> { backStackEntry ->
+            val webViewUrl = backStackEntry.toRoute<Screens.WebView>().webViewUrl
+            WebViewScreenRoute(
+                webViewUrl = webViewUrl,
             )
         }
     }

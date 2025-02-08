@@ -89,4 +89,6 @@ sealed interface Screens {
     data object PrivacyPolicy: Screens
     @Serializable
     data class Reports(val typeId: Int): Screens
+    @Serializable
+    data class WebView(val webViewUrl: String): Screens
 }

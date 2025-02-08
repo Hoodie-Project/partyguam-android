@@ -12,13 +12,15 @@ import com.party.common.ui.theme.LINK_COLOR
 @Composable
 fun ProfileEditPortfolioArea(
     portfolioLink: String?,
+    onClick: () -> Unit,
 ) {
     HeightSpacer(heightDp = 20.dp)
     TextComponent(
         text = portfolioLink ?: "",
         fontSize = B1,
         textDecoration = TextDecoration.Underline,
-        textColor = LINK_COLOR
+        textColor = LINK_COLOR,
+        onClick = onClick,
     )
 }
 
@@ -26,6 +28,7 @@ fun ProfileEditPortfolioArea(
 @Composable
 private fun ProfileEditPortfolioAreaPreview() {
     ProfileEditPortfolioArea(
-        portfolioLink = "https://www.naver.com"
+        portfolioLink = "https://www.naver.com",
+        onClick = {},
     )
 }

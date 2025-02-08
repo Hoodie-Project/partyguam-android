@@ -20,11 +20,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
+import com.party.common.Screens
 import com.party.common.component.button.CustomButton
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
-import com.party.common.Screens
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.profile.UserProfileState
 import com.party.presentation.screen.profile_edit.component.EditArea
@@ -59,6 +59,7 @@ fun ProfileEditScreenRoute(
         onGotoProfileEditTime = { navController.navigate(Screens.ProfileEditTime)},
         onGotoProfileEditTendency = { navController.navigate(Screens.ProfileEditTendency)},
         onGotoProfileEditPortfolio = { navController.navigate(Screens.ProfileEditPortfolio)},
+        onGotoWebView = { webViewUrl -> navController.navigate(Screens.WebView(webViewUrl = webViewUrl))},
         onAction = { action ->
             when(action){
                 is ProfileEditAction.OnChangeImage -> profileEditViewModel.onAction(action)
@@ -79,6 +80,7 @@ private fun ProfileEditScreen(
     onGotoProfileEditTime: () -> Unit,
     onGotoProfileEditTendency: () -> Unit,
     onGotoProfileEditPortfolio: () -> Unit,
+    onGotoWebView: (String) -> Unit,
     onAction: (ProfileEditAction) -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -125,7 +127,8 @@ private fun ProfileEditScreen(
                     onGotoProfileEditLocation = onGotoProfileEditLocation,
                     onGotoProfileEditTime = onGotoProfileEditTime,
                     onGotoProfileEditTendency = onGotoProfileEditTendency,
-                    onGotoProfileEditPortfolio = onGotoProfileEditPortfolio
+                    onGotoProfileEditPortfolio = onGotoProfileEditPortfolio,
+                    onGotoWebView = onGotoWebView
                 )
             }
 
@@ -154,6 +157,7 @@ private fun ProfileEditScreenPreview() {
         onGotoProfileEditTime = {},
         onGotoProfileEditTendency = {},
         onGotoProfileEditPortfolio = {},
-        onAction = {}
+        onAction = {},
+        onGotoWebView = {}
     )
 }
