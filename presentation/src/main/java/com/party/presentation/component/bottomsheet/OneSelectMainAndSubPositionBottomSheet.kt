@@ -17,8 +17,9 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
 import com.party.common.R
@@ -57,8 +59,9 @@ fun OneSelectMainAndSubPositionBottomSheet(
     onApply: (String, PositionList) -> Unit,
     onClickMainPosition: (String) -> Unit,
 ) {
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
+    val sheetState = rememberStandardBottomSheetState(
+        initialValue = SheetValue.Expanded,
+        skipHiddenState = false
     )
 
     var inModalSelectedMainPosition by remember {
@@ -196,4 +199,19 @@ private fun SelectedPositionItem(
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun OneSelectMainAndSubPositionBottomSheetPreview() {
+    OneSelectMainAndSubPositionBottomSheet(
+        bottomSheetTitle = "ㅇㅇㅇ",
+        selectedMainPosition = "개발자",
+        selectedSubPosition = PositionList(id = 0, main = "개발자", sub = "Android"),
+        onApply = { _, _ ->},
+        onClickMainPosition = {},
+        onModelClose = {},
+        subPositionList = emptyList(),
+        buttonText = "",
+    )
 }

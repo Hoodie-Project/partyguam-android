@@ -8,13 +8,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.SheetValue
+import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.TextComponent
 import com.party.common.component.bottomsheet.component.BottomSheetButtonArea
@@ -43,8 +45,9 @@ fun MainPositionBottomSheet(
     onReset: () -> Unit,
     onApply: () -> Unit,
 ) {
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
+    val sheetState = rememberStandardBottomSheetState(
+        initialValue = SheetValue.Expanded,
+        skipHiddenState = false
     )
 
     ModalBottomSheet(
@@ -126,5 +129,17 @@ private fun MainPositionBottomSheetContentItem(
         fontWeight = fontWeight,
         textAlign = Alignment.Center,
         onClick = { onClick(mainPosition) }
+    )
+}
+
+@Preview
+@Composable
+fun MainPositionBottomSheetPreview() {
+    MainPositionBottomSheet(
+        selectedPosition = "개발자",
+        onBottomSheetClose = {},
+        onReset = {},
+        onApply = {},
+        onPositionClick = {}
     )
 }
