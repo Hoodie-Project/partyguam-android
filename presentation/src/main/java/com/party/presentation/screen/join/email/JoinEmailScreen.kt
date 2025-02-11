@@ -87,6 +87,8 @@ private fun JoinEmailScreen(
                     subExplain = stringResource(id = R.string.join_email2),
                 )
 
+                HeightSpacer(heightDp = 40.dp)
+
                 JoinScreenInputField(
                     textColor = GRAY500,
                     containerColor = GRAY100,

@@ -141,6 +141,8 @@ private fun JoinGenderScreen(
                     subExplain = stringResource(id = R.string.join_gender2),
                 )
 
+                HeightSpacer(heightDp = 40.dp)
+
                 SelectGenderArea(
                     context = context,
                     selectedGender = selectedGender,

@@ -183,6 +183,8 @@ private fun JoinNickNameScreen(
                     subExplain = stringResource(id = R.string.join_nickname2),
                 )
 
+                HeightSpacer(heightDp = 40.dp)
+
                 JoinScreenInputField(
                     textColor = GRAY400,
                     containerColor = WHITE,
