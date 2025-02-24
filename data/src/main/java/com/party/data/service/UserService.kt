@@ -5,6 +5,7 @@ import com.party.data.dto.user.auth.LinkGoogleDto
 import com.party.data.dto.user.auth.LinkKakaoDto
 import com.party.data.dto.user.auth.MySocialOauthDto
 import com.party.data.dto.user.detail.LocationDto
+import com.party.data.dto.user.detail.ModifyCarrierDto
 import com.party.data.dto.user.detail.PersonalityListDto
 import com.party.data.dto.user.detail.PersonalitySaveDto
 import com.party.data.dto.user.detail.PositionListDto
@@ -17,6 +18,7 @@ import com.party.domain.model.user.AccessTokenRequest
 import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.ReportsRequest
 import com.party.domain.model.user.detail.InterestLocationList
+import com.party.domain.model.user.detail.ModifyCarrierList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.profile.UserProfileModifyDto
@@ -59,6 +61,12 @@ interface UserService {
     suspend fun saveCareer(
         @Body career: SaveCarrierList,
     ): ApiResponse<SaveCarrierDto>
+
+    // 유저 경력 수정
+    @PATCH("api/users/me/careers")
+    suspend fun modifyCareer(
+        @Body career: ModifyCarrierList
+    ): ApiResponse<ModifyCarrierDto>
 
     // 유저 경력 삭제
     @DELETE("api/users/me/careers")

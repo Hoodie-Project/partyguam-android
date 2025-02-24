@@ -7,6 +7,7 @@ import com.party.data.dto.user.auth.MySocialOauthDto
 import com.party.data.dto.user.auth.SocialLoginDto
 import com.party.data.dto.user.auth.UserSignUpDto
 import com.party.data.dto.user.detail.LocationDto
+import com.party.data.dto.user.detail.ModifyCarrierDto
 import com.party.data.dto.user.detail.PersonalityListDto
 import com.party.data.dto.user.detail.PersonalitySaveDto
 import com.party.data.dto.user.detail.PositionListDto
@@ -21,6 +22,7 @@ import com.party.domain.model.user.AccessTokenRequest
 import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.ReportsRequest
 import com.party.domain.model.user.detail.InterestLocationList
+import com.party.domain.model.user.detail.ModifyCarrierList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.profile.UserProfileModifyDto
@@ -88,6 +90,10 @@ class UserRemoteSourceImpl @Inject constructor(
         career: SaveCarrierList
     ): ApiResponse<SaveCarrierDto> {
         return userService.saveCareer(career = career)
+    }
+
+    override suspend fun modifyCarrier(career: ModifyCarrierList): ApiResponse<ModifyCarrierDto> {
+        return userService.modifyCareer(career = career)
     }
 
     override suspend fun deleteCareer(): ApiResponse<Unit> {

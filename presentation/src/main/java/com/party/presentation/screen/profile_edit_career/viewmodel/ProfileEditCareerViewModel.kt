@@ -3,11 +3,13 @@ package com.party.presentation.screen.profile_edit_career.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
+import com.party.domain.model.user.detail.ModifyCarrierList
 import com.party.domain.model.user.detail.PositionList
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.repository.UserRepository
 import com.party.domain.usecase.user.detail.DeleteUserCareerUseCase
 import com.party.domain.usecase.user.detail.GetPositionsUseCase
+import com.party.domain.usecase.user.detail.ModifyCarrierUseCase
 import com.party.domain.usecase.user.detail.SaveCarrierUseCase
 import com.party.presentation.screen.profile_edit_career.ProfileEditCareerAction
 import com.party.presentation.screen.profile_edit_career.ProfileEditCareerState
@@ -26,6 +28,7 @@ class ProfileEditCareerViewModel @Inject constructor(
     private val getPositionsUseCase: GetPositionsUseCase,
     private val saveCarrierUseCase: SaveCarrierUseCase,
     private val deleteUserCareerUseCase: DeleteUserCareerUseCase,
+    private val modifyCarrierUseCase: ModifyCarrierUseCase,
 ): ViewModel(){
 
     private val _state = MutableStateFlow(ProfileEditCareerState())
@@ -66,7 +69,19 @@ class ProfileEditCareerViewModel @Inject constructor(
         }
     }
 
-    private fun saveCarrier(career: SaveCarrierList){
+    private fun modifyCarrier(career: ModifyCarrierList){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = modifyCarrierUseCase(career = career)){
+                is ServerApiResponse.SuccessResponse -> {
+
+                }
+                is ServerApiResponse.ErrorResponse -> {}
+                is ServerApiResponse.ExceptionResponse -> {}
+            }
+        }
+    }
+
+    fun saveCarrier(career: SaveCarrierList){
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = saveCarrierUseCase(career = career)){
                 is ServerApiResponse.SuccessResponse -> {

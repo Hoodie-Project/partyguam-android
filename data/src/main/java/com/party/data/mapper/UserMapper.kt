@@ -8,6 +8,7 @@ import com.party.data.dto.user.auth.SocialLoginErrorDto
 import com.party.data.dto.user.auth.SocialLoginSuccessDto
 import com.party.data.dto.user.auth.UserSignUpDto
 import com.party.data.dto.user.detail.LocationDto
+import com.party.data.dto.user.detail.ModifyCarrierItem
 import com.party.data.dto.user.detail.PersonalityListDto
 import com.party.data.dto.user.detail.PersonalitySaveDto
 import com.party.data.dto.user.detail.PositionListDto
@@ -34,6 +35,7 @@ import com.party.domain.model.user.SocialLogin
 import com.party.domain.model.user.SocialLoginError
 import com.party.domain.model.user.SocialLoginSuccess
 import com.party.domain.model.user.detail.Location
+import com.party.domain.model.user.detail.ModifyCarrier
 import com.party.domain.model.user.detail.PersonalityList
 import com.party.domain.model.user.detail.PersonalityListOption
 import com.party.domain.model.user.detail.PersonalitySave
@@ -110,6 +112,14 @@ object UserMapper {
             positionId = saveCarrierEntity.positionId,
             years = saveCarrierEntity.years,
             careerType = saveCarrierEntity.careerType,
+        )
+    }
+
+    fun mapperToModifyCarrierResponse(modifyCarrierItem: ModifyCarrierItem): ModifyCarrier{
+        return ModifyCarrier(
+            positionId = modifyCarrierItem.positionId,
+            years = modifyCarrierItem.years,
+            careerType = modifyCarrierItem.careerType,
         )
     }
 

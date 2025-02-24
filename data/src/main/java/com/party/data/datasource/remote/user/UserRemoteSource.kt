@@ -7,6 +7,7 @@ import com.party.data.dto.user.auth.MySocialOauthDto
 import com.party.data.dto.user.auth.SocialLoginDto
 import com.party.data.dto.user.auth.UserSignUpDto
 import com.party.data.dto.user.detail.LocationDto
+import com.party.data.dto.user.detail.ModifyCarrierDto
 import com.party.data.dto.user.detail.PersonalityListDto
 import com.party.data.dto.user.detail.PersonalitySaveDto
 import com.party.data.dto.user.detail.PositionListDto
@@ -19,6 +20,7 @@ import com.party.domain.model.user.AccessTokenRequest
 import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.ReportsRequest
 import com.party.domain.model.user.detail.InterestLocationList
+import com.party.domain.model.user.detail.ModifyCarrierList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.profile.UserProfileModifyDto
@@ -61,6 +63,9 @@ interface UserRemoteSource {
 
     // 유저 경력 저장
     suspend fun saveCarrier(career: SaveCarrierList): ApiResponse<SaveCarrierDto>
+
+    // 유저 경력 수정
+    suspend fun modifyCarrier(career: ModifyCarrierList): ApiResponse<ModifyCarrierDto>
 
     // 유저 경력 전체 삭제
     suspend fun deleteCareer(): ApiResponse<Unit>

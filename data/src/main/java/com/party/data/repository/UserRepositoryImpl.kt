@@ -23,6 +23,8 @@ import com.party.domain.model.user.ReportsRequest
 import com.party.domain.model.user.SocialLogin
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.Location
+import com.party.domain.model.user.detail.ModifyCarrier
+import com.party.domain.model.user.detail.ModifyCarrierList
 import com.party.domain.model.user.detail.PersonalityList
 import com.party.domain.model.user.detail.PersonalitySave
 import com.party.domain.model.user.detail.PersonalitySaveRequest
@@ -309,6 +311,34 @@ class UserRepositoryImpl @Inject constructor(
                 ExceptionResponse(message = result.message)
             }
 
+        }
+    }
+
+    override suspend fun modifyCarrier(career: ModifyCarrierList): ServerApiResponse<List<ModifyCarrier>> {
+        return when(val result = userRemoteSource.modifyCarrier(career = career)){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = result.data.career.map { UserMapper.mapperToModifyCarrierResponse(it) })
+            }
+            is ApiResponse.Failure.Error -> {
+                val errorBody = result.errorBody?.string()
+                when(result.statusCode){
+                    StatusCode.Forbidden -> {
+                        val errorResponse = Json.decodeFromString<ErrorResponse<ModifyCarrier>>(errorBody!!)
+                        ErrorResponse(
+                            statusCode = StatusCode.Forbidden.code,
+                            message = errorResponse.message,
+                        )
+                    }
+                    else -> ErrorResponse(
+                        statusCode = StatusCode.InternalServerError.code,
+                        message = "알 수 없는 오류가 발생했습니다."
+                    )
+                }
+            }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse(message = result.message)
+            }
         }
     }
 

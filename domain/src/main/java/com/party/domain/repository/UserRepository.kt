@@ -11,6 +11,8 @@ import com.party.domain.model.user.ReportsRequest
 import com.party.domain.model.user.SocialLogin
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.Location
+import com.party.domain.model.user.detail.ModifyCarrier
+import com.party.domain.model.user.detail.ModifyCarrierList
 import com.party.domain.model.user.detail.PersonalityList
 import com.party.domain.model.user.detail.PersonalitySave
 import com.party.domain.model.user.detail.PersonalitySaveRequest
@@ -61,6 +63,9 @@ interface UserRepository {
 
     // 유저 경력 저장
     suspend fun saveCarrier(career: SaveCarrierList): ServerApiResponse<List<SaveCarrier>>
+
+    // 유저 경력 수정
+    suspend fun modifyCarrier(career: ModifyCarrierList): ServerApiResponse<List<ModifyCarrier>>
 
     // 유저 경력 삭제
     suspend fun deleteCareer(): ServerApiResponse<Unit>
