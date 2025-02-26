@@ -45,7 +45,7 @@
     <string name="join_nickname7">중복된 닉네임 입니다.</string>
 
     <!--JoinBirthDay Screen-->
-    <string name="join_birthday1">***님의\n생년월일을 알려주세요.</string>
+    <string name="join_birthday1">님의\n생년월일을 알려주세요.</string>
     <string name="join_birthday2">프로필에서 노출 여부를 설정할 수 있어요.</string>
     <string name="join_birthday3">8자리를 입력해 주세요. (ex. 1990-12-31)</string>
 

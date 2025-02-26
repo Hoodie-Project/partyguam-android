@@ -58,6 +58,7 @@ fun JoinBirthDayScreenRoute(
     JoinBirthDayScreen(
         userBirthDay = userBirthDay,
         isValidUserBirthDay = isValidUserBirthDay,
+        userNickName = userNickName,
         onString = {
             userBirthDay = it
         },
@@ -74,6 +75,7 @@ fun JoinBirthDayScreenRoute(
 private fun JoinBirthDayScreen(
     userBirthDay: String,
     isValidUserBirthDay: Boolean,
+    userNickName: String,
     onString: (String) -> Unit,
     onClick: () -> Unit,
     onNavigationClick: () -> Unit
@@ -97,7 +99,7 @@ private fun JoinBirthDayScreen(
                     .weight(1f)
             ) {
                 ScreenExplainArea(
-                    mainExplain = stringResource(id = R.string.join_birthday1),
+                    mainExplain = "$userNickName${stringResource(id = R.string.join_birthday1)}" ,
                     subExplain = stringResource(id = R.string.join_birthday2),
                 )
 
@@ -132,17 +134,38 @@ private fun JoinBirthDayScreen(
 }
 
 fun isValidBirthdate(birthdate: String): Boolean {
-    // 생년월일 정규식 패턴
     val regex = Regex("^(19|20)\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])$")
-    return regex.matches(birthdate)
+    if (!regex.matches(birthdate)) return false
+
+    val year = birthdate.substring(0, 4).toInt()
+    val month = birthdate.substring(4, 6).toInt()
+    val day = birthdate.substring(6, 8).toInt()
+
+    return isValidDay(year, month, day)
 }
+
+fun isValidDay(year: Int, month: Int, day: Int): Boolean {
+    val daysInMonth = when (month) {
+        1, 3, 5, 7, 8, 10, 12 -> 31
+        4, 6, 9, 11 -> 30
+        2 -> if (isLeapYear(year)) 29 else 28
+        else -> return false
+    }
+    return day in 1..daysInMonth
+}
+
+fun isLeapYear(year: Int): Boolean {
+    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)
+}
+
 
 @Preview(showBackground = true)
 @Composable
 private fun JoinBirthDayScreenContentPreview() {
     JoinBirthDayScreen(
-        userBirthDay = "19900101",
+        userBirthDay = "19900131",
         isValidUserBirthDay = true,
+        userNickName = "안드로이드맨",
         onString = {},
         onClick = {},
         onNavigationClick = {}
