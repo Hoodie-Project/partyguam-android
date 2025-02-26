@@ -2,6 +2,7 @@ package com.party.presentation.screen.detail.select_tendency
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -23,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
 import com.party.common.R
 import com.party.common.ScreenExplainArea
@@ -42,6 +45,7 @@ import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.PersonalityListOption
 import com.party.domain.model.user.detail.PersonalitySaveRequest2
 import com.party.common.Screens
+import com.party.common.component.dialog.TwoButtonDialog
 import com.party.presentation.screen.detail.ProfileIndicatorArea
 import com.party.presentation.screen.detail.select_tendency.SavePersonalityData.personalitySaveRequest2
 import com.party.presentation.screen.detail.select_tendency.component.SelectTendencyScaffoldArea
@@ -58,6 +62,10 @@ fun SelectTendencyScreen2(
 
     val accessToken by selectTendencyViewModel.accessToken.collectAsStateWithLifecycle()
 
+    var isShowDialog by remember {
+        mutableStateOf(false)
+    }
+
     if(accessToken.isNotEmpty()){
         LaunchedEffect(Unit) {
             selectTendencyViewModel.getPersonalityList()
@@ -67,19 +75,29 @@ fun SelectTendencyScreen2(
     val personalityListState by selectTendencyViewModel.personalityState.collectAsStateWithLifecycle()
     val personalityListResult = personalityListState.data
 
-    val selectedTendencyList by remember {
+    /*val selectedTendencyList by remember {
         mutableStateOf(mutableStateListOf<PersonalityListOption>())
+    }*/
+
+    var selectedTendencyList by remember {
+        mutableStateOf(PersonalityListOption(
+            id = 0,
+            personalityQuestionId = 0,
+            content = ""
+        ))
     }
 
     val isValid by remember {
         mutableStateOf(false)
-    }.apply { value = selectedTendencyList.size == 1 }
+    }.apply { value = selectedTendencyList.id != 0 }
 
     Scaffold(
         topBar = {
             SelectTendencyScaffoldArea(
                 onNavigationClick = { navController.popBackStack() },
-                onClose = {}
+                onClose = {
+                    isShowDialog = true
+                }
             )
         }
     ) {
@@ -108,6 +126,8 @@ fun SelectTendencyScreen2(
                     mainExplain = stringResource(id = R.string.select_tendency3),
                     subExplain = stringResource(id = R.string.select_tendency4),
                 )
+                
+                HeightSpacer(heightDp = 40.dp)
 
                 when(personalityListState){
                     is UIState.Idle -> {}
@@ -119,13 +139,7 @@ fun SelectTendencyScreen2(
                             selectedTendencyList = selectedTendencyList,
                             getPersonalityList = successResult2?.get(0)?.personalityOptions ?: emptyList(),
                             onSelect = {
-                                if(selectedTendencyList.contains(it)) {
-                                    selectedTendencyList.remove(it)
-                                } else if(selectedTendencyList.size == 2){
-                                    snackBarMessage(snackBarHostState, "최대 2개까지 선택 가능합니다.")
-                                }else {
-                                    selectedTendencyList.add(it)
-                                }
+                                selectedTendencyList = it
                             }
                         )
                     }
@@ -144,8 +158,8 @@ fun SelectTendencyScreen2(
                 onClick = {
                     if(isValid){
                         personalitySaveRequest2 = PersonalitySaveRequest2(
-                            personalityQuestionId = selectedTendencyList[0].personalityQuestionId,
-                            personalityOptionId = selectedTendencyList.map { it.id }
+                            personalityQuestionId = selectedTendencyList.personalityQuestionId,
+                            personalityOptionId = listOf(selectedTendencyList.personalityQuestionId)
                         )
                         navController.navigate(Screens.SelectTendency3)
                     }
@@ -155,11 +169,33 @@ fun SelectTendencyScreen2(
         }
     }
 
+    if(isShowDialog){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(BLACK.copy(alpha = 0.8f))
+        ) {
+            TwoButtonDialog(
+                dialogTitle = "나가기",
+                description = "입력한 내용들이 모두 초기화됩니다.\n나가시겠습니까?",
+                cancelButtonText = "취소",
+                confirmButtonText = "나가기",
+                onCancel = { isShowDialog = false },
+                onConfirm = {
+                    navController.navigate(Screens.Home) {
+                        popUpTo(navController.graph.startDestinationId) { inclusive = true } // 모든 백 스택 제거
+                        launchSingleTop = true // 중복 방지
+                    }
+                }
+
+            )
+        }
+    }
 }
 
 @Composable
 fun SelectTendencyArea2(
-    selectedTendencyList: MutableList<PersonalityListOption>,
+    selectedTendencyList: PersonalityListOption,
     getPersonalityList: List<PersonalityListOption>,
     onSelect: (PersonalityListOption) -> Unit,
 ) {
@@ -175,12 +211,12 @@ fun SelectTendencyArea2(
             }
         ) { _, item ->
             SelectTendencyAreaComponent(
-                containerColor = if(selectedTendencyList.contains(item)) LIGHT300 else WHITE,
+                containerColor = if(selectedTendencyList == item) LIGHT300 else WHITE,
                 item = item,
-                fontWeight = if(selectedTendencyList.contains(item)) FontWeight.SemiBold else FontWeight.Normal,
-                iconColor = if(selectedTendencyList.contains(item)) PRIMARY else GRAY200,
+                fontWeight = if(selectedTendencyList == item) FontWeight.SemiBold else FontWeight.Normal,
+                iconColor = if(selectedTendencyList == item) PRIMARY else GRAY200,
                 onSelect = { onSelect(it) },
-                textColor = if(selectedTendencyList.contains(item)) DARK400 else BLACK,
+                textColor = if(selectedTendencyList == item) DARK400 else BLACK,
             )
         }
     }
