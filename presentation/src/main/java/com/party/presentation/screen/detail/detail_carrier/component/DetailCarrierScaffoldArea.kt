@@ -14,6 +14,7 @@ import com.party.common.ui.theme.T2
 @Composable
 fun DetailCarrierScaffoldArea(
     onNavigationClick: () -> Unit,
+    onClose: () -> Unit,
 ) {
     ScaffoldCenterBar(
         navigationIcon = {
@@ -25,10 +26,19 @@ fun DetailCarrierScaffoldArea(
                 onClick = { onNavigationClick() }
             )
         },
+        actionIcons = {
+            DrawableIconButton(
+                icon = painterResource(id = R.drawable.icon_close2),
+                iconColor = BLACK,
+                iconSize = 24.dp,
+                contentDescription = "close",
+                onClick = onClose
+            )
+        },
         title = {
             Text(
                 text = "세부프로필",
-                fontWeight = FontWeight.    Bold,
+                fontWeight = FontWeight.Bold,
                 fontSize = T2
             )
         },

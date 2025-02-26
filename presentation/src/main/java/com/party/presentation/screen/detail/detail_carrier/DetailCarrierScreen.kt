@@ -2,6 +2,7 @@ package com.party.presentation.screen.detail.detail_carrier
 
 import android.content.Context
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -10,15 +11,20 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.party.common.DetailCarrierData.mainSelectedCarrier
 import com.party.common.DetailCarrierData.mainSelectedDetailPositionId
+import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
 import com.party.common.R
 import com.party.common.ScreenExplainArea
@@ -34,6 +40,7 @@ import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.detail.SaveCarrierRequest
 import com.party.common.Screens
+import com.party.common.component.dialog.TwoButtonDialog
 import com.party.presentation.screen.detail.ProfileIndicatorArea
 import com.party.presentation.screen.detail.detail_carrier.component.DetailCarrierBottomArea
 import com.party.presentation.screen.detail.detail_carrier.component.DetailCarrierScaffoldArea
@@ -51,6 +58,10 @@ fun DetailCarrierScreen(
     detailCarrierViewModel: DetailCarrierViewModel = hiltViewModel()
 ) {
     val saveCarrierState by detailCarrierViewModel.saveCarrierState.collectAsStateWithLifecycle()
+
+    var isShowDialog by remember {
+        mutableStateOf(false)
+    }
 
     LaunchedEffect(Unit) {
         detailCarrierViewModel.saveSuccessState.collectLatest {
@@ -78,6 +89,10 @@ fun DetailCarrierScreen(
     DetailCarrierScreenContent(
         context = context,
         onSkip = { navController.navigate(Screens.SelectTendency1) },
+        onNavigationClick = { navController.popBackStack() },
+        onClose = {
+            isShowDialog = true
+        },
         onNextButtonClick = {
             if(isValidNextButton()) {
                 val career = SaveCarrierList(
@@ -95,6 +110,29 @@ fun DetailCarrierScreen(
         },
         onGoToChoiceCarrierPosition = { navController.navigate(Screens.ChoiceCarrierPosition(isMain = it)) }
     )
+
+    if(isShowDialog){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(BLACK.copy(alpha = 0.8f))
+        ) {
+            TwoButtonDialog(
+                dialogTitle = "나가기",
+                description = "입력한 내용들이 모두 초기화됩니다.\n나가시겠습니까?",
+                cancelButtonText = "취소",
+                confirmButtonText = "나가기",
+                onCancel = { isShowDialog = false },
+                onConfirm = {
+                    navController.navigate(Screens.Home) {
+                        popUpTo(navController.graph.startDestinationId) { inclusive = true } // 모든 백 스택 제거
+                        launchSingleTop = true // 중복 방지
+                    }
+                }
+
+            )
+        }
+    }
 }
 
 @Composable
@@ -102,12 +140,15 @@ fun DetailCarrierScreenContent(
     context: Context,
     onSkip: () -> Unit,
     onNextButtonClick: () -> Unit,
+    onNavigationClick: () -> Unit,
+    onClose: () -> Unit,
     onGoToChoiceCarrierPosition: (Boolean) -> Unit,
 ){
     Scaffold(
         topBar = {
             DetailCarrierScaffoldArea(
-                onNavigationClick = {}
+                onNavigationClick = onNavigationClick,
+                onClose = onClose
             )
         }
     ){
@@ -137,6 +178,8 @@ fun DetailCarrierScreenContent(
                     subExplain = stringResource(id = R.string.detail_carrier2),
                 )
 
+                HeightSpacer(heightDp = 40.dp)
+
                 // 주포지션, 부포지션 선택
                 PositionArea(
                     context = context,
@@ -161,6 +204,8 @@ fun DetailCarrierScreenContentPreview() {
         context = LocalContext.current,
         onSkip = {},
         onNextButtonClick = {},
+        onNavigationClick = {},
+        onClose = {},
         onGoToChoiceCarrierPosition = {}
     )
 }
