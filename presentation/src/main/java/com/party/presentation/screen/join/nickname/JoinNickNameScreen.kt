@@ -116,7 +116,6 @@ fun JoinNickNameScreenRoute(
         }
     }
 
-
     JoinNickNameScreen(
         context = context,
         snackBarHostState = snackBarHostState,
@@ -124,6 +123,7 @@ fun JoinNickNameScreenRoute(
         isValidUserNickName = isValidUserNickName,
         isValidUserNickNameServerResponse = isValidUserNickNameServerResponse,
         onString = { userNickName = it },
+        onNavigateBack = { navController.popBackStack() },
         onClick = {
             if(aaa(isValidUserNickNameServerResponse, isValidUserNickName)){
                 joinViewModel.resetCheckNickNameState()
@@ -151,6 +151,7 @@ private fun JoinNickNameScreen(
     isValidUserNickName: Boolean,
     isValidUserNickNameServerResponse: Boolean,
     onString: (String) -> Unit,
+    onNavigateBack: () -> Unit,
     onClick: () -> Unit,
 ) {
     var isShowWarningDialog by rememberSaveable { mutableStateOf(false) }
@@ -163,7 +164,7 @@ private fun JoinNickNameScreen(
         },
         topBar = {
             JoinNickNameScaffoldArea(
-                onNavigationClick = {  }
+                onNavigationClick = onNavigateBack
             )
         }
     ) {
@@ -246,6 +247,7 @@ private fun JoinNickNameScreenContentPreview() {
         isValidUserNickName = true,
         isValidUserNickNameServerResponse = true,
         onString = {},
+        onNavigateBack = {},
         onClick = {}
     )
 }
