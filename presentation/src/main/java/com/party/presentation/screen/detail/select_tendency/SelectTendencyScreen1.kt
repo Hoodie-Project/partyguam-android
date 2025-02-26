@@ -2,6 +2,7 @@ package com.party.presentation.screen.detail.select_tendency
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -23,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
 import com.party.common.R
 import com.party.common.ScreenExplainArea
@@ -42,6 +45,7 @@ import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.PersonalityListOption
 import com.party.domain.model.user.detail.PersonalitySaveRequest2
 import com.party.common.Screens
+import com.party.common.component.dialog.TwoButtonDialog
 import com.party.presentation.screen.detail.ProfileIndicatorArea
 import com.party.presentation.screen.detail.select_tendency.SavePersonalityData.personalitySaveRequest2
 import com.party.presentation.screen.detail.select_tendency.component.SelectTendencyScaffoldArea
@@ -58,6 +62,9 @@ fun SelectTendencyScreen1(
 
     val accessToken by selectTendencyViewModel.accessToken.collectAsStateWithLifecycle()
 
+    var isShowDialog by remember {
+        mutableStateOf(false)
+    }
     if(accessToken.isNotEmpty()){
         LaunchedEffect(Unit) {
             selectTendencyViewModel.getPersonalityList()
@@ -78,7 +85,10 @@ fun SelectTendencyScreen1(
     Scaffold(
         topBar = {
             SelectTendencyScaffoldArea(
-                onNavigationClick = { navController.popBackStack() }
+                onNavigationClick = { navController.popBackStack() },
+                onClose = {
+                    isShowDialog = true
+                }
             )
         }
     ) {
@@ -107,6 +117,8 @@ fun SelectTendencyScreen1(
                     mainExplain = stringResource(id = R.string.select_tendency1),
                     subExplain = stringResource(id = R.string.select_tendency2),
                 )
+
+                HeightSpacer(heightDp = 40.dp)
 
                 when(personalityListState){
                     is UIState.Idle -> {}
@@ -152,6 +164,30 @@ fun SelectTendencyScreen1(
         }
     }
 
+
+    if(isShowDialog){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(BLACK.copy(alpha = 0.8f))
+        ) {
+            TwoButtonDialog(
+                dialogTitle = "나가기",
+                description = "입력한 내용들이 모두 초기화됩니다.\n나가시겠습니까?",
+                cancelButtonText = "취소",
+                confirmButtonText = "나가기",
+                onCancel = { isShowDialog = false },
+                onConfirm = {
+                    navController.navigate(Screens.Home) {
+                        popUpTo(navController.graph.startDestinationId) { inclusive = true } // 모든 백 스택 제거
+                        launchSingleTop = true // 중복 방지
+                    }
+                }
+
+            )
+        }
+    }
+
 }
 
 @Composable
@@ -162,7 +198,7 @@ fun SelectTendencyArea1(
 ) {
     LazyColumn(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         itemsIndexed(

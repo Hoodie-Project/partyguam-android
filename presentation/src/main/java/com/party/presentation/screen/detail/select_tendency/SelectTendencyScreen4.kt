@@ -100,7 +100,8 @@ fun SelectTendencyScreen4(
     Scaffold(
         topBar = {
             SelectTendencyScaffoldArea(
-                onNavigationClick = { navController.popBackStack() }
+                onNavigationClick = { navController.popBackStack() },
+                onClose = {}
             )
         }
     ) {

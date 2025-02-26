@@ -13,7 +13,8 @@ import com.party.common.ui.theme.T2
 
 @Composable
 fun SelectTendencyScaffoldArea(
-    onNavigationClick: () -> Unit
+    onNavigationClick: () -> Unit,
+    onClose: () -> Unit,
 ) {
     ScaffoldCenterBar(
         navigationIcon = {
@@ -22,7 +23,7 @@ fun SelectTendencyScaffoldArea(
                 iconColor = BLACK,
                 iconSize = 24.dp,
                 contentDescription = "back",
-                onClick = { onNavigationClick() }
+                onClick = onNavigationClick
             )
         },
         title = {
@@ -38,7 +39,7 @@ fun SelectTendencyScaffoldArea(
                 iconColor = BLACK,
                 iconSize = 24.dp,
                 contentDescription = "back",
-                onClick = { onNavigationClick() }
+                onClick = onClose
             )
         }
     )
