@@ -32,12 +32,14 @@ fun SelectTendencyCompleteScreen(
     navController: NavController,
 ) {
     SelectTendencyCompleteScreenContent(
+        onGoProfile = { navController.navigate(Screens.Profile) },
         onGoHome = { navController.navigate(Screens.Home) }
     )
 }
 
 @Composable
 fun SelectTendencyCompleteScreenContent(
+    onGoProfile: () -> Unit,
     onGoHome: () -> Unit,
 ) {
     Scaffold{
@@ -62,6 +64,7 @@ fun SelectTendencyCompleteScreenContent(
             }
 
             FinishButtonArea(
+                onGoProfile = onGoProfile,
                 onGoHome = onGoHome,
             )
 
@@ -73,6 +76,7 @@ fun SelectTendencyCompleteScreenContent(
 
 @Composable
 fun FinishButtonArea(
+    onGoProfile: () -> Unit,
     onGoHome: () -> Unit,
 ) {
     Row(
@@ -87,7 +91,7 @@ fun FinishButtonArea(
             textColor = BLACK,
             containerColor = WHITE,
             borderColor = PRIMARY,
-            onClick = {}
+            onClick = onGoProfile
         )
 
         WidthSpacer(widthDp = 8.dp)
@@ -107,6 +111,7 @@ fun FinishButtonArea(
 @Composable
 fun SelectTendencyCompleteScreenContentPreview() {
     SelectTendencyCompleteScreenContent(
+        onGoProfile = {},
         onGoHome = {}
     )
 }

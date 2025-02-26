@@ -159,7 +159,7 @@ fun SelectTendencyScreen2(
                     if(isValid){
                         personalitySaveRequest2 = PersonalitySaveRequest2(
                             personalityQuestionId = selectedTendencyList.personalityQuestionId,
-                            personalityOptionId = listOf(selectedTendencyList.personalityQuestionId)
+                            personalityOptionId = listOf(selectedTendencyList.id)
                         )
                         navController.navigate(Screens.SelectTendency3)
                     }

@@ -47,7 +47,7 @@ import com.party.domain.model.user.detail.PersonalitySaveRequest2
 import com.party.common.Screens
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.presentation.screen.detail.ProfileIndicatorArea
-import com.party.presentation.screen.detail.select_tendency.SavePersonalityData.personalitySaveRequest2
+import com.party.presentation.screen.detail.select_tendency.SavePersonalityData.personalitySaveRequest1
 import com.party.presentation.screen.detail.select_tendency.component.SelectTendencyScaffoldArea
 
 @Composable
@@ -152,7 +152,7 @@ fun SelectTendencyScreen1(
                 containerColor = if(isValid) PRIMARY else LIGHT400,
                 onClick = {
                     if(isValid){
-                        personalitySaveRequest2 = PersonalitySaveRequest2(
+                        personalitySaveRequest1 = PersonalitySaveRequest2(
                             personalityQuestionId = selectedTendencyList[0].personalityQuestionId,
                             personalityOptionId = selectedTendencyList.map { it -> it.id }
                         )
