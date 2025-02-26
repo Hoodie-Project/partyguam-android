@@ -77,8 +77,17 @@ fun ChoiceCarrierPositionScreen(
             if(isMain) mainSelectedCarrier = it else subSelectedCarrier = it
         },
         onSelectMainPosition = {
-            if(isMain) mainSelectedMainPosition = it else subSelectedMainPosition = it
-            detailCarrierViewModel.getPositions()
+            if(isMain) {
+                mainSelectedMainPosition = it
+                detailCarrierViewModel.getPositions(
+                    mainSelectedMainPosition
+                )
+            } else {
+                subSelectedMainPosition = it
+                detailCarrierViewModel.getPositions(
+                    subSelectedMainPosition
+                )
+            }
         },
         onSelectSubPosition = {
             if(isMain) {

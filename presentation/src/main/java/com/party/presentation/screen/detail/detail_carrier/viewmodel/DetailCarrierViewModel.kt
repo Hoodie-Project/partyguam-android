@@ -35,10 +35,10 @@ class DetailCarrierViewModel @Inject constructor(
     private val _saveSuccessState = MutableSharedFlow<Unit>()
     val saveSuccessState = _saveSuccessState.asSharedFlow()
 
-    fun getPositions(){
+    fun getPositions(main: String){
         viewModelScope.launch(Dispatchers.IO) {
             _positionsState.value = UIState.Loading
-            when(val result = getPositionsUseCase(main = mainSelectedMainPosition)){
+            when(val result = getPositionsUseCase(main = main)){
                 is ServerApiResponse.SuccessResponse<List<PositionList>> -> {
                     _positionsState.value = UIState.Success(result)
                 }
