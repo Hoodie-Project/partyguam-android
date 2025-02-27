@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -187,7 +188,7 @@ private fun JoinNickNameScreen(
                 HeightSpacer(heightDp = 40.dp)
 
                 JoinScreenInputField(
-                    textColor = GRAY400,
+                    textColor = if(userNickName.isNotEmpty()) BLACK else GRAY400,
                     containerColor = WHITE,
                     borderColor = setInputFieldBorderColor(text = userNickName),
                     closeIcon = if(userNickName.isNotEmpty()) { painterResource(id = R.drawable.icon_close) } else null,
@@ -207,7 +208,7 @@ private fun JoinNickNameScreen(
             }
 
             JoinScreenButton(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().imePadding(),
                 buttonText = if(aaa(isValidUserNickNameServerResponse, isValidUserNickName)) stringResource(id = R.string.common1) else stringResource(id = R.string.common7),
                 buttonTextColor = if(isValidUserNickName) BLACK else GRAY400,
                 buttonContainerColor = if(isValidUserNickName) PRIMARY else LIGHT400,
