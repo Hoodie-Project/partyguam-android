@@ -6,6 +6,7 @@ import com.party.data.dto.user.auth.LinkKakaoDto
 import com.party.data.dto.user.auth.MySocialOauthDto
 import com.party.data.dto.user.auth.SocialLoginDto
 import com.party.data.dto.user.auth.UserSignUpDto
+import com.party.data.dto.user.detail.GetCarrierDto
 import com.party.data.dto.user.detail.LocationDto
 import com.party.data.dto.user.detail.ModifyCarrierDto
 import com.party.data.dto.user.detail.PersonalityListDto
@@ -60,6 +61,9 @@ interface UserRemoteSource {
 
     // 특정 직군의 포지션 리스트 조회
     suspend fun getPositions(main: String): ApiResponse<List<PositionListDto>>
+
+    // 유저 경력 조회
+    suspend fun getCareers(): ApiResponse<List<GetCarrierDto>>
 
     // 유저 경력 저장
     suspend fun saveCarrier(career: SaveCarrierList): ApiResponse<SaveCarrierDto>

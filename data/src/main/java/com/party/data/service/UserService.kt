@@ -4,6 +4,7 @@ import com.party.data.dto.user.ReportsDto
 import com.party.data.dto.user.auth.LinkGoogleDto
 import com.party.data.dto.user.auth.LinkKakaoDto
 import com.party.data.dto.user.auth.MySocialOauthDto
+import com.party.data.dto.user.detail.GetCarrierDto
 import com.party.data.dto.user.detail.LocationDto
 import com.party.data.dto.user.detail.ModifyCarrierDto
 import com.party.data.dto.user.detail.PersonalityListDto
@@ -55,6 +56,10 @@ interface UserService {
     suspend fun getPositions(
         @Query("main") main: String,
     ): ApiResponse<List<PositionListDto>>
+
+    // 유저 경력 조회
+    @GET("api/users/me/careers")
+    suspend fun getCareer(): ApiResponse<List<GetCarrierDto>>
 
     // 유저 경력 저장
     @POST("api/users/me/careers")

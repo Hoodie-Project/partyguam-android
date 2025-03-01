@@ -50,6 +50,19 @@ fun ProfileEditCareerScreenRoute(
     var selectedSubPositionIdSecond by remember { mutableIntStateOf(0) }
 
     val userProfileState by profileEditCareerViewModel.state.collectAsStateWithLifecycle()
+    /*if (userProfileState.getCarrierList.isNotEmpty()){
+        userProfileState.getCarrierList.forEach {
+             if (it.careerType == "primary"){
+                selectedCareerFirst = "${it.years}년"
+                selectedMainPositionFirst = it.
+                selectedSubPositionFirst = it.subPosition
+                selectedSubPositionIdFirst = it.positionId
+            }else {
+                selectedCareerSecond = "${it.years}년"
+                selectedMainPositionSecond = it.position
+                selectedSubPositionSecond = it.subPosition
+                selectedSubPositionIdSecond = it.positionId        }
+    }*/
 
     LaunchedEffect(Unit) {
         profileEditCareerViewModel.saveSuccessState.collectLatest {

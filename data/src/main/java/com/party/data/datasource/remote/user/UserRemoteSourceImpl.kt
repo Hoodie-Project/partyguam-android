@@ -6,6 +6,7 @@ import com.party.data.dto.user.auth.LinkKakaoDto
 import com.party.data.dto.user.auth.MySocialOauthDto
 import com.party.data.dto.user.auth.SocialLoginDto
 import com.party.data.dto.user.auth.UserSignUpDto
+import com.party.data.dto.user.detail.GetCarrierDto
 import com.party.data.dto.user.detail.LocationDto
 import com.party.data.dto.user.detail.ModifyCarrierDto
 import com.party.data.dto.user.detail.PersonalityListDto
@@ -84,6 +85,10 @@ class UserRemoteSourceImpl @Inject constructor(
         main: String
     ): ApiResponse<List<PositionListDto>> {
         return userService.getPositions(main = main)
+    }
+
+    override suspend fun getCareers(): ApiResponse<List<GetCarrierDto>> {
+        return userService.getCareer()
     }
 
     override suspend fun saveCarrier(

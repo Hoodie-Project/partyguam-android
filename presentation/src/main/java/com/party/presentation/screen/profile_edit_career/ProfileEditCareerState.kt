@@ -1,5 +1,6 @@
 package com.party.presentation.screen.profile_edit_career
 
+import com.party.domain.model.user.detail.GetCarrier
 import com.party.domain.model.user.detail.PositionList
 
 data class ProfileEditCareerState(
@@ -13,4 +14,5 @@ data class ProfileEditCareerState(
     val subPositionList: List<PositionList> = emptyList(), // 서브 포지션 리스트
 
 
+    val getCarrierList: List<GetCarrier> = emptyList(),
 )

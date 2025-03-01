@@ -8,6 +8,7 @@ import com.party.domain.model.user.detail.PositionList
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.repository.UserRepository
 import com.party.domain.usecase.user.detail.DeleteUserCareerUseCase
+import com.party.domain.usecase.user.detail.GetCarrierUseCase
 import com.party.domain.usecase.user.detail.GetPositionsUseCase
 import com.party.domain.usecase.user.detail.ModifyCarrierUseCase
 import com.party.domain.usecase.user.detail.SaveCarrierUseCase
@@ -29,6 +30,7 @@ class ProfileEditCareerViewModel @Inject constructor(
     private val saveCarrierUseCase: SaveCarrierUseCase,
     private val deleteUserCareerUseCase: DeleteUserCareerUseCase,
     private val modifyCarrierUseCase: ModifyCarrierUseCase,
+    private val getCarrierUseCase: GetCarrierUseCase,
 ): ViewModel(){
 
     private val _state = MutableStateFlow(ProfileEditCareerState())
@@ -37,8 +39,24 @@ class ProfileEditCareerViewModel @Inject constructor(
     private val _saveSuccessState = MutableSharedFlow<Unit>()
     val saveSuccessState = _saveSuccessState.asSharedFlow()
 
+    init {
+        getCarrier()
+    }
+
     fun navigateScreen(){
         _state.update { it.copy(isShowPrevScreen = true) }
+    }
+
+    private fun getCarrier(){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = getCarrierUseCase()){
+                is ServerApiResponse.SuccessResponse -> {
+                    _state.update { it.copy(getCarrierList = result.data ?: emptyList()) }
+                }
+                is ServerApiResponse.ErrorResponse -> {}
+                is ServerApiResponse.ExceptionResponse -> {}
+            }
+        }
     }
 
     fun getSubPositionList(

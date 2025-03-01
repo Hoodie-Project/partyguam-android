@@ -21,6 +21,7 @@ import com.party.domain.model.user.MySocialOauth
 import com.party.domain.model.user.Reports
 import com.party.domain.model.user.ReportsRequest
 import com.party.domain.model.user.SocialLogin
+import com.party.domain.model.user.detail.GetCarrier
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.Location
 import com.party.domain.model.user.detail.ModifyCarrier
@@ -278,6 +279,31 @@ class UserRepositoryImpl @Inject constructor(
                 ErrorResponse()
             }
             is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse(message = result.message)
+            }
+        }
+    }
+
+    override suspend fun getCareer(): ServerApiResponse<List<GetCarrier>> {
+        return when(val result = userRemoteSource.getCareers()){
+            is ApiResponse.Success -> {
+                SuccessResponse(
+                    data = result.data.map {
+                        GetCarrier(
+                            id = it.id,
+                            positionId = it.positionId,
+                            years = it.years,
+                            careerType = it.careerType
+                        )
+                    }
+                )
+            }
+            is ApiResponse.Failure.Error -> {
+                ErrorResponse()
+            }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
                 ExceptionResponse(message = result.message)
             }
         }

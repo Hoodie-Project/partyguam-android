@@ -9,6 +9,7 @@ import com.party.domain.model.user.MySocialOauth
 import com.party.domain.model.user.Reports
 import com.party.domain.model.user.ReportsRequest
 import com.party.domain.model.user.SocialLogin
+import com.party.domain.model.user.detail.GetCarrier
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.Location
 import com.party.domain.model.user.detail.ModifyCarrier
@@ -60,6 +61,9 @@ interface UserRepository {
 
     // 특정 직군의 포지션 리스트 조회
     suspend fun getPositions(main: String): ServerApiResponse<List<PositionList>>
+
+    // 유저 경력 조회
+    suspend fun getCareer(): ServerApiResponse<List<GetCarrier>>
 
     // 유저 경력 저장
     suspend fun saveCarrier(career: SaveCarrierList): ServerApiResponse<List<SaveCarrier>>
