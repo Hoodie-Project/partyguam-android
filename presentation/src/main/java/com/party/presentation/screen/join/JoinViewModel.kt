@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.common.UIState
-import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.model.user.signup.UserSignUp
+import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.usecase.datastore.SaveAccessTokenUseCase
 import com.party.domain.usecase.user.auth.CheckNickNameUseCase
 import com.party.domain.usecase.user.auth.UserSignUpUseCase
@@ -37,6 +37,10 @@ class JoinViewModel @Inject constructor(
 
     private val _joinFailState = MutableSharedFlow<String>()
     val joinFailState = _joinFailState.asSharedFlow()
+
+    fun resetUserNickNameState(){
+        _checkNickNameState.value = UIState.Idle
+    }
 
     fun checkNickName(
         signupAccessToken: String,

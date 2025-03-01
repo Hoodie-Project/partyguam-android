@@ -31,6 +31,7 @@ import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
 import com.party.common.R
 import com.party.common.ScreenExplainArea
+import com.party.common.Screens
 import com.party.common.ServerApiResponse.ErrorResponse
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.UIState
@@ -45,7 +46,6 @@ import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
-import com.party.common.Screens
 import com.party.presentation.screen.join.JoinScreenButton
 import com.party.presentation.screen.join.JoinScreenInputField
 import com.party.presentation.screen.join.JoinViewModel
@@ -84,6 +84,9 @@ fun JoinNickNameScreenRoute(
     }.apply { value = validNickNameInputField(userNickName) }
 
     var isValidUserNickNameServerResponse by rememberSaveable { mutableStateOf(false) } // 서버에서 받은 닉네임 중복체크 결과
+    if(validNickNameInputField(userNickName)){
+        joinViewModel.resetUserNickNameState()
+    }
 
     if(!isValidUserNickName){
         isValidUserNickNameServerResponse = false
@@ -209,7 +212,7 @@ private fun JoinNickNameScreen(
 
             JoinScreenButton(
                 modifier = Modifier.fillMaxWidth().imePadding(),
-                buttonText = if(aaa(isValidUserNickNameServerResponse, isValidUserNickName)) stringResource(id = R.string.common1) else stringResource(id = R.string.common7),
+                buttonText = if(aaa(isValidUserNickNameServerResponse, isValidUserNickName)) stringResource(id = R.string.common1) else stringResource(id = R.string.common1),
                 buttonTextColor = if(isValidUserNickName) BLACK else GRAY400,
                 buttonContainerColor = if(isValidUserNickName) PRIMARY else LIGHT400,
                 buttonBorderColor = if(isValidUserNickName) PRIMARY else  LIGHT200,
