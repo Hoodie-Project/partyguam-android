@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -23,20 +22,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
-import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
-import com.party.common.component.icon.DrawableIconButton
 import com.party.common.convertIsoToCustomDateFormat
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY500
+import com.party.common.ui.theme.GREEN
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.RED
@@ -53,22 +50,20 @@ fun RecruitmentListItem4(
     recruitingCount: Int,
     applicationCount: Int,
     onClick: () -> Unit,
+    icon: @Composable (onClick: () -> Unit) -> Unit = {},
 ) {
     var isShowFinishButton by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(130.dp),
+            .height(127.dp),
     ){
         Card(
             onClick = onClick,
             modifier = Modifier
-                .fillMaxWidth()
-                .height(130.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = WHITE,
-            ),
+                .fillMaxSize(),
+            colors = CardDefaults.cardColors(containerColor = WHITE),
             shape = RoundedCornerShape(LARGE_CORNER_SIZE),
             border = BorderStroke(1.dp, GRAY100),
             elevation = CardDefaults.cardElevation(4.dp),
@@ -79,8 +74,7 @@ fun RecruitmentListItem4(
                     .padding(horizontal = 20.dp, vertical = 16.dp)
             ) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -90,15 +84,9 @@ fun RecruitmentListItem4(
                         textColor = GRAY500
                     )
 
-                    DrawableIconButton(
-                        icon = painterResource(id = R.drawable.icon_vertical_more2),
-                        contentDescription = "",
-                        onClick = {
-                            isShowFinishButton = true
-                        },
-                        modifier = Modifier
-                            .size(24.dp)
-                    )
+                    icon {
+                        isShowFinishButton = !isShowFinishButton
+                    }
                 }
 
                 HeightSpacer(heightDp = 8.dp)
@@ -115,12 +103,12 @@ fun RecruitmentListItem4(
                         .height(20.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    if(status == "completed"){
+                    if (status == "completed") {
                         TextComponent(
                             text = "모집마감",
                             fontSize = B2,
                         )
-                    }else{
+                    } else {
                         RecruitingCountArea(
                             text = "모집중",
                             number = "$recruitedCount / $recruitingCount",
@@ -137,11 +125,20 @@ fun RecruitmentListItem4(
             }
         }
 
-        if(isShowFinishButton){
-            RecruitmentFinishButton(
+        if (isShowFinishButton) {
+            Box(
                 modifier = Modifier
-                    .align(Alignment.BottomEnd)
-            )
+                    .fillMaxSize()
+            ){
+                RecruitmentFinishButton(
+                    modifier = Modifier
+                        .width(183.dp)
+                        .height(68.dp)
+                        .align(Alignment.BottomEnd)
+                        .padding(end = 8.dp, bottom = 24.dp),
+                    status = status
+                )
+            }
         }
     }
 }
@@ -174,18 +171,16 @@ private fun RecruitingCountArea(
 
 @Composable
 fun RecruitmentFinishButton(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    status: String,
 ) {
     Card(
-        modifier = modifier
-            .width(143.dp)
-            .height(62.dp)
-            .padding(end = 12.dp, bottom = 12.dp),
+        modifier = modifier,
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
         colors = CardDefaults.cardColors(
             containerColor = WHITE
         ),
-        border = BorderStroke(1.dp, GRAY100),
+        border = BorderStroke(1.dp, GREEN),
     ) {
         Box(
             modifier = Modifier
@@ -193,13 +188,13 @@ fun RecruitmentFinishButton(
             contentAlignment = Alignment.CenterStart
         ){
             TextComponent(
-                text = "마감하기",
+                text = if(status == "completed") "삭제하기" else "마감하기",
                 fontSize = B2,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .width(103.dp)
+                    .fillMaxWidth()
                     .height(22.dp)
-                    .padding(horizontal = 20.dp)
+                    .padding(start = 20.dp)
             )
         }
     }
@@ -238,5 +233,10 @@ private fun RecruitmentListItem4Preview1() {
 @Preview
 @Composable
 private fun RecruitmentFinishButtonPreview() {
-    RecruitmentFinishButton()
+    RecruitmentFinishButton(
+        modifier = Modifier
+            .width(183.dp)
+            .height(52.dp),
+        status = "completed"
+    )
 }
