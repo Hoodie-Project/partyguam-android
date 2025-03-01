@@ -138,6 +138,8 @@ private fun HomeScreen(
     onGoPartyCreate: () -> Unit,
     onAction: (HomeAction) -> Unit,
 ){
+    val bottomBarHeight = 56.dp // ✅ BottomNavigationBar 기본 높이
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -230,7 +232,7 @@ private fun HomeScreen(
         HomeFloatingArea(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(bottom = 98.dp, end = 20.dp)
+                .padding(bottom = bottomBarHeight + 20.dp, end = 20.dp)
                 .zIndex(1f),
             isExpandedFloatingButton = homeState.isExpandedFloating,
             partyCreateFloating = {

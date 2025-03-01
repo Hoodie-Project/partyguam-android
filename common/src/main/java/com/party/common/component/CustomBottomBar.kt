@@ -104,7 +104,7 @@ fun AppBottomNavigationBar(
         color = WHITE,
         modifier = modifier
             .fillMaxWidth()
-            .height(86.dp)
+            .height(60.dp)
             .windowInsetsPadding(BottomAppBarDefaults.windowInsets)
     ) {
         if (show) {
