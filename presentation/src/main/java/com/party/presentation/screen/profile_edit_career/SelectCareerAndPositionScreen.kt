@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.user.detail.PositionList
 import com.party.presentation.screen.profile_edit_career.component.ProfileEditCareerScaffoldArea
 import com.party.presentation.screen.profile_edit_career.component.ProfileEditResetAndAddButtonArea
 import com.party.presentation.screen.profile_edit_career.component.ProfileEditSelectCareerArea
@@ -32,12 +31,13 @@ fun SelectCareerAndPositionScreen(
     userProfileState: ProfileEditCareerState,
     onNavigationClick: () -> Unit,
     onAction: (ProfileEditCareerAction) -> Unit,
-    onSelectCareer: (String) -> Unit,
-    onSelectMainPosition: (String) -> Unit,
-    onSelectSubPosition: (PositionList) -> Unit,
-    onReset: () -> Unit,
-    onAdd: () -> Unit
+    onAdd: (String, String, String, Int) -> Unit
 ) {
+    var selectedYears by remember { mutableStateOf(selectedCareer) }
+    var selectedMain by remember { mutableStateOf(selectedMainPosition) }
+    var selectedSub by remember { mutableStateOf(selectedSubPosition) }
+    var selectedSubId by remember { mutableIntStateOf(0) }
+
     Scaffold(
         topBar = {
             ProfileEditCareerScaffoldArea(
@@ -58,16 +58,18 @@ fun SelectCareerAndPositionScreen(
                     .weight(1f)
             ) {
                 ProfileEditSelectCareerArea(
-                    selectedCareer = selectedCareer,
-                    onSelectCareer = onSelectCareer,
+                    selectedCareer = selectedYears,
+                    onSelectCareer = {
+                        selectedYears = it
+                    },
                 )
                 HeightSpacer(heightDp = 60.dp)
 
                 // 메인 포지션 선택
                 ProfileEditSelectPositionArea(
-                    selectedMainPosition = selectedMainPosition,
+                    selectedMainPosition = selectedMain,
                     onSelectMainPosition = { mainPosition ->
-                        onSelectMainPosition(mainPosition)
+                        selectedMain = mainPosition
                         onAction(ProfileEditCareerAction.OnGetSubPositionList(mainPosition))
                     },
                 )
@@ -76,15 +78,30 @@ fun SelectCareerAndPositionScreen(
                 HeightSpacer(heightDp = 20.dp)
                 ProfileEditSubPositionArea(
                     userProfileState = userProfileState,
-                    selectedSubPosition = selectedSubPosition,
-                    onSelectSubPosition = onSelectSubPosition
+                    selectedSubPosition = selectedSub,
+                    onSelectSubPosition = {
+                        selectedSub = it.sub
+                        selectedSubId = it.id
+                    }
                 )
             }
 
             // 초기화, 추가하기 버튼
             ProfileEditResetAndAddButtonArea(
-                onReset = onReset,
-                onAdd = onAdd
+                onReset = {
+                    selectedYears = ""
+                    selectedMain = ""
+                    selectedSub = ""
+                    selectedSubId = 0
+                },
+                onAdd = {
+                    onAdd(
+                        selectedYears,
+                        selectedMain,
+                        selectedSub,
+                        selectedSubId
+                    )
+                }
             )
         }
     }
@@ -100,10 +117,6 @@ private fun SelectCareerAndPositionScreenPreview() {
         userProfileState = ProfileEditCareerState(),
         onNavigationClick = {},
         onAction = {},
-        onSelectCareer = {},
-        onSelectMainPosition = {},
-        onSelectSubPosition = {},
-        onReset = {},
-        onAdd = {}
+        onAdd = { _, _, _, _ -> }
     )
 }

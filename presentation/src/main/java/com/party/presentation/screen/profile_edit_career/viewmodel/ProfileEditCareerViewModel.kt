@@ -3,10 +3,11 @@ package com.party.presentation.screen.profile_edit_career.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
+import com.party.domain.model.user.detail.GetCarrier
+import com.party.domain.model.user.detail.GetCarrierPosition
 import com.party.domain.model.user.detail.ModifyCarrierList
 import com.party.domain.model.user.detail.PositionList
 import com.party.domain.model.user.detail.SaveCarrierList
-import com.party.domain.repository.UserRepository
 import com.party.domain.usecase.user.detail.DeleteUserCareerUseCase
 import com.party.domain.usecase.user.detail.GetCarrierUseCase
 import com.party.domain.usecase.user.detail.GetPositionsUseCase
@@ -51,7 +52,17 @@ class ProfileEditCareerViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = getCarrierUseCase()){
                 is ServerApiResponse.SuccessResponse -> {
-                    _state.update { it.copy(getCarrierList = result.data ?: emptyList()) }
+                    result.data?.forEach {
+                        if(it.careerType == "primary"){
+                            _state.update { state ->
+                                state.copy(getMainPosition = it)
+                            }
+                        }else{
+                            _state.update { state ->
+                                state.copy(getSubPosition = it)
+                            }
+                        }
+                    }
                 }
                 is ServerApiResponse.ErrorResponse -> {}
                 is ServerApiResponse.ExceptionResponse -> {}
@@ -79,7 +90,11 @@ class ProfileEditCareerViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = deleteUserCareerUseCase()){
                 is ServerApiResponse.SuccessResponse -> {
-                    saveCarrier(career = career)
+                    if( !(_state.value.getMainPosition == null && _state.value.getSubPosition == null)){
+                        saveCarrier(career = career)
+                    }else {
+                        _saveSuccessState.emit(Unit)
+                    }
                 }
                 is ServerApiResponse.ErrorResponse -> {}
                 is ServerApiResponse.ExceptionResponse -> {}
@@ -99,7 +114,7 @@ class ProfileEditCareerViewModel @Inject constructor(
         }
     }
 
-    fun saveCarrier(career: SaveCarrierList){
+    private fun saveCarrier(career: SaveCarrierList){
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = saveCarrierUseCase(career = career)){
                 is ServerApiResponse.SuccessResponse -> {
@@ -111,11 +126,56 @@ class ProfileEditCareerViewModel @Inject constructor(
         }
     }
 
+    fun setCarrier(
+        isMain: Boolean,
+        year: String,
+        main: String,
+        sub: String,
+        id: Int,
+    ){
+        println("호출 $isMain $year $main $sub $id")
+        if(isMain){
+            _state.update {
+                it.copy(
+                    getMainPosition = GetCarrier(
+                        id = it.getMainPosition?.id ?: 0,
+                        position = GetCarrierPosition(
+                            id = id,
+                            main = main,
+                            sub = sub,
+                        ),
+                        years = year.split("년")[0].toInt(),
+                        careerType = "primary",
+                    ),
+                    isShowPrevScreen = true
+                )
+            }
+        } else {
+            _state.update {
+                it.copy(
+                    getSubPosition = GetCarrier(
+                        id = it.getSubPosition?.id ?: 0,
+                        position = GetCarrierPosition(
+                            id = id,
+                            main = main,
+                            sub = sub,
+                        ),
+                        years = year.split("년")[0].toInt(),
+                        careerType = "secondary"
+                    ),
+                    isShowPrevScreen = true
+                )
+            }
+        }
+    }
+
     fun onAction(action: ProfileEditCareerAction){
         when(action){
             is ProfileEditCareerAction.OnChangePrevScreen -> { _state.update { it.copy(isShowPrevScreen = action.isShowPrevScreen, subPositionList = emptyList()) } }
             is ProfileEditCareerAction.OnChangeMainOrSub -> { _state.update { it.copy(isMainPosition = action.isMain) } }
             is ProfileEditCareerAction.OnGetSubPositionList -> { getSubPositionList(action.main) }
+            is ProfileEditCareerAction.OnResetPrimaryPosition -> { _state.update { it.copy(getMainPosition = null) } }
+            is ProfileEditCareerAction.OnResetSecondaryPosition -> { _state.update { it.copy(getSubPosition = null) } }
         }
     }
 }

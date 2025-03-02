@@ -22,6 +22,7 @@ import com.party.domain.model.user.Reports
 import com.party.domain.model.user.ReportsRequest
 import com.party.domain.model.user.SocialLogin
 import com.party.domain.model.user.detail.GetCarrier
+import com.party.domain.model.user.detail.GetCarrierPosition
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.Location
 import com.party.domain.model.user.detail.ModifyCarrier
@@ -292,7 +293,11 @@ class UserRepositoryImpl @Inject constructor(
                     data = result.data.map {
                         GetCarrier(
                             id = it.id,
-                            positionId = it.positionId,
+                            position = GetCarrierPosition(
+                                id = it.position.id,
+                                main = it.position.main,
+                                sub = it.position.sub
+                            ),
                             years = it.years,
                             careerType = it.careerType
                         )

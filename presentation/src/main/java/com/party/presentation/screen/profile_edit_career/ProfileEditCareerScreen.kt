@@ -9,10 +9,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,7 +20,6 @@ import androidx.navigation.compose.rememberNavController
 import com.party.common.HeightSpacer
 import com.party.common.ScreenExplainArea
 import com.party.common.component.button.CustomButton
-import com.party.common.convertToIntFromYear
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.SaveCarrierList
@@ -39,30 +34,8 @@ fun ProfileEditCareerScreenRoute(
     navController: NavHostController,
     profileEditCareerViewModel: ProfileEditCareerViewModel = hiltViewModel()
 ) {
-    var selectedCareerFirst by remember { mutableStateOf("") }
-    var selectedMainPositionFirst by remember { mutableStateOf("") }
-    var selectedSubPositionFirst by remember { mutableStateOf("") }
-    var selectedSubPositionIdFirst by remember { mutableIntStateOf(0) }
 
-    var selectedCareerSecond by remember { mutableStateOf("") }
-    var selectedMainPositionSecond by remember { mutableStateOf("") }
-    var selectedSubPositionSecond by remember { mutableStateOf("") }
-    var selectedSubPositionIdSecond by remember { mutableIntStateOf(0) }
-
-    val userProfileState by profileEditCareerViewModel.state.collectAsStateWithLifecycle()
-    /*if (userProfileState.getCarrierList.isNotEmpty()){
-        userProfileState.getCarrierList.forEach {
-             if (it.careerType == "primary"){
-                selectedCareerFirst = "${it.years}년"
-                selectedMainPositionFirst = it.
-                selectedSubPositionFirst = it.subPosition
-                selectedSubPositionIdFirst = it.positionId
-            }else {
-                selectedCareerSecond = "${it.years}년"
-                selectedMainPositionSecond = it.position
-                selectedSubPositionSecond = it.subPosition
-                selectedSubPositionIdSecond = it.positionId        }
-    }*/
+    val state by profileEditCareerViewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         profileEditCareerViewModel.saveSuccessState.collectLatest {
@@ -70,47 +43,31 @@ fun ProfileEditCareerScreenRoute(
         }
     }
 
-    when(userProfileState.isShowPrevScreen) {
+    when(state.isShowPrevScreen) {
         true -> {
             ProfileEditCareerScreen(
-                selectedCareerFirst = selectedCareerFirst,
-                selectedMainPositionFirst = selectedMainPositionFirst,
-                selectedSubPositionFirst = selectedSubPositionFirst,
-                selectedCareerSecond = selectedCareerSecond,
-                selectedMainPositionSecond = selectedMainPositionSecond,
-                selectedSubPositionSecond = selectedSubPositionSecond,
-                userProfileState = userProfileState,
+                state = state,
                 onNavigationClick = { navController.popBackStack() },
                 onAction = { action ->
                     when(action){
                         is ProfileEditCareerAction.OnChangePrevScreen -> profileEditCareerViewModel.onAction(action)
                         is ProfileEditCareerAction.OnChangeMainOrSub -> profileEditCareerViewModel.onAction(action)
                         is ProfileEditCareerAction.OnGetSubPositionList -> profileEditCareerViewModel.onAction(action)
+                        is ProfileEditCareerAction.OnResetPrimaryPosition -> profileEditCareerViewModel.onAction(action)
+                        is ProfileEditCareerAction.OnResetSecondaryPosition -> profileEditCareerViewModel.onAction(action)
                     }
-                },
-                onResetSelectedFirst = {
-                    selectedCareerFirst = ""
-                    selectedMainPositionFirst = ""
-                    selectedSubPositionFirst = ""
-                    selectedSubPositionIdFirst = 0
-                },
-                onResetSelectedSecond = {
-                    selectedCareerSecond = ""
-                    selectedMainPositionSecond = ""
-                    selectedSubPositionSecond = ""
-                    selectedSubPositionIdSecond = 0
                 },
                 onApply = {
                     val carrierRequests = listOfNotNull(
                         SaveCarrierRequest(
-                            positionId = selectedSubPositionIdFirst,
-                            years = convertToIntFromYear(selectedCareerFirst),
+                            positionId = state.getMainPosition?.position?.id ?: 0,
+                            years = state.getMainPosition?.years ?: 0,
                             careerType = "primary"
                         ),
-                        selectedCareerSecond.takeIf { it.isNotEmpty() }?.let {
+                        state.getSubPosition?.years?.let {
                             SaveCarrierRequest(
-                                positionId = selectedSubPositionIdSecond,
-                                years = convertToIntFromYear(selectedCareerSecond),
+                                positionId = state.getSubPosition?.position?.id ?: 0,
+                                years = it,
                                 careerType = "secondary"
                             )
                         }
@@ -122,10 +79,10 @@ fun ProfileEditCareerScreenRoute(
         }
         false -> {
             SelectCareerAndPositionScreen(
-                selectedCareer = if(userProfileState.isMainPosition) selectedCareerFirst else selectedCareerSecond,
-                selectedMainPosition = if(userProfileState.isMainPosition) selectedMainPositionFirst else selectedMainPositionSecond,
-                selectedSubPosition = if(userProfileState.isMainPosition) selectedSubPositionFirst else selectedSubPositionSecond,
-                userProfileState = userProfileState,
+                selectedCareer = if(state.isMainPosition) "${state.getMainPosition?.years.toString()}년" else "${state.getSubPosition?.years.toString()}년",
+                selectedMainPosition = if(state.isMainPosition) state.getMainPosition?.position?.main ?: "" else state.getSubPosition?.position?.main ?: "",
+                selectedSubPosition = if(state.isMainPosition) state.getMainPosition?.position?.sub ?: "" else state.getSubPosition?.position?.sub ?: "",
+                userProfileState = state,
                 onNavigationClick = {
                     profileEditCareerViewModel.navigateScreen()
                 },
@@ -134,37 +91,29 @@ fun ProfileEditCareerScreenRoute(
                         is ProfileEditCareerAction.OnChangePrevScreen -> profileEditCareerViewModel.onAction(action)
                         is ProfileEditCareerAction.OnChangeMainOrSub -> profileEditCareerViewModel.onAction(action)
                         is ProfileEditCareerAction.OnGetSubPositionList -> profileEditCareerViewModel.onAction(action)
+                        is ProfileEditCareerAction.OnResetPrimaryPosition -> profileEditCareerViewModel.onAction(action)
+                        is ProfileEditCareerAction.OnResetSecondaryPosition -> profileEditCareerViewModel.onAction(action)
                     }
                 },
-                onSelectCareer = {
-                    if(userProfileState.isMainPosition) selectedCareerFirst = it else selectedCareerSecond = it
-                },
-                onSelectMainPosition = {
-                    if(userProfileState.isMainPosition) selectedMainPositionFirst = it else selectedMainPositionSecond = it
-                },
-                onSelectSubPosition = {
-                    if(userProfileState.isMainPosition) {
-                        selectedSubPositionFirst = it.sub
-                        selectedSubPositionIdFirst = it.id
+                onAdd = { years, main, sub, subId ->
+                    if(state.isMainPosition){
+                        profileEditCareerViewModel.setCarrier(
+                            isMain = true,
+                            year = years,
+                            main = main,
+                            sub = sub,
+                            id = subId
+                        )
                     } else {
-                        selectedSubPositionSecond = it.sub
-                        selectedSubPositionIdSecond = it.id
+                        profileEditCareerViewModel.setCarrier(
+                            isMain = false,
+                            year = years,
+                            main = main,
+                            sub = sub,
+                            id = subId
+                        )
                     }
-                },
-                onReset = {
-                    if(userProfileState.isMainPosition){
-                        selectedCareerFirst = ""
-                        selectedMainPositionFirst = ""
-                        selectedSubPositionFirst = ""
-                        selectedSubPositionIdFirst = 0
-                    }else {
-                        selectedCareerSecond = ""
-                        selectedMainPositionSecond = ""
-                        selectedSubPositionSecond = ""
-                        selectedSubPositionIdSecond = 0
-                    }
-                },
-                onAdd = { profileEditCareerViewModel.navigateScreen() }
+                }
             )
         }
     }
@@ -172,17 +121,9 @@ fun ProfileEditCareerScreenRoute(
 
 @Composable
 private fun ProfileEditCareerScreen(
-    selectedCareerFirst: String,
-    selectedMainPositionFirst: String,
-    selectedSubPositionFirst: String,
-    selectedCareerSecond: String,
-    selectedMainPositionSecond: String,
-    selectedSubPositionSecond: String,
-    userProfileState: ProfileEditCareerState,
+    state: ProfileEditCareerState,
     onNavigationClick: () -> Unit,
     onAction: (ProfileEditCareerAction) -> Unit,
-    onResetSelectedFirst: () -> Unit,
-    onResetSelectedSecond: () -> Unit,
     onApply: () -> Unit
 ) {
     Scaffold(
@@ -212,18 +153,17 @@ private fun ProfileEditCareerScreen(
                 // 주포지션, 부포지션
                 HeightSpacer(heightDp = 40.dp)
                 ProfileEditCareerSelectedPositionArea(
-                    selectedCareerFirst = selectedCareerFirst,
-                    selectedMainPositionFirst = selectedMainPositionFirst,
-                    selectedSubPositionFirst = selectedSubPositionFirst,
-                    selectedCareerSecond = selectedCareerSecond,
-                    selectedMainPositionSecond = selectedMainPositionSecond,
-                    selectedSubPositionSecond = selectedSubPositionSecond,
+                    state = state,
                     onGoToSelectCareerAndPosition = {
                         isMain -> onAction(ProfileEditCareerAction.OnChangeMainOrSub(isMain = isMain))
                         onAction(ProfileEditCareerAction.OnChangePrevScreen(isShowPrevScreen = false))
                     },
-                    onResetSelectedFirst = onResetSelectedFirst,
-                    onResetSelectedSecond = onResetSelectedSecond
+                    onResetSelectedFirst = {
+                        onAction(ProfileEditCareerAction.OnResetPrimaryPosition)
+                    },
+                    onResetSelectedSecond = {
+                        onAction(ProfileEditCareerAction.OnResetSecondaryPosition)
+                    }
                 )
             }
 

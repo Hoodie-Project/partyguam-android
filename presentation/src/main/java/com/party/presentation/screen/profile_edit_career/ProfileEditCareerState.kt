@@ -14,5 +14,9 @@ data class ProfileEditCareerState(
     val subPositionList: List<PositionList> = emptyList(), // 서브 포지션 리스트
 
 
-    val getCarrierList: List<GetCarrier> = emptyList(),
+    // 선택된 주포지션
+    val getMainPosition: GetCarrier? = null,
+
+    // 선택된 부포지션
+    val getSubPosition: GetCarrier? = null,
 )

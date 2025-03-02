@@ -38,12 +38,13 @@ import com.party.presentation.screen.profile_edit_career.ProfileEditCareerState
 
 @Composable
 fun ProfileEditCareerSelectedPositionArea(
-    selectedCareerFirst: String,
+    state: ProfileEditCareerState,
+    /*selectedCareerFirst: String,
     selectedMainPositionFirst: String,
     selectedSubPositionFirst: String,
     selectedCareerSecond: String,
     selectedMainPositionSecond: String,
-    selectedSubPositionSecond: String,
+    selectedSubPositionSecond: String,*/
     onGoToSelectCareerAndPosition: (Boolean) -> Unit,
     onResetSelectedFirst: () -> Unit,
     onResetSelectedSecond: () -> Unit,
@@ -53,9 +54,9 @@ fun ProfileEditCareerSelectedPositionArea(
             .fillMaxWidth()
     ) {
         ProfileEditCareerSelectedPositionItem(
-            selectedCareer = selectedCareerFirst,
-            selectedMainPosition = selectedMainPositionFirst,
-            selectedSubPosition = selectedSubPositionFirst,
+            selectedCareer = "${state.getMainPosition?.years.toString()}년" ,
+            selectedMainPosition = state.getMainPosition?.position?.main ?: "",
+            selectedSubPosition = state.getMainPosition?.position?.sub ?: "",
             title = "주포지션",
             onGoToSelectCareerAndPosition = { onGoToSelectCareerAndPosition(true) },
             onReset = onResetSelectedFirst
@@ -64,13 +65,12 @@ fun ProfileEditCareerSelectedPositionArea(
         HeightSpacer(heightDp = 40.dp)
 
         ProfileEditCareerSelectedPositionItem(
-            selectedCareer = selectedCareerSecond,
-            selectedMainPosition = selectedMainPositionSecond,
-            selectedSubPosition = selectedSubPositionSecond,
+            selectedCareer = "${state.getSubPosition?.years.toString()}년",
+            selectedMainPosition = state.getSubPosition?.position?.main ?: "",
+            selectedSubPosition = state.getSubPosition?.position?.sub ?: "",
             title = "부포지션",
             onGoToSelectCareerAndPosition = { onGoToSelectCareerAndPosition(false) },
             onReset = onResetSelectedSecond
-
         )
     }
 }
