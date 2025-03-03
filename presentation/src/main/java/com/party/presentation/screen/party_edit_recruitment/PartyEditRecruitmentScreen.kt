@@ -28,6 +28,7 @@ import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
 import com.party.common.Screens
 import com.party.common.component.dialog.TwoButtonDialog
+import com.party.common.component.partyRecruitmentEditTabList
 import com.party.common.noRippleClickable
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.BLACK
@@ -42,6 +43,7 @@ import com.party.presentation.screen.party_edit_recruitment.component.PartyRecru
 import com.party.presentation.screen.party_edit_recruitment.component.PartyRecruitmentEditFilterArea
 import com.party.presentation.screen.party_edit_recruitment.component.PartyRecruitmentEditFloatingArea
 import com.party.presentation.screen.party_edit_recruitment.component.PartyRecruitmentEditHelpCard
+import com.party.presentation.screen.party_edit_recruitment.component.PartyRecruitmentEditTabBarArea
 import com.party.presentation.screen.party_edit_recruitment.component.PartyRecruitmentListArea
 import com.party.presentation.screen.party_edit_recruitment.viewmodel.PartyRecruitmentEditViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -55,20 +57,20 @@ fun PartyEditRecruitmentScreenRoute(
     partyRecruitmentEditViewModel: PartyRecruitmentEditViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
-        partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = OrderDescType.DESC.type, main = null, status = "active")
+        partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = OrderDescType.DESC.type, main = null)
     }
 
     LaunchedEffect(key1 = Unit) {
         partyRecruitmentEditViewModel.completedSuccess.collectLatest {
             snackBarMessage(snackBarHostState, "모집공고가 마감되었어요.")
-            partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = OrderDescType.DESC.type, main = null, status = "active")
+            partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = OrderDescType.DESC.type, main = null)
         }
     }
 
     LaunchedEffect(key1 = Unit) {
         partyRecruitmentEditViewModel.deleteRecruitment.collectLatest {
             snackBarMessage(snackBarHostState, "모집공고가 삭제되었어요.")
-            partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = OrderDescType.DESC.type, main = null, status = "active")
+            partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = OrderDescType.DESC.type, main = null)
         }
     }
     val partyRecruitmentEditState by partyRecruitmentEditViewModel.state.collectAsStateWithLifecycle()
@@ -88,6 +90,7 @@ fun PartyEditRecruitmentScreenRoute(
                 onGotoRecruitmentCreate = { navController.navigate(Screens.RecruitmentCreate(partyId = partyId)) },
                 onAction = { action ->
                     when(action){
+                        is PartyRecruitmentEditAction.OnSelectedTabText -> partyRecruitmentEditViewModel.onAction(action)
                         is PartyRecruitmentEditAction.OnShowHelpCard -> partyRecruitmentEditViewModel.onAction(action)
                         is PartyRecruitmentEditAction.OnChangeOrderBy -> partyRecruitmentEditViewModel.onAction(action)
                         is PartyRecruitmentEditAction.OnExpanded -> partyRecruitmentEditViewModel.onAction(action)
@@ -168,6 +171,14 @@ private fun PartyEditRecruitmentScreen(
                     .padding(it)
                     .padding(horizontal = MEDIUM_PADDING_SIZE)
             ) {
+                PartyRecruitmentEditTabBarArea(
+                    topTabList = partyRecruitmentEditTabList,
+                    selectedTabText = partyRecruitmentEditState.selectedTabText,
+                    onTabClick = { selectedTabText -> onAction(PartyRecruitmentEditAction.OnSelectedTabText(selectedTabText = selectedTabText, partyId = partyId)) }
+                )
+
+                HeightSpacer(heightDp = 24.dp)
+
                 // 모집공고 선택 Description
                 Box {
                     if(partyRecruitmentEditState.isShowHelpCard){

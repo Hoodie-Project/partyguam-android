@@ -6,5 +6,5 @@ import javax.inject.Inject
 class GetPartyRecruitmentUseCase @Inject constructor(
     private val partyRepository: PartyRepository,
 ) {
-    suspend operator fun invoke(partyId: Int, sort: String, order: String, main: String?, status: String) = partyRepository.getPartyRecruitmentList(partyId = partyId, sort = sort, order = order, main = main, status = status)
+    suspend operator fun invoke(partyId: Int, sort: String, order: String, main: String?, status: String?) = partyRepository.getPartyRecruitmentList(partyId = partyId, sort = sort, order = order, main = main, status = status)
 }

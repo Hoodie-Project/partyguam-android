@@ -6,6 +6,7 @@ import com.party.common.ServerApiResponse
 import com.party.domain.usecase.party.CompletedPartyRecruitmentUseCase
 import com.party.domain.usecase.party.DeleteRecruitmentUseCase
 import com.party.domain.usecase.party.GetPartyRecruitmentUseCase
+import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.party_edit_recruitment.PartyRecruitmentEditAction
 import com.party.presentation.screen.party_edit_recruitment.PartyRecruitmentEditState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,10 +47,16 @@ class PartyRecruitmentEditViewModel @Inject constructor(
         }
     }
 
-    fun getPartyRecruitment(partyId: Int, sort: String, order: String, main: String?, status: String) {
+    fun getPartyRecruitment(partyId: Int, sort: String, order: String, main: String?) {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(isLoadingPartyRecruitment = true) }
-            when (val result = getPartyRecruitmentUseCase(partyId = partyId, sort = sort, order = order, main = main, status = status)) {
+            when (val result = getPartyRecruitmentUseCase(
+                partyId = partyId,
+                sort = sort,
+                order = order,
+                main = main,
+                status = if(_state.value.selectedTabText == "전체") null else if(_state.value.selectedTabText == "모집중") "active" else "completed"
+            )) {
                 is ServerApiResponse.SuccessResponse -> {
                     _state.update { it.copy(
                         isLoadingPartyRecruitment = false,
@@ -74,6 +81,15 @@ class PartyRecruitmentEditViewModel @Inject constructor(
 
     fun onAction(action: PartyRecruitmentEditAction){
         when(action){
+            is PartyRecruitmentEditAction.OnSelectedTabText -> {
+                _state.update { it.copy(selectedTabText = action.selectedTabText) }
+                getPartyRecruitment(
+                    partyId = action.partyId,
+                    sort = "createdAt",
+                    order = if(_state.value.isDesc) OrderDescType.DESC.type else OrderDescType.ASC.type,
+                    main = null
+                )
+            }
             is PartyRecruitmentEditAction.OnShowHelpCard -> _state.update { it.copy(isShowHelpCard = action.isShowHelpCard) }
             is PartyRecruitmentEditAction.OnChangeOrderBy -> {
                 _state.update { currentState ->

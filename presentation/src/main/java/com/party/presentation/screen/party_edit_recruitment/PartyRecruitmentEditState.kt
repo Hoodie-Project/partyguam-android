@@ -1,8 +1,11 @@
 package com.party.presentation.screen.party_edit_recruitment
 
+import com.party.common.component.partyRecruitmentEditTabList
 import com.party.domain.model.party.PartyRecruitment
 
 data class PartyRecruitmentEditState(
+    val selectedTabText: String = partyRecruitmentEditTabList[0],
+
     val isShowHelpCard: Boolean = false,
     val isDesc: Boolean = false,
 

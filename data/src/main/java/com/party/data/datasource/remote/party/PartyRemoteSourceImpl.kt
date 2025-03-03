@@ -87,7 +87,7 @@ class PartyRemoteSourceImpl @Inject constructor(
         sort: String,
         order: String,
         main: String?,
-        status: String,
+        status: String?,
     ): ApiResponse<List<PartyRecruitmentDto>> {
         return partyService.getPartyRecruitmentList(partyId = partyId, sort = sort, order = order, main = main, status = status)
     }

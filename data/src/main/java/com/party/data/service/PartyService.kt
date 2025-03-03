@@ -99,7 +99,7 @@ interface PartyService {
         @Query("sort") sort: String,
         @Query("order") order: String,
         @Query("main") main: String? = null,
-        @Query("status") status: String,
+        @Query("status") status: String? = null,
     ): ApiResponse<List<PartyRecruitmentDto>>
 
     // 파티 상세 조회 - 나의 파티 권한 조회
