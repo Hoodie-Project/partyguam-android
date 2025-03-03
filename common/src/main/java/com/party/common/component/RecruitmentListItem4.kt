@@ -50,6 +50,7 @@ fun RecruitmentListItem4(
     recruitingCount: Int,
     applicationCount: Int,
     onClick: () -> Unit,
+    onPartyRecruitmentCompleted: () -> Unit,
     icon: @Composable (onClick: () -> Unit) -> Unit = {},
 ) {
     var isShowFinishButton by remember { mutableStateOf(false) }
@@ -136,7 +137,8 @@ fun RecruitmentListItem4(
                         .height(68.dp)
                         .align(Alignment.BottomEnd)
                         .padding(end = 8.dp, bottom = 24.dp),
-                    status = status
+                    status = status,
+                    onPartyRecruitmentCompleted = onPartyRecruitmentCompleted,
                 )
             }
         }
@@ -173,6 +175,7 @@ private fun RecruitingCountArea(
 fun RecruitmentFinishButton(
     modifier: Modifier = Modifier,
     status: String,
+    onPartyRecruitmentCompleted: () -> Unit,
 ) {
     Card(
         modifier = modifier,
@@ -191,10 +194,17 @@ fun RecruitmentFinishButton(
                 text = if(status == "completed") "삭제하기" else "마감하기",
                 fontSize = B2,
                 fontWeight = FontWeight.Bold,
+                onClick = {
+                    if (status == "completed") {
+                        // 삭제하기
+                    } else {
+                        // 마감하기
+                        onPartyRecruitmentCompleted()
+                    }
+                },
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(22.dp)
-                    .padding(start = 20.dp)
+                    .fillMaxSize()
+                    .padding(horizontal = 20.dp)
             )
         }
     }
@@ -212,6 +222,7 @@ private fun RecruitmentListItem4Preview() {
         applicationCount = 1,
         status = "active",
         onClick = {},
+        onPartyRecruitmentCompleted = {},
     )
 }
 
@@ -227,6 +238,7 @@ private fun RecruitmentListItem4Preview1() {
         applicationCount = 1,
         status = "completed",
         onClick = {},
+        onPartyRecruitmentCompleted = {},
     )
 }
 
@@ -237,6 +249,7 @@ private fun RecruitmentFinishButtonPreview() {
         modifier = Modifier
             .width(183.dp)
             .height(52.dp),
-        status = "completed"
+        status = "completed",
+        onPartyRecruitmentCompleted = {},
     )
 }

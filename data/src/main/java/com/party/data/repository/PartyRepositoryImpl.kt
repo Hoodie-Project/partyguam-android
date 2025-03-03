@@ -33,6 +33,7 @@ import com.party.domain.model.party.PartyList
 import com.party.domain.model.party.PartyMembersInfo
 import com.party.domain.model.party.PartyModify
 import com.party.domain.model.party.PartyRecruitment
+import com.party.domain.model.party.PartyRecruitmentCompleted
 import com.party.domain.model.party.PartyUsers
 import com.party.domain.model.party.PersonalRecruitmentList
 import com.party.domain.model.party.RecruitmentApplicant
@@ -629,6 +630,40 @@ class PartyRepositoryImpl @Inject constructor(
                     StatusCode.NotFound -> {
                         ErrorResponse(
                             statusCode = StatusCode.NotFound.code,
+                            data = null,
+                        )
+                    }
+                    else -> ErrorResponse(data = null)
+                }
+            }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse()
+            }
+        }
+    }
+
+    override suspend fun completePartyRecruitment(
+        partyId: Int,
+        partyRecruitmentId: Int
+    ): ServerApiResponse<PartyRecruitmentCompleted> {
+        return when(val result = partyRemoteSource.completePartyRecruitment(partyId = partyId, partyRecruitmentId = partyRecruitmentId)){
+            is ApiResponse.Success -> {
+                SuccessResponse(
+                    data = PartyRecruitmentCompleted(result.data.message)
+                )
+            }
+            is ApiResponse.Failure.Error -> {
+                when(result.statusCode){
+                    StatusCode.Forbidden -> {
+                        ErrorResponse(
+                            statusCode = StatusCode.Forbidden.code,
+                            data = null,
+                        )
+                    }
+                    StatusCode.BadRequest -> {
+                        ErrorResponse(
+                            statusCode = StatusCode.BadRequest.code,
                             data = null,
                         )
                     }

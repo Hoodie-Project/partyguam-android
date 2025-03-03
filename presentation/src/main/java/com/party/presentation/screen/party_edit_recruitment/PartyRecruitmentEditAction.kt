@@ -7,4 +7,6 @@ sealed interface PartyRecruitmentEditAction {
     data class OnCollapsed(val index: Int, val isOptionsRevealed: Boolean): PartyRecruitmentEditAction
     data class OnShowRecruitmentDeleteDialog(val isShowRecruitmentDeleteDialog: Boolean): PartyRecruitmentEditAction
     data class OnDeleteRecruitment(val partyId: Int, val partyRecruitmentId: Int): PartyRecruitmentEditAction
+    data class OnShowPartyRecruitmentCompletedDialog(val isShowPartyRecruitmentDialog: Boolean): PartyRecruitmentEditAction
+    data class OnPartyRecruitmentCompleted(val partyId: Int, val partyRecruitmentId: Int): PartyRecruitmentEditAction
 }

@@ -9,5 +9,8 @@ data class PartyRecruitmentEditState(
     val isLoadingPartyRecruitment: Boolean = false,
     val partyRecruitment: List<PartyRecruitment> = emptyList(),
 
-    val isShowRecruitmentDeleteDialog: Boolean = false
+    val isShowRecruitmentDeleteDialog: Boolean = false,
+
+    // 모집마감 다이얼로그
+    val isShowPartyRecruitmentCompletedDialog: Boolean = false,
 )

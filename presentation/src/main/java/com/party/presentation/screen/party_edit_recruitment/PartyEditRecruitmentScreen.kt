@@ -26,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
+import com.party.common.Screens
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.noRippleClickable
 import com.party.common.snackBarMessage
@@ -34,7 +35,6 @@ import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.Position1
-import com.party.common.Screens
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.party_detail.component.RightModalDrawer
 import com.party.presentation.screen.party_edit_recruitment.component.PartyEditRecruitmentScaffoldArea
@@ -56,6 +56,13 @@ fun PartyEditRecruitmentScreenRoute(
 ) {
     LaunchedEffect(Unit) {
         partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = OrderDescType.DESC.type, main = null, status = "active")
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        partyRecruitmentEditViewModel.completedSuccess.collectLatest {
+            snackBarMessage(snackBarHostState, "모집공고가 마감되었어요.")
+            partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = OrderDescType.DESC.type, main = null, status = "active")
+        }
     }
 
     LaunchedEffect(key1 = Unit) {
@@ -87,6 +94,8 @@ fun PartyEditRecruitmentScreenRoute(
                         is PartyRecruitmentEditAction.OnCollapsed -> partyRecruitmentEditViewModel.onAction(action)
                         is PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog -> partyRecruitmentEditViewModel.onAction(action)
                         is PartyRecruitmentEditAction.OnDeleteRecruitment -> partyRecruitmentEditViewModel.deleteRecruitment(action.partyId, action.partyRecruitmentId)
+                        is PartyRecruitmentEditAction.OnShowPartyRecruitmentCompletedDialog -> partyRecruitmentEditViewModel.onAction(action)
+                        is PartyRecruitmentEditAction.OnPartyRecruitmentCompleted -> partyRecruitmentEditViewModel.onAction(action)
                     }
                 },
                 onManageClick = { scope.launch { drawerState.open() } },
@@ -136,8 +145,8 @@ private fun PartyEditRecruitmentScreen(
         Scaffold(
             modifier = Modifier
                 .blur(
-                    radiusX = if (partyRecruitmentEditState.isShowRecruitmentDeleteDialog) 10.dp else 0.dp,
-                    radiusY = if (partyRecruitmentEditState.isShowRecruitmentDeleteDialog) 10.dp else 0.dp,
+                    radiusX = if (partyRecruitmentEditState.isShowRecruitmentDeleteDialog || partyRecruitmentEditState.isShowPartyRecruitmentCompletedDialog) 10.dp else 0.dp,
+                    radiusY = if (partyRecruitmentEditState.isShowRecruitmentDeleteDialog || partyRecruitmentEditState.isShowPartyRecruitmentCompletedDialog) 10.dp else 0.dp,
                 ),
             snackbarHost = {
                 SnackbarHost(
@@ -192,7 +201,11 @@ private fun PartyEditRecruitmentScreen(
                         selectedRecruitmentId = selectedRecruitmentId1
                         onAction(PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog(true))
                     },
-                    onClick = onClick
+                    onClick = onClick,
+                    onPartyRecruitmentCompleted =  { recruitmentId ->
+                        selectedRecruitmentId = recruitmentId
+                        onAction(PartyRecruitmentEditAction.OnShowPartyRecruitmentCompletedDialog(true))
+                    }
                 )
             }
         }
@@ -210,7 +223,13 @@ private fun PartyEditRecruitmentScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(BLACK.copy(alpha = 0.2f))
-                .noRippleClickable { onAction(PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog(false)) }
+                .noRippleClickable {
+                    onAction(
+                        PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog(
+                            false
+                        )
+                    )
+                }
         ) {
             TwoButtonDialog(
                 dialogTitle = "모집공고 삭제",
@@ -221,6 +240,29 @@ private fun PartyEditRecruitmentScreen(
                 onConfirm = {
                     onAction(PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog(false))
                     onAction(PartyRecruitmentEditAction.OnDeleteRecruitment(partyId = partyId, partyRecruitmentId = selectedRecruitmentId))
+                }
+            )
+        }
+    }
+
+    if(partyRecruitmentEditState.isShowPartyRecruitmentCompletedDialog){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(BLACK.copy(alpha = 0.7f))
+                .noRippleClickable {
+                    onAction(PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog(false))
+                }
+        ) {
+            TwoButtonDialog(
+                dialogTitle = "모집공고 마감",
+                description = "지원자에게 알림이 전송돼요.\n마감 후에는 수정할 수 없어요.\n정말로 모집공고를 마감하시나요?",
+                cancelButtonText = "닫기",
+                confirmButtonText = "마감하기",
+                onCancel = { onAction(PartyRecruitmentEditAction.OnShowPartyRecruitmentCompletedDialog(false)) },
+                onConfirm = {
+                    onAction(PartyRecruitmentEditAction.OnShowPartyRecruitmentCompletedDialog(false))
+                    onAction(PartyRecruitmentEditAction.OnPartyRecruitmentCompleted(partyId = partyId, partyRecruitmentId = selectedRecruitmentId))
                 }
             )
         }

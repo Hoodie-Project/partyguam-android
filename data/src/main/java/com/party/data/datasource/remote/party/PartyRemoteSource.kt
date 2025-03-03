@@ -9,6 +9,7 @@ import com.party.data.dto.party.PartyDetailDto
 import com.party.data.dto.party.PartyListDto
 import com.party.data.dto.party.PartyMembersInfoDto
 import com.party.data.dto.party.PartyModifyDto
+import com.party.data.dto.party.PartyRecruitmentCompletedDto
 import com.party.data.dto.party.PartyRecruitmentDto
 import com.party.data.dto.party.PartyUsersDto
 import com.party.data.dto.party.PersonalRecruitmentListDto
@@ -114,4 +115,7 @@ interface PartyRemoteSource {
 
     // 파티 나가기 (파티유저가)
     suspend fun exitParty(partyId: Int): ApiResponse<Unit>
+
+    // 파티 모집 완료 처리
+    suspend fun completePartyRecruitment(partyId: Int, partyRecruitmentId: Int): ApiResponse<PartyRecruitmentCompletedDto>
 }

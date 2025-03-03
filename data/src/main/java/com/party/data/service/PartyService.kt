@@ -9,6 +9,7 @@ import com.party.data.dto.party.PartyDetailDto
 import com.party.data.dto.party.PartyListDto
 import com.party.data.dto.party.PartyMembersInfoDto
 import com.party.data.dto.party.PartyModifyDto
+import com.party.data.dto.party.PartyRecruitmentCompletedDto
 import com.party.data.dto.party.PartyRecruitmentDto
 import com.party.data.dto.party.PartyUsersDto
 import com.party.data.dto.party.PersonalRecruitmentListDto
@@ -245,4 +246,11 @@ interface PartyService {
     suspend fun exitParty(
         @Path(value = "partyId") partyId: Int,
     ): ApiResponse<Unit>
+
+    // 파티 모집 완료 처리
+    @PATCH("api/parties/{partyId}/admin/recruitment/{partyRecruitmentId}/completed")
+    suspend fun completePartyRecruitment(
+        @Path(value = "partyId") partyId: Int,
+        @Path(value = "partyRecruitmentId") partyRecruitmentId: Int,
+    ): ApiResponse<PartyRecruitmentCompletedDto>
 }

@@ -14,6 +14,7 @@ import com.party.domain.model.party.PartyList
 import com.party.domain.model.party.PartyMembersInfo
 import com.party.domain.model.party.PartyModify
 import com.party.domain.model.party.PartyRecruitment
+import com.party.domain.model.party.PartyRecruitmentCompleted
 import com.party.domain.model.party.PartyUsers
 import com.party.domain.model.party.PersonalRecruitmentList
 import com.party.domain.model.party.RecruitmentApplicant
@@ -144,4 +145,7 @@ interface PartyRepository {
 
     // 파티 나가기 (파티유저가)
     suspend fun exitParty(partyId: Int): ServerApiResponse<Unit>
+
+    // 파티 모집 완료 처리
+    suspend fun completePartyRecruitment(partyId: Int, partyRecruitmentId: Int): ServerApiResponse<PartyRecruitmentCompleted>
 }
