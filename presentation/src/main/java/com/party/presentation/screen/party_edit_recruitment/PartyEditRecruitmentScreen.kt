@@ -93,12 +93,11 @@ fun PartyEditRecruitmentScreenRoute(
                         is PartyRecruitmentEditAction.OnSelectedTabText -> partyRecruitmentEditViewModel.onAction(action)
                         is PartyRecruitmentEditAction.OnShowHelpCard -> partyRecruitmentEditViewModel.onAction(action)
                         is PartyRecruitmentEditAction.OnChangeOrderBy -> partyRecruitmentEditViewModel.onAction(action)
-                        is PartyRecruitmentEditAction.OnExpanded -> partyRecruitmentEditViewModel.onAction(action)
-                        is PartyRecruitmentEditAction.OnCollapsed -> partyRecruitmentEditViewModel.onAction(action)
                         is PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog -> partyRecruitmentEditViewModel.onAction(action)
                         is PartyRecruitmentEditAction.OnDeleteRecruitment -> partyRecruitmentEditViewModel.deleteRecruitment(action.partyId, action.partyRecruitmentId)
                         is PartyRecruitmentEditAction.OnShowPartyRecruitmentCompletedDialog -> partyRecruitmentEditViewModel.onAction(action)
                         is PartyRecruitmentEditAction.OnPartyRecruitmentCompleted -> partyRecruitmentEditViewModel.onAction(action)
+                        is PartyRecruitmentEditAction.OnShowPartyRecruitmentDeleteDialog -> partyRecruitmentEditViewModel.onAction(action)
                     }
                 },
                 onManageClick = { scope.launch { drawerState.open() } },
@@ -206,16 +205,14 @@ private fun PartyEditRecruitmentScreen(
                 HeightSpacer(12.dp)
                 PartyRecruitmentListArea(
                     partyRecruitmentEditState = partyRecruitmentEditState,
-                    onExpanded = { index -> onAction(PartyRecruitmentEditAction.OnExpanded(index, true)) },
-                    onCollapsed = { index -> onAction(PartyRecruitmentEditAction.OnCollapsed(index, false)) },
-                    onDelete = { selectedRecruitmentId1 ->
-                        selectedRecruitmentId = selectedRecruitmentId1
-                        onAction(PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog(true))
-                    },
                     onClick = onClick,
                     onPartyRecruitmentCompleted =  { recruitmentId ->
                         selectedRecruitmentId = recruitmentId
                         onAction(PartyRecruitmentEditAction.OnShowPartyRecruitmentCompletedDialog(true))
+                    },
+                    onPartyRecruitmentDeleted = { recruitmentId ->
+                        selectedRecruitmentId = recruitmentId
+                        onAction(PartyRecruitmentEditAction.OnShowPartyRecruitmentDeleteDialog(true))
                     }
                 )
             }
@@ -274,6 +271,29 @@ private fun PartyEditRecruitmentScreen(
                 onConfirm = {
                     onAction(PartyRecruitmentEditAction.OnShowPartyRecruitmentCompletedDialog(false))
                     onAction(PartyRecruitmentEditAction.OnPartyRecruitmentCompleted(partyId = partyId, partyRecruitmentId = selectedRecruitmentId))
+                }
+            )
+        }
+    }
+
+    if(partyRecruitmentEditState.isShowPartyRecruitmentDeleteDialog){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(BLACK.copy(alpha = 0.7f))
+                .noRippleClickable {
+                    onAction(PartyRecruitmentEditAction.OnShowPartyRecruitmentDeleteDialog(false))
+                }
+        ) {
+            TwoButtonDialog(
+                dialogTitle = "모집공고 삭제",
+                description = "지원자에게 모집 완료 알림이 전송돼요.\n정말로 모집공고를 삭제하시나요?",
+                cancelButtonText = "닫기",
+                confirmButtonText = "삭제하기",
+                onCancel = { onAction(PartyRecruitmentEditAction.OnShowPartyRecruitmentDeleteDialog(false)) },
+                onConfirm = {
+                    onAction(PartyRecruitmentEditAction.OnShowPartyRecruitmentDeleteDialog(false))
+                    onAction(PartyRecruitmentEditAction.OnDeleteRecruitment(partyId = partyId, partyRecruitmentId = selectedRecruitmentId))
                 }
             )
         }

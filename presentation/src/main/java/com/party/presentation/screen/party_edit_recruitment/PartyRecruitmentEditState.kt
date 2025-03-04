@@ -16,4 +16,7 @@ data class PartyRecruitmentEditState(
 
     // 모집마감 다이얼로그
     val isShowPartyRecruitmentCompletedDialog: Boolean = false,
+
+    // 모집공고 삭제 다이얼로그
+    val isShowPartyRecruitmentDeleteDialog: Boolean = false,
 )

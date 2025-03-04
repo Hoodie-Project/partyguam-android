@@ -24,11 +24,9 @@ import com.party.presentation.screen.party_edit_recruitment.PartyRecruitmentEdit
 @Composable
 fun PartyRecruitmentListArea(
     partyRecruitmentEditState: PartyRecruitmentEditState,
-    onExpanded: (Int) -> Unit,
-    onCollapsed: (Int) -> Unit,
-    onDelete: (Int) -> Unit,
     onClick: (Int) -> Unit,
     onPartyRecruitmentCompleted: (Int) -> Unit,
+    onPartyRecruitmentDeleted: (Int) -> Unit,
 ) {
     when {
         partyRecruitmentEditState.isLoadingPartyRecruitment -> LoadingProgressBar()
@@ -44,11 +42,9 @@ fun PartyRecruitmentListArea(
         else -> {
             RecruitmentList(
                 list = partyRecruitmentEditState.partyRecruitment,
-                onExpanded = onExpanded,
-                onCollapsed = onCollapsed,
-                onDelete = onDelete,
                 onClick = onClick,
-                onPartyRecruitmentCompleted = onPartyRecruitmentCompleted
+                onPartyRecruitmentCompleted = onPartyRecruitmentCompleted,
+                onPartyRecruitmentDeleted = onPartyRecruitmentDeleted,
             )
         }
     }
@@ -57,11 +53,9 @@ fun PartyRecruitmentListArea(
 @Composable
 private fun RecruitmentList(
     list: List<PartyRecruitment>,
-    onExpanded: (Int) -> Unit,
-    onCollapsed: (Int) -> Unit,
-    onDelete: (Int) -> Unit,
     onClick: (Int) -> Unit,
     onPartyRecruitmentCompleted: (Int) -> Unit,
+    onPartyRecruitmentDeleted: (Int) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -91,7 +85,8 @@ private fun RecruitmentList(
                         modifier = Modifier.size(24.dp)
                     )
                 },
-                onPartyRecruitmentCompleted = { onPartyRecruitmentCompleted(item.id) }
+                onPartyRecruitmentCompleted = { onPartyRecruitmentCompleted(item.id) },
+                onPartyRecruitmentDeleted = { onPartyRecruitmentDeleted(item.id) },
             )
         }
     }

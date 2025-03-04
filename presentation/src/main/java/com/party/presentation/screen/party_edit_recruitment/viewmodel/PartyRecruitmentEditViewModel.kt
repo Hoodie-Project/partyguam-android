@@ -104,32 +104,6 @@ class PartyRecruitmentEditViewModel @Inject constructor(
                     )
                 }
             }
-            is PartyRecruitmentEditAction.OnExpanded -> {
-                _state.update {
-                    it.copy(
-                        partyRecruitment = it.partyRecruitment.mapIndexed { index, item ->
-                            if (index == action.index) {
-                                item.copy(isOptionsRevealed = true)
-                            } else {
-                                item.copy(isOptionsRevealed = false)
-                            }
-                        }
-                    )
-                }
-            }
-            is PartyRecruitmentEditAction.OnCollapsed -> {
-                _state.update {
-                    it.copy(
-                        partyRecruitment = it.partyRecruitment.mapIndexed { index, item ->
-                            if (index == action.index) {
-                                item.copy(isOptionsRevealed = false)
-                            } else {
-                                item.copy(isOptionsRevealed = false)
-                            }
-                        }
-                    )
-                }
-            }
             is PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog -> _state.update { it.copy(isShowRecruitmentDeleteDialog = action.isShowRecruitmentDeleteDialog) }
             is PartyRecruitmentEditAction.OnDeleteRecruitment -> {
                 deleteRecruitment(partyId = action.partyId, partyRecruitmentId = action.partyRecruitmentId)
@@ -140,6 +114,9 @@ class PartyRecruitmentEditViewModel @Inject constructor(
             }
             is PartyRecruitmentEditAction.OnPartyRecruitmentCompleted -> {
                 completedPartyRecruitment(partyId = action.partyId, partyRecruitmentId = action.partyRecruitmentId)
+            }
+            is PartyRecruitmentEditAction.OnShowPartyRecruitmentDeleteDialog -> {
+                _state.update { it.copy(isShowPartyRecruitmentDeleteDialog = action.isShowPartyRecruitmentDeleteDialog) }
             }
         }
     }

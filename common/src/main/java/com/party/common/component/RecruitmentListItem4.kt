@@ -31,10 +31,12 @@ import com.party.common.WidthSpacer
 import com.party.common.convertIsoToCustomDateFormat
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
+import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.GREEN
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
+import com.party.common.ui.theme.MEDIUM_CORNER_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.T3
@@ -51,6 +53,7 @@ fun RecruitmentListItem4(
     applicationCount: Int,
     onClick: () -> Unit,
     onPartyRecruitmentCompleted: () -> Unit,
+    onPartyRecruitmentDeleted: () -> Unit,
     icon: @Composable (onClick: () -> Unit) -> Unit = {},
 ) {
     var isShowFinishButton by remember { mutableStateOf(false) }
@@ -138,7 +141,14 @@ fun RecruitmentListItem4(
                         .align(Alignment.BottomEnd)
                         .padding(end = 8.dp, bottom = 24.dp),
                     status = status,
-                    onPartyRecruitmentCompleted = onPartyRecruitmentCompleted,
+                    onPartyRecruitmentCompleted = {
+                        isShowFinishButton = false
+                        onPartyRecruitmentCompleted()
+                    },
+                    onPartyRecruitmentDeleted = {
+                        isShowFinishButton = false
+                        onPartyRecruitmentDeleted()
+                    }
                 )
             }
         }
@@ -176,10 +186,11 @@ fun RecruitmentFinishButton(
     modifier: Modifier = Modifier,
     status: String,
     onPartyRecruitmentCompleted: () -> Unit,
+    onPartyRecruitmentDeleted: () -> Unit,
 ) {
     Card(
         modifier = modifier,
-        shape = RoundedCornerShape(LARGE_CORNER_SIZE),
+        shape = RoundedCornerShape(MEDIUM_CORNER_SIZE),
         colors = CardDefaults.cardColors(
             containerColor = WHITE
         ),
@@ -192,11 +203,13 @@ fun RecruitmentFinishButton(
         ){
             TextComponent(
                 text = if(status == "completed") "삭제하기" else "마감하기",
+                textColor = if(status == "completed") RED else BLACK,
                 fontSize = B2,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Normal,
                 onClick = {
                     if (status == "completed") {
                         // 삭제하기
+                        onPartyRecruitmentDeleted()
                     } else {
                         // 마감하기
                         onPartyRecruitmentCompleted()
@@ -223,6 +236,7 @@ private fun RecruitmentListItem4Preview() {
         status = "active",
         onClick = {},
         onPartyRecruitmentCompleted = {},
+        onPartyRecruitmentDeleted = {},
     )
 }
 
@@ -239,6 +253,7 @@ private fun RecruitmentListItem4Preview1() {
         status = "completed",
         onClick = {},
         onPartyRecruitmentCompleted = {},
+        onPartyRecruitmentDeleted = {},
     )
 }
 
@@ -251,5 +266,6 @@ private fun RecruitmentFinishButtonPreview() {
             .height(52.dp),
         status = "completed",
         onPartyRecruitmentCompleted = {},
+        onPartyRecruitmentDeleted = {},
     )
 }
