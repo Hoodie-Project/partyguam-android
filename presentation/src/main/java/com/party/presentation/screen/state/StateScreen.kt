@@ -119,6 +119,8 @@ private fun StateScreen(
     onNavigateUp: () -> Unit,
     onMyPartyCardClick: (Int) -> Unit,
 ) {
+    val bottomBarHeight = 56.dp // ✅ BottomNavigationBar 기본 높이
+
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -182,7 +184,7 @@ private fun StateScreen(
         StateFloatingArea(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(bottom = 98.dp, end = 20.dp)
+                .padding(bottom = bottomBarHeight + 20.dp, end = 20.dp)
                 .zIndex(1f),
             isExpandedFloatingButton = myPartyState.isExpandedFloating,
             partyCreateFloating = {
