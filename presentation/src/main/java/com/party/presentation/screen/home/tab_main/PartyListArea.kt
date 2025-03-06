@@ -2,6 +2,7 @@ package com.party.presentation.screen.home.tab_main
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
@@ -60,6 +61,7 @@ private fun PartyListArea(
             }
         ) { _, item ->
             PartyListItem1(
+                modifier = Modifier.padding(start = 10.dp),
                 imageUrl = item.image,
                 type = item.partyType.type,
                 title = item.title,

@@ -3,10 +3,12 @@ package com.party.presentation.screen.home.tab_main
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -73,7 +75,8 @@ private fun RecruitmentListArea(
     LazyRow(
         modifier = Modifier
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(2.dp),
     ) {
         itemsIndexed(
             items = recruitmentListResponse?.partyRecruitments ?: emptyList(),
@@ -154,26 +157,35 @@ fun RecruitmentItemBottomArea(
             .fillMaxWidth()
             .height(142.dp)
     ) {
-        PartyCategory(category = category)
-        HeightSpacer(heightDp = 4.dp)
-        TextComponent(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(44.dp),
-            text = title,
-            fontSize = T3,
-            fontWeight = FontWeight.Bold,
-            align = Alignment.TopStart,
-        )
+                .height(96.dp)
+        ) {
+            PartyCategory(category = category)
+            HeightSpacer(heightDp = 4.dp)
+            TextComponent(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(start = 6.dp),
+                text = title,
+                fontSize = T3,
+                fontWeight = FontWeight.Bold,
+                align = Alignment.TopStart,
+            )
 
-        HeightSpacer(heightDp = 4.dp)
+            HeightSpacer(heightDp = 4.dp)
 
-        PositionArea(
-            modifier = Modifier
-                .height(20.dp),
-            main = main,
-            sub = sub,
-        )
+            PositionArea(
+                modifier = Modifier
+                    .height(20.dp)
+                    .padding(start = 6.dp),
+                main = main,
+                sub = sub,
+            )
+        }
+
         HeightSpacer(heightDp = 12.dp)
         RecruitmentCountArea(
             modifier = Modifier

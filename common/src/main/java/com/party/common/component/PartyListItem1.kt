@@ -35,6 +35,7 @@ import com.party.common.ui.theme.WHITE
 
 @Composable
 fun PartyListItem1(
+    modifier: Modifier = Modifier,
     imageUrl: String? = null,
     type: String,
     title: String,
@@ -65,6 +66,7 @@ fun PartyListItem1(
             )
             HeightSpacer(heightDp = 12.dp)
             PartyItemInfoArea(
+                modifier = modifier,
                 type = type,
                 title = title,
                 recruitmentCount = recruitmentCount,
@@ -89,6 +91,7 @@ private fun PartyItemImageArea(
 
 @Composable
 private fun PartyItemInfoArea(
+    modifier: Modifier,
     type: String,
     title: String,
     recruitmentCount: Int,
@@ -111,10 +114,12 @@ private fun PartyItemInfoArea(
 
         HeightSpacer(heightDp = 4.dp)
         PartyItemTitle(
+            modifier = modifier,
             title = title,
         )
         HeightSpacer(heightDp = 12.dp)
         PartyItemRecruiting(
+            modifier = modifier,
             recruitmentCount = recruitmentCount,
         )
     }
@@ -133,10 +138,11 @@ private fun PartyItemCategory(
 
 @Composable
 private fun PartyItemTitle(
+    modifier: Modifier,
     title: String,
 ) {
     TextComponent(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(44.dp),
         text = title,
@@ -148,10 +154,11 @@ private fun PartyItemTitle(
 
 @Composable
 private fun PartyItemRecruiting(
+    modifier: Modifier,
     recruitmentCount: Int,
 ) {
     TextComponent(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(44.dp),
         text = stringResource(id = R.string.home_list_party_recruitment_count, recruitmentCount),
