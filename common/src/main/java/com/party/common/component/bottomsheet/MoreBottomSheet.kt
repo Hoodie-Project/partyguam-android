@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetValue
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -86,7 +85,7 @@ private fun ContentArea(
         text = "신고하기",
         fontSize = B1,
         textColor = if(selectContent == "신고하기") RED else BLACK,
-        textAlign = Alignment.Center,
+        align = Alignment.Center,
         onClick = { onReport("신고하기") }
     )
     TextComponent(
@@ -96,7 +95,7 @@ private fun ContentArea(
         text = "파티 떠나기",
         fontSize = B1,
         textColor = if(selectContent == "파티 떠나기") RED else BLACK,
-        textAlign = Alignment.Center,
+        align = Alignment.Center,
         onClick = { onExitParty("파티 떠나기") }
     )
 }

@@ -152,7 +152,7 @@ private fun RecruitmentTitle(
         text = title,
         fontSize = T3,
         fontWeight = FontWeight.Bold,
-        textAlign = Alignment.TopStart,
+        align = Alignment.TopStart,
     )
 }
 

@@ -38,9 +38,6 @@ import com.party.presentation.screen.home.HomeState
 import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import kotlinx.coroutines.delay
 
-val contentPadding = 16.dp
-val pageSpacing = 6.dp //  페이지 사이 간격
-
 @Composable
 fun BannerArea(
     homeState: HomeState,
@@ -61,8 +58,8 @@ fun BannerArea(
 
             HorizontalPager(
                 state = pagerState,
-                contentPadding = PaddingValues(horizontal = contentPadding),
-                pageSpacing = pageSpacing,
+                contentPadding = PaddingValues(horizontal = 0.dp),
+                pageSpacing = 0.dp,
             ) { page ->
                 BannerItemImage(bannerItem = homeState.banner.banner[page])
             }

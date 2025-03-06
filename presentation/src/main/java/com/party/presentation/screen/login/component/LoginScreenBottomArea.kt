@@ -38,7 +38,7 @@ fun LoginScreenBottomArea(
         modifier = Modifier.fillMaxWidth(),
         text = stringResource(id = R.string.login8),
         textColor = GRAY500,
-        textAlign = Alignment.Center,
+        align = Alignment.Center,
         fontSize = B2,
         textDecoration = TextDecoration.Underline,
     )

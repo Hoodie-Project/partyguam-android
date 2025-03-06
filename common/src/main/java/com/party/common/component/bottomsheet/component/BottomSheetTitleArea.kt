@@ -35,7 +35,7 @@ fun BottomSheetTitleArea(
             fontSize = T2,
             fontWeight = FontWeight.SemiBold,
             textColor = BLACK,
-            textAlign = Alignment.Center,
+            align = Alignment.Center,
         )
 
         Icon(

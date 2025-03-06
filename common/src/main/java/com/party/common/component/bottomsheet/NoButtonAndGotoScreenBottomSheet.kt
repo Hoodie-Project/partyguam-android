@@ -88,7 +88,7 @@ private fun ContentArea(
                     .height(52.dp),
                 text = item,
                 fontSize = B1,
-                textAlign = Alignment.Center,
+                align = Alignment.Center,
                 textColor = if(item == partyMemberManageList[2]) RED else BLACK,
                 onClick = { onClick(item) }
             )

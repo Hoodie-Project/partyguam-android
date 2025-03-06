@@ -336,7 +336,7 @@ private fun PartyEditScreen(
                     fontSize = B2,
                     textColor = RED,
                     textDecoration = TextDecoration.Underline,
-                    textAlign = Alignment.Center,
+                    align = Alignment.Center,
                     onClick = { onAction(PartyEditAction.OnChangeShowPartyDeleteDialog(true)) }
                 )
 

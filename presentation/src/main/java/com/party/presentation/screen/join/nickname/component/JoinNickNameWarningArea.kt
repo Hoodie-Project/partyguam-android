@@ -35,7 +35,7 @@ fun WarningArea(
             text = setWarningText(userNickName, isValid),
             fontSize = B3,
             textColor = RED,
-            textAlign = Alignment.CenterStart,
+            align = Alignment.CenterStart,
         )
         AnnotatedTextComponent(
             modifier = Modifier.weight(0.2f),

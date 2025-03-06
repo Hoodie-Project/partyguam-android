@@ -1,10 +1,12 @@
 package com.party.presentation.screen.home.tab_main
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,9 +25,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
@@ -33,10 +37,13 @@ import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.component.ImageLoading
 import com.party.common.ui.theme.B1
+import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.DARK100
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.MEDIUM_CORNER_SIZE
+import com.party.common.ui.theme.PRIMARY
+import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PersonalRecruitmentItem
@@ -52,19 +59,19 @@ fun PersonalRecruitmentArea(
     homeState: HomeState,
     onReload: () -> Unit,onClick: (Int, Int) -> Unit,
 ) {
-    HeightSpacer(heightDp = 40.dp)
-
-    HomeListTitleArea(
-        title = stringResource(id = R.string.home_list_personal_title),
-        titleIcon = painterResource(id = R.drawable.icon_reload),
-        description = stringResource(id = R.string.home_list_personal_description),
-        onReload = onReload
-    )
 
     when {
         homeState.isLoadingPersonalRecruitmentList -> LoadingProgressBar()
-        homeState.isNotProfileError -> ErrorArea()
+        homeState.isNotProfileError -> NotInputProfileInformation()
         homeState.personalRecruitmentList.partyRecruitments.isNotEmpty() -> {
+            HeightSpacer(heightDp = 40.dp)
+            HomeListTitleArea(
+                title = stringResource(id = R.string.home_list_personal_title),
+                titleIcon = painterResource(id = R.drawable.icon_reload),
+                description = stringResource(id = R.string.home_list_personal_description),
+                onReload = onReload
+            )
+
             PersonalRecruitmentListArea(
                 personalRecruitmentListResponse = homeState.personalRecruitmentList,
                 onClick = onClick
@@ -209,7 +216,7 @@ fun PersonalRecruitmentItemBottomArea(
             text = title,
             fontSize = T3,
             fontWeight = FontWeight.Bold,
-            textAlign = Alignment.TopStart,
+            align = Alignment.TopStart,
         )
 
         HeightSpacer(heightDp = 4.dp)
@@ -226,5 +233,73 @@ fun PersonalRecruitmentItemBottomArea(
             recruitingCount = recruitingCount,
             recruitedCount = recruitedCount,
         )
+    }
+}
+
+@Composable
+fun NotInputProfileInformation(
+    modifier: Modifier = Modifier
+) {
+    HeightSpacer(heightDp = 40.dp)
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.not_profille),
+            contentDescription = "not_profile",
+            modifier = modifier
+                .width(48.dp)
+                .height(60.dp)
+        )
+        HeightSpacer(heightDp = 12.dp)
+        TextComponent(
+            text = "세부프로필을 완료하고\n맞춤 모집공고를 추천받으세요!",
+            textAlign = TextAlign.Center,
+            fontSize = T2,
+            fontWeight = FontWeight.SemiBold,
+        )
+        HeightSpacer(heightDp = 12.dp)
+
+        Card(
+            onClick = { /*TODO*/ },
+            modifier = Modifier
+                .width(160.dp)
+                .height(32.dp),
+            shape = RoundedCornerShape(16.dp),
+            border = BorderStroke(1.dp, PRIMARY),
+            colors = CardDefaults.cardColors(
+                containerColor = WHITE,
+                contentColor = Color.Black
+            )
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ){
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "세부프로필 설정하기",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = B2,
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.icon_arrow_right),
+                        contentDescription = "arrow_right",
+                        modifier = Modifier
+                            .size(16.dp),
+                    )
+                }
+            }
+
+
+        }
     }
 }

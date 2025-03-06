@@ -29,7 +29,6 @@ import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T2
-import com.party.common.ui.theme.WHITE
 
 @Composable
 fun ModalTitleArea(
@@ -47,7 +46,7 @@ fun ModalTitleArea(
             fontSize = T2,
             fontWeight = FontWeight.SemiBold,
             textColor = BLACK,
-            textAlign = Alignment.Center,
+            align = Alignment.Center,
         )
 
         Icon(

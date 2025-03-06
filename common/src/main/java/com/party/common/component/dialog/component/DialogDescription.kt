@@ -21,6 +21,6 @@ fun DialogDescription(
             .fillMaxWidth(),
         text = description,
         fontSize = 16.sp,
-        textAlign = Alignment.Center
+        align = Alignment.Center
     )
 }

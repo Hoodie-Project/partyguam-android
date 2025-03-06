@@ -17,7 +17,7 @@ fun WarningTitleArea() {
         text = "회원 탈퇴 전 꼭 읽어주세요",
         fontSize = T3,
         textColor = RED,
-        textAlign = Alignment.Center,
+        align = Alignment.Center,
         fontWeight = FontWeight.Bold
     )
 }

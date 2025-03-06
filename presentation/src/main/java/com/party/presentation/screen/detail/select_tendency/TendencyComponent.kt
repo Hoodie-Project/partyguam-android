@@ -77,7 +77,7 @@ fun TendencyBottomArea(
             text = stringResource(id = R.string.common3),
             fontSize = B2,
             textDecoration = TextDecoration.Underline,
-            textAlign = Alignment.Center,
+            align = Alignment.Center,
             textColor = GRAY500,
             onClick = onSkip
         )

@@ -59,7 +59,7 @@ fun SelectTendencyCompleteScreenContent(
                     text = stringResource(id = R.string.select_tendency8),
                     fontWeight = FontWeight.Bold,
                     fontSize = T1,
-                    textAlign = Alignment.Center,
+                    align = Alignment.Center,
                 )
             }
 

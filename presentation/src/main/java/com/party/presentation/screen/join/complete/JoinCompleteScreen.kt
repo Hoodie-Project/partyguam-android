@@ -54,7 +54,7 @@ private fun JoinCompleteScreen(
                     text = stringResource(id = R.string.join_complete1),
                     fontWeight = FontWeight.Bold,
                     fontSize = T1,
-                    textAlign = Alignment.Center,
+                    align = Alignment.Center,
                 )
             }
 

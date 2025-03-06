@@ -126,7 +126,7 @@ private fun OneSelectPickerContentItem(
             .height(52.dp),
         text = text,
         fontSize = fontSize,
-        textAlign = Alignment.Center,
+        align = Alignment.Center,
         textColor = textColor,
     )
 }

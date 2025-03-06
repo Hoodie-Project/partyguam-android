@@ -163,7 +163,7 @@ fun RecruitmentItemBottomArea(
             text = title,
             fontSize = T3,
             fontWeight = FontWeight.Bold,
-            textAlign = Alignment.TopStart,
+            align = Alignment.TopStart,
         )
 
         HeightSpacer(heightDp = 4.dp)

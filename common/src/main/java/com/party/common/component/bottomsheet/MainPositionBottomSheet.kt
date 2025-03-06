@@ -127,7 +127,7 @@ private fun MainPositionBottomSheetContentItem(
         text = mainPosition,
         fontSize = B1,
         fontWeight = fontWeight,
-        textAlign = Alignment.Center,
+        align = Alignment.Center,
         onClick = { onClick(mainPosition) }
     )
 }

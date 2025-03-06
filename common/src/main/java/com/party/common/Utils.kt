@@ -23,6 +23,7 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
@@ -73,9 +74,10 @@ fun AnnotatedTextComponent(
 @Composable
 fun TextComponent(
     modifier: Modifier = Modifier,
+    textAlign: TextAlign = TextAlign.Start,
     text: String,
     textColor: Color = Color.Black,
-    textAlign: Alignment = Alignment.CenterStart,
+    align: Alignment = Alignment.CenterStart,
     fontWeight: FontWeight = FontWeight.Normal,
     fontSize: TextUnit,
     textDecoration: TextDecoration? = null,
@@ -85,11 +87,12 @@ fun TextComponent(
 ) {
     Box(
         modifier = modifier.noRippleClickable { onClick() },
-        contentAlignment = textAlign,
+        contentAlignment = align,
     ){
         Text(
             text = text,
             color = textColor,
+            textAlign = textAlign,
             fontWeight = fontWeight,
             fontSize = fontSize,
             textDecoration = textDecoration,

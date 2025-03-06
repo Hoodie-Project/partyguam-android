@@ -79,7 +79,7 @@ fun SelectedLocationArea(
             text = stringResource(id = R.string.common3),
             fontSize = B2,
             textColor = GRAY500,
-            textAlign = Alignment.Center,
+            align = Alignment.Center,
             textDecoration = TextDecoration.Underline,
             onClick = onSkip
         )

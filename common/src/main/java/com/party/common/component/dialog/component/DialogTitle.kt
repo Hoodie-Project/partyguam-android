@@ -16,7 +16,7 @@ fun DialogTitle(
         modifier = Modifier.fillMaxWidth(),
         text = dialogTitle,
         fontSize = 18.sp,
-        textAlign = Alignment.Center,
+        align = Alignment.Center,
         fontWeight = FontWeight.Bold,
     )
 }
