@@ -107,7 +107,8 @@ fun JoinGenderScreenRoute(
                     )
                 )
             }
-        }
+        },
+        onNavigationClick = { navController.popBackStack()}
     )
 }
 
@@ -117,11 +118,12 @@ private fun JoinGenderScreen(
     selectedGender: String,
     onSelect: (String) -> Unit,
     onClick: () -> Unit,
+    onNavigationClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
             JoinGenderScaffoldArea(
-                onNavigationClick = {}
+                onNavigationClick = onNavigationClick
             )
         }
     ){
@@ -192,6 +194,7 @@ private fun JoinGenderScreenContentPreview() {
         context = LocalContext.current,
         selectedGender = "",
         onSelect = {},
-        onClick = {}
+        onClick = {},
+        onNavigationClick = {}
     )
 }
