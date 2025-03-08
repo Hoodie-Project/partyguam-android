@@ -50,8 +50,9 @@ fun SelectGenderArea(
                 .weight(0.5f)
                 .aspectRatio(1f),
             text = stringResource(id = R.string.join_gender3),
-            containerColor = if(selectedGender == context.getString(R.string.join_gender3)) LIGHT300 else WHITE,
-            borderColor = if(selectedGender == context.getString(R.string.join_gender3)) LIGHT100 else GRAY200,
+            containerColor = if(selectedGender == stringResource(id = R.string.join_gender3)) LIGHT300 else WHITE,
+            borderColor = if(selectedGender == stringResource(id = R.string.join_gender3)) LIGHT100 else GRAY200,
+            fontWeight = if(selectedGender == stringResource(id = R.string.join_gender3)) FontWeight.SemiBold else FontWeight.Normal,
             onSelect = {
                 onSelect(context.getString(R.string.join_gender3))
             }
@@ -64,8 +65,9 @@ fun SelectGenderArea(
                 .weight(0.5f)
                 .aspectRatio(1f),
             text = stringResource(id = R.string.join_gender4),
-            containerColor = if(selectedGender == context.getString(R.string.join_gender4)) LIGHT300 else WHITE,
-            borderColor = if(selectedGender == context.getString(R.string.join_gender4)) LIGHT100 else GRAY200,
+            containerColor = if(selectedGender == stringResource(id = R.string.join_gender4)) LIGHT300 else WHITE,
+            borderColor = if(selectedGender == stringResource(id = R.string.join_gender4)) LIGHT100 else GRAY200,
+            fontWeight = if(selectedGender == stringResource(id = R.string.join_gender4)) FontWeight.SemiBold else FontWeight.Normal,
             onSelect = {
                 onSelect(context.getString(R.string.join_gender4))
             }
