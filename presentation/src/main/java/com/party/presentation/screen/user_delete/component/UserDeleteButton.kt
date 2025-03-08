@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.component.button.CustomButton
@@ -20,6 +21,7 @@ fun UserDeleteButton(
         modifier = Modifier
             .fillMaxWidth()
             .height(48.dp),
+        textWeight = FontWeight.Bold,
         onClick = onClick,
         buttonText = "탈퇴하기",
         containerColor = if (isChecked) RED else Color(0xFFF7CDCC),

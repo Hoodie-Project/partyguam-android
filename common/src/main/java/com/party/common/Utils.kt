@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallPulseSyncProgressIndicator
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
@@ -84,6 +85,7 @@ fun TextComponent(
     textDecoration: TextDecoration? = null,
     overflow: TextOverflow = TextOverflow.Visible,
     maxLines: Int = Int.MAX_VALUE,
+    letterSpacing: TextUnit = 0.sp,
     onClick: () -> Unit = {},
 ) {
     Box(
@@ -98,7 +100,8 @@ fun TextComponent(
             fontSize = fontSize,
             textDecoration = textDecoration,
             overflow = overflow,
-            maxLines = maxLines
+            maxLines = maxLines,
+            letterSpacing = letterSpacing,
         )
     }
 }
@@ -270,4 +273,8 @@ fun convertToIntFromYear(year: String): Int{
         "10년" -> 10
         else -> 0
     }
+}
+
+fun calculateLetterSpacing(fontSize: TextUnit, percentage: Float = -1f): TextUnit {
+    return (fontSize.value * percentage / 100).sp
 }
