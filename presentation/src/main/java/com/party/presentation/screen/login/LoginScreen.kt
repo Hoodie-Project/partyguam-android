@@ -83,6 +83,8 @@ fun LoginScreenRoute(
         context = context,
         kakaoCallback = kakaoCallback,
         launcher = launcher,
+        onGotoTerms = { navController.navigate(Screens.Terms) },
+        onGotoInquire = { navController.navigate(Screens.CustomerInquiries)}
     )
 }
 
@@ -91,6 +93,8 @@ private fun LoginScreen(
     context: Context,
     kakaoCallback: (OAuthToken?, Throwable?) -> Unit,
     launcher: ManagedActivityResultLauncher<Intent, ActivityResult>,
+    onGotoTerms: () -> Unit,
+    onGotoInquire: () -> Unit,
 ) {
     Scaffold (
         topBar = {
@@ -117,7 +121,10 @@ private fun LoginScreen(
                 launcher = launcher,
             )
 
-            LoginScreenBottomArea()
+            LoginScreenBottomArea(
+                onGotoTerms = onGotoTerms,
+                onGotoInquire = onGotoInquire,
+            )
         }
     }
 }
@@ -147,6 +154,8 @@ private fun LoginScreenPreview() {
         launcher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.StartActivityForResult()
         ) {
-        }
+        },
+        onGotoTerms = {},
+        onGotoInquire = {}
     )
 }

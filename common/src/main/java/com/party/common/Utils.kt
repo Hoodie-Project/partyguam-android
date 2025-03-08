@@ -56,9 +56,10 @@ fun AnnotatedTextComponent(
     fontWeight: FontWeight = FontWeight.Normal,
     fontSize: TextUnit,
     textDecoration: TextDecoration? = null,
+    onClick: () -> Unit = {}
 ) {
     Box(
-        modifier = modifier,
+        modifier = modifier.noRippleClickable { onClick() },
         contentAlignment = textAlign,
     ){
         Text(

@@ -21,6 +21,8 @@ import com.party.common.ui.theme.GRAY600
 
 @Composable
 fun LoginScreenBottomArea(
+    onGotoTerms: () -> Unit,
+    onGotoInquire: () -> Unit,
 ) {
     AnnotatedTextComponent(
         annotatedString = makeAnnotatedString(
@@ -30,6 +32,7 @@ fun LoginScreenBottomArea(
         ),
         textColor = GRAY600,
         fontSize = B2,
+        onClick = onGotoTerms,
     )
 
     HeightSpacer(heightDp = 40.dp)
@@ -41,6 +44,7 @@ fun LoginScreenBottomArea(
         align = Alignment.Center,
         fontSize = B2,
         textDecoration = TextDecoration.Underline,
+        onClick = onGotoInquire
     )
 }
 
@@ -51,6 +55,7 @@ fun makeAnnotatedString(
 ): AnnotatedString {
     return buildAnnotatedString {
         append(text1)
+        append(" ")
         withStyle(
             SpanStyle(
                 color = GRAY600,
@@ -59,6 +64,7 @@ fun makeAnnotatedString(
         ){
             append(text2)
         }
+        append(" ")
         append(text3)
     }
 }
