@@ -8,7 +8,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -86,6 +85,7 @@ fun JoinScreenButton(
 
 @Composable
 fun JoinScreenInputField(
+    modifier: Modifier = Modifier,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
     inputText: String,
@@ -102,7 +102,6 @@ fun JoinScreenInputField(
 
     Box(
         modifier = Modifier
-            .fillMaxSize()
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null
@@ -116,7 +115,7 @@ fun JoinScreenInputField(
                 keyboardType = keyboardType,
                 imeAction = imeAction
             ),
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .height(EXTRA_LARGE_BUTTON_HEIGHT2)
                 .clip(RoundedCornerShape(LARGE_CORNER_SIZE))
