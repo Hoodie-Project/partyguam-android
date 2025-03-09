@@ -13,8 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.party.common.HeightSpacer
 import com.party.common.R
@@ -26,6 +28,7 @@ import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T1
 import com.party.common.ui.theme.WHITE
 import com.party.common.Screens
+import com.party.common.calculateLetterSpacing
 
 @Composable
 fun SelectTendencyCompleteScreen(
@@ -60,6 +63,8 @@ fun SelectTendencyCompleteScreenContent(
                     fontWeight = FontWeight.Bold,
                     fontSize = T1,
                     align = Alignment.Center,
+                    textAlign = TextAlign.Center,
+                    letterSpacing = calculateLetterSpacing(T1, (-2.5f))
                 )
             }
 
