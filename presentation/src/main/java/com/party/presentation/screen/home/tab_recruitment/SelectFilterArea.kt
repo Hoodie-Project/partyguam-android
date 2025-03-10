@@ -97,7 +97,7 @@ fun SelectFilterItem(
         colors = CardDefaults.cardColors(
             containerColor = WHITE,
         ),
-        shape = RoundedCornerShape(LARGE_CORNER_SIZE),
+        shape = RoundedCornerShape(999.dp),
         border = BorderStroke(1.dp, GRAY200),
     ) {
         Row(

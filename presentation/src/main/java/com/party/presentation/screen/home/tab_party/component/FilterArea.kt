@@ -1,6 +1,7 @@
 package com.party.presentation.screen.home.tab_party.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,6 +17,7 @@ import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B2
+import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.PRIMARY
 import com.party.presentation.screen.home.tab_recruitment.SelectFilterItem
@@ -24,6 +26,7 @@ import com.party.presentation.screen.home.tab_recruitment.SelectFilterItem
 fun FilterArea(
     checked: Boolean,
     onToggle: (Boolean) -> Unit,
+    number: Int,
     isPartyTypeFilterClick: (Boolean) -> Unit,
 ) {
     Row(
@@ -36,6 +39,7 @@ fun FilterArea(
         SelectFilterItem(
             filterName = "파티유형",
             isSheetOpen = false,
+            number = number,
             onClick = { isPartyTypeFilterClick(it) }
         )
 
@@ -78,6 +82,7 @@ private fun FilterAreaPreview() {
     FilterArea(
         checked = true,
         onToggle = {},
+        number = 2,
         isPartyTypeFilterClick = {}
     )
 }

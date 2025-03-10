@@ -41,6 +41,7 @@ fun PartyArea(
         FilterArea(
             checked = homeState.isActivePartyToggle,
             onToggle = onActivePartyToggle,
+            number = homeState.selectedPartyTypeListParty.size,
             isPartyTypeFilterClick = { onPartyTypeModal(true) }
         )
 

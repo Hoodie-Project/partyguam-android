@@ -70,7 +70,8 @@ fun PartyListItem1(
                 type = type,
                 title = title,
                 recruitmentCount = recruitmentCount,
-                typeChip = typeChip
+                typeChip = typeChip,
+                onClick = onClick,
             )
         }
     }
@@ -95,6 +96,7 @@ private fun PartyItemInfoArea(
     type: String,
     title: String,
     recruitmentCount: Int,
+    onClick: () -> Unit,
     typeChip: @Composable (() -> Unit) = {}
 ) {
     Column(
@@ -116,11 +118,13 @@ private fun PartyItemInfoArea(
         PartyItemTitle(
             modifier = modifier,
             title = title,
+            onClick = onClick
         )
         HeightSpacer(heightDp = 12.dp)
         PartyItemRecruiting(
             modifier = modifier,
             recruitmentCount = recruitmentCount,
+            onClick = onClick
         )
     }
 }
@@ -140,6 +144,7 @@ private fun PartyItemCategory(
 private fun PartyItemTitle(
     modifier: Modifier,
     title: String,
+    onClick: () -> Unit,
 ) {
     TextComponent(
         modifier = modifier
@@ -149,6 +154,7 @@ private fun PartyItemTitle(
         fontSize = T3,
         fontWeight = FontWeight.Bold,
         align = Alignment.TopStart,
+        onClick = onClick
     )
 }
 
@@ -156,16 +162,20 @@ private fun PartyItemTitle(
 private fun PartyItemRecruiting(
     modifier: Modifier,
     recruitmentCount: Int,
+    onClick: () -> Unit,
 ) {
-    TextComponent(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(44.dp),
-        text = stringResource(id = R.string.home_list_party_recruitment_count, recruitmentCount),
-        fontSize = B3,
-        textColor = PRIMARY,
-        fontWeight = FontWeight.SemiBold,
-    )
+    if(recruitmentCount > 0){
+        TextComponent(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(44.dp),
+            text = stringResource(id = R.string.home_list_party_recruitment_count, recruitmentCount),
+            fontSize = B3,
+            textColor = PRIMARY,
+            fontWeight = FontWeight.SemiBold,
+            onClick = onClick
+        )
+    }
 }
 
 @Preview(showBackground = true)
@@ -176,6 +186,18 @@ private fun PartyListItemPreview() {
         type = "카테고리",
         title = "제목",
         recruitmentCount = 10,
+        onClick = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PartyListItemPreview2() {
+    PartyListItem1(
+        imageUrl = "https://picsum.photos/200/300",
+        type = "카테고리",
+        title = "제목",
+        recruitmentCount = 0,
         onClick = {}
     )
 }

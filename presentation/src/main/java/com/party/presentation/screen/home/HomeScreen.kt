@@ -61,8 +61,13 @@ fun HomeScreenRoute(
     val isFabVisibleParty = remember { derivedStateOf { gridState.firstVisibleItemIndex > 0}}
     val isFabVisibleRecruitment = remember { derivedStateOf { listState.firstVisibleItemIndex > 0}}
 
-    homeState.isScrollParty = isFabVisibleParty.value
-    homeState.isScrollRecruitment = isFabVisibleRecruitment.value
+    LaunchedEffect(key1 = isFabVisibleParty.value) {
+        homeViewModel.updateFabVisibleParty(isScrollParty = isFabVisibleParty.value)
+    }
+
+    LaunchedEffect(key1 = isFabVisibleRecruitment.value) {
+        homeViewModel.updateFabVisibleRecruitment(isScrollRecruitment = isFabVisibleParty.value)
+    }
 
     LaunchedEffect(Unit) {
         homeViewModel.scrollToUpParty.collectLatest {
@@ -76,7 +81,7 @@ fun HomeScreenRoute(
     }
 
     LaunchedEffect(key1 = Unit) {
-        homeViewModel.getPartyList(page = 1, size = 50, sort = "createdAt", order = OrderDescType.DESC.type, titleSearch = null, status = null)
+        homeViewModel.getPartyList(page = 1, size = 50, sort = "createdAt", order = OrderDescType.DESC.type, titleSearch = null, status = if(homeState.isActivePartyToggle) "active" else "archived")
         homeViewModel.getRecruitmentList(page = 1, size = 50, sort = "createdAt", order = OrderDescType.DESC.type, titleSearch = null)
     }
 

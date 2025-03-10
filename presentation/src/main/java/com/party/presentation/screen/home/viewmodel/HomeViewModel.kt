@@ -51,6 +51,18 @@ class HomeViewModel @Inject constructor(
         getPersonalRecruitmentList(1, 50, "createdAt", OrderDescType.DESC.type)
     }
 
+    fun updateFabVisibleParty(isScrollParty: Boolean){
+        viewModelScope.launch {
+            _state.update { it.copy(isScrollParty = isScrollParty) }
+        }
+    }
+
+    fun updateFabVisibleRecruitment(isScrollRecruitment: Boolean){
+        viewModelScope.launch {
+            _state.update { it.copy(isScrollRecruitment = isScrollRecruitment) }
+        }
+    }
+
     private fun getPersonalRecruitmentList(
         page: Int,
         size: Int,
