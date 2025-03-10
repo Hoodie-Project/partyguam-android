@@ -23,6 +23,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.party.common.Screens
+import com.party.common.component.BottomNavigationBar
 import com.party.common.component.bottomsheet.MoreBottomSheet
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.partyDetailTabList
@@ -34,8 +36,6 @@ import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyType
 import com.party.domain.model.user.PartyAuthority
 import com.party.domain.model.user.PartyAuthorityPosition
-import com.party.common.component.BottomNavigationBar
-import com.party.common.Screens
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.party_detail.component.PartyDetailArea
 import com.party.presentation.screen.party_detail.component.PartyDetailScaffoldArea

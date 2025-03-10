@@ -2,8 +2,10 @@ package com.party.presentation.screen.party_detail.tab.recruitment
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -110,18 +112,23 @@ private fun ChangeProgress(
     isProgress: Boolean,
     onChangeProgress: (Boolean) -> Unit,
 ) {
-    TextComponent(
-        text = "진행중",
-        fontSize = B2,
-        textColor = if(isProgress) DARK100 else GRAY500,
-        fontWeight = FontWeight.SemiBold,
-    )
-    WidthSpacer(widthDp = 2.dp)
-    Image(
-        painter = if(isProgress) painterResource(id = R.drawable.icon_toggle_on) else painterResource(id = R.drawable.icon_toggle_off),
-        contentDescription = "toggle",
-        modifier = Modifier.noRippleClickable { onChangeProgress(!isProgress) }
-    )
+    Row {
+        TextComponent(
+            text = "진행중",
+            fontSize = B2,
+            textColor = if(isProgress) DARK100 else GRAY500,
+            fontWeight = FontWeight.SemiBold,
+        )
+        WidthSpacer(widthDp = 2.dp)
+        Image(
+            painter = if(isProgress) painterResource(id = R.drawable.icon_toggle_on) else painterResource(id = R.drawable.icon_toggle_off),
+            contentDescription = "toggle",
+            modifier = Modifier
+                .size(24.dp)
+                .noRippleClickable { onChangeProgress(!isProgress) }
+        )
+    }
+
 }
 
 @Preview(showBackground = true)
