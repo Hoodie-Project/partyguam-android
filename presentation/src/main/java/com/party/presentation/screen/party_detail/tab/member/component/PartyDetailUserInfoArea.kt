@@ -1,11 +1,15 @@
 package com.party.presentation.screen.party_detail.tab.member.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +29,8 @@ import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.BLACK
+import com.party.common.ui.theme.GRAY200
+import com.party.common.ui.theme.GRAY300
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
 import com.party.presentation.enum.PartyAuthorityType
@@ -86,16 +92,28 @@ private fun AuthorityAndPosition(
     position: String,
 ) {
     Row(
+        modifier = Modifier
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if(authority == PartyAuthorityType.MASTER.authority){
             TextComponent(
-                text = "파티장 | ",
+                text = "파티장",
                 fontSize = B2,
                 fontWeight = FontWeight.SemiBold,
                 textColor = PRIMARY,
             )
         }
+        WidthSpacer(widthDp = 6.dp)
+        Image(
+            painter = painterResource(id = R.drawable.vertical_rectangle),
+            contentDescription = "",
+            modifier = Modifier
+                .width(1.dp)
+                .height(8.dp)
+                .background(GRAY200),
+        )
+        WidthSpacer(widthDp = 6.dp)
         if(authority == PartyAuthorityType.DEPUTY.authority){
             TextComponent(
                 text = "부파티장 | ",
@@ -110,6 +128,15 @@ private fun AuthorityAndPosition(
             fontWeight = FontWeight.SemiBold,
         )
     }
+}
+
+@Preview
+@Composable
+private fun AuthorityAndPositionPreview(modifier: Modifier = Modifier) {
+    AuthorityAndPosition(
+        authority = "master",
+        position = "개발자 Android"
+    )
 }
 
 

@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.component.ImageLoading
 import com.party.common.component.icon.DrawableIcon
+import com.party.common.ui.theme.GRAY200
 import com.party.presentation.enum.PartyAuthorityType
 
 @Composable
@@ -29,6 +30,9 @@ fun PartyDetailUserProfileImageArea(
                 .clip(CircleShape)
                 .size(60.dp),
             imageUrl = imageUrl,
+            borderColor = GRAY200,
+            borderWidth = 1.dp,
+            roundedCornerShape = 30.dp
         )
         if(authority == PartyAuthorityType.MASTER.authority){
             DrawableIcon(
