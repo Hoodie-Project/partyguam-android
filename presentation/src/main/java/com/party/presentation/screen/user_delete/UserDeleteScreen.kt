@@ -117,7 +117,9 @@ private fun UserDeleteScreen(
                 UserDeleteButton(
                     isChecked = isChecked,
                     onClick = {
-                        onAction(UserDeleteAction.OnShowDeleteDialog(isShow = true))
+                        if(isChecked){
+                            onAction(UserDeleteAction.OnShowDeleteDialog(isShow = true))
+                        }
                     }
                 )
                 HeightSpacer(heightDp = 10.dp)

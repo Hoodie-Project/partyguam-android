@@ -3,6 +3,7 @@ package com.party.presentation.screen.user_delete.component
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -52,6 +53,8 @@ fun WarningAgreeArea(
                 text = "안내 사항을 모두 확인하였으며, 이에 동의합니다",
                 fontSize = B2,
                 fontWeight = FontWeight.SemiBold,
+                modifier = Modifier
+                    .offset(x = (-6).dp)
             )
         }
     }
