@@ -27,11 +27,11 @@ import com.kakao.sdk.user.UserApiClient
 import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.ScreenExplainArea
+import com.party.common.Screens
 import com.party.common.makeAccessToken
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
-import com.party.common.Screens
 import com.party.presentation.screen.login.component.LoginButtonArea
 import com.party.presentation.screen.login.component.LoginScaffoldArea
 import com.party.presentation.screen.login.component.LoginScreenBottomArea
@@ -84,7 +84,8 @@ fun LoginScreenRoute(
         kakaoCallback = kakaoCallback,
         launcher = launcher,
         onGotoTerms = { navController.navigate(Screens.Terms) },
-        onGotoInquire = { navController.navigate(Screens.CustomerInquiries)}
+        onGotoInquire = { navController.navigate(Screens.CustomerInquiries)},
+        onPrivacyClick = { navController.navigate(Screens.PrivacyPolicy)}
     )
 }
 
@@ -95,6 +96,7 @@ private fun LoginScreen(
     launcher: ManagedActivityResultLauncher<Intent, ActivityResult>,
     onGotoTerms: () -> Unit,
     onGotoInquire: () -> Unit,
+    onPrivacyClick: () -> Unit,
 ) {
     Scaffold (
         topBar = {
@@ -122,8 +124,9 @@ private fun LoginScreen(
             )
 
             LoginScreenBottomArea(
-                onGotoTerms = onGotoTerms,
                 onGotoInquire = onGotoInquire,
+                onTermsClick = onGotoTerms,
+                onPrivacyClick = onPrivacyClick,
             )
         }
     }
@@ -156,6 +159,7 @@ private fun LoginScreenPreview() {
         ) {
         },
         onGotoTerms = {},
-        onGotoInquire = {}
+        onGotoInquire = {},
+        onPrivacyClick = {}
     )
 }
