@@ -97,6 +97,7 @@ fun TabAreaItem(
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier
                 .height(42.dp),
+            onClick = { onTabClick(text) }
         )
 
         Box(

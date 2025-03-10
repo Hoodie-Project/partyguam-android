@@ -65,7 +65,7 @@ fun NetworkImageLoad(
         SubcomposeAsyncImage(
             model = url,
             contentDescription = "image",
-            contentScale = ContentScale.FillBounds,
+            contentScale = ContentScale.Crop,
             modifier = modifier
                 .fillMaxSize(),
             loading = {

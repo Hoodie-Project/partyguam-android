@@ -1,5 +1,6 @@
 package com.party.presentation.screen.party_detail.component
 
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -15,7 +16,8 @@ fun PartyDetailImageArea(
     ImageLoading(
         modifier = Modifier
             .fillMaxWidth()
-            .height(281.dp),
+            .height(281.dp)
+            .aspectRatio(4f / 3f),
         imageUrl = image,
         roundedCornerShape = 0.dp
     )

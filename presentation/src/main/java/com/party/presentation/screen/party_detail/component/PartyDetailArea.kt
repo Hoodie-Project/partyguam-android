@@ -36,15 +36,17 @@ fun PartyDetailArea(
 ) {
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
     ) {
         item {
             PartyDetailImageArea(
                 image = state.partyDetail.image
             )
-            HeightSpacer(heightDp = 20.dp)
+            HeightSpacer(heightDp = 28.dp)
         }
+
         item {
+
             PartyDetailCategoryArea(
                 modifier = Modifier
                     .padding(horizontal = 20.dp),
