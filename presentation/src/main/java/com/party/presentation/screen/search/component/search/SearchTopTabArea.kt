@@ -17,6 +17,6 @@ fun SearchTopTabArea(
         tabList = searchTabList,
         selectedTabText = selectedTabText,
         onTabClick = onTabClick,
-        selectedTabColor = BLACK,
+        //selectedTabColor = BLACK,
     )
 }

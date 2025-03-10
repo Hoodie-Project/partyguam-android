@@ -1,33 +1,33 @@
 package com.party.common.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.party.common.HeightSpacer
+import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.COMPONENT_AREA_HEIGHT
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.T3
-
-val TAB_AREA_ITEM_MIN_WIDTH = 40.dp
-val TAB_AREA_ITEM_MAX_WIDTH = 68.dp
 
 val homeTopTabList = listOf("메인", "파티", "모집공고")
 val partyDetailTabList = listOf("홈", "파티원", "모집공고")
@@ -46,7 +46,6 @@ fun TabArea(
     tabList: List<String>,
     selectedTabText: String,
     onTabClick: (String) -> Unit,
-    selectedTabColor: Color = PRIMARY,
 ) {
     Column(
         modifier = modifier
@@ -63,9 +62,8 @@ fun TabArea(
                     textColor = if (selectedTabText == title) BLACK else GRAY400,
                     isShowSelectedIndicate = selectedTabText == title,
                     onTabClick = { onTabClick(it) },
-                    selectedTabColor = selectedTabColor
                 )
-                WidthSpacer(widthDp = 20.dp)
+                WidthSpacer(widthDp = 40.dp)
             }
         }
         HeightSpacer(heightDp = 4.dp)
@@ -77,35 +75,36 @@ fun TabAreaItem(
     textColor: Color,
     isShowSelectedIndicate: Boolean,
     onTabClick: (String) -> Unit,
-    selectedTabColor: Color,
 ){
+    val textMeasurer = rememberTextMeasurer()
+    val textWidth = textMeasurer.measure(
+        text = text,
+        style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+    ).size.width
+
     Column(
         modifier = Modifier
-            .widthIn(min = TAB_AREA_ITEM_MIN_WIDTH, max = TAB_AREA_ITEM_MAX_WIDTH)
-            .height(COMPONENT_AREA_HEIGHT)
-            .noRippleClickable { onTabClick(text) }
+            .wrapContentWidth()
+            .height(48.dp)
+            .noRippleClickable { onTabClick(text) },
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
+        TextComponent(
+            text = text,
+            fontSize = 16.sp,
+            textColor = textColor,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier
+                .height(42.dp),
+        )
+
         Box(
             modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center,
-        ){
-            Text(
-                text = text,
-                color = textColor,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = T3
-            )
-        }
-        if (isShowSelectedIndicate) {
-            HorizontalDivider(
-                modifier = Modifier
-                    .fillMaxWidth(0.6f)
-                    .align(Alignment.CenterHorizontally),
-                thickness = 4.dp,
-                color = selectedTabColor
-            )
-        }
+                .width(with(LocalDensity.current) { (textWidth + 20).toDp() })
+                .height(6.dp)
+                .background(if(isShowSelectedIndicate) PRIMARY else Color.Unspecified)
+        )
     }
 }
 
@@ -145,7 +144,6 @@ fun TabAreaItem1Preview() {
         textColor = BLACK,
         isShowSelectedIndicate = true,
         onTabClick = {},
-        selectedTabColor = PRIMARY
     )
 }
 
@@ -157,6 +155,5 @@ fun TabAreaItem2Preview() {
         textColor = BLACK,
         isShowSelectedIndicate = true,
         onTabClick = {},
-        selectedTabColor = PRIMARY
     )
 }

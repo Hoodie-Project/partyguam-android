@@ -151,7 +151,7 @@ fun RowScope.AppBottomNavigationBarItem(
                 onClick = onTabClick,
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(6.dp)
+        verticalArrangement = Arrangement.spacedBy(3.dp)
     ) {
         DrawableIcon(
             icon = icon,

@@ -58,11 +58,13 @@ import com.party.presentation.screen.home.component.RecruitmentCountArea
 fun PersonalRecruitmentArea(
     homeState: HomeState,
     onReload: () -> Unit,onClick: (Int, Int) -> Unit,
+    onGotoDetailProfile: () -> Unit,
 ) {
-
     when {
         homeState.isLoadingPersonalRecruitmentList -> LoadingProgressBar()
-        homeState.isNotProfileError -> NotInputProfileInformation()
+        homeState.isNotProfileError -> NotInputProfileInformation(
+            onGotoDetailProfile = onGotoDetailProfile
+        )
         homeState.personalRecruitmentList.partyRecruitments.isNotEmpty() -> {
             HeightSpacer(heightDp = 40.dp)
             HomeListTitleArea(
@@ -76,43 +78,6 @@ fun PersonalRecruitmentArea(
                 personalRecruitmentListResponse = homeState.personalRecruitmentList,
                 onClick = onClick
             )
-        }
-    }
-}
-
-@Composable
-fun ErrorArea() {
-    HeightSpacer(heightDp = 20.dp)
-
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .aspectRatio(1f),
-        shape = RoundedCornerShape(LARGE_CORNER_SIZE),
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(GRAY100),
-            contentAlignment = Alignment.Center
-        ){
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Icon(
-                    modifier = Modifier.size(24.dp),
-                    painter = painterResource(id = R.drawable.icon_error),
-                    contentDescription = "error",
-                    tint = DARK100
-                )
-                HeightSpacer(heightDp = 6.dp)
-                Text(
-                    text = "모집공고를 불러오는 데 실패했어요\n            다시 시도해주세요",
-                    fontSize = B1,
-                    fontWeight = FontWeight.SemiBold,
-                    color = DARK100,
-                )
-            }
         }
     }
 }
@@ -238,7 +203,8 @@ fun PersonalRecruitmentItemBottomArea(
 
 @Composable
 fun NotInputProfileInformation(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onGotoDetailProfile: () -> Unit,
 ) {
     HeightSpacer(heightDp = 40.dp)
     Column(
@@ -263,7 +229,7 @@ fun NotInputProfileInformation(
         HeightSpacer(heightDp = 12.dp)
 
         Card(
-            onClick = { /*TODO*/ },
+            onClick = onGotoDetailProfile,
             modifier = Modifier
                 .width(160.dp)
                 .height(32.dp),

@@ -18,6 +18,7 @@ fun MainArea(
     onGoParty: () -> Unit,
     onGotoRecruitmentDetail: (Int, Int) -> Unit,
     onGotoPartyDetail: (Int) -> Unit,
+    onGotoDetailProfile: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -34,9 +35,10 @@ fun MainArea(
             homeState = homeState,
             onReload = onReload,
             onClick = onGotoRecruitmentDetail,
+            onGotoDetailProfile = onGotoDetailProfile,
         )
 
-        HeightSpacer(heightDp = 60.dp)
+        HeightSpacer(heightDp = 40.dp)
 
         NewRecruitmentArea(
             homeState = homeState,

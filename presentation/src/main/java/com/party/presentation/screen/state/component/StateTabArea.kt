@@ -14,6 +14,6 @@ fun StateTabArea(
         tabList = searchTabList,
         selectedTabText = selectedTabText,
         onTabClick = onTabClick,
-        selectedTabColor = PRIMARY,
+        //selectedTabColor = PRIMARY,
     )
 }
