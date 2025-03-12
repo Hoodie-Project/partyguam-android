@@ -27,12 +27,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
 import com.party.common.Screens
+import com.party.common.component.bottomsheet.RecruitmentCompletedAndDeleteBottomSheet
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.partyRecruitmentEditTabList
 import com.party.common.noRippleClickable
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
+import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.Position1
@@ -93,11 +95,11 @@ fun PartyEditRecruitmentScreenRoute(
                         is PartyRecruitmentEditAction.OnSelectedTabText -> partyRecruitmentEditViewModel.onAction(action)
                         is PartyRecruitmentEditAction.OnShowHelpCard -> partyRecruitmentEditViewModel.onAction(action)
                         is PartyRecruitmentEditAction.OnChangeOrderBy -> partyRecruitmentEditViewModel.onAction(action)
-                        is PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog -> partyRecruitmentEditViewModel.onAction(action)
                         is PartyRecruitmentEditAction.OnDeleteRecruitment -> partyRecruitmentEditViewModel.deleteRecruitment(action.partyId, action.partyRecruitmentId)
                         is PartyRecruitmentEditAction.OnShowPartyRecruitmentCompletedDialog -> partyRecruitmentEditViewModel.onAction(action)
                         is PartyRecruitmentEditAction.OnPartyRecruitmentCompleted -> partyRecruitmentEditViewModel.onAction(action)
                         is PartyRecruitmentEditAction.OnShowPartyRecruitmentDeleteDialog -> partyRecruitmentEditViewModel.onAction(action)
+                        is PartyRecruitmentEditAction.OnShowBottomSheet -> partyRecruitmentEditViewModel.onAction(action)
                     }
                 },
                 onManageClick = { scope.launch { drawerState.open() } },
@@ -147,8 +149,8 @@ private fun PartyEditRecruitmentScreen(
         Scaffold(
             modifier = Modifier
                 .blur(
-                    radiusX = if (partyRecruitmentEditState.isShowRecruitmentDeleteDialog || partyRecruitmentEditState.isShowPartyRecruitmentCompletedDialog) 10.dp else 0.dp,
-                    radiusY = if (partyRecruitmentEditState.isShowRecruitmentDeleteDialog || partyRecruitmentEditState.isShowPartyRecruitmentCompletedDialog) 10.dp else 0.dp,
+                    radiusX = if (partyRecruitmentEditState.isShowPartyRecruitmentDeleteDialog || partyRecruitmentEditState.isShowPartyRecruitmentCompletedDialog) 10.dp else 0.dp,
+                    radiusY = if (partyRecruitmentEditState.isShowPartyRecruitmentDeleteDialog || partyRecruitmentEditState.isShowPartyRecruitmentCompletedDialog) 10.dp else 0.dp,
                 ),
             snackbarHost = {
                 SnackbarHost(
@@ -206,13 +208,8 @@ private fun PartyEditRecruitmentScreen(
                 PartyRecruitmentListArea(
                     partyRecruitmentEditState = partyRecruitmentEditState,
                     onClick = onClick,
-                    onPartyRecruitmentCompleted =  { recruitmentId ->
-                        selectedRecruitmentId = recruitmentId
-                        onAction(PartyRecruitmentEditAction.OnShowPartyRecruitmentCompletedDialog(true))
-                    },
-                    onPartyRecruitmentDeleted = { recruitmentId ->
-                        selectedRecruitmentId = recruitmentId
-                        onAction(PartyRecruitmentEditAction.OnShowPartyRecruitmentDeleteDialog(true))
+                    onMoreClick = { selectedRecruitmentId, status ->
+                        onAction(PartyRecruitmentEditAction.OnShowBottomSheet(isShow = !partyRecruitmentEditState.isShowBottomSheet, recruitmentId = selectedRecruitmentId, status = status))
                     }
                 )
             }
@@ -226,40 +223,35 @@ private fun PartyEditRecruitmentScreen(
         )
     }
 
-    if(partyRecruitmentEditState.isShowRecruitmentDeleteDialog){
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(BLACK.copy(alpha = 0.2f))
-                .noRippleClickable {
-                    onAction(
-                        PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog(
-                            false
-                        )
-                    )
-                }
-        ) {
-            TwoButtonDialog(
-                dialogTitle = "모집공고 삭제",
-                description = "지원자에게 모집 완료 알림이 전송돼요.\n정말로 모집을 삭제하시나요?",
-                cancelButtonText = "닫기",
-                confirmButtonText = "삭제하기",
-                onCancel = { onAction(PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog(false)) },
-                onConfirm = {
-                    onAction(PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog(false))
-                    onAction(PartyRecruitmentEditAction.OnDeleteRecruitment(partyId = partyId, partyRecruitmentId = selectedRecruitmentId))
-                }
-            )
-        }
+    if(partyRecruitmentEditState.isShowBottomSheet){
+        RecruitmentCompletedAndDeleteBottomSheet(
+            text = if(partyRecruitmentEditState.selectedStatus == "completed") "삭제하기" else "마감하기",
+            textColor = if(partyRecruitmentEditState.selectedStatus == "completed") RED else BLACK,
+            status = partyRecruitmentEditState.selectedStatus,
+            onModelClose = {
+                onAction(PartyRecruitmentEditAction.OnShowBottomSheet(isShow = false, recruitmentId = -1, status = ""))
+            },
+            onPreview = {},
+            onPartyRecruitmentCompleted = {
+                selectedRecruitmentId = partyRecruitmentEditState.selectedRecruitmentId
+                onAction(PartyRecruitmentEditAction.OnShowPartyRecruitmentCompletedDialog(true))
+                onAction(PartyRecruitmentEditAction.OnShowBottomSheet(isShow = false, recruitmentId = -1, status = ""))
+            },
+            onPartyRecruitmentDeleted = {
+                selectedRecruitmentId = partyRecruitmentEditState.selectedRecruitmentId
+                onAction(PartyRecruitmentEditAction.OnShowPartyRecruitmentDeleteDialog(true))
+                onAction(PartyRecruitmentEditAction.OnShowBottomSheet(isShow = false, recruitmentId = -1, status = ""))
+            },
+        )
     }
 
     if(partyRecruitmentEditState.isShowPartyRecruitmentCompletedDialog){
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(BLACK.copy(alpha = 0.7f))
+                .background(BLACK.copy(alpha = 0.3f))
                 .noRippleClickable {
-                    onAction(PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog(false))
+                    onAction(PartyRecruitmentEditAction.OnShowPartyRecruitmentCompletedDialog(false))
                 }
         ) {
             TwoButtonDialog(

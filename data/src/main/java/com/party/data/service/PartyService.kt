@@ -195,7 +195,7 @@ interface PartyService {
     ): ApiResponse<Unit>
 
     // 관리자 - 파티모집 수정
-    @PATCH("api/parties/{partyId}/recruitments/{partyRecruitmentId}")
+    @PATCH("api/parties/{partyId}/admin/recruitments/{partyRecruitmentId}")
     suspend fun modifyRecruitment(
         @Path(value = "partyId") partyId: Int,
         @Path(value = "partyRecruitmentId") partyRecruitmentId: Int,

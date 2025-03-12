@@ -1,7 +1,9 @@
 package com.party.presentation.screen.recruitment_edit
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,7 +16,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,15 +26,23 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
 import com.party.common.R
+import com.party.common.WidthSpacer
 import com.party.common.component.bottomsheet.OneSelectPickerBottomSheet
 import com.party.common.component.bottomsheet.component.ApplyButton
+import com.party.common.component.bottomsheet.component.ResetButton
 import com.party.common.component.bottomsheet.list.peopleCountList
+import com.party.common.component.button.CustomButton
+import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.MultiLineInputField
+import com.party.common.noRippleClickable
+import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
+import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
 import com.party.presentation.component.HelpCard
 import com.party.presentation.component.SelectMainAndSubPositionArea
+import com.party.presentation.screen.party_edit_recruitment.PartyRecruitmentEditAction
 import com.party.presentation.screen.recruitment_create.component.RecruitmentCreateInputField
 import com.party.presentation.screen.recruitment_edit.component.RecruitmentEditDescriptionArea
 import com.party.presentation.screen.recruitment_edit.component.RecruitmentEditScaffoldArea
@@ -48,6 +60,12 @@ fun RecruitmentEditRoute(
 
     LaunchedEffect(Unit) {
         recruitmentEditViewModel.getRecruitmentDetail(partyRecruitmentId)
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        recruitmentEditViewModel.completedSuccess.collectLatest {
+            navController.popBackStack()
+        }
     }
 
     LaunchedEffect(key1 = Unit) {
@@ -72,6 +90,8 @@ fun RecruitmentEditRoute(
                 is RecruitmentEditAction.OnChangeHelpCardOpen -> recruitmentEditViewModel.onAction(action)
                 is RecruitmentEditAction.OnChangeRecruitmentDescription -> recruitmentEditViewModel.onAction(action)
                 is RecruitmentEditAction.OnModifyRecruitment -> recruitmentEditViewModel.onAction(action)
+                is RecruitmentEditAction.OnPartyRecruitmentCompleted -> recruitmentEditViewModel.onAction(action)
+                is RecruitmentEditAction.OnShowPartyRecruitmentCompletedDialog -> recruitmentEditViewModel.onAction(action)
             }
         }
     )
@@ -89,6 +109,11 @@ private fun RecruitmentEditScreen(
     val scrollState = rememberScrollState()
 
     Scaffold(
+        modifier = Modifier
+            .blur(
+                radiusX = if (recruitmentEditState.isShowPartyRecruitmentCompletedDialog ) 10.dp else 0.dp,
+                radiusY = if (recruitmentEditState.isShowPartyRecruitmentCompletedDialog ) 10.dp else 0.dp,
+            ),
         topBar = {
             RecruitmentEditScaffoldArea(
                 onNavigationClick = onBackNavigation,
@@ -194,20 +219,63 @@ private fun RecruitmentEditScreen(
                     }
                 )
 
-                HeightSpacer(heightDp = 60.dp)
-                ApplyButton(
-                    buttonText = "수정 완료",
+                HeightSpacer(heightDp = 42.dp)
+
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(48.dp),
-                    onClick = {
-                        onAction(RecruitmentEditAction.OnModifyRecruitment(partyId = partyId, partyRecruitmentId = partyRecruitmentId))
-                    }
-                )
+                ) {
+                    CustomButton(
+                        onClick = {
+                            onAction(RecruitmentEditAction.OnShowPartyRecruitmentCompletedDialog(true))
+                        },
+                        buttonText = "마감하기",
+                        textWeight = FontWeight.Bold,
+                        containerColor = WHITE,
+                        borderColor = PRIMARY,
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(48.dp),
+                    )
+                    WidthSpacer(widthDp = 8.dp)
+                    ApplyButton(
+                        buttonText = "수정 완료",
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(48.dp),
+                        onClick = {
+                            onAction(RecruitmentEditAction.OnModifyRecruitment(partyId = partyId, partyRecruitmentId = partyRecruitmentId))
+                        }
+                    )
+                }
+
                 HeightSpacer(heightDp = 20.dp)
             }
         }
     )
+
+    if(recruitmentEditState.isShowPartyRecruitmentCompletedDialog){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(BLACK.copy(alpha = 0.3f))
+                .noRippleClickable {
+                    onAction(RecruitmentEditAction.OnShowPartyRecruitmentCompletedDialog(false))
+                }
+        ) {
+            TwoButtonDialog(
+                dialogTitle = "모집공고 마감",
+                description = "지원자에게 알림이 전송돼요.\n마감 후에는 수정할 수 없어요.\n정말로 모집공고를 마감하시나요?",
+                cancelButtonText = "닫기",
+                confirmButtonText = "마감하기",
+                onCancel = { onAction(RecruitmentEditAction.OnShowPartyRecruitmentCompletedDialog(false)) },
+                onConfirm = {
+                    onAction(RecruitmentEditAction.OnShowPartyRecruitmentCompletedDialog(false))
+                    onAction(RecruitmentEditAction.OnPartyRecruitmentCompleted(partyId = partyId, partyRecruitmentId = partyRecruitmentId))
+                }
+            )
+        }
+    }
 }
 
 @Preview(showBackground = true)

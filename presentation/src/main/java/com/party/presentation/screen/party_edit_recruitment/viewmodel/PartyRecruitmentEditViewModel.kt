@@ -104,7 +104,6 @@ class PartyRecruitmentEditViewModel @Inject constructor(
                     )
                 }
             }
-            is PartyRecruitmentEditAction.OnShowRecruitmentDeleteDialog -> _state.update { it.copy(isShowRecruitmentDeleteDialog = action.isShowRecruitmentDeleteDialog) }
             is PartyRecruitmentEditAction.OnDeleteRecruitment -> {
                 deleteRecruitment(partyId = action.partyId, partyRecruitmentId = action.partyRecruitmentId)
             }
@@ -117,6 +116,9 @@ class PartyRecruitmentEditViewModel @Inject constructor(
             }
             is PartyRecruitmentEditAction.OnShowPartyRecruitmentDeleteDialog -> {
                 _state.update { it.copy(isShowPartyRecruitmentDeleteDialog = action.isShowPartyRecruitmentDeleteDialog) }
+            }
+            is PartyRecruitmentEditAction.OnShowBottomSheet -> {
+                _state.update { it.copy(isShowBottomSheet = action.isShow, selectedRecruitmentId = action.recruitmentId, selectedStatus = action.status) }
             }
         }
     }

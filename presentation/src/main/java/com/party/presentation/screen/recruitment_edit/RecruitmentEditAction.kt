@@ -14,4 +14,7 @@ sealed interface RecruitmentEditAction {
     data class OnChangeRecruitmentDescription(val recruitmentDescription: String): RecruitmentEditAction
 
     data class OnModifyRecruitment(val partyId: Int, val partyRecruitmentId: Int): RecruitmentEditAction
+
+    data class OnPartyRecruitmentCompleted(val partyId: Int, val partyRecruitmentId: Int): RecruitmentEditAction
+    data class OnShowPartyRecruitmentCompletedDialog(val isShow: Boolean): RecruitmentEditAction
 }

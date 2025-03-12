@@ -9,6 +9,7 @@ import com.party.domain.model.party.RecruitmentDetailParty
 import com.party.domain.model.party.RecruitmentDetailPartyType
 import com.party.domain.model.party.RecruitmentDetailPosition
 import com.party.domain.model.user.detail.PositionList
+import com.party.domain.usecase.party.CompletedPartyRecruitmentUseCase
 import com.party.domain.usecase.party.GetRecruitmentDetailUseCase
 import com.party.domain.usecase.party.ModifyRecruitmentUseCase
 import com.party.domain.usecase.user.detail.GetPositionsUseCase
@@ -29,13 +30,28 @@ class RecruitmentEditViewModel @Inject constructor(
     private val getPositionsUseCase: GetPositionsUseCase,
     private val getRecruitmentDetailUseCase: GetRecruitmentDetailUseCase,
     private val modifyRecruitmentUseCase: ModifyRecruitmentUseCase,
+    private val completedPartyRecruitmentUseCase: CompletedPartyRecruitmentUseCase,
 ): ViewModel(){
 
     private val _state = MutableStateFlow(RecruitmentEditState())
     val state = _state.asStateFlow()
 
+    private val _completedSuccess = MutableSharedFlow<Unit>()
+    val completedSuccess = _completedSuccess.asSharedFlow()
+
     private val _successModify = MutableSharedFlow<Unit>()
     val successModify = _successModify.asSharedFlow()
+
+    // 모집공고 마감처리
+    private fun completedPartyRecruitment(partyId: Int, partyRecruitmentId: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = completedPartyRecruitmentUseCase(partyId = partyId, partyRecruitmentId = partyRecruitmentId)){
+                is ServerApiResponse.SuccessResponse -> _completedSuccess.emit(Unit)
+                is ServerApiResponse.ErrorResponse -> {}
+                is ServerApiResponse.ExceptionResponse -> {}
+            }
+        }
+    }
 
     private fun modifyRecruitment(partyId: Int, partyRecruitmentId: Int, modifyRecruitmentRequest: ModifyRecruitmentRequest){
         viewModelScope.launch(Dispatchers.IO) {
@@ -117,6 +133,12 @@ class RecruitmentEditViewModel @Inject constructor(
                     recruiting_count = _state.value.selectedCount,
                 )
                 modifyRecruitment(action.partyId, action.partyRecruitmentId, modifyRecruitmentRequest)
+            }
+            is RecruitmentEditAction.OnPartyRecruitmentCompleted -> {
+                completedPartyRecruitment(partyId = action.partyId, partyRecruitmentId = action.partyRecruitmentId)
+            }
+            is RecruitmentEditAction.OnShowPartyRecruitmentCompletedDialog -> {
+                _state.update { it.copy(isShowPartyRecruitmentCompletedDialog = action.isShow) }
             }
         }
     }

@@ -18,4 +18,7 @@ data class RecruitmentEditState(
 
     // 모집 생성
     val isRecruitmentCreateLoading: Boolean = false,
+
+    // 모집공고 마감 다이얼로그
+    val isShowPartyRecruitmentCompletedDialog: Boolean = false,
 )

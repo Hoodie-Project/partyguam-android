@@ -10,15 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,12 +26,9 @@ import com.party.common.WidthSpacer
 import com.party.common.convertIsoToCustomDateFormat
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
-import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY500
-import com.party.common.ui.theme.GREEN
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.MEDIUM_CORNER_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.T3
@@ -52,11 +44,9 @@ fun RecruitmentListItem4(
     recruitingCount: Int,
     applicationCount: Int,
     onClick: () -> Unit,
-    onPartyRecruitmentCompleted: () -> Unit,
-    onPartyRecruitmentDeleted: () -> Unit,
+    onMoreClick: () -> Unit,
     icon: @Composable (onClick: () -> Unit) -> Unit = {},
 ) {
-    var isShowFinishButton by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -89,7 +79,7 @@ fun RecruitmentListItem4(
                     )
 
                     icon {
-                        isShowFinishButton = !isShowFinishButton
+                        onMoreClick()
                     }
                 }
 
@@ -129,29 +119,6 @@ fun RecruitmentListItem4(
             }
         }
 
-        if (isShowFinishButton) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-            ){
-                RecruitmentFinishButton(
-                    modifier = Modifier
-                        .width(183.dp)
-                        .height(68.dp)
-                        .align(Alignment.BottomEnd)
-                        .padding(end = 8.dp, bottom = 24.dp),
-                    status = status,
-                    onPartyRecruitmentCompleted = {
-                        isShowFinishButton = false
-                        onPartyRecruitmentCompleted()
-                    },
-                    onPartyRecruitmentDeleted = {
-                        isShowFinishButton = false
-                        onPartyRecruitmentDeleted()
-                    }
-                )
-            }
-        }
     }
 }
 
@@ -181,47 +148,6 @@ private fun RecruitingCountArea(
     }
 }
 
-@Composable
-fun RecruitmentFinishButton(
-    modifier: Modifier = Modifier,
-    status: String,
-    onPartyRecruitmentCompleted: () -> Unit,
-    onPartyRecruitmentDeleted: () -> Unit,
-) {
-    Card(
-        modifier = modifier,
-        shape = RoundedCornerShape(MEDIUM_CORNER_SIZE),
-        colors = CardDefaults.cardColors(
-            containerColor = WHITE
-        ),
-        border = BorderStroke(1.dp, GREEN),
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.CenterStart
-        ){
-            TextComponent(
-                text = if(status == "completed") "삭제하기" else "마감하기",
-                textColor = if(status == "completed") RED else BLACK,
-                fontSize = B2,
-                fontWeight = FontWeight.Normal,
-                onClick = {
-                    if (status == "completed") {
-                        // 삭제하기
-                        onPartyRecruitmentDeleted()
-                    } else {
-                        // 마감하기
-                        onPartyRecruitmentCompleted()
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 20.dp)
-            )
-        }
-    }
-}
 
 @Preview(showBackground = true)
 @Composable
@@ -235,8 +161,7 @@ private fun RecruitmentListItem4Preview() {
         applicationCount = 1,
         status = "active",
         onClick = {},
-        onPartyRecruitmentCompleted = {},
-        onPartyRecruitmentDeleted = {},
+        onMoreClick = {},
     )
 }
 
@@ -252,20 +177,6 @@ private fun RecruitmentListItem4Preview1() {
         applicationCount = 1,
         status = "completed",
         onClick = {},
-        onPartyRecruitmentCompleted = {},
-        onPartyRecruitmentDeleted = {},
-    )
-}
-
-@Preview
-@Composable
-private fun RecruitmentFinishButtonPreview() {
-    RecruitmentFinishButton(
-        modifier = Modifier
-            .width(183.dp)
-            .height(52.dp),
-        status = "completed",
-        onPartyRecruitmentCompleted = {},
-        onPartyRecruitmentDeleted = {},
+        onMoreClick = {},
     )
 }

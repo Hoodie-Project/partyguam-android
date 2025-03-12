@@ -68,8 +68,7 @@ fun PartyDetailRecruitmentListArea(
                     recruitingCount = item.recruitingCount,
                     applicationCount = item.applicationCount,
                     onClick = { onClickRecruitment(item.id) },
-                    onPartyRecruitmentCompleted = {},
-                    onPartyRecruitmentDeleted = {},
+                    onMoreClick = {}
                 )
 
                 if(index == list.size-1){

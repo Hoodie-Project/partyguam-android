@@ -66,7 +66,7 @@ fun HomeScreenRoute(
     }
 
     LaunchedEffect(key1 = isFabVisibleRecruitment.value) {
-        homeViewModel.updateFabVisibleRecruitment(isScrollRecruitment = isFabVisibleParty.value)
+        homeViewModel.updateFabVisibleRecruitment(isScrollRecruitment = isFabVisibleRecruitment.value)
     }
 
     LaunchedEffect(Unit) {

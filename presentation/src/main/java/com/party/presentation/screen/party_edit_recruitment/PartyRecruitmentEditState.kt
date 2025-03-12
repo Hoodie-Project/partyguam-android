@@ -12,11 +12,14 @@ data class PartyRecruitmentEditState(
     val isLoadingPartyRecruitment: Boolean = false,
     val partyRecruitment: List<PartyRecruitment> = emptyList(),
 
-    val isShowRecruitmentDeleteDialog: Boolean = false,
-
-    // 모집마감 다이얼로그
+    // 모집공고 마감 다이얼로그
     val isShowPartyRecruitmentCompletedDialog: Boolean = false,
 
     // 모집공고 삭제 다이얼로그
     val isShowPartyRecruitmentDeleteDialog: Boolean = false,
+
+    // 미리보기, 마감, 삭제 BottomSheet
+    val isShowBottomSheet: Boolean = false,
+    val selectedRecruitmentId: Int = -1,
+    val selectedStatus: String = "",
 )

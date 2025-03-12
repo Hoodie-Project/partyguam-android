@@ -25,8 +25,7 @@ import com.party.presentation.screen.party_edit_recruitment.PartyRecruitmentEdit
 fun PartyRecruitmentListArea(
     partyRecruitmentEditState: PartyRecruitmentEditState,
     onClick: (Int) -> Unit,
-    onPartyRecruitmentCompleted: (Int) -> Unit,
-    onPartyRecruitmentDeleted: (Int) -> Unit,
+    onMoreClick: (Int, String) -> Unit,
 ) {
     when {
         partyRecruitmentEditState.isLoadingPartyRecruitment -> LoadingProgressBar()
@@ -43,8 +42,7 @@ fun PartyRecruitmentListArea(
             RecruitmentList(
                 list = partyRecruitmentEditState.partyRecruitment,
                 onClick = onClick,
-                onPartyRecruitmentCompleted = onPartyRecruitmentCompleted,
-                onPartyRecruitmentDeleted = onPartyRecruitmentDeleted,
+                onMoreClick = onMoreClick
             )
         }
     }
@@ -54,8 +52,7 @@ fun PartyRecruitmentListArea(
 private fun RecruitmentList(
     list: List<PartyRecruitment>,
     onClick: (Int) -> Unit,
-    onPartyRecruitmentCompleted: (Int) -> Unit,
-    onPartyRecruitmentDeleted: (Int) -> Unit,
+    onMoreClick: (Int, String) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -81,12 +78,13 @@ private fun RecruitmentList(
                     DrawableIconButton(
                         icon = painterResource(id = R.drawable.icon_vertical_more2),
                         contentDescription = "more",
-                        onClick = onClick, // ✅ 클릭 이벤트 전달
+                        onClick = onClick, // 클릭 이벤트 전달
                         modifier = Modifier.size(24.dp)
                     )
                 },
-                onPartyRecruitmentCompleted = { onPartyRecruitmentCompleted(item.id) },
-                onPartyRecruitmentDeleted = { onPartyRecruitmentDeleted(item.id) },
+                onMoreClick = {
+                    onMoreClick(item.id, item.status)
+                }
             )
         }
     }
