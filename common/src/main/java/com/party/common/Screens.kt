@@ -99,4 +99,12 @@ sealed interface Screens {
         val main: String,
         val sub: String,
     ): Screens
+    @Serializable
+    data class RecruitmentCreatePreview(
+        val partyId: Int,
+        val description: String,
+        val recruitingCount: Int,
+        val main: String,
+        val sub: String,
+    ): Screens
 }

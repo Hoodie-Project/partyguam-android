@@ -197,7 +197,7 @@ fun RecruitmentCurrentInfoArea(
         RecruitmentInfoItem(
             title = "모집일",
             content = convertIsoToCustomDateFormat(createDate),
-            textColor = BLACK
+            textColor = BLACK,
         )
     }
 }

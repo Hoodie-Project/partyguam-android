@@ -50,6 +50,7 @@ import com.party.presentation.screen.profile_edit_portfolio.ProfileEditPortfolio
 import com.party.presentation.screen.profile_edit_tendency.ProfileEditTendencyScreenRoute
 import com.party.presentation.screen.profile_edit_time.ProfileEditTimeScreenRoute
 import com.party.presentation.screen.recruitment_create.RecruitmentCreateScreenRoute
+import com.party.presentation.screen.recruitment_create_preview.RecruitmentCreatePreviewScreenRoute
 import com.party.presentation.screen.recruitment_detail.RecruitmentDetailRoute
 import com.party.presentation.screen.recruitment_edit.RecruitmentEditRoute
 import com.party.presentation.screen.recruitment_preview.RecruitmentPreviewScreenRoute
@@ -424,6 +425,22 @@ fun AppNavHost() {
                 context = context,
                 navController = navController,
                 partyRecruitmentId = recruitmentId,
+                description = description,
+                recruitingCount = recruitingCount,
+                main = main,
+                sub = sub,
+            )
+        }
+        composable<Screens.RecruitmentCreatePreview> { backStackEntry ->
+            val partyId = backStackEntry.toRoute<Screens.RecruitmentCreatePreview>().partyId
+            val description = backStackEntry.toRoute<Screens.RecruitmentCreatePreview>().description
+            val recruitingCount = backStackEntry.toRoute<Screens.RecruitmentCreatePreview>().recruitingCount
+            val main = backStackEntry.toRoute<Screens.RecruitmentCreatePreview>().main
+            val sub = backStackEntry.toRoute<Screens.RecruitmentCreatePreview>().sub
+            RecruitmentCreatePreviewScreenRoute(
+                context = context,
+                navController = navController,
+                partyId = partyId,
                 description = description,
                 recruitingCount = recruitingCount,
                 main = main,

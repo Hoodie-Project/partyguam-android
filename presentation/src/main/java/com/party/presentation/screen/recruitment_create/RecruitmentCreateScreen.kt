@@ -22,6 +22,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
 import com.party.common.R
+import com.party.common.Screens
 import com.party.common.component.bottomsheet.OneSelectPickerBottomSheet
 import com.party.common.component.bottomsheet.component.ApplyButton
 import com.party.common.component.bottomsheet.list.peopleCountList
@@ -53,6 +54,17 @@ fun RecruitmentCreateScreenRoute(
         partyId = partyId,
         recruitmentState = recruitmentState,
         onBackNavigation = { navController.popBackStack() },
+        onRecruitmentPreview = {
+            navController.navigate(
+                Screens.RecruitmentCreatePreview(
+                    partyId = partyId,
+                    description = recruitmentState.recruitmentDescription,
+                    recruitingCount = recruitmentState.selectedCount,
+                    main = recruitmentState.selectedMainPosition,
+                    sub = recruitmentState.selectedSubPosition.sub,
+                )
+            )
+        },
         onAction = { action ->
             when (action) {
                 is RecruitmentCreateAction.OnChangeMainPositionBottomSheet -> recruitmentCreateViewModel.onAction(action)
@@ -77,14 +89,16 @@ fun RecruitmentCreateScreen(
     recruitmentState: RecruitmentState,
     onBackNavigation: () -> Unit,
     onAction: (RecruitmentCreateAction) -> Unit,
-    onClickMainPosition: (String) -> Unit
+    onClickMainPosition: (String) -> Unit,
+    onRecruitmentPreview: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
     Scaffold(
         topBar = {
             RecruitmentCreateScaffoldArea(
-                onNavigationClick = onBackNavigation
+                onNavigationClick = onBackNavigation,
+                onRecruitmentPreview = onRecruitmentPreview,
             )
         },
         content = {
@@ -208,6 +222,7 @@ private fun RecruitmentCreateScreenPreview() {
         recruitmentState = RecruitmentState(),
         onBackNavigation = {},
         onAction = {},
-        onClickMainPosition = {}
+        onClickMainPosition = {},
+        onRecruitmentPreview = {},
     )
 }
