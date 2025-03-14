@@ -71,7 +71,8 @@ fun RecruitmentCategory(
         ){
             Text(
                 text = title,
-                fontSize = B3
+                fontSize = B3,
+                fontWeight = FontWeight.SemiBold
             )
         }
     }
@@ -160,8 +161,8 @@ fun RecruitmentTypeArea(
     ){
         RecruitmentCategory(
             title = StatusType.fromType(tag).toDisplayText(),
-            containerColor = Color(0xFFFFF1DC),
-            contentColor = Color(0xFFEF6400)
+            containerColor = Color(0xFFD5F0E3),
+            contentColor = Color(0xFF016110)
         )
         
         RecruitmentCategory(

@@ -8,5 +8,13 @@ sealed interface PartyRecruitmentEditAction {
     data class OnShowPartyRecruitmentCompletedDialog(val isShowPartyRecruitmentDialog: Boolean): PartyRecruitmentEditAction
     data class OnPartyRecruitmentCompleted(val partyId: Int, val partyRecruitmentId: Int): PartyRecruitmentEditAction
     data class OnShowPartyRecruitmentDeleteDialog(val isShowPartyRecruitmentDeleteDialog: Boolean): PartyRecruitmentEditAction
-    data class OnShowBottomSheet(val isShow: Boolean, val recruitmentId: Int, val status: String): PartyRecruitmentEditAction
+    data class OnShowBottomSheet(
+        val isShow: Boolean,
+        val recruitmentId: Int,
+        val status: String,
+        val description: String,
+        val recruitingCount: Int,
+        val main: String,
+        val sub: String,
+    ): PartyRecruitmentEditAction
 }

@@ -25,7 +25,7 @@ import com.party.presentation.screen.party_edit_recruitment.PartyRecruitmentEdit
 fun PartyRecruitmentListArea(
     partyRecruitmentEditState: PartyRecruitmentEditState,
     onClick: (Int) -> Unit,
-    onMoreClick: (Int, String) -> Unit,
+    onMoreClick: (Int, String, String, Int, String, String) -> Unit,
 ) {
     when {
         partyRecruitmentEditState.isLoadingPartyRecruitment -> LoadingProgressBar()
@@ -52,7 +52,7 @@ fun PartyRecruitmentListArea(
 private fun RecruitmentList(
     list: List<PartyRecruitment>,
     onClick: (Int) -> Unit,
-    onMoreClick: (Int, String) -> Unit,
+    onMoreClick: (Int, String, String, Int, String, String) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -83,7 +83,7 @@ private fun RecruitmentList(
                     )
                 },
                 onMoreClick = {
-                    onMoreClick(item.id, item.status)
+                    onMoreClick(item.id, item.status, item.content, item.recruitingCount, item.position.main, item.position.sub)
                 }
             )
         }

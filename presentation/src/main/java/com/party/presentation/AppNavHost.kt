@@ -52,6 +52,7 @@ import com.party.presentation.screen.profile_edit_time.ProfileEditTimeScreenRout
 import com.party.presentation.screen.recruitment_create.RecruitmentCreateScreenRoute
 import com.party.presentation.screen.recruitment_detail.RecruitmentDetailRoute
 import com.party.presentation.screen.recruitment_edit.RecruitmentEditRoute
+import com.party.presentation.screen.recruitment_preview.RecruitmentPreviewScreenRoute
 import com.party.presentation.screen.reports.ReportsScreenRoute
 import com.party.presentation.screen.search.SearchRoute
 import com.party.presentation.screen.splash.SplashScreenRoute
@@ -411,6 +412,22 @@ fun AppNavHost() {
             val webViewUrl = backStackEntry.toRoute<Screens.WebView>().webViewUrl
             WebViewScreenRoute(
                 webViewUrl = webViewUrl,
+            )
+        }
+        composable<Screens.RecruitmentPreview> { backStackEntry ->
+            val recruitmentId = backStackEntry.toRoute<Screens.RecruitmentPreview>().recruitmentId
+            val description = backStackEntry.toRoute<Screens.RecruitmentPreview>().description
+            val recruitingCount = backStackEntry.toRoute<Screens.RecruitmentPreview>().recruitingCount
+            val main = backStackEntry.toRoute<Screens.RecruitmentPreview>().main
+            val sub = backStackEntry.toRoute<Screens.RecruitmentPreview>().sub
+            RecruitmentPreviewScreenRoute(
+                context = context,
+                navController = navController,
+                partyRecruitmentId = recruitmentId,
+                description = description,
+                recruitingCount = recruitingCount,
+                main = main,
+                sub = sub,
             )
         }
     }

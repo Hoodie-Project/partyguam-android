@@ -22,4 +22,8 @@ data class PartyRecruitmentEditState(
     val isShowBottomSheet: Boolean = false,
     val selectedRecruitmentId: Int = -1,
     val selectedStatus: String = "",
+    val description: String = "",
+    val recruitingCount: Int = 0,
+    val main: String = "",
+    val sub: String = "",
 )

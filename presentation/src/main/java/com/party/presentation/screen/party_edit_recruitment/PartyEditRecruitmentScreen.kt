@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
@@ -90,6 +91,17 @@ fun PartyEditRecruitmentScreenRoute(
                 partyRecruitmentEditState = partyRecruitmentEditState,
                 onNavigationClick = { navController.popBackStack() },
                 onGotoRecruitmentCreate = { navController.navigate(Screens.RecruitmentCreate(partyId = partyId)) },
+                onGotoRecruitmentPreview = {
+                    navController.navigate(
+                        Screens.RecruitmentPreview(
+                            recruitmentId = partyRecruitmentEditState.selectedRecruitmentId,
+                            description = partyRecruitmentEditState.description,
+                            recruitingCount = partyRecruitmentEditState.recruitingCount,
+                            main = partyRecruitmentEditState.main,
+                            sub = partyRecruitmentEditState.sub,
+                        )
+                    )
+                },
                 onAction = { action ->
                     when(action){
                         is PartyRecruitmentEditAction.OnSelectedTabText -> partyRecruitmentEditViewModel.onAction(action)
@@ -137,6 +149,7 @@ private fun PartyEditRecruitmentScreen(
     partyRecruitmentEditState: PartyRecruitmentEditState,
     onNavigationClick: () -> Unit,
     onGotoRecruitmentCreate: () -> Unit,
+    onGotoRecruitmentPreview: () -> Unit,
     onManageClick: () -> Unit,
     onClick: (Int) -> Unit,
     onAction: (PartyRecruitmentEditAction) -> Unit
@@ -178,26 +191,7 @@ private fun PartyEditRecruitmentScreen(
                     onTabClick = { selectedTabText -> onAction(PartyRecruitmentEditAction.OnSelectedTabText(selectedTabText = selectedTabText, partyId = partyId)) }
                 )
 
-                HeightSpacer(heightDp = 24.dp)
-
-                // 모집공고 선택 Description
-                Box {
-                    if(partyRecruitmentEditState.isShowHelpCard){
-                        PartyRecruitmentEditHelpCard(
-                            onCloseHelpCard = { onAction(PartyRecruitmentEditAction.OnShowHelpCard(false)) }
-                        )
-                    }else {
-                        HeightSpacer(16.dp)
-                        PartyRecruitmentEditDescriptionArea(
-                            title = "모집공고",
-                            recruitmentCount = partyRecruitmentEditState.partyRecruitment.size,
-                            description = "편집을 원하는 모집 공고를 선택해 주세요.",
-                        )
-                    }
-                }
-
                 // 참여일순 정렬
-                HeightSpacer(20.dp)
                 PartyRecruitmentEditFilterArea(
                     partyRecruitmentEditState = partyRecruitmentEditState,
                     onChangeOrderBy = { isDesc -> onAction(PartyRecruitmentEditAction.OnChangeOrderBy(isDesc)) }
@@ -208,10 +202,33 @@ private fun PartyEditRecruitmentScreen(
                 PartyRecruitmentListArea(
                     partyRecruitmentEditState = partyRecruitmentEditState,
                     onClick = onClick,
-                    onMoreClick = { selectedRecruitmentId, status ->
-                        onAction(PartyRecruitmentEditAction.OnShowBottomSheet(isShow = !partyRecruitmentEditState.isShowBottomSheet, recruitmentId = selectedRecruitmentId, status = status))
+                    onMoreClick = { selectedRecruitmentId, status, description, recruitingCount, main, sub ->
+                        onAction(PartyRecruitmentEditAction.OnShowBottomSheet(
+                            isShow = !partyRecruitmentEditState.isShowBottomSheet,
+                            recruitmentId = selectedRecruitmentId,
+                            status = status,
+                            description = description,
+                            recruitingCount = recruitingCount,
+                            main = main,
+                            sub = sub
+                        )
+                        )
                     }
                 )
+            }
+        }
+
+        // 모집공고 선택 Description
+        Box {
+            if(partyRecruitmentEditState.isShowHelpCard){
+                Column {
+                    HeightSpacer(heightDp = 60.dp)
+                    PartyRecruitmentEditHelpCard(
+                        modifier = Modifier,
+                        onCloseHelpCard = { onAction(PartyRecruitmentEditAction.OnShowHelpCard(false)) }
+                    )
+                }
+
             }
         }
 
@@ -229,18 +246,21 @@ private fun PartyEditRecruitmentScreen(
             textColor = if(partyRecruitmentEditState.selectedStatus == "completed") RED else BLACK,
             status = partyRecruitmentEditState.selectedStatus,
             onModelClose = {
-                onAction(PartyRecruitmentEditAction.OnShowBottomSheet(isShow = false, recruitmentId = -1, status = ""))
+                onAction(PartyRecruitmentEditAction.OnShowBottomSheet(isShow = false, recruitmentId = -1, status = "", description = "", recruitingCount = 0, main = "", sub = ""))
             },
-            onPreview = {},
+            onPreview = {
+                onAction(PartyRecruitmentEditAction.OnShowBottomSheet(isShow = false, recruitmentId = -1, status = "", description = "", recruitingCount = 0, main = "", sub = ""))
+                onGotoRecruitmentPreview()
+            },
             onPartyRecruitmentCompleted = {
                 selectedRecruitmentId = partyRecruitmentEditState.selectedRecruitmentId
                 onAction(PartyRecruitmentEditAction.OnShowPartyRecruitmentCompletedDialog(true))
-                onAction(PartyRecruitmentEditAction.OnShowBottomSheet(isShow = false, recruitmentId = -1, status = ""))
+                onAction(PartyRecruitmentEditAction.OnShowBottomSheet(isShow = false, recruitmentId = -1, status = "", description = "", recruitingCount = 0, main = "", sub = ""))
             },
             onPartyRecruitmentDeleted = {
                 selectedRecruitmentId = partyRecruitmentEditState.selectedRecruitmentId
                 onAction(PartyRecruitmentEditAction.OnShowPartyRecruitmentDeleteDialog(true))
-                onAction(PartyRecruitmentEditAction.OnShowBottomSheet(isShow = false, recruitmentId = -1, status = ""))
+                onAction(PartyRecruitmentEditAction.OnShowBottomSheet(isShow = false, recruitmentId = -1, status = "", description = "", recruitingCount = 0, main = "", sub = ""))
             },
         )
     }
@@ -327,6 +347,7 @@ private fun PartyEditRecruitmentScreenPreview() {
         ),
         onNavigationClick = {},
         onGotoRecruitmentCreate = {},
+        onGotoRecruitmentPreview = {},
         onAction = {},
         onManageClick = {},
         onClick = {}

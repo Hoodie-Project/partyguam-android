@@ -26,10 +26,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
 import com.party.common.R
+import com.party.common.Screens
 import com.party.common.WidthSpacer
 import com.party.common.component.bottomsheet.OneSelectPickerBottomSheet
 import com.party.common.component.bottomsheet.component.ApplyButton
-import com.party.common.component.bottomsheet.component.ResetButton
 import com.party.common.component.bottomsheet.list.peopleCountList
 import com.party.common.component.button.CustomButton
 import com.party.common.component.dialog.TwoButtonDialog
@@ -42,7 +42,6 @@ import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
 import com.party.presentation.component.HelpCard
 import com.party.presentation.component.SelectMainAndSubPositionArea
-import com.party.presentation.screen.party_edit_recruitment.PartyRecruitmentEditAction
 import com.party.presentation.screen.recruitment_create.component.RecruitmentCreateInputField
 import com.party.presentation.screen.recruitment_edit.component.RecruitmentEditDescriptionArea
 import com.party.presentation.screen.recruitment_edit.component.RecruitmentEditScaffoldArea
@@ -80,6 +79,17 @@ fun RecruitmentEditRoute(
         recruitmentEditState = recruitmentEditState,
         onBackNavigation = { navController.popBackStack() },
         onClickMainPosition = { recruitmentEditViewModel.getSubPositionList(it) },
+        onPreview = {
+            navController.navigate(
+                Screens.RecruitmentPreview(
+                    recruitmentId = partyRecruitmentId,
+                    description = recruitmentEditState.recruitmentDescription,
+                    recruitingCount = recruitmentEditState.selectedCount,
+                    main = recruitmentEditState.selectedMainPosition,
+                    sub = recruitmentEditState.selectedSubPosition.sub
+                )
+            )
+        },
         onAction = { action ->
             when (action) {
                 is RecruitmentEditAction.OnChangeMainPositionBottomSheet -> recruitmentEditViewModel.onAction(action)
@@ -104,6 +114,7 @@ private fun RecruitmentEditScreen(
     recruitmentEditState: RecruitmentEditState,
     onBackNavigation: () -> Unit,
     onClickMainPosition: (String) -> Unit,
+    onPreview: () -> Unit,
     onAction: (RecruitmentEditAction) -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -117,6 +128,7 @@ private fun RecruitmentEditScreen(
         topBar = {
             RecruitmentEditScaffoldArea(
                 onNavigationClick = onBackNavigation,
+                onPreview = onPreview
             )
         },
         content = {
@@ -287,6 +299,7 @@ private fun RecruitmentEditScreenPreview() {
         recruitmentEditState = RecruitmentEditState(),
         onBackNavigation = {},
         onAction = {},
-        onClickMainPosition = {}
+        onClickMainPosition = {},
+        onPreview = {}
     )
 }

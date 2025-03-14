@@ -118,7 +118,17 @@ class PartyRecruitmentEditViewModel @Inject constructor(
                 _state.update { it.copy(isShowPartyRecruitmentDeleteDialog = action.isShowPartyRecruitmentDeleteDialog) }
             }
             is PartyRecruitmentEditAction.OnShowBottomSheet -> {
-                _state.update { it.copy(isShowBottomSheet = action.isShow, selectedRecruitmentId = action.recruitmentId, selectedStatus = action.status) }
+                _state.update {
+                    it.copy(
+                        isShowBottomSheet = action.isShow,
+                        selectedRecruitmentId = action.recruitmentId,
+                        selectedStatus = action.status,
+                        description = action.description,
+                        recruitingCount = action.recruitingCount,
+                        main = action.main,
+                        sub = action.sub,
+                    )
+                }
             }
         }
     }

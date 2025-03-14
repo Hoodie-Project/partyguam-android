@@ -91,4 +91,12 @@ sealed interface Screens {
     data class Reports(val typeId: Int): Screens
     @Serializable
     data class WebView(val webViewUrl: String): Screens
+    @Serializable
+    data class RecruitmentPreview(
+        val recruitmentId: Int,
+        val description: String,
+        val recruitingCount: Int,
+        val main: String,
+        val sub: String,
+    ): Screens
 }
