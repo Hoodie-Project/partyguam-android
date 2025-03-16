@@ -1,5 +1,6 @@
 package com.party.presentation.screen.auth_setting
 
+import android.app.Activity
 import android.content.Context
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -58,7 +60,7 @@ fun AuthSettingScreenRoute(
     LaunchedEffect(key1 = Unit) {
         authSettingViewModel.successLogout.collectLatest {
             navController.navigate(Screens.Login) {
-                popUpTo(navController.graph.startDestinationId) { inclusive = true }
+                popUpTo(0) { inclusive = true } // 백스택을 완전히 비움
                 launchSingleTop = true
             }
         }

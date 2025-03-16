@@ -51,7 +51,7 @@ fun UserDeleteScreenRoute(
     LaunchedEffect(key1 = Unit) {
         userDeleteViewModel.successSignOut.collectLatest {
             navController.navigate(Screens.Login) {
-                popUpTo(navController.graph.startDestinationId) { inclusive = true }
+                popUpTo(0) { inclusive = true } // 백스택을 완전히 비움
                 launchSingleTop = true
             }
         }
