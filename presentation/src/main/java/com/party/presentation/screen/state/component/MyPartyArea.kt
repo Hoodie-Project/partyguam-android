@@ -37,7 +37,9 @@ fun MyPartyArea(
     onClick: (Int) -> Unit,
 ) {
     val filteredList = if (myPartyState.selectedStatus == "전체") {
-        myPartyState.myPartyList.partyUsers // 전체 리스트 반환
+        myPartyState.myPartyList.partyUsers.filterNot {
+            it.party.status == "deleted"
+        } // 전체 리스트 반환
     } else {
         myPartyState.myPartyList.partyUsers.filter {
             it.party.status == StatusType.fromDisplayText(myPartyState.selectedStatus)
