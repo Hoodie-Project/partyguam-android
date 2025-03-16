@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -29,6 +31,7 @@ import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.common.Screens
+import com.party.common.snackBarMessage
 import com.party.presentation.screen.user_delete.component.UserDeleteButton
 import com.party.presentation.screen.user_delete.component.UserDeleteScaffoldArea
 import com.party.presentation.screen.user_delete.component.WarningAgreeArea
@@ -40,6 +43,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun UserDeleteScreenRoute(
     navController: NavHostController,
+    snackBarHostState: SnackbarHostState,
     userDeleteViewModel: UserDeleteViewModel = hiltViewModel()
 ) {
     val userDeleteState by userDeleteViewModel.state.collectAsStateWithLifecycle()
@@ -52,7 +56,18 @@ fun UserDeleteScreenRoute(
             }
         }
     }
+
+    LaunchedEffect(key1 = Unit) {
+        userDeleteViewModel.errorSignOut.collectLatest { snackBarMessage ->
+            snackBarMessage(
+                snackBarHostState = snackBarHostState,
+                message = snackBarMessage,
+            )
+        }
+    }
+
     UserDeleteScreen(
+        snackBarHostState = snackBarHostState,
         userDeleteState = userDeleteState,
         onNavigationBack = { navController.popBackStack() },
         onAction = { action ->
@@ -66,6 +81,7 @@ fun UserDeleteScreenRoute(
 
 @Composable
 private fun UserDeleteScreen(
+    snackBarHostState: SnackbarHostState,
     userDeleteState: UserDeleteState,
     onNavigationBack: () -> Unit,
     onAction: (UserDeleteAction) -> Unit
@@ -78,6 +94,11 @@ private fun UserDeleteScreen(
             .fillMaxSize()
     ) {
         Scaffold(
+            snackbarHost = {
+                SnackbarHost(
+                    hostState = snackBarHostState,
+                )
+            },
             modifier = Modifier
                 .blur(
                     radiusX = if (userDeleteState.isShowUserDeleteDialog) 10.dp else 0.dp,
@@ -159,6 +180,7 @@ private fun UserDeleteScreen(
 @Composable
 fun UserDeleteScreenPreview() {
     UserDeleteScreen(
+        snackBarHostState = SnackbarHostState(),
         userDeleteState = UserDeleteState(),
         onNavigationBack = {},
         onAction = {}

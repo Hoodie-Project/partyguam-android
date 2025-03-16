@@ -571,7 +571,17 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun signOut(): ServerApiResponse<Unit> {
         return when(val result = userRemoteSource.signOut()){
             is ApiResponse.Success -> SuccessResponse(data = Unit)
-            is ApiResponse.Failure.Error -> ErrorResponse(data = Unit)
+            is ApiResponse.Failure.Error -> {
+                when(result.statusCode){
+                    StatusCode.Forbidden -> {
+                        ErrorResponse(
+                            statusCode = StatusCode.Forbidden.code,
+                            data = null,
+                        )
+                    }
+                    else -> ErrorResponse(data = null)
+                }
+            }
             is ApiResponse.Failure.Exception -> {
                 result.throwable.printStackTrace()
                 ExceptionResponse(message = result.message)

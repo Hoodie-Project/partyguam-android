@@ -344,7 +344,8 @@ fun AppNavHost() {
         }
         composable<Screens.UserDelete> {
             UserDeleteScreenRoute(
-                navController = navController
+                navController = navController,
+                snackBarHostState = snackBarHostState,
             )
         }
         composable<Screens.ProfileEdit> {

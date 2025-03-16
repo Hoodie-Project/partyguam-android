@@ -1,6 +1,7 @@
 package com.party.common.component
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -17,10 +19,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
+import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.convertIsoToCustomDateFormat
@@ -84,11 +88,30 @@ fun RecruitmentListItem4(
                 }
 
                 HeightSpacer(heightDp = 8.dp)
-                TextComponent(
-                    text = "$main | $sub",
-                    fontSize = T3,
-                    fontWeight = FontWeight.SemiBold,
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    TextComponent(
+                        text = main,
+                        fontSize = T3,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                    WidthSpacer(widthDp = 8.dp)
+                    Image(
+                        painter = painterResource(id = R.drawable.vertical_rectangle),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .width(2.dp)
+                            .height(12.dp),
+                    )
+                    WidthSpacer(widthDp = 8.dp)
+                    TextComponent(
+                        text = sub,
+                        fontSize = T3,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                }
+
                 HeightSpacer(heightDp = 20.dp)
 
                 Row(
