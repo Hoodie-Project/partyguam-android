@@ -105,7 +105,7 @@ dependencies {
     // Google Play services
     implementation(libs.google.services)
     implementation(libs.firebase.auth)
-    implementation(libs.firebase.bom)
+    implementation(platform(libs.firebase.bom))
     implementation(libs.play.services.auth)
 
     // kakao login

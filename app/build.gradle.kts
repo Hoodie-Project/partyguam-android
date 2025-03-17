@@ -30,14 +30,25 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = rootProject.file(properties.getProperty("RELEASE_FILE_PATH"))
+            storePassword = properties.getProperty("RELEASE_PASSWORD")
+            keyAlias = properties.getProperty("RELEASE_ALIAS")
+            keyPassword = properties.getProperty("RELEASE_PASSWORD")
+        }
+    }
+
     buildTypes {
         debug {
             manifestPlaceholders["KAKAO_OAUTH"] = properties.getProperty("KAKAO_OAUTH")
             buildConfigField("String", "GOOGLE_KEY", "\"${properties.getProperty("GOOGLE_KEY")}\"")
             buildConfigField("String", "KAKAO_NATIVE_APP_KEY", "\"${properties.getProperty("KAKAO_NATIVE_APP_KEY")}\"")
             buildConfigField("String", "KAKAO_OAUTH", "\"${properties.getProperty("KAKAO_OAUTH")}\"")
+            resValue("string", "app_name", "[개발]파티구함")
         }
         release {
+            manifestPlaceholders += mapOf()
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -48,6 +59,8 @@ android {
             buildConfigField("String", "GOOGLE_KEY", "\"${properties.getProperty("GOOGLE_KEY")}\"")
             buildConfigField("String", "KAKAO_NATIVE_APP_KEY", "\"${properties.getProperty("KAKAO_NATIVE_APP_KEY")}\"")
             buildConfigField("String", "KAKAO_OAUTH", "\"${properties.getProperty("KAKAO_OAUTH")}\"")
+            resValue("string", "app_name", "파티구함")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     composeCompiler {
@@ -88,7 +101,7 @@ dependencies {
     // Google Play services
     implementation(libs.google.services)
     implementation(libs.firebase.auth)
-    implementation(libs.firebase.bom)
+    implementation(platform(libs.firebase.bom))
     implementation(libs.play.services.auth)
 
     // kakao login
