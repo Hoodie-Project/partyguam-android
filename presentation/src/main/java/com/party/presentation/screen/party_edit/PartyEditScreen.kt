@@ -47,6 +47,7 @@ import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.WHITE
 import com.party.common.Screens
+import com.party.common.snackBarMessage
 import com.party.presentation.component.HelpCard
 import com.party.presentation.enum.StatusType
 import com.party.presentation.screen.party_detail.component.RightModalDrawer
@@ -84,7 +85,8 @@ fun PartyEditScreenRoute(
     // 파티 수정 완료되면 Snackbar Message
     LaunchedEffect(key1 = Unit) {
         partyEditViewModel.partyModifySuccess.collectLatest {
-            snackBarHostState.showSnackbar("파티 정보가 수정되었습니다.")
+            snackBarMessage(snackBarHostState = snackBarHostState, "파티 정보가 수정되었습니다.")
+            navController.popBackStack()
         }
     }
 

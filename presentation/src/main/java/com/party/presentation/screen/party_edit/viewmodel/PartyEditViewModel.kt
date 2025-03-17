@@ -81,16 +81,18 @@ class PartyEditViewModel @Inject constructor(
         image: MultipartBody.Part?
     ){
         viewModelScope.launch(Dispatchers.IO) {
+            val filteredPartyTypeId = if (partyTypeId?.toString() == "0") null else partyTypeId
+
             when(val result = partyModifyUseCase(
                 partyId = partyId,
                 title = title,
                 content = content,
-                partyTypeId = partyTypeId,
+                partyTypeId = filteredPartyTypeId,
                 image = image,
                 status = status,
             )){
                 is ServerApiResponse.SuccessResponse -> {
-                    getPartyDetail(partyId)
+                    //getPartyDetail(partyId)
                     _partyModifySuccess.emit(Unit)
                 }
                 is ServerApiResponse.ErrorResponse -> _state.update { it.copy(isPartyModifyLoading = false) }
