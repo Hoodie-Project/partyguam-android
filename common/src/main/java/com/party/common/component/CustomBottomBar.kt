@@ -48,6 +48,7 @@ fun BottomNavigationBar(
     context: Context,
     navController: NavHostController,
     isExpandedFloatingButton: Boolean = false,
+    onResetHome: () -> Unit = {},
 ){
     val backStackEntry = navController.currentBackStackEntryAsState()
     val currentScreen = backStackEntry.value.fromBottomRoute()
@@ -62,6 +63,9 @@ fun BottomNavigationBar(
                 icon = bottomIconSetting(screenItem),
                 label = bottomLabelSetting(screenItem),
                 onTabClick = {
+                    if(screenItem == Screens.Home){
+                        onResetHome()
+                    }
                     navController.navigate(screenItem){
                         popUpTo(navController.graph.findStartDestination().route!!){
                             saveState = true
@@ -72,9 +76,9 @@ fun BottomNavigationBar(
                 selected = currentScreen == screenItem,
                 onBack = {
                     when (currentScreen) {
-                        Screens.Home -> (context as Activity).finish() // ✅ 홈에서 뒤로 가기 → 앱 종료
+                        Screens.Home -> (context as Activity).finish() // 홈에서 뒤로 가기 → 앱 종료
                         Screens.State, Screens.Profile -> {
-                            // ✅ 활동 & 프로필에서 뒤로 가기 → 홈으로 이동
+                            // State & Profile 에서 뒤로 가기 → 홈으로 이동
                             navController.navigate(Screens.Home) {
                                 popUpTo(Screens.Home) { saveState = true }
                                 launchSingleTop = true

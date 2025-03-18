@@ -81,8 +81,8 @@ fun HomeScreenRoute(
     }
 
     LaunchedEffect(key1 = Unit) {
-        homeViewModel.getPartyList(page = 1, size = 50, sort = "createdAt", order = OrderDescType.DESC.type, titleSearch = null, status = if(homeState.isActivePartyToggle) "active" else "archived")
-        homeViewModel.getRecruitmentList(page = 1, size = 50, sort = "createdAt", order = OrderDescType.DESC.type, titleSearch = null)
+        homeViewModel.getPartyList(page = 1, size = 5, sort = "createdAt", order = OrderDescType.DESC.type, titleSearch = null, status = if(homeState.isActivePartyToggle) "active" else "archived")
+        homeViewModel.getRecruitmentList(page = 1, size = 8, sort = "createdAt", order = OrderDescType.DESC.type, titleSearch = null)
     }
 
     HomeScreen(
@@ -145,7 +145,7 @@ private fun HomeScreen(
     onGotoDetailProfile: () -> Unit,
     onAction: (HomeAction) -> Unit,
 ){
-    val bottomBarHeight = 56.dp // ✅ BottomNavigationBar 기본 높이
+    val bottomBarHeight = 56.dp // BottomNavigationBar 기본 높이
 
     Box(
         modifier = Modifier
@@ -167,6 +167,9 @@ private fun HomeScreen(
                     context = context,
                     navController = navController,
                     isExpandedFloatingButton = homeState.isExpandedFloating,
+                    onResetHome = {
+                        onAction(HomeAction.OnTabClick(tabText = homeTopTabList[0]))
+                    }
                 )
             },
         ) {
