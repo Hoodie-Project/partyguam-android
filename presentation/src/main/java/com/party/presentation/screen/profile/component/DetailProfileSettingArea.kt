@@ -50,6 +50,7 @@ import com.party.domain.model.user.profile.UserProfile
 import com.party.domain.model.user.profile.UserProfileLocation
 import com.party.domain.model.user.profile.UserProfilePosition
 import com.party.common.Screens
+import com.party.common.noRippleClickable
 import com.party.presentation.enum.DetailProfileCardType
 import com.party.presentation.enum.PersonalityType
 import com.party.presentation.screen.profile.UserProfileState
@@ -244,6 +245,10 @@ private fun DetailProfileCard(
                 .padding(20.dp)
         ) {
             Row(
+                modifier = Modifier
+                    .noRippleClickable {
+                        onClick()
+                    },
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 DrawableIcon(
@@ -259,12 +264,14 @@ private fun DetailProfileCard(
                     text = title,
                     fontSize = B2,
                     fontWeight = FontWeight.SemiBold,
+                    onClick = onClick,
                 )
             }
             HeightSpacer(heightDp = 12.dp)
             TextComponent(
                 text = content,
                 fontSize = B2,
+                onClick = onClick,
             )
         }
     }

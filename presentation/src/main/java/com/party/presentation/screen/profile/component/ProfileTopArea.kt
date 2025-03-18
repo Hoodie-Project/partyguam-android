@@ -1,6 +1,8 @@
 package com.party.presentation.screen.profile.component
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -33,9 +37,12 @@ import com.party.common.WidthSpacer
 import com.party.common.calculateAgeSafely
 import com.party.common.component.NetworkImageLoad
 import com.party.common.component.chip.Chip
+import com.party.common.component.chip.MainAndSubAndImageChip
 import com.party.common.component.icon.DrawableIcon
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
+import com.party.common.ui.theme.BLACK
+import com.party.common.ui.theme.DARK100
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.GRAY400
@@ -43,6 +50,7 @@ import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.LINK_COLOR
+import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T1
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.TYPE_COLOR_BACKGROUND
@@ -112,7 +120,7 @@ fun ProfileTopArea(
                 }
             }
 
-            HeightSpacer(heightDp = 12.dp)
+            HeightSpacer(heightDp = 24.dp)
 
             EditProfileCard(
                 onClick = onProfileEditClick
@@ -152,8 +160,20 @@ private fun UserNickNameAndGenderAndAge(
 
         WidthSpacer(widthDp = 8.dp)
         if(genderVisible && birthVisible){
-            Text(text = "|")
+            Image(
+                painter = painterResource(id = R.drawable.vertical_rectangle),
+                contentDescription = "",
+                modifier = Modifier
+                    .width(2.dp)
+                    .height(12.dp)
+                    .background(GRAY400)
+                    //.clip(RoundedCornerShape(12.dp))
+            )
         }
+
+        /*if(genderVisible && birthVisible){
+            Text(text = "|")
+        }*/
         WidthSpacer(widthDp = 8.dp)
         if(birthVisible){
             TextComponent(
@@ -219,7 +239,9 @@ private fun UserCareerArea(
             years = userCareers[0].years,
             main = userCareers[0].position.main,
             sub = userCareers[0].position.sub,
-            containerColor = LIGHT400
+            containerColor = LIGHT400,
+            contentColor = BLACK,
+            image = painterResource(id = R.drawable.vertical_rectangle_primary)
         )
 
         if(userCareers.size > 1){
@@ -227,7 +249,10 @@ private fun UserCareerArea(
             UserCareerAreaItem(
                 years = userCareers[1].years,
                 main = userCareers[1].position.main,
-                sub = userCareers[1].position.sub
+                sub = userCareers[1].position.sub,
+                containerColor = GRAY100,
+                contentColor = BLACK,
+                image = painterResource(id = R.drawable.vertical_rectangle)
             )
         }
     }
@@ -238,7 +263,9 @@ private fun UserCareerAreaItem(
     years: Int,
     main: String,
     sub: String,
-    containerColor: Color = TYPE_COLOR_BACKGROUND,
+    containerColor: Color,
+    contentColor: Color,
+    image: Painter,
 ) {
     Row(
         modifier = Modifier
@@ -249,12 +276,18 @@ private fun UserCareerAreaItem(
             text = "${years}년",
             containerColor = containerColor,
             fontWeight = FontWeight.Normal,
+            contentColor = BLACK,
+            fontSize = B2,
         )
         WidthSpacer(widthDp = 8.dp)
-        Chip(
-            text = "$main | $sub",
+
+        MainAndSubAndImageChip(
+            image = image,
             containerColor = containerColor,
-            fontWeight = FontWeight.Normal,
+            contentColor = contentColor,
+            roundedCornerShape = 999.dp,
+            main = main,
+            sub = sub,
         )
     }
 }
