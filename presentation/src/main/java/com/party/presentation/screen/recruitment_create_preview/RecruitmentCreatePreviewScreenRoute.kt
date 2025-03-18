@@ -99,6 +99,7 @@ private fun RecruitmentCreatePreviewScreen(
                     title = state.inputPartyTitle,
                     tag = state.partyStatus,
                     type = state.selectedPartyType,
+                    onGoToPartyDetail = {}
                 )
                 HeightSpacer(heightDp = 20.dp)
                 RecruitmentCurrentInfoArea(

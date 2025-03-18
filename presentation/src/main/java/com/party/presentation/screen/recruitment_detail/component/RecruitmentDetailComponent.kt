@@ -32,6 +32,7 @@ import com.party.common.WidthSpacer
 import com.party.common.component.NetworkImageLoad
 import com.party.common.component.button.CustomButton
 import com.party.common.convertIsoToCustomDateFormat
+import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.BLACK
@@ -84,6 +85,7 @@ fun RecruitmentImageArea(
     title: String,
     tag: String,
     type: String,
+    onGoToPartyDetail: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -103,12 +105,14 @@ fun RecruitmentImageArea(
             Box(
                 modifier = Modifier.fillMaxSize()
             ) {
-
-
                 // 이미지 로딩
                 NetworkImageLoad(
                     url = imageUrl,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .noRippleClickable {
+                            onGoToPartyDetail()
+                        }
                 )
 
                 // 하단 그라데이션 오버레이
@@ -135,7 +139,8 @@ fun RecruitmentImageArea(
                     text = title,
                     fontSize = T2,
                     textColor = BLACK,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    onClick = onGoToPartyDetail
                 )
             }
         }
@@ -354,6 +359,7 @@ private fun RecruitmentImageAreaPreview() {
         title = "title",
         tag = "active",
         type = "포트폴리오",
+        onGoToPartyDetail = {}
     )
 }
 

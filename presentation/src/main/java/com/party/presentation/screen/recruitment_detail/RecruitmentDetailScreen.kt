@@ -62,6 +62,9 @@ fun RecruitmentDetailRoute(
         onManageClick = {
             navController.navigate(Screens.RecruitmentEdit(partyId = partyId, partyRecruitmentId = partyRecruitmentId))
         },
+        onGotoPartyDetail = {
+            navController.navigate(Screens.PartyDetail(partyId = partyId))
+        },
         onAction = { action ->
             when(action){
                 is RecruitmentDetailAction.OnNavigationBack -> { navController.popBackStack() }
@@ -77,6 +80,7 @@ fun RecruitmentDetailScreen(
     navController: NavHostController,
     recruitmentDetailState: RecruitmentDetailState,
     onManageClick: () -> Unit,
+    onGotoPartyDetail: () -> Unit,
     onAction: (RecruitmentDetailAction) -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -116,6 +120,7 @@ fun RecruitmentDetailScreen(
                         title = recruitmentDetailState.recruitmentDetail.party.title,
                         tag = recruitmentDetailState.recruitmentDetail.party.status,
                         type = recruitmentDetailState.recruitmentDetail.party.partyType.type,
+                        onGoToPartyDetail = onGotoPartyDetail
                     )
                     HeightSpacer(heightDp = 20.dp)
                     RecruitmentCurrentInfoArea(
@@ -165,6 +170,7 @@ fun RecruitmentDetailScreenPreview1() {
         ),
         onAction = {},
         onManageClick = {},
+        onGotoPartyDetail = {},
     )
 }
 
@@ -179,5 +185,6 @@ fun RecruitmentDetailScreenPreview2() {
         ),
         onAction = {},
         onManageClick = {},
+        onGotoPartyDetail = {},
     )
 }
