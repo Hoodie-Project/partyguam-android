@@ -208,7 +208,13 @@ class HomeViewModel @Inject constructor(
             }
             is HomeAction.OnSelectedPartyTypeReset -> _state.update { it.copy(selectedPartyTypeListParty = emptyList()) }
             is HomeAction.OnPartyTypeApply -> {
-                _state.update { it.copy(isPartyTypeSheetOpen = false) }
+                _state.update {
+                    it.copy(
+                        isPartyTypeSheetOpen = false,
+                        isShowNumber = it.selectedPartyTypeListParty.contains("전체"),
+                        number = it.selectedPartyTypeListParty.size
+                    )
+                }
 
                 val selectedPartyTypeList = _state.value.selectedPartyTypeListParty
                 getPartyList(
@@ -357,7 +363,13 @@ class HomeViewModel @Inject constructor(
                 }
             }
             is HomeAction.OnPartyTypeApplyRecruitment -> {
-                _state.update { it.copy(isPartyTypeSheetOpenRecruitment = false) }
+                _state.update {
+                    it.copy(
+                        isPartyTypeSheetOpenRecruitment = false,
+                        recruitmentIsShowNumber = it.selectedPartyTypeListRecruitment.contains("전체"),
+                        recruitmentNumber = it.selectedPartyTypeListRecruitment.size
+                    )
+                }
 
                 val selectedPartyTypeList = _state.value.selectedPartyTypeListRecruitment
                 getRecruitmentList(

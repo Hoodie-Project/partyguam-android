@@ -44,7 +44,8 @@ fun SelectFilterArea(
     isPartyTypeFilterClick: (Boolean) -> Unit,
     selectedCreateDataOrderByDesc: Boolean,
     onChangeOrderBy: (Boolean) -> Unit,
-    selectedPartyTypeList: List<String>,
+    selectedPartyNumber: Int,
+    isShowSelectedPartyNumber: Boolean,
 ) {
     Row(
         modifier = Modifier
@@ -60,17 +61,19 @@ fun SelectFilterArea(
             verticalAlignment = Alignment.CenterVertically
         ) {
             SelectFilterItem(
+                isShowNumber = false,
                 filterName = filterName1,
                 isSheetOpen = isPositionSheetOpen,
                 onClick = { isPositionFilterClick(it) },
-                number = 0
+                number = 0,
             )
             WidthSpacer(widthDp = 8.dp)
             SelectFilterItem(
+                isShowNumber = isShowSelectedPartyNumber,
                 filterName = filterName2,
                 isSheetOpen = isPartyTypeSheetOpen,
                 onClick = { isPartyTypeFilterClick(it)},
-                number = selectedPartyTypeList.size,
+                number = selectedPartyNumber,
             )
         }
 
@@ -84,6 +87,7 @@ fun SelectFilterArea(
 
 @Composable
 fun SelectFilterItem(
+    isShowNumber: Boolean,
     filterName: String,
     isSheetOpen: Boolean,
     number: Int = 0,
@@ -112,7 +116,7 @@ fun SelectFilterItem(
                 color = GRAY500,
                 fontSize = B2
             )
-            if(number > 0){
+            if(number > 0 && !isShowNumber){
                 Text(
                     text = number.toString(),
                     color = PRIMARY,
@@ -144,7 +148,8 @@ private fun SelectFilterAreaPreview() {
         isPartyTypeFilterClick = {},
         selectedCreateDataOrderByDesc = false,
         onChangeOrderBy = {},
-        selectedPartyTypeList = mutableListOf(),
+        isShowSelectedPartyNumber = false,
+        selectedPartyNumber = 0
     )
 }
 
@@ -152,6 +157,7 @@ private fun SelectFilterAreaPreview() {
 @Composable
 private fun SelectFilterItemPreview() {
     SelectFilterItem(
+        isShowNumber = false,
         filterName = "직무",
         isSheetOpen = false,
         onClick = {},

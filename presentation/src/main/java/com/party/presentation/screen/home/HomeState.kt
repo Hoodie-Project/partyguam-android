@@ -37,6 +37,8 @@ data class HomeState(
     // Party Area - 파티유형 bottom sheet
     val isPartyTypeSheetOpen: Boolean = false,
     val selectedPartyTypeListParty: List<String> = emptyList(),
+    val isShowNumber: Boolean = false,
+    val number: Int = 0,
 
     // Party Area - 진행중 토글
     val isActivePartyToggle: Boolean = true,
@@ -55,5 +57,8 @@ data class HomeState(
     val selectedMainAndSubPosition: List<Pair<String, String>> = emptyList(),
 
     val selectedPartyTypeListRecruitment: List<String> = emptyList(),
+
+    val recruitmentIsShowNumber: Boolean = false,
+    val recruitmentNumber: Int = 0,
 
     )

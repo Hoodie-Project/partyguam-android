@@ -24,6 +24,7 @@ import com.party.presentation.screen.home.tab_recruitment.SelectFilterItem
 
 @Composable
 fun FilterArea(
+    isShowNumber: Boolean,
     checked: Boolean,
     onToggle: (Boolean) -> Unit,
     number: Int,
@@ -37,6 +38,7 @@ fun FilterArea(
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         SelectFilterItem(
+            isShowNumber = isShowNumber,
             filterName = "파티유형",
             isSheetOpen = false,
             number = number,
@@ -80,6 +82,7 @@ fun IngToggle(
 @Composable
 private fun FilterAreaPreview() {
     FilterArea(
+        isShowNumber = false,
         checked = true,
         onToggle = {},
         number = 2,

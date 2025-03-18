@@ -30,7 +30,6 @@ fun RecruitmentArea(
     onPartyTypeSheetReset: () -> Unit,
     onPartyTypeSheetApply: () -> Unit,
 ) {
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,7 +44,8 @@ fun RecruitmentArea(
             isPartyTypeSheetOpen = homeState.isPartyTypeSheetOpenRecruitment,
             selectedCreateDataOrderByDesc = homeState.isDescRecruitment,
             onChangeOrderBy = { onChangeOrderBy(it) },
-            selectedPartyTypeList = homeState.selectedPartyTypeListRecruitment
+            isShowSelectedPartyNumber = homeState.recruitmentIsShowNumber,
+            selectedPartyNumber = homeState.recruitmentNumber
         )
         HeightSpacer(heightDp = 16.dp)
         RecruitmentColumnListArea(
