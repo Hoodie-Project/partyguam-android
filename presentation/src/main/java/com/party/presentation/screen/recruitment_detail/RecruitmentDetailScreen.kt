@@ -47,7 +47,6 @@ fun RecruitmentDetailRoute(
     partyRecruitmentId: Int,
     recruitmentDetailViewModel: RecruitmentDetailViewModel = hiltViewModel(),
 ) {
-
     LaunchedEffect(Unit) {
         recruitmentDetailViewModel.getRecruitmentDetail(partyRecruitmentId = partyRecruitmentId)
         recruitmentDetailViewModel.checkUserApplicationStatus(partyId = partyId, partyRecruitmentId = partyRecruitmentId)
@@ -60,6 +59,9 @@ fun RecruitmentDetailRoute(
         context = context,
         navController = navController,
         recruitmentDetailState = recruitmentDetailState,
+        onManageClick = {
+            navController.navigate(Screens.RecruitmentEdit(partyId = partyId, partyRecruitmentId = partyRecruitmentId))
+        },
         onAction = { action ->
             when(action){
                 is RecruitmentDetailAction.OnNavigationBack -> { navController.popBackStack() }
@@ -74,6 +76,7 @@ fun RecruitmentDetailScreen(
     context: Context,
     navController: NavHostController,
     recruitmentDetailState: RecruitmentDetailState,
+    onManageClick: () -> Unit,
     onAction: (RecruitmentDetailAction) -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -87,8 +90,10 @@ fun RecruitmentDetailScreen(
         },
         topBar = {
             RecruitmentScaffoldArea(
+                recruitmentDetailState = recruitmentDetailState,
                 onNavigationClick = { onAction(RecruitmentDetailAction.OnNavigationBack) },
                 onSharedClick = {},
+                onManageClick = onManageClick,
             )
         }
     ){
@@ -136,9 +141,6 @@ fun RecruitmentDetailScreen(
                     )
                 }
 
-                HeightSpacer(heightDp = 24.dp)
-
-
                 if (recruitmentDetailState.partyAuthority.authority !in listOf(PartyAuthorityType.MASTER.authority, PartyAuthorityType.MEMBER.authority)) {
                     RecruitmentButton(
                         isRecruitment = recruitmentDetailState.isRecruitment,
@@ -161,7 +163,8 @@ fun RecruitmentDetailScreenPreview1() {
         recruitmentDetailState = RecruitmentDetailState(
             partyAuthority = PartyAuthority(id = 0, authority = "member", position = PartyAuthorityPosition(0, "", ""))
         ),
-        onAction = {}
+        onAction = {},
+        onManageClick = {},
     )
 }
 
@@ -174,6 +177,7 @@ fun RecruitmentDetailScreenPreview2() {
         recruitmentDetailState = RecruitmentDetailState(
             partyAuthority = PartyAuthority(id = 0, authority = "", position = PartyAuthorityPosition(0, "", ""))
         ),
-        onAction = {}
+        onAction = {},
+        onManageClick = {},
     )
 }

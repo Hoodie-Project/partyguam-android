@@ -223,6 +223,7 @@ fun RecruitmentInfoItem(
             text = content,
             fontSize = B1,
             textColor = textColor,
+            fontWeight = FontWeight.SemiBold,
         )
     }
 }
@@ -290,7 +291,7 @@ fun RecruitmentPositionAndCountItem(
         WidthSpacer(widthDp = 6.dp)
         TextComponent(
             text = content,
-            fontSize = T2,
+            fontSize = B1,
             textColor = BLACK,
             fontWeight = FontWeight.SemiBold
         )
