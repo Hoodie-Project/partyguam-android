@@ -17,6 +17,7 @@ sealed interface ServerApiResponse<T> {
         val statusCode: Int? = null,
         val path: String? = null,
         val timestamp: String? = null,
+        val recoverAccessToken: String? = null,
     ): ServerApiResponse<T>
 
     @Serializable

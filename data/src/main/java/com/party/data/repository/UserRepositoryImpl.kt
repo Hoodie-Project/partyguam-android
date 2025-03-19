@@ -79,6 +79,16 @@ class UserRepositoryImpl @Inject constructor(
                             timestamp = errorResponse.timestamp,
                         )
                     }
+                    StatusCode.Forbidden -> {
+                        val errorResponse = Json.decodeFromString<ErrorResponse<SocialLoginErrorDto>>(errorBody!!)
+                        ErrorResponse(
+                            message = errorResponse.message,
+                            error = errorResponse.error,
+                            statusCode = errorResponse.statusCode,
+                            path = errorResponse.path,
+                            timestamp = errorResponse.timestamp,
+                        )
+                    }
                     else -> ErrorResponse(data = null)
                 }
             }
@@ -110,6 +120,16 @@ class UserRepositoryImpl @Inject constructor(
                         )
                     }
                     StatusCode.InternalServerError -> { // 500
+                        val errorResponse = Json.decodeFromString<ErrorResponse<SocialLoginErrorDto>>(errorBody!!)
+                        ErrorResponse(
+                            message = errorResponse.message,
+                            error = errorResponse.error,
+                            statusCode = errorResponse.statusCode,
+                            path = errorResponse.path,
+                            timestamp = errorResponse.timestamp,
+                        )
+                    }
+                    StatusCode.Forbidden -> {
                         val errorResponse = Json.decodeFromString<ErrorResponse<SocialLoginErrorDto>>(errorBody!!)
                         ErrorResponse(
                             message = errorResponse.message,

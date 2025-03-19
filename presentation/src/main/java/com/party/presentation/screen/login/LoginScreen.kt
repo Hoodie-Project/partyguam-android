@@ -64,6 +64,12 @@ fun LoginScreenRoute(
         }
     }
 
+    LaunchedEffect(key1 = Unit) {
+        loginViewModel.goToRecoverScreen.collectLatest {
+            navController.navigate(Screens.RecoverAuth)
+        }
+    }
+
     val kakaoCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         when {
             error != null -> {

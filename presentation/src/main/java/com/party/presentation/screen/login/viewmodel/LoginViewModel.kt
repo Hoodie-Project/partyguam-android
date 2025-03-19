@@ -37,6 +37,9 @@ class LoginViewModel @Inject constructor(
     private val _goToHomeScreen = MutableSharedFlow<Unit>()
     val goToHomeScreen = _goToHomeScreen.asSharedFlow()
 
+    private val _goToRecoverScreen = MutableSharedFlow<Unit>()
+    val goToRecoverScreen = _goToRecoverScreen.asSharedFlow()
+
     fun googleSignIn(activityResult: ActivityResult, context: Context){
         viewModelScope.launch(Dispatchers.IO) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(activityResult.data)
@@ -78,6 +81,9 @@ class LoginViewModel @Inject constructor(
                         StatusCode.InternalServerError.code -> {
                             println("result123 Error : ${result.statusCode}")
                         }
+                        StatusCode.Forbidden.code -> {
+                            _goToRecoverScreen.emit(Unit)
+                        }
                     }
                 }
                 is ServerApiResponse.ExceptionResponse -> {
@@ -105,6 +111,9 @@ class LoginViewModel @Inject constructor(
                         }
                         StatusCode.InternalServerError.code -> {
                             println("result123 Error : ${result.statusCode}")
+                        }
+                        StatusCode.Forbidden.code -> {
+                            _goToRecoverScreen.emit(Unit)
                         }
                     }
                 }

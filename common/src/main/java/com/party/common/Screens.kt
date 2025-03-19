@@ -107,4 +107,6 @@ sealed interface Screens {
         val main: String,
         val sub: String,
     ): Screens
+    @Serializable
+    data object RecoverAuth: Screens
 }

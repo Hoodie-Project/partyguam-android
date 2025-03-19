@@ -49,6 +49,7 @@ import com.party.presentation.screen.profile_edit_locations.ProfileEditLocationS
 import com.party.presentation.screen.profile_edit_portfolio.ProfileEditPortfolioScreenRoute
 import com.party.presentation.screen.profile_edit_tendency.ProfileEditTendencyScreenRoute
 import com.party.presentation.screen.profile_edit_time.ProfileEditTimeScreenRoute
+import com.party.presentation.screen.recover_auth.RecoverAuthScreenRoute
 import com.party.presentation.screen.recruitment_create.RecruitmentCreateScreenRoute
 import com.party.presentation.screen.recruitment_create_preview.RecruitmentCreatePreviewScreenRoute
 import com.party.presentation.screen.recruitment_detail.RecruitmentDetailRoute
@@ -446,6 +447,11 @@ fun AppNavHost() {
                 recruitingCount = recruitingCount,
                 main = main,
                 sub = sub,
+            )
+        }
+        composable<Screens.RecoverAuth> {
+            RecoverAuthScreenRoute(
+                navController = navController
             )
         }
     }
