@@ -108,5 +108,9 @@ sealed interface Screens {
         val sub: String,
     ): Screens
     @Serializable
-    data object RecoverAuth: Screens
+    data class RecoverAuth(
+        val email: String,
+        val deletedAt: String,
+        val recoverAccessToken:String,
+    ): Screens
 }

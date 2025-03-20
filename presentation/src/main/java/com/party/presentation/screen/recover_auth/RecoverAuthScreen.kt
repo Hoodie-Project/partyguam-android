@@ -22,15 +22,24 @@ import com.party.presentation.screen.recover_auth.component.RecoverDescriptionAr
 @Composable
 fun RecoverAuthScreenRoute(
     navController: NavHostController,
+    email: String,
+    deletedAt: String,
+    recoverAccessToken: String
 ) {
     RecoverAuthScreen(
         onNavigationClick = { navController.popBackStack() },
-        onRecover = {}
+        onRecover = {},
+        email = email,
+        deletedAt = deletedAt,
+        recoverAccessToken = recoverAccessToken
     )
 }
 
 @Composable
 private fun RecoverAuthScreen(
+    email: String,
+    deletedAt: String,
+    recoverAccessToken: String,
     onNavigationClick: () -> Unit,
     onRecover: () -> Unit,
 ) {
@@ -56,7 +65,10 @@ private fun RecoverAuthScreen(
                 RecoverDescriptionArea()
                 HeightSpacer(heightDp = 32.dp)
 
-                AuthInfoArea()
+                AuthInfoArea(
+                    email = email,
+                    deletedAt = deletedAt,
+                )
                 HeightSpacer(heightDp = 20.dp)
 
                 RecoverBottomDescriptionArea()
@@ -74,6 +86,9 @@ private fun RecoverAuthScreen(
 @Composable
 private fun RecoverAuthScreenPreview(modifier: Modifier = Modifier) {
     RecoverAuthScreen(
+        email = "tmfrl1590@gmail.com",
+        deletedAt = "",
+        recoverAccessToken = "",
         onNavigationClick = {},
         onRecover = {}
     )

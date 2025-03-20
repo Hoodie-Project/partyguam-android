@@ -449,9 +449,15 @@ fun AppNavHost() {
                 sub = sub,
             )
         }
-        composable<Screens.RecoverAuth> {
+        composable<Screens.RecoverAuth> { backStackEntry ->
+            val email = backStackEntry.toRoute<Screens.RecoverAuth>().email
+            val deletedAt = backStackEntry.toRoute<Screens.RecoverAuth>().deletedAt
+            val recoverAccessToken = backStackEntry.toRoute<Screens.RecoverAuth>().recoverAccessToken
             RecoverAuthScreenRoute(
-                navController = navController
+                navController = navController,
+                email = email,
+                deletedAt = deletedAt,
+                recoverAccessToken = recoverAccessToken,
             )
         }
     }

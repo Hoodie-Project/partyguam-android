@@ -87,6 +87,9 @@ class UserRepositoryImpl @Inject constructor(
                             statusCode = errorResponse.statusCode,
                             path = errorResponse.path,
                             timestamp = errorResponse.timestamp,
+                            email = errorResponse.email,
+                            deletedAt = errorResponse.deletedAt,
+                            recoverAccessToken = errorResponse.recoverAccessToken
                         )
                     }
                     else -> ErrorResponse(data = null)
@@ -137,6 +140,9 @@ class UserRepositoryImpl @Inject constructor(
                             statusCode = errorResponse.statusCode,
                             path = errorResponse.path,
                             timestamp = errorResponse.timestamp,
+                            email = errorResponse.email,
+                            deletedAt = errorResponse.deletedAt,
+                            recoverAccessToken = errorResponse.recoverAccessToken
                         )
                     }
                     else -> ErrorResponse(data = null)

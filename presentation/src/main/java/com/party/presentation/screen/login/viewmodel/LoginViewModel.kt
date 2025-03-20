@@ -8,10 +8,10 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.party.common.ServerApiResponse
-import com.party.common.makeAccessToken
 import com.party.domain.model.user.AccessTokenRequest
-import com.party.domain.model.user.SocialLoginError
+import com.party.domain.model.user.RecoverInfo
 import com.party.domain.model.user.SocialLogin
+import com.party.domain.model.user.SocialLoginError
 import com.party.domain.model.user.SocialLoginSuccess
 import com.party.domain.usecase.datastore.SaveAccessTokenUseCase
 import com.party.domain.usecase.user.auth.GoogleLoginUseCase
@@ -37,7 +37,7 @@ class LoginViewModel @Inject constructor(
     private val _goToHomeScreen = MutableSharedFlow<Unit>()
     val goToHomeScreen = _goToHomeScreen.asSharedFlow()
 
-    private val _goToRecoverScreen = MutableSharedFlow<Unit>()
+    private val _goToRecoverScreen = MutableSharedFlow<RecoverInfo>()
     val goToRecoverScreen = _goToRecoverScreen.asSharedFlow()
 
     fun googleSignIn(activityResult: ActivityResult, context: Context){
@@ -82,7 +82,10 @@ class LoginViewModel @Inject constructor(
                             println("result123 Error : ${result.statusCode}")
                         }
                         StatusCode.Forbidden.code -> {
-                            _goToRecoverScreen.emit(Unit)
+                            val email = result.email ?: ""
+                            val deletedAt = result.deletedAt ?: ""
+                            val recoverAccessToken = result.recoverAccessToken ?: ""
+                            _goToRecoverScreen.emit(RecoverInfo(email, deletedAt, recoverAccessToken))
                         }
                     }
                 }
@@ -113,7 +116,10 @@ class LoginViewModel @Inject constructor(
                             println("result123 Error : ${result.statusCode}")
                         }
                         StatusCode.Forbidden.code -> {
-                            _goToRecoverScreen.emit(Unit)
+                            val email = result.email ?: ""
+                            val deletedAt = result.deletedAt ?: ""
+                            val recoverAccessToken = result.recoverAccessToken ?: ""
+                            _goToRecoverScreen.emit(RecoverInfo(email, deletedAt, recoverAccessToken))
                         }
                     }
                 }

@@ -65,8 +65,14 @@ fun LoginScreenRoute(
     }
 
     LaunchedEffect(key1 = Unit) {
-        loginViewModel.goToRecoverScreen.collectLatest {
-            navController.navigate(Screens.RecoverAuth)
+        loginViewModel.goToRecoverScreen.collectLatest { recoverInfo ->
+            navController.navigate(
+                Screens.RecoverAuth(
+                    email = recoverInfo.email,
+                    deletedAt = recoverInfo.deletedAt,
+                    recoverAccessToken = recoverInfo.recoverAccessToken,
+                )
+            )
         }
     }
 

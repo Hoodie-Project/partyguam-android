@@ -18,6 +18,8 @@ sealed interface ServerApiResponse<T> {
         val path: String? = null,
         val timestamp: String? = null,
         val recoverAccessToken: String? = null,
+        val email: String? = null,
+        val deletedAt: String? = null,
     ): ServerApiResponse<T>
 
     @Serializable

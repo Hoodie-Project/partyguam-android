@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
+import com.party.common.convertIsoToCustomDateFormat
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY200
@@ -28,7 +29,8 @@ import com.party.common.ui.theme.WHITE
 
 @Composable
 fun AuthInfoArea(
-    modifier: Modifier = Modifier
+    email: String,
+    deletedAt: String,
 ) {
     Card(
         modifier = Modifier
@@ -44,13 +46,13 @@ fun AuthInfoArea(
                 .padding(horizontal = 20.dp, vertical = 24.dp)
         ) {
             AuthInfoAreaItem(
-                title = "카카오톡",
-                content = "tmfrl1590@gmail.com"
+                title = "이메일",
+                content = email
             )
             HeightSpacer(heightDp = 16.dp)
             AuthInfoAreaItem(
                 title = "탈퇴일",
-                content = "tmfrl1590@gmail.com"
+                content = convertIsoToCustomDateFormat(deletedAt)
             )
         }
     }
@@ -69,7 +71,7 @@ fun AuthInfoAreaItem(
     ) {
         TextComponent(
             modifier = Modifier
-                .width(54.dp)
+                .width(50.dp)
                 .fillMaxHeight(),
             text = title,
             fontSize = B2,
