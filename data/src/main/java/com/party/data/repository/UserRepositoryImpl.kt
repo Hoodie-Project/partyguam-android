@@ -625,4 +625,30 @@ class UserRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun recoverAuth(recoverAccessToken: String): ServerApiResponse<SocialLogin> {
+        return when(val result = userRemoteSource.recoverAuth(recoverAccessToken = recoverAccessToken)){
+            is ApiResponse.Success -> {
+                val resultSuccess = result.data as SocialLoginSuccessDto
+                SuccessResponse(data = UserMapper.mapperToSocialLoginResponse(resultSuccess))
+            }
+            is ApiResponse.Failure.Error-> {
+                val errorBody = result.errorBody?.string()
+                when(result.statusCode){
+                    StatusCode.Unauthorized -> { // 401
+                        val errorResponse = Json.decodeFromString<SocialLoginErrorDto>(errorBody!!)
+                        ErrorResponse(
+                            statusCode = StatusCode.Unauthorized.code,
+                            data = UserMapper.mapperSocialLoginErrorResponse(errorResponse),
+                        )
+                    }
+                    else -> ErrorResponse(data = null)
+                }
+            }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse(result.message)
+            }
+        }
+    }
 }

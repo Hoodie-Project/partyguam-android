@@ -6,11 +6,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
+import com.party.common.Screens
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.presentation.screen.recover_auth.component.AuthInfoArea
@@ -18,20 +21,32 @@ import com.party.presentation.screen.recover_auth.component.RecoverAuthScaffoldA
 import com.party.presentation.screen.recover_auth.component.RecoverBottomDescriptionArea
 import com.party.presentation.screen.recover_auth.component.RecoverButton
 import com.party.presentation.screen.recover_auth.component.RecoverDescriptionArea
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun RecoverAuthScreenRoute(
     navController: NavHostController,
     email: String,
     deletedAt: String,
-    recoverAccessToken: String
+    recoverAccessToken: String,
+    recoverViewModel: RecoverViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(key1 = Unit) {
+        recoverViewModel.recoverAuthSuccess.collectLatest {
+            navController.navigate(Screens.Home) {
+                popUpTo(0) { inclusive = true }
+                launchSingleTop = true
+            }
+        }
+    }
+
     RecoverAuthScreen(
         onNavigationClick = { navController.popBackStack() },
-        onRecover = {},
+        onRecover = {
+            recoverViewModel.recoverAuth(recoverAccessToken = "Bearer $recoverAccessToken")
+        },
         email = email,
         deletedAt = deletedAt,
-        recoverAccessToken = recoverAccessToken
     )
 }
 
@@ -39,7 +54,6 @@ fun RecoverAuthScreenRoute(
 private fun RecoverAuthScreen(
     email: String,
     deletedAt: String,
-    recoverAccessToken: String,
     onNavigationClick: () -> Unit,
     onRecover: () -> Unit,
 ) {
@@ -88,7 +102,6 @@ private fun RecoverAuthScreenPreview(modifier: Modifier = Modifier) {
     RecoverAuthScreen(
         email = "tmfrl1590@gmail.com",
         deletedAt = "",
-        recoverAccessToken = "",
         onNavigationClick = {},
         onRecover = {}
     )

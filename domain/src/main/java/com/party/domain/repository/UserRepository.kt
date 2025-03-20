@@ -113,4 +113,6 @@ interface UserRepository {
     // 신고하기
     suspend fun reports(reportsRequest: ReportsRequest): ServerApiResponse<Reports>
 
+    // 계정복구하기
+    suspend fun recoverAuth(recoverAccessToken: String): ServerApiResponse<SocialLogin>
 }

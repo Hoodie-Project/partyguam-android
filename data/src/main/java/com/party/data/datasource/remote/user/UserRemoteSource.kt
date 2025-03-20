@@ -112,4 +112,7 @@ interface UserRemoteSource {
 
     // 신고하기
     suspend fun reports(reportsRequest: ReportsRequest): ApiResponse<ReportsDto>
+
+    // 계정복구하기
+    suspend fun recoverAuth(recoverAccessToken: String): ApiResponse<SocialLoginDto>
 }

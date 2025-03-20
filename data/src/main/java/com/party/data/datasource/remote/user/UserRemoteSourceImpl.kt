@@ -172,4 +172,8 @@ class UserRemoteSourceImpl @Inject constructor(
     override suspend fun reports(reportsRequest: ReportsRequest): ApiResponse<ReportsDto> {
         return userService.reports(reportsRequest = reportsRequest)
     }
+
+    override suspend fun recoverAuth(recoverAccessToken: String): ApiResponse<SocialLoginDto> {
+        return noTokenService.recoverAuth(recoverAccessToken = recoverAccessToken)
+    }
 }

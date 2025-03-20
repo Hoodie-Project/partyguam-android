@@ -4,6 +4,7 @@ import com.party.data.dto.banner.BannerDto
 import com.party.data.dto.user.auth.SocialLoginSuccessDto
 import com.party.data.dto.user.auth.UserSignUpDto
 import com.party.domain.model.user.AccessTokenRequest
+import com.party.domain.model.user.SocialLogin
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.Body
@@ -41,4 +42,9 @@ interface NoTokenService {
     // 홈 - 배너 리스트 조회
     @GET("api/banner/app")
     suspend fun getBannerList(): ApiResponse<BannerDto>
+
+    @POST("api/users/recover/app")
+    suspend fun recoverAuth(
+        @Header("Authorization") recoverAccessToken: String
+    ): ApiResponse<SocialLoginSuccessDto>
 }
