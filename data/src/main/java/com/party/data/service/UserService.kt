@@ -94,6 +94,7 @@ interface UserService {
         @Query("limit") limit: Int,
         @Query("sort") sort: String,
         @Query("order") order: String,
+        @Query("status") status: String = "active"
     ): ApiResponse<MyPartyDto>
 
     // 내 지원목록 리스트 조회

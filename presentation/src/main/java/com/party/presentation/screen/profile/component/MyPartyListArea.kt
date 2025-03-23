@@ -71,29 +71,32 @@ private fun MyPartyList(
     partyUsers: List<PartyUser>,
     onClick: (Int) -> Unit,
 ) {
-    LazyRow(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(282.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        itemsIndexed(
-            items = partyUsers,
-            key = { index, _ ->
-                index
+    if(partyUsers.isNotEmpty()){
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(282.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            itemsIndexed(
+                items = partyUsers,
+                key = { index, _ ->
+                    index
+                }
+            ){ _, item ->
+                PartyListItem3(
+                    imageUrl = item.party.image,
+                    status = StatusType.fromType(item.party.status).toDisplayText(),
+                    type = item.party.partyType.type,
+                    title = item.party.title,
+                    main = item.position.main,
+                    sub = item.position.sub,
+                    onClick = { onClick(item.party.id) }
+                )
             }
-        ){ _, item ->
-            PartyListItem3(
-                imageUrl = item.party.image,
-                status = StatusType.fromType(item.party.status).toDisplayText(),
-                type = item.party.partyType.type,
-                title = item.party.title,
-                main = item.position.main,
-                sub = item.position.sub,
-                onClick = { onClick(item.party.id) }
-            )
         }
     }
+
 }
 
 @Preview(showBackground = true)
