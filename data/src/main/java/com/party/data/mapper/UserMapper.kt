@@ -342,9 +342,10 @@ object UserMapper {
             notificationType = mapperToNotificationType(notificationDataDto.notificationType),
             title = notificationDataDto.title,
             link = notificationDataDto.link,
-            content = notificationDataDto.content,
+            message = notificationDataDto.message,
             isRead = notificationDataDto.isRead,
-            createdAt = notificationDataDto.createdAt
+            createdAt = notificationDataDto.createdAt,
+            image = convertToImageUrl(notificationDataDto.image)
         )
     }
 
