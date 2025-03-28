@@ -1,5 +1,6 @@
 package com.party.data.datasource.remote.user
 
+import com.party.data.dto.user.NotificationDto
 import com.party.data.dto.user.ReportsDto
 import com.party.data.dto.user.auth.LinkGoogleDto
 import com.party.data.dto.user.auth.LinkKakaoDto
@@ -175,5 +176,9 @@ class UserRemoteSourceImpl @Inject constructor(
 
     override suspend fun recoverAuth(recoverAccessToken: String): ApiResponse<SocialLoginDto> {
         return noTokenService.recoverAuth(recoverAccessToken = recoverAccessToken)
+    }
+
+    override suspend fun getNotifications(limit: Int, type: String?): ApiResponse<NotificationDto> {
+        return userService.getNotifications(limit = limit, type = type)
     }
 }

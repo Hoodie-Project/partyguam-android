@@ -1,5 +1,6 @@
 package com.party.data.datasource.remote.user
 
+import com.party.data.dto.user.NotificationDto
 import com.party.data.dto.user.ReportsDto
 import com.party.data.dto.user.auth.LinkGoogleDto
 import com.party.data.dto.user.auth.LinkKakaoDto
@@ -115,4 +116,10 @@ interface UserRemoteSource {
 
     // 계정복구하기
     suspend fun recoverAuth(recoverAccessToken: String): ApiResponse<SocialLoginDto>
+
+    // 알림 리스트 조회
+    suspend fun getNotifications(
+        limit: Int,
+        type: String?,
+    ): ApiResponse<NotificationDto>
 }

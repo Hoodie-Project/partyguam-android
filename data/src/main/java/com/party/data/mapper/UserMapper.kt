@@ -1,5 +1,8 @@
 package com.party.data.mapper
 
+import com.party.data.dto.user.NotificationDataDto
+import com.party.data.dto.user.NotificationDto
+import com.party.data.dto.user.NotificationTypeDto
 import com.party.data.dto.user.ReportsDto
 import com.party.data.dto.user.auth.LinkGoogleDto
 import com.party.data.dto.user.auth.LinkKakaoDto
@@ -30,6 +33,9 @@ import com.party.data.util.convertToImageUrl
 import com.party.domain.model.user.LinkGoogle
 import com.party.domain.model.user.LinkKakao
 import com.party.domain.model.user.MySocialOauth
+import com.party.domain.model.user.Notification
+import com.party.domain.model.user.NotificationData
+import com.party.domain.model.user.NotificationType
 import com.party.domain.model.user.Reports
 import com.party.domain.model.user.SocialLogin
 import com.party.domain.model.user.SocialLoginError
@@ -318,6 +324,34 @@ object UserMapper {
             type = reportsDto.type,
             typeId = reportsDto.typeId,
             content = reportsDto.content,
+        )
+    }
+
+    fun mapperToNotification(notificationDto: NotificationDto): Notification{
+        return Notification(
+            nextCursor = notificationDto.nextCursor,
+            notifications = notificationDto.notifications.map {
+                mapperToNotificationData(it)
+            }
+        )
+    }
+
+    private fun mapperToNotificationData(notificationDataDto: NotificationDataDto): NotificationData{
+        return NotificationData(
+            id = notificationDataDto.id,
+            notificationType = mapperToNotificationType(notificationDataDto.notificationType),
+            title = notificationDataDto.title,
+            link = notificationDataDto.link,
+            content = notificationDataDto.content,
+            isRead = notificationDataDto.isRead,
+            createdAt = notificationDataDto.createdAt
+        )
+    }
+
+    private fun mapperToNotificationType(notificationTypeDto: NotificationTypeDto): NotificationType{
+        return NotificationType(
+            type = notificationTypeDto.type,
+            label = notificationTypeDto.label,
         )
     }
 }

@@ -1,5 +1,6 @@
 package com.party.data.service
 
+import com.party.data.dto.user.NotificationDto
 import com.party.data.dto.user.ReportsDto
 import com.party.data.dto.user.auth.LinkGoogleDto
 import com.party.data.dto.user.auth.LinkKakaoDto
@@ -160,4 +161,11 @@ interface UserService {
     suspend fun reports(
         @Body reportsRequest: ReportsRequest
     ): ApiResponse<ReportsDto>
+
+    // 알림 리스트 조회
+    @GET("api/notifications")
+    suspend fun getNotifications(
+        @Query("limit") limit: Int,
+        @Query("type") type: String? = null
+    ): ApiResponse<NotificationDto>
 }

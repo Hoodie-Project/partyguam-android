@@ -11,6 +11,7 @@ import com.party.data.mapper.UserMapper
 import com.party.data.mapper.UserMapper.mapperToLinkGoogle
 import com.party.data.mapper.UserMapper.mapperToLinkKakao
 import com.party.data.mapper.UserMapper.mapperToMySocialOauth
+import com.party.data.mapper.UserMapper.mapperToNotification
 import com.party.data.mapper.UserMapper.mapperToReports
 import com.party.data.mapper.UserMapper.mapperUserSignUpResponse
 import com.party.domain.model.user.AccessTokenRequest
@@ -18,6 +19,7 @@ import com.party.domain.model.user.LinkGoogle
 import com.party.domain.model.user.LinkKakao
 import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.MySocialOauth
+import com.party.domain.model.user.Notification
 import com.party.domain.model.user.Reports
 import com.party.domain.model.user.ReportsRequest
 import com.party.domain.model.user.SocialLogin
@@ -644,6 +646,24 @@ class UserRepositoryImpl @Inject constructor(
                     }
                     else -> ErrorResponse(data = null)
                 }
+            }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse(result.message)
+            }
+        }
+    }
+
+    override suspend fun getNotifications(
+        limit: Int,
+        type: String?
+    ): ServerApiResponse<Notification> {
+        return when(val result = userRemoteSource.getNotifications(limit = limit, type = type)){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = mapperToNotification(result.data))
+            }
+            is ApiResponse.Failure.Error-> {
+                ErrorResponse(data = null)
             }
             is ApiResponse.Failure.Exception -> {
                 result.throwable.printStackTrace()

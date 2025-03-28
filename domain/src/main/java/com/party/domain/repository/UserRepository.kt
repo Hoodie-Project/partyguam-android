@@ -6,6 +6,7 @@ import com.party.domain.model.user.LinkGoogle
 import com.party.domain.model.user.LinkKakao
 import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.MySocialOauth
+import com.party.domain.model.user.Notification
 import com.party.domain.model.user.Reports
 import com.party.domain.model.user.ReportsRequest
 import com.party.domain.model.user.SocialLogin
@@ -115,4 +116,10 @@ interface UserRepository {
 
     // 계정복구하기
     suspend fun recoverAuth(recoverAccessToken: String): ServerApiResponse<SocialLogin>
+
+    // 알림 리스트 조회
+    suspend fun getNotifications(
+        limit: Int,
+        type: String?
+    ): ServerApiResponse<Notification>
 }
