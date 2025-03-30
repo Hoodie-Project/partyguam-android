@@ -95,6 +95,7 @@ fun HomeScreenRoute(
         homeTopTabList = homeTopTabList,
         onRecruitmentItemClick = onRecruitmentItemClick,
         onGotoSearch = { navController.navigate(Screens.Search) },
+        onGotoNotification = { navController.navigate(Screens.Notification)},
         onGotoRecruitmentDetail = { partyId, partyRecruitmentId -> navController.navigate(Screens.RecruitmentDetail(partyId = partyId, partyRecruitmentId = partyRecruitmentId)) },
         onGotoPartyDetail = { partyId -> navController.navigate(Screens.PartyDetail(partyId = partyId)) },
         onNavigateUp = { homeViewModel.scrollToTop() },
@@ -137,6 +138,7 @@ private fun HomeScreen(
     homeState: HomeState,
     homeTopTabList: List<String>,
     onGotoSearch: () -> Unit,
+    onGotoNotification: () -> Unit,
     onRecruitmentItemClick: (Int, Int) -> Unit,
     onGotoRecruitmentDetail: (Int, Int) -> Unit,
     onGotoPartyDetail: (Int) -> Unit,
@@ -182,7 +184,7 @@ private fun HomeScreen(
             ) {
                 HomeTopBar(
                     onGoToSearch = onGotoSearch,
-                    onGoToAlarm = {}
+                    onGoToAlarm = onGotoNotification,
                 )
 
                 HomeTopTabArea(

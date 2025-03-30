@@ -36,6 +36,7 @@ import com.party.presentation.screen.join.gender.JoinGenderScreenRoute
 import com.party.presentation.screen.join.nickname.JoinNickNameScreenRoute
 import com.party.presentation.screen.login.LoginScreenRoute
 import com.party.presentation.screen.manage_applicant.ManageApplicantScreenRoute
+import com.party.presentation.screen.notification.NotificationScreenRoute
 import com.party.presentation.screen.party_apply.PartyApplyRoute
 import com.party.presentation.screen.party_create.PartyCreateScreenRoute
 import com.party.presentation.screen.party_detail.PartyDetailRoute
@@ -458,6 +459,11 @@ fun AppNavHost() {
                 email = email,
                 deletedAt = deletedAt,
                 recoverAccessToken = recoverAccessToken,
+            )
+        }
+        composable<Screens.Notification> {
+            NotificationScreenRoute(
+                navController = navController,
             )
         }
     }

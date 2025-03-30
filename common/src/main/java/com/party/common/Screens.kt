@@ -113,4 +113,6 @@ sealed interface Screens {
         val deletedAt: String,
         val recoverAccessToken:String,
     ): Screens
+    @Serializable
+    data object Notification: Screens
 }

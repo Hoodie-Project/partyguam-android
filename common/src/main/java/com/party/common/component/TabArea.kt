@@ -29,7 +29,7 @@ import com.party.common.ui.theme.COMPONENT_AREA_HEIGHT
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.PRIMARY
 
-val homeTopTabList = listOf("메인", "파티", "모집공고")
+val homeTopTabList = listOf("라운지", "파티", "모집공고")
 val partyDetailTabList = listOf("홈", "파티원", "모집공고")
 
 val searchTabList = listOf("전체", "파티", "모집공고")
@@ -39,6 +39,8 @@ val stateTabList = listOf("내 파티", "지원목록")
 val profileEditTendencyTabList = listOf("1단계", "2단계", "3단계")
 
 val partyRecruitmentEditTabList = listOf("전체", "모집중", "모집마감")
+
+val notificationTabList = listOf("전체", "파티활동", "지원소식")
 
 @Composable
 fun TabArea(
