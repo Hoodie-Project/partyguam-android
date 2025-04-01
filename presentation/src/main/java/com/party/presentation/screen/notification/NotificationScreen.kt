@@ -27,8 +27,10 @@ fun NotificationScreenRoute(
     val state by notificationViewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = state.selectedTab) {
-        println("test123 ${state.selectedTab}")
-        notificationViewModel.getNotifications(limit = 10, type = if(state.selectedTab == "전체") null else state.selectedTab)
+        notificationViewModel.getNotifications(
+            limit = 10,
+            type = if(state.selectedTab == "전체") null else if(state.selectedTab == "파티활동") "party" else "recruit"
+        )
     }
 
     NotificationScreen(
