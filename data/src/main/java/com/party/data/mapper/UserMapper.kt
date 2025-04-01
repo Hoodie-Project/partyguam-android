@@ -1,8 +1,8 @@
 package com.party.data.mapper
 
-import com.party.data.dto.user.NotificationDataDto
-import com.party.data.dto.user.NotificationDto
-import com.party.data.dto.user.NotificationTypeDto
+import com.party.data.dto.user.notification.NotificationDataDto
+import com.party.data.dto.user.notification.NotificationDto
+import com.party.data.dto.user.notification.NotificationTypeDto
 import com.party.data.dto.user.ReportsDto
 import com.party.data.dto.user.auth.LinkGoogleDto
 import com.party.data.dto.user.auth.LinkKakaoDto
@@ -17,6 +17,7 @@ import com.party.data.dto.user.detail.PersonalitySaveDto
 import com.party.data.dto.user.detail.PositionListDto
 import com.party.data.dto.user.detail.SaveCarrierItem
 import com.party.data.dto.user.detail.SaveInterestLocationDto
+import com.party.data.dto.user.notification.ReadNotificationDto
 import com.party.data.dto.user.party.MyPartyDto
 import com.party.data.dto.user.party.PartyUserDto
 import com.party.data.dto.user.profile.PersonalityOptionDto
@@ -33,9 +34,9 @@ import com.party.data.util.convertToImageUrl
 import com.party.domain.model.user.LinkGoogle
 import com.party.domain.model.user.LinkKakao
 import com.party.domain.model.user.MySocialOauth
-import com.party.domain.model.user.Notification
-import com.party.domain.model.user.NotificationData
-import com.party.domain.model.user.NotificationType
+import com.party.domain.model.user.notification.Notification
+import com.party.domain.model.user.notification.NotificationData
+import com.party.domain.model.user.notification.NotificationType
 import com.party.domain.model.user.Reports
 import com.party.domain.model.user.SocialLogin
 import com.party.domain.model.user.SocialLoginError
@@ -48,6 +49,7 @@ import com.party.domain.model.user.detail.PersonalitySave
 import com.party.domain.model.user.detail.PositionList
 import com.party.domain.model.user.detail.SaveCarrier
 import com.party.domain.model.user.detail.SaveInterestLocation
+import com.party.domain.model.user.notification.ReadNotification
 import com.party.domain.model.user.party.MyParty
 import com.party.domain.model.user.party.Party
 import com.party.domain.model.user.party.PartyType
@@ -327,7 +329,7 @@ object UserMapper {
         )
     }
 
-    fun mapperToNotification(notificationDto: NotificationDto): Notification{
+    fun mapperToNotification(notificationDto: NotificationDto): Notification {
         return Notification(
             nextCursor = notificationDto.nextCursor,
             notifications = notificationDto.notifications.map {
@@ -336,7 +338,7 @@ object UserMapper {
         )
     }
 
-    private fun mapperToNotificationData(notificationDataDto: NotificationDataDto): NotificationData{
+    private fun mapperToNotificationData(notificationDataDto: NotificationDataDto): NotificationData {
         return NotificationData(
             id = notificationDataDto.id,
             notificationType = mapperToNotificationType(notificationDataDto.notificationType),
@@ -349,10 +351,16 @@ object UserMapper {
         )
     }
 
-    private fun mapperToNotificationType(notificationTypeDto: NotificationTypeDto): NotificationType{
+    private fun mapperToNotificationType(notificationTypeDto: NotificationTypeDto): NotificationType {
         return NotificationType(
             type = notificationTypeDto.type,
             label = notificationTypeDto.label,
+        )
+    }
+
+    fun mapperToReadNotification(readNotificationDto: ReadNotificationDto): ReadNotification{
+        return ReadNotification(
+            message = readNotificationDto.message
         )
     }
 }

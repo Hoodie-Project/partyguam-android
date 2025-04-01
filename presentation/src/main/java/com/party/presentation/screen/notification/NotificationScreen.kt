@@ -39,6 +39,7 @@ fun NotificationScreenRoute(
         onAction = { action ->
             when(action){
                 is NotificationAction.OnSelectTab -> { notificationViewModel.onAction(action = action)}
+                is NotificationAction.OnReadNotification -> { notificationViewModel.onAction(action = action)}
             }
         }
     )
@@ -73,6 +74,9 @@ private fun NotificationScreen(
             NotificationDescriptionArea()
 
             NotificationListArea(
+                onClickNotificationItem = { selectedNotificationId ->
+                    onAction(NotificationAction.OnReadNotification(notificationId = selectedNotificationId))
+                },
                 notification = state.notification
             )
         }

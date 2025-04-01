@@ -1,4 +1,4 @@
-package com.party.domain.usecase.user
+package com.party.domain.usecase.user.notification
 
 import com.party.domain.repository.UserRepository
 import javax.inject.Inject

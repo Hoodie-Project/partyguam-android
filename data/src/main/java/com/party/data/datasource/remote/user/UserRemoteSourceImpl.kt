@@ -1,6 +1,6 @@
 package com.party.data.datasource.remote.user
 
-import com.party.data.dto.user.NotificationDto
+import com.party.data.dto.user.notification.NotificationDto
 import com.party.data.dto.user.ReportsDto
 import com.party.data.dto.user.auth.LinkGoogleDto
 import com.party.data.dto.user.auth.LinkKakaoDto
@@ -15,6 +15,7 @@ import com.party.data.dto.user.detail.PersonalitySaveDto
 import com.party.data.dto.user.detail.PositionListDto
 import com.party.data.dto.user.detail.SaveCarrierDto
 import com.party.data.dto.user.detail.SaveInterestLocationDto
+import com.party.data.dto.user.notification.ReadNotificationDto
 import com.party.data.dto.user.party.MyPartyDto
 import com.party.data.dto.user.profile.UserProfileDto
 import com.party.data.dto.user.recruitment.MyRecruitmentDto
@@ -180,5 +181,9 @@ class UserRemoteSourceImpl @Inject constructor(
 
     override suspend fun getNotifications(limit: Int, type: String?): ApiResponse<NotificationDto> {
         return userService.getNotifications(limit = limit, type = type)
+    }
+
+    override suspend fun readNotification(notificationId: Int): ApiResponse<ReadNotificationDto> {
+        return userService.readNotification(notificationId = notificationId)
     }
 }

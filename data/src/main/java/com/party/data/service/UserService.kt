@@ -1,6 +1,6 @@
 package com.party.data.service
 
-import com.party.data.dto.user.NotificationDto
+import com.party.data.dto.user.notification.NotificationDto
 import com.party.data.dto.user.ReportsDto
 import com.party.data.dto.user.auth.LinkGoogleDto
 import com.party.data.dto.user.auth.LinkKakaoDto
@@ -13,6 +13,7 @@ import com.party.data.dto.user.detail.PersonalitySaveDto
 import com.party.data.dto.user.detail.PositionListDto
 import com.party.data.dto.user.detail.SaveCarrierDto
 import com.party.data.dto.user.detail.SaveInterestLocationDto
+import com.party.data.dto.user.notification.ReadNotificationDto
 import com.party.data.dto.user.party.MyPartyDto
 import com.party.data.dto.user.profile.UserProfileDto
 import com.party.data.dto.user.recruitment.MyRecruitmentDto
@@ -30,7 +31,6 @@ import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -168,4 +168,10 @@ interface UserService {
         @Query("limit") limit: Int,
         @Query("type") type: String? = null
     ): ApiResponse<NotificationDto>
+
+    // 알림 읽음 처리
+    @PATCH("api/notifications/{notificationId}/read")
+    suspend fun readNotification(
+        @Path("notificationId") notificationId: Int
+    ): ApiResponse<ReadNotificationDto>
 }

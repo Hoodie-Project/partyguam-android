@@ -6,7 +6,7 @@ import com.party.domain.model.user.LinkGoogle
 import com.party.domain.model.user.LinkKakao
 import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.MySocialOauth
-import com.party.domain.model.user.Notification
+import com.party.domain.model.user.notification.Notification
 import com.party.domain.model.user.Reports
 import com.party.domain.model.user.ReportsRequest
 import com.party.domain.model.user.SocialLogin
@@ -22,6 +22,7 @@ import com.party.domain.model.user.detail.PositionList
 import com.party.domain.model.user.detail.SaveCarrier
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.detail.SaveInterestLocation
+import com.party.domain.model.user.notification.ReadNotification
 import com.party.domain.model.user.party.MyParty
 import com.party.domain.model.user.profile.UserProfile
 import com.party.domain.model.user.profile.UserProfileModify
@@ -122,4 +123,7 @@ interface UserRepository {
         limit: Int,
         type: String?
     ): ServerApiResponse<Notification>
+
+    // 알림 읽음 처리
+    suspend fun readNotification(notificationId: Int): ServerApiResponse<ReadNotification>
 }

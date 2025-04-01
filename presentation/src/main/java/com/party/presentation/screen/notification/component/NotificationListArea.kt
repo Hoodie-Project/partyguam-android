@@ -38,15 +38,15 @@ import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY500
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.WHITE
-import com.party.domain.model.user.Notification
+import com.party.domain.model.user.notification.Notification
 
 @Composable
 fun NotificationListArea(
     notification: Notification,
+    onClickNotificationItem: (Int) -> Unit,
 ) {
     HeightSpacer(heightDp = 16.dp)
     LazyColumn(
@@ -62,6 +62,7 @@ fun NotificationListArea(
             },
         ){ _, item ->
             NotificationListAreaItem(
+                onClickNotificationItem = { onClickNotificationItem(item.id) },
                 imageUrl = item.image ?: "",
                 label = item.notificationType.label,
                 title = item.title,
@@ -75,6 +76,7 @@ fun NotificationListArea(
 
 @Composable
 private fun NotificationListAreaItem(
+    onClickNotificationItem: () -> Unit,
     imageUrl: String,
     label: String,
     title: String,
@@ -85,6 +87,7 @@ private fun NotificationListAreaItem(
     val borderColor = if(isRead) GRAY100 else PRIMARY
 
     Card(
+        onClick = onClickNotificationItem,
         modifier = Modifier
             .width(335.dp)
             .height(144.dp),
@@ -104,6 +107,7 @@ private fun NotificationListAreaItem(
                     .width(295.dp),
             ) {
                 NotificationListAreaItemTop(
+                    onClickNotificationItem = onClickNotificationItem,
                     imageUrl = imageUrl,
                     label = label,
                     title = title,
@@ -111,6 +115,7 @@ private fun NotificationListAreaItem(
                     isRead = isRead,
                 )
                 NotificationListAreaItemBottom(
+                    onClickNotificationItem = onClickNotificationItem,
                     time = time,
                     textColor = RED,
                 )
@@ -121,6 +126,7 @@ private fun NotificationListAreaItem(
 
 @Composable
 private fun NotificationListAreaItemTop(
+    onClickNotificationItem: () -> Unit,
     imageUrl: String,
     label: String,
     title: String,
@@ -139,6 +145,7 @@ private fun NotificationListAreaItemTop(
         )
         WidthSpacer(widthDp = 16.dp)
         NotificationTitleAndContent(
+            onClickNotificationItem = onClickNotificationItem,
             title = title,
             content = content,
             modifier = Modifier
@@ -184,6 +191,7 @@ private fun NotificationImageArea(
 
 @Composable
 private fun NotificationTitleAndContent(
+    onClickNotificationItem: () -> Unit,
     modifier: Modifier = Modifier,
     title: String,
     content: String,
@@ -192,6 +200,7 @@ private fun NotificationTitleAndContent(
         modifier = modifier
     ) {
         TextComponent(
+            onClick = onClickNotificationItem,
             text = title,
             fontSize = B2,
             fontWeight = FontWeight.SemiBold,
@@ -201,6 +210,7 @@ private fun NotificationTitleAndContent(
         )
         HeightSpacer(heightDp = 4.dp)
         TextComponent(
+            onClick = onClickNotificationItem,
             text = content,
             fontSize = B2,
             textColor = BLACK,
@@ -214,8 +224,10 @@ private fun NotificationTitleAndContent(
 fun NotificationListAreaItemBottom(
     time: String,
     textColor: Color = BLACK,
+    onClickNotificationItem: () -> Unit,
 ) {
     TextComponent(
+        onClick = onClickNotificationItem,
         text = convertIsoToCustomDateFormat(time),
         fontSize = B2,
         textColor = textColor,
@@ -231,6 +243,7 @@ fun NotificationListAreaItemBottom(
 @Composable
 private fun NotificationListAreaItemPreview() {
     NotificationListAreaItem(
+        onClickNotificationItem = {},
         imageUrl = "",
         label = "파티 소식",
         title = "[서울] 장소별 루트짜주는 데이트 어플[서울] 장소별 루트짜주는",
@@ -244,6 +257,7 @@ private fun NotificationListAreaItemPreview() {
 @Composable
 private fun NotificationListAreaItemPreview2() {
     NotificationListAreaItem(
+        onClickNotificationItem = {},
         imageUrl = "",
         label = "파티 소식",
         title = "[서울] 장소별 루트짜주는 데이트 어플[서울] 장소별 루트짜주는",

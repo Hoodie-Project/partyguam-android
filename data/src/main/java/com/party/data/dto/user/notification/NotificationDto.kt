@@ -1,4 +1,4 @@
-package com.party.data.dto.user
+package com.party.data.dto.user.notification
 
 import kotlinx.serialization.Serializable
 

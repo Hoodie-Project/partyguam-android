@@ -1,4 +1,4 @@
-package com.party.domain.model.user
+package com.party.domain.model.user.notification
 
 data class Notification(
     val nextCursor: Int,

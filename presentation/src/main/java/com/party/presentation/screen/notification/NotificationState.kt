@@ -1,7 +1,7 @@
 package com.party.presentation.screen.notification
 
 import com.party.common.component.notificationTabList
-import com.party.domain.model.user.Notification
+import com.party.domain.model.user.notification.Notification
 
 data class NotificationState(
     val selectedTab: String = notificationTabList[0],
