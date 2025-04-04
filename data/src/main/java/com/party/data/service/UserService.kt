@@ -174,4 +174,10 @@ interface UserService {
     suspend fun readNotification(
         @Path("notificationId") notificationId: Int
     ): ApiResponse<ReadNotificationDto>
+
+    // 알림 삭제 처리
+    @DELETE("api/notifications/{notificationId}")
+    suspend fun deleteNotification(
+        @Path("notificationId") notificationId: Int
+    ): ApiResponse<Unit>
 }

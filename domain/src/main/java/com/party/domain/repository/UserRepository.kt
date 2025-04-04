@@ -126,4 +126,7 @@ interface UserRepository {
 
     // 알림 읽음 처리
     suspend fun readNotification(notificationId: Int): ServerApiResponse<ReadNotification>
+
+    // 알림 삭제 처리
+    suspend fun deleteNotification(notificationId: Int): ServerApiResponse<Unit>
 }

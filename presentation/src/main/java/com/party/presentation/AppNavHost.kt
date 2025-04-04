@@ -464,6 +464,7 @@ fun AppNavHost() {
         composable<Screens.Notification> {
             NotificationScreenRoute(
                 navController = navController,
+                snackBarHostState = snackBarHostState,
             )
         }
     }

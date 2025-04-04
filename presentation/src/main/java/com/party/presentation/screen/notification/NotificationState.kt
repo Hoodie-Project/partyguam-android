@@ -10,4 +10,9 @@ data class NotificationState(
         nextCursor = 0,
         notifications = emptyList()
     ),
+
+    val isShowDeleteBottomSheet: Boolean = false,
+
+    // 바텀시트가 열린 알림 ID
+    val selectedNotificationId: Int = 0,
 )

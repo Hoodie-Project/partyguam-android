@@ -47,6 +47,7 @@ import com.party.domain.model.user.notification.Notification
 fun NotificationListArea(
     notification: Notification,
     onClickNotificationItem: (Int) -> Unit,
+    onDeleteNotification: (Int) -> Unit,
 ) {
     HeightSpacer(heightDp = 16.dp)
     LazyColumn(
@@ -69,6 +70,7 @@ fun NotificationListArea(
                 content = item.message,
                 time = item.createdAt,
                 isRead = item.isRead,
+                onDeleteNotification = { onDeleteNotification(item.id) }
             )
         }
     }
@@ -77,6 +79,7 @@ fun NotificationListArea(
 @Composable
 private fun NotificationListAreaItem(
     onClickNotificationItem: () -> Unit,
+    onDeleteNotification: () -> Unit,
     imageUrl: String,
     label: String,
     title: String,
@@ -113,6 +116,7 @@ private fun NotificationListAreaItem(
                     title = title,
                     content = content,
                     isRead = isRead,
+                    onDeleteNotification = onDeleteNotification,
                 )
                 NotificationListAreaItemBottom(
                     onClickNotificationItem = onClickNotificationItem,
@@ -132,6 +136,7 @@ private fun NotificationListAreaItemTop(
     title: String,
     content: String,
     isRead: Boolean,
+    onDeleteNotification: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -155,7 +160,7 @@ private fun NotificationListAreaItemTop(
         DrawableIconButton(
             icon = painterResource(id = R.drawable.icon_vertical_more2),
             contentDescription = "",
-            onClick = {},
+            onClick = onDeleteNotification,
             modifier = Modifier.size(24.dp),
             iconColor = GRAY500
         )
@@ -249,7 +254,8 @@ private fun NotificationListAreaItemPreview() {
         title = "[서울] 장소별 루트짜주는 데이트 어플[서울] 장소별 루트짜주는",
         content = "파티가 성공적으로 종료되었어요. 참여해 주셔서 감사합니다.",
         time = "2024-06-05T15:30:45.123Z",
-        isRead = true
+        isRead = true,
+        onDeleteNotification = {}
     )
 }
 
@@ -263,6 +269,7 @@ private fun NotificationListAreaItemPreview2() {
         title = "[서울] 장소별 루트짜주는 데이트 어플[서울] 장소별 루트짜주는",
         content = "파티가 성공적으로 종료되었어요. 참여해 주셔서 감사합니다.",
         time = "2024-06-05T15:30:45.123Z",
-        isRead = false
+        isRead = false,
+        onDeleteNotification = {}
     )
 }

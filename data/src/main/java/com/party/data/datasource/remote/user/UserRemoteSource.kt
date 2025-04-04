@@ -126,4 +126,7 @@ interface UserRemoteSource {
 
     // 알림 읽음 처리
     suspend fun readNotification(notificationId: Int): ApiResponse<ReadNotificationDto>
+
+    // 알림 삭제처리
+    suspend fun deleteNotification(notificationId: Int): ApiResponse<Unit>
 }

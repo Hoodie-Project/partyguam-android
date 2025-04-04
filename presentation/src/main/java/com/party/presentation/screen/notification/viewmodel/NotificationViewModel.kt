@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.domain.model.user.notification.Notification
+import com.party.domain.usecase.user.notification.DeleteNotificationUseCase
 import com.party.domain.usecase.user.notification.GetNotificationUseCase
 import com.party.domain.usecase.user.notification.ReadNotificationUseCase
 import com.party.presentation.screen.notification.NotificationAction
@@ -13,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -22,10 +24,14 @@ import javax.inject.Inject
 class NotificationViewModel @Inject constructor(
     val getNotificationUseCase: GetNotificationUseCase,
     val readNotificationUseCase: ReadNotificationUseCase,
+    val deleteNotificationUseCase: DeleteNotificationUseCase,
 ): ViewModel() {
 
     private val _state = MutableStateFlow(NotificationState())
     val state: StateFlow<NotificationState> = _state.asStateFlow()
+
+    private val _successDelete = MutableSharedFlow<Unit>()
+    val successDelete = _successDelete.asSharedFlow()
 
     fun getNotifications(
         limit: Int,
@@ -54,10 +60,27 @@ class NotificationViewModel @Inject constructor(
         }
     }
 
+    private fun deleteNotification(notificationId: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = deleteNotificationUseCase(notificationId = notificationId)){
+                is ServerApiResponse.SuccessResponse -> {
+                    _state.update { it.copy(isShowDeleteBottomSheet = false, selectedNotificationId = 0) }
+                    _successDelete.emit(Unit)
+                }
+                is ServerApiResponse.ErrorResponse -> {}
+                is ServerApiResponse.ExceptionResponse -> {}
+            }
+        }
+    }
+
     fun onAction(action: NotificationAction){
         when(action){
             is NotificationAction.OnSelectTab -> _state.update { it.copy(selectedTab = action.tabText) }
             is NotificationAction.OnReadNotification -> readNotification(notificationId = action.notificationId)
+            is NotificationAction.OnShowDeleteBottomSheet -> _state.update { it.copy(isShowDeleteBottomSheet = action.isShow, selectedNotificationId = action.notificationId) }
+            is NotificationAction.OnDeleteNotification -> {
+                deleteNotification(notificationId = _state.value.selectedNotificationId)
+            }
         }
     }
 }

@@ -186,4 +186,8 @@ class UserRemoteSourceImpl @Inject constructor(
     override suspend fun readNotification(notificationId: Int): ApiResponse<ReadNotificationDto> {
         return userService.readNotification(notificationId = notificationId)
     }
+
+    override suspend fun deleteNotification(notificationId: Int): ApiResponse<Unit> {
+        return userService.deleteNotification(notificationId = notificationId)
+    }
 }

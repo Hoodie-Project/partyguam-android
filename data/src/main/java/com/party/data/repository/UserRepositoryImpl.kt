@@ -687,4 +687,19 @@ class UserRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun deleteNotification(notificationId: Int): ServerApiResponse<Unit> {
+        return when(val result = userRemoteSource.deleteNotification(notificationId = notificationId)){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = Unit)
+            }
+            is ApiResponse.Failure.Error -> {
+                ErrorResponse(data = null)
+            }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse(result.message)
+            }
+        }
+    }
 }
