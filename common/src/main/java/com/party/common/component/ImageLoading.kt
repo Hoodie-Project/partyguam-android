@@ -23,6 +23,8 @@ import coil.compose.SubcomposeAsyncImage
 import com.party.common.R
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
+import com.tmfrl.compose.loading.CircularLoadingSpinner
+import com.tmfrl.compose.loading.DotRippleSpinner
 
 @Composable
 fun ImageLoading(
@@ -69,9 +71,13 @@ fun NetworkImageLoad(
             modifier = modifier
                 .fillMaxSize(),
             loading = {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(24.dp),
-                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularLoadingSpinner()
+                }
             },
             error = { ImageNotLoading() }
         )

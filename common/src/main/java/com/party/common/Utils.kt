@@ -30,9 +30,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ehsanmsz.mszprogressindicator.progressindicator.BallPulseSyncProgressIndicator
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
+import com.tmfrl.compose.loading.DotRippleSpinner
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -179,16 +179,7 @@ fun LoadingProgressBar() {
             .background(Color.White),
         contentAlignment = Alignment.Center
     ) {
-        BallPulseSyncProgressIndicator(
-            modifier = Modifier,
-            color = Color.Gray,
-            animationDuration = 800,
-            animationDelay = 200,
-            startDelay = 0,
-            ballDiameter = 12.dp,
-            ballJumpHeight = 42.dp,
-            ballCount = 4
-        )
+        DotRippleSpinner()
     }
 }
 

@@ -55,9 +55,6 @@ dependencies {
     implementation(libs.kotlin.stdlib)
     implementation(libs.kotlinx.serialization.json)
 
-    // Custom Progress Indicator
-    implementation(libs.msz.progress.indicator)
-
     // Coil
     implementation(libs.coil.compose)
 
@@ -67,5 +64,8 @@ dependencies {
     // ui-tooling
     implementation(libs.androidx.ui.tooling.preview)
     debugImplementation(libs.androidx.ui.tooling)
+
+    // LoadingBar
+    implementation(libs.jetpackcomposeloadingbar)
 
 }

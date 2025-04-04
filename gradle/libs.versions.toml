@@ -50,6 +50,7 @@ googleServicesVersion = "4.4.2"
 v2User = "2.13.0"
 
 converterScalars = "2.5.0"
+jetpackcomposeloadingbar = "1.0.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -151,6 +152,9 @@ v2-user = { module = "com.kakao.sdk:v2-user", version.ref = "v2User" }
 
 # Splash
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+
+# jetpackcomposeloadingbar
+jetpackcomposeloadingbar = { module = "com.github.tmfrl1590:JetpackComposeLoadingBar", version.ref = "jetpackcomposeloadingbar" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
