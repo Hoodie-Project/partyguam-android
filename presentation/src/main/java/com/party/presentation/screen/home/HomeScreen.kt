@@ -101,6 +101,7 @@ fun HomeScreenRoute(
         onNavigateUp = { homeViewModel.scrollToTop() },
         onGoPartyCreate = { navController.navigate(Screens.PartyCreate) },
         onGotoDetailProfile = { navController.navigate(Screens.DetailCarrier)},
+        onClickBanner = { navController.navigate(Screens.WebView(webViewUrl = it))},
         onAction = { action ->
             when(action){
                 is HomeAction.OnTabClick -> { homeViewModel.onAction(action) }
@@ -145,6 +146,7 @@ private fun HomeScreen(
     onNavigateUp: () -> Unit,
     onGoPartyCreate: () -> Unit,
     onGotoDetailProfile: () -> Unit,
+    onClickBanner: (String) -> Unit,
     onAction: (HomeAction) -> Unit,
 ){
     val bottomBarHeight = 56.dp // BottomNavigationBar 기본 높이
@@ -202,6 +204,7 @@ private fun HomeScreen(
                             onGotoRecruitmentDetail = onGotoRecruitmentDetail,
                             onGotoPartyDetail = onGotoPartyDetail,
                             onGotoDetailProfile = onGotoDetailProfile,
+                            onClickBanner = onClickBanner,
                         )
                     }
 

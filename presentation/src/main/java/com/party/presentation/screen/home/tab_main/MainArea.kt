@@ -19,6 +19,7 @@ fun MainArea(
     onGotoRecruitmentDetail: (Int, Int) -> Unit,
     onGotoPartyDetail: (Int) -> Unit,
     onGotoDetailProfile: () -> Unit,
+    onClickBanner: (String) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -29,6 +30,7 @@ fun MainArea(
     ) {
         BannerArea(
             homeState = homeState,
+            onClickBanner = onClickBanner,
         )
 
         PersonalRecruitmentArea(

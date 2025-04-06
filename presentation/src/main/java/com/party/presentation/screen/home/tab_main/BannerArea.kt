@@ -29,6 +29,7 @@ import com.party.common.R
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.UIState
 import com.party.common.component.ImageLoading
+import com.party.common.noRippleClickable
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.GRAY300
 import com.party.common.ui.theme.PRIMARY
@@ -41,6 +42,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun BannerArea(
     homeState: HomeState,
+    onClickBanner: (String) -> Unit,
 ) {
     when {
         homeState.isLoadingBanner -> LoadingProgressBar()
@@ -61,7 +63,10 @@ fun BannerArea(
                 contentPadding = PaddingValues(horizontal = 0.dp),
                 pageSpacing = 0.dp,
             ) { page ->
-                BannerItemImage(bannerItem = homeState.banner.banner[page])
+                BannerItemImage(
+                    bannerItem = homeState.banner.banner[page],
+                    onClickBanner = onClickBanner
+                )
             }
 
             HeightSpacer(heightDp = 12.dp)
@@ -72,11 +77,17 @@ fun BannerArea(
 }
 
 @Composable
-fun BannerItemImage(bannerItem: BannerItem) {
+private fun BannerItemImage(
+    bannerItem: BannerItem,
+    onClickBanner: (String) -> Unit,
+) {
     ImageLoading(
         modifier = Modifier
             .fillMaxWidth()
-            .height(175.dp),
+            .height(175.dp)
+            .noRippleClickable {
+                onClickBanner(bannerItem.link)
+            },
         imageUrl = bannerItem.image,
     )
 }
