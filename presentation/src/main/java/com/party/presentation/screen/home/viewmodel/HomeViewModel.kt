@@ -226,7 +226,7 @@ class HomeViewModel @Inject constructor(
                         PartyType.entries.find { it.type == type }?.id
                     },
                     titleSearch = null,
-                    status = null
+                    status = if(_state.value.isActivePartyToggle) "active" else "archived"
                 )
             }
             is HomeAction.OnActivePartyToggle -> {
