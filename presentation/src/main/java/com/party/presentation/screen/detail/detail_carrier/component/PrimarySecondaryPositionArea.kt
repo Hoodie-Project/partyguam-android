@@ -14,11 +14,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -26,11 +26,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.party.common.DetailCarrierData.mainSelectedDetailPosition
 import com.party.common.DetailCarrierData.mainSelectedCarrier
+import com.party.common.DetailCarrierData.mainSelectedDetailPosition
 import com.party.common.DetailCarrierData.mainSelectedDetailPositionId
 import com.party.common.DetailCarrierData.mainSelectedMainPosition
 import com.party.common.DetailCarrierData.subSelectedCarrier
@@ -41,9 +41,12 @@ import com.party.common.HeightSpacer
 import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
+import com.party.common.component.icon.DrawableIcon
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B2
+import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY200
+import com.party.common.ui.theme.GRAY300
 import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.LARGE_BUTTON_HEIGHT
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
@@ -108,6 +111,8 @@ fun PositionAreaComponent(
         TextComponent(
             text = title,
             fontSize = T3,
+            fontWeight = FontWeight.SemiBold,
+            onClick = { onGoToChoiceCarrierPosition() }
         )
         HeightSpacer(heightDp = 12.dp)
         AddCarrierCard(
@@ -152,21 +157,74 @@ fun AddCarrierCard(
                     .weight(1f) // 내부에서 가능한 모든 공간을 차지하도록 설정
                     .fillMaxHeight() // 높이를 최대로 설정
                     .noRippleClickable { onGoToChoiceCarrierPosition() }, // 클릭 이벤트
-                contentAlignment = Alignment.Center // 내부 텍스트 중앙 정렬
+                contentAlignment = if(selectedCarrier.isEmpty()) Alignment.Center else Alignment.CenterStart
             ) {
-                TextComponent(
-                    text = setAddCarrierCardText(
-                        context = context,
-                        carrier = selectedCarrier,
-                        mainCarrier = selectedPosition,
-                        detailCarrier = selectedDetailPosition
-                    ),
-                    textColor = GRAY500,
-                    fontSize = B2
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = if(selectedCarrier.isEmpty()) Arrangement.Center else Arrangement.Start
+                ) {
+                    if(selectedCarrier.isEmpty()){
+                        DrawableIcon(
+                            icon = painterResource(R.drawable.icon_add),
+                            contentDescription = "",
+                            tintColor = GRAY500,
+                            modifier = Modifier.size(12.dp)
+                        )
+                        WidthSpacer(2.dp)
+                        TextComponent(
+                            text = context.getString(R.string.detail_carrier5),
+                            textColor = GRAY500,
+                            fontSize = B2,
+                        )
+                        /*TextComponent(
+                            text = "+ ${context.getString(R.string.detail_carrier5)}",
+                            textColor = GRAY500,
+                            fontSize = B2,
+                        )*/
+                    }else {
+                        TextComponent(
+                            text = selectedCarrier,
+                            textColor = BLACK,
+                            fontSize = B2,
+                        )
+                        WidthSpacer(12.dp)
+                        DrawableIcon(
+                            icon = painterResource(R.drawable.vertical_rectangle),
+                            contentDescription = "",
+                            tintColor = GRAY300,
+                            modifier = Modifier
+                                .width(2.dp)
+                                .height(12.dp)
+                        )
+                        WidthSpacer(12.dp)
+                        TextComponent(
+                            text = selectedPosition,
+                            textColor = BLACK,
+                            fontSize = B2,
+                        )
+                        WidthSpacer(12.dp)
+                        DrawableIcon(
+                            icon = painterResource(R.drawable.vertical_rectangle),
+                            contentDescription = "",
+                            tintColor = GRAY300,
+                            modifier = Modifier
+                                .width(2.dp)
+                                .height(12.dp)
+                        )
+                        WidthSpacer(12.dp)
+                        TextComponent(
+                            text = selectedDetailPosition,
+                            textColor = BLACK,
+                            fontSize = B2,
+                        )
+                    }
+
+                }
             }
 
-            // ✅ X 아이콘 (선택된 Carrier가 있을 때만 표시)
+            // X 아이콘 (선택된 Carrier가 있을 때만 표시)
             if (selectedCarrier.isNotEmpty()) {
                 Icon(
                     painter = painterResource(id = R.drawable.icon_close2),
@@ -182,11 +240,6 @@ fun AddCarrierCard(
             }
         }
     }
-
-}
-
-fun setAddCarrierCardText(context: Context, carrier: String, mainCarrier: String, detailCarrier: String): String{
-    return if(carrier.isEmpty()) "+ ${context.getString(R.string.detail_carrier5)}" else "$carrier  |  $mainCarrier  |  $detailCarrier"
 }
 
 @Preview

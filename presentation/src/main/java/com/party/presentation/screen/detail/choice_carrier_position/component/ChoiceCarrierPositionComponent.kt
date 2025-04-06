@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
 import com.party.common.TextComponent
@@ -29,9 +30,11 @@ import com.party.common.WidthSpacer
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
+import com.party.common.ui.theme.DARK100
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.LARGE_BUTTON_HEIGHT
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
+import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
@@ -63,9 +66,10 @@ fun SelectCarrierArea(
             }
         ){_, item ->
             SelectCarrierAndPositionComponent(
-                containerColor = if(selectedCarrier == item) PRIMARY else WHITE,
+                containerColor = if(selectedCarrier == item) LIGHT400 else WHITE,
+                borderColor = if(selectedCarrier == item) DARK100 else GRAY200,
                 text = item,
-                fontWeight = FontWeight.Normal,
+                fontWeight = if(selectedCarrier == item) FontWeight.SemiBold else FontWeight.Normal,
                 onSelect = { onSelectCarrier(it) },
             )
         }
@@ -98,9 +102,10 @@ fun SelectPositionArea(
             }
         ){_, item ->
             SelectCarrierAndPositionComponent(
-                containerColor = if(selectedPosition == item) PRIMARY else WHITE,
+                containerColor = if(selectedPosition == item) LIGHT400 else WHITE,
+                borderColor = if(selectedPosition == item) DARK100 else GRAY200,
                 text = item,
-                fontWeight = FontWeight.Normal,
+                fontWeight = if(selectedPosition == item) FontWeight.SemiBold else FontWeight.Normal,
                 onSelect = { onSelectMainPosition(it) },
             )
         }
@@ -110,6 +115,7 @@ fun SelectPositionArea(
 @Composable
 fun SelectCarrierAndPositionComponent(
     containerColor: Color,
+    borderColor: Color,
     text: String,
     fontWeight: FontWeight,
     onSelect: (String) -> Unit,
@@ -120,7 +126,7 @@ fun SelectCarrierAndPositionComponent(
             .height(LARGE_BUTTON_HEIGHT)
             .noRippleClickable { onSelect(text) },
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
-        border = BorderStroke(1.dp, GRAY200),
+        border = BorderStroke(1.dp, borderColor),
         colors = CardDefaults.cardColors(
             containerColor = containerColor,
         ),
@@ -183,10 +189,35 @@ fun SubPositionAreaComponent(
             )
         )
         WidthSpacer(widthDp = 6.dp)
-        Text(
+        TextComponent(
             text = item.sub,
             fontSize = B2,
-            color = BLACK
+            textColor = BLACK,
+            onClick = { onSelect(item) }
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SelectCarrierAndPositionComponentPreview1(){
+    SelectCarrierAndPositionComponent(
+        containerColor = DARK100,
+        borderColor = LIGHT400,
+        text = "신입",
+        fontWeight = FontWeight.SemiBold,
+        onSelect = {  }
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SelectCarrierAndPositionComponentPreview2(){
+    SelectCarrierAndPositionComponent(
+        containerColor = WHITE,
+        borderColor = GRAY200,
+        text = "신입",
+        fontWeight = FontWeight.Normal,
+        onSelect = {  }
+    )
 }
