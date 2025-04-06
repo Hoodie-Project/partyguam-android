@@ -1,6 +1,7 @@
 package com.party.presentation.screen.join.email
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,13 +10,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.party.common.HeightSpacer
@@ -32,6 +36,8 @@ import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
 import com.party.common.Screens
+import com.party.common.component.dialog.TwoButtonDialog
+import com.party.common.noRippleClickable
 import com.party.presentation.screen.join.JoinScreenButton
 import com.party.presentation.screen.join.JoinScreenInputField
 import com.party.presentation.screen.join.email.component.JoinEmailScaffoldArea
@@ -45,8 +51,12 @@ fun JoinEmailScreenRoute(
     var email by rememberSaveable { mutableStateOf(userEmail) }
     val signUpToken by rememberSaveable { mutableStateOf(signupAccessToken) }
 
+    var isShowDialog by remember { mutableStateOf(false) }
+
     JoinEmailScreen(
+        navController = navController,
         userEmail = email,
+        isShowDialog = isShowDialog,
         onClick = {
             navController.navigate(
                 Screens.JoinNickName(
@@ -54,20 +64,29 @@ fun JoinEmailScreenRoute(
                 signupAccessToken = signUpToken
             ))
         },
-        onString = { email = it }
+        onString = { email = it },
+        onNavigationClick = { isShowDialog = it}
     )
 }
 
 @Composable
 private fun JoinEmailScreen(
+    navController: NavHostController,
     userEmail: String,
+    isShowDialog: Boolean,
     onClick: () -> Unit,
     onString: (String) -> Unit,
+    onNavigationClick: (Boolean) -> Unit,
 ) {
     Scaffold(
+        modifier = Modifier
+            .blur(
+                radiusX = if (isShowDialog) 10.dp else 0.dp,
+                radiusY = if (isShowDialog) 10.dp else 0.dp,
+            ),
         topBar = {
             JoinEmailScaffoldArea(
-                onNavigationClick = {}
+                onNavigationClick = { onNavigationClick(!isShowDialog)}
             )
         }
     ){
@@ -112,6 +131,29 @@ private fun JoinEmailScreen(
                 onClick = onClick
             )
             HeightSpacer(heightDp = 12.dp)
+        }
+    }
+
+    if(isShowDialog){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(BLACK.copy(alpha = 0.7f))
+                .noRippleClickable { onNavigationClick(false) }
+        ) {
+            TwoButtonDialog(
+                dialogTitle = "나가기",
+                description = "회원가입이 완료되지 않았습니다.\n나가시겠습니까?",
+                cancelButtonText = "취소",
+                confirmButtonText = "나가기",
+                onCancel = {
+                    onNavigationClick(false)
+                },
+                onConfirm = {
+                    onNavigationClick(false)
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }
