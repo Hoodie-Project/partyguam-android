@@ -77,4 +77,7 @@ dependencies {
 
     // Sandwich
     implementation(libs.sandwich.retrofit)
+
+    // Gson-Retrofit
+    implementation(libs.gson.retrofit)
 }

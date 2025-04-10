@@ -102,6 +102,8 @@ converter-scalars = { module = "com.squareup.retrofit2:converter-scalars", versi
 # Gson
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 
+gson-retrofit = {group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit"}
+
 # MSZ Progress Indicator
 msz-progress-indicator = { module = "com.ehsanmsz:msz-progress-indicator", version.ref = "mszProgressIndicator" }
 

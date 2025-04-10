@@ -1,5 +1,9 @@
 package com.party.di
 
+import android.util.Log
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParser
+import com.google.gson.JsonSyntaxException
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.party.data.service.NoTokenService
 import com.party.data.service.PartyService
@@ -42,7 +46,7 @@ object NetworkModule {
     @Singleton
     @Provides
     fun tokenLogging(): OkHttpClient {
-        val httpLoggingInterceptor = HttpLoggingInterceptor()
+        val httpLoggingInterceptor = HttpLoggingInterceptor(NetworkPrettyLogger())
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         return OkHttpClient.Builder()
             .addNetworkInterceptor(httpLoggingInterceptor)
@@ -55,7 +59,7 @@ object NetworkModule {
     @Singleton
     @Provides
     fun tokenLogging2(accessTokenInterceptor: AccessTokenInterceptor): OkHttpClient{
-        val httpLoggingInterceptor = HttpLoggingInterceptor()
+        val httpLoggingInterceptor = HttpLoggingInterceptor(NetworkPrettyLogger())
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         return OkHttpClient.Builder()
             .addInterceptor(accessTokenInterceptor)
@@ -66,7 +70,6 @@ object NetworkModule {
             .build()
     }
 
-    @OptIn(ExperimentalSerializationApi::class)
     @Singleton
     @Provides
     fun provideNoTokenApi(): NoTokenService {
@@ -80,7 +83,6 @@ object NetworkModule {
             .create(NoTokenService::class.java)
     }
 
-    @OptIn(ExperimentalSerializationApi::class)
     @Singleton
     @Provides
     fun provideUserServiceApi(accessTokenInterceptor: AccessTokenInterceptor): UserService {
@@ -94,7 +96,6 @@ object NetworkModule {
             .create(UserService::class.java)
     }
 
-    @OptIn(ExperimentalSerializationApi::class)
     @Singleton
     @Provides
     fun providePartyServiceApi(accessTokenInterceptor: AccessTokenInterceptor): PartyService {
@@ -108,7 +109,6 @@ object NetworkModule {
             .create(PartyService::class.java)
     }
 
-    @OptIn(ExperimentalSerializationApi::class)
     @Singleton
     @Provides
     fun provideSearchServiceApi(accessTokenInterceptor: AccessTokenInterceptor): SearchService {
@@ -134,6 +134,24 @@ object NetworkModule {
                 .addHeader("Authorization", "Bearer $token")
                 .build()
             proceed(request)
+        }
+    }
+
+    class NetworkPrettyLogger: HttpLoggingInterceptor.Logger {
+        override fun log(message: String) {
+            val logName = "[NETWORK-API]"
+            if(message.startsWith("{") || message.startsWith("[")){
+                try {
+                    val prettyPrintJson = GsonBuilder().setPrettyPrinting()
+                        .create().toJson(JsonParser.parseString(message))
+                    Log.d(logName, prettyPrintJson)
+                }catch (e: JsonSyntaxException){
+                    Log.d(logName, message)
+                }
+            }else {
+                Log.d(logName, message)
+                return
+            }
         }
     }
 }
