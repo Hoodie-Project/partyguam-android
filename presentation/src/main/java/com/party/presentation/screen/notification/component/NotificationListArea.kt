@@ -24,6 +24,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.HeightSpacer
@@ -38,6 +39,7 @@ import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY500
+import com.party.common.ui.theme.GRAY600
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.WHITE
@@ -50,30 +52,45 @@ fun NotificationListArea(
     onDeleteNotification: (Int) -> Unit,
 ) {
     HeightSpacer(heightDp = 16.dp)
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        itemsIndexed(
-            items = notification.notifications,
-            key = { index, _ ->
-                index
-            },
-        ){ _, item ->
-            NotificationListAreaItem(
-                onClickNotificationItem = { onClickNotificationItem(item.id) },
-                imageUrl = item.image ?: "",
-                label = item.notificationType.label,
-                title = item.title,
-                content = item.message,
-                time = item.createdAt,
-                isRead = item.isRead,
-                onDeleteNotification = { onDeleteNotification(item.id) }
-            )
+
+    if(notification.notifications.isEmpty()){
+        HeightSpacer(heightDp = 44.dp)
+        TextComponent(
+            text = "새로운 알림이 없어요.",
+            fontWeight = FontWeight.Normal,
+            fontSize = B2,
+            modifier = Modifier
+                .fillMaxWidth(),
+            align = Alignment.Center,
+            textColor = GRAY600,
+        )
+    }else {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            itemsIndexed(
+                items = notification.notifications,
+                key = { index, _ ->
+                    index
+                },
+            ){ _, item ->
+                NotificationListAreaItem(
+                    onClickNotificationItem = { onClickNotificationItem(item.id) },
+                    imageUrl = item.image ?: "",
+                    label = item.notificationType.label,
+                    title = item.title,
+                    content = item.message,
+                    time = item.createdAt,
+                    isRead = item.isRead,
+                    onDeleteNotification = { onDeleteNotification(item.id) }
+                )
+            }
         }
     }
+
 }
 
 @Composable
