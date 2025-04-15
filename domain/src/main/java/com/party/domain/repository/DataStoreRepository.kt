@@ -9,4 +9,8 @@ interface DataStoreRepository {
     fun getAccessToken(): Flow<String>
 
     suspend fun deleteAccessToken(): String
+
+    suspend fun saveFirstLaunchFlag()
+
+    fun getFirstLaunchFlag(): Flow<Boolean>
 }

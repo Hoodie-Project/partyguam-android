@@ -22,13 +22,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
+import com.party.common.component.icon.DrawableIcon
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
@@ -36,6 +39,7 @@ import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.LARGE_BUTTON_HEIGHT
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
+import com.party.common.ui.theme.PRIMARY
 import com.party.domain.model.user.detail.Location
 import com.party.presentation.screen.detail.detail_profile.SELECTED_LOCATION_COUNT
 
@@ -91,7 +95,7 @@ fun ProfileIndicatorArea(
             modifier = Modifier
                 .width(22.dp)
                 .height(2.dp),
-            color = GRAY100
+            color = PRIMARY,
         )
         IndicatorComponent(
             number = "2",
@@ -103,7 +107,7 @@ fun ProfileIndicatorArea(
             modifier = Modifier
                 .width(22.dp)
                 .height(2.dp),
-            color = GRAY100
+            color = PRIMARY
         )
         IndicatorComponent(
             number = "3",
@@ -124,7 +128,20 @@ fun IndicatorComponent(
     Row(
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        IndicatorCircle(text = number, container = container)
+        if(number != "3"){
+            DrawableIcon(
+                icon = painterResource(R.drawable.icon_check_primary),
+                contentDescription = "",
+                modifier = Modifier.size(24.dp),
+                tintColor = Color.Unspecified
+            )
+        }else {
+            IndicatorCircle(
+                text = number,
+                container = container
+            )
+        }
+
         WidthSpacer(widthDp = 6.dp)
         TextComponent(text = title, fontSize = B3, fontWeight = FontWeight.Bold, textColor = textColor)
     }

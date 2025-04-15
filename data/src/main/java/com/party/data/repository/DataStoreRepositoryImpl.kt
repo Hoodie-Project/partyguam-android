@@ -19,4 +19,12 @@ class DataStoreRepositoryImpl @Inject constructor(
     override suspend fun deleteAccessToken(): String {
         return dataStoreLocalSource.deleteAccessToken()
     }
+
+    override suspend fun saveFirstLaunchFlag() {
+        dataStoreLocalSource.saveFirstLaunchFlag()
+    }
+
+    override fun getFirstLaunchFlag(): Flow<Boolean> {
+        return dataStoreLocalSource.getFirstLaunchFlag()
+    }
 }

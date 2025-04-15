@@ -28,6 +28,7 @@ import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen2
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen3
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen4
+import com.party.presentation.screen.guide_permission.GuidePermissionScreenRoute
 import com.party.presentation.screen.home.HomeScreenRoute
 import com.party.presentation.screen.join.birthday.JoinBirthDayScreenRoute
 import com.party.presentation.screen.join.complete.JoinCompleteScreenRoute
@@ -110,6 +111,11 @@ fun AppNavHost() {
     ){
         composable<Screens.Splash> {
             SplashScreenRoute(
+                navController = navController,
+            )
+        }
+        composable<Screens.GuidePermission> {
+            GuidePermissionScreenRoute(
                 navController = navController,
             )
         }

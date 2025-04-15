@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -29,8 +28,10 @@ import com.party.common.HeightSpacer
 import com.party.common.LoadingProgressBar
 import com.party.common.R
 import com.party.common.ScreenExplainArea
+import com.party.common.Screens
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.UIState
+import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.snackBarMessage
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.DARK400
@@ -44,8 +45,6 @@ import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.detail.PersonalityListOption
 import com.party.domain.model.user.detail.PersonalitySaveRequest2
-import com.party.common.Screens
-import com.party.common.component.dialog.TwoButtonDialog
 import com.party.presentation.screen.detail.ProfileIndicatorArea
 import com.party.presentation.screen.detail.select_tendency.SavePersonalityData.personalitySaveRequest1
 import com.party.presentation.screen.detail.select_tendency.component.SelectTendencyScaffoldArea
@@ -196,13 +195,14 @@ fun SelectTendencyArea1(
     getPersonalityList: List<PersonalityListOption>,
     onSelect: (PersonalityListOption) -> Unit,
 ) {
+    val list = getPersonalityList.sortedBy { it.id }
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         itemsIndexed(
-            items = getPersonalityList,
+            items = list,
             key =  { index, _ ->
                 index
             }

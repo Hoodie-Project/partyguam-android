@@ -3,12 +3,14 @@ package com.party.data.datasource.local.datastore
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.party.common.Constants.ACCESS_TOKEN_KEY
 import com.party.common.Constants.ACCESS_TOKEN_PREFERENCES
+import com.party.common.Constants.FIRST_LAUNCH_FLAG_KEY
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -18,6 +20,7 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = ACC
 class DataStoreLocalSourceImpl(context: Context): DataStoreLocalSource {
     companion object {
         private val ACCESS_TOKEN = stringPreferencesKey(ACCESS_TOKEN_KEY)
+        private val FIRST_LAUNCH_FLAG = booleanPreferencesKey(FIRST_LAUNCH_FLAG_KEY)
     }
 
     private val dataStore = context.dataStore
@@ -48,5 +51,25 @@ class DataStoreLocalSourceImpl(context: Context): DataStoreLocalSource {
         }
 
         return ""
+    }
+
+    override suspend fun saveFirstLaunchFlag() {
+        dataStore.edit { preferences ->
+            preferences[FIRST_LAUNCH_FLAG] = false
+        }
+    }
+
+    override fun getFirstLaunchFlag(): Flow<Boolean> {
+        return dataStore.data
+            .catch { exception ->
+                if (exception is Exception) {
+                    emit(emptyPreferences())
+                } else {
+                    throw exception
+                }
+            }.map { preferences ->
+                val flag = preferences[FIRST_LAUNCH_FLAG] ?: true
+                flag
+            }
     }
 }

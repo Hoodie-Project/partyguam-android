@@ -25,16 +25,25 @@ fun SplashScreenRoute(
     }
 
     val accessToken by splashViewModel.accessToken.collectAsStateWithLifecycle()
+    val firstLaunchFlag by splashViewModel.firstLaunchFlag.collectAsStateWithLifecycle()
 
-    LaunchedEffect(accessToken) {
+    LaunchedEffect(accessToken, firstLaunchFlag) {
         delay(1000L)
-        if (accessToken.isNotEmpty()) {
-            navController.navigate(Screens.Home) {
-                popUpTo(Screens.Splash) { inclusive = true }
+        when {
+            firstLaunchFlag -> {
+                navController.navigate(Screens.GuidePermission){
+                    popUpTo(Screens.Splash) { inclusive = true }
+                }
             }
-        } else if (accessToken.isEmpty()) {
-            navController.navigate(Screens.Login) {
-                popUpTo(Screens.Splash) { inclusive = true }
+            accessToken.isNotEmpty() -> {
+                navController.navigate(Screens.Home) {
+                    popUpTo(Screens.Splash) { inclusive = true }
+                }
+            }
+            accessToken.isEmpty() -> {
+                navController.navigate(Screens.Login) {
+                    popUpTo(Screens.Splash) { inclusive = true }
+                }
             }
         }
     }

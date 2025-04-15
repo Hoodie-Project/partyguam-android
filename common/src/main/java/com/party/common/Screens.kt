@@ -6,6 +6,8 @@ sealed interface Screens {
     @Serializable
     data object Splash: Screens
     @Serializable
+    data object GuidePermission: Screens
+    @Serializable
     data object Login: Screens
     @Serializable
     data class JoinEmail(val userEmail: String, val signupAccessToken: String): Screens

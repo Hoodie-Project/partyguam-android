@@ -3,13 +3,16 @@ package com.party.presentation.screen.splash
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.domain.usecase.datastore.GetAccessTokenUseCase
+import com.party.domain.usecase.datastore.GetFirstLaunchFlagUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
@@ -17,10 +20,14 @@ import kotlin.time.Duration.Companion.seconds
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val getAccessTokenUseCase: GetAccessTokenUseCase,
+    private val getFirstLaunchFlagUseCase: GetFirstLaunchFlagUseCase,
 ): ViewModel() {
 
     private val _accessToken = MutableStateFlow("")
     val accessToken: StateFlow<String> = _accessToken
+
+    val firstLaunchFlag = getFirstLaunchFlagUseCase()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, true)
 
     fun getAccessToken() = viewModelScope.launch(Dispatchers.IO) {
         getAccessTokenUseCase().collectLatest { accessToken ->
