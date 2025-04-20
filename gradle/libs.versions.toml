@@ -24,7 +24,6 @@ retrofit = "2.11.0" # Retrofit
 sandwichRetrofit = "2.0.6" # Sandwich Retrofit
 loggingInterceptor = "4.12.0" # Logging Interceptor
 retrofit2KotlinxSerializationConverter = "1.0.0" # Retrofit2 Kotlinx Serialization Converter
-mszProgressIndicator = "0.8.0" # MSZ Progress Indicator
 gson = "2.10.1" # Gson
 kotlinxSerializationJson = "1.7.3" # Kotlinx Serialization
 datastorePreferences = "1.1.2" # Datastore Preferences
@@ -32,10 +31,7 @@ roomRuntime = "2.6.1"
 activity = "1.10.0"
 constraintlayout = "2.2.0"
 firebaseMessaging = "24.1.0" # Firebase Messaging
-appUpdateKtx = "2.1.0" # App Update
-playServicesLocation = "21.3.0" # Play Services Location
-ossLicenses = "17.1.0" # OSS Licenses
-ossLicensesPlugin = "0.10.6" # OSS Licenses Plugin
+
 ksp = "2.0.20-1.0.24" # KSP
 googleServices = "4.4.2"
 material = "1.12.0" # Google Services
@@ -54,7 +50,6 @@ jetpackcomposeloadingbar = "1.0.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-google-firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -68,7 +63,6 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-# kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesAndroid" }
 coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 
@@ -89,7 +83,6 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose"
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
-hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hiltAndroid" }
 
 # Networking
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
@@ -103,9 +96,6 @@ converter-scalars = { module = "com.squareup.retrofit2:converter-scalars", versi
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 
 gson-retrofit = {group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit"}
-
-# MSZ Progress Indicator
-msz-progress-indicator = { module = "com.ehsanmsz:msz-progress-indicator", version.ref = "mszProgressIndicator" }
 
 # Kotlin Stdlib
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
@@ -126,20 +116,6 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 
 # Firebase Messaging
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
-
-# Firebase Analytics
-firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx" }
-
-# In-App Update
-app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }
-
-
-# Play Services Location
-play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
-
-# OSS Licenses
-oss-licenses = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "ossLicenses" }
-oss-licenses-plugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "ossLicensesPlugin" }
 
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
