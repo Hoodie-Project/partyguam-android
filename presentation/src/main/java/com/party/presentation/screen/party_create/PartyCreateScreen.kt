@@ -264,7 +264,7 @@ private fun PartyCreateScreen(
 
             HeightSpacer(heightDp = 20.dp)
             MultiLineInputField(
-                placeHolder = "새로운 프로젝트를 위해 모여 함께 아이디어를 나누고 계획을 세우는 파티를 개최합니다.",
+                placeHolder = "새로운 프로젝트를 위해 모여 함께 아이디어를 나누고 계획을 세우는 파티를 개최합니다!\n\n창의적인 아이디어와 열정이 가득한 분들과 함께하는 시간을 가지려고 합니다.\n함께 모여 스터디를 시작하거나 프로젝트를 만들어서 성장하는 즐거움을 함께 누려봐요!\n\n함께하고 싶으신분들은 언제든지 환영입니다!",
                 inputText = partyCreateState.partyDescription,
                 onValueChange = { inputDescription -> onAction(PartyCreateAction.OnChangePartyDescription(inputDescription)) },
                 onAllDeleteInputText = { onAction(PartyCreateAction.OnChangePartyDescription("")) }
