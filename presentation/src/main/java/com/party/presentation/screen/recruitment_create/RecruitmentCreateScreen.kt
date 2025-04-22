@@ -188,10 +188,12 @@ fun RecruitmentCreateScreen(
                 }
                 HeightSpacer(heightDp = 20.dp)
                 MultiLineInputField(
-                    placeHolder = "새로운 프로젝트를 위해 모여 함께 아이디어를 나누고 계획을 세우는 파티를 개최합니다.",
+                    placeHolder = "안녕하세요 앱 개발자 팀원을 모집하고 있습니다\n현재 앱 개발은 Flutter를 사용하여 회원가입, 추가 회원 정보 기입, 로그인 기능까지 구현된 상태입니다.",
                     inputText = recruitmentState.recruitmentDescription,
                     onValueChange = { description ->
-                        onAction(RecruitmentCreateAction.OnChangeRecruitmentDescription(description))
+                        if (description.length <= 250) {
+                            onAction(RecruitmentCreateAction.OnChangeRecruitmentDescription(description))
+                        }
                     },
                     onAllDeleteInputText = {
                         onAction(RecruitmentCreateAction.OnChangeRecruitmentDescription(""))

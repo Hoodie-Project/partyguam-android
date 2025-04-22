@@ -113,6 +113,7 @@ fun OneSelectMainAndSubPositionBottomSheet(
                     sub = inModalSelectedSubPosition,
                     onDelete = {
                         inModalSelectedSubPosition = PositionList(0, "", "")
+                        inModalSelectedMainPosition = ""
                     }
                 )
             }

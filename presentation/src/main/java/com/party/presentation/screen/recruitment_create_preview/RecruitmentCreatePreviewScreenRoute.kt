@@ -71,12 +71,6 @@ private fun RecruitmentCreatePreviewScreen(
     val scrollState = rememberScrollState()
 
     Scaffold(
-        bottomBar = {
-            BottomNavigationBar(
-                context = context,
-                navController = navController,
-            )
-        },
         topBar = {
             RecruitmentPreviewScaffoldArea(
                 onNavigationClick = onNavigationClick
