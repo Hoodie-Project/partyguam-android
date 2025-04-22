@@ -21,6 +21,7 @@ fun RecruitmentButton(
         modifier = Modifier
             .height(48.dp)
             .padding(horizontal = MEDIUM_PADDING_SIZE),
+        buttonText = if(isRecruitment) "지원완료" else "지원하기",
         containerColor = if(isRecruitment) GRAY300 else PRIMARY,
         borderColor = if(isRecruitment) GRAY300 else PRIMARY,
         textSize = B2,
