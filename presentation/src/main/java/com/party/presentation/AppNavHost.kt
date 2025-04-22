@@ -116,6 +116,7 @@ fun AppNavHost() {
         }
         composable<Screens.GuidePermission> {
             GuidePermissionScreenRoute(
+                context = context,
                 navController = navController,
             )
         }

@@ -1,5 +1,8 @@
 package com.party.presentation.screen.guide_permission
 
+import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,12 +12,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.party.common.HeightSpacer
 import com.party.common.Screens
+import com.party.common.component.permission.CheckAlarmPermission
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
@@ -27,6 +32,7 @@ import com.party.presentation.screen.guide_permission.viewmodel.GuidePermissionV
 
 @Composable
 fun GuidePermissionScreenRoute(
+    context: Context,
     navController: NavHostController,
     guidePermissionViewModel: GuidePermissionViewModel = hiltViewModel()
 ) {
@@ -35,6 +41,7 @@ fun GuidePermissionScreenRoute(
     }
 
     GuidePermissionScreen(
+        context = context,
         onConfirm = {
             navController.navigate(Screens.Login){
                 popUpTo(Screens.GuidePermission) { inclusive = true}
@@ -43,8 +50,10 @@ fun GuidePermissionScreenRoute(
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 private fun GuidePermissionScreen(
+    context: Context,
     onConfirm: () -> Unit,
 ) {
     Scaffold (
@@ -84,13 +93,22 @@ private fun GuidePermissionScreen(
             )
             HeightSpacer(12.dp)
         }
+
+        CheckAlarmPermission(
+            context = context,
+            onGrant = {},
+            onDeny = {},
+            onDenied = {},
+        )
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Preview(showBackground = true)
 @Composable
 fun GuidePermissionScreenPreview(){
     GuidePermissionScreen(
+        context = LocalContext.current,
         onConfirm = {}
     )
 }

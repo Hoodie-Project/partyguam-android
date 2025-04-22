@@ -68,4 +68,7 @@ dependencies {
     // LoadingBar
     implementation(libs.jetpackcomposeloadingbar)
 
+    // Permission
+    implementation(libs.accompanist.permissions)
+
 }
