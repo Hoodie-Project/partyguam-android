@@ -190,6 +190,7 @@ fun PersonalRecruitmentItemBottomArea(
                 .height(20.dp),
             main = main,
             sub = sub,
+            onClick = {}
         )
         HeightSpacer(heightDp = 12.dp)
         RecruitmentCountArea(
@@ -197,6 +198,7 @@ fun PersonalRecruitmentItemBottomArea(
                 .height(20.dp),
             recruitingCount = recruitingCount,
             recruitedCount = recruitedCount,
+            onClick = {}
         )
     }
 }

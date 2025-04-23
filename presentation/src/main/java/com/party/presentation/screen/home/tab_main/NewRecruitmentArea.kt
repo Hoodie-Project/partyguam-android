@@ -125,6 +125,7 @@ private fun RecruitmentItem(
                 sub = recruitmentLisItemResponse.position.sub,
                 recruitingCount = recruitmentLisItemResponse.recruitingCount,
                 recruitedCount = recruitmentLisItemResponse.recruitedCount,
+                onClick = { onClick(recruitmentLisItemResponse.party.id, recruitmentLisItemResponse.id) },
             )
         }
     }
@@ -151,6 +152,7 @@ fun RecruitmentItemBottomArea(
     sub: String,
     recruitingCount: Int,
     recruitedCount: Int,
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -173,6 +175,7 @@ fun RecruitmentItemBottomArea(
                 fontSize = T3,
                 fontWeight = FontWeight.Bold,
                 align = Alignment.TopStart,
+                onClick = onClick
             )
 
             HeightSpacer(heightDp = 4.dp)
@@ -183,6 +186,7 @@ fun RecruitmentItemBottomArea(
                     .padding(start = 6.dp),
                 main = main,
                 sub = sub,
+                onClick = onClick
             )
         }
 
@@ -192,6 +196,7 @@ fun RecruitmentItemBottomArea(
                 .height(20.dp),
             recruitingCount = recruitingCount,
             recruitedCount = recruitedCount,
+            onClick = onClick
         )
     }
 }

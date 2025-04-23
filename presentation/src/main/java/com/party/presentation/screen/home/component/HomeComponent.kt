@@ -26,6 +26,7 @@ import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.component.chip.Chip
+import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.BLACK
@@ -111,9 +112,15 @@ fun PositionArea(
     main: String,
     sub: String,
     textColor: Color = BLACK,
+    onClick: () -> Unit,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().height(20.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(20.dp)
+            .noRippleClickable {
+                onClick()
+            },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         TextComponent(
@@ -121,6 +128,7 @@ fun PositionArea(
             text = main,
             fontSize = B2,
             textColor = textColor,
+            onClick = onClick
         )
         WidthSpacer(widthDp = 6.dp)
         Image(
@@ -137,6 +145,7 @@ fun PositionArea(
             text = sub,
             fontSize = B2,
             textColor = textColor,
+            onClick = onClick
         )
     }
 }
@@ -147,16 +156,21 @@ fun RecruitmentCountArea(
     recruitingCount: Int,
     recruitedCount: Int,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.End,
+    onClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .noRippleClickable{
+                onClick()
+            },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = horizontalArrangement,
     ) {
         TextComponent(
             text = stringResource(id = R.string.home_common),
             fontSize = B3,
+            onClick = onClick
         )
 
         WidthSpacer(widthDp = 4.dp)
@@ -165,6 +179,7 @@ fun RecruitmentCountArea(
             text = "$recruitedCount / $recruitingCount",
             fontSize = B3,
             textColor = RED,
+            onClick = onClick
         )
     }
 }
