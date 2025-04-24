@@ -1,21 +1,21 @@
 [versions]
 agp = "8.9.1"
 kotlin = "2.1.0"
-coreKtx = "1.15.0"
+coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-kotlinxCoroutinesAndroid = "1.9.0"
+kotlinxCoroutinesAndroid = "1.10.1"
 lifecycleRuntimeKtx = "2.8.7"
-activityCompose = "1.10.0"
-composeBom = "2025.01.01"
+activityCompose = "1.10.1"
+composeBom = "2025.04.01"
 appcompat = "1.7.0"
-uiTooling = "1.7.7"
+uiTooling = "1.8.0"
 
 # Add Library
 coreSplashscreen = "1.0.1" # Splash
-materialIconsExtended = "1.7.7" # Material Icons Extended
-navigationCompose = "2.8.6" # Navigation
+materialIconsExtended = "1.7.8" # Material Icons Extended
+navigationCompose = "2.8.9" # Navigation
 coilCompose = "2.6.0" # Coil
 hiltAndroid = "2.51.1" # Hilt
 hiltNavigationCompose = "1.2.0"
@@ -24,13 +24,13 @@ retrofit = "2.11.0" # Retrofit
 sandwichRetrofit = "2.0.6" # Sandwich Retrofit
 loggingInterceptor = "4.12.0" # Logging Interceptor
 retrofit2KotlinxSerializationConverter = "1.0.0" # Retrofit2 Kotlinx Serialization Converter
-gson = "2.10.1" # Gson
+gson = "2.11.0" # Gson
 kotlinxSerializationJson = "1.7.3" # Kotlinx Serialization
 datastorePreferences = "1.1.2" # Datastore Preferences
-roomRuntime = "2.6.1"
-activity = "1.10.0"
-constraintlayout = "2.2.0"
-firebaseMessaging = "24.1.0" # Firebase Messaging
+roomRuntime = "2.7.1"
+activity = "1.10.1"
+constraintlayout = "2.2.1"
+firebaseMessaging = "24.1.1" # Firebase Messaging
 
 ksp = "2.0.20-1.0.24" # KSP
 googleServices = "4.4.2"
@@ -39,11 +39,11 @@ material = "1.12.0" # Google Services
 # Google Play services
 playServicesAuth = "21.3.0"
 firebaseAuth = "23.2.0"
-firebaseBomVersion = "33.9.0"
+firebaseBomVersion = "33.12.0"
 googleServicesVersion = "4.4.2"
 
 # Kakao
-v2User = "2.13.0"
+v2User = "2.21.1"
 
 converterScalars = "2.5.0"
 jetpackcomposeloadingbar = "1.0.5"
