@@ -25,6 +25,7 @@ import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.component.chip.Chip
+import com.party.common.noRippleClickable
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.BLACK
@@ -74,6 +75,7 @@ fun RecruitmentListItem2(
                 sub = sub,
                 recruitingCount = recruitingCount,
                 recruitedCount = recruitedCount,
+                onClick = { onClick(id, partyId)},
             )
         }
     }
@@ -98,6 +100,7 @@ private fun RecruitmentInfoArea(
     sub: String,
     recruitingCount: Int,
     recruitedCount: Int,
+    onClick: () -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -112,6 +115,7 @@ private fun RecruitmentInfoArea(
             sub = sub,
             recruitingCount = recruitingCount,
             recruitedCount = recruitedCount,
+            onClick = onClick,
         )
     }
 }
@@ -136,6 +140,7 @@ private fun RecruitmentContent(
     sub: String,
     recruitingCount: Int,
     recruitedCount: Int,
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -143,28 +148,35 @@ private fun RecruitmentContent(
             .height(71.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        RecruitmentTitle(title = title)
+        RecruitmentTitle(
+            title = title,
+            onClick = onClick,
+        )
         HeightSpacer(heightDp = 5.dp)
         RecruitmentPositionArea(
             modifier = Modifier
                 .height(20.dp),
             main = main,
             sub = sub,
+            onClick = onClick,
         )
         HeightSpacer(heightDp = 5.dp)
         RecruitmentCountArea(
             modifier = Modifier,
             recruitingCount = recruitingCount,
             recruitedCount = recruitedCount,
+            onClick = onClick,
         )
     }
 }
 
 @Composable
 private fun RecruitmentTitle(
-    title: String
+    title: String,
+    onClick: () -> Unit,
 ) {
     TextComponent(
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .height(22.dp),
@@ -183,6 +195,7 @@ private fun RecruitmentPositionArea(
     main: String,
     sub: String,
     textColor: Color = BLACK,
+    onClick: () -> Unit,
 ) {
     TextComponent(
         modifier = modifier
@@ -190,6 +203,7 @@ private fun RecruitmentPositionArea(
         text = "$main | $sub",
         fontSize = B2,
         textColor = textColor,
+        onClick = onClick,
     )
 }
 
@@ -199,16 +213,21 @@ private fun RecruitmentCountArea(
     recruitingCount: Int,
     recruitedCount: Int,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
+    onClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .noRippleClickable {
+                onClick
+            },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = horizontalArrangement,
     ) {
         TextComponent(
             text = stringResource(id = R.string.home_common),
             fontSize = B3,
+            onClick = onClick,
         )
 
         WidthSpacer(widthDp = 4.dp)
@@ -217,6 +236,7 @@ private fun RecruitmentCountArea(
             text = "$recruitedCount / $recruitingCount",
             fontSize = B3,
             textColor = RED,
+            onClick = onClick,
         )
     }
 }
