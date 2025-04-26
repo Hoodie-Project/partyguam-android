@@ -1,17 +1,15 @@
 package com.party.presentation.screen.home.component
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,10 +24,13 @@ import com.party.common.R
 import com.party.common.TextComponent
 import com.party.common.WidthSpacer
 import com.party.common.component.chip.Chip
+import com.party.common.component.icon.DrawableIcon
 import com.party.common.noRippleClickable
+import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.BLACK
+import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.ICON_SIZE
 import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.T2
@@ -82,13 +83,27 @@ fun HomeListTitleArea(
             fontSize = T2,
         )
 
-        IconButton(
-            onClick = onClick,
-        ) {
-            Icon(
-                modifier = Modifier.size(ICON_SIZE),
-                painter = icon,
-                contentDescription = "",
+        Row (
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .offset(x = 5.dp)
+                .noRippleClickable(onClick)
+        ){
+            TextComponent(
+                text = "더보기",
+                fontSize = B1,
+                textColor = GRAY500,
+                onClick = onClick
+            )
+            DrawableIcon(
+                icon = icon,
+                contentDescription = "more",
+                tintColor = GRAY500,
+                modifier = Modifier
+                    .size(20.dp)
+                    .noRippleClickable{
+                        onClick()
+                    },
             )
         }
     }
