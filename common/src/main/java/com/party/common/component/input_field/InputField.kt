@@ -53,6 +53,7 @@ fun InputField(
     imeAction: ImeAction = ImeAction.Next,
     elevation: Dp = 4.dp,
     inputText: String,
+    leadingIconAndInputTextDuration: Dp = 12.dp,
     inputTextColor: Color = BLACK,
     containerColor: Color = WHITE,
     borderColor: Color = GRAY200,
@@ -105,7 +106,7 @@ fun InputField(
                         .wrapContentHeight(), // 내용에 따라 동적 높이,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    WidthSpacer(widthDp = 12.dp)
+                    WidthSpacer(widthDp = leadingIconAndInputTextDuration)
 
                     leadingIcon()
 

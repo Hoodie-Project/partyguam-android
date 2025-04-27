@@ -12,6 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.component.icon.DrawableIconButton
@@ -45,6 +46,7 @@ fun SearchArea(
             title = {
                 InputField(
                     inputText = keyword,
+                    leadingIconAndInputTextDuration = 0.dp,
                     placeHolder = "파티, 모집공고 이름을 검색해보세요.",
                     placeHolderColor = GRAY500,
                     inputTextColor = BLACK,
@@ -75,4 +77,15 @@ fun SearchArea(
         )
         HorizontalDivider(color = PRIMARY)
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SearchAreaPreview(){
+    SearchArea(
+        keyword = "",
+        onValueChange = {},
+        onNavigationClick = {},
+        searchAction = {},
+    )
 }

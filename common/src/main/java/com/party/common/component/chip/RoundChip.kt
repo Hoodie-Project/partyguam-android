@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -38,9 +39,9 @@ fun RoundChip(
     onIconClick: () -> Unit,
 ) {
     Card(
-        shape = RoundedCornerShape(LARGE_CORNER_SIZE),
+        shape = RoundedCornerShape(999.dp),
         modifier = Modifier
-            .wrapContentWidth()
+            .widthIn(min = 60.dp)
             .height(36.dp),
         colors = CardDefaults.cardColors(
             containerColor = GRAY100

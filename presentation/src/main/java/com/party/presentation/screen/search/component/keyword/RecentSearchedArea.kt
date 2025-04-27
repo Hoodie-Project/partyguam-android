@@ -16,7 +16,7 @@ import com.party.common.HeightSpacer
 import com.party.common.TextComponent
 import com.party.common.component.chip.RoundChip
 import com.party.common.component.no_data.NoDataRow
-import com.party.common.ui.theme.B3
+import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.T3
@@ -94,7 +94,7 @@ fun RecentSearchedAreaTitle(
         )
         TextComponent(
             text = "전체 삭제",
-            fontSize = B3,
+            fontSize = B2,
             textColor = if(isExistKeywordList) RED else GRAY400,
             onClick = onAllDelete
         )
