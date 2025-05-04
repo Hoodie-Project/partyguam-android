@@ -1,6 +1,5 @@
 package com.party.presentation.screen.auth_setting
 
-import android.app.Activity
 import android.content.Context
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -24,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -35,12 +33,12 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.party.common.HeightSpacer
+import com.party.common.Screens
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.noRippleClickable
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.WHITE
-import com.party.common.Screens
 import com.party.presentation.BuildConfig
 import com.party.presentation.screen.auth_setting.component.AuthSettingScaffoldArea
 import com.party.presentation.screen.auth_setting.component.LogoutAndDeletionArea
@@ -178,6 +176,7 @@ private fun AuthSettingScreen(
 
                 // 이용약관 영역
                 TermsArea(
+                    context = context,
                     onGotoServiceIntroduce = onGotoServiceIntroduce,
                     onGotoCustomerInquiries = onGotoCustomerInquiries,
                     onGotoTerms = onGotoTerms,
