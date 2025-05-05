@@ -1,6 +1,7 @@
 package com.party.presentation.screen.auth_setting.component
 
 import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.party.common.TextComponent
 import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.T3
@@ -49,6 +51,18 @@ fun TermsArea(
         TermsAreaItem(
             text = "개인정보 처리방침",
             onClick = onGotoPrivacyPolicy
+        )
+        TextComponent(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp)
+                .padding(start = 20.dp),
+            text = "오픈소스 라이센스",
+            fontSize = T3,
+            fontWeight = FontWeight.SemiBold,
+            onClick = {
+                context.startActivity(Intent(context, OssLicensesMenuActivity::class.java))
+            }
         )
         Row(
             modifier = Modifier

@@ -50,6 +50,9 @@ jetpackcomposeloadingbar = "1.0.5"
 
 accompanistPermissions = "0.34.0"
 
+ossLicenses = "17.1.0" # OSS Licenses
+ossLicensesPlugin = "0.10.6" # OSS Licenses Plugin
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -138,6 +141,9 @@ jetpackcomposeloadingbar = { module = "com.github.tmfrl1590:JetpackComposeLoadin
 
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
 
+# OSS Licenses
+oss-licenses = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "ossLicenses" }
+oss-licenses-plugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "ossLicensesPlugin" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

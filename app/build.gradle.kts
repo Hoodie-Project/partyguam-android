@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
 
     id("com.google.gms.google-services")
+    id("com.google.android.gms.oss-licenses-plugin")
 }
 
 val properties = Properties()
@@ -106,4 +107,7 @@ dependencies {
 
     // kakao login
     implementation(libs.v2.user)
+
+    // OpenSource License
+    implementation(libs.oss.licenses)
 }

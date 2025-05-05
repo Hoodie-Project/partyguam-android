@@ -120,4 +120,7 @@ dependencies {
     implementation(libs.firebase.messaging)
     implementation(platform(libs.firebase.bom))
 
+    // OpenSource License
+    implementation(libs.oss.licenses)
+
 }
