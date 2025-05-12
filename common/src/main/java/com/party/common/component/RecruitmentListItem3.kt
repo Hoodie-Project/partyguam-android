@@ -40,7 +40,6 @@ import com.party.common.utils.WidthSpacer
 import com.party.common.component.button.CustomButton
 import com.party.common.component.chip.Chip
 import com.party.common.component.icon.DrawableIcon
-import com.party.common.convertIsoToCustomDateFormat
 import com.party.common.utils.noRippleClickable
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
@@ -55,6 +54,7 @@ import com.party.common.ui.theme.TYPE_COLOR_BACKGROUND
 import com.party.common.ui.theme.TYPE_COLOR_TEXT
 import com.party.common.ui.theme.WHITE
 import com.party.common.ui.theme.YELLOW
+import com.party.common.utils.convertIsoToCustomDateFormat
 
 @Composable
 fun RecruitmentListItem3(

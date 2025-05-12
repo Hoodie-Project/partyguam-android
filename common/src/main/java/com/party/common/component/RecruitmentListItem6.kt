@@ -30,7 +30,6 @@ import com.party.common.R
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.icon.DrawableIcon
-import com.party.common.convertIsoToCustomDateFormat
 import com.party.common.utils.noRippleClickable
 import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.B2
@@ -41,6 +40,7 @@ import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.GRAY600
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.WHITE
+import com.party.common.utils.convertIsoToCustomDateFormat
 
 @Composable
 fun RecruitmentListItem6(

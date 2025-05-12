@@ -26,13 +26,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.party.common.utils.HeightSpacer
 import com.party.common.R
-import com.party.common.utils.TextComponent
-import com.party.common.utils.WidthSpacer
 import com.party.common.component.NetworkImageLoad
 import com.party.common.component.icon.DrawableIconButton
-import com.party.common.convertIsoToCustomDateFormat
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.BLACK
@@ -42,6 +38,10 @@ import com.party.common.ui.theme.GRAY600
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.WHITE
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.TextComponent
+import com.party.common.utils.WidthSpacer
+import com.party.common.utils.convertIsoToCustomDateFormat
 import com.party.domain.model.user.notification.Notification
 
 @Composable
