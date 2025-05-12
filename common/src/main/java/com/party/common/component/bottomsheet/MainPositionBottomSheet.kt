@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.party.common.TextComponent
+import com.party.common.utils.TextComponent
 import com.party.common.component.bottomsheet.component.BottomSheetButtonArea
 import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
 import com.party.common.ui.theme.B1

@@ -14,8 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.party.common.HeightSpacer
-import com.party.common.TextComponent
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.TextComponent
 import com.party.common.ui.theme.T1
 import com.party.common.R
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE

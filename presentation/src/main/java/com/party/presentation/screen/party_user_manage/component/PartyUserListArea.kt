@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
@@ -22,10 +21,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.party.common.HeightSpacer
+import com.party.common.utils.HeightSpacer
 import com.party.common.R
-import com.party.common.TextComponent
-import com.party.common.WidthSpacer
+import com.party.common.utils.TextComponent
+import com.party.common.utils.WidthSpacer
 import com.party.common.component.ImageLoading
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.convertIsoToCustomDateFormat

@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.party.common.R
-import com.party.common.WidthSpacer
+import com.party.common.utils.WidthSpacer
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.InputField
 import com.party.common.ui.theme.BLACK

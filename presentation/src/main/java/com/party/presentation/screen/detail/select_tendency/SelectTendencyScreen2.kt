@@ -14,7 +14,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -25,13 +24,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.party.common.HeightSpacer
-import com.party.common.LoadingProgressBar
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.LoadingProgressBar
 import com.party.common.R
-import com.party.common.ScreenExplainArea
+import com.party.common.utils.ScreenExplainArea
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.UIState
-import com.party.common.snackBarMessage
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.DARK400
 import com.party.common.ui.theme.GRAY200

@@ -24,12 +24,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
-import com.party.common.HeightSpacer
+import com.party.common.utils.HeightSpacer
 import com.party.common.R
-import com.party.common.ScreenExplainArea
+import com.party.common.utils.ScreenExplainArea
 import com.party.common.Screens
-import com.party.common.makeAccessToken
-import com.party.common.snackBarMessage
+import com.party.common.utils.makeAccessToken
+import com.party.common.utils.snackBarMessage
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.presentation.screen.login.component.LoginButtonArea

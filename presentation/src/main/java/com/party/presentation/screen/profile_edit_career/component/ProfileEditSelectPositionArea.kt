@@ -21,10 +21,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.party.common.HeightSpacer
-import com.party.common.TextComponent
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.TextComponent
 import com.party.common.component.bottomsheet.list.positionList
-import com.party.common.noRippleClickable
+import com.party.common.utils.noRippleClickable
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.LARGE_BUTTON_HEIGHT
 import com.party.common.ui.theme.LARGE_CORNER_SIZE

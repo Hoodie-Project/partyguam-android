@@ -13,8 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.party.common.HeightSpacer
-import com.party.common.LoadingProgressBar
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.LoadingProgressBar
 import com.party.common.R
 import com.party.common.component.RecruitmentListItem4
 import com.party.common.component.icon.DrawableIconButton

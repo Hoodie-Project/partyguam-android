@@ -3,7 +3,6 @@ package com.party.presentation.screen.recover_auth.component
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
@@ -11,14 +10,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.party.common.HeightSpacer
+import com.party.common.utils.HeightSpacer
 import com.party.common.R
-import com.party.common.TextComponent
-import com.party.common.WidthSpacer
-import com.party.common.calculateLetterSpacing
+import com.party.common.utils.TextComponent
+import com.party.common.utils.WidthSpacer
+import com.party.common.utils.calculateLetterSpacing
 import com.party.common.component.icon.DrawableIcon
 import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.T1
 
 @Composable
 fun RecoverBottomDescriptionArea(

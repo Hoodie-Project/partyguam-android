@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.party.common.HeightSpacer
-import com.party.common.TextComponent
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.TextComponent
 import com.party.common.component.chip.Chip
 import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.LIGHT400

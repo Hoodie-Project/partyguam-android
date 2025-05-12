@@ -17,8 +17,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.party.common.HeightSpacer
-import com.party.common.ScreenExplainArea
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.ScreenExplainArea
 import com.party.common.component.button.CustomButton
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE

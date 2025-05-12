@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.party.common.HeightSpacer
+import com.party.common.utils.HeightSpacer
 import com.party.domain.model.party.PartyUsers
 import com.party.domain.model.user.PartyAuthority
 import com.party.domain.model.user.PartyAuthorityPosition

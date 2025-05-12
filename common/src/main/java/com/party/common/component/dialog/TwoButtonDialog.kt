@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.party.common.HeightSpacer
+import com.party.common.utils.HeightSpacer
 import com.party.common.component.dialog.component.DialogButton
 import com.party.common.component.dialog.component.DialogDescription
 import com.party.common.component.dialog.component.DialogTitle

@@ -25,7 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.R
-import com.party.common.WidthSpacer
+import com.party.common.utils.WidthSpacer
 import com.party.common.component.bottomsheet.MainPositionBottomSheet
 import com.party.common.component.chip.OrderByCreateDtChip
 import com.party.common.ui.theme.B2

@@ -29,7 +29,7 @@ import coil.compose.AsyncImage
 import com.party.common.R
 import com.party.common.component.NetworkImageLoad
 import com.party.common.component.icon.DrawableIconButton
-import com.party.common.createMultipartBody
+import com.party.common.utils.createMultipartBody
 import com.party.common.ui.theme.GRAY300
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import okhttp3.MultipartBody

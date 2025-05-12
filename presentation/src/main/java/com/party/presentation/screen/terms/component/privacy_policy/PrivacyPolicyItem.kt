@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.party.common.HeightSpacer
-import com.party.common.TextComponent
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.TextComponent
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY600

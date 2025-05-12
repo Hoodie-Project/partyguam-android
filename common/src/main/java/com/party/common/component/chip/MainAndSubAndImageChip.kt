@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.party.common.R
-import com.party.common.WidthSpacer
+import com.party.common.utils.WidthSpacer
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100

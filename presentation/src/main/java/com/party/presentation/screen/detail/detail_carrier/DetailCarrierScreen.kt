@@ -24,13 +24,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.party.common.DetailCarrierData.mainSelectedCarrier
 import com.party.common.DetailCarrierData.mainSelectedDetailPositionId
-import com.party.common.HeightSpacer
-import com.party.common.LoadingProgressBar
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.LoadingProgressBar
 import com.party.common.R
-import com.party.common.ScreenExplainArea
+import com.party.common.utils.ScreenExplainArea
 import com.party.common.ServerApiResponse.ErrorResponse
 import com.party.common.UIState
-import com.party.common.snackBarMessage
+import com.party.common.utils.snackBarMessage
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY400

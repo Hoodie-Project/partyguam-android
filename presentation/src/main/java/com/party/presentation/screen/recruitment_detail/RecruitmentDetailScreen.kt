@@ -21,9 +21,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.party.common.HeightSpacer
-import com.party.common.LoadingProgressBar
-import com.party.common.convertToText
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.LoadingProgressBar
+import com.party.common.utils.convertToText
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.user.PartyAuthority

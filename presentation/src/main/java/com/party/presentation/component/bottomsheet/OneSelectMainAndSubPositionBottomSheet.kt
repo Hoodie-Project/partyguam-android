@@ -32,9 +32,9 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.party.common.HeightSpacer
+import com.party.common.utils.HeightSpacer
 import com.party.common.R
-import com.party.common.WidthSpacer
+import com.party.common.utils.WidthSpacer
 import com.party.common.component.bottomsheet.component.ApplyButton
 import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
 import com.party.common.ui.theme.B2

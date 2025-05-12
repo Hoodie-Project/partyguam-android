@@ -40,7 +40,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import com.party.common.WidthSpacer
+import com.party.common.utils.WidthSpacer
 import com.party.common.ui.theme.EXTRA_LARGE_BUTTON_HEIGHT2
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.GRAY200

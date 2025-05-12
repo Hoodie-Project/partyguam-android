@@ -9,9 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.party.common.AnnotatedTextComponent
+import com.party.common.utils.AnnotatedTextComponent
 import com.party.common.R
-import com.party.common.TextComponent
+import com.party.common.utils.TextComponent
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.RED

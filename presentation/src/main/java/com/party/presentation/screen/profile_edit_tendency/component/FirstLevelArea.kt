@@ -5,8 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.party.common.HeightSpacer
-import com.party.common.ScreenExplainArea
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.ScreenExplainArea
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.DARK400
 import com.party.common.ui.theme.GRAY200

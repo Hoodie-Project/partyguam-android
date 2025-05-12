@@ -22,8 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.party.common.WidthSpacer
-import com.party.common.noRippleClickable
+import com.party.common.utils.WidthSpacer
+import com.party.common.utils.noRippleClickable
 import com.party.common.ui.theme.DARK200
 import com.party.common.ui.theme.EXTRA_LARGE_BUTTON_HEIGHT2
 import com.party.common.ui.theme.GRAY200

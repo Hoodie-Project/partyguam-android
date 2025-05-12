@@ -14,7 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.component.bottomsheet.NotificationDeleteBottomSheet
-import com.party.common.snackBarMessage
+import com.party.common.utils.snackBarMessage
 import com.party.common.ui.theme.WHITE
 import com.party.presentation.screen.notification.component.NotificationDescriptionArea
 import com.party.presentation.screen.notification.component.NotificationListArea

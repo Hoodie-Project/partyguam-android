@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import com.party.common.noRippleClickable
+import com.party.common.utils.noRippleClickable
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.GRAY500

@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.party.common.HeightSpacer
-import com.party.common.TextComponent
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.TextComponent
 
 @Composable
 fun DialogDescription(

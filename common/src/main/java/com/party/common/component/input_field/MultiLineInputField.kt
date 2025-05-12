@@ -29,9 +29,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.party.common.HeightSpacer
-import com.party.common.TextComponent
-import com.party.common.WidthSpacer
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.TextComponent
+import com.party.common.utils.WidthSpacer
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.EXTRA_LARGE_BUTTON_HEIGHT2

@@ -32,10 +32,10 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
-import com.party.common.HeightSpacer
+import com.party.common.utils.HeightSpacer
 import com.party.common.Screens
 import com.party.common.component.dialog.TwoButtonDialog
-import com.party.common.noRippleClickable
+import com.party.common.utils.noRippleClickable
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.WHITE

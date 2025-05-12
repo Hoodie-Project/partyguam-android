@@ -21,13 +21,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.party.common.HeightSpacer
+import com.party.common.utils.HeightSpacer
 import com.party.common.component.bottomsheet.NoButtonAndGotoScreenBottomSheet
 import com.party.common.component.bottomsheet.partyMasterManageList
 import com.party.common.component.bottomsheet.partyMemberManageList
 import com.party.common.component.dialog.TwoButtonDialog
-import com.party.common.noRippleClickable
-import com.party.common.snackBarMessage
+import com.party.common.utils.noRippleClickable
+import com.party.common.utils.snackBarMessage
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE

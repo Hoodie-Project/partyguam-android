@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.party.common.HeightSpacer
+import com.party.common.utils.HeightSpacer
 import com.party.common.Screens
 import com.party.common.component.button.CustomButton
 import com.party.common.ui.theme.GRAY100

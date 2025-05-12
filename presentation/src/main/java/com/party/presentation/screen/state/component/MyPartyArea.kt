@@ -15,8 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.party.common.HeightSpacer
-import com.party.common.LoadingProgressBar
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.LoadingProgressBar
 import com.party.common.component.PartyListItem2
 import com.party.common.component.chip.OrderByCreateDtChip
 import com.party.common.component.no_data.NoDataColumn

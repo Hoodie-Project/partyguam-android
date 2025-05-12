@@ -9,9 +9,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.party.common.HeightSpacer
-import com.party.common.TextComponent
-import com.party.common.WidthSpacer
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.TextComponent
+import com.party.common.utils.WidthSpacer
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 import com.party.domain.model.user.profile.UserPersonality

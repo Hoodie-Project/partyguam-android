@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
@@ -26,13 +25,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.party.common.HeightSpacer
+import com.party.common.utils.HeightSpacer
 import com.party.common.Screens
 import com.party.common.component.bottomsheet.RecruitmentCompletedAndDeleteBottomSheet
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.partyRecruitmentEditTabList
-import com.party.common.noRippleClickable
-import com.party.common.snackBarMessage
+import com.party.common.utils.noRippleClickable
+import com.party.common.utils.snackBarMessage
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.RED
@@ -42,7 +41,6 @@ import com.party.domain.model.party.Position1
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.party_detail.component.RightModalDrawer
 import com.party.presentation.screen.party_edit_recruitment.component.PartyEditRecruitmentScaffoldArea
-import com.party.presentation.screen.party_edit_recruitment.component.PartyRecruitmentEditDescriptionArea
 import com.party.presentation.screen.party_edit_recruitment.component.PartyRecruitmentEditFilterArea
 import com.party.presentation.screen.party_edit_recruitment.component.PartyRecruitmentEditFloatingArea
 import com.party.presentation.screen.party_edit_recruitment.component.PartyRecruitmentEditHelpCard

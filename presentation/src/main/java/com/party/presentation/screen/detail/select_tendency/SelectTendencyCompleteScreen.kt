@@ -16,19 +16,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.party.common.HeightSpacer
+import com.party.common.utils.HeightSpacer
 import com.party.common.R
-import com.party.common.TextComponent
-import com.party.common.WidthSpacer
+import com.party.common.utils.TextComponent
+import com.party.common.utils.WidthSpacer
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T1
 import com.party.common.ui.theme.WHITE
 import com.party.common.Screens
-import com.party.common.calculateLetterSpacing
+import com.party.common.utils.calculateLetterSpacing
 
 @Composable
 fun SelectTendencyCompleteScreen(

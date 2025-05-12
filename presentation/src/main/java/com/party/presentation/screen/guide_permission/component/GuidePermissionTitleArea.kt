@@ -2,7 +2,7 @@ package com.party.presentation.screen.guide_permission.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight
-import com.party.common.TextComponent
+import com.party.common.utils.TextComponent
 import com.party.common.ui.theme.T2
 
 @Composable

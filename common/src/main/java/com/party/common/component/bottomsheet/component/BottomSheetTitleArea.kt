@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.party.common.TextComponent
+import com.party.common.utils.TextComponent
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.T2
 

@@ -6,7 +6,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.party.common.TextComponent
+import com.party.common.utils.TextComponent
 
 @Composable
 fun DialogTitle(

@@ -26,11 +26,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import com.party.common.HeightSpacer
+import com.party.common.utils.HeightSpacer
 import com.party.common.R
-import com.party.common.TextComponent
+import com.party.common.utils.TextComponent
 import com.party.common.component.icon.DrawableIconButton
-import com.party.common.noRippleClickable
+import com.party.common.utils.noRippleClickable
 import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.PRIMARY

@@ -10,9 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.party.common.R
-import com.party.common.TextComponent
+import com.party.common.utils.TextComponent
 import com.party.common.component.icon.DrawableIcon
-import com.party.common.noRippleClickable
+import com.party.common.utils.noRippleClickable
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.PRIMARY
 

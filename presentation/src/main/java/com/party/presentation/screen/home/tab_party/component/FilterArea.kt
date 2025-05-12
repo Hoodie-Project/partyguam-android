@@ -1,7 +1,6 @@
 package com.party.presentation.screen.home.tab_party.component
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,11 +12,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.R
-import com.party.common.TextComponent
-import com.party.common.WidthSpacer
-import com.party.common.noRippleClickable
+import com.party.common.utils.TextComponent
+import com.party.common.utils.WidthSpacer
+import com.party.common.utils.noRippleClickable
 import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.PRIMARY
 import com.party.presentation.screen.home.tab_recruitment.SelectFilterItem

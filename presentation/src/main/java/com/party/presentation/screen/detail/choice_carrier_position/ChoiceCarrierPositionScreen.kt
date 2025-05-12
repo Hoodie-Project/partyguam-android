@@ -25,8 +25,8 @@ import com.party.common.DetailCarrierData.subSelectedCarrier
 import com.party.common.DetailCarrierData.subSelectedDetailPosition
 import com.party.common.DetailCarrierData.subSelectedDetailPositionId
 import com.party.common.DetailCarrierData.subSelectedMainPosition
-import com.party.common.HeightSpacer
-import com.party.common.LoadingProgressBar
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.LoadingProgressBar
 import com.party.common.R
 import com.party.common.ServerApiResponse.SuccessResponse
 import com.party.common.UIState

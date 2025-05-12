@@ -11,7 +11,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.party.common.HeightSpacer
+import com.party.common.utils.HeightSpacer
 import com.party.common.component.profileEditTendencyTabList
 import com.party.domain.model.user.detail.PersonalityListOption
 import com.party.presentation.screen.profile_edit_tendency.ProfileEditTendencyState

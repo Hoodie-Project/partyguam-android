@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.party.common.WidthSpacer
+import com.party.common.utils.WidthSpacer
 import com.party.common.component.button.CustomButton
 import com.party.common.ui.theme.DARK100
 import com.party.common.ui.theme.GRAY200

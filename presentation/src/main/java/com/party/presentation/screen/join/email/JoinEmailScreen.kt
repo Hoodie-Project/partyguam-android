@@ -19,12 +19,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.party.common.HeightSpacer
+import com.party.common.utils.HeightSpacer
 import com.party.common.R
-import com.party.common.ScreenExplainArea
+import com.party.common.utils.ScreenExplainArea
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY100
@@ -37,7 +36,7 @@ import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
 import com.party.common.Screens
 import com.party.common.component.dialog.TwoButtonDialog
-import com.party.common.noRippleClickable
+import com.party.common.utils.noRippleClickable
 import com.party.presentation.screen.join.JoinScreenButton
 import com.party.presentation.screen.join.JoinScreenInputField
 import com.party.presentation.screen.join.email.component.JoinEmailScaffoldArea

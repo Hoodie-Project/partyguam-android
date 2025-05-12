@@ -20,8 +20,8 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.party.common.HeightSpacer
-import com.party.common.noRippleClickable
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.noRippleClickable
 import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.GRAY600
 

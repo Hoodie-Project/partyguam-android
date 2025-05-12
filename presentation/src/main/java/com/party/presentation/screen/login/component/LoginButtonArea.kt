@@ -34,9 +34,9 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
-import com.party.common.HeightSpacer
+import com.party.common.utils.HeightSpacer
 import com.party.common.R
-import com.party.common.WidthSpacer
+import com.party.common.utils.WidthSpacer
 import com.party.common.ui.theme.EXTRA_LARGE_BUTTON_HEIGHT2
 import com.party.common.ui.theme.GRAY200
 import com.party.common.ui.theme.KakaoLoginColor

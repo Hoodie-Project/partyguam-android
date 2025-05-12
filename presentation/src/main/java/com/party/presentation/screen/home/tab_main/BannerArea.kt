@@ -14,29 +14,19 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.party.common.HeightSpacer
-import com.party.common.LoadingProgressBar
-import com.party.common.R
-import com.party.common.ServerApiResponse.SuccessResponse
-import com.party.common.UIState
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.LoadingProgressBar
 import com.party.common.component.ImageLoading
-import com.party.common.noRippleClickable
-import com.party.common.snackBarMessage
+import com.party.common.utils.noRippleClickable
 import com.party.common.ui.theme.GRAY300
 import com.party.common.ui.theme.PRIMARY
-import com.party.domain.model.banner.Banner
 import com.party.domain.model.banner.BannerItem
 import com.party.presentation.screen.home.HomeState
-import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import kotlinx.coroutines.delay
 
 @Composable

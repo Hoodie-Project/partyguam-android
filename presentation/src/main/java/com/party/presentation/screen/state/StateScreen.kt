@@ -28,7 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import com.party.common.component.floating.NavigateUpFloatingButton
 import com.party.common.component.floating.PartyCreateFloatingButton
 import com.party.common.component.stateTabList
-import com.party.common.noRippleClickable
+import com.party.common.utils.noRippleClickable
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE

@@ -22,10 +22,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.party.common.HeightSpacer
-import com.party.common.LoadingProgressBar
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.LoadingProgressBar
 import com.party.common.R
-import com.party.common.TextComponent
+import com.party.common.utils.TextComponent
 import com.party.common.component.ImageLoading
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
