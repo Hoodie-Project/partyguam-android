@@ -199,7 +199,6 @@ class SearchViewModel @Inject constructor(
 
     fun onAction(action: SearchAction) {
         when (action) {
-            is SearchAction.OnNavigationBack -> {}
             is SearchAction.OnInputKeywordChange -> _searchState.update { it.copy(inputKeyword = action.keyword) }
             is SearchAction.OnTabClick -> {
                 _searchState.update { it.copy(selectedTabText = action.tabText) }

@@ -45,7 +45,8 @@ fun RecruitmentArea(
             selectedCreateDataOrderByDesc = homeState.isDescRecruitment,
             onChangeOrderBy = { onChangeOrderBy(it) },
             isShowSelectedPartyNumber = homeState.recruitmentIsShowNumber,
-            selectedPartyNumber = homeState.recruitmentNumber
+            selectedPartyNumber = homeState.recruitmentNumber,
+            selectedPositionNumber = homeState.selectedPositionNumber,
         )
         HeightSpacer(heightDp = 16.dp)
         RecruitmentColumnListArea(

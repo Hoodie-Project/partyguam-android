@@ -60,5 +60,6 @@ data class HomeState(
 
     val recruitmentIsShowNumber: Boolean = false,
     val recruitmentNumber: Int = 0,
+    val selectedPositionNumber: Int = 0,
 
     )

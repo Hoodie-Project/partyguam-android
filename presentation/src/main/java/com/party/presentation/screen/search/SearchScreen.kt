@@ -67,7 +67,7 @@ fun SearchScreen(
             SearchArea(
                 keyword = searchState.inputKeyword,
                 onValueChange = { onAction(SearchAction.OnInputKeywordChange(it)) },
-                onNavigationClick = { onAction(SearchAction.OnNavigationBack) },
+                onNavigationClick = { navController.popBackStack() },
                 searchAction = { onAction(SearchAction.OnSearch) }
             )
         },

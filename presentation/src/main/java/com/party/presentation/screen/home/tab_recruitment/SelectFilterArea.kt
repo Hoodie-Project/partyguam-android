@@ -43,6 +43,7 @@ fun SelectFilterArea(
     isPartyTypeFilterClick: (Boolean) -> Unit,
     selectedCreateDataOrderByDesc: Boolean,
     onChangeOrderBy: (Boolean) -> Unit,
+    selectedPositionNumber: Int,
     selectedPartyNumber: Int,
     isShowSelectedPartyNumber: Boolean,
 ) {
@@ -64,7 +65,7 @@ fun SelectFilterArea(
                 filterName = filterName1,
                 isSheetOpen = isPositionSheetOpen,
                 onClick = { isPositionFilterClick(it) },
-                number = 0,
+                number = selectedPositionNumber,
             )
             WidthSpacer(widthDp = 8.dp)
             SelectFilterItem(
@@ -139,7 +140,7 @@ fun SelectFilterItem(
 @Composable
 private fun SelectFilterAreaPreview() {
     SelectFilterArea(
-        filterName1 = "직무1",
+        filterName1 = "직무",
         filterName2 = "파티유형",
         isPositionSheetOpen = false,
         isPartyTypeSheetOpen = false,
@@ -148,7 +149,8 @@ private fun SelectFilterAreaPreview() {
         selectedCreateDataOrderByDesc = false,
         onChangeOrderBy = {},
         isShowSelectedPartyNumber = false,
-        selectedPartyNumber = 0
+        selectedPartyNumber = 3,
+        selectedPositionNumber = 5,
     )
 }
 

@@ -54,7 +54,7 @@ fun RecruitmentListItem2(
         onClick = { onClick(id, partyId) },
         modifier = Modifier
             .fillMaxWidth()
-            .height(136.dp),
+            .height(162.dp),
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
         border = BorderStroke(1.dp, GRAY100),
         colors = CardDefaults.cardColors(
@@ -103,6 +103,8 @@ private fun RecruitmentInfoArea(
     onClick: () -> Unit,
 ) {
     Row(
+        modifier = Modifier
+            .height(90.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         RecruitmentImage(
@@ -126,8 +128,8 @@ private fun RecruitmentImage(
 ) {
     ImageLoading(
         modifier = Modifier
-            .width(96.dp)
-            .height(72.dp),
+            .width(120.dp)
+            .height(90.dp),
         imageUrl = imageUrl,
         roundedCornerShape = LARGE_CORNER_SIZE
     )
@@ -145,21 +147,24 @@ private fun RecruitmentContent(
     Column(
         modifier = Modifier
             .width(195.dp)
-            .height(71.dp),
-        verticalArrangement = Arrangement.Center
+            .height(90.dp),
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
-        RecruitmentTitle(
-            title = title,
-            onClick = onClick,
-        )
-        HeightSpacer(heightDp = 5.dp)
-        RecruitmentPositionArea(
-            modifier = Modifier
-                .height(20.dp),
-            main = main,
-            sub = sub,
-            onClick = onClick,
-        )
+        Column {
+            RecruitmentTitle(
+                title = title,
+                onClick = onClick,
+            )
+            HeightSpacer(heightDp = 5.dp)
+            RecruitmentPositionArea(
+                modifier = Modifier
+                    .height(20.dp),
+                main = main,
+                sub = sub,
+                onClick = onClick,
+            )
+        }
+
         HeightSpacer(heightDp = 5.dp)
         RecruitmentCountArea(
             modifier = Modifier,

@@ -154,7 +154,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getSubPositionList(main: String) {
+    fun getSubPositionList(main: String) {
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = getPositionsUseCase(main = main)) {
                 is ServerApiResponse.SuccessResponse<List<PositionList>> -> { _state.update { state -> state.copy(selectedMainPosition = main, getSubPositionList = result.data ?: emptyList()) } }
@@ -274,7 +274,7 @@ class HomeViewModel @Inject constructor(
 
             is HomeAction.OnMainPositionClick -> {
                 _state.update { it.copy(selectedMainPosition = action.mainPosition) }
-                getSubPositionList(action.mainPosition)
+                //getSubPositionList(action.mainPosition)
             }
             is HomeAction.OnSubPositionClick -> {
                 _state.update { currentState ->
@@ -323,6 +323,8 @@ class HomeViewModel @Inject constructor(
                 val matchingIds = _state.value.selectedSubPositionList.filter { position ->
                     _state.value.selectedMainAndSubPosition.any { it.second == position.sub }
                 }.map { it.id }
+
+                _state.update { it.copy(selectedPositionNumber = _state.value.selectedSubPositionList.size) }
 
                 getRecruitmentList(
                     page = 1,

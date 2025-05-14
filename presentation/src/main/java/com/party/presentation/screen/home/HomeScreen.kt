@@ -26,14 +26,14 @@ import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.party.common.Screens
+import com.party.common.component.BottomNavigationBar
 import com.party.common.component.floating.NavigateUpFloatingButton
 import com.party.common.component.floating.PartyCreateFloatingButton
-import com.party.common.utils.noRippleClickable
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
-import com.party.common.component.BottomNavigationBar
-import com.party.common.Screens
+import com.party.common.utils.noRippleClickable
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.home.component.HomeFloatingArea
 import com.party.presentation.screen.home.component.HomeTopBar
@@ -85,6 +85,10 @@ fun HomeScreenRoute(
         homeViewModel.getRecruitmentList(page = 1, size = 8, sort = "createdAt", order = OrderDescType.DESC.type, titleSearch = null)
     }
 
+    LaunchedEffect(key1 = homeState.selectedMainPosition) {
+        homeViewModel.getSubPositionList(homeState.selectedMainPosition)
+    }
+
     HomeScreen(
         context = context,
         snackBarHostState = snackBarHostState,
@@ -103,28 +107,7 @@ fun HomeScreenRoute(
         onGotoDetailProfile = { navController.navigate(Screens.DetailCarrier)},
         onClickBanner = { navController.navigate(Screens.WebView(webViewUrl = it))},
         onAction = { action ->
-            when(action){
-                is HomeAction.OnTabClick -> { homeViewModel.onAction(action) }
-                is HomeAction.OnPersonalRecruitmentReload -> { homeViewModel.onAction(action) }
-                is HomeAction.OnPartyTypeSheetOpen -> { homeViewModel.onAction(action) }
-                is HomeAction.OnSelectedPartyType -> { homeViewModel.onAction(action) }
-                is HomeAction.OnSelectedPartyTypeReset -> { homeViewModel.onAction(action) }
-                is HomeAction.OnPartyTypeApply -> { homeViewModel.onAction(action) }
-                is HomeAction.OnActivePartyToggle -> { homeViewModel.onAction(action) }
-                is HomeAction.OnDescPartyArea -> { homeViewModel.onAction(action) }
-                is HomeAction.OnPositionSheetOpen -> { homeViewModel.onAction(action) }
-                is HomeAction.OnPartyTypeSheetOpenRecruitment -> { homeViewModel.onAction(action) }
-                is HomeAction.OnDescRecruitment -> { homeViewModel.onAction(action) }
-                is HomeAction.OnMainPositionClick -> { homeViewModel.onAction(action) }
-                is HomeAction.OnSubPositionClick -> { homeViewModel.onAction(action) }
-                is HomeAction.OnDelete -> { homeViewModel.onAction(action) }
-                is HomeAction.OnPositionApply -> { homeViewModel.onAction(action) }
-                is HomeAction.OnPositionSheetReset -> { homeViewModel.onAction(action) }
-                is HomeAction.OnSelectedPartyTypeResetRecruitmentReset -> { homeViewModel.onAction(action) }
-                is HomeAction.OnSelectedPartyTypeRecruitment -> { homeViewModel.onAction(action) }
-                is HomeAction.OnPartyTypeApplyRecruitment -> { homeViewModel.onAction(action) }
-                is HomeAction.OnExpandedFloating -> { homeViewModel.onAction(action) }
-            }
+            homeViewModel.onAction(action)
         }
     )
 }

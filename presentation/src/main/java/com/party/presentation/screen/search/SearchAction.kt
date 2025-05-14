@@ -1,7 +1,6 @@
 package com.party.presentation.screen.search
 
 sealed interface SearchAction{
-    data object OnNavigationBack: SearchAction
     data class OnInputKeywordChange(val keyword: String): SearchAction
     data class OnTabClick(val tabText: String): SearchAction
     data class OnIsShowKeywordAreaChange(val isShowKeywordArea: Boolean): SearchAction
