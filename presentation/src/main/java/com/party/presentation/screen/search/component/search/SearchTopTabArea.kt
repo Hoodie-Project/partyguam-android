@@ -3,7 +3,6 @@ package com.party.presentation.screen.search.component.search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.party.common.component.TabArea
-import com.party.common.ui.theme.BLACK
 
 @Composable
 fun SearchTopTabArea(
@@ -17,6 +16,5 @@ fun SearchTopTabArea(
         tabList = searchTabList,
         selectedTabText = selectedTabText,
         onTabClick = onTabClick,
-        //selectedTabColor = BLACK,
     )
 }

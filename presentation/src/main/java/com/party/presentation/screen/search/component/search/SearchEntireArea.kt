@@ -12,10 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.party.common.utils.HeightSpacer
 import com.party.common.component.PartyListItem1
 import com.party.common.component.RecruitmentListItem1
 import com.party.common.component.no_data.NoDataColumn
+import com.party.common.utils.HeightSpacer
 import com.party.domain.model.search.Party
 import com.party.domain.model.search.PartyType
 import com.party.domain.model.search.Position
@@ -28,6 +28,8 @@ fun SearchEntireArea(
     recruitmentList: List<SearchedRecruitmentData>,
     onPartyClick: (Int) -> Unit,
     onRecruitmentClick: (Int, Int) -> Unit,
+    onClickPartyMore: () -> Unit,
+    onClickRecruitmentMore: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -36,7 +38,7 @@ fun SearchEntireArea(
     ) {
         SearchedContentTitle(
             title = "파티",
-            onClick = {}
+            onClick = onClickPartyMore
         )
         HeightSpacer(heightDp = 20.dp)
         SearchedPartyList(
@@ -48,7 +50,7 @@ fun SearchEntireArea(
 
         SearchedContentTitle(
             title = "모집공고",
-            onClick = {}
+            onClick = onClickRecruitmentMore
         )
         HeightSpacer(heightDp = 8.dp)
         SearchedRecruitmentList(
@@ -247,7 +249,9 @@ private fun SearchEntireAreaPreview() {
             ),
         ),
         onPartyClick = {},
-        onRecruitmentClick = {_, _ ->}
+        onRecruitmentClick = {_, _ ->},
+        onClickPartyMore = {},
+        onClickRecruitmentMore = {},
     )
 }
 
@@ -258,6 +262,8 @@ private fun SearchEntireAreaPreview2() {
         partyList = emptyList(),
         recruitmentList = emptyList(),
         onPartyClick = {},
-        onRecruitmentClick = {_, _ ->}
+        onRecruitmentClick = {_, _ ->},
+        onClickPartyMore = {},
+        onClickRecruitmentMore = {},
     )
 }

@@ -50,6 +50,8 @@ fun SearchedDataContent(
                     recruitmentList = searchState.allSearchedList.partyRecruitment.partyRecruitments,
                     onPartyClick = onPartyClick,
                     onRecruitmentClick = onRecruitmentClick,
+                    onClickPartyMore = { onTabClick("파티") },
+                    onClickRecruitmentMore = { onTabClick("모집공고") }
                 )
             }
             searchTabList[1] -> {

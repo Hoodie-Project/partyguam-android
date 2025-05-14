@@ -8,6 +8,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -33,6 +34,8 @@ fun SearchArea(
         modifier = Modifier
             .fillMaxWidth()
     ) {
+        val keyboardController = LocalSoftwareKeyboardController.current
+
         ScaffoldCenterBar(
             navigationIcon = {
                 DrawableIconButton(
@@ -61,7 +64,10 @@ fun SearchArea(
                         autoCorrectEnabled = true
                     ),
                     keyboardActions = KeyboardActions(
-                        onSearch = { searchAction() }
+                        onSearch = {
+                            keyboardController?.hide()
+                            searchAction()
+                        }
                     ),
                 )
             },

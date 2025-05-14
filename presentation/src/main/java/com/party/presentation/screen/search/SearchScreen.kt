@@ -16,6 +16,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.party.common.Screens
+import com.party.common.component.BottomNavigationBar
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.domain.model.room.KeywordModel
@@ -26,8 +28,6 @@ import com.party.domain.model.search.Search
 import com.party.domain.model.search.SearchedParty
 import com.party.domain.model.search.SearchedPartyRecruitment
 import com.party.domain.model.search.SearchedRecruitmentData
-import com.party.common.component.BottomNavigationBar
-import com.party.common.Screens
 import com.party.presentation.screen.search.component.SearchArea
 import com.party.presentation.screen.search.component.keyword.RecentSearchedArea
 import com.party.presentation.screen.search.component.search.SearchedDataContent
@@ -50,31 +50,7 @@ fun SearchRoute(
         navController = navController,
         searchState = searchState,
         onAction = { action ->
-            when(action){
-                is SearchAction.OnNavigationBack -> { navController.popBackStack() }
-                is SearchAction.OnInputKeywordChange -> { searchViewModel.onAction(action) }
-                is SearchAction.OnTabClick -> { searchViewModel.onAction(action) }
-                is SearchAction.OnIsShowKeywordAreaChange -> { searchViewModel.onAction(action) }
-                is SearchAction.OnSearch -> { searchViewModel.onAction(action) }
-                is SearchAction.OnDeleteKeyword -> { searchViewModel.onAction(action) }
-                is SearchAction.OnAllDeleteKeyword -> { searchViewModel.onAction(action) }
-                is SearchAction.OnChangeOrderByParty -> { searchViewModel.onAction(action) }
-                is SearchAction.OnChangeActive -> { searchViewModel.onAction(action) }
-                is SearchAction.OnPartyTypeModelClose -> { searchViewModel.onAction(action) }
-                is SearchAction.OnSelectedPartyType -> { searchViewModel.onAction(action) }
-                is SearchAction.OnPartyTypeReset -> { searchViewModel.onAction(action) }
-                is SearchAction.OnPartyTypeApply -> { searchViewModel.onAction(action) }
-                is SearchAction.OnChangeOrderByRecruitment -> { searchViewModel.onAction(action) }
-                is SearchAction.OnPartyTypeRecruitment -> { searchViewModel.onAction(action) }
-                is SearchAction.OnSelectedPartyTypeRecruitment -> { searchViewModel.onAction(action) }
-                is SearchAction.OnPartyTypeApply2 -> { searchViewModel.onAction(action) }
-                is SearchAction.OnPositionSheetClose -> { searchViewModel.onAction(action) }
-                is SearchAction.OnPositionSheetOpenClick -> { searchViewModel.onAction(action) }
-                is SearchAction.OnMainPositionClick -> { searchViewModel.onAction(action) }
-                is SearchAction.OnSubPositionClick -> { searchViewModel.onAction(action) }
-                is SearchAction.OnDelete -> { searchViewModel.onAction(action) }
-                is SearchAction.OnPositionApply -> { searchViewModel.onAction(action) }
-            }
+            searchViewModel.onAction(action)
         }
     )
 }
