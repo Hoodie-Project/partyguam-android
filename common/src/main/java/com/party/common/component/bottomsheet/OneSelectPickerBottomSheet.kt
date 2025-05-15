@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -106,6 +107,7 @@ private fun OneSelectPickerContent(
                 text = item,
                 fontSize = if(selectedText == item) T2 else B2,
                 textColor = if(selectedText == item) BLACK else GRAY500,
+                fontWeight = if(selectedText == item) FontWeight.SemiBold else FontWeight.Normal,
                 onClick = { onClick(it) }
             )
         }
@@ -116,6 +118,7 @@ private fun OneSelectPickerContent(
 private fun OneSelectPickerContentItem(
     text: String,
     fontSize: TextUnit,
+    fontWeight: FontWeight,
     textColor: Color,
     onClick: (String) -> Unit,
 ) {
@@ -126,6 +129,7 @@ private fun OneSelectPickerContentItem(
             .height(52.dp),
         text = text,
         fontSize = fontSize,
+        fontWeight = fontWeight,
         align = Alignment.Center,
         textColor = textColor,
     )

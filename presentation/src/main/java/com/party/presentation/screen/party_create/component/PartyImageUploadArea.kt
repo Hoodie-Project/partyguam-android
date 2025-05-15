@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -28,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.party.common.R
 import com.party.common.component.icon.DrawableIconButton
+import com.party.common.ui.theme.GRAY100
 import com.party.common.utils.createMultipartBody
 import com.party.common.ui.theme.GRAY300
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
@@ -73,10 +75,11 @@ fun PartyImageUploadArea(
         ) {
             AsyncImage(
                 modifier = Modifier
-                    .fillMaxSize(),
-                contentScale = ContentScale.FillBounds,
-                model = uri,
+                    .fillMaxSize()
+                    .border(width = 1.dp, color = GRAY100),
                 contentDescription = "Party Image",
+                model = uri,
+                contentScale = ContentScale.Crop,
             )
         }
 

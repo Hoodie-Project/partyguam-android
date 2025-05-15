@@ -25,19 +25,19 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.party.common.utils.HeightSpacer
 import com.party.common.R
+import com.party.common.Screens
 import com.party.common.component.bottomsheet.OneSelectBottomSheet
 import com.party.common.component.bottomsheet.component.ApplyButton
 import com.party.common.component.bottomsheet.list.partyTypeList
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.MultiLineInputField
-import com.party.common.utils.noRippleClickable
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
-import com.party.common.Screens
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.noRippleClickable
 import com.party.presentation.component.HelpCard
 import com.party.presentation.screen.party_create.component.PartyCreateCustomShape
 import com.party.presentation.screen.party_create.component.PartyCreateDescriptionArea
@@ -69,21 +69,7 @@ fun PartyCreateScreenRoute(
         isShowCompleteDialog = partyCreateState.isCompleteShowDialog,
         snackBarHostState = snackBarHostState,
         onAction = { action ->
-            when (action) {
-                is PartyCreateAction.OnIsShowDialogBack -> partyCreateViewModel.onAction(action)
-                is PartyCreateAction.OnIsVisibleToolTip -> partyCreateViewModel.onAction(action)
-                is PartyCreateAction.OnChangeImage -> partyCreateViewModel.onAction(action)
-                is PartyCreateAction.OnChangeInputTitle -> partyCreateViewModel.onAction(action)
-                is PartyCreateAction.OnRemovePartyTitle -> partyCreateViewModel.onAction(action)
-                is PartyCreateAction.OnChangePartyTypeSheet -> partyCreateViewModel.onAction(action)
-                is PartyCreateAction.OnChangeSelectPartyType -> partyCreateViewModel.onAction(action)
-                is PartyCreateAction.OnChangeIsShowHelpCard -> partyCreateViewModel.onAction(action)
-                is PartyCreateAction.OnChangePartyDescription -> partyCreateViewModel.onAction(action)
-                is PartyCreateAction.OnChangeMainPositionBottomSheet -> partyCreateViewModel.onAction(action)
-                is PartyCreateAction.OnChangeMainPosition -> partyCreateViewModel.onAction(action)
-                is PartyCreateAction.OnChangeSubPosition -> partyCreateViewModel.onAction(action)
-                is PartyCreateAction.OnPartyCreate -> partyCreateViewModel.onAction(action)
-            }
+            partyCreateViewModel.onAction(action = action)
         },
         onClickMainPosition = {
             partyCreateViewModel.getSubPositionList(main = it)

@@ -144,7 +144,8 @@ fun PartyDetailAddRecruitCard(
                     text = "모집공고 추가하기",
                     fontSize = B2,
                     fontWeight = FontWeight.Bold,
-                    textColor = GRAY500
+                    textColor = GRAY500,
+                    onClick = onAddRecruitment
                 )
             }
         }

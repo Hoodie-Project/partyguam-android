@@ -66,16 +66,7 @@ fun RecruitmentCreateScreenRoute(
             )
         },
         onAction = { action ->
-            when (action) {
-                is RecruitmentCreateAction.OnChangeMainPositionBottomSheet -> recruitmentCreateViewModel.onAction(action)
-                is RecruitmentCreateAction.OnChangeMainPosition -> recruitmentCreateViewModel.onAction(action)
-                is RecruitmentCreateAction.OnChangeSubPosition -> recruitmentCreateViewModel.onAction(action)
-                is RecruitmentCreateAction.OnSetSelectedCount -> recruitmentCreateViewModel.onAction(action)
-                is RecruitmentCreateAction.OnChangePeopleCountSheet -> recruitmentCreateViewModel.onAction(action)
-                is RecruitmentCreateAction.OnChangeHelpCardOpen -> recruitmentCreateViewModel.onAction(action)
-                is RecruitmentCreateAction.OnChangeRecruitmentDescription -> recruitmentCreateViewModel.onAction(action)
-                is RecruitmentCreateAction.OnRecruitmentCreate -> recruitmentCreateViewModel.onAction(action)
-            }
+            recruitmentCreateViewModel.onAction(action = action)
         },
         onClickMainPosition = {
             recruitmentCreateViewModel.getSubPositionList(it)

@@ -1,6 +1,7 @@
 package com.party.presentation.screen.home.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,12 +31,14 @@ import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.B3
 import com.party.common.ui.theme.BLACK
+import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.RED
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.TYPE_COLOR_BACKGROUND
 import com.party.common.ui.theme.TYPE_COLOR_TEXT
+import com.party.common.ui.theme.WHITE
 
 @Composable
 fun HomeListTitleArea(
@@ -150,8 +153,10 @@ fun PositionArea(
             contentDescription = "",
             modifier = Modifier
                 .width(1.dp)
-                .height(11.dp)
-                .padding(top = 2.dp),
+                .height(10.dp)
+                .padding(top = 2.dp)
+                .background(GRAY400)
+            ,
         )
         WidthSpacer(widthDp = 2.dp)
         TextComponent(
