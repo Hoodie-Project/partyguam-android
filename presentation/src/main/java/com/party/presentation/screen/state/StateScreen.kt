@@ -100,6 +100,7 @@ fun StateScreenRoute(
             }
         },
         onGoToSearch = { navController.navigate(Screens.Search) },
+        onGotoNotification = { navController.navigate(Screens.Notification)},
         onGoPartyCreate = { navController.navigate(Screens.PartyCreate) },
         onNavigateUp = { stateViewModel.scrollToTopFun()},
         onMyPartyCardClick = { navController.navigate(Screens.PartyDetail(partyId = it))}
@@ -115,6 +116,7 @@ private fun StateScreen(
     listState: LazyListState,
     onAction: (MyPartyAction) -> Unit,
     onGoToSearch: () -> Unit,
+    onGotoNotification: () -> Unit,
     onGoPartyCreate: () -> Unit,
     onNavigateUp: () -> Unit,
     onMyPartyCardClick: (Int) -> Unit,
@@ -133,7 +135,7 @@ private fun StateScreen(
             topBar = {
                 StateScaffoldArea(
                     onGoToSearch = onGoToSearch,
-                    onGoToAlarm = {},
+                    onGoToAlarm = onGotoNotification,
                 )
             },
             bottomBar = {
@@ -253,6 +255,7 @@ private fun StateScreenContentPreview() {
         ),
         onAction = {},
         onGoToSearch = {},
+        onGotoNotification = {},
         onGoPartyCreate = {},
         onNavigateUp = {},
         onMyPartyCardClick = {}
@@ -318,6 +321,7 @@ private fun StateScreenContentPreview2() {
         ),
         onAction = {},
         onGoToSearch = {},
+        onGotoNotification = {},
         onGoPartyCreate = {},
         onNavigateUp = {},
         onMyPartyCardClick = {}

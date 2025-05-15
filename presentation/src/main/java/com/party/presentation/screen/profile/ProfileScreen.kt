@@ -58,6 +58,7 @@ fun ProfileScreenRoute(
         context = context,
         navController = navController,
         userProfileState = userProfileState,
+        onGotoNotification = { navController.navigate(Screens.Notification)},
         onGoSetting = { navController.navigate(Screens.ManageAuth) },
         onMyPageCardClick = { partyId -> navController.navigate(Screens.PartyDetail(partyId)) },
         onProfileEditClick = { navController.navigate(Screens.ProfileEdit) },
@@ -70,6 +71,7 @@ private fun ProfileScreen(
     context: Context,
     navController: NavHostController,
     userProfileState: UserProfileState,
+    onGotoNotification: () -> Unit,
     onGoSetting: () -> Unit,
     onMyPageCardClick: (Int) -> Unit,
     onProfileEditClick: () -> Unit,
@@ -80,7 +82,7 @@ private fun ProfileScreen(
     Scaffold(
         topBar = {
             ProfileScaffoldArea(
-                onGoToAlarm = {},
+                onGoToAlarm = onGotoNotification,
                 onGoSetting = onGoSetting,
             )
         },
@@ -203,6 +205,7 @@ private fun ProfileScreenContentPreview() {
                 )
             )
         ),
+        onGotoNotification = {},
         onGoSetting = {},
         onMyPageCardClick = {},
         onProfileEditClick = {},

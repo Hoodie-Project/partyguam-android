@@ -1,6 +1,8 @@
 package com.party.presentation.screen.party_apply
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,8 +13,10 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -95,6 +99,8 @@ fun PartyApplyScreen(
     partyRecruitmentId: Int,
     onAction: (PartyApplyAction) -> Unit,
 ) {
+    val focusManager = LocalFocusManager.current
+
     Scaffold(
         modifier = Modifier
             .blur(
@@ -123,6 +129,12 @@ fun PartyApplyScreen(
                     .background(WHITE)
                     .padding(it)
                     .padding(horizontal = MEDIUM_PADDING_SIZE)
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
+                        focusManager.clearFocus()  // 필드 외부 터치 시 포커스 해제 → 키보드 내려감
+                    }
             ) {
                 Column(
                     modifier = Modifier
