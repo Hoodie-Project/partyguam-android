@@ -26,6 +26,7 @@ import com.party.domain.model.room.KeywordModel
 @Composable
 fun RecentSearchedArea(
     keywordList: List<KeywordModel>,
+    onClickCard: (String) -> Unit,
     onDelete: (String) -> Unit,
     onAllDelete: () -> Unit
 ) {
@@ -56,6 +57,7 @@ fun RecentSearchedArea(
                 keywordList.forEach { keyword ->
                     KeywordListItem(
                         text = keyword.keyword,
+                        onClickCard = onClickCard,
                         onDelete = { onDelete(keyword.keyword) }
                     )
                 }
@@ -67,10 +69,12 @@ fun RecentSearchedArea(
 @Composable
 private fun KeywordListItem(
     text: String,
+    onClickCard: (String) -> Unit,
     onDelete: () -> Unit,
 ) {
     RoundChip(
         text = text,
+        onClickCard = onClickCard,
         onIconClick = onDelete
     )
 }

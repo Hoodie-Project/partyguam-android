@@ -5,6 +5,7 @@ sealed interface SearchAction{
     data class OnTabClick(val tabText: String): SearchAction
     data class OnIsShowKeywordAreaChange(val isShowKeywordArea: Boolean): SearchAction
     data object OnSearch: SearchAction
+    data class OnClickCardKeyword(val keyword: String): SearchAction
     data class OnDeleteKeyword(val keyword: String): SearchAction
     data object OnAllDeleteKeyword: SearchAction
 

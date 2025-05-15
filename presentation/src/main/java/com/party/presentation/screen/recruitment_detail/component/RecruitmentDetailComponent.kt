@@ -181,7 +181,7 @@ fun RecruitmentTypeArea(
 @Composable
 fun RecruitmentCurrentInfoArea(
     recruitingCount: String,
-    recruitedCount: Int,
+    applicationCount: Int,
     createDate: String,
 ) {
     Column(
@@ -196,7 +196,7 @@ fun RecruitmentCurrentInfoArea(
         )
         RecruitmentInfoItem(
             title = "지원자",
-            content = recruitedCount.toString(),
+            content = applicationCount.toString(),
             textColor = PRIMARY,
         )
         RecruitmentInfoItem(

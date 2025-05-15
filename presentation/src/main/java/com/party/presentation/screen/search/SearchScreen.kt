@@ -89,6 +89,7 @@ fun SearchScreen(
                 RecentSearchedArea(
                     keywordList = searchState.keywordList,
                     onAllDelete = { onAction(SearchAction.OnAllDeleteKeyword) },
+                    onClickCard = { clickedKeyword -> onAction(SearchAction.OnClickCardKeyword(clickedKeyword))},
                     onDelete = { keyword -> onAction(SearchAction.OnDeleteKeyword(keyword)) },
                 )
             } else {

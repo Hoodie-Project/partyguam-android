@@ -124,8 +124,8 @@ fun RecruitmentDetailScreen(
                     )
                     HeightSpacer(heightDp = 20.dp)
                     RecruitmentCurrentInfoArea(
-                        recruitingCount = convertToText(recruitmentDetailState.recruitmentDetail.recruitedCount, recruitmentDetailState.recruitmentDetail.recruitingCount),
-                        recruitedCount = recruitmentDetailState.recruitmentDetail.recruitingCount,
+                        recruitingCount = convertToText(recruitmentDetailState.recruitmentDetail.applicationCount, recruitmentDetailState.recruitmentDetail.recruitingCount),
+                        applicationCount = recruitmentDetailState.recruitmentDetail.applicationCount,
                         createDate = recruitmentDetailState.recruitmentDetail.createdAt,
                     )
                     HeightSpacer(heightDp = 32.dp)

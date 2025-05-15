@@ -34,9 +34,11 @@ fun RoundChip(
     spacer: Dp = 4.dp,
     painter: Painter = painterResource(id = R.drawable.icon_close2),
     iconSize: Dp = 16.dp,
+    onClickCard: (String) -> Unit,
     onIconClick: () -> Unit,
 ) {
     Card(
+        onClick = { onClickCard(text) },
         shape = RoundedCornerShape(999.dp),
         modifier = Modifier
             .widthIn(min = 60.dp)
@@ -56,6 +58,7 @@ fun RoundChip(
                 text = text,
                 fontSize = B2,
                 textColor = BLACK,
+                onClick = { onClickCard(text) },
             )
             WidthSpacer(widthDp = spacer)
             Icon(
@@ -72,9 +75,10 @@ fun RoundChip(
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewRoundChip() {
+private fun PreviewRoundChip() {
     RoundChip(
-        text = "Chip",
-        onIconClick = {}
+        text = "파티모집",
+        onIconClick = {},
+        onClickCard = {}
     )
 }

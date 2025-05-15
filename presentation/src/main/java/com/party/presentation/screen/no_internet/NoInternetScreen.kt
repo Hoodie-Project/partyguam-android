@@ -15,9 +15,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.party.common.ui.theme.B2
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.common.ui.theme.BLACK
@@ -26,6 +28,7 @@ import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T2
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
+import com.party.common.utils.calculateLetterSpacing
 
 @Composable
 fun NoInternetScreenRoute() {
@@ -75,8 +78,10 @@ private fun NoInternetScreen(){
                 ){
                     TextComponent(
                         text = "다시 시도",
-                        fontSize = T3,
-                        fontWeight = FontWeight.ExtraBold
+                        fontSize = B2,
+                        fontWeight = FontWeight.SemiBold,
+                        textColor = Color(0xFF111111),
+                        letterSpacing = calculateLetterSpacing(B2, (-2.5f))
                     )
                 }
             }

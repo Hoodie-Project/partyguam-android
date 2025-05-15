@@ -97,7 +97,7 @@ private fun RecruitmentCreatePreviewScreen(
                 HeightSpacer(heightDp = 20.dp)
                 RecruitmentCurrentInfoArea(
                     recruitingCount = convertToText(0, state.recruitingCount),
-                    recruitedCount = 0,
+                    applicationCount = 0,
                     createDate = state.createdAt,
                 )
                 HeightSpacer(heightDp = 32.dp)

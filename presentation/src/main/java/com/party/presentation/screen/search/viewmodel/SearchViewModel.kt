@@ -260,6 +260,19 @@ class SearchViewModel @Inject constructor(
                 }
             }
 
+            is SearchAction.OnClickCardKeyword -> {
+                _searchState.update {
+                    it.copy(
+                        isShowKeywordArea = false,
+                        inputKeyword = action.keyword
+                    )
+                }
+                allSearch(
+                    titleSearch = action.keyword,
+                    page = 1,
+                    limit = 50
+                )
+            }
             is SearchAction.OnDeleteKeyword -> deleteKeyword(action.keyword)
             is SearchAction.OnAllDeleteKeyword -> allDeleteKeyword()
             is SearchAction.OnChangeOrderByParty -> {
