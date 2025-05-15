@@ -25,6 +25,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -61,9 +62,8 @@ fun PositionBottomSheet(
     onReset: () -> Unit = {},
     onApply: () -> Unit,
 ) {
-    val sheetState = rememberStandardBottomSheetState(
-        initialValue = SheetValue.Expanded,
-        skipHiddenState = false
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true,
     )
 
     ModalBottomSheet(
