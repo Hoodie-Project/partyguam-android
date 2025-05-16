@@ -30,6 +30,7 @@ import com.party.common.Screens
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.bottomsheet.OneSelectPickerBottomSheet
 import com.party.common.component.bottomsheet.component.ApplyButton
+import com.party.common.component.bottomsheet.component.ResetButton
 import com.party.common.component.bottomsheet.list.peopleCountList
 import com.party.common.component.button.CustomButton
 import com.party.common.component.dialog.TwoButtonDialog
@@ -37,11 +38,15 @@ import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.MultiLineInputField
 import com.party.common.utils.noRippleClickable
 import com.party.common.ui.theme.BLACK
+import com.party.common.ui.theme.GRAY400
+import com.party.common.ui.theme.LIGHT200
+import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
 import com.party.presentation.component.HelpCard
 import com.party.presentation.component.SelectMainAndSubPositionArea
+import com.party.presentation.screen.recruitment_create.RecruitmentState
 import com.party.presentation.screen.recruitment_create.component.RecruitmentCreateInputField
 import com.party.presentation.screen.recruitment_edit.component.RecruitmentEditDescriptionArea
 import com.party.presentation.screen.recruitment_edit.component.RecruitmentEditScaffoldArea
@@ -237,14 +242,20 @@ private fun RecruitmentEditScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
+                    val isValidButton = isActiveApplyButton(recruitmentEditState)
+
+                    val borderColor = if(isValidButton) PRIMARY else LIGHT200
+                    val containerColor = WHITE
+                    val textColor = if(isValidButton) BLACK else GRAY400
                     CustomButton(
                         onClick = {
                             onAction(RecruitmentEditAction.OnShowPartyRecruitmentCompletedDialog(true))
                         },
                         buttonText = "마감하기",
+                        contentColor = textColor,
                         textWeight = FontWeight.Bold,
-                        containerColor = WHITE,
-                        borderColor = PRIMARY,
+                        containerColor = containerColor,
+                        borderColor = borderColor,
                         modifier = Modifier
                             .weight(1f)
                             .height(48.dp),
@@ -255,6 +266,7 @@ private fun RecruitmentEditScreen(
                         modifier = Modifier
                             .weight(1f)
                             .height(48.dp),
+                        isActive = isValidButton,
                         onClick = {
                             onAction(RecruitmentEditAction.OnModifyRecruitment(partyId = partyId, partyRecruitmentId = partyRecruitmentId))
                         }
@@ -288,6 +300,13 @@ private fun RecruitmentEditScreen(
             )
         }
     }
+}
+
+private fun isActiveApplyButton(recruitmentEditState: RecruitmentEditState): Boolean{
+    return recruitmentEditState.selectedMainPosition.isNotEmpty() &&
+            recruitmentEditState.selectedSubPosition.sub.isNotEmpty() &&
+            recruitmentEditState.selectedCount > 0 &&
+            recruitmentEditState.recruitmentDescription.isNotEmpty()
 }
 
 @Preview(showBackground = true)
