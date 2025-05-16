@@ -17,12 +17,17 @@ import androidx.compose.ui.unit.dp
 import com.party.common.utils.WidthSpacer
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
+import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
+import com.party.common.ui.theme.LIGHT200
+import com.party.common.ui.theme.LIGHT400
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
 
 @Composable
 fun BottomSheetButtonArea(
+    isActiveResetButton: Boolean,
+    isActiveApplyButton: Boolean,
     onReset: () -> Unit,
     onApply: () -> Unit,
 ) {
@@ -35,12 +40,14 @@ fun BottomSheetButtonArea(
         ResetButton(
             modifier = Modifier
                 .weight(1f),
+            isActive = isActiveResetButton,
             onClick = onReset,
         )
         WidthSpacer(widthDp = 8.dp)
         ApplyButton(
             modifier = Modifier
                 .weight(2f),
+            isActive = isActiveApplyButton,
             onClick = onApply,
         )
     }
@@ -49,23 +56,28 @@ fun BottomSheetButtonArea(
 @Composable
 fun ResetButton(
     modifier: Modifier,
+    isActive: Boolean,
     onClick: () -> Unit,
 ) {
+    val borderColor = if(isActive) PRIMARY else LIGHT200
+    val containerColor = WHITE
+    val textColor = if(isActive) BLACK else GRAY400
+
     Button(
         onClick = { onClick() },
         modifier = modifier
             .height(56.dp),
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
-        border = BorderStroke(1.dp, PRIMARY),
+        border = BorderStroke(1.dp, borderColor),
         colors = ButtonDefaults.buttonColors(
-            containerColor = WHITE,
+            containerColor = containerColor,
         ),
     ) {
         Text(
             text = "초기화",
             fontWeight = FontWeight.Bold,
             fontSize = B2,
-            color = BLACK,
+            color = textColor,
         )
     }
 }
@@ -74,33 +86,38 @@ fun ResetButton(
 fun ApplyButton(
     buttonText: String = "적용하기",
     modifier: Modifier,
+    isActive: Boolean,
     onClick: () -> Unit,
 ) {
+    val borderColor = if(isActive) PRIMARY else LIGHT200
+    val containerColor = if(isActive) PRIMARY else LIGHT400
+    val textColor = if(isActive) BLACK else GRAY400
+
     Button(
         onClick = { onClick() },
         modifier = modifier
             .height(56.dp),
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
-        border = BorderStroke(1.dp, PRIMARY),
+        border = BorderStroke(1.dp, borderColor),
         colors = ButtonDefaults.buttonColors(
-            containerColor = PRIMARY,
+            containerColor = containerColor,
         ),
     ) {
         Text(
             text = buttonText,
             fontWeight = FontWeight.Bold,
             fontSize = B2,
-            color = BLACK,
+            color = textColor,
         )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun BottomSheetButtonAreaPreview(
-    modifier: Modifier = Modifier
-) {
+private fun BottomSheetButtonAreaPreview() {
     BottomSheetButtonArea(
+        isActiveResetButton = false,
+        isActiveApplyButton = true,
         onReset = {},
         onApply = {},
     )

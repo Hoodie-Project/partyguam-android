@@ -101,6 +101,8 @@ fun PositionBottomSheet(
             )
 
             BottomSheetButtonArea(
+                isActiveApplyButton = selectedMainAndSubPositionList.isNotEmpty(),
+                isActiveResetButton = selectedMainAndSubPositionList.isNotEmpty(),
                 onReset = onReset,
                 onApply = onApply,
             )
