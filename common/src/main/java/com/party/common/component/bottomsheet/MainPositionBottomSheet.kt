@@ -79,6 +79,8 @@ fun MainPositionBottomSheet(
             }
 
             BottomSheetButtonArea(
+                isActiveApplyButton = true,
+                isActiveResetButton = true,
                 onReset = onReset,
                 onApply = onApply,
             )
@@ -134,7 +136,7 @@ private fun MainPositionBottomSheetContentItem(
 
 @Preview
 @Composable
-fun MainPositionBottomSheetPreview() {
+private fun MainPositionBottomSheetPreview() {
     MainPositionBottomSheet(
         selectedPosition = "개발자",
         onBottomSheetClose = {},

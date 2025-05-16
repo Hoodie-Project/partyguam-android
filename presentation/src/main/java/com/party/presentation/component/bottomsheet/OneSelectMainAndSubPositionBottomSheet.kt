@@ -121,6 +121,7 @@ fun OneSelectMainAndSubPositionBottomSheet(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp),
+                isActive = if(inModalSelectedMainPosition.isNotEmpty() && inModalSelectedSubPosition.sub.isNotEmpty()) true else false,
                 onClick = {
                     onApply(inModalSelectedMainPosition, inModalSelectedSubPosition)
                     onModelClose()

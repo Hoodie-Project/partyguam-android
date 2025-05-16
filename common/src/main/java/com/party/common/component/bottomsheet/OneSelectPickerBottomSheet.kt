@@ -80,6 +80,7 @@ fun OneSelectPickerBottomSheet(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp),
+                isActive = true,
                 onClick = {onApply(selectedItem)}
             )
         }
