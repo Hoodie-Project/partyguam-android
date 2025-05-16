@@ -36,6 +36,7 @@ import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
 import com.party.presentation.component.HelpCard
 import com.party.presentation.component.SelectMainAndSubPositionArea
+import com.party.presentation.screen.party_create.PartyCreateState
 import com.party.presentation.screen.recruitment_create.component.RecruitmentCreateDescriptionArea
 import com.party.presentation.screen.recruitment_create.component.RecruitmentCreateInputField
 import com.party.presentation.screen.recruitment_create.component.RecruitmentCreateScaffoldArea
@@ -208,6 +209,7 @@ fun RecruitmentCreateScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp),
+                    isActive = isActiveApplyButton(recruitmentState),
                     onClick = {
                         onAction(RecruitmentCreateAction.OnRecruitmentCreate(partyId = partyId))
                     }
@@ -216,6 +218,13 @@ fun RecruitmentCreateScreen(
             }
         }
     )
+}
+
+private fun isActiveApplyButton(recruitmentState: RecruitmentState): Boolean{
+    return recruitmentState.selectedMainPosition.isNotEmpty() &&
+            recruitmentState.selectedSubPosition.sub.isNotEmpty() &&
+            recruitmentState.selectedCount > 0 &&
+            recruitmentState.recruitmentDescription.isNotEmpty()
 }
 
 @Preview(showBackground = true)
