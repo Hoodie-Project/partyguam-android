@@ -297,6 +297,7 @@ private fun PartyCreateScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
+                isActive = isActiveApplyButton(partyCreateState),
                 onClick = {
                     onAction(PartyCreateAction.OnPartyCreate)
                 }
@@ -316,6 +317,14 @@ private fun PartyCreateScreen(
             )
         }
     }
+}
+
+private fun isActiveApplyButton(partyCreateState: PartyCreateState): Boolean{
+    return partyCreateState.selectedMainPosition.isNotEmpty() &&
+            partyCreateState.selectedSubPosition.sub.isNotEmpty() &&
+            partyCreateState.inputPartyTitle.isNotEmpty() &&
+            partyCreateState.partyDescription.isNotEmpty() &&
+            partyCreateState.selectedPartyType.isNotEmpty()
 }
 
 @Preview(showBackground = true)
