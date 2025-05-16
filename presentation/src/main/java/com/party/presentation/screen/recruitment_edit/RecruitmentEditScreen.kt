@@ -1,6 +1,8 @@
 package com.party.presentation.screen.recruitment_edit
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,8 +17,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -123,6 +127,7 @@ private fun RecruitmentEditScreen(
     onAction: (RecruitmentEditAction) -> Unit,
 ) {
     val scrollState = rememberScrollState()
+    val focusManager = LocalFocusManager.current
 
     Scaffold(
         modifier = Modifier
@@ -144,6 +149,12 @@ private fun RecruitmentEditScreen(
                     .padding(it)
                     .padding(horizontal = MEDIUM_PADDING_SIZE)
                     .verticalScroll(scrollState)
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
+                        focusManager.clearFocus()  // 필드 외부 터치 시 포커스 해제 → 키보드 내려감
+                    }
             ) {
                 // 모집 포지션
                 HeightSpacer(heightDp = 40.dp)
