@@ -3,19 +3,18 @@ package com.party.presentation.screen.profile.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.party.common.ui.theme.B1
+import com.party.common.ui.theme.T2
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
-import com.party.common.component.chip.Chip
-import com.party.common.ui.theme.B1
-import com.party.common.ui.theme.LIGHT400
-import com.party.common.ui.theme.T2
 import com.party.domain.model.user.profile.UserLocation
 import com.party.domain.model.user.profile.UserProfile
 import com.party.domain.model.user.profile.UserProfileLocation
@@ -36,9 +35,9 @@ fun HopeLocationArea(
         )
         HeightSpacer(heightDp = 20.dp)
 
-        LazyRow(
+        LazyColumn(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             itemsIndexed(
                 items = userProfileState.userProfile.userLocations,
@@ -46,11 +45,12 @@ fun HopeLocationArea(
                     item.id
                 }
             ){ _, item ->
-                Chip(
-                    text = "${item.location.province} ${item.location.city}",
+                TextComponent(
+                    modifier = Modifier
+                        .height(22.dp),
+                    text = "·${item.location.province} ${item.location.city}",
                     fontSize = B1,
                     fontWeight = FontWeight.Normal,
-                    containerColor = LIGHT400
                 )
             }
         }
@@ -59,7 +59,7 @@ fun HopeLocationArea(
 
 @Preview(showBackground = true)
 @Composable
-fun HopeLocationAreaPreview() {
+private fun HopeLocationAreaPreview() {
     HopeLocationArea(
         userProfileState = UserProfileState(
             userProfile = UserProfile(

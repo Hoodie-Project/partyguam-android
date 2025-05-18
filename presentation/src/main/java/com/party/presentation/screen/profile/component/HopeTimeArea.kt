@@ -1,19 +1,17 @@
 package com.party.presentation.screen.profile.component
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.party.common.ui.theme.T2
+import com.party.common.ui.theme.T3
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
-import com.party.common.component.chip.Chip
-import com.party.common.ui.theme.LIGHT400
-import com.party.common.ui.theme.T2
-import com.party.common.ui.theme.T3
 import com.party.domain.model.user.profile.UserPersonality
 
 @Composable
@@ -31,14 +29,18 @@ fun HopeTimeArea(
         )
         HeightSpacer(heightDp = 20.dp)
 
-        Row {
+        Column {
             userPersonalityList.forEachIndexed { _, userPersonality ->
-                Chip(
-                    text = userPersonality.personalityOption.content,
-                    containerColor = LIGHT400,
-                    fontWeight = FontWeight.Normal,
+
+                TextComponent(
+                    modifier = Modifier
+                        .height(22.dp),
+                    text = "·${userPersonality.personalityOption.content}",
                     fontSize = T3,
+                    fontWeight = FontWeight.Normal,
                 )
+
+
                 WidthSpacer(widthDp = 8.dp)
             }
         }
