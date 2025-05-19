@@ -28,13 +28,13 @@ fun RecruitmentScaffoldArea(
             )
         },
         actionIcons = {
-            DrawableIconButton(
+            /*DrawableIconButton(
                 icon = painterResource(id = R.drawable.icon_share),
                 iconColor = BLACK,
                 iconSize = 24.dp,
                 contentDescription = "share",
                 onClick = { onSharedClick() }
-            )
+            )*/
 
             if(recruitmentDetailState.partyAuthority.authority == PartyAuthorityType.MASTER.authority) {
                 DrawableIconButton(
