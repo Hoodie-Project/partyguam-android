@@ -31,16 +31,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.party.common.utils.HeightSpacer
 import com.party.common.R
-import com.party.common.utils.TextComponent
-import com.party.common.utils.WidthSpacer
+import com.party.common.Screens
 import com.party.common.component.icon.DrawableIcon
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.GRAY100
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.TextComponent
+import com.party.common.utils.WidthSpacer
+import com.party.common.utils.noRippleClickable
 import com.party.domain.model.user.profile.PersonalityOption
 import com.party.domain.model.user.profile.PersonalityQuestion
 import com.party.domain.model.user.profile.UserCareer
@@ -49,8 +51,6 @@ import com.party.domain.model.user.profile.UserPersonality
 import com.party.domain.model.user.profile.UserProfile
 import com.party.domain.model.user.profile.UserProfileLocation
 import com.party.domain.model.user.profile.UserProfilePosition
-import com.party.common.Screens
-import com.party.common.utils.noRippleClickable
 import com.party.presentation.enum.DetailProfileCardType
 import com.party.presentation.enum.PersonalityType
 import com.party.presentation.screen.profile.UserProfileState
@@ -76,7 +76,7 @@ fun DetailProfileSettingArea(
                     it.personalityOption.personalityQuestion.id == PersonalityType.TIME.id
                 }
                 DetailProfileCardType.CHECK_PERSONALITY -> userProfileState.userProfile.userPersonalities.any {
-                    it.personalityOption.personalityQuestion.id != PersonalityType.TIME.id
+                    it.personalityOption.personalityQuestion.id != PersonalityType.TENDENCY.id
                 }
             }
         }
@@ -119,7 +119,7 @@ private fun DetailProfileSettingAreaTitle(
                 it.personalityOption.personalityQuestion.id == PersonalityType.TIME.id
             }
             DetailProfileCardType.CHECK_PERSONALITY -> userProfileState.userProfile.userPersonalities.any {
-                it.personalityOption.personalityQuestion.id != PersonalityType.TIME.id
+                it.personalityOption.personalityQuestion.id != PersonalityType.TENDENCY.id
             }
         }
     }
@@ -143,11 +143,14 @@ private fun DetailProfileSettingAreaTitle(
             append("/")
             append("${profileCardTypeList.size}")
         }
-        Text(
-            text = annotatedString,
-            fontSize = T3,
-            fontWeight = FontWeight.SemiBold,
-        )
+
+        if(countNotEmpty in 0..3){
+            Text(
+                text = annotatedString,
+                fontSize = T3,
+                fontWeight = FontWeight.SemiBold,
+            )
+        }
     }
 }
 
@@ -185,7 +188,7 @@ private fun DetailProfileCardArea(
             DetailProfileCardType.CAREER_POSITION -> userProfileState.userProfile.userCareers.isEmpty()
             DetailProfileCardType.LIKE_LOCATION -> userProfileState.userProfile.userLocations.isEmpty()
             DetailProfileCardType.LIKE_TIME -> userProfileState.userProfile.userPersonalities.none { it.personalityOption.personalityQuestion.id == PersonalityType.TIME.id }
-            DetailProfileCardType.CHECK_PERSONALITY -> userProfileState.userProfile.userPersonalities.none { it.personalityOption.personalityQuestion.id != PersonalityType.TIME.id }
+            DetailProfileCardType.CHECK_PERSONALITY -> userProfileState.userProfile.userPersonalities.none { it.personalityOption.personalityQuestion.id != PersonalityType.TENDENCY.id }
         }
     }
 
@@ -295,7 +298,54 @@ private fun DetailProfileSettingAreaPreview() {
                 updatedAt = "",
                 userPersonalities = listOf(
                     UserPersonality(
-                        id = 737, personalityOption = PersonalityOption(
+                        id = 283,
+                        personalityOption = PersonalityOption(
+                            id = 5,
+                            content = "새벽 (0시~6시)",
+                            personalityQuestion = PersonalityQuestion(
+                                id = 1,
+                                content = "주로 작업하는 시간대는 어떻게 되시나요?",
+                                responseCount = 2
+                            )
+                        )
+                    ),
+                ),
+                userCareers = emptyList(),
+                userLocations = listOf(
+                    UserLocation(
+                        id = 3695, location = UserProfileLocation(
+                            id = 7617,
+                            province = "Ramie",
+                            city = "Vicki"
+                        )
+                    )
+                ),
+            ),
+        ),
+        onClick = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DetailProfileSettingAreaPreview2() {
+    DetailProfileSettingArea(
+        userProfileState = UserProfileState(
+            userProfile = UserProfile(
+                nickname = "",
+                birth = "",
+                birthVisible = false,
+                gender = "",
+                genderVisible = false,
+                portfolioTitle = "",
+                portfolio = "",
+                image = "",
+                createdAt = "",
+                updatedAt = "",
+                userPersonalities = listOf(
+                    UserPersonality(
+                        id = 737,
+                        personalityOption = PersonalityOption(
                             id = 2571,
                             content = "Roshawnda",
                             personalityQuestion = PersonalityQuestion(
