@@ -1,6 +1,7 @@
 package com.party.presentation.screen.profile_edit_locations
 
 import com.party.domain.model.user.detail.Location
+import com.party.domain.model.user.detail.UserLikeLocation
 
 data class ProfileEditLocationState(
 
@@ -8,6 +9,9 @@ data class ProfileEditLocationState(
 
     // province 를 클릭했을 때 세부적으로 조회하는 지역 리스트
     val getLocationList: List<Location> = emptyList(),
+
+    // 유저가 설정한 관심지역 리스트
+    val getUserLikeLocationList: List<UserLikeLocation> = emptyList(),
 
     // 선택된 location list
     val selectedLocationList: List<Location> = emptyList(),

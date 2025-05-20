@@ -1,11 +1,8 @@
 package com.party.presentation.screen.profile.component
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -15,6 +12,7 @@ import com.party.common.ui.theme.B1
 import com.party.common.ui.theme.T2
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
+import com.party.common.utils.WidthSpacer
 import com.party.domain.model.user.profile.UserLocation
 import com.party.domain.model.user.profile.UserProfile
 import com.party.domain.model.user.profile.UserProfileLocation
@@ -35,23 +33,18 @@ fun HopeLocationArea(
         )
         HeightSpacer(heightDp = 20.dp)
 
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            itemsIndexed(
-                items = userProfileState.userProfile.userLocations,
-                key = { _, item ->
-                    item.id
+        Column {
+            userProfileState.userProfile.userLocations.forEachIndexed { _, userLocation ->
+                Column {
+                    TextComponent(
+                        modifier = Modifier
+                            .height(22.dp),
+                        text = "·${userLocation.location.province} ${userLocation.location.city}",
+                        fontSize = B1,
+                        fontWeight = FontWeight.Normal,
+                    )
+                    WidthSpacer(widthDp = 8.dp)
                 }
-            ){ _, item ->
-                TextComponent(
-                    modifier = Modifier
-                        .height(22.dp),
-                    text = "·${item.location.province} ${item.location.city}",
-                    fontSize = B1,
-                    fontWeight = FontWeight.Normal,
-                )
             }
         }
     }

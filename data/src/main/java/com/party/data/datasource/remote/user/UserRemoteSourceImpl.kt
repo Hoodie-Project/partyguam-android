@@ -15,6 +15,7 @@ import com.party.data.dto.user.detail.PersonalitySaveDto
 import com.party.data.dto.user.detail.PositionListDto
 import com.party.data.dto.user.detail.SaveCarrierDto
 import com.party.data.dto.user.detail.SaveInterestLocationDto
+import com.party.data.dto.user.detail.UserLikeLocationDto
 import com.party.data.dto.user.notification.ReadNotificationDto
 import com.party.data.dto.user.party.MyPartyDto
 import com.party.data.dto.user.profile.UserProfileDto
@@ -81,6 +82,10 @@ class UserRemoteSourceImpl @Inject constructor(
         locations: InterestLocationList,
     ): ApiResponse<List<SaveInterestLocationDto>> {
         return userService.saveInterestLocation(locations = locations)
+    }
+
+    override suspend fun getUserLikeLocations(): ApiResponse<List<UserLikeLocationDto>> {
+        return userService.getUserLikeLocations()
     }
 
     override suspend fun getPositions(

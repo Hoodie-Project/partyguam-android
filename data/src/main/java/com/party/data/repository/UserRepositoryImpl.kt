@@ -36,8 +36,10 @@ import com.party.domain.model.user.detail.PositionList
 import com.party.domain.model.user.detail.SaveCarrier
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.detail.SaveInterestLocation
+import com.party.domain.model.user.detail.UserLikeLocation
 import com.party.domain.model.user.notification.ReadNotification
 import com.party.domain.model.user.party.MyParty
+import com.party.domain.model.user.profile.UserLocation
 import com.party.domain.model.user.profile.UserProfile
 import com.party.domain.model.user.profile.UserProfileModify
 import com.party.domain.model.user.recruitment.MyRecruitment
@@ -291,6 +293,21 @@ class UserRepositoryImpl @Inject constructor(
                 }
             }
 
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse(message = result.message)
+            }
+        }
+    }
+
+    override suspend fun getUserLikeLocations(): ServerApiResponse<List<UserLikeLocation>> {
+        return when(val result = userRemoteSource.getUserLikeLocations()){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = result.data.map { UserMapper.mapperToUserLikeLocation(it) })
+            }
+            is ApiResponse.Failure.Error -> {
+                ErrorResponse()
+            }
             is ApiResponse.Failure.Exception -> {
                 result.throwable.printStackTrace()
                 ExceptionResponse(message = result.message)

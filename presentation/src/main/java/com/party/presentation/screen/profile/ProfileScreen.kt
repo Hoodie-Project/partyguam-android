@@ -32,6 +32,7 @@ import com.party.domain.model.user.profile.UserProfileLocation
 import com.party.domain.model.user.profile.UserProfilePosition
 import com.party.common.component.BottomNavigationBar
 import com.party.common.Screens
+import com.party.presentation.enum.DetailProfileCardType
 import com.party.presentation.enum.PersonalityType
 import com.party.presentation.screen.profile.component.DetailProfileSettingArea
 import com.party.presentation.screen.profile.component.HopeLocationArea
@@ -40,6 +41,7 @@ import com.party.presentation.screen.profile.component.MyPartyListArea
 import com.party.presentation.screen.profile.component.ProfileScaffoldArea
 import com.party.presentation.screen.profile.component.ProfileTopArea
 import com.party.presentation.screen.profile.component.TendencyArea
+import com.party.presentation.screen.profile.component.profileCardTypeList
 import com.party.presentation.screen.profile.viewmodel.ProfileViewModel
 
 @Composable
@@ -109,16 +111,31 @@ private fun ProfileScreen(
                 onProfileEditClick = onProfileEditClick
             )
 
-            // 세부프로필 설정하기
-            HeightSpacer(heightDp = 40.dp)
-            DetailProfileSettingArea(
-                userProfileState = userProfileState,
-                onClick = onClick
-            )
+            val countNotEmpty = profileCardTypeList.count { cardType ->
+                when (cardType) {
+                    DetailProfileCardType.CAREER_POSITION -> userProfileState.userProfile.userCareers.isNotEmpty()
+                    DetailProfileCardType.LIKE_LOCATION -> userProfileState.userProfile.userLocations.isNotEmpty()
+                    DetailProfileCardType.LIKE_TIME -> userProfileState.userProfile.userPersonalities.any {
+                        it.personalityOption.personalityQuestion.id == PersonalityType.TIME.id
+                    }
+                    DetailProfileCardType.CHECK_PERSONALITY -> userProfileState.userProfile.userPersonalities.any {
+                        it.personalityOption.personalityQuestion.id != PersonalityType.TENDENCY.id
+                    }
+                }
+            }
+
+            if(countNotEmpty in 0.. 3){
+                // 세부프로필 설정하기
+                HeightSpacer(heightDp = 40.dp)
+                DetailProfileSettingArea(
+                    userProfileState = userProfileState,
+                    onClick = onClick
+                )
+            }
 
             // 희망장소
             if(userProfileState.userProfile.userLocations.isNotEmpty()){
-                HeightSpacer(heightDp = 60.dp)
+                HeightSpacer(heightDp = 40.dp)
                 HopeLocationArea(
                     userProfileState = userProfileState
                 )

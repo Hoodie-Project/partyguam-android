@@ -22,8 +22,10 @@ import com.party.domain.model.user.detail.PositionList
 import com.party.domain.model.user.detail.SaveCarrier
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.detail.SaveInterestLocation
+import com.party.domain.model.user.detail.UserLikeLocation
 import com.party.domain.model.user.notification.ReadNotification
 import com.party.domain.model.user.party.MyParty
+import com.party.domain.model.user.profile.UserLocation
 import com.party.domain.model.user.profile.UserProfile
 import com.party.domain.model.user.profile.UserProfileModify
 import com.party.domain.model.user.recruitment.MyRecruitment
@@ -60,6 +62,9 @@ interface UserRepository {
 
     // 관심지역 저장
     suspend fun saveInterestLocation(locations: InterestLocationList): ServerApiResponse<List<SaveInterestLocation>>
+
+    // 유저가 지정한 관심지역 조회
+    suspend fun getUserLikeLocations(): ServerApiResponse<List<UserLikeLocation>>
 
     // 특정 직군의 포지션 리스트 조회
     suspend fun getPositions(main: String): ServerApiResponse<List<PositionList>>

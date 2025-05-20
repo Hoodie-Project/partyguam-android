@@ -7,6 +7,7 @@ import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.InterestLocationRequest
 import com.party.domain.usecase.user.detail.DeleteUserLocationUseCase
 import com.party.domain.usecase.user.detail.GetLocationListUseCase
+import com.party.domain.usecase.user.detail.GetUserLikeLocationUseCase
 import com.party.domain.usecase.user.detail.SaveInterestLocationUseCase
 import com.party.presentation.screen.profile_edit_locations.ProfileEditLocationAction
 import com.party.presentation.screen.profile_edit_locations.ProfileEditLocationState
@@ -25,6 +26,7 @@ class ProfileEditLocationViewModel @Inject constructor(
     private val getLocationListUseCase: GetLocationListUseCase,
     private val saveInterestLocationUseCase: SaveInterestLocationUseCase,
     private val deleteUserLocationUseCase: DeleteUserLocationUseCase,
+    private val getUserLikeLocationUseCase: GetUserLikeLocationUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ProfileEditLocationState())
@@ -46,11 +48,45 @@ class ProfileEditLocationViewModel @Inject constructor(
         }
     }
 
+    private fun getUserLikeLocation() {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = getUserLikeLocationUseCase()) {
+                is ServerApiResponse.SuccessResponse -> {
+                    val likeList = result.data ?: emptyList()
+
+                    val locationMap = _state.value.getLocationList.associateBy { it.id }
+
+                    val selectedList = likeList
+                        .distinctBy { it.id } // 같은 locationId 중복 제거
+                        .mapNotNull { userLike ->
+                            locationMap[userLike.id]
+                        }
+
+
+                    val selectedProvinceAndLocationList = selectedList.map { location ->
+                        location.province to location
+                    }
+
+                    _state.update {
+                        it.copy(
+                            getUserLikeLocationList = likeList,
+                            selectedLocationList = selectedList,
+                            selectedProvinceAndLocationList = selectedProvinceAndLocationList,
+                        )
+                    }
+                }
+
+                is ServerApiResponse.ErrorResponse -> {}
+                is ServerApiResponse.ExceptionResponse -> {}
+            }
+        }
+    }
     private fun getLocationList(province: String) {
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = getLocationListUseCase(province = province)) {
                 is ServerApiResponse.SuccessResponse -> {
                     _state.update { it.copy(getLocationList = result.data ?: emptyList()) }
+                    getUserLikeLocation()
                 }
 
                 is ServerApiResponse.ErrorResponse -> {}
@@ -153,9 +189,6 @@ class ProfileEditLocationViewModel @Inject constructor(
                         selectedProvinceAndLocationList = emptyList()
                     )
                 }
-            }
-
-            is ProfileEditLocationAction.OnApply -> {
                 deleteLocation(
                     locations = InterestLocationList(
                         locations = _state.value.selectedLocationList.map {
@@ -163,6 +196,27 @@ class ProfileEditLocationViewModel @Inject constructor(
                         }
                     )
                 )
+            }
+
+            is ProfileEditLocationAction.OnApply -> {
+                if(_state.value.getUserLikeLocationList.isNotEmpty()){
+                    deleteLocation(
+                        locations = InterestLocationList(
+                            locations = _state.value.selectedLocationList.map {
+                                InterestLocationRequest(id = it.id)
+                            }
+                        )
+                    )
+                }else {
+                    saveInterestLocation(
+                        locations = InterestLocationList(
+                            locations = _state.value.selectedLocationList.map {
+                                InterestLocationRequest(id = it.id)
+                            }
+                        )
+                    )
+                }
+
             }
         }
     }

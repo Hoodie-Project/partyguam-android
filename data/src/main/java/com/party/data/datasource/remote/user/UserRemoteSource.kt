@@ -15,6 +15,7 @@ import com.party.data.dto.user.detail.PersonalitySaveDto
 import com.party.data.dto.user.detail.PositionListDto
 import com.party.data.dto.user.detail.SaveCarrierDto
 import com.party.data.dto.user.detail.SaveInterestLocationDto
+import com.party.data.dto.user.detail.UserLikeLocationDto
 import com.party.data.dto.user.notification.ReadNotificationDto
 import com.party.data.dto.user.party.MyPartyDto
 import com.party.data.dto.user.profile.UserProfileDto
@@ -60,6 +61,9 @@ interface UserRemoteSource {
 
     // 관심지역 저장
     suspend fun saveInterestLocation(locations: InterestLocationList): ApiResponse<List<SaveInterestLocationDto>>
+
+    // 유저가 지정한 관심지역 조회
+    suspend fun getUserLikeLocations(): ApiResponse<List<UserLikeLocationDto>>
 
     // 특정 직군의 포지션 리스트 조회
     suspend fun getPositions(main: String): ApiResponse<List<PositionListDto>>

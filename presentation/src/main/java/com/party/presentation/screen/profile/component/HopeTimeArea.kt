@@ -39,8 +39,6 @@ fun HopeTimeArea(
                     fontSize = T3,
                     fontWeight = FontWeight.Normal,
                 )
-
-
                 WidthSpacer(widthDp = 8.dp)
             }
         }

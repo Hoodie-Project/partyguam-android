@@ -17,6 +17,7 @@ import com.party.data.dto.user.detail.PersonalitySaveDto
 import com.party.data.dto.user.detail.PositionListDto
 import com.party.data.dto.user.detail.SaveCarrierItem
 import com.party.data.dto.user.detail.SaveInterestLocationDto
+import com.party.data.dto.user.detail.UserLikeLocationDto
 import com.party.data.dto.user.notification.ReadNotificationDto
 import com.party.data.dto.user.party.MyPartyDto
 import com.party.data.dto.user.party.PartyUserDto
@@ -49,6 +50,7 @@ import com.party.domain.model.user.detail.PersonalitySave
 import com.party.domain.model.user.detail.PositionList
 import com.party.domain.model.user.detail.SaveCarrier
 import com.party.domain.model.user.detail.SaveInterestLocation
+import com.party.domain.model.user.detail.UserLikeLocation
 import com.party.domain.model.user.notification.ReadNotification
 import com.party.domain.model.user.party.MyParty
 import com.party.domain.model.user.party.Party
@@ -112,6 +114,13 @@ object UserMapper {
             id = positionListEntity.id,
             main = positionListEntity.main,
             sub = positionListEntity.sub,
+        )
+    }
+
+    fun mapperToUserLikeLocation(userLikeLocationDto: UserLikeLocationDto): UserLikeLocation{
+        return UserLikeLocation(
+            id = userLikeLocationDto.id,
+            userId = userLikeLocationDto.userId,
         )
     }
 
