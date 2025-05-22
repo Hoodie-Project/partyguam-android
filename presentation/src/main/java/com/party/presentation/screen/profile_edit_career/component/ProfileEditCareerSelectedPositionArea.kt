@@ -19,13 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.party.common.utils.HeightSpacer
 import com.party.common.R
-import com.party.common.utils.TextComponent
-import com.party.common.utils.WidthSpacer
 import com.party.common.component.icon.DrawableIcon
 import com.party.common.component.icon.DrawableIconButton
-import com.party.common.utils.noRippleClickable
 import com.party.common.ui.theme.B2
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY200
@@ -34,17 +30,15 @@ import com.party.common.ui.theme.LARGE_BUTTON_HEIGHT
 import com.party.common.ui.theme.LARGE_CORNER_SIZE
 import com.party.common.ui.theme.T3
 import com.party.common.ui.theme.WHITE
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.TextComponent
+import com.party.common.utils.WidthSpacer
+import com.party.common.utils.noRippleClickable
 import com.party.presentation.screen.profile_edit_career.ProfileEditCareerState
 
 @Composable
 fun ProfileEditCareerSelectedPositionArea(
     state: ProfileEditCareerState,
-    /*selectedCareerFirst: String,
-    selectedMainPositionFirst: String,
-    selectedSubPositionFirst: String,
-    selectedCareerSecond: String,
-    selectedMainPositionSecond: String,
-    selectedSubPositionSecond: String,*/
     onGoToSelectCareerAndPosition: (Boolean) -> Unit,
     onResetSelectedFirst: () -> Unit,
     onResetSelectedSecond: () -> Unit,
@@ -53,8 +47,11 @@ fun ProfileEditCareerSelectedPositionArea(
         modifier = Modifier
             .fillMaxWidth()
     ) {
+        val mainPositionYears = state.getMainPosition?.years
+            ?.takeIf { it != 0 }
+            ?.let { "${it}년" } ?: "신입"
         ProfileEditCareerSelectedPositionItem(
-            selectedCareer = "${state.getMainPosition?.years.toString()}년" ,
+            selectedCareer = mainPositionYears,
             selectedMainPosition = state.getMainPosition?.position?.main ?: "",
             selectedSubPosition = state.getMainPosition?.position?.sub ?: "",
             title = "주포지션",
@@ -64,8 +61,11 @@ fun ProfileEditCareerSelectedPositionArea(
 
         HeightSpacer(heightDp = 40.dp)
 
+        val subPositionYears = state.getSubPosition?.years
+            ?.takeIf { it != 0 }
+            ?.let { "${it}년" } ?: "신입"
         ProfileEditCareerSelectedPositionItem(
-            selectedCareer = "${state.getSubPosition?.years.toString()}년",
+            selectedCareer = subPositionYears,
             selectedMainPosition = state.getSubPosition?.position?.main ?: "",
             selectedSubPosition = state.getSubPosition?.position?.sub ?: "",
             title = "부포지션",
@@ -114,10 +114,11 @@ private fun AddCarrierCard(
     onReset: () -> Unit,
 ) {
     Card(
+        onClick = onGoToSelectCareerAndPosition,
         modifier = Modifier
             .fillMaxWidth()
             .height(LARGE_BUTTON_HEIGHT)
-            .noRippleClickable { onGoToSelectCareerAndPosition() },
+        ,
         colors = CardDefaults.cardColors(
             containerColor = WHITE
         ),
@@ -142,6 +143,7 @@ private fun AddCarrierCard(
                         text = "$selectedCareer  |  $selectedMainPosition  |  $selectedSubPosition",
                         fontSize = B2,
                         textColor = BLACK,
+                        onClick = onGoToSelectCareerAndPosition
                     )
 
                     DrawableIconButton(
@@ -171,6 +173,7 @@ private fun AddCarrierCard(
                         text = "추가하기",
                         fontSize = B2,
                         textColor = GRAY500,
+                        onClick = onGoToSelectCareerAndPosition,
                     )
                 }
             }

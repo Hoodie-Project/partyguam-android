@@ -17,6 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.google.android.play.integrity.internal.ac
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.ScreenExplainArea
 import com.party.common.component.button.CustomButton
@@ -49,13 +50,7 @@ fun ProfileEditCareerScreenRoute(
                 state = state,
                 onNavigationClick = { navController.popBackStack() },
                 onAction = { action ->
-                    when(action){
-                        is ProfileEditCareerAction.OnChangePrevScreen -> profileEditCareerViewModel.onAction(action)
-                        is ProfileEditCareerAction.OnChangeMainOrSub -> profileEditCareerViewModel.onAction(action)
-                        is ProfileEditCareerAction.OnGetSubPositionList -> profileEditCareerViewModel.onAction(action)
-                        is ProfileEditCareerAction.OnResetPrimaryPosition -> profileEditCareerViewModel.onAction(action)
-                        is ProfileEditCareerAction.OnResetSecondaryPosition -> profileEditCareerViewModel.onAction(action)
-                    }
+                    profileEditCareerViewModel.onAction(action = action)
                 },
                 onApply = {
                     val carrierRequests = listOfNotNull(
@@ -99,7 +94,7 @@ fun ProfileEditCareerScreenRoute(
                     if(state.isMainPosition){
                         profileEditCareerViewModel.setCarrier(
                             isMain = true,
-                            year = years,
+                            year = if(years == "신입") "0" else years,
                             main = main,
                             sub = sub,
                             id = subId
@@ -107,7 +102,7 @@ fun ProfileEditCareerScreenRoute(
                     } else {
                         profileEditCareerViewModel.setCarrier(
                             isMain = false,
-                            year = years,
+                            year = if(years == "신입") "0" else years,
                             main = main,
                             sub = sub,
                             id = subId
