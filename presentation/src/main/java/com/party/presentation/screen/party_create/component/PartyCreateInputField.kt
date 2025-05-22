@@ -29,7 +29,7 @@ fun PartyCreateInputField(
 ) {
     val inputTextColor = if(inputText.isEmpty()) GRAY400 else BLACK
     val borderColor = if(inputText.isEmpty()) GRAY200 else PRIMARY
-    val elevation = if(inputText.isEmpty()) 4.dp else 0.dp
+    val elevation = if(inputText.isEmpty()) 2.dp else 0.dp
 
     InputField(
         inputText = inputText,
