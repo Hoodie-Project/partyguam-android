@@ -18,12 +18,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.party.common.utils.HeightSpacer
-import com.party.common.utils.ScreenExplainArea
 import com.party.common.component.button.ResetAndApplyButtonArea
-import com.party.common.utils.snackBarMessage
 import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.ui.theme.WHITE
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.ScreenExplainArea
+import com.party.common.utils.snackBarMessage
 import com.party.presentation.screen.profile_edit_locations.component.ProfileEditLocationScaffoldArea
 import com.party.presentation.screen.profile_edit_locations.component.ProfileEditSelectLocationArea
 import com.party.presentation.screen.profile_edit_locations.component.SelectedProvinceAndLocationArea
@@ -115,6 +115,7 @@ private fun ProfileEditLocationScreen(
                     .fillMaxWidth()
             ) {
                 // selected province and location list
+                println("테스트 ${state.selectedProvinceAndLocationList}")
                 HeightSpacer(heightDp = 16.dp)
                 SelectedProvinceAndLocationArea(
                     selectedProvinceAndLocationList = state.selectedProvinceAndLocationList,

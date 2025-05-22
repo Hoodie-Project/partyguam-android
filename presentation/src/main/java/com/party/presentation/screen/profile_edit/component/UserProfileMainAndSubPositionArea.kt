@@ -64,8 +64,9 @@ private fun UserProfileMainAndSubPositionAreaItem(
         )
         WidthSpacer(widthDp = 24.dp)
 
+        val yearsText = if(userCareer.years == 0) "신입" else "${userCareer.years}년"
         Chip(
-            text = "${userCareer.years}년",
+            text = yearsText,
             containerColor = containerColor,
             fontSize = T3,
             fontWeight = FontWeight.Normal,

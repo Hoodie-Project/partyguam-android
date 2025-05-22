@@ -13,6 +13,7 @@ import com.party.presentation.screen.profile_edit_locations.ProfileEditLocationA
 import com.party.presentation.screen.profile_edit_locations.ProfileEditLocationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -39,7 +40,11 @@ class ProfileEditLocationViewModel @Inject constructor(
     val fourth = _fourth.asSharedFlow()
 
     init {
-        getLocationList("서울")
+        viewModelScope.launch(Dispatchers.IO) {
+            getUserLikeLocation()
+            delay(200L)
+            getLocationList("서울")
+        }
     }
 
     private fun fourthWarning() {
@@ -57,9 +62,9 @@ class ProfileEditLocationViewModel @Inject constructor(
                     val locationMap = _state.value.getLocationList.associateBy { it.id }
 
                     val selectedList = likeList
-                        .distinctBy { it.id } // 같은 locationId 중복 제거
+                        .distinctBy { it.locationId } // 같은 locationId 중복 제거
                         .mapNotNull { userLike ->
-                            locationMap[userLike.id]
+                            locationMap[userLike.locationId]
                         }
 
 
@@ -69,8 +74,8 @@ class ProfileEditLocationViewModel @Inject constructor(
 
                     _state.update {
                         it.copy(
-                            getUserLikeLocationList = likeList,
-                            selectedLocationList = selectedList,
+                            //getUserLikeLocationList = likeList,
+                            //selectedLocationList = selectedList,
                             selectedProvinceAndLocationList = selectedProvinceAndLocationList,
                         )
                     }
@@ -81,12 +86,12 @@ class ProfileEditLocationViewModel @Inject constructor(
             }
         }
     }
+
     private fun getLocationList(province: String) {
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = getLocationListUseCase(province = province)) {
                 is ServerApiResponse.SuccessResponse -> {
                     _state.update { it.copy(getLocationList = result.data ?: emptyList()) }
-                    getUserLikeLocation()
                 }
 
                 is ServerApiResponse.ErrorResponse -> {}
@@ -118,49 +123,52 @@ class ProfileEditLocationViewModel @Inject constructor(
     fun onAction(action: ProfileEditLocationAction) {
         when (action) {
             is ProfileEditLocationAction.OnSelectProvince -> {
-                _state.update { it.copy(selectedProvince = action.province) }
+                _state.update {
+                    it.copy(selectedProvince = action.province)
+                }
                 getLocationList(action.province)
             }
 
             is ProfileEditLocationAction.OnSelectLocation -> {
-                _state.update {
-                    val isAlreadySelected =
-                        it.selectedLocationList.contains(action.location)
+                _state.update { state ->
+                    val isAlreadySelected = state.selectedLocationList.contains(action.location)
 
-                    // 이미 선택된 경우 제거
+                    // 1. Location 리스트 업데이트 (중복 제거 & 최대 3개 제한)
                     val updatedSelectedLocationList = if (isAlreadySelected) {
-                        it.selectedLocationList.filter { location -> location != action.location }
+                        state.selectedLocationList - action.location
                     } else {
-                        // 최대 3개까지만 허용
-                        if (it.selectedLocationList.size < 3) {
-                            it.selectedLocationList + action.location
+                        if (state.selectedLocationList.size < 3) {
+                            state.selectedLocationList + action.location
                         } else {
-                            fourthWarning()
-                            it.selectedLocationList
+                            fourthWarning() // 최대 3개 경고 처리
+                            state.selectedLocationList
                         }
                     }
 
-                    // Province + Location 리스트 업데이트
-                    val updatedSelectedProvinceAndLocationList = if (isAlreadySelected) {
-                        it.selectedProvinceAndLocationList.filter { pair -> pair.second != action.location }
+                    // 2. Province + Location 누적 리스트 관리 (중복 없이 저장)
+                    val updatedProvinceAndLocationList = if (isAlreadySelected) {
+                        state.selectedProvinceAndLocationList.filterNot {
+                            it.second == action.location
+                        }
                     } else {
-                        if (it.selectedLocationList.size < 3) {
-                            it.selectedProvinceAndLocationList + Pair(
-                                it.selectedProvince,
-                                action.location
-                            )
+                        if (state.selectedLocationList.size < 3 &&
+                            state.selectedProvinceAndLocationList.none { it.second == action.location }
+                        ) {
+                            state.selectedProvinceAndLocationList + (state.selectedProvince to action.location)
                         } else {
-                            it.selectedProvinceAndLocationList // 추가하지 않음
+                            state.selectedProvinceAndLocationList
                         }
                     }
 
-                    // 상태 업데이트
-                    it.copy(
+                    // 3. 최종 업데이트
+                    state.copy(
                         selectedLocationList = updatedSelectedLocationList,
-                        selectedProvinceAndLocationList = updatedSelectedProvinceAndLocationList
+                        selectedProvinceAndLocationList = updatedProvinceAndLocationList
                     )
                 }
             }
+
+
 
             is ProfileEditLocationAction.OnDeleteProvinceAndLocation -> {
                 _state.update {
@@ -199,7 +207,7 @@ class ProfileEditLocationViewModel @Inject constructor(
             }
 
             is ProfileEditLocationAction.OnApply -> {
-                if(_state.value.getUserLikeLocationList.isNotEmpty()){
+                if(_state.value.selectedProvinceAndLocationList.isNotEmpty()){
                     deleteLocation(
                         locations = InterestLocationList(
                             locations = _state.value.selectedLocationList.map {

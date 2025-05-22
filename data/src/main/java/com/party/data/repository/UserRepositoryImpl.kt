@@ -365,7 +365,16 @@ class UserRepositoryImpl @Inject constructor(
     ): ServerApiResponse<List<SaveCarrier>> {
         return when(val result = userRemoteSource.saveCarrier(career = career)){
             is ApiResponse.Success -> {
-                SuccessResponse(data = result.data.career.map { UserMapper.mapperToSaveCarrierResponse(it) })
+                SuccessResponse(
+                    data = result.data.map { item ->
+                        SaveCarrier(
+                            id = item.id,
+                            positionId = item.positionId,
+                            years = item.years,
+                            careerType = item.careerType
+                        )
+                    }
+                )
             }
             is ApiResponse.Failure.Error -> {
                 val errorBody = result.errorBody?.string()

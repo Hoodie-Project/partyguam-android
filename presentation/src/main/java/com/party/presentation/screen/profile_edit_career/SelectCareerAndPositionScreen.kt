@@ -57,6 +57,7 @@ fun SelectCareerAndPositionScreen(
                 modifier = Modifier
                     .weight(1f)
             ) {
+                // 경력 선택 신입 ~ 10년 이상
                 ProfileEditSelectCareerArea(
                     selectedCareer = selectedYears,
                     onSelectCareer = {

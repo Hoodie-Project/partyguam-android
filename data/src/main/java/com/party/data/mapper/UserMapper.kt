@@ -15,7 +15,6 @@ import com.party.data.dto.user.detail.ModifyCarrierItem
 import com.party.data.dto.user.detail.PersonalityListDto
 import com.party.data.dto.user.detail.PersonalitySaveDto
 import com.party.data.dto.user.detail.PositionListDto
-import com.party.data.dto.user.detail.SaveCarrierItem
 import com.party.data.dto.user.detail.SaveInterestLocationDto
 import com.party.data.dto.user.detail.UserLikeLocationDto
 import com.party.data.dto.user.notification.ReadNotificationDto
@@ -121,16 +120,18 @@ object UserMapper {
         return UserLikeLocation(
             id = userLikeLocationDto.id,
             userId = userLikeLocationDto.userId,
+            locationId = userLikeLocationDto.locationId
         )
     }
 
-    fun mapperToSaveCarrierResponse(saveCarrierEntity: SaveCarrierItem): SaveCarrier {
+    /*fun mapperToSaveCarrierResponse(saveCarrierEntity: SaveCarrierItem): SaveCarrier {
         return SaveCarrier(
+            id = saveCarrierEntity.id,
             positionId = saveCarrierEntity.positionId,
             years = saveCarrierEntity.years,
             careerType = saveCarrierEntity.careerType,
         )
-    }
+    }*/
 
     fun mapperToModifyCarrierResponse(modifyCarrierItem: ModifyCarrierItem): ModifyCarrier{
         return ModifyCarrier(

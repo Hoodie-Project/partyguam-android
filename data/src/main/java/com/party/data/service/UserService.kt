@@ -12,6 +12,7 @@ import com.party.data.dto.user.detail.PersonalityListDto
 import com.party.data.dto.user.detail.PersonalitySaveDto
 import com.party.data.dto.user.detail.PositionListDto
 import com.party.data.dto.user.detail.SaveCarrierDto
+import com.party.data.dto.user.detail.SaveCarrierItemDto
 import com.party.data.dto.user.detail.SaveInterestLocationDto
 import com.party.data.dto.user.detail.UserLikeLocationDto
 import com.party.data.dto.user.notification.ReadNotificationDto
@@ -71,7 +72,7 @@ interface UserService {
     @POST("api/users/me/careers")
     suspend fun saveCareer(
         @Body career: SaveCarrierList,
-    ): ApiResponse<SaveCarrierDto>
+    ): ApiResponse<List<SaveCarrierItemDto>>
 
     // 유저 경력 수정
     @PATCH("api/users/me/careers")

@@ -14,6 +14,7 @@ import com.party.data.dto.user.detail.PersonalityListDto
 import com.party.data.dto.user.detail.PersonalitySaveDto
 import com.party.data.dto.user.detail.PositionListDto
 import com.party.data.dto.user.detail.SaveCarrierDto
+import com.party.data.dto.user.detail.SaveCarrierItemDto
 import com.party.data.dto.user.detail.SaveInterestLocationDto
 import com.party.data.dto.user.detail.UserLikeLocationDto
 import com.party.data.dto.user.notification.ReadNotificationDto
@@ -72,7 +73,7 @@ interface UserRemoteSource {
     suspend fun getCareers(): ApiResponse<List<GetCarrierDto>>
 
     // 유저 경력 저장
-    suspend fun saveCarrier(career: SaveCarrierList): ApiResponse<SaveCarrierDto>
+    suspend fun saveCarrier(career: SaveCarrierList): ApiResponse<List<SaveCarrierItemDto>>
 
     // 유저 경력 수정
     suspend fun modifyCarrier(career: ModifyCarrierList): ApiResponse<ModifyCarrierDto>

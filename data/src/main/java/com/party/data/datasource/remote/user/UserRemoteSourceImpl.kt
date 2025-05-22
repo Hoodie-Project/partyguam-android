@@ -14,6 +14,7 @@ import com.party.data.dto.user.detail.PersonalityListDto
 import com.party.data.dto.user.detail.PersonalitySaveDto
 import com.party.data.dto.user.detail.PositionListDto
 import com.party.data.dto.user.detail.SaveCarrierDto
+import com.party.data.dto.user.detail.SaveCarrierItemDto
 import com.party.data.dto.user.detail.SaveInterestLocationDto
 import com.party.data.dto.user.detail.UserLikeLocationDto
 import com.party.data.dto.user.notification.ReadNotificationDto
@@ -100,7 +101,7 @@ class UserRemoteSourceImpl @Inject constructor(
 
     override suspend fun saveCarrier(
         career: SaveCarrierList
-    ): ApiResponse<SaveCarrierDto> {
+    ): ApiResponse<List<SaveCarrierItemDto>> {
         return userService.saveCareer(career = career)
     }
 

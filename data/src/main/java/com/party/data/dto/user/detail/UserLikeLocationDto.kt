@@ -6,4 +6,5 @@ import kotlinx.serialization.Serializable
 data class UserLikeLocationDto(
     val id: Int,
     val userId: Int,
+    val locationId: Int,
 )
