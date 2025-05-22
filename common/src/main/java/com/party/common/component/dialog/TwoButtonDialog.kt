@@ -54,7 +54,6 @@ fun TwoButtonDialog(
             colors = CardDefaults.cardColors(
                 containerColor = WHITE
             ),
-            border = BorderStroke(1.dp, GRAY400)
         ) {
             Column(
                 modifier = Modifier
