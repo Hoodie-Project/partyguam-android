@@ -57,7 +57,7 @@ fun PartyListItem1(
     ) {
         Column(
             modifier = Modifier
-                .width(200.dp)
+                .width(224.dp)
                 .height(295.dp)
                 .padding(12.dp),
         ) {

@@ -121,7 +121,7 @@ fun PersonalRecruitmentItem(
     ) {
         Column(
             modifier = Modifier
-                .width(200.dp)
+                .width(224.dp)
                 .height(315.dp)
                 .padding(12.dp),
         ) {

@@ -110,7 +110,7 @@ private fun RecruitmentItem(
     ) {
         Column(
             modifier = Modifier
-                .width(200.dp)
+                .width(224.dp)
                 .height(311.dp)
                 .padding(12.dp),
         ) {

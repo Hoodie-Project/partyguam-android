@@ -56,11 +56,11 @@ fun RecruitmentListItem1(
             containerColor = WHITE
         ),
         border = BorderStroke(1.dp, GRAY100),
-        elevation = CardDefaults.cardElevation(4.dp),
+        elevation = CardDefaults.cardElevation(2.dp),
     ) {
         Column(
             modifier = Modifier
-                .width(200.dp)
+                .width(224.dp)
                 .height(315.dp)
                 .padding(12.dp),
         ) {
