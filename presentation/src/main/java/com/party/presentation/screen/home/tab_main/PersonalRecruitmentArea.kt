@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -116,7 +117,7 @@ fun PersonalRecruitmentItem(
             containerColor = WHITE
         ),
         border = BorderStroke(1.dp, GRAY100),
-        elevation = CardDefaults.cardElevation(4.dp),
+        elevation = CardDefaults.cardElevation(2.dp),
     ) {
         Column(
             modifier = Modifier
@@ -135,7 +136,7 @@ fun PersonalRecruitmentItem(
                 sub = personalRecruitmentLisItemResponse.position.sub,
                 recruitingCount = personalRecruitmentLisItemResponse.recruitingCount,
                 recruitedCount = personalRecruitmentLisItemResponse.recruitedCount,
-            )
+                onClick = { onClick(personalRecruitmentLisItemResponse.party.id, personalRecruitmentLisItemResponse.id) },            )
         }
     }
 }
@@ -161,8 +162,54 @@ fun PersonalRecruitmentItemBottomArea(
     sub: String,
     recruitingCount: Int,
     recruitedCount: Int,
+    onClick: () -> Unit,
 ) {
     Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(142.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(96.dp)
+        ) {
+            PartyCategory(category = category)
+            HeightSpacer(heightDp = 4.dp)
+            TextComponent(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(start = 6.dp)
+                ,
+                text = title,
+                fontSize = T3,
+                fontWeight = FontWeight.Bold,
+                align = Alignment.TopStart,
+                onClick = onClick
+            )
+
+            HeightSpacer(heightDp = 4.dp)
+
+            PositionArea(
+                modifier = Modifier
+                    .height(20.dp),
+                main = main,
+                sub = sub,
+                onClick = onClick
+            )
+        }
+
+        HeightSpacer(heightDp = 12.dp)
+        RecruitmentCountArea(
+            modifier = Modifier
+                .height(20.dp),
+            recruitingCount = recruitingCount,
+            recruitedCount = recruitedCount,
+            onClick = onClick
+        )
+    }
+    /*Column(
         modifier = Modifier
             .fillMaxWidth()
             .height(142.dp)
@@ -195,7 +242,7 @@ fun PersonalRecruitmentItemBottomArea(
             recruitedCount = recruitedCount,
             onClick = {}
         )
-    }
+    }*/
 }
 
 @Composable

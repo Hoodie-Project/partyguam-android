@@ -92,11 +92,12 @@ fun HomeListTitleArea(
                 .noRippleClickable(onClick)
         ){
             TextComponent(
-                text = "더보기",
+                text = "새로고침",
                 fontSize = B1,
                 textColor = GRAY500,
                 onClick = onClick
             )
+            WidthSpacer(2.dp)
             DrawableIcon(
                 icon = icon,
                 contentDescription = "more",
