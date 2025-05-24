@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.common.component.bottomsheet.list.partyTypeList
+import com.party.common.component.bottomsheet.mainPositionList
 import com.party.domain.model.user.detail.PositionList
 import com.party.domain.usecase.party.CreatePartyUseCase
 import com.party.domain.usecase.user.detail.GetPositionsUseCase
@@ -34,6 +35,10 @@ class PartyCreateViewModel @Inject constructor(
 
     private val _backState = MutableSharedFlow<Unit>()
     val backState = _backState.asSharedFlow()
+
+    init {
+        getSubPositionList(main = mainPositionList[1])
+    }
 
     private fun createParty(
         title: RequestBody,

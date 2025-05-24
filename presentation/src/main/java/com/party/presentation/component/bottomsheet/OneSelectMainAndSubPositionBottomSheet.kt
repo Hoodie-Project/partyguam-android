@@ -61,9 +61,10 @@ fun OneSelectMainAndSubPositionBottomSheet(
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true,
     )
-
+    
+    val mainPosition = if(selectedMainPosition.isNotEmpty()) selectedMainPosition else "기획자"
     var inModalSelectedMainPosition by remember {
-        mutableStateOf(selectedMainPosition)
+        mutableStateOf(mainPosition)
     }
 
     var inModalSelectedSubPosition by remember {
