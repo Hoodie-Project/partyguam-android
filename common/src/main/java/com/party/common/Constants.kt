@@ -11,6 +11,7 @@ object Constants {
     const val ACCESS_TOKEN_PREFERENCES = "guam_preferences"
     const val ACCESS_TOKEN_KEY = "access_token"
     const val FIRST_LAUNCH_FLAG_KEY = "first_launch"
+    const val FCM_TOKEN_KEY = "fcm_token"
 
     // Room
     const val KEYWORD_ENTITY = "keyword_entity"

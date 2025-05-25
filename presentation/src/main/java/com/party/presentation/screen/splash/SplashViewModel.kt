@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.domain.usecase.datastore.GetAccessTokenUseCase
 import com.party.domain.usecase.datastore.GetFirstLaunchFlagUseCase
+import com.party.domain.usecase.datastore.SaveFcmTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -21,6 +22,7 @@ import kotlin.time.Duration.Companion.seconds
 class SplashViewModel @Inject constructor(
     private val getAccessTokenUseCase: GetAccessTokenUseCase,
     private val getFirstLaunchFlagUseCase: GetFirstLaunchFlagUseCase,
+    private val saveFcmTokenUseCase: SaveFcmTokenUseCase,
 ): ViewModel() {
 
     private val _accessToken = MutableStateFlow("")
@@ -32,6 +34,12 @@ class SplashViewModel @Inject constructor(
     fun getAccessToken() = viewModelScope.launch(Dispatchers.IO) {
         getAccessTokenUseCase().collectLatest { accessToken ->
             _accessToken.emit(accessToken)
+        }
+    }
+
+    fun saveFcmToken(token: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            saveFcmTokenUseCase(token = token)
         }
     }
 

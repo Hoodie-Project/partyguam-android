@@ -7,6 +7,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 
 fun initFcm(
     context: Context,
+    onSaveFcmToken: (String) -> Unit,
 ){
     FirebaseApp.initializeApp(context)
     FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
@@ -17,8 +18,6 @@ fun initFcm(
 
         val fcmToken = task.result
         Log.i("FCM Token", fcmToken)
-        /*CoroutineScope(Dispatchers.IO).launch {
-            saveToLocalFcmTokenUseCase(fcmToken)
-        }*/
+        onSaveFcmToken(fcmToken)
     }
 }

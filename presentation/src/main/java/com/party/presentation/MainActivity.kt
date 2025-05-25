@@ -34,7 +34,12 @@ class MainActivity : ComponentActivity() {
         }
 
         // FCM 초기화
-        initFcm(context = this)
+        initFcm(
+            context = this,
+            onSaveFcmToken = { token ->
+                viewModel.saveFcmToken(token = token)
+            }
+        )
 
         setContent {
             GuamTheme {

@@ -10,6 +10,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.party.common.Constants.ACCESS_TOKEN_KEY
 import com.party.common.Constants.ACCESS_TOKEN_PREFERENCES
+import com.party.common.Constants.FCM_TOKEN_KEY
 import com.party.common.Constants.FIRST_LAUNCH_FLAG_KEY
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -21,6 +22,7 @@ class DataStoreLocalSourceImpl(context: Context): DataStoreLocalSource {
     companion object {
         private val ACCESS_TOKEN = stringPreferencesKey(ACCESS_TOKEN_KEY)
         private val FIRST_LAUNCH_FLAG = booleanPreferencesKey(FIRST_LAUNCH_FLAG_KEY)
+        private val FCM_TOKEN = stringPreferencesKey(FCM_TOKEN_KEY)
     }
 
     private val dataStore = context.dataStore
@@ -69,6 +71,26 @@ class DataStoreLocalSourceImpl(context: Context): DataStoreLocalSource {
                 }
             }.map { preferences ->
                 val flag = preferences[FIRST_LAUNCH_FLAG] ?: true
+                flag
+            }
+    }
+
+    override suspend fun saveFcmToken(token: String) {
+        dataStore.edit { preferences ->
+            preferences[FCM_TOKEN] = token
+        }
+    }
+
+    override fun getFcmToken(): Flow<String> {
+        return dataStore.data
+            .catch { exception ->
+                if (exception is Exception) {
+                    emit(emptyPreferences())
+                } else {
+                    throw exception
+                }
+            }.map { preferences ->
+                val flag = preferences[FCM_TOKEN] ?: ""
                 flag
             }
     }

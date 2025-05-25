@@ -27,4 +27,12 @@ class DataStoreRepositoryImpl @Inject constructor(
     override fun getFirstLaunchFlag(): Flow<Boolean> {
         return dataStoreLocalSource.getFirstLaunchFlag()
     }
+
+    override suspend fun saveFcmToken(token: String) {
+        dataStoreLocalSource.saveFcmToken(token = token)
+    }
+
+    override fun getFcmToken(): Flow<String> {
+        return dataStoreLocalSource.getFcmToken()
+    }
 }

@@ -13,4 +13,8 @@ interface DataStoreLocalSource {
     suspend fun saveFirstLaunchFlag()
 
     fun getFirstLaunchFlag(): Flow<Boolean>
+
+    suspend fun saveFcmToken(token: String)
+
+    fun getFcmToken(): Flow<String>
 }
