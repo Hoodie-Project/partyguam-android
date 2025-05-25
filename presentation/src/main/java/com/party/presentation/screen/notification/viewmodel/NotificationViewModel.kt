@@ -52,7 +52,7 @@ class NotificationViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = readNotificationUseCase(notificationId = notificationId)){
                 is ServerApiResponse.SuccessResponse -> {
-                    getNotifications(limit = 10, type = if(_state.value.selectedTab == "전체") null else if(_state.value.selectedTab == "파티활동") "party" else "recruit")
+                    getNotifications(limit = 10, type = if(_state.value.selectedTab == "전체") null else if(_state.value.selectedTab == "파티 활동") "party" else "recruit")
                 }
                 is ServerApiResponse.ErrorResponse -> {}
                 is ServerApiResponse.ExceptionResponse -> {}

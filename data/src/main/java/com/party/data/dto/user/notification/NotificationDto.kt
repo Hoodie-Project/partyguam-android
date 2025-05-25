@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class NotificationDto(
-    val nextCursor: Int,
+    val nextCursor: Int?,
     val notifications: List<NotificationDataDto>
 )
 

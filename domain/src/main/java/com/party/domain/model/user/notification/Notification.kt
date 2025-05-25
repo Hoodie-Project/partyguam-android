@@ -1,7 +1,7 @@
 package com.party.domain.model.user.notification
 
 data class Notification(
-    val nextCursor: Int,
+    val nextCursor: Int?,
     val notifications: List<NotificationData>
 )
 

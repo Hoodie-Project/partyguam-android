@@ -66,7 +66,8 @@ fun NotificationListArea(
     }else {
         LazyColumn(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -108,7 +109,7 @@ private fun NotificationListAreaItem(
     Card(
         onClick = onClickNotificationItem,
         modifier = Modifier
-            .width(335.dp)
+            .fillMaxWidth()
             .height(144.dp),
         colors = CardDefaults.cardColors(
             containerColor = WHITE
@@ -123,7 +124,7 @@ private fun NotificationListAreaItem(
         ){
             Column(
                 modifier = Modifier
-                    .width(295.dp),
+                    .fillMaxWidth(),
             ) {
                 NotificationListAreaItemTop(
                     onClickNotificationItem = onClickNotificationItem,
@@ -156,8 +157,9 @@ private fun NotificationListAreaItemTop(
 ) {
     Row(
         modifier = Modifier
-            .width(295.dp)
+            .fillMaxWidth()
             .height(84.dp)
+            .padding(horizontal = 20.dp)
     ) {
         NotificationImageArea(
             imageUrl = imageUrl,
@@ -170,7 +172,7 @@ private fun NotificationListAreaItemTop(
             title = title,
             content = content,
             modifier = Modifier
-                .width(187.dp)
+                .weight(1f)
         )
         WidthSpacer(widthDp = 8.dp)
         DrawableIconButton(
@@ -255,7 +257,7 @@ fun NotificationListAreaItemBottom(
         modifier = Modifier
             .fillMaxWidth()
             .height(20.dp)
-            .padding(top = 4.dp),
+            .padding(top = 4.dp, end = 20.dp),
         align = Alignment.CenterEnd,
     )
 }

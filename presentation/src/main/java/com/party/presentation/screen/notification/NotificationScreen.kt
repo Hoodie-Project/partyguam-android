@@ -14,6 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.component.bottomsheet.NotificationDeleteBottomSheet
+import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
 import com.party.common.utils.snackBarMessage
 import com.party.common.ui.theme.WHITE
 import com.party.presentation.screen.notification.component.NotificationDescriptionArea
@@ -35,7 +36,7 @@ fun NotificationScreenRoute(
         notificationViewModel.successDelete.collectLatest {
             notificationViewModel.getNotifications(
                 limit = 10,
-                type = if(state.selectedTab == "전체") null else if(state.selectedTab == "파티활동") "party" else "recruit"
+                type = if(state.selectedTab == "전체") null else if(state.selectedTab == "파티 활동") "party" else "recruit"
             )
 
             snackBarMessage(snackBarHostState = snackBarHostState, message = "알림이 삭제되었어요.")
@@ -45,7 +46,7 @@ fun NotificationScreenRoute(
     LaunchedEffect(key1 = state.selectedTab) {
         notificationViewModel.getNotifications(
             limit = 10,
-            type = if(state.selectedTab == "전체") null else if(state.selectedTab == "파티활동") "party" else "recruit"
+            type = if(state.selectedTab == "전체") null else if(state.selectedTab == "파티 활동") "party" else "recruit"
         )
     }
 

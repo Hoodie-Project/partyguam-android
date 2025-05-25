@@ -40,7 +40,7 @@ val profileEditTendencyTabList = listOf("1단계", "2단계", "3단계")
 
 val partyRecruitmentEditTabList = listOf("전체", "모집중", "모집마감")
 
-val notificationTabList = listOf("전체", "파티활동", "지원소식")
+val notificationTabList = listOf("전체", "파티 활동", "지원 소식")
 
 @Composable
 fun TabArea(
