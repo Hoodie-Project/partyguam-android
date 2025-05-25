@@ -26,6 +26,7 @@ import com.party.data.service.UserService
 import com.party.domain.model.user.AccessTokenRequest
 import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.ReportsRequest
+import com.party.domain.model.user.SaveUserFcmTokenRequest
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.ModifyCarrierList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
@@ -195,5 +196,9 @@ class UserRemoteSourceImpl @Inject constructor(
 
     override suspend fun deleteNotification(notificationId: Int): ApiResponse<Unit> {
         return userService.deleteNotification(notificationId = notificationId)
+    }
+
+    override suspend fun saveUserFcmToken(saveUserFcmTokenRequest: SaveUserFcmTokenRequest): ApiResponse<Unit> {
+        return userService.saveUserFcmToken(saveUserFcmTokenRequest = saveUserFcmTokenRequest)
     }
 }

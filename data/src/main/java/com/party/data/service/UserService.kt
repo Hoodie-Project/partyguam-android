@@ -22,6 +22,7 @@ import com.party.data.dto.user.recruitment.MyRecruitmentDto
 import com.party.domain.model.user.AccessTokenRequest
 import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.ReportsRequest
+import com.party.domain.model.user.SaveUserFcmTokenRequest
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.ModifyCarrierList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
@@ -185,5 +186,11 @@ interface UserService {
     @DELETE("api/notifications/{notificationId}")
     suspend fun deleteNotification(
         @Path("notificationId") notificationId: Int
+    ): ApiResponse<Unit>
+
+    // 유저 FCM 토큰 저장
+    @POST("api/fcm/register-token")
+    suspend fun saveUserFcmToken(
+        @Body saveUserFcmTokenRequest: SaveUserFcmTokenRequest
     ): ApiResponse<Unit>
 }

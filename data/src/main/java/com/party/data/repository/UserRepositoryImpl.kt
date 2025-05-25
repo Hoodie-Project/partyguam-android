@@ -22,6 +22,7 @@ import com.party.domain.model.user.MySocialOauth
 import com.party.domain.model.user.notification.Notification
 import com.party.domain.model.user.Reports
 import com.party.domain.model.user.ReportsRequest
+import com.party.domain.model.user.SaveUserFcmTokenRequest
 import com.party.domain.model.user.SocialLogin
 import com.party.domain.model.user.detail.GetCarrier
 import com.party.domain.model.user.detail.GetCarrierPosition
@@ -716,6 +717,21 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun deleteNotification(notificationId: Int): ServerApiResponse<Unit> {
         return when(val result = userRemoteSource.deleteNotification(notificationId = notificationId)){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = Unit)
+            }
+            is ApiResponse.Failure.Error -> {
+                ErrorResponse(data = null)
+            }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse(result.message)
+            }
+        }
+    }
+
+    override suspend fun saveUserFcmToken(saveUserFcmTokenRequest: SaveUserFcmTokenRequest): ServerApiResponse<Unit> {
+        return when(val result = userRemoteSource.saveUserFcmToken(saveUserFcmTokenRequest = saveUserFcmTokenRequest)){
             is ApiResponse.Success -> {
                 SuccessResponse(data = Unit)
             }

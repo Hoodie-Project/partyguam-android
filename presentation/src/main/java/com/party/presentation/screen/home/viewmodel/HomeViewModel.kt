@@ -8,11 +8,14 @@ import com.party.domain.model.banner.Banner
 import com.party.domain.model.party.PartyList
 import com.party.domain.model.party.PersonalRecruitmentList
 import com.party.domain.model.party.RecruitmentList
+import com.party.domain.model.user.SaveUserFcmTokenRequest
 import com.party.domain.model.user.detail.PositionList
 import com.party.domain.usecase.banner.GetBannerListUseCase
+import com.party.domain.usecase.datastore.GetFcmTokenUseCase
 import com.party.domain.usecase.party.GetPartyListUseCase
 import com.party.domain.usecase.party.GetPersonalRecruitmentListUseCase
 import com.party.domain.usecase.party.GetRecruitmentListUseCase
+import com.party.domain.usecase.user.SaveUserFcmTokenUseCase
 import com.party.domain.usecase.user.detail.GetPositionsUseCase
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.enum.PartyType
@@ -24,6 +27,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,6 +39,8 @@ class HomeViewModel @Inject constructor(
     private val getPartyListUseCase: GetPartyListUseCase,
     private val getPositionsUseCase: GetPositionsUseCase,
     private val getBannerListUseCase: GetBannerListUseCase,
+    private val saveUserFcmTokenUseCase: SaveUserFcmTokenUseCase,
+    private val getFcmTokenUseCase: GetFcmTokenUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
@@ -49,6 +55,7 @@ class HomeViewModel @Inject constructor(
     init {
         getBannerList()
         getPersonalRecruitmentList(1, 50, "createdAt", OrderDescType.DESC.type)
+        saveUserFcmToken()
     }
 
     fun updateFabVisibleParty(isScrollParty: Boolean){
@@ -179,6 +186,22 @@ class HomeViewModel @Inject constructor(
 
                 is ServerApiResponse.ErrorResponse<Banner> -> _state.update { it.copy(isLoadingBanner = false) }
                 is ServerApiResponse.ExceptionResponse -> _state.update { it.copy(isLoadingBanner = false) }
+            }
+        }
+    }
+
+    private fun saveUserFcmToken(){
+        viewModelScope.launch(Dispatchers.IO) {
+            val fcmToken = getFcmTokenUseCase().firstOrNull()
+            if(fcmToken != null){
+                val saveUserFcmTokenRequest = SaveUserFcmTokenRequest(
+                    fcmToken = fcmToken,
+                )
+                when(val result = saveUserFcmTokenUseCase(saveUserFcmTokenRequest = saveUserFcmTokenRequest)){
+                    is ServerApiResponse.SuccessResponse<Unit> -> {}
+                    is ServerApiResponse.ErrorResponse -> {}
+                    is ServerApiResponse.ExceptionResponse -> {}
+                }
             }
         }
     }

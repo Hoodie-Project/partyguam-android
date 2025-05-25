@@ -38,6 +38,7 @@ const val TIME_OUT_VALUE: Long = 5000
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
     private val json = Json {
+        encodeDefaults = true // 기본값도 포함
         isLenient = true // Json 큰 따옴표 느슨하게 체크
         ignoreUnknownKeys = true // Filed 값이 없는 경우 무시
         coerceInputValues = true // "null이 들어간 경우 dafault 값으로 변경"
