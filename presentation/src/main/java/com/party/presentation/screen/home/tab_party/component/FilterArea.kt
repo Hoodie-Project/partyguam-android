@@ -12,12 +12,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.R
+import com.party.common.ui.theme.B2
+import com.party.common.ui.theme.BLACK
+import com.party.common.ui.theme.GRAY200
+import com.party.common.ui.theme.GRAY500
+import com.party.common.ui.theme.PRIMARY
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
 import com.party.common.utils.noRippleClickable
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.GRAY500
-import com.party.common.ui.theme.PRIMARY
 import com.party.presentation.screen.home.tab_recruitment.SelectFilterItem
 
 @Composable
@@ -40,6 +42,8 @@ fun FilterArea(
             filterName = "파티유형",
             isSheetOpen = false,
             number = number,
+            fontColor = if(number > 0) BLACK else GRAY500,
+            borderColor = if(number > 0) PRIMARY else GRAY200,
             onClick = { isPartyTypeFilterClick(it) }
         )
 

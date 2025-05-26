@@ -18,20 +18,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.R
-import com.party.common.utils.WidthSpacer
 import com.party.common.component.chip.OrderByCreateDtChip
 import com.party.common.ui.theme.B2
+import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY200
-import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.GRAY500
 import com.party.common.ui.theme.PRIMARY
 import com.party.common.ui.theme.WHITE
+import com.party.common.utils.WidthSpacer
 
 @Composable
 fun SelectFilterArea(
@@ -64,6 +65,8 @@ fun SelectFilterArea(
                 isShowNumber = false,
                 filterName = filterName1,
                 isSheetOpen = isPositionSheetOpen,
+                fontColor = if(selectedPositionNumber > 0) BLACK else GRAY500,
+                borderColor = if(selectedPositionNumber > 0) PRIMARY else GRAY200,
                 onClick = { isPositionFilterClick(it) },
                 number = selectedPositionNumber,
             )
@@ -72,6 +75,8 @@ fun SelectFilterArea(
                 isShowNumber = isShowSelectedPartyNumber,
                 filterName = filterName2,
                 isSheetOpen = isPartyTypeSheetOpen,
+                fontColor = if(selectedPartyNumber > 0) BLACK else GRAY500,
+                borderColor = if(selectedPartyNumber > 0) PRIMARY else GRAY200,
                 onClick = { isPartyTypeFilterClick(it)},
                 number = selectedPartyNumber,
             )
@@ -91,6 +96,8 @@ fun SelectFilterItem(
     filterName: String,
     isSheetOpen: Boolean,
     number: Int = 0,
+    fontColor: Color = GRAY500,
+    borderColor: Color = GRAY200,
     onClick: (Boolean) -> Unit,
 ) {
     Card(
@@ -102,7 +109,7 @@ fun SelectFilterItem(
             containerColor = WHITE,
         ),
         shape = RoundedCornerShape(999.dp),
-        border = BorderStroke(1.dp, GRAY200),
+        border = BorderStroke(1.dp, borderColor),
     ) {
         Row(
             modifier = Modifier
@@ -113,7 +120,7 @@ fun SelectFilterItem(
         ) {
             Text(
                 text = filterName,
-                color = GRAY500,
+                color = fontColor,
                 fontSize = B2
             )
             if(number > 0 && !isShowNumber){
@@ -130,7 +137,7 @@ fun SelectFilterItem(
                 modifier = Modifier.size(16.dp),
                 painter = painterResource(id = R.drawable.icon_arrow_down),
                 contentDescription = "Arrow Down",
-                tint = GRAY400,
+                tint = fontColor,
             )
         }
     }

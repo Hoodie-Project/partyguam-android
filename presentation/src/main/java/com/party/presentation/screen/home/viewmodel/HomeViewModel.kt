@@ -235,7 +235,7 @@ class HomeViewModel @Inject constructor(
                     it.copy(
                         isPartyTypeSheetOpen = false,
                         isShowNumber = it.selectedPartyTypeListParty.contains("전체"),
-                        number = it.selectedPartyTypeListParty.size
+                        number = _state.value.selectedPartyTypeListParty.size
                     )
                 }
 
