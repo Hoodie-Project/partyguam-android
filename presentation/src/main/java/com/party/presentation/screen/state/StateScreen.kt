@@ -113,7 +113,7 @@ private fun StateScreen(
     onNavigateUp: () -> Unit,
     onMyPartyCardClick: (Int) -> Unit,
 ) {
-    val bottomBarHeight = 56.dp // ✅ BottomNavigationBar 기본 높이
+    val bottomBarHeight = 56.dp // BottomNavigationBar 기본 높이
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -196,7 +196,10 @@ private fun StateScreen(
                     onClick = onNavigateUp
                 )
             },
-            onGoPartyCreate = onGoPartyCreate
+            onGoPartyCreate = {
+                onAction(MyPartyAction.OnExpandedFloating(!myPartyState.isExpandedFloating))
+                onGoPartyCreate()
+            }
         )
 
         // 파티 생성하기 floating 누르면 검정 화면

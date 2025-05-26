@@ -46,7 +46,8 @@ fun PartyListItem2(
         onClick = { onClick() },
         modifier = Modifier
             .fillMaxWidth()
-            .height(122.dp),
+            .height(122.dp)
+        ,
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
         border = BorderStroke(1.dp, GRAY100),
         colors = CardDefaults.cardColors(
