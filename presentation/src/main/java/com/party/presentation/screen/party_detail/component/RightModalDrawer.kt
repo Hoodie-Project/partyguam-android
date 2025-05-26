@@ -188,6 +188,7 @@ private fun DrawerItem(
             fontSize = B1,
             fontWeight = FontWeight.SemiBold,
             textColor = if(currentTitle == text) PRIMARY else GRAY400,
+            onClick = onClick,
         )
 
         DrawableIconButton(
