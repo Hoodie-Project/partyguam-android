@@ -43,6 +43,10 @@ import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
 import com.party.common.utils.convertIsoToCustomDateFormat
 import com.party.domain.model.user.notification.Notification
+import java.time.ZoneId
+import java.time.*
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 @Composable
 fun NotificationListArea(
@@ -138,7 +142,6 @@ private fun NotificationListAreaItem(
                 NotificationListAreaItemBottom(
                     onClickNotificationItem = onClickNotificationItem,
                     time = time,
-                    textColor = RED,
                 )
             }
         }
@@ -246,14 +249,15 @@ private fun NotificationTitleAndContent(
 @Composable
 fun NotificationListAreaItemBottom(
     time: String,
-    textColor: Color = BLACK,
     onClickNotificationItem: () -> Unit,
 ) {
+    val formatted = formatServerDate(time)
+
     TextComponent(
         onClick = onClickNotificationItem,
-        text = convertIsoToCustomDateFormat(time),
+        text = formatted.text, // convertIsoToCustomDateFormat(time),
         fontSize = B2,
-        textColor = textColor,
+        textColor = if (formatted.isRed) Color.Red else Color.Black,
         modifier = Modifier
             .fillMaxWidth()
             .height(20.dp)
@@ -290,4 +294,37 @@ private fun NotificationListAreaItemPreview2() {
         isRead = false,
         onDeleteNotification = {}
     )
+}
+
+data class FormattedTime(
+    val text: String,
+    val isRed: Boolean,
+)
+
+fun formatServerDate(isoString: String): FormattedTime {
+    val instant = Instant.parse(isoString)
+    val now = Instant.now()
+    val zone = ZoneId.systemDefault()
+
+    val dateTime = instant.atZone(zone)
+    val nowDateTime = now.atZone(zone)
+
+    val durationMinutes = ChronoUnit.MINUTES.between(dateTime, nowDateTime)
+    val durationHours = ChronoUnit.HOURS.between(dateTime, nowDateTime)
+
+    val date = dateTime.toLocalDate()
+    val nowDate = nowDateTime.toLocalDate()
+
+    return when {
+        durationMinutes <= 10 -> FormattedTime("방금 전", true)
+        durationMinutes in 11..59 -> FormattedTime("1시간 전", true)
+        durationHours in 1..1 -> FormattedTime("2시간 전", true)
+        durationHours in 2..2 -> FormattedTime("3시간 전", true)
+        date == nowDate -> FormattedTime("오늘", false)
+        date == nowDate.minusDays(1) -> FormattedTime("1일 전", false)
+        else -> {
+            val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+            FormattedTime(dateTime.format(formatter), false)
+        }
+    }
 }
