@@ -85,7 +85,7 @@ fun RecruitmentListItem3(
             CardDefaults.cardColors(
                 containerColor = WHITE,
             ),
-        elevation = CardDefaults.cardElevation(4.dp),
+        elevation = CardDefaults.cardElevation(2.dp),
     ) {
         Column(
             modifier = Modifier
@@ -142,7 +142,7 @@ fun RecruitmentListItem3(
 
                     when(status){
                         "응답대기" -> {
-                            if(activeOrComplete == "active"){
+                            if (activeOrComplete == "active" || activeOrComplete == "processing") {
                                 CancelAndApplyButtonArea(
                                     onRefusal = onRefusal,
                                     onAccept = onAccept,

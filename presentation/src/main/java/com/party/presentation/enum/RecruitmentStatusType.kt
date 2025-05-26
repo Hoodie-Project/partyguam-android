@@ -1,10 +1,10 @@
 package com.party.presentation.enum
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Yellow
 import com.party.common.ui.theme.BLACK
 import com.party.common.ui.theme.GRAY400
 import com.party.common.ui.theme.PRIMARY
+import com.party.common.ui.theme.YELLOW
 
 // 검토중 : 양쪽다 수락하지 않은 상태
 // 응답대기 : 파티장이 수락하고 파티원이 수락하지 않은 상태
@@ -44,7 +44,7 @@ enum class RecruitmentStatusType(val status: String) {
     fun toColor(): Color {
         return when (this) {
             PENDING -> BLACK
-            PROCESSING -> Yellow
+            PROCESSING -> YELLOW
             APPROVED -> PRIMARY
             REJECTED -> GRAY400
         }

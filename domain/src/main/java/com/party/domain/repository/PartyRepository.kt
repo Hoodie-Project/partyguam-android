@@ -148,4 +148,10 @@ interface PartyRepository {
 
     // 파티 모집 완료 처리
     suspend fun completePartyRecruitment(partyId: Int, partyRecruitmentId: Int): ServerApiResponse<PartyRecruitmentCompleted>
+
+    // 유저가 파티 합류 최종 수락
+    suspend fun approvalParty(partyId: Int, partyApplicationId: Int): ServerApiResponse<ApprovalAndRejection>
+
+    // 유저가 파티 합류 최종 거절
+    suspend fun rejectionParty(partyId: Int, partyApplicationId: Int): ServerApiResponse<ApprovalAndRejection>
 }

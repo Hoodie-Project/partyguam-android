@@ -676,4 +676,64 @@ class PartyRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun approvalParty(
+        partyId: Int,
+        partyApplicationId: Int
+    ): ServerApiResponse<ApprovalAndRejection> {
+        return when(val result = partyRemoteSource.approvalParty(partyId = partyId, partyApplicationId = partyApplicationId)){
+            is ApiResponse.Success -> { SuccessResponse(data = mapperApprovalAndRejection(result.data))}
+            is ApiResponse.Failure.Error -> {
+                when(result.statusCode){
+                    StatusCode.Forbidden -> {
+                        ErrorResponse(
+                            statusCode = StatusCode.Forbidden.code,
+                            data = null,
+                        )
+                    }
+                    StatusCode.BadRequest -> {
+                        ErrorResponse(
+                            statusCode = StatusCode.BadRequest.code,
+                            data = null,
+                        )
+                    }
+                    else -> ErrorResponse(data = null)
+                }
+            }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse()
+            }
+        }
+    }
+
+    override suspend fun rejectionParty(
+        partyId: Int,
+        partyApplicationId: Int
+    ): ServerApiResponse<ApprovalAndRejection> {
+        return when(val result = partyRemoteSource.rejectionParty(partyId = partyId, partyApplicationId = partyApplicationId)){
+            is ApiResponse.Success -> { SuccessResponse(data = mapperApprovalAndRejection(result.data))}
+            is ApiResponse.Failure.Error -> {
+                when(result.statusCode){
+                    StatusCode.Forbidden -> {
+                        ErrorResponse(
+                            statusCode = StatusCode.Forbidden.code,
+                            data = null,
+                        )
+                    }
+                    StatusCode.BadRequest -> {
+                        ErrorResponse(
+                            statusCode = StatusCode.BadRequest.code,
+                            data = null,
+                        )
+                    }
+                    else -> ErrorResponse(data = null)
+                }
+            }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse()
+            }
+        }
+    }
 }

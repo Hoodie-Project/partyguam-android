@@ -253,4 +253,19 @@ interface PartyService {
         @Path(value = "partyId") partyId: Int,
         @Path(value = "partyRecruitmentId") partyRecruitmentId: Int,
     ): ApiResponse<PartyRecruitmentCompletedDto>
+
+    // 유저가 파티 합류 최종 수락
+    @POST("api/parties/{partyId}/applications/{partyApplicationId}/approval")
+    suspend fun approvalParty(
+        @Path(value = "partyId") partyId: Int,
+        @Path(value = "partyApplicationId") partyApplicationId: Int,
+    ): ApiResponse<ApprovalAndRejectionDto>
+
+    // 유저가 파티 합류 최종 거절
+    @POST("api/parties/{partyId}/applications/{partyApplicationId}/rejection")
+    suspend fun rejectionParty(
+        @Path(value = "partyId") partyId: Int,
+        @Path(value = "partyApplicationId") partyApplicationId: Int,
+    ): ApiResponse<ApprovalAndRejectionDto>
+
 }

@@ -57,8 +57,8 @@ fun MyRecruitmentArea(
     onSelectRecruitmentTab: (String) -> Unit,
     onShowHelpCard: (Boolean) -> Unit,
     onChangeOrderBy: (Boolean) -> Unit,
-    onRefusal: () -> Unit,
-    onAccept: () -> Unit,
+    onRefusal: (Int, Int) -> Unit,
+    onAccept: (Int, Int) -> Unit,
     onCancel: (Int, Int) -> Unit,
 ) {
 
@@ -121,8 +121,8 @@ fun MyRecruitmentArea(
 private fun MyRecruitmentList(
     listState: LazyListState,
     filteredList: List<PartyApplication>,
-    onRefusal: () -> Unit,
-    onAccept: () -> Unit,
+    onRefusal: (Int, Int) -> Unit,
+    onAccept: (Int, Int) -> Unit,
     onCancel: (Int, Int) -> Unit,
 ) {
     LazyColumn(
@@ -147,11 +147,9 @@ private fun MyRecruitmentList(
                 sub = item.partyRecruitment.position.sub,
                 content = item.message,
                 onClick = {},
-                onRefusal = onRefusal,
-                onAccept = onAccept,
-                onCancel = {
-                    onCancel(item.partyRecruitment.party.id, item.id)
-                }
+                onRefusal = { onRefusal(item.id, item.partyRecruitment.party.id)},
+                onAccept = { onAccept(item.id, item.partyRecruitment.party.id)},
+                onCancel = { onCancel(item.partyRecruitment.party.id, item.id) }
             )
         }
     }
@@ -306,8 +304,8 @@ private fun MyRecruitmentAreaPreview() {
         onSelectRecruitmentTab = {},
         onShowHelpCard = {},
         onChangeOrderBy = {},
-        onRefusal = {},
-        onAccept = {},
+        onRefusal = {_, _ ->},
+        onAccept = {_, _ ->},
         onCancel = { _, _ -> },
     )
 }

@@ -9,4 +9,6 @@ sealed interface MyPartyAction {
     data class OnRecruitmentOrderByChange(val orderByRecruitmentDateDesc: Boolean): MyPartyAction
     data class OnExpandedFloating(val isExpandedFloating: Boolean): MyPartyAction
     data class OnCancelRecruitment(val partyId: Int, val partyApplicationId: Int): MyPartyAction
+    data class OnApprovalParty(val partyId: Int, val partyApplicationId: Int): MyPartyAction
+    data class OnRejectionParty(val partyId: Int, val partyApplicationId: Int): MyPartyAction
 }

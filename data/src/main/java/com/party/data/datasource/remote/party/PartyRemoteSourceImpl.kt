@@ -245,4 +245,18 @@ class PartyRemoteSourceImpl @Inject constructor(
         return partyService.completePartyRecruitment(partyId = partyId, partyRecruitmentId = partyRecruitmentId)
     }
 
+    override suspend fun approvalParty(
+        partyId: Int,
+        partyApplicationId: Int
+    ): ApiResponse<ApprovalAndRejectionDto> {
+        return partyService.approvalParty(partyId = partyId, partyApplicationId = partyApplicationId)
+    }
+
+    override suspend fun rejectionParty(
+        partyId: Int,
+        partyApplicationId: Int
+    ): ApiResponse<ApprovalAndRejectionDto> {
+        return partyService.rejectionParty(partyApplicationId = partyApplicationId, partyId = partyId)
+    }
+
 }

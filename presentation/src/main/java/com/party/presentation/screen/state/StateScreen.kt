@@ -25,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.google.android.play.integrity.internal.ac
 import com.party.common.component.floating.NavigateUpFloatingButton
 import com.party.common.component.floating.PartyCreateFloatingButton
 import com.party.common.component.stateTabList
@@ -88,16 +89,7 @@ fun StateScreenRoute(
         myPartyState = myPartyState,
         listState = listState,
         onAction = { action ->
-            when (action) {
-                is MyPartyAction.OnSelectTab -> stateViewModel.onAction(action)
-                is MyPartyAction.OnShowHelpCard -> stateViewModel.onAction(action)
-                is MyPartyAction.OnSelectRecruitmentTab -> stateViewModel.onAction(action)
-                is MyPartyAction.OnSelectStatus -> stateViewModel.onAction(action)
-                is MyPartyAction.OnOrderByChange -> stateViewModel.onAction(action)
-                is MyPartyAction.OnRecruitmentOrderByChange -> stateViewModel.onAction(action)
-                is MyPartyAction.OnExpandedFloating -> stateViewModel.onAction(action)
-                is MyPartyAction.OnCancelRecruitment -> stateViewModel.onAction(action)
-            }
+            stateViewModel.onAction(action = action)
         },
         onGoToSearch = { navController.navigate(Screens.Search) },
         onGotoNotification = { navController.navigate(Screens.Notification)},
@@ -174,8 +166,8 @@ private fun StateScreen(
                         onSelectRecruitmentTab = { selectedRecruitmentTab -> onAction(MyPartyAction.OnSelectRecruitmentTab(selectedRecruitmentTab)) },
                         onShowHelpCard = { iShow -> onAction(MyPartyAction.OnShowHelpCard(isShowHelpCard = iShow)) },
                         onChangeOrderBy = { orderByDesc -> onAction(MyPartyAction.OnRecruitmentOrderByChange(orderByDesc)) },
-                        onRefusal = { },
-                        onAccept = { },
+                        onRefusal = { partyApplicationId, partyId -> onAction(MyPartyAction.OnRejectionParty(partyId = partyId, partyApplicationId = partyApplicationId)) },
+                        onAccept = { partyApplicationId, partyId -> onAction(MyPartyAction.OnApprovalParty(partyId = partyId, partyApplicationId = partyApplicationId)) },
                         onCancel = { partyId, partyApplicationId -> onAction(MyPartyAction.OnCancelRecruitment(partyId = partyId, partyApplicationId = partyApplicationId))}
                     )
                 }
