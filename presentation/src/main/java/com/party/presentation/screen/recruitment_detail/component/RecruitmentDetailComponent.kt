@@ -61,7 +61,7 @@ fun RecruitmentCategory(
             contentColor = contentColor,
         ),
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
-        elevation = CardDefaults.cardElevation(4.dp),
+        elevation = CardDefaults.cardElevation(2.dp),
     ) {
         Box(
             modifier = Modifier

@@ -3,6 +3,7 @@ package com.party.presentation.screen.search.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
+import com.party.common.component.bottomsheet.mainPositionList
 import com.party.domain.model.party.PartyList
 import com.party.domain.model.party.RecruitmentList
 import com.party.domain.model.search.Search
@@ -43,6 +44,10 @@ class SearchViewModel @Inject constructor(
 
     private val _searchState = MutableStateFlow(SearchState())
     val searchState = _searchState.asStateFlow()
+
+    init {
+        getSubPositionList(mainPositionList[1])
+    }
 
     // 전체 영역 검색하기
     private fun allSearch(titleSearch: String, page: Int, limit: Int) {

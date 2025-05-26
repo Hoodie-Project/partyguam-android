@@ -54,7 +54,8 @@ fun RecruitmentListItem2(
         onClick = { onClick(id, partyId) },
         modifier = Modifier
             .fillMaxWidth()
-            .height(162.dp),
+            .height(162.dp)
+            .padding(bottom = 2.dp),
         shape = RoundedCornerShape(LARGE_CORNER_SIZE),
         border = BorderStroke(1.dp, GRAY100),
         colors = CardDefaults.cardColors(

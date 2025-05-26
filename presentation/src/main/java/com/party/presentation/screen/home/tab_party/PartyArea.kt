@@ -3,6 +3,7 @@ package com.party.presentation.screen.home.tab_party
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -82,6 +83,8 @@ private fun PartyListArea(
         NoDataColumn(title = "파티가 없어요.")
     } else {
         LazyVerticalGrid(
+            modifier = Modifier
+                .padding(bottom = 10.dp),
             state = gridState,
             columns = GridCells.Fixed(2),
             verticalArrangement = Arrangement.spacedBy(12.dp),

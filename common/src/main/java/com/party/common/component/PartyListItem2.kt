@@ -52,7 +52,7 @@ fun PartyListItem2(
         colors = CardDefaults.cardColors(
             containerColor = WHITE,
         ),
-        elevation = CardDefaults.cardElevation(4.dp),
+        elevation = CardDefaults.cardElevation(2.dp),
     ) {
         Row(
             modifier = Modifier
