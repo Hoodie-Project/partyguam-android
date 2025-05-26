@@ -221,7 +221,7 @@ interface PartyService {
     ): ApiResponse<ApprovalAndRejectionDto>
 
     // 파티장이 지원자 거절
-    @DELETE("api/parties/{partyId}/admin/applications/{partyApplicationId}/rejection")
+    @POST("api/parties/{partyId}/admin/applications/{partyApplicationId}/rejection")
     suspend fun rejectApplicant(
         @Path(value = "partyId") partyId: Int,
         @Path(value = "partyApplicationId") partyApplicationId: Int,

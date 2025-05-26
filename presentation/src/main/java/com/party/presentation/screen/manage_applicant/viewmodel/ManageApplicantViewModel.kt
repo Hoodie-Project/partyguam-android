@@ -2,9 +2,12 @@ package com.party.presentation.screen.manage_applicant.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.play.integrity.internal.ac
 import com.party.common.ServerApiResponse
+import com.party.domain.usecase.party.AcceptApplicantUseCase
 import com.party.domain.usecase.party.GetPartyRecruitmentUseCase
 import com.party.domain.usecase.party.GetRecruitmentApplicantUseCase
+import com.party.domain.usecase.party.RejectApplicantUseCase
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.manage_applicant.ManageApplicantAction
 import com.party.presentation.screen.manage_applicant.ManageApplicantState
@@ -22,6 +25,8 @@ import javax.inject.Inject
 class ManageApplicantViewModel @Inject constructor(
     private val getPartyRecruitmentUseCase: GetPartyRecruitmentUseCase,
     private val getRecruitmentApplicantUseCase: GetRecruitmentApplicantUseCase,
+    private val acceptApplicantUseCase: AcceptApplicantUseCase,
+    private val rejectApplicantUseCase: RejectApplicantUseCase,
 ): ViewModel(){
 
     private val _state = MutableStateFlow(ManageApplicantState())
@@ -68,6 +73,36 @@ class ManageApplicantViewModel @Inject constructor(
         }
     }
 
+    fun rejectApplicant(
+        partyId: Int,
+        partyApplicationId: Int,
+    ){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = rejectApplicantUseCase(partyId = partyId, partyApplicationId = partyApplicationId)){
+                is ServerApiResponse.SuccessResponse -> {
+                    getRecruitmentApplicant(partyId = partyId, partyRecruitmentId = _state.value.selectedRecruitmentId, page = 1, limit = 50, sort = "createdAt", order = OrderDescType.DESC.type)
+                }
+                is ServerApiResponse.ErrorResponse -> {}
+                is ServerApiResponse.ExceptionResponse -> {}
+            }
+        }
+    }
+
+    fun acceptApplicant(
+        partyId: Int,
+        partyApplicationId: Int,
+    ){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = acceptApplicantUseCase(partyId = partyId, partyApplicationId = partyApplicationId)){
+                is ServerApiResponse.SuccessResponse -> {
+                    getRecruitmentApplicant(partyId = partyId, partyRecruitmentId = _state.value.selectedRecruitmentId, page = 1, limit = 50, sort = "createdAt", order = OrderDescType.DESC.type)
+                }
+                is ServerApiResponse.ErrorResponse -> {}
+                is ServerApiResponse.ExceptionResponse -> {}
+            }
+        }
+    }
+
     fun onAction(action: ManageApplicantAction){
         when(action){
             is ManageApplicantAction.OnShowHelpCard -> _state.update { it.copy(isShowHelpIcon = action.isShowHelpCard) }
@@ -103,6 +138,12 @@ class ManageApplicantViewModel @Inject constructor(
             is ManageApplicantAction.OnSelectRecruitmentId -> _state.update { it.copy(selectedRecruitmentId = action.partyRecruitmentId, selectedRecruitmentMain = action.main, selectedRecruitmentSub = action.sub) }
             is ManageApplicantAction.OnShowAcceptDialog -> _state.update { it.copy(isShowAcceptDialog = action.isShow) }
             is ManageApplicantAction.OnShowRejectDialog -> _state.update { it.copy(isShowRejectDialog = action.isShow) }
+            is ManageApplicantAction.OnRejectApplicant -> {
+                rejectApplicant(partyId = action.partyId, partyApplicationId = action.partyApplicationId)
+            }
+            is ManageApplicantAction.OnAcceptApplicant -> {
+                acceptApplicant(partyId = action.partyId, partyApplicationId = action.partyApplicationId)
+            }
         }
     }
 }

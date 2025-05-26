@@ -91,17 +91,7 @@ fun ManageApplicantScreenRoute(
                 partyId = partyId,
                 onNavigationClick = { navController.popBackStack() },
                 onAction = { action ->
-                    when(action){
-                        is ManageApplicantAction.OnShowHelpCard -> manageApplicantViewModel.onAction(action)
-                        is ManageApplicantAction.OnChangeProgress -> manageApplicantViewModel.onAction(action)
-                        is ManageApplicantAction.OnChangeOrderBy -> manageApplicantViewModel.onAction(action)
-                        is ManageApplicantAction.OnShowRecruitment -> manageApplicantViewModel.onAction(action)
-                        is ManageApplicantAction.OnSelectRecruitmentTab -> manageApplicantViewModel.onAction(action)
-                        is ManageApplicantAction.OnChangeApplicantOrderBy -> manageApplicantViewModel.onAction(action)
-                        is ManageApplicantAction.OnSelectRecruitmentId -> manageApplicantViewModel.onAction(action)
-                        is ManageApplicantAction.OnShowAcceptDialog -> manageApplicantViewModel.onAction(action)
-                        is ManageApplicantAction.OnShowRejectDialog -> manageApplicantViewModel.onAction(action)
-                    }
+                    manageApplicantViewModel.onAction(action)
                 },
                 onManageClick = { scope.launch { drawerState.open() } }
             )
@@ -176,6 +166,8 @@ private fun ManageApplicantScreen(
                         selectedRecruitmentTab -> onAction(ManageApplicantAction.OnSelectRecruitmentTab(selectedRecruitmentTab))
                     },
                     onChangeOrderBy = { isDesc -> onAction(ManageApplicantAction.OnChangeApplicantOrderBy(isDesc)) },
+                    onAccept = { partyApplicationId -> onAction(ManageApplicantAction.OnAcceptApplicant(partyId = partyId, partyApplicationId = partyApplicationId))},
+                    onRefusal = { partyApplicationId -> onAction(ManageApplicantAction.OnRejectApplicant(partyId = partyId, partyApplicationId = partyApplicationId))},
                 )
             }
         }
@@ -251,6 +243,8 @@ private fun ManageApplicantArea(
     manageApplicantState: ManageApplicantState,
     onSelectRecruitmentTab: (String) -> Unit,
     onChangeOrderBy: (Boolean) -> Unit,
+    onAccept: (Int) -> Unit,
+    onRefusal: (Int) -> Unit,
 ) {
     ManageApplicantPositionTitle(
         main = manageApplicantState.selectedRecruitmentMain,
@@ -275,6 +269,8 @@ private fun ManageApplicantArea(
     HeightSpacer(12.dp)
     ManageApplicantListArea(
         manageApplicantState = manageApplicantState,
+        onAccept = onAccept,
+        onRefusal = onRefusal,
     )
 }
 

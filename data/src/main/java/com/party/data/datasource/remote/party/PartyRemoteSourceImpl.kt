@@ -210,7 +210,7 @@ class PartyRemoteSourceImpl @Inject constructor(
         partyId: Int,
         partyApplicationId: Int
     ): ApiResponse<ApprovalAndRejectionDto> {
-        return partyService.rejectApplicant(partyId = partyId, partyApplicationId = partyApplicationId)
+        return partyService.acceptApplicant(partyId = partyId, partyApplicationId = partyApplicationId)
     }
 
     override suspend fun rejectApplicant(

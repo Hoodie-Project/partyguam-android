@@ -17,6 +17,8 @@ import com.party.presentation.screen.manage_applicant.ManageApplicantState
 @Composable
 fun ManageApplicantListArea(
     manageApplicantState: ManageApplicantState,
+    onAccept: (Int) -> Unit,
+    onRefusal: (Int) -> Unit,
 ) {
     val filteredList = if(manageApplicantState.selectedRecruitmentStatus == "전체"){
         manageApplicantState.recruitmentApplicantList
@@ -49,11 +51,12 @@ fun ManageApplicantListArea(
                     profileImage = item.user.image,
                     nickName = item.user.nickname,
                     message = item.message,
+                    onAccept = { onAccept(item.id)},
+                    onRefusal = {onRefusal(item.id)}
                 )
             }
         }
     }
-
 }
 
 @Preview(showBackground = true)
@@ -61,5 +64,7 @@ fun ManageApplicantListArea(
 private fun ManageApplicantListAreaPreview() {
     ManageApplicantListArea(
         manageApplicantState = ManageApplicantState(),
+        onAccept = {},
+        onRefusal = {},
     )
 }

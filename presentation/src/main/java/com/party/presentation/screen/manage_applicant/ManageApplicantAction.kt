@@ -13,4 +13,10 @@ sealed interface ManageApplicantAction {
     data class OnShowAcceptDialog(val isShow: Boolean): ManageApplicantAction
     // 거절하기 Dialog
     data class OnShowRejectDialog(val isShow: Boolean): ManageApplicantAction
+
+    // 파티장이 지원자를 거절
+    data class OnRejectApplicant(val partyId: Int, val partyApplicationId: Int): ManageApplicantAction
+
+    // 파티장이 지원자를 수락
+    data class OnAcceptApplicant(val partyId: Int, val partyApplicationId: Int): ManageApplicantAction
 }
