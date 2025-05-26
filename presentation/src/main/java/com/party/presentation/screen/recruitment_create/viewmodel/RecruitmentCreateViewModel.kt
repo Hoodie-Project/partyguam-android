@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.common.UIState
+import com.party.common.component.bottomsheet.mainPositionList
 import com.party.domain.model.party.RecruitmentCreate
 import com.party.domain.model.party.RecruitmentCreateRequest
 import com.party.domain.model.user.detail.PositionList
@@ -33,6 +34,10 @@ class RecruitmentCreateViewModel @Inject constructor(
 
     private val _successSaveState = MutableSharedFlow<Unit>()
     val successSaveState = _successSaveState.asSharedFlow()
+
+    init {
+        getSubPositionList(mainPositionList[1])
+    }
 
     private fun createRecruitment(partyId: Int, recruitmentCreateRequest: RecruitmentCreateRequest){
         viewModelScope.launch(Dispatchers.IO) {
