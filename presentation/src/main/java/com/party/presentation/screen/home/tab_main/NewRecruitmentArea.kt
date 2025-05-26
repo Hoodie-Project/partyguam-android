@@ -49,6 +49,7 @@ fun NewRecruitmentArea(
 
     HomeListTitleArea(
         title = stringResource(id = R.string.home_list_new_title),
+        text = "더보기",
         titleIcon = painterResource(id = R.drawable.icon_arrow_right),
         description = stringResource(id = R.string.home_list_new_description),
         onReload = onGoRecruitment,

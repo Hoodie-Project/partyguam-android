@@ -26,6 +26,7 @@ fun PartyListArea(
 ) {
     HomeListTitleArea(
         title = stringResource(id = R.string.home_list_party_title),
+        text = "더보기",
         titleIcon = painterResource(id = R.drawable.icon_arrow_right),
         description = stringResource(id = R.string.home_list_party_description),
         onReload = onGoParty,

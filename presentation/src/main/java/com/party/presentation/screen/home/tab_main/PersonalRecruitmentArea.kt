@@ -65,6 +65,7 @@ fun PersonalRecruitmentArea(
             HeightSpacer(heightDp = 40.dp)
             HomeListTitleArea(
                 title = stringResource(id = R.string.home_list_personal_title),
+                text = "새로고침",
                 titleIcon = painterResource(id = R.drawable.icon_reload),
                 description = stringResource(id = R.string.home_list_personal_description),
                 onReload = onReload

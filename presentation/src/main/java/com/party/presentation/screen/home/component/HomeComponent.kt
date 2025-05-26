@@ -43,6 +43,7 @@ import com.party.common.ui.theme.WHITE
 @Composable
 fun HomeListTitleArea(
     title: String,
+    text: String,
     titleIcon: Painter,
     description: String,
     onReload: () -> Unit,
@@ -55,6 +56,7 @@ fun HomeListTitleArea(
         HomeListTitleArea(
             modifier = Modifier.height(25.dp),
             title = title,
+            text = text,
             icon = titleIcon,
             onClick = onReload,
         )
@@ -70,6 +72,7 @@ fun HomeListTitleArea(
 fun HomeListTitleArea(
     modifier: Modifier,
     title: String,
+    text: String,
     icon: Painter,
     onClick: () -> Unit,
 ) {
@@ -92,7 +95,7 @@ fun HomeListTitleArea(
                 .noRippleClickable(onClick)
         ){
             TextComponent(
-                text = "새로고침",
+                text = text,
                 fontSize = B1,
                 textColor = GRAY500,
                 onClick = onClick
