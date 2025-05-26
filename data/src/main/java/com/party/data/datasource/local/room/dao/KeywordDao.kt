@@ -25,6 +25,6 @@ interface KeywordDao {
     fun allDeleteKeyword()
 
     // 키워드 최근 5개 조회
-    @Query("SELECT * FROM keyword_entity ORDER BY keyword DESC LIMIT 5")
+    @Query("SELECT * FROM keyword_entity ORDER BY createDate DESC LIMIT 5")
     fun getKeywordList() : Flow<List<KeywordEntity>>
 }

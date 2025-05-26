@@ -9,16 +9,19 @@ import com.party.domain.model.room.KeywordModel
 data class KeywordEntity(
     @PrimaryKey
     val keyword: String,
+
+    val createDate: Long = System.currentTimeMillis()
 )
 
 fun KeywordModel.toKeywordEntity(): KeywordEntity {
     return KeywordEntity(
         keyword = keyword,
+        createDate = System.currentTimeMillis()
     )
 }
 
 fun KeywordEntity.toKeywordModel(): KeywordModel {
     return KeywordModel(
-        keyword = keyword,
+        keyword = keyword
     )
 }
