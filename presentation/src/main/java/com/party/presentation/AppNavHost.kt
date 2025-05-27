@@ -89,6 +89,8 @@ fun AppNavHost() {
     val statusFlow = NetworkConnectivityObserver(context).getFlow()
     val status: ConnectivityObserver.Status by statusFlow.collectAsStateWithLifecycle(ConnectivityObserver.Status.Init)
 
+    var isFirstActiveFunc by remember { mutableStateOf(true) }
+
     var showNoInternet by remember { mutableStateOf(false) }
     LaunchedEffect(status) {
         when (status) {
@@ -279,6 +281,8 @@ fun AppNavHost() {
                     snackBarHostState = snackBarHostState,
                     navController = navController,
                     homeTopTabList = homeTopTabList,
+                    isFirstActiveFunc = isFirstActiveFunc,
+                    onChangeFirstFunc = { isFirstActiveFunc = false},
                     onRecruitmentItemClick = { partyRecruitmentId, partyId ->
                         navController.navigate(Screens.RecruitmentDetail(partyRecruitmentId = partyRecruitmentId, partyId = partyId))
                     },

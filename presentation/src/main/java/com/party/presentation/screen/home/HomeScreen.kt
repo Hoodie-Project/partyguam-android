@@ -57,7 +57,9 @@ fun HomeScreenRoute(
     snackBarHostState: SnackbarHostState,
     navController: NavHostController,
     homeTopTabList: List<String>,
+    isFirstActiveFunc: Boolean,
     homeViewModel: HomeViewModel = hiltViewModel(),
+    onChangeFirstFunc: () -> Unit,
     onRecruitmentItemClick: (Int, Int) -> Unit,
 ) {
     val homeState by homeViewModel.state.collectAsStateWithLifecycle()
@@ -97,9 +99,12 @@ fun HomeScreenRoute(
     }
 
     LaunchedEffect(key1 = Unit) {
-        val localAppVersion = getAppVersion(context = context)
-        delay(500L)
-        homeViewModel.checkAppVersion(localAppVersion = localAppVersion ?: "1.0.00")
+        if(isFirstActiveFunc){
+            val localAppVersion = getAppVersion(context = context)
+            delay(500L)
+            homeViewModel.checkAppVersion(localAppVersion = localAppVersion ?: "1.0.00")
+            onChangeFirstFunc()
+        }
     }
 
     HomeScreen(
