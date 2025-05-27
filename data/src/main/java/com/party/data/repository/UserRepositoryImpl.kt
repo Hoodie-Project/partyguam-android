@@ -8,6 +8,7 @@ import com.party.data.datasource.remote.user.UserRemoteSource
 import com.party.data.dto.user.auth.SocialLoginErrorDto
 import com.party.data.dto.user.auth.SocialLoginSuccessDto
 import com.party.data.mapper.UserMapper
+import com.party.data.mapper.UserMapper.mapperToCheckVersion
 import com.party.data.mapper.UserMapper.mapperToLinkGoogle
 import com.party.data.mapper.UserMapper.mapperToLinkKakao
 import com.party.data.mapper.UserMapper.mapperToMySocialOauth
@@ -15,6 +16,7 @@ import com.party.data.mapper.UserMapper.mapperToNotification
 import com.party.data.mapper.UserMapper.mapperToReports
 import com.party.data.mapper.UserMapper.mapperUserSignUpResponse
 import com.party.domain.model.user.AccessTokenRequest
+import com.party.domain.model.user.CheckVersion
 import com.party.domain.model.user.LinkGoogle
 import com.party.domain.model.user.LinkKakao
 import com.party.domain.model.user.LinkKakaoRequest
@@ -734,6 +736,21 @@ class UserRepositoryImpl @Inject constructor(
         return when(val result = userRemoteSource.saveUserFcmToken(saveUserFcmTokenRequest = saveUserFcmTokenRequest)){
             is ApiResponse.Success -> {
                 SuccessResponse(data = Unit)
+            }
+            is ApiResponse.Failure.Error -> {
+                ErrorResponse(data = null)
+            }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse(result.message)
+            }
+        }
+    }
+
+    override suspend fun checkVersion(platform: String): ServerApiResponse<CheckVersion> {
+        return when(val result = userRemoteSource.checkVersion(platform = platform)){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = mapperToCheckVersion(result.data))
             }
             is ApiResponse.Failure.Error -> {
                 ErrorResponse(data = null)

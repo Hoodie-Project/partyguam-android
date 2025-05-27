@@ -1,5 +1,6 @@
 package com.party.data.mapper
 
+import com.party.data.dto.user.CheckVersionDto
 import com.party.data.dto.user.notification.NotificationDataDto
 import com.party.data.dto.user.notification.NotificationDto
 import com.party.data.dto.user.notification.NotificationTypeDto
@@ -31,6 +32,7 @@ import com.party.data.dto.user.profile.UserProfilePositionDto
 import com.party.data.dto.user.recruitment.MyRecruitmentDto
 import com.party.data.dto.user.recruitment.PartyApplicationDto
 import com.party.data.util.convertToImageUrl
+import com.party.domain.model.user.CheckVersion
 import com.party.domain.model.user.LinkGoogle
 import com.party.domain.model.user.LinkKakao
 import com.party.domain.model.user.MySocialOauth
@@ -371,6 +373,17 @@ object UserMapper {
     fun mapperToReadNotification(readNotificationDto: ReadNotificationDto): ReadNotification{
         return ReadNotification(
             message = readNotificationDto.message
+        )
+    }
+
+    fun mapperToCheckVersion(checkVersionDto: CheckVersionDto): CheckVersion{
+        return CheckVersion(
+            platform = checkVersionDto.platform,
+            latestVersion = checkVersionDto.latestVersion,
+            minRequiredVersion = checkVersionDto.minRequiredVersion,
+            releaseNotes = checkVersionDto.releaseNotes,
+            isForceUpdate = checkVersionDto.isForceUpdate,
+            downloadUrl = checkVersionDto.downloadUrl
         )
     }
 }

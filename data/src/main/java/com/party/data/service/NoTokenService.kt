@@ -1,6 +1,7 @@
 package com.party.data.service
 
 import com.party.data.dto.banner.BannerDto
+import com.party.data.dto.user.CheckVersionDto
 import com.party.data.dto.user.auth.SocialLoginSuccessDto
 import com.party.data.dto.user.auth.UserSignUpDto
 import com.party.domain.model.user.AccessTokenRequest
@@ -47,4 +48,10 @@ interface NoTokenService {
     suspend fun recoverAuth(
         @Header("Authorization") recoverAccessToken: String
     ): ApiResponse<SocialLoginSuccessDto>
+
+    // 앱버전 체크
+    @GET("api/version/latest")
+    suspend fun checkVersion(
+        @Query("platform") platform: String,
+    ): ApiResponse<CheckVersionDto>
 }

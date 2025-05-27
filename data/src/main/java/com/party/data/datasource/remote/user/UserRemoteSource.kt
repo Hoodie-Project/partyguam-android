@@ -1,5 +1,6 @@
 package com.party.data.datasource.remote.user
 
+import com.party.data.dto.user.CheckVersionDto
 import com.party.data.dto.user.notification.NotificationDto
 import com.party.data.dto.user.ReportsDto
 import com.party.data.dto.user.auth.LinkGoogleDto
@@ -138,4 +139,7 @@ interface UserRemoteSource {
 
     // 유저 FCM 토큰 저장
     suspend fun saveUserFcmToken(saveUserFcmTokenRequest: SaveUserFcmTokenRequest): ApiResponse<Unit>
+
+    // 앱버전 체크
+    suspend fun checkVersion(platform: String): ApiResponse<CheckVersionDto>
 }

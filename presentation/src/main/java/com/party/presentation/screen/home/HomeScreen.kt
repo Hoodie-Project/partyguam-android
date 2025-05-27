@@ -1,6 +1,10 @@
 package com.party.presentation.screen.home
 
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +32,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.Screens
 import com.party.common.component.BottomNavigationBar
+import com.party.common.component.dialog.OneButtonDialog
+import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.floating.NavigateUpFloatingButton
 import com.party.common.component.floating.PartyCreateFloatingButton
 import com.party.common.ui.theme.BLACK
@@ -42,6 +48,7 @@ import com.party.presentation.screen.home.tab_main.MainArea
 import com.party.presentation.screen.home.tab_party.PartyArea
 import com.party.presentation.screen.home.tab_recruitment.RecruitmentArea
 import com.party.presentation.screen.home.viewmodel.HomeViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -87,6 +94,12 @@ fun HomeScreenRoute(
 
     LaunchedEffect(key1 = homeState.selectedMainPosition) {
         homeViewModel.getSubPositionList(homeState.selectedMainPosition)
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        val localAppVersion = getAppVersion(context = context)
+        delay(500L)
+        homeViewModel.checkAppVersion(localAppVersion = localAppVersion ?: "1.0.00")
     }
 
     HomeScreen(
@@ -141,8 +154,8 @@ private fun HomeScreen(
         Scaffold(
             modifier = Modifier
                 .blur(
-                    radiusX = if (homeState.isExpandedFloating) 10.dp else 0.dp,
-                    radiusY = if (homeState.isExpandedFloating) 10.dp else 0.dp,
+                    radiusX = if (homeState.isExpandedFloating || homeState.isShowForceUpdateDialog || homeState.isShowChoiceUpdateDialog) 10.dp else 0.dp,
+                    radiusY = if (homeState.isExpandedFloating || homeState.isShowForceUpdateDialog || homeState.isShowChoiceUpdateDialog) 10.dp else 0.dp,
                 ),
             snackbarHost = {
                 SnackbarHost(
@@ -269,5 +282,105 @@ private fun HomeScreen(
                     .zIndex(0f)
             )
         }
+
+        // 강제업데이트
+        if(homeState.isShowForceUpdateDialog){
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(BLACK.copy(alpha = 0.2f))
+                    .noRippleClickable {}
+            ) {
+                OneButtonDialog(
+                    dialogTitle = "최신 버전의 앱이 있어요",
+                    description = "최적의 사용 환경을 위해 최신 버전의\n앱으로 업데이트 해주세요",
+                    buttonText = "업데이트",
+                    onCancel = {},
+                    onConfirm = {
+                        onAction(HomeAction.OnShowForceUpdateDialog(false))
+                        goToPlayStore(context)
+                    },
+                )
+            }
+        }
+
+        // 선택 업데이트
+        if(homeState.isShowChoiceUpdateDialog){
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(BLACK.copy(alpha = 0.2f))
+                    .noRippleClickable {
+                    }
+            ) {
+                TwoButtonDialog(
+                    dialogTitle = "최신 버전의 앱이 있어요",
+                    description = "최적의 사용 환경을 위해 최신 버전의\n앱으로 업데이트 해주세요",
+                    cancelButtonText = "다음에",
+                    confirmButtonText = "업데이트",
+                    onCancel = {
+                        onAction(HomeAction.OnShowChoiceUpdateDialog(false))
+                    },
+                    onConfirm = {
+                        onAction(HomeAction.OnShowChoiceUpdateDialog(false))
+                        goToPlayStore(context)
+                    }
+                )
+            }
+        }
+    }
+}
+
+fun compareAppVersions(localAppVersion: String?, serverAppVersion: String?): Int {
+    if (localAppVersion.isNullOrEmpty() || serverAppVersion.isNullOrEmpty()) {
+        return -1 // 업데이트 필요 (기본적으로 최신 버전이 있다고 가정)
+    }
+
+    val currentParts = localAppVersion.split(".").map { it.toIntOrNull() ?: 0 }
+    val latestParts = serverAppVersion.split(".").map { it.toIntOrNull() ?: 0 }
+
+    val maxLength = maxOf(currentParts.size, latestParts.size)
+
+    for (i in 0 until maxLength) {
+        val current = currentParts.getOrElse(i) { 0 }
+        val latest = latestParts.getOrElse(i) { 0 }
+
+        if (current < latest) return -1  // 업데이트 필요
+        if (current > latest) return 1   // 현재 버전이 최신 (보통 발생하지 않음)
+    }
+    return 0  // 동일 버전
+}
+
+fun getAppVersion(context: Context): String? {
+    return try {
+        val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
+        val versionName = packageInfo.versionName // ex) "1.0.0"
+        //val versionCode = PackageInfoCompat.getLongVersionCode(packageInfo) // 버전 코드 (API 28 이상)
+        versionName
+    } catch (e: PackageManager.NameNotFoundException) {
+        "버전 정보 없음"
+    }
+}
+
+fun goToPlayStore(
+    context: Context,
+){
+    val appPackageName = "com.party.guam"
+    try {
+        // Play 스토어 앱으로 이동
+        context.startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("market://details?id=$appPackageName")
+            ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        )
+    } catch (e: ActivityNotFoundException) {
+        // Play 스토어 앱이 없으면 브라우저로 이동
+        context.startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
+            ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        )
     }
 }

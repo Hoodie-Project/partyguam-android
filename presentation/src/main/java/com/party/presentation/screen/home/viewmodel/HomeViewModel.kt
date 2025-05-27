@@ -8,6 +8,7 @@ import com.party.domain.model.banner.Banner
 import com.party.domain.model.party.PartyList
 import com.party.domain.model.party.PersonalRecruitmentList
 import com.party.domain.model.party.RecruitmentList
+import com.party.domain.model.user.CheckVersion
 import com.party.domain.model.user.SaveUserFcmTokenRequest
 import com.party.domain.model.user.detail.PositionList
 import com.party.domain.usecase.banner.GetBannerListUseCase
@@ -15,12 +16,15 @@ import com.party.domain.usecase.datastore.GetFcmTokenUseCase
 import com.party.domain.usecase.party.GetPartyListUseCase
 import com.party.domain.usecase.party.GetPersonalRecruitmentListUseCase
 import com.party.domain.usecase.party.GetRecruitmentListUseCase
+import com.party.domain.usecase.user.CheckVersionUseCase
 import com.party.domain.usecase.user.SaveUserFcmTokenUseCase
 import com.party.domain.usecase.user.detail.GetPositionsUseCase
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.enum.PartyType
 import com.party.presentation.screen.home.HomeAction
 import com.party.presentation.screen.home.HomeState
+import com.party.presentation.screen.home.compareAppVersions
+import com.party.presentation.screen.home.getAppVersion
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -41,6 +45,7 @@ class HomeViewModel @Inject constructor(
     private val getBannerListUseCase: GetBannerListUseCase,
     private val saveUserFcmTokenUseCase: SaveUserFcmTokenUseCase,
     private val getFcmTokenUseCase: GetFcmTokenUseCase,
+    private val checkVersionUseCase: CheckVersionUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
@@ -202,6 +207,31 @@ class HomeViewModel @Inject constructor(
                     is ServerApiResponse.ErrorResponse -> {}
                     is ServerApiResponse.ExceptionResponse -> {}
                 }
+            }
+        }
+    }
+
+    // 앱버전 체크
+    fun checkAppVersion(localAppVersion: String?){
+        viewModelScope.launch {
+            when(val result = checkVersionUseCase(platform = "android")){
+                is ServerApiResponse.SuccessResponse<CheckVersion> -> {
+                    val data = result.data
+                    val remoteVersion = data?.latestVersion ?: ""
+                    val isForceUpdate = data?.isForceUpdate == true
+                    val aa = compareAppVersions(localAppVersion, remoteVersion) == -1
+
+                    _state.update {
+                        it.copy(
+                            latestVersion = remoteVersion,
+                            isForceUpdate = data?.isForceUpdate == true,
+                            isShowForceUpdateDialog = isForceUpdate && aa,
+                            isShowChoiceUpdateDialog = !isForceUpdate && aa,
+                        )
+                    }
+                }
+                is ServerApiResponse.ErrorResponse -> {}
+                is ServerApiResponse.ExceptionResponse -> {}
             }
         }
     }
@@ -409,6 +439,8 @@ class HomeViewModel @Inject constructor(
                 )
             }
             is HomeAction.OnExpandedFloating -> _state.update { it.copy(isExpandedFloating = action.isExpandedFloating) }
+            is HomeAction.OnShowForceUpdateDialog -> _state.update { it.copy(isShowForceUpdateDialog = action.isShow) }
+            is HomeAction.OnShowChoiceUpdateDialog -> _state.update { it.copy(isShowChoiceUpdateDialog = action.isShow) }
         }
     }
 

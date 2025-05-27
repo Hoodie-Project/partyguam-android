@@ -2,6 +2,7 @@ package com.party.domain.repository
 
 import com.party.common.ServerApiResponse
 import com.party.domain.model.user.AccessTokenRequest
+import com.party.domain.model.user.CheckVersion
 import com.party.domain.model.user.LinkGoogle
 import com.party.domain.model.user.LinkKakao
 import com.party.domain.model.user.LinkKakaoRequest
@@ -138,4 +139,7 @@ interface UserRepository {
 
     // 유저 FCM 토큰 저장
     suspend fun saveUserFcmToken(saveUserFcmTokenRequest: SaveUserFcmTokenRequest): ServerApiResponse<Unit>
+
+    // 앱버전 체크
+    suspend fun checkVersion(platform: String): ServerApiResponse<CheckVersion>
 }

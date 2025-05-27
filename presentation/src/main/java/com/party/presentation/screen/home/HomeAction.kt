@@ -27,7 +27,10 @@ sealed interface HomeAction {
     data object OnSelectedPartyTypeResetRecruitmentReset : HomeAction
     data object OnPartyTypeApplyRecruitment : HomeAction
 
-
     data class OnExpandedFloating(val isExpandedFloating: Boolean): HomeAction
+
+    // 앱버전 체크 Dialog
+    data class OnShowForceUpdateDialog(val isShow: Boolean): HomeAction
+    data class OnShowChoiceUpdateDialog(val isShow: Boolean): HomeAction
 
 }

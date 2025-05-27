@@ -62,4 +62,9 @@ data class HomeState(
     val recruitmentNumber: Int = 0,
     val selectedPositionNumber: Int = 0,
 
+    // 앱버전
+    val isShowForceUpdateDialog: Boolean = false,
+    val isShowChoiceUpdateDialog: Boolean = false,
+    val isForceUpdate: Boolean = false,
+    val latestVersion: String = ""
     )

@@ -1,5 +1,6 @@
 package com.party.data.datasource.remote.user
 
+import com.party.data.dto.user.CheckVersionDto
 import com.party.data.dto.user.notification.NotificationDto
 import com.party.data.dto.user.ReportsDto
 import com.party.data.dto.user.auth.LinkGoogleDto
@@ -200,5 +201,9 @@ class UserRemoteSourceImpl @Inject constructor(
 
     override suspend fun saveUserFcmToken(saveUserFcmTokenRequest: SaveUserFcmTokenRequest): ApiResponse<Unit> {
         return userService.saveUserFcmToken(saveUserFcmTokenRequest = saveUserFcmTokenRequest)
+    }
+
+    override suspend fun checkVersion(platform: String): ApiResponse<CheckVersionDto> {
+        return noTokenService.checkVersion(platform = platform)
     }
 }
