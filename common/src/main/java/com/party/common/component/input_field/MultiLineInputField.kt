@@ -32,16 +32,16 @@ import androidx.compose.ui.unit.dp
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
-import com.party.common.ui.theme.B3
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.EXTRA_LARGE_BUTTON_HEIGHT2
-import com.party.common.ui.theme.GRAY200
-import com.party.common.ui.theme.GRAY400
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.RED
-import com.party.common.ui.theme.T3
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.B3
+import com.party.guam.design.BLACK
+import com.party.guam.design.EXTRA_LARGE_BUTTON_HEIGHT2
+import com.party.guam.design.GRAY200
+import com.party.guam.design.GRAY400
+import com.party.guam.design.LARGE_CORNER_SIZE
+import com.party.guam.design.PRIMARY
+import com.party.guam.design.RED
+import com.party.guam.design.T3
+import com.party.guam.design.WHITE
 
 @Composable
 fun MultiLineInputField(

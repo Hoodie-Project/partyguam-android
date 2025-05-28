@@ -1,4 +1,4 @@
-package com.party.common.ui.theme
+package com.party.guam.design
 
 import androidx.compose.ui.graphics.Color
 

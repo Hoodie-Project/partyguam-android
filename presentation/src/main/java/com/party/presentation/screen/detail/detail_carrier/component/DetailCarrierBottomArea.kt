@@ -16,12 +16,12 @@ import com.party.common.DetailCarrierData.mainSelectedMainPosition
 import com.party.common.utils.HeightSpacer
 import com.party.common.R
 import com.party.common.utils.TextComponent
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.GRAY400
-import com.party.common.ui.theme.GRAY500
-import com.party.common.ui.theme.LIGHT400
-import com.party.common.ui.theme.PRIMARY
+import com.party.guam.design.B2
+import com.party.guam.design.BLACK
+import com.party.guam.design.GRAY400
+import com.party.guam.design.GRAY500
+import com.party.guam.design.LIGHT400
+import com.party.guam.design.PRIMARY
 import com.party.presentation.screen.detail.DetailProfileNextButton
 
 @Composable

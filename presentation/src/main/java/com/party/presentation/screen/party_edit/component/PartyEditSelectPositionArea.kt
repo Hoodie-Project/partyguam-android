@@ -11,10 +11,10 @@ import com.party.common.R
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.InputField
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.GRAY200
-import com.party.common.ui.theme.GRAY400
-import com.party.common.ui.theme.PRIMARY
+import com.party.guam.design.BLACK
+import com.party.guam.design.GRAY200
+import com.party.guam.design.GRAY400
+import com.party.guam.design.PRIMARY
 import com.party.domain.model.user.detail.PositionList
 import com.party.presentation.component.bottomsheet.OneSelectMainAndSubPositionBottomSheet
 

@@ -13,9 +13,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.B2
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.WHITE
 import com.party.presentation.screen.terms.component.PrivacyPolicyContent
 import com.party.presentation.screen.terms.component.TermsScaffoldArea
 import com.party.presentation.screen.terms.component.privacy_policy.PrivacyPolicyItem

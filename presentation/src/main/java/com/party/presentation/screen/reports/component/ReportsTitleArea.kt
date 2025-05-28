@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.party.common.utils.TextComponent
 import com.party.common.component.input_field.MultiLineInputField
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.T2
+import com.party.guam.design.BLACK
+import com.party.guam.design.T2
 
 @Composable
 fun ReportsTitleArea() {

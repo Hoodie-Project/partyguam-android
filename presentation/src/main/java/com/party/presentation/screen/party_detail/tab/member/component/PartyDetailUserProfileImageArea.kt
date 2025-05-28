@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.component.ImageLoading
 import com.party.common.component.icon.DrawableIcon
-import com.party.common.ui.theme.GRAY200
+import com.party.guam.design.GRAY200
 import com.party.presentation.enum.PartyAuthorityType
 
 @Composable

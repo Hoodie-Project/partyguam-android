@@ -19,9 +19,9 @@ import com.party.common.R
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.InputField
 import com.party.common.component.scaffold.ScaffoldCenterBar
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.GRAY500
-import com.party.common.ui.theme.PRIMARY
+import com.party.guam.design.BLACK
+import com.party.guam.design.GRAY500
+import com.party.guam.design.PRIMARY
 
 @Composable
 fun SearchArea(

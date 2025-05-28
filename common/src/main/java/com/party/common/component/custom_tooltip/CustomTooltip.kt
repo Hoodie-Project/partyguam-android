@@ -31,11 +31,11 @@ import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.icon.DrawableIconButton
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.GRAY500
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.B2
+import com.party.guam.design.GRAY500
+import com.party.guam.design.LARGE_CORNER_SIZE
+import com.party.guam.design.PRIMARY
+import com.party.guam.design.WHITE
 
 class TriangleEdge: Shape {
     override fun createOutline(

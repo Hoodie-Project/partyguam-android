@@ -22,9 +22,9 @@ import androidx.navigation.NavHostController
 import com.party.common.utils.HeightSpacer
 import com.party.common.Screens
 import com.party.common.component.button.CustomButton
-import com.party.common.ui.theme.GRAY100
-import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.GRAY100
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.WHITE
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.screen.profile.UserProfileState
 import com.party.presentation.screen.profile_edit.component.EditArea

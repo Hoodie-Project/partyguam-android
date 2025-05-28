@@ -12,9 +12,9 @@ import androidx.compose.ui.unit.dp
 import com.party.common.utils.AnnotatedTextComponent
 import com.party.common.R
 import com.party.common.utils.TextComponent
-import com.party.common.ui.theme.B3
-import com.party.common.ui.theme.GRAY400
-import com.party.common.ui.theme.RED
+import com.party.guam.design.B3
+import com.party.guam.design.GRAY400
+import com.party.guam.design.RED
 
 @Composable
 fun WarningArea(

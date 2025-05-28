@@ -16,10 +16,10 @@ import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.common.component.chip.RoundChip
 import com.party.common.component.no_data.NoDataRow
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.GRAY400
-import com.party.common.ui.theme.RED
-import com.party.common.ui.theme.T3
+import com.party.guam.design.B2
+import com.party.guam.design.GRAY400
+import com.party.guam.design.RED
+import com.party.guam.design.T3
 import com.party.domain.model.room.KeywordModel
 
 @OptIn(ExperimentalLayoutApi::class)

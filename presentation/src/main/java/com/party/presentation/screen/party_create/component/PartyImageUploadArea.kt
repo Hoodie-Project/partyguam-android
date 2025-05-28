@@ -29,10 +29,10 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.party.common.R
 import com.party.common.component.icon.DrawableIconButton
-import com.party.common.ui.theme.GRAY100
+import com.party.guam.design.GRAY100
 import com.party.common.utils.createMultipartBody
-import com.party.common.ui.theme.GRAY300
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
+import com.party.guam.design.GRAY300
+import com.party.guam.design.LARGE_CORNER_SIZE
 import okhttp3.MultipartBody
 
 @Composable

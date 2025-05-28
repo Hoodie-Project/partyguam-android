@@ -15,10 +15,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.T1
-import com.party.common.ui.theme.T3
+import com.party.guam.design.BLACK
+import com.party.guam.design.PRIMARY
+import com.party.guam.design.T1
+import com.party.guam.design.T3
 
 @Composable
 fun RecoverDescriptionArea() {

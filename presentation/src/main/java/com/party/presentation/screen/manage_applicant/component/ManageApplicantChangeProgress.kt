@@ -12,9 +12,9 @@ import com.party.common.R
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
 import com.party.common.utils.noRippleClickable
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.DARK100
-import com.party.common.ui.theme.GRAY500
+import com.party.guam.design.B2
+import com.party.guam.design.DARK100
+import com.party.guam.design.GRAY500
 
 @Composable
 fun ManageApplicantChangeProgress(

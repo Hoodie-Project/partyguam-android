@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.party.common.ui.theme.BLACK
+import com.party.guam.design.BLACK
 
 @Composable
 fun DialogButton(

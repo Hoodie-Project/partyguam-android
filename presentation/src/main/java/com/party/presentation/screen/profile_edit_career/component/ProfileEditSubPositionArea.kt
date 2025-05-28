@@ -15,11 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.WidthSpacer
 import com.party.common.utils.noRippleClickable
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.GRAY200
-import com.party.common.ui.theme.LARGE_BUTTON_HEIGHT
-import com.party.common.ui.theme.PRIMARY
+import com.party.guam.design.B2
+import com.party.guam.design.BLACK
+import com.party.guam.design.GRAY200
+import com.party.guam.design.LARGE_BUTTON_HEIGHT
+import com.party.guam.design.PRIMARY
 import com.party.domain.model.user.detail.PositionList
 import com.party.presentation.screen.profile_edit_career.ProfileEditCareerState
 

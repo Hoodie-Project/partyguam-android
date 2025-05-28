@@ -26,7 +26,7 @@ import com.party.common.Screens
 import com.party.common.component.homeTopTabList
 import com.party.common.component.profileEditTendencyTabList
 import com.party.common.hasInternetConnection
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.WHITE
 import com.party.presentation.screen.auth_setting.AuthSettingScreenRoute
 import com.party.presentation.screen.detail.choice_carrier_position.ChoiceCarrierPositionScreen
 import com.party.presentation.screen.detail.detail_carrier.DetailCarrierScreen

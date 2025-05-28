@@ -1,10 +1,10 @@
 package com.party.presentation.enum
 
 import androidx.compose.ui.graphics.Color
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.GRAY400
-import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.YELLOW
+import com.party.guam.design.BLACK
+import com.party.guam.design.GRAY400
+import com.party.guam.design.PRIMARY
+import com.party.guam.design.YELLOW
 
 // 검토중 : 양쪽다 수락하지 않은 상태
 // 응답대기 : 파티장이 수락하고 파티원이 수락하지 않은 상태

@@ -10,11 +10,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.WidthSpacer
-import com.party.common.ui.theme.GRAY500
-import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.T1
-import com.party.common.ui.theme.T2
-import com.party.common.ui.theme.T3
+import com.party.guam.design.GRAY500
+import com.party.guam.design.PRIMARY
+import com.party.guam.design.T1
+import com.party.guam.design.T2
+import com.party.guam.design.T3
 
 @Composable
 fun PartyUserCountArea(

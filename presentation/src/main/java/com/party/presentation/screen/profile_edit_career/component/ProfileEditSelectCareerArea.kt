@@ -24,13 +24,13 @@ import androidx.compose.ui.unit.dp
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.common.utils.noRippleClickable
-import com.party.common.ui.theme.GRAY200
-import com.party.common.ui.theme.LARGE_BUTTON_HEIGHT
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.LIGHT100
-import com.party.common.ui.theme.LIGHT300
-import com.party.common.ui.theme.T3
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.GRAY200
+import com.party.guam.design.LARGE_BUTTON_HEIGHT
+import com.party.guam.design.LARGE_CORNER_SIZE
+import com.party.guam.design.LIGHT100
+import com.party.guam.design.LIGHT300
+import com.party.guam.design.T3
+import com.party.guam.design.WHITE
 import com.party.presentation.screen.detail.choice_carrier_position.component.carrierList
 
 @Composable

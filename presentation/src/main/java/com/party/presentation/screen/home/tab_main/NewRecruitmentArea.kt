@@ -27,11 +27,11 @@ import com.party.common.utils.LoadingProgressBar
 import com.party.common.R
 import com.party.common.utils.TextComponent
 import com.party.common.component.ImageLoading
-import com.party.common.ui.theme.GRAY100
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.MEDIUM_CORNER_SIZE
-import com.party.common.ui.theme.T3
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.GRAY100
+import com.party.guam.design.LARGE_CORNER_SIZE
+import com.party.guam.design.MEDIUM_CORNER_SIZE
+import com.party.guam.design.T3
+import com.party.guam.design.WHITE
 import com.party.domain.model.party.RecruitmentItem
 import com.party.domain.model.party.RecruitmentList
 import com.party.presentation.screen.home.HomeState

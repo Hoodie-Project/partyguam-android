@@ -26,16 +26,16 @@ import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.chip.Chip
 import com.party.common.utils.noRippleClickable
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.B3
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.GRAY100
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.RED
-import com.party.common.ui.theme.T3
-import com.party.common.ui.theme.TYPE_COLOR_BACKGROUND
-import com.party.common.ui.theme.TYPE_COLOR_TEXT
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.B2
+import com.party.guam.design.B3
+import com.party.guam.design.BLACK
+import com.party.guam.design.GRAY100
+import com.party.guam.design.LARGE_CORNER_SIZE
+import com.party.guam.design.RED
+import com.party.guam.design.T3
+import com.party.guam.design.TYPE_COLOR_BACKGROUND
+import com.party.guam.design.TYPE_COLOR_TEXT
+import com.party.guam.design.WHITE
 
 @Composable
 fun RecruitmentListItem2(

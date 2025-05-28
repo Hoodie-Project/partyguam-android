@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.dp
 import com.party.common.utils.TextComponent
 import com.party.common.component.bottomsheet.component.BottomSheetButtonArea
 import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
-import com.party.common.ui.theme.B1
-import com.party.common.ui.theme.GRAY100
+import com.party.guam.design.B1
+import com.party.guam.design.GRAY100
 
 val mainPositionList = listOf(
     "전체",

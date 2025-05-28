@@ -30,8 +30,8 @@ import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.partyDetailTabList
 import com.party.common.utils.noRippleClickable
 import com.party.common.utils.snackBarMessage
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.BLACK
+import com.party.guam.design.WHITE
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyType
 import com.party.domain.model.user.PartyAuthority

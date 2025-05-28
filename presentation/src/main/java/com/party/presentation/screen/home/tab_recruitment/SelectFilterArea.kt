@@ -26,12 +26,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.component.chip.OrderByCreateDtChip
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.GRAY200
-import com.party.common.ui.theme.GRAY500
-import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.B2
+import com.party.guam.design.BLACK
+import com.party.guam.design.GRAY200
+import com.party.guam.design.GRAY500
+import com.party.guam.design.PRIMARY
+import com.party.guam.design.WHITE
 import com.party.common.utils.WidthSpacer
 
 @Composable

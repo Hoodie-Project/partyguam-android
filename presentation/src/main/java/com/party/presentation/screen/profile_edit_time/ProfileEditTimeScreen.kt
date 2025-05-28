@@ -21,8 +21,8 @@ import com.party.common.utils.HeightSpacer
 import com.party.common.utils.ScreenExplainArea
 import com.party.common.component.button.ResetAndApplyButtonArea
 import com.party.common.utils.snackBarMessage
-import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.WHITE
 import com.party.presentation.screen.profile_edit_time.component.ProfileEditTimeScaffoldArea
 import com.party.presentation.screen.profile_edit_time.component.TimeSelectArea
 import com.party.presentation.screen.profile_edit_time.viewmodel.ProfileEditTimeViewModel

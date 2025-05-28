@@ -36,9 +36,9 @@ import com.party.common.utils.HeightSpacer
 import com.party.common.Screens
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.utils.noRippleClickable
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.GRAY200
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.BLACK
+import com.party.guam.design.GRAY200
+import com.party.guam.design.WHITE
 import com.party.presentation.BuildConfig
 import com.party.presentation.screen.auth_setting.component.AuthSettingScaffoldArea
 import com.party.presentation.screen.auth_setting.component.LogoutAndDeletionArea

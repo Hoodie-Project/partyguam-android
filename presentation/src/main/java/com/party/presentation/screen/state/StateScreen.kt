@@ -25,14 +25,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.google.android.play.integrity.internal.ac
 import com.party.common.component.floating.NavigateUpFloatingButton
 import com.party.common.component.floating.PartyCreateFloatingButton
 import com.party.common.component.stateTabList
 import com.party.common.utils.noRippleClickable
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.BLACK
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.WHITE
 import com.party.domain.model.user.party.MyParty
 import com.party.domain.model.user.party.Party
 import com.party.domain.model.user.party.PartyType

@@ -24,11 +24,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.T2
+import com.party.guam.design.B2
+import com.party.guam.design.BLACK
+import com.party.guam.design.LARGE_CORNER_SIZE
+import com.party.guam.design.PRIMARY
+import com.party.guam.design.T2
 
 @Composable
 fun ModalTitleArea(

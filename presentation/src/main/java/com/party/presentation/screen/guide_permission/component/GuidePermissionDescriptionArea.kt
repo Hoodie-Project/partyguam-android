@@ -2,8 +2,8 @@ package com.party.presentation.screen.guide_permission.component
 
 import androidx.compose.runtime.Composable
 import com.party.common.utils.TextComponent
-import com.party.common.ui.theme.B3
-import com.party.common.ui.theme.GRAY500
+import com.party.guam.design.B3
+import com.party.guam.design.GRAY500
 
 @Composable
 fun GuidePermissionDescriptionArea(){

@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
-import com.party.common.ui.theme.B1
+import com.party.guam.design.B1
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

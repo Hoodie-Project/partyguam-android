@@ -14,10 +14,10 @@ import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.chip.Chip
-import com.party.common.ui.theme.B1
-import com.party.common.ui.theme.GRAY100
-import com.party.common.ui.theme.LIGHT400
-import com.party.common.ui.theme.T3
+import com.party.guam.design.B1
+import com.party.guam.design.GRAY100
+import com.party.guam.design.LIGHT400
+import com.party.guam.design.T3
 import com.party.domain.model.user.profile.UserCareer
 
 @Composable

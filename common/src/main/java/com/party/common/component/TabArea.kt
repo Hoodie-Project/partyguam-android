@@ -24,10 +24,10 @@ import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
 import com.party.common.utils.noRippleClickable
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.COMPONENT_AREA_HEIGHT
-import com.party.common.ui.theme.GRAY400
-import com.party.common.ui.theme.PRIMARY
+import com.party.guam.design.BLACK
+import com.party.guam.design.COMPONENT_AREA_HEIGHT
+import com.party.guam.design.GRAY400
+import com.party.guam.design.PRIMARY
 
 val homeTopTabList = listOf("라운지", "파티", "모집공고")
 val partyDetailTabList = listOf("홈", "파티원", "모집공고")

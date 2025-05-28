@@ -22,13 +22,13 @@ import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.chip.Chip
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.GRAY100
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.T3
-import com.party.common.ui.theme.TYPE_COLOR_BACKGROUND
-import com.party.common.ui.theme.TYPE_COLOR_TEXT
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.B2
+import com.party.guam.design.GRAY100
+import com.party.guam.design.LARGE_CORNER_SIZE
+import com.party.guam.design.T3
+import com.party.guam.design.TYPE_COLOR_BACKGROUND
+import com.party.guam.design.TYPE_COLOR_TEXT
+import com.party.guam.design.WHITE
 
 @Composable
 fun PartyListItem2(

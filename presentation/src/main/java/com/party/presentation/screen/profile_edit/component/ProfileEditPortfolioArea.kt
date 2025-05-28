@@ -6,8 +6,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
-import com.party.common.ui.theme.B1
-import com.party.common.ui.theme.LINK_COLOR
+import com.party.guam.design.B1
+import com.party.guam.design.LINK_COLOR
 
 @Composable
 fun ProfileEditPortfolioArea(

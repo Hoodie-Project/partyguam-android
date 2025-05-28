@@ -20,12 +20,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.noRippleClickable
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.GRAY200
-import com.party.common.ui.theme.GRAY500
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.B2
+import com.party.guam.design.GRAY200
+import com.party.guam.design.GRAY500
+import com.party.guam.design.LARGE_CORNER_SIZE
+import com.party.guam.design.PRIMARY
+import com.party.guam.design.WHITE
 
 @Composable
 fun BorderChip(

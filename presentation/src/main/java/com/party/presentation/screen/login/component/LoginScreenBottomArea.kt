@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.noRippleClickable
-import com.party.common.ui.theme.GRAY500
-import com.party.common.ui.theme.GRAY600
+import com.party.guam.design.GRAY500
+import com.party.guam.design.GRAY600
 
 @Composable
 fun LoginScreenBottomArea(

@@ -1,8 +1,8 @@
 package com.party.presentation.enum
 
 import androidx.compose.ui.graphics.Color
-import com.party.common.ui.theme.GRAY500
-import com.party.common.ui.theme.PRIMARY
+import com.party.guam.design.GRAY500
+import com.party.guam.design.PRIMARY
 
 enum class PartyAuthorityType(
     val authority: String

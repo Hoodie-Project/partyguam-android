@@ -24,9 +24,9 @@ import com.party.common.R
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.bottomsheet.list.positionList
 import com.party.common.utils.noRippleClickable
-import com.party.common.ui.theme.B1
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.LIGHT400
+import com.party.guam.design.B1
+import com.party.guam.design.BLACK
+import com.party.guam.design.LIGHT400
 import com.party.domain.model.user.detail.PositionList
 
 @Composable

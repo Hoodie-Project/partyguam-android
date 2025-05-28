@@ -15,10 +15,10 @@ import com.party.common.R
 import com.party.common.utils.TextComponent
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.InputField
-import com.party.common.ui.theme.GRAY200
-import com.party.common.ui.theme.GRAY400
-import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.T2
+import com.party.guam.design.GRAY200
+import com.party.guam.design.GRAY400
+import com.party.guam.design.PRIMARY
+import com.party.guam.design.T2
 
 @Composable
 fun InputLinkAndTitleArea(

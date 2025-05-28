@@ -16,10 +16,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
-import com.party.common.ui.theme.T1
+import com.party.guam.design.T1
 import com.party.common.R
-import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.WHITE
 import com.party.common.Screens
 
 @Composable

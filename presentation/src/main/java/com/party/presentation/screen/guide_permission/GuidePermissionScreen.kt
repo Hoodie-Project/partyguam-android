@@ -20,9 +20,9 @@ import androidx.navigation.NavHostController
 import com.party.common.utils.HeightSpacer
 import com.party.common.Screens
 import com.party.common.component.permission.CheckAlarmPermission
-import com.party.common.ui.theme.GRAY100
-import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.GRAY100
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.WHITE
 import com.party.presentation.screen.guide_permission.component.GuidePermissionConfirmButton
 import com.party.presentation.screen.guide_permission.component.GuidePermissionDescriptionArea
 import com.party.presentation.screen.guide_permission.component.GuidePermissionListArea

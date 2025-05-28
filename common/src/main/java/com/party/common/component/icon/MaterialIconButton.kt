@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.party.common.ui.theme.BLACK
+import com.party.guam.design.BLACK
 
 @Composable
 fun MaterialIconButton(

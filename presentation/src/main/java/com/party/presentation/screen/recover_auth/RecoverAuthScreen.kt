@@ -14,8 +14,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.party.common.utils.HeightSpacer
 import com.party.common.Screens
-import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.WHITE
 import com.party.presentation.screen.recover_auth.component.AuthInfoArea
 import com.party.presentation.screen.recover_auth.component.RecoverAuthScaffoldArea
 import com.party.presentation.screen.recover_auth.component.RecoverBottomDescriptionArea

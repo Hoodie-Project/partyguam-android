@@ -9,8 +9,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.component.button.CustomButton
-import com.party.common.ui.theme.RED
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.RED
+import com.party.guam.design.WHITE
 
 @Composable
 fun UserDeleteButton(

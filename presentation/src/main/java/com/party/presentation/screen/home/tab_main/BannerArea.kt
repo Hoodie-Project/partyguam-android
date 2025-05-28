@@ -23,8 +23,8 @@ import com.party.common.utils.HeightSpacer
 import com.party.common.utils.LoadingProgressBar
 import com.party.common.component.ImageLoading
 import com.party.common.utils.noRippleClickable
-import com.party.common.ui.theme.GRAY300
-import com.party.common.ui.theme.PRIMARY
+import com.party.guam.design.GRAY300
+import com.party.guam.design.PRIMARY
 import com.party.domain.model.banner.BannerItem
 import com.party.presentation.screen.home.HomeState
 import kotlinx.coroutines.delay

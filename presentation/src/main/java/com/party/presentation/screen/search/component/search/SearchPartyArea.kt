@@ -19,8 +19,8 @@ import com.party.common.component.PartyListItem1
 import com.party.common.component.chip.Chip
 import com.party.common.component.no_data.NoDataColumn
 import com.party.common.component.party_filter.PartyTypeAndIngAndOrderByFilterArea
-import com.party.common.ui.theme.GRAY600
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.GRAY600
+import com.party.guam.design.WHITE
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.LoadingProgressBar
 import com.party.domain.model.party.PartyItem

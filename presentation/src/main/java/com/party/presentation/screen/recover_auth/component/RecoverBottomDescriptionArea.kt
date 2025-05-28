@@ -16,7 +16,7 @@ import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
 import com.party.common.utils.calculateLetterSpacing
 import com.party.common.component.icon.DrawableIcon
-import com.party.common.ui.theme.B2
+import com.party.guam.design.B2
 
 @Composable
 fun RecoverBottomDescriptionArea(

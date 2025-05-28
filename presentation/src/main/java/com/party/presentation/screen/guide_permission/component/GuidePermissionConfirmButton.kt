@@ -7,9 +7,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.party.common.component.button.CustomButton
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.PRIMARY
+import com.party.guam.design.B2
+import com.party.guam.design.BLACK
+import com.party.guam.design.PRIMARY
 
 @Composable
 fun GuidePermissionConfirmButton(

@@ -32,11 +32,10 @@ import com.party.common.component.bottomsheet.component.ApplyButton
 import com.party.common.component.bottomsheet.list.peopleCountList
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.MultiLineInputField
-import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.WHITE
 import com.party.presentation.component.HelpCard
 import com.party.presentation.component.SelectMainAndSubPositionArea
-import com.party.presentation.screen.party_create.PartyCreateState
 import com.party.presentation.screen.recruitment_create.component.RecruitmentCreateDescriptionArea
 import com.party.presentation.screen.recruitment_create.component.RecruitmentCreateInputField
 import com.party.presentation.screen.recruitment_create.component.RecruitmentCreateScaffoldArea

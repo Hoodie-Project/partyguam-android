@@ -37,12 +37,12 @@ import com.kakao.sdk.user.UserApiClient
 import com.party.common.utils.HeightSpacer
 import com.party.common.R
 import com.party.common.utils.WidthSpacer
-import com.party.common.ui.theme.EXTRA_LARGE_BUTTON_HEIGHT2
-import com.party.common.ui.theme.GRAY200
-import com.party.common.ui.theme.KakaoLoginColor
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.EXTRA_LARGE_BUTTON_HEIGHT2
+import com.party.guam.design.GRAY200
+import com.party.guam.design.KakaoLoginColor
+import com.party.guam.design.LARGE_CORNER_SIZE
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.WHITE
 import com.party.presentation.BuildConfig
 
 @Composable

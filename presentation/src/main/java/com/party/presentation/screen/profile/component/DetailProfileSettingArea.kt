@@ -34,11 +34,11 @@ import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.Screens
 import com.party.common.component.icon.DrawableIcon
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.GRAY100
-import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.T3
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.B2
+import com.party.guam.design.GRAY100
+import com.party.guam.design.PRIMARY
+import com.party.guam.design.T3
+import com.party.guam.design.WHITE
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer

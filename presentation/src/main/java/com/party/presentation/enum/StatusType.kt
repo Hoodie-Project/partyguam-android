@@ -1,10 +1,10 @@
 package com.party.presentation.enum
 
 import androidx.compose.ui.graphics.Color
-import com.party.common.ui.theme.ACTIVE_CHIP_BACKGROUND
-import com.party.common.ui.theme.ACTIVE_CHIP_TEXT
-import com.party.common.ui.theme.ARCHIVED_CHIP_BACKGROUND
-import com.party.common.ui.theme.ARCHIVED_CHIP_TEXT
+import com.party.guam.design.ACTIVE_CHIP_BACKGROUND
+import com.party.guam.design.ACTIVE_CHIP_TEXT
+import com.party.guam.design.ARCHIVED_CHIP_BACKGROUND
+import com.party.guam.design.ARCHIVED_CHIP_TEXT
 
 enum class StatusType(val type: String) {
     ACTIVE("active"),

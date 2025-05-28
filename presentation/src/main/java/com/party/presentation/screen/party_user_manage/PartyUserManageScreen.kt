@@ -28,9 +28,9 @@ import com.party.common.component.bottomsheet.partyMemberManageList
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.utils.noRippleClickable
 import com.party.common.utils.snackBarMessage
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.BLACK
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.WHITE
 import com.party.domain.model.party.PartyMemberInfo
 import com.party.domain.model.party.PartyMemberPosition
 import com.party.domain.model.party.PartyUserInfo

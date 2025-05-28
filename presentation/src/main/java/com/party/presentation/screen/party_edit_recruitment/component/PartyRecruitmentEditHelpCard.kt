@@ -27,12 +27,12 @@ import com.party.common.R
 import com.party.common.utils.TextComponent
 import com.party.common.component.custom_tooltip.TriangleEdge
 import com.party.common.component.icon.DrawableIconButton
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.GRAY500
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.T3
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.B2
+import com.party.guam.design.GRAY500
+import com.party.guam.design.LARGE_CORNER_SIZE
+import com.party.guam.design.PRIMARY
+import com.party.guam.design.T3
+import com.party.guam.design.WHITE
 
 @Composable
 fun PartyRecruitmentEditHelpCard(

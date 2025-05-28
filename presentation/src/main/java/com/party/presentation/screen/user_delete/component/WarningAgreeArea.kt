@@ -16,10 +16,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.TextComponent
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.DARK100
-import com.party.common.ui.theme.GRAY100
-import com.party.common.ui.theme.GRAY400
+import com.party.guam.design.B2
+import com.party.guam.design.DARK100
+import com.party.guam.design.GRAY100
+import com.party.guam.design.GRAY400
 
 @Composable
 fun WarningAgreeArea(

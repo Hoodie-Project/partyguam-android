@@ -21,10 +21,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.TextComponent
 import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
-import com.party.common.ui.theme.B1
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.EXTRA_LARGE_BUTTON_HEIGHT2
-import com.party.common.ui.theme.RED
+import com.party.guam.design.B1
+import com.party.guam.design.BLACK
+import com.party.guam.design.EXTRA_LARGE_BUTTON_HEIGHT2
+import com.party.guam.design.RED
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

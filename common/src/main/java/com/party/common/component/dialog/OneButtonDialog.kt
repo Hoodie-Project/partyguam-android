@@ -20,10 +20,10 @@ import com.party.common.utils.HeightSpacer
 import com.party.common.component.dialog.component.DialogButton
 import com.party.common.component.dialog.component.DialogDescription
 import com.party.common.component.dialog.component.DialogTitle
-import com.party.common.ui.theme.GRAY400
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.GRAY400
+import com.party.guam.design.LARGE_CORNER_SIZE
+import com.party.guam.design.PRIMARY
+import com.party.guam.design.WHITE
 
 @Composable
 fun OneButtonDialog(

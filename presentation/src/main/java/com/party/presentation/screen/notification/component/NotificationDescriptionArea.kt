@@ -10,9 +10,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.GRAY100
-import com.party.common.ui.theme.GRAY500
+import com.party.guam.design.B2
+import com.party.guam.design.GRAY100
+import com.party.guam.design.GRAY500
 
 @Composable
 fun NotificationDescriptionArea() {

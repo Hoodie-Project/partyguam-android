@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.party.common.ui.theme.GRAY500
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.GRAY500
+import com.party.guam.design.WHITE
 
 @Composable
 fun NavigateUpFloatingButton(

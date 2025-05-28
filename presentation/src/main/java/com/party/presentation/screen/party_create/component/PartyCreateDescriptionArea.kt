@@ -17,9 +17,9 @@ import com.party.common.R
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.icon.DrawableIconButton
-import com.party.common.ui.theme.B1
-import com.party.common.ui.theme.GRAY400
-import com.party.common.ui.theme.T2
+import com.party.guam.design.B1
+import com.party.guam.design.GRAY400
+import com.party.guam.design.T2
 
 @Composable
 fun PartyCreateDescriptionArea(

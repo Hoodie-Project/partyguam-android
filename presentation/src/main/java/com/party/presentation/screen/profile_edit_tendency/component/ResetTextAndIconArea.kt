@@ -13,8 +13,8 @@ import com.party.common.R
 import com.party.common.utils.TextComponent
 import com.party.common.component.icon.DrawableIcon
 import com.party.common.utils.noRippleClickable
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.PRIMARY
+import com.party.guam.design.B2
+import com.party.guam.design.PRIMARY
 
 @Composable
 fun ResetTextAndIconArea(

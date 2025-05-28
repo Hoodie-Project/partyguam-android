@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.party.common.ui.theme.GRAY400
+import com.party.guam.design.GRAY400
 
 @Composable
 fun DrawableIconButton(

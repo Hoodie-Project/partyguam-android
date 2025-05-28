@@ -7,7 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.party.common.ui.theme.GuamTheme
+import com.party.guam.design.GuamTheme
 import com.party.presentation.firebase.initFcm
 import com.party.presentation.screen.splash.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint

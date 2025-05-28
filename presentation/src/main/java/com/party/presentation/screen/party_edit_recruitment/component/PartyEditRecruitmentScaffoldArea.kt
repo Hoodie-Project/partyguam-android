@@ -15,8 +15,8 @@ import com.party.common.component.icon.DrawableIcon
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.scaffold.ScaffoldCenterBar
 import com.party.common.utils.noRippleClickable
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.T2
+import com.party.guam.design.BLACK
+import com.party.guam.design.T2
 
 @Composable
 fun PartyEditRecruitmentScaffoldArea(

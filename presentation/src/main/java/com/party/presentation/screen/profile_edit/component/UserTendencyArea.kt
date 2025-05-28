@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
-import com.party.common.ui.theme.T3
+import com.party.guam.design.T3
 import com.party.domain.model.user.profile.PersonalityOption
 import com.party.domain.model.user.profile.PersonalityQuestion
 import com.party.domain.model.user.profile.UserPersonality

@@ -18,8 +18,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.party.common.Screens
 import com.party.common.component.BottomNavigationBar
-import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.WHITE
 import com.party.domain.model.room.KeywordModel
 import com.party.domain.model.search.Party
 import com.party.domain.model.search.PartyType

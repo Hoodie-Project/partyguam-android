@@ -34,9 +34,9 @@ import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.component.bottomsheet.component.ApplyButton
 import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.GRAY100
+import com.party.guam.design.B2
+import com.party.guam.design.BLACK
+import com.party.guam.design.GRAY100
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.WidthSpacer
 import com.party.domain.model.user.detail.PositionList

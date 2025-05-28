@@ -15,8 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.HeightSpacer
-import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.WHITE
 import com.party.presentation.screen.profile_edit_career.component.ProfileEditCareerScaffoldArea
 import com.party.presentation.screen.profile_edit_career.component.ProfileEditResetAndAddButtonArea
 import com.party.presentation.screen.profile_edit_career.component.ProfileEditSelectCareerArea

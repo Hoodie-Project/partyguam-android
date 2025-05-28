@@ -10,9 +10,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.BLACK
+import com.party.guam.design.PRIMARY
+import com.party.guam.design.WHITE
 
 @Composable
 fun PartyCreateFloatingButton(

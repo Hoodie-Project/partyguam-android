@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,10 +19,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.party.common.R
-import com.party.common.ui.theme.GRAY100
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
+import com.party.guam.design.GRAY100
+import com.party.guam.design.LARGE_CORNER_SIZE
 import com.tmfrl.compose.loading.CircularLoadingSpinner
-import com.tmfrl.compose.loading.DotRippleSpinner
 
 @Composable
 fun ImageLoading(

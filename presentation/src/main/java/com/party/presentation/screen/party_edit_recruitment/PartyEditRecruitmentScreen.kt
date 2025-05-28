@@ -32,10 +32,10 @@ import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.partyRecruitmentEditTabList
 import com.party.common.utils.noRippleClickable
 import com.party.common.utils.snackBarMessage
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
-import com.party.common.ui.theme.RED
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.BLACK
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.RED
+import com.party.guam.design.WHITE
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.Position1
 import com.party.presentation.enum.OrderDescType

@@ -2,7 +2,6 @@ package com.party.presentation.screen.state.component
 
 import androidx.compose.runtime.Composable
 import com.party.common.component.TabArea
-import com.party.common.ui.theme.PRIMARY
 
 @Composable
 fun StateTabArea(

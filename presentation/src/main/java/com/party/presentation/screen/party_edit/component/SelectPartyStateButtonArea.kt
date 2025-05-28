@@ -10,10 +10,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.button.CustomButton
-import com.party.common.ui.theme.DARK100
-import com.party.common.ui.theme.GRAY200
-import com.party.common.ui.theme.LIGHT300
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.DARK100
+import com.party.guam.design.GRAY200
+import com.party.guam.design.LIGHT300
+import com.party.guam.design.WHITE
 import com.party.presentation.enum.StatusType
 
 @Composable

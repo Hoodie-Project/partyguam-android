@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.HeightSpacer
-import com.party.common.ui.theme.GRAY100
+import com.party.guam.design.GRAY100
 import com.party.presentation.enum.StatusType
 import com.party.presentation.screen.party_detail.PartyDetailState
 import com.party.presentation.screen.party_detail.tab.PartyDetailTabArea

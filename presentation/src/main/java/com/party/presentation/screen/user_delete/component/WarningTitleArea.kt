@@ -6,8 +6,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.party.common.utils.TextComponent
-import com.party.common.ui.theme.RED
-import com.party.common.ui.theme.T3
+import com.party.guam.design.RED
+import com.party.guam.design.T3
 
 @Composable
 fun WarningTitleArea() {

@@ -22,8 +22,8 @@ import com.party.common.utils.HeightSpacer
 import com.party.common.R
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.icon.DrawableIconButton
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.LARGE_CORNER_SIZE
+import com.party.guam.design.WHITE
 import com.party.domain.model.party.PartyAdmin
 import com.party.domain.model.party.PartyMember
 import com.party.domain.model.party.PartyUser

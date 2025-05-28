@@ -20,8 +20,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.convertToText
-import com.party.common.ui.theme.GRAY100
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.GRAY100
+import com.party.guam.design.WHITE
 import com.party.presentation.screen.recruitment_create_preview.viewmodel.RecruitmentCreatePreviewViewModel
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentCurrentInfoArea
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentDescription

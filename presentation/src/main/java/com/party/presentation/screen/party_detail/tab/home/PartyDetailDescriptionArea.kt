@@ -10,10 +10,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
-import com.party.common.ui.theme.B1
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.GRAY600
-import com.party.common.ui.theme.T2
+import com.party.guam.design.B1
+import com.party.guam.design.BLACK
+import com.party.guam.design.GRAY600
+import com.party.guam.design.T2
 
 @Composable
 fun PartyDetailDescriptionArea(

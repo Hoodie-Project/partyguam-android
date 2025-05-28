@@ -25,9 +25,9 @@ import androidx.navigation.NavController
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.LoadingProgressBar
 import com.party.common.component.dialog.TwoButtonDialog
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.BLACK
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.WHITE
 import com.party.presentation.screen.party_apply.component.PartyApplyButton
 import com.party.presentation.screen.party_apply.component.PartyApplyInputReasonArea
 import com.party.presentation.screen.party_apply.component.PartyApplyScaffoldArea

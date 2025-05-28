@@ -18,12 +18,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import com.party.common.ui.theme.B3
-import com.party.common.ui.theme.TYPE_COLOR_BACKGROUND
-import com.party.common.ui.theme.TAG_COLOR_TEXT
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.TAG_COLOR_BACKGROUND
-import com.party.common.ui.theme.TYPE_COLOR_TEXT
+import com.party.guam.design.B3
+import com.party.guam.design.TYPE_COLOR_BACKGROUND
+import com.party.guam.design.TAG_COLOR_TEXT
+import com.party.guam.design.LARGE_CORNER_SIZE
+import com.party.guam.design.TAG_COLOR_BACKGROUND
+import com.party.guam.design.TYPE_COLOR_TEXT
 
 @Composable
 fun Chip(

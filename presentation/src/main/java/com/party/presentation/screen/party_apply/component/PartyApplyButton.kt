@@ -5,12 +5,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.party.common.component.button.CustomButton
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.GRAY400
-import com.party.common.ui.theme.LARGE_BUTTON_HEIGHT
-import com.party.common.ui.theme.LIGHT200
-import com.party.common.ui.theme.LIGHT400
-import com.party.common.ui.theme.PRIMARY
+import com.party.guam.design.BLACK
+import com.party.guam.design.GRAY400
+import com.party.guam.design.LARGE_BUTTON_HEIGHT
+import com.party.guam.design.LIGHT200
+import com.party.guam.design.LIGHT400
+import com.party.guam.design.PRIMARY
 
 @Composable
 fun PartyApplyButton(

@@ -15,8 +15,8 @@ import androidx.compose.ui.unit.dp
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.WidthSpacer
 import com.party.common.utils.calculateLetterSpacing
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.T3
+import com.party.guam.design.B2
+import com.party.guam.design.T3
 
 @Composable
 fun WarningArea() {

@@ -35,13 +35,13 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.party.common.R
 import com.party.common.Screens
 import com.party.common.component.icon.DrawableIcon
-import com.party.common.ui.theme.B3
-import com.party.common.ui.theme.BOTTOM_NAVIGATION_SELECTED_TEXT
-import com.party.common.ui.theme.BOTTOM_NAVIGATION_SELECTED_TINT
-import com.party.common.ui.theme.BOTTOM_NAVIGATION_UNSELECTED_TEXT
-import com.party.common.ui.theme.BOTTOM_NAVIGATION_UNSELECTED_TINT
-import com.party.common.ui.theme.ICON_SIZE
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.B3
+import com.party.guam.design.BOTTOM_NAVIGATION_SELECTED_TEXT
+import com.party.guam.design.BOTTOM_NAVIGATION_SELECTED_TINT
+import com.party.guam.design.BOTTOM_NAVIGATION_UNSELECTED_TEXT
+import com.party.guam.design.BOTTOM_NAVIGATION_UNSELECTED_TINT
+import com.party.guam.design.ICON_SIZE
+import com.party.guam.design.WHITE
 
 @Composable
 fun BottomNavigationBar(

@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.icon.DrawableIconButton
-import com.party.common.ui.theme.BLACK
+import com.party.guam.design.BLACK
 
 @Composable
 fun HomeTopBar(

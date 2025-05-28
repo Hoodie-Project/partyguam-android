@@ -12,11 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.party.common.component.chip.BorderChip
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.GRAY200
-import com.party.common.ui.theme.GRAY500
-import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.BLACK
+import com.party.guam.design.GRAY200
+import com.party.guam.design.GRAY500
+import com.party.guam.design.PRIMARY
+import com.party.guam.design.WHITE
 
 @Composable
 fun ManageApplicantSelectCategoryArea(

@@ -30,8 +30,8 @@ import com.party.common.utils.ScreenExplainArea
 import com.party.common.Screens
 import com.party.common.utils.makeAccessToken
 import com.party.common.utils.snackBarMessage
-import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.WHITE
 import com.party.presentation.screen.login.component.LoginButtonArea
 import com.party.presentation.screen.login.component.LoginScaffoldArea
 import com.party.presentation.screen.login.component.LoginScreenBottomArea

@@ -24,8 +24,8 @@ import androidx.navigation.compose.rememberNavController
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.LoadingProgressBar
 import com.party.common.utils.convertToText
-import com.party.common.ui.theme.GRAY100
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.GRAY100
+import com.party.guam.design.WHITE
 import com.party.domain.model.user.PartyAuthority
 import com.party.domain.model.user.PartyAuthorityPosition
 import com.party.common.component.BottomNavigationBar

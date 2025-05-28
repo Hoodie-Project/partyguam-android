@@ -1,16 +1,14 @@
 package com.party.presentation.screen.party_detail.component
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.scaffold.ScaffoldCenterBar
-import com.party.common.ui.theme.BLACK
+import com.party.guam.design.BLACK
 import com.party.presentation.enum.PartyAuthorityType
 import com.party.presentation.screen.party_detail.PartyDetailState
 

@@ -11,8 +11,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.button.CustomButton
-import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.PRIMARY
+import com.party.guam.design.WHITE
 
 @Composable
 fun ResetAndApplyButtonArea(

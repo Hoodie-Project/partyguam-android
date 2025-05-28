@@ -24,15 +24,15 @@ import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.chip.Chip
 import com.party.common.component.icon.DrawableIconButton
-import com.party.common.ui.theme.B2
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.GRAY100
-import com.party.common.ui.theme.GRAY200
-import com.party.common.ui.theme.GRAY500
-import com.party.common.ui.theme.GRAY600
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.PRIMARY
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.B2
+import com.party.guam.design.BLACK
+import com.party.guam.design.GRAY100
+import com.party.guam.design.GRAY200
+import com.party.guam.design.GRAY500
+import com.party.guam.design.GRAY600
+import com.party.guam.design.LARGE_CORNER_SIZE
+import com.party.guam.design.PRIMARY
+import com.party.guam.design.WHITE
 
 @Composable
 fun HelpCard(

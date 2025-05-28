@@ -33,7 +33,7 @@ import com.party.common.component.bottomsheet.component.ApplyButton
 import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
 import com.party.common.component.bottomsheet.list.partyTypeList
 import com.party.common.utils.noRippleClickable
-import com.party.common.ui.theme.B1
+import com.party.guam.design.B1
 
 /*
     단일 선택 바텀시트

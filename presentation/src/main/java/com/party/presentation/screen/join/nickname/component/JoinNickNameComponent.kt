@@ -8,10 +8,10 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import com.party.common.R
-import com.party.common.ui.theme.DARK100
-import com.party.common.ui.theme.GRAY200
-import com.party.common.ui.theme.GRAY400
-import com.party.common.ui.theme.RED
+import com.party.guam.design.DARK100
+import com.party.guam.design.GRAY200
+import com.party.guam.design.GRAY400
+import com.party.guam.design.RED
 
 
 @Composable

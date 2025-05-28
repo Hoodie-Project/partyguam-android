@@ -21,8 +21,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.snackBarMessage
-import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.WHITE
 import com.party.presentation.screen.reports.component.ReportsButton
 import com.party.presentation.screen.reports.component.ReportsInputReasonArea
 import com.party.presentation.screen.reports.component.ReportsScaffoldArea

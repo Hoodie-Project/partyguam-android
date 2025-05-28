@@ -23,10 +23,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.WidthSpacer
 import com.party.common.utils.noRippleClickable
-import com.party.common.ui.theme.COMPONENT_AREA_HEIGHT
-import com.party.common.ui.theme.GRAY200
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.T3
+import com.party.guam.design.COMPONENT_AREA_HEIGHT
+import com.party.guam.design.GRAY200
+import com.party.guam.design.LARGE_CORNER_SIZE
+import com.party.guam.design.T3
 import com.party.domain.model.user.detail.PersonalityListOption
 
 @Composable

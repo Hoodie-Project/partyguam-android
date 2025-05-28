@@ -17,8 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.party.common.utils.TextComponent
-import com.party.common.ui.theme.GRAY500
-import com.party.common.ui.theme.T3
+import com.party.guam.design.GRAY500
+import com.party.guam.design.T3
 
 @Composable
 fun TermsArea(

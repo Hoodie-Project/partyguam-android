@@ -9,10 +9,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.chip.Chip
-import com.party.common.ui.theme.TAG_COLOR_BACKGROUND
-import com.party.common.ui.theme.TAG_COLOR_TEXT
-import com.party.common.ui.theme.TYPE_COLOR_BACKGROUND
-import com.party.common.ui.theme.TYPE_COLOR_TEXT
+import com.party.guam.design.TAG_COLOR_BACKGROUND
+import com.party.guam.design.TAG_COLOR_TEXT
+import com.party.guam.design.TYPE_COLOR_BACKGROUND
+import com.party.guam.design.TYPE_COLOR_TEXT
 
 @Composable
 fun PartyDetailCategoryArea(

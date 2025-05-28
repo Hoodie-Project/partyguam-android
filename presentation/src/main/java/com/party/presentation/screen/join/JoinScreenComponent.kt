@@ -41,15 +41,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.WidthSpacer
-import com.party.common.ui.theme.EXTRA_LARGE_BUTTON_HEIGHT2
-import com.party.common.ui.theme.GRAY100
-import com.party.common.ui.theme.GRAY200
-import com.party.common.ui.theme.GRAY400
-import com.party.common.ui.theme.GRAY500
-import com.party.common.ui.theme.LARGE_BUTTON_HEIGHT
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.MEDIUM_PADDING_SIZE
-import com.party.common.ui.theme.T3
+import com.party.guam.design.EXTRA_LARGE_BUTTON_HEIGHT2
+import com.party.guam.design.GRAY100
+import com.party.guam.design.GRAY200
+import com.party.guam.design.GRAY400
+import com.party.guam.design.GRAY500
+import com.party.guam.design.LARGE_BUTTON_HEIGHT
+import com.party.guam.design.LARGE_CORNER_SIZE
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.T3
 
 @SuppressLint("UnrememberedMutableInteractionSource")
 @Composable

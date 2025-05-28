@@ -16,10 +16,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.TextComponent
-import com.party.common.ui.theme.B3
-import com.party.common.ui.theme.GRAY100
-import com.party.common.ui.theme.LARGE_CORNER_SIZE
-import com.party.common.ui.theme.WHITE
+import com.party.guam.design.B3
+import com.party.guam.design.GRAY100
+import com.party.guam.design.LARGE_CORNER_SIZE
+import com.party.guam.design.WHITE
 
 @Composable
 fun LinkAuthCard(

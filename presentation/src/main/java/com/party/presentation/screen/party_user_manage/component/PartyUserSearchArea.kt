@@ -15,9 +15,9 @@ import com.party.common.R
 import com.party.common.component.icon.DrawableIcon
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.InputField
-import com.party.common.ui.theme.GRAY100
-import com.party.common.ui.theme.GRAY400
-import com.party.common.ui.theme.GRAY500
+import com.party.guam.design.GRAY100
+import com.party.guam.design.GRAY400
+import com.party.guam.design.GRAY500
 
 @Composable
 fun PartyUserSearchArea(

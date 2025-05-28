@@ -17,8 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.HeightSpacer
 import com.party.common.component.PartyListItem3
-import com.party.common.ui.theme.B1
-import com.party.common.ui.theme.PRIMARY
+import com.party.guam.design.B1
+import com.party.guam.design.PRIMARY
 import com.party.domain.model.user.party.PartyUser
 import com.party.presentation.enum.StatusType
 import com.party.presentation.screen.profile.UserProfileState

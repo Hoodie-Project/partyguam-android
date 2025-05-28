@@ -16,8 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.TextComponent
-import com.party.common.ui.theme.BLACK
-import com.party.common.ui.theme.T2
+import com.party.guam.design.BLACK
+import com.party.guam.design.T2
 
 @Composable
 fun BottomSheetTitleArea(

@@ -26,8 +26,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.party.common.ui.theme.T2
-import com.party.common.ui.theme.T3
+import com.party.guam.design.T2
+import com.party.guam.design.T3
 import com.tmfrl.compose.loading.DotRippleSpinner
 
 @Composable
