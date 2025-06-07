@@ -23,12 +23,26 @@ fun setWarningText(userNickName: String, isValid: Boolean): String{
 }
 
 fun setInputFieldBorderColor(text: String): Color {
-    return if(text.isEmpty()) GRAY200 else if(text.length <= 15) DARK100 else RED
+    return when {
+        text.isEmpty() -> GRAY200
+        validNickNameInputField(text) -> DARK100
+        else -> RED
+    }
 }
 
-fun validNickNameInputField(text: String): Boolean{
-    return text.isNotEmpty() && text.length <= 15 && text.length >= 2
+fun validNickNameInputField(text: String): Boolean {
+    if (text.isEmpty() || text.length < 2 || text.length > 15) return false
+
+    // 온전한 한글 음절 (가~힣), 영문 대소문자만 허용
+    val regex = Regex("^[a-zA-Z가-힣]+$")
+
+    if (!regex.matches(text)) return false
+
+    // 자음/모음만 입력된 경우 걸러내기 (단일 글자 중 'ㄱ'-'ㅎ', 'ㅏ'-'ㅣ' 포함 여부 검사)
+    val invalidJamo = Regex("[ㄱ-ㅎㅏ-ㅣ]")
+    return !invalidJamo.containsMatchIn(text)
 }
+
 
 fun annotatedTextColor(
     userNickName: String,

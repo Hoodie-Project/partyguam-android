@@ -149,7 +149,7 @@ fun JoinScreenInputField(
                             Text(
                                 text = placeHolder,
                                 fontSize = T3,
-                                color = textColor,
+                                color = GRAY400,
                             )
                         }
                     }

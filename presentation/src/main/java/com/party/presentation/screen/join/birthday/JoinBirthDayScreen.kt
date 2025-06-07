@@ -122,7 +122,7 @@ private fun JoinBirthDayScreen(
                         },
                     visualTransformation = TimeTransFormation(),
                     keyboardType = KeyboardType.Number,
-                    textColor = GRAY400,
+                    textColor = BLACK,
                     containerColor = WHITE,
                     borderColor = when {
                         !isValidUserBirthDay -> RED
