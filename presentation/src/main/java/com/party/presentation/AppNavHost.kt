@@ -222,21 +222,29 @@ fun AppNavHost() {
                     userBirthDay = userBirthDay,
                 )
             }
-            composable<Screens.JoinComplete> {
-                JoinCompleteScreenRoute(navController = navController)
+            composable<Screens.JoinComplete> { backStackEntry ->
+                val userNickName = backStackEntry.toRoute<Screens.JoinGender>().userNickName
+                JoinCompleteScreenRoute(
+                    navController = navController,
+                    userNickName = userNickName,
+                )
             }
-            composable<Screens.DetailProfile> {
+            composable<Screens.DetailProfile> { backStackEntry ->
+                val userNickName = backStackEntry.toRoute<Screens.JoinGender>().userNickName
                 DetailProfileScreen(
                     context = context,
                     snackBarHostState = snackBarHostState,
-                    navController = navController
+                    navController = navController,
+                    userNickName = userNickName,
                 )
             }
-            composable<Screens.DetailCarrier> {
+            composable<Screens.DetailCarrier> { backStackEntry ->
+                val userNickName = backStackEntry.toRoute<Screens.JoinGender>().userNickName
                 DetailCarrierScreen(
                     context = context,
                     snackBarHostState = snackBarHostState,
                     navController = navController,
+                    userNickName = userNickName,
                 )
             }
             composable<Screens.ChoiceCarrierPosition> { backStackEntry ->

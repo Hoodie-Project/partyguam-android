@@ -55,6 +55,7 @@ fun DetailCarrierScreen(
     context: Context,
     snackBarHostState: SnackbarHostState,
     navController: NavController,
+    userNickName: String,
     detailCarrierViewModel: DetailCarrierViewModel = hiltViewModel()
 ) {
     val saveCarrierState by detailCarrierViewModel.saveCarrierState.collectAsStateWithLifecycle()
@@ -88,6 +89,7 @@ fun DetailCarrierScreen(
 
     DetailCarrierScreenContent(
         context = context,
+        userNickName = userNickName,
         onSkip = { navController.navigate(Screens.SelectTendency1) },
         onNavigationClick = { navController.popBackStack() },
         onClose = {
@@ -138,6 +140,7 @@ fun DetailCarrierScreen(
 @Composable
 fun DetailCarrierScreenContent(
     context: Context,
+    userNickName: String,
     onSkip: () -> Unit,
     onNextButtonClick: () -> Unit,
     onNavigationClick: () -> Unit,
@@ -174,7 +177,7 @@ fun DetailCarrierScreenContent(
                 )
 
                 ScreenExplainArea(
-                    mainExplain = stringResource(id = R.string.detail_carrier1),
+                    mainExplain = "${userNickName}님의\n경력과 포지션을 입력해 주세요",
                     subExplain = stringResource(id = R.string.detail_carrier2),
                 )
 
@@ -202,6 +205,7 @@ fun DetailCarrierScreenContent(
 fun DetailCarrierScreenContentPreview() {
     DetailCarrierScreenContent(
         context = LocalContext.current,
+        userNickName = "닉네임",
         onSkip = {},
         onNextButtonClick = {},
         onNavigationClick = {},

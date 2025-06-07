@@ -179,14 +179,42 @@ fun componentClick(
     selectedCountryList: MutableList<Pair<String, Int>>,
     onSelectCountry: (Pair<String, Int>) -> Unit,
     onDeleteCountry: (Pair<String, Int>) -> Unit,
-){
-    if (selectedProvinceName.isEmpty())
+) {
+    val selectedPair = Pair(locationResponse.city, locationResponse.id)
+
+    if (selectedProvinceName.isEmpty()) {
         snackBarMessage(snackBarHostState, context.getString(R.string.snackbar1))
-    else
-        if( isContainLocation(selectedCountryList, locationResponse.city) ) onDeleteCountry(Pair(locationResponse.city, locationResponse.id))
-        else if(selectedCountryList.size == SELECTED_LOCATION_COUNT) snackBarMessage(snackBarHostState, context.getString(R.string.snackbar2))
-        else onSelectCountry(Pair(locationResponse.city, locationResponse.id))
+        return
+    }
+
+    if (locationResponse.city == "전체") {
+        // '전체' 선택 시: 기존 항목 모두 삭제 후 '전체'만 추가
+        selectedCountryList.toList().forEach { onDeleteCountry(it) }
+        onSelectCountry(selectedPair)
+        return
+    }
+
+    // 이미 같은 도시가 선택되어 있으면 삭제
+    if (isContainLocation(selectedCountryList, locationResponse.city)) {
+        onDeleteCountry(selectedPair)
+        return
+    }
+
+    // 기존에 '전체'가 포함되어 있으면 삭제
+    if (selectedCountryList.any { it.first == "전체" }) {
+        val allItem = selectedCountryList.find { it.first == "전체" }
+        if (allItem != null) onDeleteCountry(allItem)
+    }
+
+    // 선택 개수 초과 시 스낵바
+    if (selectedCountryList.size == SELECTED_LOCATION_COUNT) {
+        snackBarMessage(snackBarHostState, context.getString(R.string.snackbar2))
+        return
+    }
+
+    onSelectCountry(selectedPair)
 }
+
 
 private fun isContainLocation(selectedLocationList: MutableList<Pair<String, Int>>, selectedLocation: String): Boolean{
     return selectedLocationList.any { it.first.contains(selectedLocation) }

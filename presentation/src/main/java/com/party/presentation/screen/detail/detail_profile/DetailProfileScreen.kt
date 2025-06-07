@@ -59,6 +59,7 @@ fun DetailProfileScreen(
     context: Context,
     snackBarHostState: SnackbarHostState,
     navController: NavHostController,
+    userNickName: String,
     detailProfileViewModel: DetailProfileViewModel = hiltViewModel(),
 ) {
     // 선택된 도시
@@ -202,7 +203,7 @@ fun DetailProfileScreenContent(
 
 @Preview(showBackground = true)
 @Composable
-fun DetailProfileScreenContentPreview() {
+private fun DetailProfileScreenContentPreview() {
     DetailProfileScreenContent(
         context = LocalContext.current,
         snackBarHostState = SnackbarHostState(),
@@ -217,7 +218,7 @@ fun DetailProfileScreenContentPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun SelectProvinceAreaPreview() {
+private fun SelectProvinceAreaPreview() {
     SelectProvinceArea(
         modifier = Modifier,
         selectedProvince = "서울",
@@ -227,7 +228,7 @@ fun SelectProvinceAreaPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun SelectedCityComponentPreview(){
+private fun SelectedCityComponentPreview(){
     ProvinceComponent(
         containerColor = LIGHT400,
         text = "서울",

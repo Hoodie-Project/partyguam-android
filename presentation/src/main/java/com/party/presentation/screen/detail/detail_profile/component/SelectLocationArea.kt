@@ -87,7 +87,6 @@ fun SelectProvinceArea(
                 border = BorderStroke(1.dp, GRAY200),
                 shape = RoundedCornerShape(LARGE_CORNER_SIZE)
             )
-            .height(320.dp)
     ) {
         val locationList = ProvinceList.entries.map { it.city }
 
@@ -124,7 +123,7 @@ fun SelectLocationArea(
                 BorderStroke(1.dp, GRAY200),
                 shape = RoundedCornerShape(LARGE_CORNER_SIZE)
             )
-            .height(320.dp),
+            ,
         columns = GridCells.Fixed(2),
     ){
         itemsIndexed(

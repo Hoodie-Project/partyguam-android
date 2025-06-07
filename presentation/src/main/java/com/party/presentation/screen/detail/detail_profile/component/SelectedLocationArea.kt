@@ -2,10 +2,10 @@ package com.party.presentation.screen.detail.detail_profile.component
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,7 +19,6 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,9 +27,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.party.common.utils.HeightSpacer
 import com.party.common.R
+import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
+import com.party.common.utils.WidthSpacer
+import com.party.common.utils.noRippleClickable
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.GRAY400
@@ -132,7 +133,8 @@ fun SelectLocationComponent(
     ) {
         Row(
             modifier = Modifier
-                .padding(start = 12.dp),
+                .padding(horizontal = 12.dp)
+                .fillMaxHeight(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
@@ -140,25 +142,23 @@ fun SelectLocationComponent(
                 color = BLACK,
                 fontSize = B2,
             )
-            IconButton(
-                modifier = Modifier.size(36.dp),
-                onClick = { onDelete(item) },
-                interactionSource = MutableInteractionSource(),
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .size(12.dp),
-                    imageVector = Icons.Default.Close,
-                    contentDescription = "close",
-                )
-            }
+            WidthSpacer(4.dp)
+            Icon(
+                modifier = Modifier
+                    .size(12.dp)
+                    .noRippleClickable {
+                        onDelete(item)
+                    },
+                imageVector = Icons.Default.Close,
+                contentDescription = "close",
+            )
         }
     }
 }
 
 @Preview
 @Composable
-fun SelectLocationComponentPreview(modifier: Modifier = Modifier) {
+private fun SelectLocationComponentPreview() {
     SelectLocationComponent(
         item = Pair("강남구", 1),
         selectedProvinceName = "서울",

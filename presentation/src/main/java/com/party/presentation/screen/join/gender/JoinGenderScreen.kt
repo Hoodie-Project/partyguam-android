@@ -62,7 +62,7 @@ fun JoinGenderScreenRoute(
 
     LaunchedEffect(Unit) {
         joinViewModel.joinSuccessState.collectLatest {
-            navController.navigate(Screens.JoinComplete)
+            navController.navigate(Screens.JoinComplete(userNickName = userNickName))
         }
     }
 

@@ -20,11 +20,11 @@ sealed interface Screens {
     data class JoinGender(val userEmail: String, val signupAccessToken: String, val userNickName: String, val userBirthDay: String):
         Screens
     @Serializable
-    data object JoinComplete: Screens
+    data class JoinComplete(val userNickName: String): Screens
     @Serializable
-    data object DetailProfile: Screens
+    data class DetailProfile(val userNickName: String): Screens
     @Serializable
-    data object DetailCarrier: Screens
+    data class DetailCarrier(val userNickName: String): Screens
     @Serializable
     data class ChoiceCarrierPosition(val isMain: Boolean): Screens
     @Serializable

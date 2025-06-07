@@ -25,10 +25,11 @@ import com.party.common.Screens
 @Composable
 fun JoinCompleteScreenRoute(
     navController: NavHostController,
+    userNickName: String,
 ) {
     JoinCompleteScreen(
         onGotoHome = { navController.navigate(Screens.Home) },
-        onGotoDetailProfile = { navController.navigate(Screens.DetailProfile) }
+        onGotoDetailProfile = { navController.navigate(Screens.DetailProfile(userNickName = userNickName)) }
     )
 }
 
@@ -71,5 +72,8 @@ private fun JoinCompleteScreen(
 @Preview
 @Composable
 private fun JoinCompleteScreenPreview() {
-    JoinCompleteScreenRoute(navController = rememberNavController())
+    JoinCompleteScreenRoute(
+        navController = rememberNavController(),
+        userNickName = ""
+    )
 }
