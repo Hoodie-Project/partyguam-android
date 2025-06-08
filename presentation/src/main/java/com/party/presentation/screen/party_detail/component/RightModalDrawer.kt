@@ -196,7 +196,9 @@ private fun DrawerItem(
             contentDescription = "Arrow Right Icon",
             iconSize = 20.dp,
             iconColor = GRAY400,
-            onClick = {}
+            onClick = {
+                if(currentTitle != text) onClick()
+            }
         )
     }
 }
