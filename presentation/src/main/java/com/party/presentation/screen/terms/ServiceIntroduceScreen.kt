@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -31,6 +33,7 @@ fun ServiceIntroduceScreenRoute(
 private fun ServiceIntroduceScreen(
     onNavigationClick: () -> Unit,
 ) {
+    val scrollState = rememberScrollState()
     Scaffold(
         topBar = {
             TermsScaffoldArea(
@@ -45,6 +48,7 @@ private fun ServiceIntroduceScreen(
                 .background(WHITE)
                 .padding(it)
                 .padding(horizontal = MEDIUM_PADDING_SIZE)
+                .verticalScroll(scrollState)
         ) {
             HeightSpacer(heightDp = 24.dp)
             DescriptionTitleArea(
