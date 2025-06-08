@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.chip.Chip
@@ -18,7 +19,9 @@ import com.party.guam.design.TYPE_COLOR_TEXT
 fun PartyDetailCategoryArea(
     modifier: Modifier,
     tag: String,
-    partyType: String
+    partyType: String,
+    statusContainerColor: Color,
+    statusContentColor: Color
 ) {
     Row(
         modifier = modifier
@@ -27,8 +30,8 @@ fun PartyDetailCategoryArea(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Chip(
-            containerColor = TAG_COLOR_BACKGROUND,
-            contentColor = TAG_COLOR_TEXT,
+            containerColor = statusContainerColor,
+            contentColor = statusContentColor,
             text = tag,
         )
         WidthSpacer(widthDp = 8.dp)

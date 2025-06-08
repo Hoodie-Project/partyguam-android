@@ -50,7 +50,9 @@ fun PartyDetailArea(
                 modifier = Modifier
                     .padding(horizontal = 20.dp),
                 tag = StatusType.fromType(state.partyDetail.status).toDisplayText(),
-                partyType = state.partyDetail.partyType.type
+                partyType = state.partyDetail.partyType.type,
+                statusContainerColor = StatusType.fromType(state.partyDetail.status).toContainerColor(),
+                statusContentColor = StatusType.fromType(state.partyDetail.status).toContentColor(),
             )
             HeightSpacer(heightDp = 12.dp)
         }
