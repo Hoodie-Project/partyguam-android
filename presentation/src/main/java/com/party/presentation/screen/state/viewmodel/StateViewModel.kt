@@ -11,6 +11,7 @@ import com.party.domain.usecase.party.RejectionPartyUseCase
 import com.party.domain.usecase.user.party.GetMyPartyUseCase
 import com.party.domain.usecase.user.recruitment.GetMyRecruitmentUseCase
 import com.party.presentation.enum.OrderDescType
+import com.party.presentation.enum.SortType
 import com.party.presentation.screen.state.MyPartyAction
 import com.party.presentation.screen.state.MyPartyState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -92,7 +93,7 @@ class StateViewModel @Inject constructor(
     private fun approvalParty(partyId: Int, partyApplicationId: Int){
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = approvalPartyUseCase(partyId = partyId, partyApplicationId = partyApplicationId)){
-                is ServerApiResponse.SuccessResponse -> getMyRecruitment(1, 50, "createdAt", OrderDescType.DESC.type)
+                is ServerApiResponse.SuccessResponse -> getMyRecruitment(1, 50, SortType.CREATED_AT.type, OrderDescType.DESC.type)
                 is ServerApiResponse.ErrorResponse -> {}
                 is ServerApiResponse.ExceptionResponse -> {}
             }
@@ -102,7 +103,7 @@ class StateViewModel @Inject constructor(
     private fun rejectionParty(partyId: Int, partyApplicationId: Int){
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = rejectionPartyUseCase(partyId = partyId, partyApplicationId = partyApplicationId)){
-                is ServerApiResponse.SuccessResponse -> getMyRecruitment(1, 50, "createdAt", OrderDescType.DESC.type)
+                is ServerApiResponse.SuccessResponse -> getMyRecruitment(1, 50, SortType.CREATED_AT.type, OrderDescType.DESC.type)
                 is ServerApiResponse.ErrorResponse -> {}
                 is ServerApiResponse.ExceptionResponse -> {}
             }

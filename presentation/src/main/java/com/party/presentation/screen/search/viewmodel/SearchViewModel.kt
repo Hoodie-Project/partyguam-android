@@ -19,6 +19,7 @@ import com.party.domain.usecase.search.GetSearchedDataUseCase
 import com.party.domain.usecase.user.detail.GetPositionsUseCase
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.enum.PartyType
+import com.party.presentation.enum.SortType
 import com.party.presentation.screen.search.SearchAction
 import com.party.presentation.screen.search.SearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -219,16 +220,16 @@ class SearchViewModel @Inject constructor(
                         titleSearch = _searchState.value.inputKeyword,
                         page = 1,
                         size = 50,
-                        sort = "createdAt",
+                        sort = SortType.CREATED_AT.type,
                         order = OrderDescType.DESC.type,
                         status = _searchState.value.isActiveParty
                     )
 
                     "모집공고" -> recruitmentSearch(
                         _searchState.value.inputKeyword,
-                        1,
+                        page = 1,
                         size = 50,
-                        sort = "createdAt",
+                        sort = SortType.CREATED_AT.type,
                         order = OrderDescType.DESC.type
                     )
                 }
@@ -250,7 +251,7 @@ class SearchViewModel @Inject constructor(
                         titleSearch = _searchState.value.inputKeyword,
                         page = 1,
                         size = 50,
-                        sort = "createdAt",
+                        sort = SortType.CREATED_AT.type,
                         order = OrderDescType.DESC.type,
                         status = _searchState.value.isActiveParty
                     )
@@ -259,7 +260,7 @@ class SearchViewModel @Inject constructor(
                         _searchState.value.inputKeyword,
                         1,
                         size = 50,
-                        sort = "createdAt",
+                        sort = SortType.CREATED_AT.type,
                         order = OrderDescType.DESC.type,
                     )
                 }
@@ -300,7 +301,7 @@ class SearchViewModel @Inject constructor(
                     titleSearch = _searchState.value.inputKeyword,
                     page = 1,
                     size = 50,
-                    sort = "createdAt",
+                    sort = SortType.CREATED_AT.type,
                     order = OrderDescType.DESC.type,
                     status = action.status
                 )
@@ -344,7 +345,7 @@ class SearchViewModel @Inject constructor(
                     titleSearch = _searchState.value.inputKeyword,
                     page = 1,
                     size = 50,
-                    sort = "createdAt",
+                    sort = SortType.CREATED_AT.type,
                     order = OrderDescType.DESC.type,
                     status = _searchState.value.isActiveParty,
                     partyTypes = selectedTypeList.mapNotNull { type ->
@@ -406,7 +407,7 @@ class SearchViewModel @Inject constructor(
                     titleSearch = _searchState.value.inputKeyword,
                     page = 1,
                     size = 50,
-                    sort = "createdAt",
+                    sort = SortType.CREATED_AT.type,
                     order = OrderDescType.DESC.type,
                     partyTypes = selectedTypeList.mapNotNull { type ->
                         PartyType.entries.find { it.type == type }?.id
@@ -476,7 +477,7 @@ class SearchViewModel @Inject constructor(
                     titleSearch = _searchState.value.inputKeyword,
                     page = 1,
                     size = 50,
-                    sort = "createdAt",
+                    sort = SortType.CREATED_AT.type,
                     order = OrderDescType.DESC.type,
                     partyTypes = _searchState.value.selectedTypeListRecruitment.mapNotNull { type ->
                         PartyType.entries.find { it.type == type }?.id

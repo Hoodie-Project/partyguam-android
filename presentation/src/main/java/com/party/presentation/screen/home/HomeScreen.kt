@@ -41,6 +41,7 @@ import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.WHITE
 import com.party.common.utils.noRippleClickable
 import com.party.presentation.enum.OrderDescType
+import com.party.presentation.enum.SortType
 import com.party.presentation.screen.home.component.HomeFloatingArea
 import com.party.presentation.screen.home.component.HomeTopBar
 import com.party.presentation.screen.home.component.HomeTopTabArea
@@ -90,8 +91,8 @@ fun HomeScreenRoute(
     }
 
     LaunchedEffect(key1 = Unit) {
-        homeViewModel.getPartyList(page = 1, size = 5, sort = "createdAt", order = OrderDescType.DESC.type, titleSearch = null, status = if(homeState.isActivePartyToggle) "active" else "archived")
-        homeViewModel.getRecruitmentList(page = 1, size = 8, sort = "createdAt", order = OrderDescType.DESC.type, titleSearch = null)
+        homeViewModel.getPartyList(page = 1, size = 5, sort = SortType.CREATED_AT.type, order = OrderDescType.DESC.type, titleSearch = null, status = if(homeState.isActivePartyToggle) "active" else "archived")
+        homeViewModel.getRecruitmentList(page = 1, size = 8, sort = SortType.CREATED_AT.type, order = OrderDescType.DESC.type, titleSearch = null)
     }
 
     LaunchedEffect(key1 = homeState.selectedMainPosition) {

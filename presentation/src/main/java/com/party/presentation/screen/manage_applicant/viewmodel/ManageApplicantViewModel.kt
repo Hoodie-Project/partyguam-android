@@ -9,6 +9,7 @@ import com.party.domain.usecase.party.GetPartyRecruitmentUseCase
 import com.party.domain.usecase.party.GetRecruitmentApplicantUseCase
 import com.party.domain.usecase.party.RejectApplicantUseCase
 import com.party.presentation.enum.OrderDescType
+import com.party.presentation.enum.SortType
 import com.party.presentation.screen.manage_applicant.ManageApplicantAction
 import com.party.presentation.screen.manage_applicant.ManageApplicantState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -80,7 +81,7 @@ class ManageApplicantViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = rejectApplicantUseCase(partyId = partyId, partyApplicationId = partyApplicationId)){
                 is ServerApiResponse.SuccessResponse -> {
-                    getRecruitmentApplicant(partyId = partyId, partyRecruitmentId = _state.value.selectedRecruitmentId, page = 1, limit = 50, sort = "createdAt", order = OrderDescType.DESC.type)
+                    getRecruitmentApplicant(partyId = partyId, partyRecruitmentId = _state.value.selectedRecruitmentId, page = 1, limit = 50, sort = SortType.CREATED_AT.type, order = OrderDescType.DESC.type)
                 }
                 is ServerApiResponse.ErrorResponse -> {}
                 is ServerApiResponse.ExceptionResponse -> {}
@@ -95,7 +96,7 @@ class ManageApplicantViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = acceptApplicantUseCase(partyId = partyId, partyApplicationId = partyApplicationId)){
                 is ServerApiResponse.SuccessResponse -> {
-                    getRecruitmentApplicant(partyId = partyId, partyRecruitmentId = _state.value.selectedRecruitmentId, page = 1, limit = 50, sort = "createdAt", order = OrderDescType.DESC.type)
+                    getRecruitmentApplicant(partyId = partyId, partyRecruitmentId = _state.value.selectedRecruitmentId, page = 1, limit = 50, sort = SortType.CREATED_AT.type, order = OrderDescType.DESC.type)
                 }
                 is ServerApiResponse.ErrorResponse -> {}
                 is ServerApiResponse.ExceptionResponse -> {}
@@ -111,7 +112,7 @@ class ManageApplicantViewModel @Inject constructor(
 
                 getPartyRecruitment(
                     partyId = action.partyId,
-                    sort = "createdAt",
+                    sort = SortType.CREATED_AT.type,
                     order = OrderDescType.DESC.type,
                     main = null,
                     status = if(_state.value.isProgress) "active" else "completed"

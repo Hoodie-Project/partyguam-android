@@ -43,6 +43,7 @@ import com.party.guam.design.BLACK
 import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.WHITE
 import com.party.presentation.enum.OrderDescType
+import com.party.presentation.enum.SortType
 import com.party.presentation.enum.StatusType
 import com.party.presentation.screen.state.component.MyPartyArea
 import com.party.presentation.screen.state.component.MyRecruitmentArea
@@ -59,14 +60,12 @@ fun StateScreenRoute(
     stateViewModel: StateViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(key1 = Unit) {
-        stateViewModel.getMyRecruitment(1, 50, "createdAt", OrderDescType.DESC.type)
+        stateViewModel.getMyRecruitment(1, 50, SortType.CREATED_AT.type, OrderDescType.DESC.type)
     }
-
-
 
     LaunchedEffect(Unit) {
         stateViewModel.successCancel.collectLatest {
-            stateViewModel.getMyRecruitment(1, 50, "createdAt", OrderDescType.DESC.type)
+            stateViewModel.getMyRecruitment(1, 50, SortType.CREATED_AT.type, OrderDescType.DESC.type)
         }
     }
 
@@ -85,7 +84,7 @@ fun StateScreenRoute(
             StatusType.ARCHIVED.toDisplayText() -> StatusType.ARCHIVED.type
             else -> null
         }
-        stateViewModel.getMyParty(1, 50, "createdAt", OrderDescType.DESC.type, status = status)
+        stateViewModel.getMyParty(1, 50, SortType.CREATED_AT.type, OrderDescType.DESC.type, status = status)
     }
 
     LaunchedEffect(Unit) {

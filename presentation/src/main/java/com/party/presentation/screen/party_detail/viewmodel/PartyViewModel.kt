@@ -14,6 +14,7 @@ import com.party.domain.usecase.party.GetPartyDetailUseCase
 import com.party.domain.usecase.party.GetPartyRecruitmentUseCase
 import com.party.domain.usecase.party.GetPartyUsersUseCase
 import com.party.presentation.enum.OrderDescType
+import com.party.presentation.enum.SortType
 import com.party.presentation.screen.party_detail.PartyDetailAction
 import com.party.presentation.screen.party_detail.PartyDetailState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -148,7 +149,7 @@ class PartyViewModel @Inject constructor(
                 }
                 getPartyRecruitment(
                     partyId = action.partyId,
-                    sort = "createdAt",
+                    sort = SortType.CREATED_AT.type,
                     order = OrderDescType.DESC.type,
                     main = if (_state.value.selectedPosition == "전체") null else _state.value.selectedPosition,
                     status = if(_state.value.isProgress) "active" else "completed"
@@ -172,7 +173,7 @@ class PartyViewModel @Inject constructor(
 
                 getPartyRecruitment(
                     partyId = action.partyId,
-                    sort = "createdAt",
+                    sort = SortType.CREATED_AT.type,
                     order = OrderDescType.DESC.type,
                     main = if (_state.value.selectedPosition == "전체") null else _state.value.selectedPosition,
                     status = if(_state.value.isProgress) "active" else "completed"

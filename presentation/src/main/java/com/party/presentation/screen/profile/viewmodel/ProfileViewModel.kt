@@ -7,6 +7,7 @@ import com.party.domain.model.user.party.MyParty
 import com.party.domain.usecase.user.party.GetMyPartyUseCase
 import com.party.domain.usecase.user.profile.GetUserProfileUseCase
 import com.party.presentation.enum.OrderDescType
+import com.party.presentation.enum.SortType
 import com.party.presentation.enum.StatusType
 import com.party.presentation.screen.profile.UserProfileAction
 import com.party.presentation.screen.profile.UserProfileState
@@ -28,7 +29,7 @@ class ProfileViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        getMyParty(1, 50, "createdAt", OrderDescType.DESC.type, status = StatusType.ACTIVE.type)
+        getMyParty(1, 50, SortType.CREATED_AT.type, OrderDescType.DESC.type, status = StatusType.ACTIVE.type)
     }
 
     fun getUserProfile() {

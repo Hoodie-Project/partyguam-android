@@ -30,6 +30,7 @@ import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.Position1
 import com.party.common.Screens
 import com.party.presentation.enum.OrderDescType
+import com.party.presentation.enum.SortType
 import com.party.presentation.screen.manage_applicant.component.ManageApplicantChangeProgress
 import com.party.presentation.screen.manage_applicant.component.ManageApplicantDescriptionArea
 import com.party.presentation.screen.manage_applicant.component.ManageApplicantFilterArea
@@ -70,11 +71,11 @@ fun ManageApplicantScreenRoute(
 
     if(!manageApplicantState.isShowRecruitmentList){
         LaunchedEffect(key1 = Unit) {
-            manageApplicantViewModel.getRecruitmentApplicant(partyId = partyId, partyRecruitmentId = manageApplicantState.selectedRecruitmentId, page = 1, limit = 50, sort = "createdAt", order = OrderDescType.DESC.type)
+            manageApplicantViewModel.getRecruitmentApplicant(partyId = partyId, partyRecruitmentId = manageApplicantState.selectedRecruitmentId, page = 1, limit = 50, sort = SortType.CREATED_AT.type, order = OrderDescType.DESC.type)
         }
     }else {
         LaunchedEffect(Unit) {
-            manageApplicantViewModel.getPartyRecruitment(partyId = partyId, sort = "createdAt", order = OrderDescType.DESC.type, main = null, status = "active")
+            manageApplicantViewModel.getPartyRecruitment(partyId = partyId, sort = SortType.CREATED_AT.type, order = OrderDescType.DESC.type, main = null, status = "active")
         }
     }
 

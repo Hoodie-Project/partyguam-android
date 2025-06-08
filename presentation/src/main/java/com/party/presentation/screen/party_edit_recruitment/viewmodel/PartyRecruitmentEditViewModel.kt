@@ -7,6 +7,7 @@ import com.party.domain.usecase.party.CompletedPartyRecruitmentUseCase
 import com.party.domain.usecase.party.DeleteRecruitmentUseCase
 import com.party.domain.usecase.party.GetPartyRecruitmentUseCase
 import com.party.presentation.enum.OrderDescType
+import com.party.presentation.enum.SortType
 import com.party.presentation.screen.party_edit_recruitment.PartyRecruitmentEditAction
 import com.party.presentation.screen.party_edit_recruitment.PartyRecruitmentEditState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -85,7 +86,7 @@ class PartyRecruitmentEditViewModel @Inject constructor(
                 _state.update { it.copy(selectedTabText = action.selectedTabText) }
                 getPartyRecruitment(
                     partyId = action.partyId,
-                    sort = "createdAt",
+                    sort = SortType.CREATED_AT.type,
                     order = if(_state.value.isDesc) OrderDescType.DESC.type else OrderDescType.ASC.type,
                     main = null
                 )

@@ -38,6 +38,7 @@ import com.party.common.Screens
 import com.party.presentation.component.bottomsheet.OneSelectMainAndSubPositionBottomSheet
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.enum.PartyAuthorityType
+import com.party.presentation.enum.SortType
 import com.party.presentation.screen.party_detail.component.RightModalDrawer
 import com.party.presentation.screen.party_user_manage.component.PartyUserCountArea
 import com.party.presentation.screen.party_user_manage.component.PartyUserFilterArea
@@ -60,7 +61,7 @@ fun PartyUserManageScreenRoute(
             partyId = partyId,
             page = 1,
             limit = 50,
-            sort = "createdAt",
+            sort = SortType.CREATED_AT.type,
             order = OrderDescType.DESC.type,
             main = null,
             nickname = null
