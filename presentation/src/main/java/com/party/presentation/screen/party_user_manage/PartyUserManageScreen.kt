@@ -109,24 +109,7 @@ fun PartyUserManageScreenRoute(
                 partyUserState = partyUserState,
                 partyId = partyId,
                 onAction = { action ->
-                    when(action){
-                        is PartyUserAction.OnChangeInputText -> { partyUserViewModel.onAction(action) }
-                        is PartyUserAction.OnChangePositionBottomSheet -> { partyUserViewModel.onAction(action) }
-                        is PartyUserAction.OnChangeMainPosition -> { partyUserViewModel.onAction(action) }
-                        is PartyUserAction.OnChangeOrderBy -> { partyUserViewModel.onAction(action) }
-                        is PartyUserAction.OnManageBottomSheet -> { partyUserViewModel.onAction(action) }
-                        is PartyUserAction.OnSelectedUser -> { partyUserViewModel.onAction(action) }
-                        is PartyUserAction.OnApply -> { partyUserViewModel.onAction(action)}
-                        is PartyUserAction.OnChangeModifyPositionSheet -> { partyUserViewModel.onAction(action) }
-                        is PartyUserAction.OnMainPositionClick -> { partyUserViewModel.onAction(action) }
-                        is PartyUserAction.OnChangeSelectedSubPosition -> { partyUserViewModel.onAction(action) }
-                        is PartyUserAction.OnChangeModifyDialog -> { partyUserViewModel.onAction(action) }
-                        is PartyUserAction.OnModifyUserPosition -> { partyUserViewModel.onAction(action) }
-                        is PartyUserAction.OnSearch -> { partyUserViewModel.onAction(action) }
-                        is PartyUserAction.OnDeletePartyMember -> { partyUserViewModel.onAction(action) }
-                        is PartyUserAction.OnChangeMasterDialog -> { partyUserViewModel.onAction(action) }
-                        is PartyUserAction.OnChangeMaster -> { partyUserViewModel.onAction(action) }
-                    }
+                    partyUserViewModel.onAction(action = action)
                 },
                 onNavigationBack = { navController.popBackStack() },
                 onDismissBackDialog = { partyUserViewModel.dismissBackDialog() },

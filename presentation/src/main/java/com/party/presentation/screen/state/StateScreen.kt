@@ -25,13 +25,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.party.common.Screens
+import com.party.common.component.BottomNavigationBar
 import com.party.common.component.floating.NavigateUpFloatingButton
 import com.party.common.component.floating.PartyCreateFloatingButton
 import com.party.common.component.stateTabList
 import com.party.common.utils.noRippleClickable
-import com.party.guam.design.BLACK
-import com.party.guam.design.MEDIUM_PADDING_SIZE
-import com.party.guam.design.WHITE
 import com.party.domain.model.user.party.MyParty
 import com.party.domain.model.user.party.Party
 import com.party.domain.model.user.party.PartyType
@@ -40,8 +39,9 @@ import com.party.domain.model.user.party.Position
 import com.party.domain.model.user.recruitment.MyRecruitment
 import com.party.domain.model.user.recruitment.PartyApplication
 import com.party.domain.model.user.recruitment.PartyRecruitment
-import com.party.common.component.BottomNavigationBar
-import com.party.common.Screens
+import com.party.guam.design.BLACK
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.WHITE
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.enum.StatusType
 import com.party.presentation.screen.state.component.MyPartyArea
@@ -59,9 +59,10 @@ fun StateScreenRoute(
     stateViewModel: StateViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(key1 = Unit) {
-        stateViewModel.getMyParty(1, 50, "createdAt", OrderDescType.DESC.type, status = null)
         stateViewModel.getMyRecruitment(1, 50, "createdAt", OrderDescType.DESC.type)
     }
+
+
 
     LaunchedEffect(Unit) {
         stateViewModel.successCancel.collectLatest {
@@ -75,6 +76,17 @@ fun StateScreenRoute(
     val listState = rememberLazyListState()
     val isFabVisible = remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
     myPartyState.isMyPartyScroll = isFabVisible.value
+
+    // 전체/진행중/종료 탭 선택 이벤트
+    LaunchedEffect(key1 = myPartyState.selectedStatus) {
+        val status = when(myPartyState.selectedStatus){
+            "전체" -> null
+            StatusType.ACTIVE.toDisplayText() -> StatusType.ACTIVE.type
+            StatusType.ARCHIVED.toDisplayText() -> StatusType.ARCHIVED.type
+            else -> null
+        }
+        stateViewModel.getMyParty(1, 50, "createdAt", OrderDescType.DESC.type, status = status)
+    }
 
     LaunchedEffect(Unit) {
         stateViewModel.scrollToUp.collectLatest {

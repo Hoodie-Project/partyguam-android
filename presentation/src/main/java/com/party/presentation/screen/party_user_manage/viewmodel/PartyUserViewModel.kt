@@ -3,6 +3,7 @@ package com.party.presentation.screen.party_user_manage.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
+import com.party.common.component.bottomsheet.mainPositionList
 import com.party.domain.model.party.DelegatePartyMasterRequest
 import com.party.domain.model.party.ModifyPartyUserPositionRequest
 import com.party.domain.usecase.party.DelegatePartyMasterUseCase
@@ -49,6 +50,10 @@ class PartyUserViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(PartyUserState())
     val state = _state.asStateFlow()
+
+    init {
+        getSubPositionList(main = mainPositionList[1])
+    }
 
     fun getPartyMembers(
         partyId: Int,
