@@ -90,7 +90,7 @@ interface UserRemoteSource {
     suspend fun savePersonalities(personalitySaveRequest: PersonalitySaveRequest): ApiResponse<List<PersonalitySaveDto>>
 
     // 내 파티 리스트 조회
-    suspend fun getMyParties(page: Int, limit: Int, sort: String, order: String): ApiResponse<MyPartyDto>
+    suspend fun getMyParties(page: Int, limit: Int, sort: String, order: String, status: String?): ApiResponse<MyPartyDto>
 
     // 내 모집 리스트 조회
     suspend fun getMyRecruitments(page: Int, limit: Int, sort: String, order: String): ApiResponse<MyRecruitmentDto>

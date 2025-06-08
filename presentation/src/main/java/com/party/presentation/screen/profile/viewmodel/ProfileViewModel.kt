@@ -7,6 +7,7 @@ import com.party.domain.model.user.party.MyParty
 import com.party.domain.usecase.user.party.GetMyPartyUseCase
 import com.party.domain.usecase.user.profile.GetUserProfileUseCase
 import com.party.presentation.enum.OrderDescType
+import com.party.presentation.enum.StatusType
 import com.party.presentation.screen.profile.UserProfileAction
 import com.party.presentation.screen.profile.UserProfileState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +28,7 @@ class ProfileViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        getMyParty(1, 50, "createdAt", OrderDescType.DESC.type)
+        getMyParty(1, 50, "createdAt", OrderDescType.DESC.type, status = StatusType.ACTIVE.type)
     }
 
     fun getUserProfile() {
@@ -41,11 +42,11 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun getMyParty(page: Int, limit: Int, sort: String, order: String){
+    private fun getMyParty(page: Int, limit: Int, sort: String, order: String, status: String){
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(isMyPartyLoading = true) }
 
-            when(val result = getMyPartyUseCase(page, limit, sort, order)){
+            when(val result = getMyPartyUseCase(page, limit, sort, order, status)){
                 is ServerApiResponse.SuccessResponse -> {
                     _state.update {
                         it.copy(

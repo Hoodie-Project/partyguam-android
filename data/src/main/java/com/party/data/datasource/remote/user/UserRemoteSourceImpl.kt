@@ -129,9 +129,10 @@ class UserRemoteSourceImpl @Inject constructor(
         page: Int,
         limit: Int,
         sort: String,
-        order: String
+        order: String,
+        status: String?,
     ): ApiResponse<MyPartyDto> {
-        return userService.getMyParties(page = page, limit = limit, sort = sort, order = order)
+        return userService.getMyParties(page = page, limit = limit, sort = sort, order = order, status = status)
     }
 
     override suspend fun getMyRecruitments(

@@ -90,7 +90,7 @@ interface UserRepository {
     suspend fun savePersonalities(personalitySaveRequest: PersonalitySaveRequest): ServerApiResponse<List<PersonalitySave>>
 
     // 내 파티 리스트 조회
-    suspend fun getMyParties(page: Int, limit: Int, sort: String, order: String): ServerApiResponse<MyParty>
+    suspend fun getMyParties(page: Int, limit: Int, sort: String, order: String, status: String?): ServerApiResponse<MyParty>
 
     // 내 지원목록 리스트 조회
     suspend fun getMyRecruitments(page: Int, limit: Int, sort: String, order: String): ServerApiResponse<MyRecruitment>

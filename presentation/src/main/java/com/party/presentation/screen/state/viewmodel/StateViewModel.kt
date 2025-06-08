@@ -11,6 +11,7 @@ import com.party.domain.usecase.party.RejectionPartyUseCase
 import com.party.domain.usecase.user.party.GetMyPartyUseCase
 import com.party.domain.usecase.user.recruitment.GetMyRecruitmentUseCase
 import com.party.presentation.enum.OrderDescType
+import com.party.presentation.enum.StatusType
 import com.party.presentation.screen.state.MyPartyAction
 import com.party.presentation.screen.state.MyPartyState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,11 +54,11 @@ class StateViewModel @Inject constructor(
         }
     }
 
-    fun getMyParty(page: Int, limit: Int, sort: String, order: String){
+    fun getMyParty(page: Int, limit: Int, sort: String, order: String, status: String?){
         viewModelScope.launch(Dispatchers.IO) {
             _myPartyState.update { it.copy(isMyPartyLoading = true) }
 
-            when(val result = getMyPartyUseCase(page, limit, sort, order)){
+            when(val result = getMyPartyUseCase(page, limit, sort, order, status)){
                 is ServerApiResponse.SuccessResponse -> {
                     _myPartyState.update {
                         it.copy(
@@ -117,7 +118,14 @@ class StateViewModel @Inject constructor(
 
     fun onAction(action: MyPartyAction){
         when(action){
-            is MyPartyAction.OnSelectTab -> { _myPartyState.update { it.copy(selectedTabText = action.selectedTabText) } }
+            is MyPartyAction.OnSelectTab -> {
+                _myPartyState.update { it.copy(selectedTabText = action.selectedTabText) }
+                if(action.selectedTabText == StatusType.ACTIVE.toDisplayText()){
+                    getMyParty(1, 50, "createdAt", OrderDescType.DESC.type, status = StatusType.ACTIVE.type)
+                } else if(action.selectedTabText == StatusType.ARCHIVED.toDisplayText()){
+                    getMyParty(1, 50, "createdAt", OrderDescType.DESC.type, status = StatusType.ARCHIVED.type)
+                }
+            }
             is MyPartyAction.OnOrderByChange -> {
                 _myPartyState.update { currentState ->
                     val sortedList = if (action.orderByDesc) {

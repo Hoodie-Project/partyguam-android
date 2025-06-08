@@ -26,6 +26,7 @@ import com.party.guam.design.GRAY100
 import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.WHITE
 import com.party.presentation.enum.OrderDescType
+import com.party.presentation.enum.StatusType
 import com.party.presentation.screen.profile.UserProfileState
 import com.party.presentation.screen.profile_edit.component.EditArea
 import com.party.presentation.screen.profile_edit.component.ProfileEditScaffoldArea
@@ -40,7 +41,7 @@ fun ProfileEditScreenRoute(
 ) {
     LaunchedEffect(key1 = Unit) {
         profileEditViewModel.getUserProfile()
-        profileEditViewModel.getMyParty(1, 50, "createdAt", OrderDescType.DESC.type)
+        profileEditViewModel.getMyParty(1, 50, "createdAt", OrderDescType.DESC.type, StatusType.ACTIVE.type)
     }
 
     LaunchedEffect(key1 = Unit) {

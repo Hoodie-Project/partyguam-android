@@ -72,11 +72,11 @@ class ProfileEditViewModel @Inject constructor(
         }
     }
 
-    fun getMyParty(page: Int, limit: Int, sort: String, order: String){
+    fun getMyParty(page: Int, limit: Int, sort: String, order: String, status: String){
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(isMyPartyLoading = true) }
 
-            when(val result = getMyPartyUseCase(page, limit, sort, order)){
+            when(val result = getMyPartyUseCase(page, limit, sort, order, status)){
                 is ServerApiResponse.SuccessResponse -> {
                     _state.update {
                         it.copy(

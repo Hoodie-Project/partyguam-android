@@ -500,9 +500,10 @@ class UserRepositoryImpl @Inject constructor(
         page: Int,
         limit: Int,
         sort: String,
-        order: String
+        order: String,
+        status: String?,
     ): ServerApiResponse<MyParty> {
-        return when(val result = userRemoteSource.getMyParties(page = page, limit = limit, sort = sort, order = order)){
+        return when(val result = userRemoteSource.getMyParties(page = page, limit = limit, sort = sort, order = order, status = status)){
             is ApiResponse.Success -> {
                 SuccessResponse(data = UserMapper.mapperToMyParty(result.data))
             }
