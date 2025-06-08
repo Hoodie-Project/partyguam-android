@@ -7,7 +7,6 @@ plugins {
     alias(libs.plugins.compose.compiler) // 추가
     alias(libs.plugins.ksp)
     id("kotlinx-serialization")
-    id("com.google.gms.google-services")
 }
 
 val properties = Properties()
