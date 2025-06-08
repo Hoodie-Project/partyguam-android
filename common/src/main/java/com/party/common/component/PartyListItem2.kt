@@ -73,6 +73,7 @@ fun PartyListItem2(
                 title = title,
                 main = main,
                 sub = sub,
+                onClick = onClick
             )
         }
     }
@@ -100,6 +101,7 @@ private fun PartyInfoArea(
     title: String,
     main: String,
     sub: String,
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -115,11 +117,13 @@ private fun PartyInfoArea(
 
         PartyTitleArea(
             title = title,
+            onClick = onClick,
         )
         HeightSpacer(heightDp = 8.dp)
         PartyPositionArea(
             main = main,
             sub = sub,
+            onClick = onClick,
         )
     }
 }
@@ -154,13 +158,15 @@ private fun PartyCategoryArea(
 @Composable
 private fun PartyTitleArea(
     title: String,
+    onClick: () -> Unit,
 ) {
     TextComponent(
         text = title,
         fontSize = T3,
         fontWeight = FontWeight.SemiBold,
         overflow = TextOverflow.Ellipsis,
-        maxLines = 1
+        maxLines = 1,
+        onClick = onClick,
     )
 }
 
@@ -168,12 +174,14 @@ private fun PartyTitleArea(
 private fun PartyPositionArea(
     main: String,
     sub: String,
+    onClick: () -> Unit,
 ) {
     TextComponent(
         modifier = Modifier
             .fillMaxWidth(),
         text = "$main | $sub",
         fontSize = B2,
+        onClick = onClick,
     )
 }
 
