@@ -55,6 +55,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":firebase"))
     implementation(project(":domain"))
     implementation(project(":common"))
     implementation(project(":design"))

@@ -36,10 +36,12 @@ import com.party.common.component.dialog.OneButtonDialog
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.floating.NavigateUpFloatingButton
 import com.party.common.component.floating.PartyCreateFloatingButton
+import com.party.common.utils.noRippleClickable
 import com.party.guam.design.BLACK
 import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.WHITE
-import com.party.common.utils.noRippleClickable
+import com.party.guam.firebase.FirebaseAnalyticsHelper
+import com.party.presentation.BuildConfig
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.enum.SortType
 import com.party.presentation.screen.home.component.HomeFloatingArea
@@ -63,6 +65,13 @@ fun HomeScreenRoute(
     onChangeFirstFunc: () -> Unit,
     onRecruitmentItemClick: (Int, Int) -> Unit,
 ) {
+    // 릴리즈 빌드일 경우만 적용
+    if (!BuildConfig.DEBUG) {
+        FirebaseAnalyticsHelper.logEvent(
+            name = "home_screen"
+        )
+    }
+
     val homeState by homeViewModel.state.collectAsStateWithLifecycle()
 
     val gridState = rememberLazyGridState()

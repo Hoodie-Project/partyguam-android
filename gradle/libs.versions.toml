@@ -128,6 +128,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServicesVersion" }
 firebase-auth = { module = "com.google.firebase:firebase-auth", version.ref = "firebaseAuth" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBomVersion" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 
 # Kakao
