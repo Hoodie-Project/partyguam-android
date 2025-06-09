@@ -30,13 +30,14 @@ import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.partyDetailTabList
 import com.party.common.utils.noRippleClickable
 import com.party.common.utils.snackBarMessage
-import com.party.guam.design.BLACK
-import com.party.guam.design.WHITE
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyType
 import com.party.domain.model.user.PartyAuthority
 import com.party.domain.model.user.PartyAuthorityPosition
+import com.party.guam.design.BLACK
+import com.party.guam.design.WHITE
 import com.party.presentation.enum.OrderDescType
+import com.party.presentation.enum.PartyAuthorityType
 import com.party.presentation.enum.SortType
 import com.party.presentation.screen.party_detail.component.PartyDetailArea
 import com.party.presentation.screen.party_detail.component.PartyDetailScaffoldArea
@@ -102,18 +103,7 @@ fun PartyDetailRoute(
                 },
                 onManageClick = { scope.launch { drawerState.open() } },
                 onAction = { action ->
-                    when(action){
-                        is PartyDetailAction.OnTabClick -> { partyViewModel.onAction(action) }
-                        is PartyDetailAction.OnShowPositionFilter -> { partyViewModel.onAction(action) }
-                        is PartyDetailAction.OnPositionClick -> { partyViewModel.onAction(action) }
-                        is PartyDetailAction.OnReset -> { partyViewModel.onAction(action) }
-                        is PartyDetailAction.OnApply -> { partyViewModel.onAction(action) }
-                        is PartyDetailAction.OnChangeOrderBy -> { partyViewModel.onAction(action) }
-                        is PartyDetailAction.OnChangeProgress -> { partyViewModel.onAction(action)}
-                        is PartyDetailAction.OnShowMoreBottomSheet -> { partyViewModel.onAction(action)}
-                        is PartyDetailAction.OnShowExitPartyDialog -> { partyViewModel.onAction(action)}
-                        is PartyDetailAction.OnExitParty -> { partyViewModel.onAction(action)}
-                    }
+                    partyViewModel.onAction(action = action)
                 },
                 onReports = { userId -> navController.navigate(Screens.Reports(typeId = userId))},
                 onPartyReports = { partyId -> navController.navigate(Screens.Reports(typeId = partyId))},
@@ -202,8 +192,15 @@ private fun PartyDetailScreen(
         }
     }
 
+    val isShowPartyExit = state.partyAuthority.authority in listOf(
+        PartyAuthorityType.MASTER.authority,
+        PartyAuthorityType.MEMBER.authority,
+        PartyAuthorityType.DEPUTY.authority
+    )
+
     if(state.isShowMoreBottomSheet){
         MoreBottomSheet(
+            isShowPartyExit = isShowPartyExit,
             onBottomSheetClose = { onAction(PartyDetailAction.OnShowMoreBottomSheet(false))},
             onReport = {
                 onAction(PartyDetailAction.OnShowMoreBottomSheet(false))

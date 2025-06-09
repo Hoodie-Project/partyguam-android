@@ -19,8 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.party.common.utils.TextComponent
 import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
+import com.party.common.utils.TextComponent
 import com.party.guam.design.B1
 import com.party.guam.design.BLACK
 import com.party.guam.design.EXTRA_LARGE_BUTTON_HEIGHT2
@@ -29,6 +29,7 @@ import com.party.guam.design.RED
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoreBottomSheet(
+    isShowPartyExit: Boolean,
     onBottomSheetClose: () -> Unit,
     onReport: () -> Unit,
     onExitParty: () -> Unit,
@@ -58,6 +59,7 @@ fun MoreBottomSheet(
             )
 
             ContentArea(
+                isShowPartyExit = isShowPartyExit,
                 selectContent = selectContent,
                 onReport = {
                     selectContent = it
@@ -74,6 +76,7 @@ fun MoreBottomSheet(
 
 @Composable
 private fun ContentArea(
+    isShowPartyExit: Boolean,
     selectContent: String,
     onReport: (String) -> Unit,
     onExitParty: (String) -> Unit,
@@ -88,22 +91,38 @@ private fun ContentArea(
         align = Alignment.Center,
         onClick = { onReport("신고하기") }
     )
-    TextComponent(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(EXTRA_LARGE_BUTTON_HEIGHT2),
-        text = "파티 떠나기",
-        fontSize = B1,
-        textColor = if(selectContent == "파티 떠나기") RED else BLACK,
-        align = Alignment.Center,
-        onClick = { onExitParty("파티 떠나기") }
+
+    if(isShowPartyExit){
+        TextComponent(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(EXTRA_LARGE_BUTTON_HEIGHT2),
+            text = "파티 떠나기",
+            fontSize = B1,
+            textColor = if(selectContent == "파티 떠나기") RED else BLACK,
+            align = Alignment.Center,
+            onClick = { onExitParty("파티 떠나기") }
+        )
+    }
+
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun MoreBottomSheetPreview() {
+    MoreBottomSheet(
+        isShowPartyExit = true,
+        onBottomSheetClose = {},
+        onReport = {},
+        onExitParty = {}
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-private fun MoreBottomSheetPreview(modifier: Modifier = Modifier) {
+private fun MoreBottomSheetPreview2() {
     MoreBottomSheet(
+        isShowPartyExit = false,
         onBottomSheetClose = {},
         onReport = {},
         onExitParty = {}
