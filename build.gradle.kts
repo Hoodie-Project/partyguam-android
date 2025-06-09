@@ -6,6 +6,7 @@ buildscript {
     }
     dependencies {
         classpath(libs.oss.licenses.plugin)
+        classpath("com.google.firebase:firebase-crashlytics-gradle:3.0.1")
     }
 }
 

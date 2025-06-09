@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
 
     id("com.google.gms.google-services")
+
 }
 
 android {
@@ -49,4 +50,5 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.play.services.auth)
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics.ktx)
 }
