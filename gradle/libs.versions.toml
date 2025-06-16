@@ -5,12 +5,12 @@ coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-kotlinxCoroutinesAndroid = "1.10.1"
-lifecycleRuntimeKtx = "2.8.7"
+kotlinxCoroutinesAndroid = "1.10.2"
+lifecycleRuntimeKtx = "2.9.1"
 activityCompose = "1.10.1"
-composeBom = "2025.04.01"
-appcompat = "1.7.0"
-uiTooling = "1.8.0"
+composeBom = "2025.06.00"
+appcompat = "1.7.1"
+uiTooling = "1.8.2"
 
 # Add Library
 coreSplashscreen = "1.0.1" # Splash
@@ -25,7 +25,7 @@ sandwichRetrofit = "2.0.6" # Sandwich Retrofit
 loggingInterceptor = "4.12.0" # Logging Interceptor
 retrofit2KotlinxSerializationConverter = "1.0.0" # Retrofit2 Kotlinx Serialization Converter
 gson = "2.11.0" # Gson
-kotlinxSerializationJson = "1.7.3" # Kotlinx Serialization
+kotlinxSerializationJson = "1.8.1" # Kotlinx Serialization
 datastorePreferences = "1.1.2" # Datastore Preferences
 roomRuntime = "2.7.1"
 activity = "1.10.1"
@@ -38,8 +38,8 @@ material = "1.12.0" # Google Services
 
 # Google Play services
 playServicesAuth = "21.3.0"
-firebaseAuth = "23.2.0"
-firebaseBomVersion = "33.12.0"
+firebaseAuth = "23.2.1"
+firebaseBomVersion = "33.15.0"
 googleServicesVersion = "4.4.2"
 
 # Kakao
