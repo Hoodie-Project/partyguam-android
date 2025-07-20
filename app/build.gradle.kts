@@ -20,11 +20,11 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.party.guam"
+        applicationId = "com.party.guham2"
         minSdk = 28
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0.00"
+        versionCode = 2
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -51,7 +51,7 @@ android {
         }
         release {
             manifestPlaceholders += mapOf()
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -63,6 +63,10 @@ android {
             buildConfigField("String", "KAKAO_OAUTH", "\"${properties.getProperty("KAKAO_OAUTH")}\"")
             resValue("string", "app_name", "파티구함")
             signingConfig = signingConfigs.getByName("release")
+
+            firebaseCrashlytics {
+                mappingFileUploadEnabled = false
+            }
         }
     }
     composeCompiler {
@@ -106,10 +110,16 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(platform(libs.firebase.bom))
     implementation(libs.play.services.auth)
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics.ktx)
 
     // kakao login
     implementation(libs.v2.user)
 
     // OpenSource License
     implementation(libs.oss.licenses)
+}
+
+tasks.matching { it.name == "uploadCrashlyticsMappingFileRelease" }.configureEach {
+    enabled = false
 }

@@ -112,7 +112,7 @@ fun HomeScreenRoute(
         if(isFirstActiveFunc){
             val localAppVersion = getAppVersion(context = context)
             delay(500L)
-            homeViewModel.checkAppVersion(localAppVersion = localAppVersion ?: "1.0.00")
+            homeViewModel.checkAppVersion(localAppVersion = localAppVersion ?: "1.0.0")
             onChangeFirstFunc()
         }
     }

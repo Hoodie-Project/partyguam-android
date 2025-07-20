@@ -33,12 +33,12 @@ fun MainArea(
             onClickBanner = onClickBanner,
         )
 
-        PersonalRecruitmentArea(
+        /*PersonalRecruitmentArea(
             homeState = homeState,
             onReload = onReload,
             onClick = onGotoRecruitmentDetail,
             onGotoDetailProfile = onGotoDetailProfile,
-        )
+        )*/
 
         HeightSpacer(heightDp = 40.dp)
 
