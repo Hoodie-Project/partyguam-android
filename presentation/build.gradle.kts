@@ -21,6 +21,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField("String", "DEFAULT_IMAGE", "\"${properties.getProperty("DEFAULT_IMAGE")}\"")
     }
 
     buildTypes {

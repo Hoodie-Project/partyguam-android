@@ -33,6 +33,7 @@ import com.party.guam.design.GRAY100
 import com.party.common.utils.createMultipartBody
 import com.party.guam.design.GRAY300
 import com.party.guam.design.LARGE_CORNER_SIZE
+import com.party.presentation.BuildConfig
 import okhttp3.MultipartBody
 
 @Composable
@@ -58,6 +59,8 @@ fun PartyImageUploadArea(
         }
     )
 
+    val defaultImageUrl = BuildConfig.DEFAULT_IMAGE
+
     Box(
         modifier = modifier
             .width(220.dp)
@@ -78,7 +81,7 @@ fun PartyImageUploadArea(
                     .fillMaxSize()
                     .border(width = 1.dp, color = GRAY100),
                 contentDescription = "Party Image",
-                model = uri,
+                model = uri ?: defaultImageUrl,
                 contentScale = ContentScale.Crop,
             )
         }
