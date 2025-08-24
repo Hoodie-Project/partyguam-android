@@ -30,24 +30,24 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.party.common.utils.HeightSpacer
 import com.party.common.R
-import com.party.common.utils.TextComponent
+import com.party.common.Screens
 import com.party.common.component.bottomsheet.OneSelectBottomSheet
 import com.party.common.component.bottomsheet.list.partyTypeList
 import com.party.common.component.button.CustomButton
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.MultiLineInputField
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.TextComponent
 import com.party.common.utils.noRippleClickable
+import com.party.common.utils.snackBarMessage
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.PRIMARY
 import com.party.guam.design.RED
 import com.party.guam.design.WHITE
-import com.party.common.Screens
-import com.party.common.utils.snackBarMessage
 import com.party.presentation.component.HelpCard
 import com.party.presentation.enum.StatusType
 import com.party.presentation.screen.party_detail.component.RightModalDrawer
@@ -73,6 +73,22 @@ fun PartyEditScreenRoute(
         partyEditViewModel.getPartyDetail(partyId = partyId)
     }
     val partyEditState by partyEditViewModel.state.collectAsStateWithLifecycle()
+
+    // 파티 상태 수정 - 종료로 변경
+    LaunchedEffect(key1 = Unit) {
+        partyEditViewModel.closeParty.collectLatest {
+            navController.popBackStack()
+            snackBarMessage(snackBarHostState = snackBarHostState, "파티가 종료되었습니다.")
+        }
+    }
+
+    // 파티 상태 수정 - 진행중으로 변경
+    LaunchedEffect(key1 = Unit) {
+        partyEditViewModel.activeParty.collectLatest {
+            navController.popBackStack()
+            snackBarMessage(snackBarHostState = snackBarHostState, "파티 정보가 수정되었습니다.")
+        }
+    }
 
     // 파티 삭제 완료되면 뒤로가기
     LaunchedEffect(key1 = Unit) {
@@ -102,19 +118,7 @@ fun PartyEditScreenRoute(
                 partyEditState = partyEditState,
                 partyId = partyId,
                 onAction = { action ->
-                    when(action){
-                        is PartyEditAction.OnChangeImage -> partyEditViewModel.onAction(action)
-                        is PartyEditAction.OnIsVisibleToolTip -> partyEditViewModel.onAction(action)
-                        is PartyEditAction.OnRemovePartyTitle -> partyEditViewModel.onAction(action)
-                        is PartyEditAction.OnChangeInputTitle -> partyEditViewModel.onAction(action)
-                        is PartyEditAction.OnChangeSelectPartyType -> partyEditViewModel.onAction(action)
-                        is PartyEditAction.OnChangePartyTypeSheet -> partyEditViewModel.onAction(action)
-                        is PartyEditAction.OnChangeIsShowHelpCard -> partyEditViewModel.onAction(action)
-                        is PartyEditAction.OnChangePartyDescription -> partyEditViewModel.onAction(action)
-                        is PartyEditAction.OnPartyModify -> partyEditViewModel.onAction(action)
-                        is PartyEditAction.OnChangeShowPartyDeleteDialog -> partyEditViewModel.onAction(action)
-                        is PartyEditAction.OnChangePartyStatus -> partyEditViewModel.onAction(action)
-                    }
+                    partyEditViewModel.onAction(action)
                 },
                 onNavigationClick = { navController.popBackStack() },
                 onManageClick = { scope.launch { drawerState.open() } }
@@ -325,8 +329,8 @@ private fun PartyEditScreen(
                 HeightSpacer(heightDp = 20.dp)
                 SelectPartyStateButtonArea(
                     selectedStatus = partyEditState.partyStatus,
-                    onProgress = { onAction(PartyEditAction.OnChangePartyStatus(StatusType.ACTIVE.type)) },
-                    onFinish = { onAction(PartyEditAction.OnChangePartyStatus(StatusType.ARCHIVED.type)) },
+                    onProgress = { onAction(PartyEditAction.OnChangePartyStatus(partyId, StatusType.ACTIVE.type)) },
+                    onFinish = { onAction(PartyEditAction.OnChangePartyStatus(partyId, StatusType.ARCHIVED.type)) },
                 )
 
                 // 파티 삭제하기

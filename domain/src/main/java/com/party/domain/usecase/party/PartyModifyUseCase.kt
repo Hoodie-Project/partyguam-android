@@ -14,13 +14,13 @@ class PartyModifyUseCase @Inject constructor(
         content: RequestBody?,
         partyTypeId: RequestBody?,
         image: MultipartBody.Part?,
-        status: RequestBody?,
+        //status: RequestBody?,
     ) = partyRepository.modifyParty(
         partyId = partyId,
         title = title,
         content = content,
         partyTypeId = partyTypeId,
         image = image,
-        status = status,
+        //status = status,
     )
 }

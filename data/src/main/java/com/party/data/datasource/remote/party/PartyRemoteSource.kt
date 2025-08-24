@@ -11,6 +11,7 @@ import com.party.data.dto.party.PartyMembersInfoDto
 import com.party.data.dto.party.PartyModifyDto
 import com.party.data.dto.party.PartyRecruitmentCompletedDto
 import com.party.data.dto.party.PartyRecruitmentDto
+import com.party.data.dto.party.PartyStatusDto
 import com.party.data.dto.party.PartyUsersDto
 import com.party.data.dto.party.PersonalRecruitmentListDto
 import com.party.data.dto.party.RecruitmentApplicantDto
@@ -18,6 +19,7 @@ import com.party.data.dto.party.RecruitmentCreateDto
 import com.party.data.dto.party.RecruitmentDetailDto
 import com.party.data.dto.party.RecruitmentListDto
 import com.party.domain.model.party.DelegatePartyMasterRequest
+import com.party.domain.model.party.ModifyPartyStatusRequest
 import com.party.domain.model.party.ModifyPartyUserPositionRequest
 import com.party.domain.model.party.ModifyRecruitmentRequest
 import com.party.domain.model.party.PartyApplyRequest
@@ -68,8 +70,14 @@ interface PartyRemoteSource {
         content: RequestBody?,
         partyTypeId: RequestBody?,
         image: MultipartBody.Part?,
-        status: RequestBody?
     ): ApiResponse<PartyModifyDto>
+
+    // 파티 상태 수정
+    suspend fun modifyPartyStatus(
+        partyId: Int,
+        modifyPartyStatusRequest: ModifyPartyStatusRequest,
+    ): ApiResponse<PartyStatusDto>
+
 
     // 파티지원하기 - 모집공고 지원
     suspend fun applyPartyRecruitment(partyRecruitmentId: Int, partyId: Int, partyApplyRequest: PartyApplyRequest): ApiResponse<PartyApplyDto>

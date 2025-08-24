@@ -11,6 +11,7 @@ import com.party.data.dto.party.PartyMembersInfoDto
 import com.party.data.dto.party.PartyModifyDto
 import com.party.data.dto.party.PartyRecruitmentCompletedDto
 import com.party.data.dto.party.PartyRecruitmentDto
+import com.party.data.dto.party.PartyStatusDto
 import com.party.data.dto.party.PartyUsersDto
 import com.party.data.dto.party.PersonalRecruitmentListDto
 import com.party.data.dto.party.RecruitmentApplicantDto
@@ -19,6 +20,7 @@ import com.party.data.dto.party.RecruitmentDetailDto
 import com.party.data.dto.party.RecruitmentListDto
 import com.party.data.service.PartyService
 import com.party.domain.model.party.DelegatePartyMasterRequest
+import com.party.domain.model.party.ModifyPartyStatusRequest
 import com.party.domain.model.party.ModifyPartyUserPositionRequest
 import com.party.domain.model.party.ModifyRecruitmentRequest
 import com.party.domain.model.party.PartyApplyRequest
@@ -118,7 +120,6 @@ class PartyRemoteSourceImpl @Inject constructor(
         content: RequestBody?,
         partyTypeId: RequestBody?,
         image: MultipartBody.Part?,
-        status: RequestBody?
     ): ApiResponse<PartyModifyDto> {
         return partyService.modifyParty(
             partyId = partyId,
@@ -126,7 +127,16 @@ class PartyRemoteSourceImpl @Inject constructor(
             content = content,
             partyTypeId = partyTypeId,
             image = image,
-            status = status
+        )
+    }
+
+    override suspend fun modifyPartyStatus(
+        partyId: Int,
+        modifyPartyStatusRequest: ModifyPartyStatusRequest
+    ): ApiResponse<PartyStatusDto> {
+        return partyService.modifyPartyStatus(
+            partyId = partyId,
+            modifyPartyStatusRequest = modifyPartyStatusRequest
         )
     }
 

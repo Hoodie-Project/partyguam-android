@@ -11,6 +11,7 @@ import com.party.data.dto.party.PartyMembersInfoDto
 import com.party.data.dto.party.PartyModifyDto
 import com.party.data.dto.party.PartyRecruitmentCompletedDto
 import com.party.data.dto.party.PartyRecruitmentDto
+import com.party.data.dto.party.PartyStatusDto
 import com.party.data.dto.party.PartyUsersDto
 import com.party.data.dto.party.PersonalRecruitmentListDto
 import com.party.data.dto.party.RecruitmentApplicantDto
@@ -18,6 +19,7 @@ import com.party.data.dto.party.RecruitmentCreateDto
 import com.party.data.dto.party.RecruitmentDetailDto
 import com.party.data.dto.party.RecruitmentListDto
 import com.party.domain.model.party.DelegatePartyMasterRequest
+import com.party.domain.model.party.ModifyPartyStatusRequest
 import com.party.domain.model.party.ModifyPartyUserPositionRequest
 import com.party.domain.model.party.ModifyRecruitmentRequest
 import com.party.domain.model.party.PartyApplyRequest
@@ -121,16 +123,21 @@ interface PartyService {
 
     // 파티 수정
     @Multipart
-    @PATCH("api/parties/{partyId}/admin")
+    @PATCH("api/parties/{partyId}/admin/info")
     suspend fun modifyParty(
         @Path(value = "partyId") partyId: Int,
         @Part("title") title: RequestBody? = null,
         @Part("content") content: RequestBody? = null,
         @Part("partyTypeId") partyTypeId: RequestBody? = null,
         @Part image: MultipartBody.Part? = null,
-        @Part("status") status: RequestBody? = null,
     ): ApiResponse<PartyModifyDto>
 
+    // 파티 상태 수정
+    @PATCH("api/parties/{partyId}/admin/status")
+    suspend fun modifyPartyStatus(
+        @Path(value = "partyId") partyId: Int,
+        @Body modifyPartyStatusRequest: ModifyPartyStatusRequest,
+    ): ApiResponse<PartyStatusDto>
 
     // 파티지원하기 - 모집공고 지원
     @POST("api/parties/{partyId}/recruitments/{partyRecruitmentId}/applications")

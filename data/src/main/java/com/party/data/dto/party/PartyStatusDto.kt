@@ -1,0 +1,14 @@
+package com.party.data.dto.party
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class PartyStatusDto(
+    val id: Int,
+    val partyTypeId: Int,
+    val title: String,
+    val content: String,
+    val image: String ?= null,
+    val status: String,
+    val updatedAt: String,
+)

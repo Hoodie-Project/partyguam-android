@@ -23,6 +23,7 @@ import com.party.data.mapper.PartyMapper.mapperToRecruitmentCreate
 import com.party.domain.model.party.ApprovalAndRejection
 import com.party.domain.model.party.CheckUserApplicationStatus
 import com.party.domain.model.party.DelegatePartyMasterRequest
+import com.party.domain.model.party.ModifyPartyStatusRequest
 import com.party.domain.model.party.ModifyPartyUserPositionRequest
 import com.party.domain.model.party.ModifyRecruitmentRequest
 import com.party.domain.model.party.PartyApply
@@ -252,7 +253,6 @@ class PartyRepositoryImpl @Inject constructor(
         content: RequestBody?,
         partyTypeId: RequestBody?,
         image: MultipartBody.Part?,
-        status: RequestBody?
     ): ServerApiResponse<PartyModify> {
         return when(val result = partyRemoteSource.modifyParty(
             partyId = partyId,
@@ -260,10 +260,28 @@ class PartyRepositoryImpl @Inject constructor(
             content = content,
             partyTypeId = partyTypeId,
             image = image,
-            status = status
         )){
             is ApiResponse.Success -> {
                 SuccessResponse(data = mapperPartyModify(result.data))
+            }
+            is ApiResponse.Failure.Error -> { ErrorResponse() }
+            is ApiResponse.Failure.Exception -> {
+                result.throwable.printStackTrace()
+                ExceptionResponse()
+            }
+        }
+    }
+
+    override suspend fun modifyPartyStatus(
+        partyId: Int,
+        modifyPartyStatusRequest: ModifyPartyStatusRequest
+    ): ServerApiResponse<Unit> {
+        return when(val result = partyRemoteSource.modifyPartyStatus(
+            partyId = partyId,
+            modifyPartyStatusRequest = modifyPartyStatusRequest,
+        )){
+            is ApiResponse.Success -> {
+                SuccessResponse(data = Unit)
             }
             is ApiResponse.Failure.Error -> { ErrorResponse() }
             is ApiResponse.Failure.Exception -> {

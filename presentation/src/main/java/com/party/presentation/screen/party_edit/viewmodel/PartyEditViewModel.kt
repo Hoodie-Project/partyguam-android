@@ -4,11 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
 import com.party.common.component.bottomsheet.list.partyTypeList
+import com.party.domain.model.party.ModifyPartyStatusRequest
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyType
 import com.party.domain.usecase.party.DeletePartyUseCase
 import com.party.domain.usecase.party.GetPartyDetailUseCase
+import com.party.domain.usecase.party.ModifyPartyStatusUseCase
 import com.party.domain.usecase.party.PartyModifyUseCase
+import com.party.presentation.enum.StatusType
 import com.party.presentation.screen.party_edit.PartyEditAction
 import com.party.presentation.screen.party_edit.PartyEditState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,6 +33,7 @@ class PartyEditViewModel @Inject constructor(
     private val getPartyDetailUseCase: GetPartyDetailUseCase,
     private val partyModifyUseCase: PartyModifyUseCase,
     private val deletePartyUseCase: DeletePartyUseCase,
+    private val modifyPartyStatusUseCase: ModifyPartyStatusUseCase,
 ): ViewModel(){
 
     private val _state = MutableStateFlow(PartyEditState())
@@ -40,6 +44,12 @@ class PartyEditViewModel @Inject constructor(
 
     private val _partyDeleteSuccess = MutableSharedFlow<Unit>()
     val partyDeleteSuccess = _partyDeleteSuccess.asSharedFlow()
+
+    private val _closeParty = MutableSharedFlow<Unit>()
+    val closeParty = _closeParty.asSharedFlow()
+
+    private val _activeParty = MutableSharedFlow<Unit>()
+    val activeParty = _activeParty.asSharedFlow()
 
     fun getPartyDetail(partyId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -72,12 +82,33 @@ class PartyEditViewModel @Inject constructor(
         }
     }
 
+    fun modifyPartyStatus(
+        partyId: Int,
+        status: String,
+    ){
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val result = modifyPartyStatusUseCase(
+                partyId = partyId,
+                modifyPartyStatusRequest = ModifyPartyStatusRequest(status)
+            )){
+                is ServerApiResponse.SuccessResponse -> {
+                    if(status == StatusType.ARCHIVED.type){
+                        _closeParty.emit(Unit)
+                    } else {
+                        _activeParty.emit(Unit)
+                    }
+                }
+                is ServerApiResponse.ErrorResponse -> {}
+                is ServerApiResponse.ExceptionResponse -> {}
+            }
+        }
+    }
+
     private fun modifyParty(
         partyId: Int,
         title: RequestBody?,
         content: RequestBody?,
         partyTypeId: RequestBody?,
-        status: RequestBody?,
         image: MultipartBody.Part?
     ){
         viewModelScope.launch(Dispatchers.IO) {
@@ -89,10 +120,8 @@ class PartyEditViewModel @Inject constructor(
                 content = content,
                 partyTypeId = filteredPartyTypeId,
                 image = image,
-                status = status,
             )){
                 is ServerApiResponse.SuccessResponse -> {
-                    //getPartyDetail(partyId)
                     _partyModifySuccess.emit(Unit)
                 }
                 is ServerApiResponse.ErrorResponse -> _state.update { it.copy(isPartyModifyLoading = false) }
@@ -135,12 +164,17 @@ class PartyEditViewModel @Inject constructor(
                     title = createRequestBody(_state.value.inputPartyTitle),
                     content = createRequestBody(_state.value.partyDescription),
                     partyTypeId = createRequestBody(partyTypeList.first { it.first == _state.value.selectedPartyType }.second.toString()),
-                    status = createRequestBody(_state.value.partyStatus),
                     image = _state.value.image
                 )
             }
             is PartyEditAction.OnChangeShowPartyDeleteDialog -> _state.update { it.copy(isShowPartyDeleteDialog = action.isShowPartyDeleteDialog) }
-            is PartyEditAction.OnChangePartyStatus -> _state.update { it.copy(partyStatus = action.partyStatus) }
+            is PartyEditAction.OnChangePartyStatus -> {
+                _state.update { it.copy(partyStatus = action.partyStatus) }
+                modifyPartyStatus(
+                    partyId = action.partyId,
+                    status = action.partyStatus
+                )
+            }
         }
     }
 

@@ -4,6 +4,7 @@ import com.party.common.ServerApiResponse
 import com.party.domain.model.party.ApprovalAndRejection
 import com.party.domain.model.party.CheckUserApplicationStatus
 import com.party.domain.model.party.DelegatePartyMasterRequest
+import com.party.domain.model.party.ModifyPartyStatusRequest
 import com.party.domain.model.party.ModifyPartyUserPositionRequest
 import com.party.domain.model.party.ModifyRecruitmentRequest
 import com.party.domain.model.party.PartyApply
@@ -91,8 +92,13 @@ interface PartyRepository {
         content: RequestBody?,
         partyTypeId: RequestBody?,
         image: MultipartBody.Part?,
-        status: RequestBody?
     ): ServerApiResponse<PartyModify>
+
+    // 파티 상태 수정
+    suspend fun modifyPartyStatus(
+        partyId: Int,
+        modifyPartyStatusRequest: ModifyPartyStatusRequest,
+    ): ServerApiResponse<Unit>
 
     // 파티지원하기 - 모집공고 지원
     suspend fun applyPartyRecruitment(
