@@ -78,7 +78,7 @@ import com.party.presentation.screen.user_delete.UserDeleteScreenRoute
 import com.party.presentation.screen.webview.WebViewScreenRoute
 import kotlinx.coroutines.delay
 
-const val ANIMATION_DURATION = 500
+const val ANIMATION_DURATION = 200
 
 @Composable
 fun AppNavHost() {
@@ -140,20 +140,7 @@ fun AppNavHost() {
             },
             exitTransition = {
                 slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Down,
-                    animationSpec = tween(ANIMATION_DURATION)
-                )
-            },
-            popEnterTransition = {
-                slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Up,
-                    animationSpec = tween(ANIMATION_DURATION)
-                )
-
-            },
-            popExitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Up,
+                    AnimatedContentTransitionScope.SlideDirection.Left,
                     animationSpec = tween(ANIMATION_DURATION)
                 )
             },
