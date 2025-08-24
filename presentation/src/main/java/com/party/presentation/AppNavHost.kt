@@ -452,6 +452,7 @@ fun AppNavHost() {
             }
             composable<Screens.CustomerInquiries> {
                 CustomerInquiriesScreenRoute(
+                    context = context,
                     navController = navController
                 )
             }

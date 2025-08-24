@@ -1,5 +1,7 @@
 package com.party.presentation.screen.terms
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,19 +21,26 @@ import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.WHITE
 import com.party.presentation.screen.terms.component.DescriptionTitleArea
 import com.party.presentation.screen.terms.component.TermsScaffoldArea
+import androidx.core.net.toUri
 
 @Composable
 fun CustomerInquiriesScreenRoute(
+    context: Context,
     navController: NavHostController,
 ) {
     CustomerInquiriesScreen(
-        onNavigationClick = { navController.popBackStack() }
+        onNavigationClick = { navController.popBackStack() },
+        onGotoLink = {
+            val intent = Intent(Intent.ACTION_VIEW, it.toUri())
+            context.startActivity(intent)
+        },
     )
 }
 
 @Composable
 private fun CustomerInquiriesScreen(
     onNavigationClick: () -> Unit,
+    onGotoLink: (String) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -55,13 +64,17 @@ private fun CustomerInquiriesScreen(
             )
 
             HeightSpacer(heightDp = 20.dp)
-            InquiriesArea()
+            InquiriesArea(
+                onGotoLink = onGotoLink
+            )
         }
     }
 }
 
 @Composable
-private fun InquiriesArea() {
+private fun InquiriesArea(
+    onGotoLink: (String) -> Unit,
+) {
     InquiriesAreaItem(
         title = CustomerInquiriesDescription.EMAIL.title,
         content = CustomerInquiriesDescription.EMAIL.description,
@@ -70,6 +83,7 @@ private fun InquiriesArea() {
     InquiriesAreaItem(
         title = CustomerInquiriesDescription.OPEN_CHAT.title,
         content = CustomerInquiriesDescription.OPEN_CHAT.description,
+        onClick = { onGotoLink(CustomerInquiriesDescription.OPEN_CHAT.description) }
     )
 }
 
@@ -77,6 +91,7 @@ private fun InquiriesArea() {
 private fun InquiriesAreaItem(
     title: String,
     content: String,
+    onClick: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -91,7 +106,8 @@ private fun InquiriesAreaItem(
         TextComponent(
             text = content,
             fontSize = B2,
-            fontWeight = FontWeight.Normal
+            fontWeight = FontWeight.Normal,
+            onClick = onClick
         )
     }
 }
@@ -102,7 +118,8 @@ private fun CustomerInquiriesScreenPreview(
     modifier: Modifier = Modifier
 ) {
     CustomerInquiriesScreen(
-        onNavigationClick = {}
+        onNavigationClick = {},
+        onGotoLink = {},
     )
 }
 
@@ -116,6 +133,6 @@ private enum class CustomerInquiriesDescription(
     ),
     OPEN_CHAT(
         title = "카카오톡 오픈채팅",
-        description = "오픈채팅 주소..."
+        description = "https://open.kakao.com/o/g3Rt8GCh"
     )
 }
