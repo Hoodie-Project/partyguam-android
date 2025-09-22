@@ -21,7 +21,7 @@
     <string name="dialog3">취소</string>
 
     <!--Login Screen-->
-    <string name="login1">파티괌과 함께\n파티에 참여하실 준비가 되었나요?</string>
+    <string name="login1">파티구함과 함께\n파티에 참여하실 준비가 되었나요?</string>
     <string name="login2">소셜 로그인으로 편하게 이용해보세요.</string>
     <string name="login3">카카오톡 로그인</string>
     <string name="login4">구글 로그인</string>
