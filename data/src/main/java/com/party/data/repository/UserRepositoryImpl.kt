@@ -4,6 +4,12 @@ import com.party.common.ServerApiResponse
 import com.party.common.ServerApiResponse.ErrorResponse
 import com.party.common.ServerApiResponse.ExceptionResponse
 import com.party.common.ServerApiResponse.SuccessResponse
+import com.party.core.domain.DataError
+import com.party.core.domain.DataErrorRemote
+import com.party.core.domain.Result
+import com.party.core.domain.map
+import com.party.core.domain.onSuccess
+import com.party.data.datasource.local.datastore.DataStoreLocalSource
 import com.party.data.datasource.remote.user.UserRemoteSource
 import com.party.data.dto.user.auth.SocialLoginErrorDto
 import com.party.data.dto.user.auth.SocialLoginSuccessDto
@@ -60,6 +66,7 @@ import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
     private val userRemoteSource: UserRemoteSource,
+    private val dataStoreLocalSource: DataStoreLocalSource,
 ): UserRepository{
     override suspend fun googleLogin(accessTokenRequest: AccessTokenRequest): ServerApiResponse<SocialLogin> {
         return when(val result = userRemoteSource.googleLogin(accessTokenRequest = accessTokenRequest)){
@@ -213,48 +220,25 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun checkNickName(
         signupAccessToken: String,
         nickname: String
-    ): ServerApiResponse<String> {
-        val result = userRemoteSource.checkNickName(signupAccessToken = signupAccessToken, nickname = nickname)
-        return when(result){
-            is ApiResponse.Success -> {
-                SuccessResponse(data = result.data)
-            }
-            is ApiResponse.Failure.Error-> {
-                val errorBody = result.errorBody?.string()
-                when(result.statusCode){
-                    StatusCode.Conflict -> {
-                        val errorResponse = Json.decodeFromString<ErrorResponse<String>>(errorBody!!)
-                        ErrorResponse(statusCode = StatusCode.Conflict.code, message = errorResponse.message)
-                    }
-                    StatusCode.Unauthorized -> ErrorResponse(statusCode = StatusCode.Unauthorized.code)
-                    else -> ErrorResponse(statusCode = StatusCode.Unauthorized.code)
-                }
-            }
-            is ApiResponse.Failure.Exception -> {
-                result.throwable.printStackTrace()
-                ExceptionResponse(message = result.message)
-            }
-        }
+    ): Result<String, DataErrorRemote<String>> {
+        return userRemoteSource.checkNickName(
+            signupAccessToken = signupAccessToken,
+            nickname = nickname
+        )
     }
 
     override suspend fun userSignUp(
         signupAccessToken: String,
         userSignUpRequest: UserSignUpRequest
-    ): ServerApiResponse<UserSignUp> {
-        val result = userRemoteSource.userSignUp(signupAccessToken = signupAccessToken, userSignUpRequest = userSignUpRequest)
-        return when(result){
-            is ApiResponse.Success -> {
-                SuccessResponse(data = mapperUserSignUpResponse(result.data))
+    ): Result<UserSignUp, DataErrorRemote<Unit>> {
+        return userRemoteSource.userSignUp(
+            signupAccessToken = signupAccessToken,
+            userSignUpRequest = userSignUpRequest
+        ).map { it.toDomain() }
+            .onSuccess { result ->
+                val accessToken = result.accessToken
+                dataStoreLocalSource.saveAccessToken(accessToken)
             }
-            is ApiResponse.Failure.Error-> {
-                ErrorResponse()
-            }
-            is ApiResponse.Failure.Exception -> {
-                result.throwable.printStackTrace()
-                ExceptionResponse(message = result.message)
-            }
-        }
-
     }
 
     override suspend fun getLocations(province: String): ServerApiResponse<List<Location>> {

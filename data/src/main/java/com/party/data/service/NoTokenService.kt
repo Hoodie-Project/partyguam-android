@@ -8,6 +8,7 @@ import com.party.domain.model.user.AccessTokenRequest
 import com.party.domain.model.user.SocialLogin
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -31,14 +32,14 @@ interface NoTokenService {
     suspend fun checkNickName(
         @Header("Authorization") signupAccessToken: String,
         @Query("nickname") nickname: String,
-    ): ApiResponse<String>
+    ): Response<String>
 
     // 유저 회원가입
     @POST("api/users")
     suspend fun userSignUp(
         @Header("Authorization") signupAccessToken: String,
         @Body userSignUpRequest: UserSignUpRequest,
-    ): ApiResponse<UserSignUpDto>
+    ): Response<UserSignUpDto>
 
     // 홈 - 배너 리스트 조회
     @GET("api/banner/app")

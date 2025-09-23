@@ -38,11 +38,7 @@ import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen4
 import com.party.presentation.screen.guide_permission.GuidePermissionScreenRoute
 import com.party.presentation.screen.home.HomeScreenRoute
-import com.party.presentation.screen.join.birthday.JoinBirthDayScreenRoute
-import com.party.presentation.screen.join.complete.JoinCompleteScreenRoute
-import com.party.presentation.screen.join.email.JoinEmailScreenRoute
-import com.party.presentation.screen.join.gender.JoinGenderScreenRoute
-import com.party.presentation.screen.join.nickname.JoinNickNameScreenRoute
+import com.party.presentation.screen.join.joinGraph
 import com.party.presentation.screen.login.LoginScreenRoute
 import com.party.presentation.screen.manage_applicant.ManageApplicantScreenRoute
 import com.party.presentation.screen.no_internet.NoInternetScreenRoute
@@ -163,7 +159,12 @@ fun AppNavHost() {
                     snackBarHostState = snackBarHostState
                 )
             }
-            composable<Screens.JoinEmail> { backStackEntry ->
+            joinGraph(
+                context = context,
+                navController = navController,
+                snackBarHostState = snackBarHostState,
+            )
+            /*composable<Screens.JoinEmail> { backStackEntry ->
                 val userEmail = backStackEntry.toRoute<Screens.JoinEmail>().userEmail
                 val signupAccessToken = backStackEntry.toRoute<Screens.JoinEmail>().signupAccessToken
                 JoinEmailScreenRoute(
@@ -215,9 +216,9 @@ fun AppNavHost() {
                     navController = navController,
                     userNickName = userNickName,
                 )
-            }
+            }*/
             composable<Screens.DetailProfile> { backStackEntry ->
-                val userNickName = backStackEntry.toRoute<Screens.JoinGender>().userNickName
+                val userNickName = backStackEntry.toRoute<Screens.DetailProfile>().userNickName
                 DetailProfileScreen(
                     context = context,
                     snackBarHostState = snackBarHostState,
@@ -226,7 +227,7 @@ fun AppNavHost() {
                 )
             }
             composable<Screens.DetailCarrier> { backStackEntry ->
-                val userNickName = backStackEntry.toRoute<Screens.JoinGender>().userNickName
+                val userNickName = backStackEntry.toRoute<Screens.DetailCarrier>().userNickName
                 DetailCarrierScreen(
                     context = context,
                     snackBarHostState = snackBarHostState,

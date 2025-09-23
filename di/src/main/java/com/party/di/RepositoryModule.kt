@@ -43,8 +43,14 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideUserRepository(userRemoteSource: UserRemoteSource): UserRepository {
-        return UserRepositoryImpl(userRemoteSource = userRemoteSource)
+    fun provideUserRepository(
+        userRemoteSource: UserRemoteSource,
+        dataStoreLocalSource: DataStoreLocalSource,
+    ): UserRepository {
+        return UserRepositoryImpl(
+            userRemoteSource = userRemoteSource,
+            dataStoreLocalSource = dataStoreLocalSource
+        )
     }
 
     @Provides

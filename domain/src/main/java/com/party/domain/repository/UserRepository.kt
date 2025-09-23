@@ -1,6 +1,9 @@
 package com.party.domain.repository
 
 import com.party.common.ServerApiResponse
+import com.party.core.domain.DataError
+import com.party.core.domain.DataErrorRemote
+import com.party.core.domain.Result
 import com.party.domain.model.user.AccessTokenRequest
 import com.party.domain.model.user.CheckVersion
 import com.party.domain.model.user.LinkGoogle
@@ -54,10 +57,10 @@ interface UserRepository {
     suspend fun linkGoogle(accessTokenRequest: AccessTokenRequest): ServerApiResponse<LinkGoogle>
 
     // 유저 닉네임 중복체크
-    suspend fun checkNickName(signupAccessToken: String, nickname: String): ServerApiResponse<String>
+    suspend fun checkNickName(signupAccessToken: String, nickname: String): Result<String, DataErrorRemote<String>>
 
     // 유저 회원가입
-    suspend fun userSignUp(signupAccessToken: String, userSignUpRequest: UserSignUpRequest): ServerApiResponse<UserSignUp>
+    suspend fun userSignUp(signupAccessToken: String, userSignUpRequest: UserSignUpRequest): Result<UserSignUp, DataErrorRemote<Unit>>
 
     // 특정 지역의 지역 리스트 조회
     suspend fun getLocations(province: String): ServerApiResponse<List<Location>>

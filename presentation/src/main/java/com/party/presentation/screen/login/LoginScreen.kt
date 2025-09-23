@@ -46,14 +46,15 @@ fun LoginScreenRoute(
     loginViewModel: LoginViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(key1 = Unit) {
-        loginViewModel.nextScreen.collectLatest {
-            snackBarMessage(snackBarHostState, it.message)
+        loginViewModel.nextScreen.collectLatest { loginFailure ->
+            //snackBarMessage(snackBarHostState, it.message)
 
             navController.navigate(
-                Screens.JoinEmail(
-                userEmail = it.userEmail ?: "",
-                signupAccessToken = it.signupAccessToken
-            ))
+                route = Screens.Join(
+                    email = loginFailure.userEmail ?: "",
+                    signupAccessToken = loginFailure.signupAccessToken,
+                )
+            )
         }
     }
 

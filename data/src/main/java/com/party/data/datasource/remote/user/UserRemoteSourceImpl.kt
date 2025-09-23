@@ -1,5 +1,9 @@
 package com.party.data.datasource.remote.user
 
+import com.party.core.data.safeCall
+import com.party.core.domain.DataError
+import com.party.core.domain.DataErrorRemote
+import com.party.core.domain.Result
 import com.party.data.dto.user.CheckVersionDto
 import com.party.data.dto.user.notification.NotificationDto
 import com.party.data.dto.user.ReportsDto
@@ -66,15 +70,25 @@ class UserRemoteSourceImpl @Inject constructor(
     override suspend fun checkNickName(
         signupAccessToken: String,
         nickname: String
-    ): ApiResponse<String> {
-        return noTokenService.checkNickName(signupAccessToken = signupAccessToken, nickname = nickname)
+    ): Result<String, DataErrorRemote<String>> {
+        return safeCall<String, String> {
+            noTokenService.checkNickName(
+                signupAccessToken = signupAccessToken,
+                nickname = nickname
+            )
+        }
     }
 
     override suspend fun userSignUp(
         signupAccessToken: String,
         userSignUpRequest: UserSignUpRequest
-    ): ApiResponse<UserSignUpDto> {
-        return noTokenService.userSignUp(signupAccessToken = signupAccessToken, userSignUpRequest = userSignUpRequest)
+    ): Result<UserSignUpDto, DataErrorRemote<Unit>> {
+        return safeCall<UserSignUpDto, Unit> {
+            noTokenService.userSignUp(
+                signupAccessToken = signupAccessToken,
+                userSignUpRequest = userSignUpRequest
+            )
+        }
     }
 
     override suspend fun getLocations(province: String): ApiResponse<List<LocationDto>> {

@@ -1,7 +1,8 @@
 package com.party.data.datasource.remote.user
 
+import com.party.core.domain.DataErrorRemote
+import com.party.core.domain.Result
 import com.party.data.dto.user.CheckVersionDto
-import com.party.data.dto.user.notification.NotificationDto
 import com.party.data.dto.user.ReportsDto
 import com.party.data.dto.user.auth.LinkGoogleDto
 import com.party.data.dto.user.auth.LinkKakaoDto
@@ -14,10 +15,10 @@ import com.party.data.dto.user.detail.ModifyCarrierDto
 import com.party.data.dto.user.detail.PersonalityListDto
 import com.party.data.dto.user.detail.PersonalitySaveDto
 import com.party.data.dto.user.detail.PositionListDto
-import com.party.data.dto.user.detail.SaveCarrierDto
 import com.party.data.dto.user.detail.SaveCarrierItemDto
 import com.party.data.dto.user.detail.SaveInterestLocationDto
 import com.party.data.dto.user.detail.UserLikeLocationDto
+import com.party.data.dto.user.notification.NotificationDto
 import com.party.data.dto.user.notification.ReadNotificationDto
 import com.party.data.dto.user.party.MyPartyDto
 import com.party.data.dto.user.profile.UserProfileDto
@@ -54,10 +55,10 @@ interface UserRemoteSource {
     suspend fun linkGoogle(accessTokenRequest: AccessTokenRequest): ApiResponse<LinkGoogleDto>
 
     // 유저 닉네임 중복체크
-    suspend fun checkNickName(signupAccessToken: String, nickname: String): ApiResponse<String>
+    suspend fun checkNickName(signupAccessToken: String, nickname: String): Result<String, DataErrorRemote<String>>
 
     // 유저 회원가입
-    suspend fun userSignUp(signupAccessToken: String, userSignUpRequest: UserSignUpRequest): ApiResponse<UserSignUpDto>
+    suspend fun userSignUp(signupAccessToken: String, userSignUpRequest: UserSignUpRequest): Result<UserSignUpDto, DataErrorRemote<Unit>>
 
     // 특정 지역의 지역 리스트 조회
     suspend fun getLocations(province: String): ApiResponse<List<LocationDto>>
