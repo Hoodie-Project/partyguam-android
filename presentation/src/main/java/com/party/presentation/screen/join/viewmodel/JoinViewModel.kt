@@ -48,7 +48,7 @@ class JoinViewModel @Inject constructor(
     ){
         viewModelScope.launch(Dispatchers.IO) {
             checkNickNameUseCase(
-                signupAccessToken = _state.value.signupAccessToken,
+                signupAccessToken = "Bearer ${_state.value.signupAccessToken}" ,
                 nickname = nickname,
             )
                 .onSuccess {
@@ -68,7 +68,7 @@ class JoinViewModel @Inject constructor(
     fun join(){
         viewModelScope.launch(Dispatchers.IO) {
             userSignUpUseCase(
-                signupAccessToken = _state.value.signupAccessToken,
+                signupAccessToken = "Bearer ${_state.value.signupAccessToken}" ,
                 userSignUpRequest = UserSignUpRequest(
                     nickname = _state.value.userNickName,
                     birth = _state.value.birthDay,

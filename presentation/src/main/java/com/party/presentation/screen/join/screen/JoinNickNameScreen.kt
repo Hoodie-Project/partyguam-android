@@ -131,9 +131,7 @@ private fun JoinNickNameScreen(
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         topBar = {
             JoinTitleSection(
-                onNavigateBack = {
-                    onAction(JoinAction.OnShowCancelJoinDialog(isShow = true))
-                },
+                onNavigateBack = onNavigateBack,
                 actionIcon = {
                     Text(
                         text = "2/4",

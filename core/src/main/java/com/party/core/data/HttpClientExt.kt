@@ -45,6 +45,7 @@ inline fun <reified T, reified E> responseToResult(
         }
         401 -> Result.Error(DataErrorRemote.Unauthorized())
         408 -> Result.Error(DataErrorRemote.RequestTimeout())
+        409 -> Result.Error(DataErrorRemote.Conflict())
         429 -> Result.Error(DataErrorRemote.TooManyRequests())
         in 500..599 -> Result.Error(DataErrorRemote.ServerError())
         else -> Result.Error(DataErrorRemote.Unknown())
