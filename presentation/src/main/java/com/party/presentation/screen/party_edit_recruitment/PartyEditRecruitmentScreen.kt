@@ -120,23 +120,28 @@ fun PartyEditRecruitmentScreenRoute(
             )
         },
         onGotoPartyEdit = {
-            scope.launch { drawerState.close() }
-            navController.popBackStack()
-            navController.navigate(Screens.PartyEdit(partyId = partyId))
+            scope.launch {
+                drawerState.close()
+                navController.popBackStack()
+                navController.navigate(Screens.PartyEdit(partyId = partyId))
+            }
         },
         onGotoPartyUser = {
-            scope.launch { drawerState.close() }
-            navController.popBackStack()
-            navController.navigate(Screens.PartyUserManage(partyId = partyId))
+            scope.launch {
+                drawerState.close()
+                navController.popBackStack()
+                navController.navigate(Screens.PartyUserManage(partyId = partyId))
+            }
         },
         onGotoPartyRecruitmentEdit = {
             scope.launch { drawerState.close() }
-            navController.navigate(Screens.PartyEditRecruitment(partyId = partyId))
         },
         onGotoManageApplicant = {
-            scope.launch { drawerState.close() }
-            navController.popBackStack()
-            navController.navigate(Screens.ManageApplicant(partyId = partyId))
+            scope.launch {
+                drawerState.close()
+                navController.popBackStack()
+                navController.navigate(Screens.ManageApplicant(partyId = partyId))
+            }
         }
     )
 }

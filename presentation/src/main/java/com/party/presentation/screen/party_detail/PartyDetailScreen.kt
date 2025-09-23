@@ -43,6 +43,7 @@ import com.party.presentation.screen.party_detail.component.PartyDetailArea
 import com.party.presentation.screen.party_detail.component.PartyDetailScaffoldArea
 import com.party.presentation.screen.party_detail.component.RightModalDrawer
 import com.party.presentation.screen.party_detail.viewmodel.PartyViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -111,20 +112,28 @@ fun PartyDetailRoute(
             )
         },
         onGotoPartyEdit = {
-            scope.launch { drawerState.close() }
-            navController.navigate(Screens.PartyEdit(partyId = partyId))
+            scope.launch {
+                drawerState.close()
+                navController.navigate(Screens.PartyEdit(partyId = partyId))
+            }
         },
         onGotoPartyUser = {
-            scope.launch { drawerState.close() }
-            navController.navigate(Screens.PartyUserManage(partyId = partyId))
+            scope.launch {
+                drawerState.close()
+                navController.navigate(Screens.PartyUserManage(partyId = partyId))
+            }
         },
         onGotoPartyRecruitmentEdit = {
-            scope.launch { drawerState.close() }
-            navController.navigate(Screens.PartyEditRecruitment(partyId = partyId))
+            scope.launch {
+                drawerState.close()
+                navController.navigate(Screens.PartyEditRecruitment(partyId = partyId))
+            }
         },
         onGotoManageApplicant = {
-            scope.launch { drawerState.close() }
-            navController.navigate(Screens.ManageApplicant(partyId = partyId))
+            scope.launch {
+                drawerState.close()
+                navController.navigate(Screens.ManageApplicant(partyId = partyId))
+            }
         },
     )
 }
