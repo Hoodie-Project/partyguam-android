@@ -9,6 +9,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
+import com.party.common.utils.calculateLetterSpacing
+import com.party.guam.design.B2
 
 @Composable
 fun DialogDescription(
@@ -23,6 +25,7 @@ fun DialogDescription(
         text = description,
         fontSize = 16.sp,
         textAlign = TextAlign.Center,
-        align = Alignment.Center
+        align = Alignment.Center,
+        letterSpacing = calculateLetterSpacing(16.sp, (-2.5f))
     )
 }

@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.party.common.utils.TextComponent
+import com.party.common.utils.calculateLetterSpacing
 
 @Composable
 fun DialogTitle(
@@ -18,5 +19,6 @@ fun DialogTitle(
         fontSize = 18.sp,
         align = Alignment.Center,
         fontWeight = FontWeight.Bold,
+        letterSpacing = calculateLetterSpacing(18.sp, (-2.5f))
     )
 }

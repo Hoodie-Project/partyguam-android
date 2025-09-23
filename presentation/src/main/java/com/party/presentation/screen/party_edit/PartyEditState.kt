@@ -23,4 +23,6 @@ data class PartyEditState(
     val isPartyModifyLoading: Boolean = false, // 파티 수정 로딩
 
     val isShowPartyDeleteDialog: Boolean = false, // 파티 삭제 다이얼로그
+
+    val isShowClosePartyDialog: Boolean = false, // 파티 종료 다이얼로그
 )

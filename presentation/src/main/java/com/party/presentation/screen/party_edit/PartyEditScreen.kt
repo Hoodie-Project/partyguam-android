@@ -168,6 +168,29 @@ fun PartyEditScreenRoute(
             )
         }
     }
+
+    if(partyEditState.isShowClosePartyDialog){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(BLACK.copy(alpha = 0.3f))
+                .noRippleClickable { partyEditViewModel.dismissDeleteDialog() }
+        ) {
+            TwoButtonDialog(
+                dialogTitle = "파티 종료",
+                description = "정말로 파티를 종료하시겠습니까?.\n종료된 파티는 [내 파티]에서 확인할 수 있어요.",
+                cancelButtonText = "닫기",
+                confirmButtonText = "종료하기",
+                onCancel = {
+                    partyEditViewModel.dismissFinishPartyDialog()
+                },
+                onConfirm = {
+                    partyEditViewModel.dismissFinishPartyDialog()
+                    partyEditViewModel.onAction(action = PartyEditAction.OnChangePartyStatus(partyId, StatusType.ARCHIVED.type))
+                }
+            )
+        }
+    }
 }
 
 @Composable
@@ -184,8 +207,8 @@ private fun PartyEditScreen(
     Scaffold(
         modifier = Modifier
             .blur(
-                radiusX = if (partyEditState.isShowPartyDeleteDialog) 10.dp else 0.dp,
-                radiusY = if (partyEditState.isShowPartyDeleteDialog) 10.dp else 0.dp,
+                radiusX = if (partyEditState.isShowPartyDeleteDialog || partyEditState.isShowClosePartyDialog) 10.dp else 0.dp,
+                radiusY = if (partyEditState.isShowPartyDeleteDialog || partyEditState.isShowClosePartyDialog) 10.dp else 0.dp,
             ),
         snackbarHost = {
             SnackbarHost(
@@ -330,7 +353,8 @@ private fun PartyEditScreen(
                 SelectPartyStateButtonArea(
                     selectedStatus = partyEditState.partyStatus,
                     onProgress = { onAction(PartyEditAction.OnChangePartyStatus(partyId, StatusType.ACTIVE.type)) },
-                    onFinish = { onAction(PartyEditAction.OnChangePartyStatus(partyId, StatusType.ARCHIVED.type)) },
+                    //onFinish = { onAction(PartyEditAction.OnChangePartyStatus(partyId, StatusType.ARCHIVED.type)) },
+                    onFinish = { onAction(PartyEditAction.OnShowFinishPartyDialog)}
                 )
 
                 // 파티 삭제하기

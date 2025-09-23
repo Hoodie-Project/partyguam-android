@@ -148,6 +148,10 @@ class PartyEditViewModel @Inject constructor(
         _state.update { it.copy(isShowPartyDeleteDialog = false) }
     }
 
+    fun dismissFinishPartyDialog(){
+        _state.update { it.copy(isShowClosePartyDialog = false) }
+    }
+
     fun onAction(action: PartyEditAction){
         when(action){
             is PartyEditAction.OnChangeImage -> _state.update { it.copy(image = action.image) }
@@ -175,6 +179,7 @@ class PartyEditViewModel @Inject constructor(
                     status = action.partyStatus
                 )
             }
+            is PartyEditAction.OnShowFinishPartyDialog -> _state.update { it.copy(isShowClosePartyDialog = true) }
         }
     }
 
