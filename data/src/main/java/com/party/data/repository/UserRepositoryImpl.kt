@@ -56,6 +56,7 @@ import com.party.domain.model.user.signup.UserSignUp
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.repository.UserRepository
 import com.skydoves.sandwich.ApiResponse
+import com.skydoves.sandwich.ApiResponse.Companion.maps
 import com.skydoves.sandwich.StatusCode
 import com.skydoves.sandwich.retrofit.errorBody
 import com.skydoves.sandwich.retrofit.statusCode
@@ -331,6 +332,10 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getPositionsV2(main: String): Result<List<PositionList>, DataErrorRemote<Unit>> {
+        return userRemoteSource.getPositionsV2(main = main).map { it.map { it.toDomain() } }
+    }
+
     override suspend fun getCareer(): ServerApiResponse<List<GetCarrier>> {
         return when(val result = userRemoteSource.getCareers()){
             is ApiResponse.Success -> {
@@ -397,6 +402,10 @@ class UserRepositoryImpl @Inject constructor(
             }
 
         }
+    }
+
+    override suspend fun saveCareerV2(career: SaveCarrierList): Result<List<SaveCarrier>, DataErrorRemote<Unit>> {
+        return userRemoteSource.saveCareerV2(career = career).map { it.map { it.toDomain() } }
     }
 
     override suspend fun modifyCarrier(career: ModifyCarrierList): ServerApiResponse<List<ModifyCarrier>> {

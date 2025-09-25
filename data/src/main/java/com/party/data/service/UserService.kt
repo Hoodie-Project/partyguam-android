@@ -1,6 +1,5 @@
 package com.party.data.service
 
-import com.party.data.dto.user.notification.NotificationDto
 import com.party.data.dto.user.ReportsDto
 import com.party.data.dto.user.auth.LinkGoogleDto
 import com.party.data.dto.user.auth.LinkKakaoDto
@@ -11,10 +10,10 @@ import com.party.data.dto.user.detail.ModifyCarrierDto
 import com.party.data.dto.user.detail.PersonalityListDto
 import com.party.data.dto.user.detail.PersonalitySaveDto
 import com.party.data.dto.user.detail.PositionListDto
-import com.party.data.dto.user.detail.SaveCarrierDto
 import com.party.data.dto.user.detail.SaveCarrierItemDto
 import com.party.data.dto.user.detail.SaveInterestLocationDto
 import com.party.data.dto.user.detail.UserLikeLocationDto
+import com.party.data.dto.user.notification.NotificationDto
 import com.party.data.dto.user.notification.ReadNotificationDto
 import com.party.data.dto.user.party.MyPartyDto
 import com.party.data.dto.user.profile.UserProfileDto
@@ -78,6 +77,12 @@ interface UserService {
         @Query("main") main: String,
     ): ApiResponse<List<PositionListDto>>
 
+    // 특정 직군의 포지션 리스트 조회
+    @GET("api/positions")
+    suspend fun getPositionsV2(
+        @Query("main") main: String,
+    ): Response<List<PositionListDto>>
+
     // 유저 경력 조회
     @GET("api/users/me/careers")
     suspend fun getCareer(): ApiResponse<List<GetCarrierDto>>
@@ -87,6 +92,12 @@ interface UserService {
     suspend fun saveCareer(
         @Body career: SaveCarrierList,
     ): ApiResponse<List<SaveCarrierItemDto>>
+
+    // 유저 경력 저장
+    @POST("api/users/me/careers")
+    suspend fun saveCareerV2(
+        @Body career: SaveCarrierList,
+    ): Response<List<SaveCarrierItemDto>>
 
     // 유저 경력 수정
     @PATCH("api/users/me/careers")

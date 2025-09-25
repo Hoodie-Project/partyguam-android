@@ -12,3 +12,9 @@ class GetPositionsUseCase @Inject constructor(
         return userRepository.getPositions(main = main)
     }
 }
+
+class GetPositionsUseCaseV2 @Inject constructor(
+    private val userRepository: UserRepository,
+) {
+    suspend operator fun invoke(main: String) = userRepository.getPositionsV2(main = main)
+}

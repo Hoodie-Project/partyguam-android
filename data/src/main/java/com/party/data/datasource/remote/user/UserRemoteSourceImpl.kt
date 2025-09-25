@@ -1,11 +1,9 @@
 package com.party.data.datasource.remote.user
 
 import com.party.core.data.safeCall
-import com.party.core.domain.DataError
 import com.party.core.domain.DataErrorRemote
 import com.party.core.domain.Result
 import com.party.data.dto.user.CheckVersionDto
-import com.party.data.dto.user.notification.NotificationDto
 import com.party.data.dto.user.ReportsDto
 import com.party.data.dto.user.auth.LinkGoogleDto
 import com.party.data.dto.user.auth.LinkKakaoDto
@@ -18,10 +16,10 @@ import com.party.data.dto.user.detail.ModifyCarrierDto
 import com.party.data.dto.user.detail.PersonalityListDto
 import com.party.data.dto.user.detail.PersonalitySaveDto
 import com.party.data.dto.user.detail.PositionListDto
-import com.party.data.dto.user.detail.SaveCarrierDto
 import com.party.data.dto.user.detail.SaveCarrierItemDto
 import com.party.data.dto.user.detail.SaveInterestLocationDto
 import com.party.data.dto.user.detail.UserLikeLocationDto
+import com.party.data.dto.user.notification.NotificationDto
 import com.party.data.dto.user.notification.ReadNotificationDto
 import com.party.data.dto.user.party.MyPartyDto
 import com.party.data.dto.user.profile.UserProfileDto
@@ -127,6 +125,14 @@ class UserRemoteSourceImpl @Inject constructor(
         return userService.getPositions(main = main)
     }
 
+    override suspend fun getPositionsV2(main: String): Result<List<PositionListDto>, DataErrorRemote<Unit>> {
+        return safeCall<List<PositionListDto>, Unit> {
+            userService.getPositionsV2(
+                main = main
+            )
+        }
+    }
+
     override suspend fun getCareers(): ApiResponse<List<GetCarrierDto>> {
         return userService.getCareer()
     }
@@ -135,6 +141,14 @@ class UserRemoteSourceImpl @Inject constructor(
         career: SaveCarrierList
     ): ApiResponse<List<SaveCarrierItemDto>> {
         return userService.saveCareer(career = career)
+    }
+
+    override suspend fun saveCareerV2(career: SaveCarrierList): Result<List<SaveCarrierItemDto>, DataErrorRemote<Unit>> {
+        return safeCall<List<SaveCarrierItemDto>, Unit> {
+            userService.saveCareerV2(
+                career = career
+            )
+        }
     }
 
     override suspend fun modifyCarrier(career: ModifyCarrierList): ApiResponse<ModifyCarrierDto> {

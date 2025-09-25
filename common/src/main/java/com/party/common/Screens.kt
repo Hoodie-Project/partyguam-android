@@ -127,5 +127,16 @@ sealed interface Screens {
     data object HomeDetailProfileLocation: Screens
     @Serializable
     data object HomeDetailProfileCareer: Screens
-
+    @Serializable
+    data class HomeDetailChoiceCarrierPosition(
+        val isMain: Boolean
+    ): Screens
+    @Serializable
+    data object Trait1: Screens
+    @Serializable
+    data object Trait2: Screens
+    @Serializable
+    data object Trait3: Screens
+    @Serializable
+    data object Trait4: Screens
 }

@@ -8,7 +8,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import com.party.common.Screens
+import com.party.presentation.screen.home_detail_profile.screen.HomeDetailChoiceCarrierPositionRoute
 import com.party.presentation.screen.home_detail_profile.screen.HomeDetailProfileCareerRoute
 import com.party.presentation.screen.home_detail_profile.screen.HomeDetailProfileLocationScreenRoute
 import com.party.presentation.screen.home_detail_profile.viewmodel.HomeDetailProfileViewModel
@@ -40,7 +42,19 @@ fun NavGraphBuilder.homeDetailProfileGraph(
             HomeDetailProfileCareerRoute(
                 viewModel = viewModel,
                 navController = navController,
-                snackBarHostState = snackBarHostState
+            )
+        }
+        composable<Screens.HomeDetailChoiceCarrierPosition>{ backStackEntry ->
+            val isMain = backStackEntry.toRoute<Screens.HomeDetailChoiceCarrierPosition>().isMain
+            val parentEntry = remember(backStackEntry) {
+                navController.getBackStackEntry<Screens.HomeDetailProfile>()
+            }
+            val viewModel: HomeDetailProfileViewModel = hiltViewModel(parentEntry)
+
+            HomeDetailChoiceCarrierPositionRoute(
+                viewModel = viewModel,
+                navController = navController,
+                isMain = isMain
             )
         }
     }

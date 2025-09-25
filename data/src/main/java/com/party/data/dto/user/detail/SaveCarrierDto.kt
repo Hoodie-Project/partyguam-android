@@ -1,11 +1,8 @@
 package com.party.data.dto.user.detail
 
+import com.party.data.DataMapper
+import com.party.domain.model.user.detail.SaveCarrier
 import kotlinx.serialization.Serializable
-
-@Serializable
-data class SaveCarrierDto(
-    val career : List<SaveCarrierItemDto> = emptyList()
-)
 
 @Serializable
 data class SaveCarrierItemDto(
@@ -13,4 +10,13 @@ data class SaveCarrierItemDto(
     val positionId: Int,
     val years: Int,
     val careerType: String,
-)
+): DataMapper<SaveCarrier>{
+    override fun toDomain(): SaveCarrier {
+        return SaveCarrier(
+            id = id,
+            positionId = positionId,
+            years = years,
+            careerType = careerType
+        )
+    }
+}

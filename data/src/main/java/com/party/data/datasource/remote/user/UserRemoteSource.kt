@@ -31,6 +31,8 @@ import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.Location
 import com.party.domain.model.user.detail.ModifyCarrierList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
+import com.party.domain.model.user.detail.PositionList
+import com.party.domain.model.user.detail.SaveCarrier
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.detail.SaveInterestLocation
 import com.party.domain.model.user.profile.UserProfileModifyDto
@@ -80,11 +82,17 @@ interface UserRemoteSource {
     // 특정 직군의 포지션 리스트 조회
     suspend fun getPositions(main: String): ApiResponse<List<PositionListDto>>
 
+    // 특정 직군의 포지션 리스트 조회
+    suspend fun getPositionsV2(main: String): Result<List<PositionListDto>, DataErrorRemote<Unit>>
+
     // 유저 경력 조회
     suspend fun getCareers(): ApiResponse<List<GetCarrierDto>>
 
     // 유저 경력 저장
     suspend fun saveCarrier(career: SaveCarrierList): ApiResponse<List<SaveCarrierItemDto>>
+
+    // 유저 경력 저장
+    suspend fun saveCareerV2(career: SaveCarrierList): Result<List<SaveCarrierItemDto>, DataErrorRemote<Unit>>
 
     // 유저 경력 수정
     suspend fun modifyCarrier(career: ModifyCarrierList): ApiResponse<ModifyCarrierDto>

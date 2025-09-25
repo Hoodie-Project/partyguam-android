@@ -80,11 +80,17 @@ interface UserRepository {
     // 특정 직군의 포지션 리스트 조회
     suspend fun getPositions(main: String): ServerApiResponse<List<PositionList>>
 
+    // 특정 직군의 포지션 리스트 조회
+    suspend fun getPositionsV2(main: String): Result<List<PositionList>, DataErrorRemote<Unit>>
+
     // 유저 경력 조회
     suspend fun getCareer(): ServerApiResponse<List<GetCarrier>>
 
     // 유저 경력 저장
     suspend fun saveCarrier(career: SaveCarrierList): ServerApiResponse<List<SaveCarrier>>
+
+    // 유저 경력 저장
+    suspend fun saveCareerV2(career: SaveCarrierList): Result<List<SaveCarrier>, DataErrorRemote<Unit>>
 
     // 유저 경력 수정
     suspend fun modifyCarrier(career: ModifyCarrierList): ServerApiResponse<List<ModifyCarrier>>

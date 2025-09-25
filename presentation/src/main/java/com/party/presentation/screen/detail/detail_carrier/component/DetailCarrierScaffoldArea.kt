@@ -14,7 +14,7 @@ import com.party.guam.design.T2
 @Composable
 fun DetailCarrierScaffoldArea(
     onNavigationClick: () -> Unit,
-    onClose: () -> Unit,
+    onClose: () -> Unit = {},
 ) {
     ScaffoldCenterBar(
         navigationIcon = {
