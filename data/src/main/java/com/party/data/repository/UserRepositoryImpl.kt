@@ -256,6 +256,12 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getLocationsV2(province: String): Result<List<Location>, DataErrorRemote<Unit>> {
+        return userRemoteSource.getLocationsV2(
+            province = province
+        ).map { it.map { it.toDomain() } }
+    }
+
     override suspend fun saveInterestLocation(
         locations: InterestLocationList,
     ): ServerApiResponse<List<SaveInterestLocation>> {
@@ -285,6 +291,12 @@ class UserRepositoryImpl @Inject constructor(
                 ExceptionResponse(message = result.message)
             }
         }
+    }
+
+    override suspend fun saveInterestLocationV2(locations: InterestLocationList): Result<List<SaveInterestLocation>, DataErrorRemote<Unit>> {
+        return userRemoteSource.saveInterestLocationV2(
+            locations = locations
+        ).map { it.map { it.toDomain() } }
     }
 
     override suspend fun getUserLikeLocations(): ServerApiResponse<List<UserLikeLocation>> {

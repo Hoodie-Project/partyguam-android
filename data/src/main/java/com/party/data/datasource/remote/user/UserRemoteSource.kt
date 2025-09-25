@@ -28,9 +28,11 @@ import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.ReportsRequest
 import com.party.domain.model.user.SaveUserFcmTokenRequest
 import com.party.domain.model.user.detail.InterestLocationList
+import com.party.domain.model.user.detail.Location
 import com.party.domain.model.user.detail.ModifyCarrierList
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.SaveCarrierList
+import com.party.domain.model.user.detail.SaveInterestLocation
 import com.party.domain.model.user.profile.UserProfileModifyDto
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.skydoves.sandwich.ApiResponse
@@ -63,8 +65,14 @@ interface UserRemoteSource {
     // 특정 지역의 지역 리스트 조회
     suspend fun getLocations(province: String): ApiResponse<List<LocationDto>>
 
+    // 특정 지역의 지역 리스트 조회
+    suspend fun getLocationsV2(province: String): Result<List<LocationDto>, DataErrorRemote<Unit>>
+
     // 관심지역 저장
     suspend fun saveInterestLocation(locations: InterestLocationList): ApiResponse<List<SaveInterestLocationDto>>
+
+    // 관심지역 저장
+    suspend fun saveInterestLocationV2(locations: InterestLocationList): Result<List<SaveInterestLocationDto>, DataErrorRemote<Unit>>
 
     // 유저가 지정한 관심지역 조회
     suspend fun getUserLikeLocations(): ApiResponse<List<UserLikeLocationDto>>

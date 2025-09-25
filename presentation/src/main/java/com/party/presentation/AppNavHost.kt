@@ -38,6 +38,7 @@ import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen
 import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen4
 import com.party.presentation.screen.guide_permission.GuidePermissionScreenRoute
 import com.party.presentation.screen.home.HomeScreenRoute
+import com.party.presentation.screen.home_detail_profile.homeDetailProfileGraph
 import com.party.presentation.screen.join.joinGraph
 import com.party.presentation.screen.login.LoginScreenRoute
 import com.party.presentation.screen.manage_applicant.ManageApplicantScreenRoute
@@ -164,59 +165,6 @@ fun AppNavHost() {
                 navController = navController,
                 snackBarHostState = snackBarHostState,
             )
-            /*composable<Screens.JoinEmail> { backStackEntry ->
-                val userEmail = backStackEntry.toRoute<Screens.JoinEmail>().userEmail
-                val signupAccessToken = backStackEntry.toRoute<Screens.JoinEmail>().signupAccessToken
-                JoinEmailScreenRoute(
-                    navController = navController,
-                    userEmail = userEmail,
-                    signupAccessToken = signupAccessToken,
-                )
-            }
-            composable<Screens.JoinNickName> { backStackEntry ->
-                val userEmail = backStackEntry.toRoute<Screens.JoinEmail>().userEmail
-                val signupAccessToken = backStackEntry.toRoute<Screens.JoinEmail>().signupAccessToken
-                JoinNickNameScreenRoute(
-                    context = context,
-                    navController = navController,
-                    snackBarHostState = snackBarHostState,
-                    userEmail = userEmail,
-                    signupAccessToken = signupAccessToken,
-                )
-            }
-            composable<Screens.JoinBirthDay> { backStackEntry ->
-                val userEmail = backStackEntry.toRoute<Screens.JoinBirthDay>().userEmail
-                val signupAccessToken = backStackEntry.toRoute<Screens.JoinBirthDay>().signupAccessToken
-                val userNickName = backStackEntry.toRoute<Screens.JoinBirthDay>().userNickName
-                JoinBirthDayScreenRoute(
-                    navController = navController,
-                    userEmail = userEmail,
-                    signupAccessToken = signupAccessToken,
-                    userNickName = userNickName,
-                )
-            }
-            composable<Screens.JoinGender> { backStackEntry ->
-                val userEmail = backStackEntry.toRoute<Screens.JoinGender>().userEmail
-                val signupAccessToken = backStackEntry.toRoute<Screens.JoinGender>().signupAccessToken
-                val userNickName = backStackEntry.toRoute<Screens.JoinGender>().userNickName
-                val userBirthDay = backStackEntry.toRoute<Screens.JoinGender>().userBirthDay
-                JoinGenderScreenRoute(
-                    context = context,
-                    navController = navController,
-                    snackBarHostState = snackBarHostState,
-                    userEmail = userEmail,
-                    signupAccessToken = signupAccessToken,
-                    userNickName = userNickName,
-                    userBirthDay = userBirthDay,
-                )
-            }
-            composable<Screens.JoinComplete> { backStackEntry ->
-                val userNickName = backStackEntry.toRoute<Screens.JoinGender>().userNickName
-                JoinCompleteScreenRoute(
-                    navController = navController,
-                    userNickName = userNickName,
-                )
-            }*/
             composable<Screens.DetailProfile> { backStackEntry ->
                 val userNickName = backStackEntry.toRoute<Screens.DetailProfile>().userNickName
                 DetailProfileScreen(
@@ -522,8 +470,12 @@ fun AppNavHost() {
                     snackBarHostState = snackBarHostState,
                 )
             }
+
+            homeDetailProfileGraph(
+                context = context,
+                navController = navController,
+                snackBarHostState = snackBarHostState,
+            )
         }
     }
-
-
 }

@@ -132,7 +132,7 @@ fun HomeScreenRoute(
         onGotoPartyDetail = { partyId -> navController.navigate(Screens.PartyDetail(partyId = partyId)) },
         onNavigateUp = { homeViewModel.scrollToTop() },
         onGoPartyCreate = { navController.navigate(Screens.PartyCreate) },
-        onGotoDetailProfile = { navController.navigate(Screens.DetailCarrier)},
+        onGotoDetailProfile = {navController.navigate(route = Screens.HomeDetailProfileLocation ) },
         onClickBanner = { navController.navigate(Screens.WebView(webViewUrl = it))},
         onAction = { action ->
             homeViewModel.onAction(action)

@@ -95,10 +95,26 @@ class UserRemoteSourceImpl @Inject constructor(
         return userService.getLocations(province = province)
     }
 
+    override suspend fun getLocationsV2(province: String): Result<List<LocationDto>, DataErrorRemote<Unit>> {
+        return safeCall<List<LocationDto>, Unit> {
+            userService.getLocationsV2(
+                province = province
+            )
+        }
+    }
+
     override suspend fun saveInterestLocation(
         locations: InterestLocationList,
     ): ApiResponse<List<SaveInterestLocationDto>> {
         return userService.saveInterestLocation(locations = locations)
+    }
+
+    override suspend fun saveInterestLocationV2(locations: InterestLocationList): Result<List<SaveInterestLocationDto>, DataErrorRemote<Unit>> {
+        return safeCall<List<SaveInterestLocationDto>, Unit> {
+            userService.saveInterestLocationV2(
+                locations = locations
+            )
+        }
     }
 
     override suspend fun getUserLikeLocations(): ApiResponse<List<UserLikeLocationDto>> {

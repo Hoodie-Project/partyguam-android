@@ -65,8 +65,14 @@ interface UserRepository {
     // 특정 지역의 지역 리스트 조회
     suspend fun getLocations(province: String): ServerApiResponse<List<Location>>
 
+    // 특정 지역의 지역 리스트 조회
+    suspend fun getLocationsV2(province: String): Result<List<Location>, DataErrorRemote<Unit>>
+
     // 관심지역 저장
     suspend fun saveInterestLocation(locations: InterestLocationList): ServerApiResponse<List<SaveInterestLocation>>
+
+    // 관심지역 저장
+    suspend fun saveInterestLocationV2(locations: InterestLocationList): Result<List<SaveInterestLocation>, DataErrorRemote<Unit>>
 
     // 유저가 지정한 관심지역 조회
     suspend fun getUserLikeLocations(): ServerApiResponse<List<UserLikeLocation>>

@@ -21,3 +21,5 @@ enum class ProvinceList(
     BUSAN("부산"),
     JEJU("제주");
 }
+
+val provinceList = ProvinceList.entries.map { it.city }

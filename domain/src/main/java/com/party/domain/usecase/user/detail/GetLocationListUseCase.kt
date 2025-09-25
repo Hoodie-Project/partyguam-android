@@ -12,3 +12,9 @@ class GetLocationListUseCase @Inject constructor(
         return userRepository.getLocations(province = province)
     }
 }
+
+class GetLocationListUseCaseV2 @Inject constructor(
+    private val userRepository: UserRepository,
+){
+    suspend operator fun invoke(province: String) = userRepository.getLocationsV2(province = province)
+}

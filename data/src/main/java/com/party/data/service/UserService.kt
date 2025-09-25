@@ -31,6 +31,7 @@ import com.party.domain.model.user.profile.UserProfileModifyDto
 import com.skydoves.sandwich.ApiResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -49,11 +50,23 @@ interface UserService {
         @Query("province") province: String,
     ): ApiResponse<List<LocationDto>>
 
+    // 특정 지역의 지역 리스트 조회
+    @GET("api/locations")
+    suspend fun getLocationsV2(
+        @Query("province") province: String,
+    ): Response<List<LocationDto>>
+
     // 관심지역 저장
     @POST("api/users/me/locations")
     suspend fun saveInterestLocation(
         @Body locations: InterestLocationList,
     ): ApiResponse<List<SaveInterestLocationDto>>
+
+    // 관심지역 저장
+    @POST("api/users/me/locations")
+    suspend fun saveInterestLocationV2(
+        @Body locations: InterestLocationList,
+    ): Response<List<SaveInterestLocationDto>>
 
     // 유저가 지정한 관심지역 조회
     @GET("api/users/me/locations")

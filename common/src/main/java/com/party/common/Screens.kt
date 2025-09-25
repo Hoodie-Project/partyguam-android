@@ -120,4 +120,12 @@ sealed interface Screens {
     ): Screens
     @Serializable
     data object Notification: Screens
+
+    @Serializable
+    data object HomeDetailProfile: Screens
+    @Serializable
+    data object HomeDetailProfileLocation: Screens
+    @Serializable
+    data object HomeDetailProfileCareer: Screens
+
 }
