@@ -30,7 +30,6 @@ import com.party.common.utils.TextComponent
 import com.party.common.utils.snackBarMessage
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
-import com.party.guam.design.GRAY100
 import com.party.guam.design.GRAY400
 import com.party.guam.design.GRAY500
 import com.party.guam.design.LIGHT400
@@ -38,7 +37,6 @@ import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.PRIMARY
 import com.party.guam.design.WHITE
 import com.party.presentation.screen.detail.DetailProfileNextButton
-import com.party.presentation.screen.detail.ProfileIndicatorArea
 import com.party.presentation.screen.detail.detail_profile.SELECTED_LOCATION_COUNT
 import com.party.presentation.screen.detail.detail_profile.component.DetailProfileScaffoldArea
 import com.party.presentation.screen.home_detail_profile.action.HomeDetailProfileAction
@@ -67,6 +65,12 @@ fun HomeDetailProfileLocationScreenRoute(
     LaunchedEffect(key1 = Unit) {
         viewModel.successSaveInterestLocation.collectLatest {
             navController.navigate(Screens.HomeDetailProfileCareer)
+        }
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.existSavedData.collectLatest {
+            snackBarMessage(snackBarHostState, "이미 저장된 데이터가 있습니다.")
         }
     }
 
@@ -101,7 +105,7 @@ private fun HomeDetailProfileLocationScreen(
         },
         topBar = {
             DetailProfileScaffoldArea(
-                onNavigationClick = onNavigationClick
+                onNavigationClick = onNavigationClick,
             )
         }
     ){

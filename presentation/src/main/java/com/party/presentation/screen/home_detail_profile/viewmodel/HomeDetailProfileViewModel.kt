@@ -3,6 +3,7 @@ package com.party.presentation.screen.home_detail_profile.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.play.integrity.internal.s
+import com.party.core.domain.DataErrorRemote
 import com.party.core.domain.onError
 import com.party.core.domain.onSuccess
 import com.party.domain.model.user.detail.InterestLocationList
@@ -44,6 +45,9 @@ class HomeDetailProfileViewModel @Inject constructor(
     private val _state = MutableStateFlow(HomeDetailProfileState())
     val state: StateFlow<HomeDetailProfileState> = _state.asStateFlow()
 
+    private val _existSavedData = MutableSharedFlow<Unit>()
+    val existSavedData = _existSavedData.asSharedFlow()
+
     private val _locationLimitExceeded = MutableSharedFlow<String>()
     val locationLimitExceeded = _locationLimitExceeded.asSharedFlow()
 
@@ -84,7 +88,12 @@ class HomeDetailProfileViewModel @Inject constructor(
                 .onSuccess {
                     _successSaveInterestLocation.emit(Unit)
                 }
-                .onError {  }
+                .onError { error ->
+                    when(error){
+                        is DataErrorRemote.Conflict -> { _existSavedData.emit(Unit)}
+                        else -> {}
+                    }
+                }
         }
     }
 
@@ -119,7 +128,12 @@ class HomeDetailProfileViewModel @Inject constructor(
                 .onSuccess {
                     _successSaveCareer.emit(Unit)
                 }
-                .onError {  }
+                .onError { error ->
+                    when(error){
+                        is DataErrorRemote.Conflict -> { _existSavedData.emit(Unit)}
+                        else -> {}
+                    }
+                }
         }
     }
 

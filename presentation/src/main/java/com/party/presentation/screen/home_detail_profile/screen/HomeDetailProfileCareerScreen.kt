@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,6 +30,7 @@ import com.party.common.utils.ScreenExplainArea
 import com.party.common.utils.StepInfo
 import com.party.common.utils.StepStatus
 import com.party.common.utils.TextComponent
+import com.party.common.utils.snackBarMessage
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.GRAY100
@@ -52,12 +54,19 @@ import kotlinx.coroutines.flow.collectLatest
 fun HomeDetailProfileCareerRoute(
     viewModel: HomeDetailProfileViewModel,
     navController: NavHostController,
+    snackBarHostState: SnackbarHostState,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = Unit) {
         viewModel.successSaveCareer.collectLatest {
             navController.navigate(route = Screens.Trait1)
+        }
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.existSavedData.collectLatest {
+            snackBarMessage(snackBarHostState, "이미 저장된 데이터가 있습니다.")
         }
     }
 
@@ -84,6 +93,7 @@ fun HomeDetailProfileCareerRoute(
     }
 
     HomeDetailProfileCareerScreen(
+        snackBarHostState = snackBarHostState,
         state = state,
         onNavigationClick = { navController.popBackStack() },
         onClose = { viewModel.onAction(action = HomeDetailProfileAction.OnShowFinishDialog(isShow = true))},
@@ -96,6 +106,7 @@ fun HomeDetailProfileCareerRoute(
 
 @Composable
 private fun HomeDetailProfileCareerScreen(
+    snackBarHostState: SnackbarHostState,
     state: HomeDetailProfileState,
     onNavigationClick: () -> Unit,
     onClose: () -> Unit = {},
@@ -105,6 +116,11 @@ private fun HomeDetailProfileCareerScreen(
     onSkip: () -> Unit = {},
 ) {
     Scaffold(
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackBarHostState,
+            )
+        },
         topBar = {
             DetailCarrierScaffoldArea(
                 onNavigationClick = onNavigationClick,

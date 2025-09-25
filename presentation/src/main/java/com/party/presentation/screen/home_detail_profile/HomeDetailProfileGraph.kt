@@ -46,6 +46,7 @@ fun NavGraphBuilder.homeDetailProfileGraph(
             HomeDetailProfileCareerRoute(
                 viewModel = viewModel,
                 navController = navController,
+                snackBarHostState = snackBarHostState
             )
         }
         composable<Screens.HomeDetailChoiceCarrierPosition>{ backStackEntry ->
