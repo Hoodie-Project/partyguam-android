@@ -11,6 +11,7 @@ import com.party.domain.usecase.user.detail.SavePersonalityUseCase
 import com.party.presentation.enum.PersonalityType
 import com.party.presentation.screen.profile_edit_time.ProfileEditTimeAction
 import com.party.presentation.screen.profile_edit_time.ProfileEditTimeState
+import com.skydoves.sandwich.StatusCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -71,7 +72,11 @@ class ProfileEditTimeViewModel @Inject constructor(
                 is ServerApiResponse.SuccessResponse -> {
                     savePersonality(personalitySaveRequest)
                 }
-                is ServerApiResponse.ErrorResponse -> {}
+                is ServerApiResponse.ErrorResponse -> {
+                    when(result.statusCode){
+                        StatusCode.NotFound.code -> savePersonality(personalitySaveRequest)
+                    }
+                }
                 is ServerApiResponse.ExceptionResponse -> {}
             }
         }

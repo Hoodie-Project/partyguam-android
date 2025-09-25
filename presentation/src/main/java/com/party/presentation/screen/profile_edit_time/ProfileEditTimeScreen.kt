@@ -46,7 +46,6 @@ fun ProfileEditTimeScreenRoute(
 
     LaunchedEffect(key1 = Unit) {
         profileEditTimeViewModel.modifySuccess.collectLatest {
-            snackBarMessage(snackBarHostState, "수정되었습니다.")
             navController.popBackStack()
         }
     }
