@@ -625,6 +625,10 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun deleteInterestLocationV2(): Result<Unit, DataErrorRemote<Unit>> {
+        return userRemoteSource.deleteInterestLocationV2()
+    }
+
     override suspend fun logout(): ServerApiResponse<Unit> {
         return when(val result = userRemoteSource.logout()){
             is ApiResponse.Success -> SuccessResponse(data = Unit)

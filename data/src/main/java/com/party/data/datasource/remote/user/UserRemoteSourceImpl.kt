@@ -230,6 +230,12 @@ class UserRemoteSourceImpl @Inject constructor(
         return userService.deleteInterestLocations()
     }
 
+    override suspend fun deleteInterestLocationV2(): Result<Unit, DataErrorRemote<Unit>> {
+        return safeCall<Unit, Unit> {
+            userService.deleteInterestLocationsV2()
+        }
+    }
+
     override suspend fun logout(): ApiResponse<Unit> {
         return userService.logout()
     }

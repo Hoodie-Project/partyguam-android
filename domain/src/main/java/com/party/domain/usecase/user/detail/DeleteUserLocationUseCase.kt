@@ -8,3 +8,9 @@ class DeleteUserLocationUseCase @Inject constructor(
 ) {
     suspend operator fun invoke() = userRepository.deleteInterestLocation()
 }
+
+class DeleteUserLocationUseCaseV2 @Inject constructor(
+    private val userRepository: UserRepository
+){
+    suspend operator fun invoke() = userRepository.deleteInterestLocationV2()
+}

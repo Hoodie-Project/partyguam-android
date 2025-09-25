@@ -134,6 +134,9 @@ interface UserRepository {
     // 관심지역 전체 삭제
     suspend fun deleteInterestLocation(): ServerApiResponse<Unit>
 
+    // 관심지역 전체 삭제
+    suspend fun deleteInterestLocationV2(): Result<Unit, DataErrorRemote<Unit>>
+
     // 로그아웃
     suspend fun logout(): ServerApiResponse<Unit>
 

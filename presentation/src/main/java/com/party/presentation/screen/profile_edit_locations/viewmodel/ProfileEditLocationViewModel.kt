@@ -3,12 +3,17 @@ package com.party.presentation.screen.profile_edit_locations.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
+import com.party.core.domain.DataErrorRemote
+import com.party.core.domain.onError
+import com.party.core.domain.onSuccess
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.InterestLocationRequest
 import com.party.domain.usecase.user.detail.DeleteUserLocationUseCase
+import com.party.domain.usecase.user.detail.DeleteUserLocationUseCaseV2
 import com.party.domain.usecase.user.detail.GetLocationListUseCase
 import com.party.domain.usecase.user.detail.GetUserLikeLocationUseCase
 import com.party.domain.usecase.user.detail.SaveInterestLocationUseCase
+import com.party.domain.usecase.user.detail.SaveInterestLocationUseCaseV2
 import com.party.presentation.screen.profile_edit_locations.ProfileEditLocationAction
 import com.party.presentation.screen.profile_edit_locations.ProfileEditLocationState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,8 +30,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileEditLocationViewModel @Inject constructor(
     private val getLocationListUseCase: GetLocationListUseCase,
-    private val saveInterestLocationUseCase: SaveInterestLocationUseCase,
-    private val deleteUserLocationUseCase: DeleteUserLocationUseCase,
+    private val saveInterestLocationUseCase: SaveInterestLocationUseCaseV2,
+    private val deleteUserLocationUseCase: DeleteUserLocationUseCaseV2,
     private val getUserLikeLocationUseCase: GetUserLikeLocationUseCase,
 ) : ViewModel() {
 
@@ -100,23 +105,33 @@ class ProfileEditLocationViewModel @Inject constructor(
         }
     }
 
-    private fun deleteLocation(locations: InterestLocationList) {
+    fun saveInterestLocation(locations: InterestLocationList){
         viewModelScope.launch(Dispatchers.IO) {
-            when (val result = deleteUserLocationUseCase()) {
-                is ServerApiResponse.SuccessResponse -> saveInterestLocation(locations = locations)
-                is ServerApiResponse.ErrorResponse -> {}
-                is ServerApiResponse.ExceptionResponse -> {}
-            }
+            saveInterestLocationUseCase(locations = locations)
+                .onSuccess {
+                    _saveSuccess.emit(Unit)
+                }
+                .onError { error ->
+                    when(error){
+                        is DataErrorRemote.Conflict -> { deleteLocation(locations = locations)}
+                        else -> {}
+                    }
+                }
         }
     }
 
-    private fun saveInterestLocation(locations: InterestLocationList) {
+    fun deleteLocation(locations: InterestLocationList){
         viewModelScope.launch(Dispatchers.IO) {
-            when (val result = saveInterestLocationUseCase(locations = locations)) {
-                is ServerApiResponse.SuccessResponse -> _saveSuccess.emit(Unit)
-                is ServerApiResponse.ErrorResponse -> {}
-                is ServerApiResponse.ExceptionResponse -> {}
-            }
+            deleteUserLocationUseCase()
+                .onSuccess {
+                    saveInterestLocation(locations)
+                }
+                .onError { error ->
+                    when(error){
+                        is DataErrorRemote.ServerError -> saveInterestLocation(locations)
+                        else -> {}
+                    }
+                }
         }
     }
 
@@ -207,24 +222,13 @@ class ProfileEditLocationViewModel @Inject constructor(
             }
 
             is ProfileEditLocationAction.OnApply -> {
-                if(_state.value.selectedProvinceAndLocationList.isNotEmpty()){
-                    deleteLocation(
-                        locations = InterestLocationList(
-                            locations = _state.value.selectedLocationList.map {
-                                InterestLocationRequest(id = it.id)
-                            }
-                        )
+                deleteLocation(
+                    locations = InterestLocationList(
+                        locations = _state.value.selectedLocationList.map {
+                            InterestLocationRequest(id = it.id)
+                        }
                     )
-                }else {
-                    saveInterestLocation(
-                        locations = InterestLocationList(
-                            locations = _state.value.selectedLocationList.map {
-                                InterestLocationRequest(id = it.id)
-                            }
-                        )
-                    )
-                }
-
+                )
             }
         }
     }

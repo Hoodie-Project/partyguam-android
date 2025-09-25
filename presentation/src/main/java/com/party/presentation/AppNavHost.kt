@@ -124,7 +124,7 @@ fun AppNavHost() {
     } else {
         NavHost(
             navController = navController,
-            startDestination = Screens.HomeDetailProfile,
+            startDestination = Screens.Splash,
             modifier = Modifier
                 .fillMaxSize()
                 .background(WHITE)
