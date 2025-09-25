@@ -139,4 +139,6 @@ sealed interface Screens {
     data object Trait3: Screens
     @Serializable
     data object Trait4: Screens
+    @Serializable
+    data object TraitComplete: Screens
 }

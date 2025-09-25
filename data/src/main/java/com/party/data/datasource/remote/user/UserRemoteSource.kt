@@ -30,6 +30,8 @@ import com.party.domain.model.user.SaveUserFcmTokenRequest
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.Location
 import com.party.domain.model.user.detail.ModifyCarrierList
+import com.party.domain.model.user.detail.PersonalityList
+import com.party.domain.model.user.detail.PersonalitySave
 import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.PositionList
 import com.party.domain.model.user.detail.SaveCarrier
@@ -103,8 +105,14 @@ interface UserRemoteSource {
     // 성향 질문 리스트 전체 조회
     suspend fun getPersonalities(): ApiResponse<List<PersonalityListDto>>
 
+    // 성향 질문 리스트 전체 조회
+    suspend fun getPersonalitiesV2(): Result<List<PersonalityListDto>, DataErrorRemote<Unit>>
+
     // 성향 질문 리스트 전체 저장
     suspend fun savePersonalities(personalitySaveRequest: PersonalitySaveRequest): ApiResponse<List<PersonalitySaveDto>>
+
+    // 성향 질문 리스트 전체 저장
+    suspend fun savePersonalitiesV2(personalitySaveRequest: PersonalitySaveRequest): Result<List<PersonalitySaveDto>, DataErrorRemote<Unit>>
 
     // 내 파티 리스트 조회
     suspend fun getMyParties(page: Int, limit: Int, sort: String, order: String, status: String?): ApiResponse<MyPartyDto>

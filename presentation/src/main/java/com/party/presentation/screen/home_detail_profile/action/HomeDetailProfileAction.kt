@@ -1,6 +1,8 @@
 package com.party.presentation.screen.home_detail_profile.action
 
 import com.party.domain.model.user.detail.Location
+import com.party.domain.model.user.detail.PersonalityList
+import com.party.domain.model.user.detail.PersonalityListOption
 import com.party.domain.model.user.detail.PositionList
 
 sealed interface HomeDetailProfileAction {
@@ -20,4 +22,9 @@ sealed interface HomeDetailProfileAction {
 
     data object OnResetFirst: HomeDetailProfileAction
     data object OnResetSecond: HomeDetailProfileAction
+
+    data class OnSelectTrait1(val personalityListOption: PersonalityListOption): HomeDetailProfileAction
+    data class OnSelectTrait2(val personalityListOption: PersonalityListOption): HomeDetailProfileAction
+    data class OnSelectTrait3(val personalityListOption: PersonalityListOption): HomeDetailProfileAction
+    data class OnSelectTrait4(val personalityListOption: PersonalityListOption): HomeDetailProfileAction
 }

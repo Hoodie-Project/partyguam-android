@@ -7,12 +7,17 @@ import com.party.core.domain.onError
 import com.party.core.domain.onSuccess
 import com.party.domain.model.user.detail.InterestLocationList
 import com.party.domain.model.user.detail.InterestLocationRequest
+import com.party.domain.model.user.detail.PersonalitySaveRequest
+import com.party.domain.model.user.detail.PersonalitySaveRequest2
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.detail.SaveCarrierRequest
 import com.party.domain.usecase.user.detail.GetLocationListUseCaseV2
+import com.party.domain.usecase.user.detail.GetPersonalityUseCaseV2
 import com.party.domain.usecase.user.detail.GetPositionsUseCaseV2
 import com.party.domain.usecase.user.detail.SaveCareerUseCase
 import com.party.domain.usecase.user.detail.SaveInterestLocationUseCaseV2
+import com.party.domain.usecase.user.detail.SavePersonalityUseCase
+import com.party.domain.usecase.user.detail.SavePersonalityUseCaseV2
 import com.party.presentation.screen.home_detail_profile.action.HomeDetailProfileAction
 import com.party.presentation.screen.home_detail_profile.state.HomeDetailProfileState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,6 +37,8 @@ class HomeDetailProfileViewModel @Inject constructor(
     private val saveInterestLocationUseCase: SaveInterestLocationUseCaseV2,
     private val getPositionsUseCase: GetPositionsUseCaseV2,
     private val saveCareerUseCase: SaveCareerUseCase,
+    private val getPersonalityUseCaseV2: GetPersonalityUseCaseV2,
+    private val savePersonalityUseCase: SavePersonalityUseCaseV2,
 ): ViewModel() {
 
     private val _state = MutableStateFlow(HomeDetailProfileState())
@@ -45,6 +52,14 @@ class HomeDetailProfileViewModel @Inject constructor(
 
     private val _successSaveCareer = MutableSharedFlow<Unit>()
     val successSaveCareer = _successSaveCareer.asSharedFlow()
+
+    private val _traitLimitExceeded = MutableSharedFlow<String>()
+    val traitLimitExceeded = _traitLimitExceeded.asSharedFlow()
+
+    init {
+        getPersonalityList()
+    }
+
 
     // 서브 지역 리스트 조회
     fun getLocationList(){
@@ -103,6 +118,48 @@ class HomeDetailProfileViewModel @Inject constructor(
             saveCareerUseCase(career = career)
                 .onSuccess {
                     _successSaveCareer.emit(Unit)
+                }
+                .onError {  }
+        }
+    }
+
+    // 전체 성향 질문 조회
+    fun getPersonalityList(){
+        viewModelScope.launch(Dispatchers.IO) {
+            getPersonalityUseCaseV2()
+                .onSuccess { result ->
+                    _state.update { it.copy(personalityList = result) }
+                }
+                .onError {  }
+        }
+    }
+
+    // 전체 성향 질문 저장
+    fun savePersonality(){
+        viewModelScope.launch(Dispatchers.IO) {
+            val personalitySaveRequest = PersonalitySaveRequest(
+                personality = listOf(
+                    PersonalitySaveRequest2(
+                        personalityQuestionId = _state.value.selectedTraitList1[0].personalityQuestionId,
+                        personalityOptionId = _state.value.selectedTraitList1.map { it.id }
+                    ),
+                    PersonalitySaveRequest2(
+                        personalityQuestionId = _state.value.selectedTraitList2[0].personalityQuestionId,
+                        personalityOptionId = _state.value.selectedTraitList2.map { it.id }
+                    ),
+                    PersonalitySaveRequest2(
+                        personalityQuestionId = _state.value.selectedTraitList3[0].personalityQuestionId,
+                        personalityOptionId = _state.value.selectedTraitList3.map { it.id }
+                    ),
+                    PersonalitySaveRequest2(
+                        personalityQuestionId = _state.value.selectedTraitList4[0].personalityQuestionId,
+                        personalityOptionId = _state.value.selectedTraitList4.map { it.id }
+                    )
+                )
+            )
+            savePersonalityUseCase(personalitySaveRequest = personalitySaveRequest)
+                .onSuccess {
+
                 }
                 .onError {  }
         }
@@ -183,6 +240,72 @@ class HomeDetailProfileViewModel @Inject constructor(
                     )
                 }
             }
+
+            is HomeDetailProfileAction.OnSelectTrait1 -> {
+                _state.update { state ->
+                    val option = action.personalityListOption
+                    val selectedList = state.selectedTraitList1
+
+                    when {
+                        selectedList.any { it.id == option.id } ->
+                            state.copy(selectedTraitList1 = selectedList.filter { it.id != option.id })
+                        selectedList.size >= 2 -> {
+                            viewModelScope.launch { _traitLimitExceeded.emit("최대 2개까지 선택할 수 있어요.") }
+                            state
+                        }
+                        else -> state.copy(selectedTraitList1 = selectedList + option)
+                    }
+                }
+            }
+            is HomeDetailProfileAction.OnSelectTrait2 -> {
+                _state.update { state ->
+                    val option = action.personalityListOption
+                    val selectedList = state.selectedTraitList2
+
+                    // 최대 1개만 선택 가능 (토글 방식)
+                    if (selectedList.any { it.id == option.id }) {
+                        // 이미 선택된 항목이면 제거
+                        state.copy(selectedTraitList2 = emptyList())
+                    } else {
+                        // 새로운 항목 선택 (기존 선택 항목은 자동으로 교체)
+                        state.copy(selectedTraitList2 = listOf(option))
+                    }
+                }
+            }
+            is HomeDetailProfileAction.OnSelectTrait3 -> {
+                _state.update { state ->
+                    val option = action.personalityListOption
+                    val selectedList = state.selectedTraitList3
+
+                    when {
+                        selectedList.any { it.id == option.id } ->
+                            state.copy(selectedTraitList3 = selectedList.filter { it.id != option.id })
+                        selectedList.size >= 2 -> {
+                            viewModelScope.launch { _traitLimitExceeded.emit("최대 2개까지 선택할 수 있어요.") }
+                            state
+                        }
+                        else -> state.copy(selectedTraitList3 = selectedList + option)
+                    }
+                }
+            }
+
+            is HomeDetailProfileAction.OnSelectTrait4 -> {
+                _state.update { state ->
+                    val option = action.personalityListOption
+                    val selectedList = state.selectedTraitList4
+
+                    when {
+                        selectedList.any { it.id == option.id } ->
+                            state.copy(selectedTraitList4 = selectedList.filter { it.id != option.id })
+                        selectedList.size >= 2 -> {
+                            viewModelScope.launch { _traitLimitExceeded.emit("최대 2개까지 선택할 수 있어요.") }
+                            state
+                        }
+                        else -> state.copy(selectedTraitList4 = selectedList + option)
+                    }
+                }
+            }
+
         }
     }
 

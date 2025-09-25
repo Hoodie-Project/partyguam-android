@@ -4,7 +4,6 @@ import com.party.common.ServerApiResponse
 import com.party.common.ServerApiResponse.ErrorResponse
 import com.party.common.ServerApiResponse.ExceptionResponse
 import com.party.common.ServerApiResponse.SuccessResponse
-import com.party.core.domain.DataError
 import com.party.core.domain.DataErrorRemote
 import com.party.core.domain.Result
 import com.party.core.domain.map
@@ -20,14 +19,12 @@ import com.party.data.mapper.UserMapper.mapperToLinkKakao
 import com.party.data.mapper.UserMapper.mapperToMySocialOauth
 import com.party.data.mapper.UserMapper.mapperToNotification
 import com.party.data.mapper.UserMapper.mapperToReports
-import com.party.data.mapper.UserMapper.mapperUserSignUpResponse
 import com.party.domain.model.user.AccessTokenRequest
 import com.party.domain.model.user.CheckVersion
 import com.party.domain.model.user.LinkGoogle
 import com.party.domain.model.user.LinkKakao
 import com.party.domain.model.user.LinkKakaoRequest
 import com.party.domain.model.user.MySocialOauth
-import com.party.domain.model.user.notification.Notification
 import com.party.domain.model.user.Reports
 import com.party.domain.model.user.ReportsRequest
 import com.party.domain.model.user.SaveUserFcmTokenRequest
@@ -46,9 +43,9 @@ import com.party.domain.model.user.detail.SaveCarrier
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.detail.SaveInterestLocation
 import com.party.domain.model.user.detail.UserLikeLocation
+import com.party.domain.model.user.notification.Notification
 import com.party.domain.model.user.notification.ReadNotification
 import com.party.domain.model.user.party.MyParty
-import com.party.domain.model.user.profile.UserLocation
 import com.party.domain.model.user.profile.UserProfile
 import com.party.domain.model.user.profile.UserProfileModify
 import com.party.domain.model.user.recruitment.MyRecruitment
@@ -56,7 +53,6 @@ import com.party.domain.model.user.signup.UserSignUp
 import com.party.domain.model.user.signup.UserSignUpRequest
 import com.party.domain.repository.UserRepository
 import com.skydoves.sandwich.ApiResponse
-import com.skydoves.sandwich.ApiResponse.Companion.maps
 import com.skydoves.sandwich.StatusCode
 import com.skydoves.sandwich.retrofit.errorBody
 import com.skydoves.sandwich.retrofit.statusCode
@@ -471,6 +467,10 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getPersonalitiesV2(): Result<List<PersonalityList>, DataErrorRemote<Unit>> {
+        return userRemoteSource.getPersonalitiesV2().map { it.map { it.toDomain() } }
+    }
+
     override suspend fun savePersonalities(
         personalitySaveRequest: PersonalitySaveRequest
     ): ServerApiResponse<List<PersonalitySave>> {
@@ -499,6 +499,10 @@ class UserRepositoryImpl @Inject constructor(
                 ExceptionResponse(message = result.message)
             }
         }
+    }
+
+    override suspend fun savePersonalitiesV2(personalitySaveRequest: PersonalitySaveRequest): Result<List<PersonalitySave>, DataErrorRemote<Unit>> {
+        return userRemoteSource.savePersonalitiesV2(personalitySaveRequest = personalitySaveRequest).map { it.map { it.toDomain() } }
     }
 
     override suspend fun getMyParties(

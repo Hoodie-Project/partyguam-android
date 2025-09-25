@@ -12,3 +12,9 @@ class GetPersonalityUseCase @Inject constructor(
         return userRepository.getPersonalities()
     }
 }
+
+class GetPersonalityUseCaseV2 @Inject constructor(
+    private val userRepository: UserRepository,
+){
+    suspend operator fun invoke() = userRepository.getPersonalitiesV2()
+}

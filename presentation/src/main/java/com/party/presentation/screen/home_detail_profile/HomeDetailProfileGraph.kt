@@ -13,6 +13,11 @@ import com.party.common.Screens
 import com.party.presentation.screen.home_detail_profile.screen.HomeDetailChoiceCarrierPositionRoute
 import com.party.presentation.screen.home_detail_profile.screen.HomeDetailProfileCareerRoute
 import com.party.presentation.screen.home_detail_profile.screen.HomeDetailProfileLocationScreenRoute
+import com.party.presentation.screen.home_detail_profile.screen.HomeDetailProfileTraitCompleteRoute
+import com.party.presentation.screen.home_detail_profile.screen.HomeDetailTraitRoute1
+import com.party.presentation.screen.home_detail_profile.screen.HomeDetailTraitRoute2
+import com.party.presentation.screen.home_detail_profile.screen.HomeDetailTraitRoute3
+import com.party.presentation.screen.home_detail_profile.screen.HomeDetailTraitRoute4
 import com.party.presentation.screen.home_detail_profile.viewmodel.HomeDetailProfileViewModel
 
 fun NavGraphBuilder.homeDetailProfileGraph(
@@ -55,6 +60,62 @@ fun NavGraphBuilder.homeDetailProfileGraph(
                 viewModel = viewModel,
                 navController = navController,
                 isMain = isMain
+            )
+        }
+
+        composable<Screens.Trait1> {
+            val parentEntry = remember(it) {
+                navController.getBackStackEntry<Screens.HomeDetailProfile>()
+            }
+            val viewModel: HomeDetailProfileViewModel = hiltViewModel(parentEntry)
+            HomeDetailTraitRoute1(
+                viewModel = viewModel,
+                navController = navController,
+                snackBarHostState = snackBarHostState
+            )
+        }
+
+        composable<Screens.Trait2> {
+            val parentEntry = remember(it) {
+                navController.getBackStackEntry<Screens.HomeDetailProfile>()
+            }
+            val viewModel: HomeDetailProfileViewModel = hiltViewModel(parentEntry)
+            HomeDetailTraitRoute2(
+                viewModel = viewModel,
+                navController = navController,
+                snackBarHostState = snackBarHostState
+            )
+        }
+        composable<Screens.Trait3> {
+            val parentEntry = remember(it) {
+                navController.getBackStackEntry<Screens.HomeDetailProfile>()
+            }
+            val viewModel: HomeDetailProfileViewModel = hiltViewModel(parentEntry)
+            HomeDetailTraitRoute3(
+                viewModel = viewModel,
+                navController = navController,
+                snackBarHostState = snackBarHostState
+            )
+        }
+        composable<Screens.Trait4> {
+            val parentEntry = remember(it) {
+                navController.getBackStackEntry<Screens.HomeDetailProfile>()
+            }
+            val viewModel: HomeDetailProfileViewModel = hiltViewModel(parentEntry)
+            HomeDetailTraitRoute4(
+                viewModel = viewModel,
+                navController = navController,
+                snackBarHostState = snackBarHostState
+            )
+        }
+        composable<Screens.TraitComplete> {
+            val parentEntry = remember(it) {
+                navController.getBackStackEntry<Screens.HomeDetailProfile>()
+            }
+            val viewModel: HomeDetailProfileViewModel = hiltViewModel(parentEntry)
+            HomeDetailProfileTraitCompleteRoute(
+                viewModel = viewModel,
+                navController = navController,
             )
         }
     }

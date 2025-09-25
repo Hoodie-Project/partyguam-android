@@ -1,0 +1,80 @@
+package com.party.presentation.screen.home_detail_profile.screen
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.party.common.R
+import com.party.common.Screens
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.TextComponent
+import com.party.common.utils.calculateLetterSpacing
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.T1
+import com.party.guam.design.WHITE
+import com.party.presentation.screen.detail.select_tendency.FinishButtonArea
+import com.party.presentation.screen.home_detail_profile.viewmodel.HomeDetailProfileViewModel
+
+@Composable
+fun HomeDetailProfileTraitCompleteRoute(
+    viewModel: HomeDetailProfileViewModel,
+    navController: NavHostController,
+) {
+    LaunchedEffect(key1 = Unit) {
+        viewModel.savePersonality()
+    }
+
+    HomeDetailProfileTraitCompleteScreen(
+        onGoProfile = { navController.navigate(Screens.Profile) },
+        onGoHome = { navController.navigate(Screens.Home) }
+    )
+}
+
+@Composable
+private fun HomeDetailProfileTraitCompleteScreen(
+    onGoProfile: () -> Unit,
+    onGoHome: () -> Unit,
+) {
+    Scaffold {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(WHITE)
+                .padding(it)
+                .padding(horizontal = MEDIUM_PADDING_SIZE)
+        ) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+            ) {
+                TextComponent(
+                    modifier = Modifier.fillMaxSize(),
+                    text = stringResource(id = R.string.select_tendency8),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = T1,
+                    align = Alignment.Center,
+                    textAlign = TextAlign.Center,
+                    letterSpacing = calculateLetterSpacing(T1, (-2.5f))
+                )
+            }
+
+            FinishButtonArea(
+                onGoProfile = onGoProfile,
+                onGoHome = onGoHome,
+            )
+
+            HeightSpacer(heightDp = 12.dp)
+        }
+    }
+}

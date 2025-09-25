@@ -113,11 +113,21 @@ interface UserService {
     @GET("api/personalities")
     suspend fun getPersonalities(): ApiResponse<List<PersonalityListDto>>
 
+    // 성향 질문 리스트 전체 조회
+    @GET("api/personalities")
+    suspend fun getPersonalitiesV2(): Response<List<PersonalityListDto>>
+
     // 성향 질문 리스트 전체 저장
     @POST("api/users/me/personalities")
     suspend fun savePersonalities(
         @Body personalitySaveRequest: PersonalitySaveRequest,
     ): ApiResponse<List<PersonalitySaveDto>>
+
+    // 성향 질문 리스트 전체 저장
+    @POST("api/users/me/personalities")
+    suspend fun savePersonalitiesV2(
+        @Body personalitySaveRequest: PersonalitySaveRequest,
+    ): Response<List<PersonalitySaveDto>>
 
     // 내 파티 리스트 조회
     @GET("api/users/me/parties")

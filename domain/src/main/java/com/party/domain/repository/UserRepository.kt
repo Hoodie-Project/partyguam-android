@@ -101,8 +101,14 @@ interface UserRepository {
     // 성향 질문 리스트 전체 조회
     suspend fun getPersonalities(): ServerApiResponse<List<PersonalityList>>
 
+    // 성향 질문 리스트 전체 조회
+    suspend fun getPersonalitiesV2(): Result<List<PersonalityList>, DataErrorRemote<Unit>>
+
     // 성향 질문 리스트 전체 저장
     suspend fun savePersonalities(personalitySaveRequest: PersonalitySaveRequest): ServerApiResponse<List<PersonalitySave>>
+
+    // 성향 질문 리스트 전체 저장
+    suspend fun savePersonalitiesV2(personalitySaveRequest: PersonalitySaveRequest): Result<List<PersonalitySave>, DataErrorRemote<Unit>>
 
     // 내 파티 리스트 조회
     suspend fun getMyParties(page: Int, limit: Int, sort: String, order: String, status: String?): ServerApiResponse<MyParty>

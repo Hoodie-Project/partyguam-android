@@ -163,10 +163,24 @@ class UserRemoteSourceImpl @Inject constructor(
         return userService.getPersonalities()
     }
 
+    override suspend fun getPersonalitiesV2(): Result<List<PersonalityListDto>, DataErrorRemote<Unit>> {
+        return safeCall<List<PersonalityListDto>, Unit> {
+            userService.getPersonalitiesV2()
+        }
+    }
+
     override suspend fun savePersonalities(
         personalitySaveRequest: PersonalitySaveRequest
     ): ApiResponse<List<PersonalitySaveDto>> {
         return userService.savePersonalities(personalitySaveRequest = personalitySaveRequest)
+    }
+
+    override suspend fun savePersonalitiesV2(personalitySaveRequest: PersonalitySaveRequest): Result<List<PersonalitySaveDto>, DataErrorRemote<Unit>> {
+        return safeCall<List<PersonalitySaveDto>, Unit> {
+            userService.savePersonalitiesV2(
+                personalitySaveRequest = personalitySaveRequest
+            )
+        }
     }
 
     override suspend fun getMyParties(

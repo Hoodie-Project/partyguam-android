@@ -9,3 +9,9 @@ class SavePersonalityUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(personalitySaveRequest: PersonalitySaveRequest) = userRepository.savePersonalities(personalitySaveRequest = personalitySaveRequest)
 }
+
+class SavePersonalityUseCaseV2 @Inject constructor(
+    private val userRepository: UserRepository,
+) {
+    suspend operator fun invoke(personalitySaveRequest: PersonalitySaveRequest) = userRepository.savePersonalitiesV2(personalitySaveRequest = personalitySaveRequest)
+}
