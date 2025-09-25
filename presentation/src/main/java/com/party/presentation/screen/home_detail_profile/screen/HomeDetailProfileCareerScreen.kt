@@ -24,7 +24,10 @@ import com.party.common.R
 import com.party.common.Screens
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.utils.HeightSpacer
+import com.party.common.utils.ProfileIndicatorArea
 import com.party.common.utils.ScreenExplainArea
+import com.party.common.utils.StepInfo
+import com.party.common.utils.StepStatus
 import com.party.common.utils.TextComponent
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
@@ -120,15 +123,13 @@ private fun HomeDetailProfileCareerScreen(
                 modifier = Modifier
                     .weight(1f)
             ) {
-                ProfileIndicatorArea(
-                    container1 = PRIMARY,
-                    container2 = PRIMARY,
-                    container3 = GRAY100,
-                    textColor1 = BLACK,
-                    textColor2 = BLACK,
-                    textColor3 = GRAY400,
-                    indicatorText = stringResource(id = R.string.detail_profile3),
+                val steps = listOf(
+                    StepInfo("1", "관심지역", StepStatus.COMPLETED),
+                    StepInfo("2", "경력/포지션", StepStatus.CURRENT),
+                    StepInfo("3", "성향선택(1/4)", StepStatus.PENDING)
                 )
+
+                ProfileIndicatorArea(steps = steps)
 
                 ScreenExplainArea(
                     mainExplain = "***님의\n경력과 포지션을 입력해 주세요",

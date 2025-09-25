@@ -21,7 +21,6 @@ import com.party.presentation.screen.home_detail_profile.screen.HomeDetailTraitR
 import com.party.presentation.screen.home_detail_profile.viewmodel.HomeDetailProfileViewModel
 
 fun NavGraphBuilder.homeDetailProfileGraph(
-    context: Context,
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
 ){

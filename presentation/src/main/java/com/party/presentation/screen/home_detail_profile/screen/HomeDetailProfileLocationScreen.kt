@@ -22,7 +22,10 @@ import androidx.navigation.NavHostController
 import com.party.common.R
 import com.party.common.Screens
 import com.party.common.utils.HeightSpacer
+import com.party.common.utils.ProfileIndicatorArea
 import com.party.common.utils.ScreenExplainArea
+import com.party.common.utils.StepInfo
+import com.party.common.utils.StepStatus
 import com.party.common.utils.TextComponent
 import com.party.common.utils.snackBarMessage
 import com.party.guam.design.B2
@@ -113,15 +116,13 @@ private fun HomeDetailProfileLocationScreen(
                 modifier = Modifier
                     .weight(1f)
             ) {
-                ProfileIndicatorArea(
-                    container1 = PRIMARY,
-                    container2 = GRAY100,
-                    container3 = GRAY100,
-                    textColor1 = BLACK,
-                    textColor2 = GRAY400,
-                    textColor3 = GRAY400,
-                    indicatorText = stringResource(id = R.string.detail_profile3),
+                val steps = listOf(
+                    StepInfo("1", "관심지역", StepStatus.CURRENT),
+                    StepInfo("2", "경력/포지션", StepStatus.PENDING),
+                    StepInfo("3", "성향선택(1/4)", StepStatus.PENDING)
                 )
+
+                ProfileIndicatorArea(steps = steps)
 
                 ScreenExplainArea(
                     mainExplain = stringResource(id = R.string.detail_profile7),
