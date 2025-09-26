@@ -1,6 +1,5 @@
 package com.party.presentation.screen.recruitment_detail
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,22 +13,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.party.common.MainTab
+import com.party.common.Screens
+import com.party.common.component.BottomNavigationBar
+import com.party.common.component.toMainTab
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.LoadingProgressBar
 import com.party.common.utils.convertToText
-import com.party.guam.design.GRAY100
-import com.party.guam.design.WHITE
 import com.party.domain.model.user.PartyAuthority
 import com.party.domain.model.user.PartyAuthorityPosition
-import com.party.common.component.BottomNavigationBar
-import com.party.common.Screens
+import com.party.guam.design.GRAY100
+import com.party.guam.design.WHITE
 import com.party.presentation.enum.PartyAuthorityType
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentButton
 import com.party.presentation.screen.recruitment_detail.component.RecruitmentCurrentInfoArea
@@ -41,11 +42,11 @@ import com.party.presentation.screen.recruitment_detail.viewmodel.RecruitmentDet
 
 @Composable
 fun RecruitmentDetailRoute(
-    context: Context,
     navController: NavHostController,
     partyId: Int,
     partyRecruitmentId: Int,
     recruitmentDetailViewModel: RecruitmentDetailViewModel = hiltViewModel(),
+    onTabClick: (MainTab) -> Unit = {},
 ) {
     LaunchedEffect(Unit) {
         recruitmentDetailViewModel.getRecruitmentDetail(partyRecruitmentId = partyRecruitmentId)
@@ -56,7 +57,6 @@ fun RecruitmentDetailRoute(
     val recruitmentDetailState by recruitmentDetailViewModel.recruitmentDetailState.collectAsStateWithLifecycle()
 
     RecruitmentDetailScreen(
-        context = context,
         navController = navController,
         recruitmentDetailState = recruitmentDetailState,
         onManageClick = {
@@ -71,27 +71,25 @@ fun RecruitmentDetailRoute(
                 is RecruitmentDetailAction.OnApply -> { navController.navigate(Screens.PartyApply(partyId = partyId, partyRecruitmentId = partyRecruitmentId)) }
             }
         },
+        onTabClick = onTabClick,
     )
 }
 
 @Composable
 fun RecruitmentDetailScreen(
-    context: Context,
     navController: NavHostController,
     recruitmentDetailState: RecruitmentDetailState,
     onManageClick: () -> Unit,
     onGotoPartyDetail: () -> Unit,
-    onAction: (RecruitmentDetailAction) -> Unit
+    onAction: (RecruitmentDetailAction) -> Unit,
+    onTabClick: (MainTab) -> Unit = {},
 ) {
     val scrollState = rememberScrollState()
 
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentMainTab = backStackEntry.toMainTab()
+
     Scaffold(
-        bottomBar = {
-            BottomNavigationBar(
-                context = context,
-                navController = navController,
-            )
-        },
         topBar = {
             RecruitmentScaffoldArea(
                 recruitmentDetailState = recruitmentDetailState,
@@ -99,7 +97,14 @@ fun RecruitmentDetailScreen(
                 onSharedClick = {},
                 onManageClick = onManageClick,
             )
-        }
+        },
+        bottomBar = {
+            BottomNavigationBar(
+                currentMainTab = currentMainTab,
+                navController = navController,
+                onTabClick = onTabClick
+            )
+        },
     ){
         Column(
             modifier = Modifier
@@ -163,7 +168,6 @@ fun RecruitmentDetailScreen(
 @Composable
 fun RecruitmentDetailScreenPreview1() {
     RecruitmentDetailScreen(
-        context = LocalContext.current,
         navController = rememberNavController(),
         recruitmentDetailState = RecruitmentDetailState(
             partyAuthority = PartyAuthority(id = 0, authority = "member", position = PartyAuthorityPosition(0, "", ""))
@@ -178,7 +182,6 @@ fun RecruitmentDetailScreenPreview1() {
 @Composable
 fun RecruitmentDetailScreenPreview2() {
     RecruitmentDetailScreen(
-        context = LocalContext.current,
         navController = rememberNavController(),
         recruitmentDetailState = RecruitmentDetailState(
             partyAuthority = PartyAuthority(id = 0, authority = "", position = PartyAuthorityPosition(0, "", ""))

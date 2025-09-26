@@ -1,6 +1,5 @@
 package com.party.presentation.screen.search
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,16 +9,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.party.common.MainTab
 import com.party.common.Screens
 import com.party.common.component.BottomNavigationBar
-import com.party.guam.design.MEDIUM_PADDING_SIZE
-import com.party.guam.design.WHITE
+import com.party.common.component.toMainTab
 import com.party.domain.model.room.KeywordModel
 import com.party.domain.model.search.Party
 import com.party.domain.model.search.PartyType
@@ -28,6 +27,8 @@ import com.party.domain.model.search.Search
 import com.party.domain.model.search.SearchedParty
 import com.party.domain.model.search.SearchedPartyRecruitment
 import com.party.domain.model.search.SearchedRecruitmentData
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.WHITE
 import com.party.presentation.screen.search.component.SearchArea
 import com.party.presentation.screen.search.component.keyword.RecentSearchedArea
 import com.party.presentation.screen.search.component.search.SearchedDataContent
@@ -35,9 +36,9 @@ import com.party.presentation.screen.search.viewmodel.SearchViewModel
 
 @Composable
 fun SearchRoute(
-    context: Context,
     navController: NavHostController,
     searchViewModel: SearchViewModel = hiltViewModel(),
+    onTabClick: (MainTab) -> Unit = {},
 ) {
     LaunchedEffect(Unit) {
         searchViewModel.getKeywordList()
@@ -46,22 +47,25 @@ fun SearchRoute(
     val searchState by searchViewModel.searchState.collectAsStateWithLifecycle()
 
     SearchScreen(
-        context = context,
         navController = navController,
         searchState = searchState,
         onAction = { action ->
             searchViewModel.onAction(action)
-        }
+        },
+        onTabClick = onTabClick,
     )
 }
 
 @Composable
 fun SearchScreen(
-    context: Context,
     navController: NavHostController,
     searchState: SearchState,
-    onAction: (SearchAction) -> Unit
+    onAction: (SearchAction) -> Unit,
+    onTabClick: (MainTab) -> Unit = {},
 ) {
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentMainTab = backStackEntry.toMainTab()
+
     Scaffold(
         topBar = {
             SearchArea(
@@ -73,8 +77,9 @@ fun SearchScreen(
         },
         bottomBar = {
             BottomNavigationBar(
-                context = context,
+                currentMainTab = currentMainTab,
                 navController = navController,
+                onTabClick = onTabClick
             )
         }
     ) {
@@ -124,7 +129,6 @@ fun SearchScreen(
 @Composable
 private fun SearchScreenPreview() {
     SearchScreen(
-        context = LocalContext.current,
         navController = rememberNavController(),
         searchState = SearchState(),
         onAction = {}
@@ -135,7 +139,6 @@ private fun SearchScreenPreview() {
 @Composable
 private fun SearchScreenPreview1() {
     SearchScreen(
-        context = LocalContext.current,
         navController = rememberNavController(),
         searchState = SearchState(
             keywordList = listOf(
@@ -152,7 +155,6 @@ private fun SearchScreenPreview1() {
 @Composable
 private fun SearchScreenPreview2() {
     SearchScreen(
-        context = LocalContext.current,
         navController = rememberNavController(),
         searchState = SearchState(
             isShowKeywordArea = false,
@@ -166,7 +168,6 @@ private fun SearchScreenPreview2() {
 @Composable
 private fun SearchScreenPreview3() {
     SearchScreen(
-        context = LocalContext.current,
         navController = rememberNavController(),
         searchState = SearchState(
             isShowKeywordArea = false,

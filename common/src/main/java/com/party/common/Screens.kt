@@ -41,6 +41,8 @@ sealed interface Screens {
     @Serializable
     data object SelectTendencyComplete: Screens
     @Serializable
+    data class Main(val tabName: String = MainTab.Home.name): Screens
+    @Serializable
     data object Home: Screens
     @Serializable
     data object State: Screens
@@ -141,4 +143,27 @@ sealed interface Screens {
     data object Trait4: Screens
     @Serializable
     data object TraitComplete: Screens
+}
+
+@Serializable
+enum class MainTab(
+    val screen: Screens,
+    val tabIcon: Int,
+    val tabName: String,
+) {
+    Home(
+        screen = Screens.Home,
+        tabName = "홈",
+        tabIcon = R.drawable.icon_home,
+    ),
+    Active(
+        screen = Screens.State,
+        tabName = "활동",
+        tabIcon = R.drawable.icon_state,
+    ),
+    Profile(
+        screen = Screens.Profile,
+        tabName = "프로필",
+        tabIcon = R.drawable.icon_profile
+    )
 }

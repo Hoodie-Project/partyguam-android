@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.party.common.MainTab
 import com.party.common.Screens
 import kotlinx.coroutines.delay
 
@@ -36,7 +37,7 @@ fun SplashScreenRoute(
                 }
             }
             accessToken.isNotEmpty() -> {
-                navController.navigate(Screens.Home) {
+                navController.navigate(Screens.Main(tabName = MainTab.Home.name)) {
                     popUpTo(Screens.Splash) { inclusive = true }
                 }
             }

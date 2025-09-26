@@ -1,6 +1,5 @@
 package com.party.presentation.screen.recruitment_preview
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,8 +17,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.party.common.utils.HeightSpacer
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.party.common.MainTab
 import com.party.common.component.BottomNavigationBar
+import com.party.common.component.toMainTab
+import com.party.common.utils.HeightSpacer
 import com.party.common.utils.convertToText
 import com.party.guam.design.GRAY100
 import com.party.guam.design.WHITE
@@ -32,14 +34,14 @@ import com.party.presentation.screen.recruitment_preview.viewmodel.RecruitmentPr
 
 @Composable
 fun RecruitmentPreviewScreenRoute(
-    context: Context,
     navController: NavHostController,
     partyRecruitmentId: Int,
     description: String,
     recruitingCount: Int,
     main: String,
     sub: String,
-    recruitmentPreviewViewModel: RecruitmentPreviewViewModel = hiltViewModel()
+    recruitmentPreviewViewModel: RecruitmentPreviewViewModel = hiltViewModel(),
+    onTabClick: (MainTab) -> Unit = {},
 ) {
     LaunchedEffect(key1 = Unit) {
         recruitmentPreviewViewModel.getRecruitmentDetail(partyRecruitmentId = partyRecruitmentId)
@@ -54,33 +56,35 @@ fun RecruitmentPreviewScreenRoute(
     val state by recruitmentPreviewViewModel.recruitmentPreviewState.collectAsStateWithLifecycle()
 
     RecruitmentPreviewScreen(
-        context = context,
         navController = navController,
         state = state,
-        onNavigationClick = { navController.popBackStack()}
+        onNavigationClick = { navController.popBackStack()},
+        onTabClick = onTabClick,
     )
-
 }
 
 @Composable
 private fun RecruitmentPreviewScreen(
-    context: Context,
     navController: NavHostController,
     state: RecruitmentPreviewState,
     onNavigationClick: () -> Unit,
+    onTabClick: (MainTab) -> Unit = {},
 ) {
     val scrollState = rememberScrollState()
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentMainTab = backStackEntry.toMainTab()
 
     Scaffold(
-        bottomBar = {
-            BottomNavigationBar(
-                context = context,
-                navController = navController,
-            )
-        },
         topBar = {
             RecruitmentPreviewScaffoldArea(
                 onNavigationClick = onNavigationClick
+            )
+        },
+        bottomBar = {
+            BottomNavigationBar(
+                currentMainTab = currentMainTab,
+                navController = navController,
+                onTabClick = onTabClick
             )
         }
     ){

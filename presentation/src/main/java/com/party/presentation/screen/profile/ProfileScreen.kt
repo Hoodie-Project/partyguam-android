@@ -1,6 +1,5 @@
 package com.party.presentation.screen.profile
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,16 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import com.party.common.Screens
 import com.party.common.utils.HeightSpacer
-import com.party.guam.design.MEDIUM_PADDING_SIZE
-import com.party.guam.design.WHITE
 import com.party.domain.model.user.profile.PersonalityOption
 import com.party.domain.model.user.profile.PersonalityQuestion
 import com.party.domain.model.user.profile.UserCareer
@@ -30,8 +26,8 @@ import com.party.domain.model.user.profile.UserPersonality
 import com.party.domain.model.user.profile.UserProfile
 import com.party.domain.model.user.profile.UserProfileLocation
 import com.party.domain.model.user.profile.UserProfilePosition
-import com.party.common.component.BottomNavigationBar
-import com.party.common.Screens
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.WHITE
 import com.party.presentation.enum.DetailProfileCardType
 import com.party.presentation.enum.PersonalityType
 import com.party.presentation.screen.profile.component.DetailProfileSettingArea
@@ -46,7 +42,6 @@ import com.party.presentation.screen.profile.viewmodel.ProfileViewModel
 
 @Composable
 fun ProfileScreenRoute(
-    context: Context,
     navController: NavHostController,
     profileViewModel: ProfileViewModel = hiltViewModel()
 ) {
@@ -57,8 +52,6 @@ fun ProfileScreenRoute(
     val userProfileState by profileViewModel.state.collectAsStateWithLifecycle()
 
     ProfileScreen(
-        context = context,
-        navController = navController,
         userProfileState = userProfileState,
         onGotoNotification = { navController.navigate(Screens.Notification)},
         onGoSetting = { navController.navigate(Screens.ManageAuth) },
@@ -70,8 +63,6 @@ fun ProfileScreenRoute(
 
 @Composable
 private fun ProfileScreen(
-    context: Context,
-    navController: NavHostController,
     userProfileState: UserProfileState,
     onGotoNotification: () -> Unit,
     onGoSetting: () -> Unit,
@@ -88,12 +79,6 @@ private fun ProfileScreen(
                 onGoSetting = onGoSetting,
             )
         },
-        bottomBar = {
-            BottomNavigationBar(
-                context = context,
-                navController = navController,
-            )
-        }
     ){
         Column(
             modifier = Modifier
@@ -174,8 +159,6 @@ private fun ProfileScreen(
 @Composable
 private fun ProfileScreenContentPreview() {
     ProfileScreen(
-        context = LocalContext.current,
-        navController = rememberNavController(),
         userProfileState = UserProfileState(
             userProfile = UserProfile(
                 nickname = "무화과케이크",

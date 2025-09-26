@@ -31,7 +31,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.Screens
-import com.party.common.component.BottomNavigationBar
 import com.party.common.component.dialog.OneButtonDialog
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.floating.NavigateUpFloatingButton
@@ -64,6 +63,13 @@ fun HomeScreenRoute(
     homeViewModel: HomeViewModel = hiltViewModel(),
     onChangeFirstFunc: () -> Unit,
     onRecruitmentItemClick: (Int, Int) -> Unit,
+    onGotoSearch: () -> Unit,
+    onGotoNotification: () -> Unit,
+    onClickBanner: (String) -> Unit,
+    onGotoRecruitmentDetail: (Int, Int) -> Unit,
+    onGotoPartyDetail: (Int) -> Unit,
+    onGoPartyCreate: () -> Unit,
+    onGotoDetailProfile: () -> Unit,
 ) {
     // 릴리즈 빌드일 경우만 적용
     if (!BuildConfig.DEBUG) {
@@ -126,17 +132,15 @@ fun HomeScreenRoute(
         homeState = homeState,
         homeTopTabList = homeTopTabList,
         onRecruitmentItemClick = onRecruitmentItemClick,
-        onGotoSearch = { navController.navigate(Screens.Search) },
-        onGotoNotification = { navController.navigate(Screens.Notification)},
-        onGotoRecruitmentDetail = { partyId, partyRecruitmentId -> navController.navigate(Screens.RecruitmentDetail(partyId = partyId, partyRecruitmentId = partyRecruitmentId)) },
-        onGotoPartyDetail = { partyId -> navController.navigate(Screens.PartyDetail(partyId = partyId)) },
+        onGotoSearch = onGotoSearch,
+        onGotoNotification = onGotoNotification,
+        onGotoRecruitmentDetail = onGotoRecruitmentDetail,
+        onGotoPartyDetail = onGotoPartyDetail,
         onNavigateUp = { homeViewModel.scrollToTop() },
-        onGoPartyCreate = { navController.navigate(Screens.PartyCreate) },
-        onGotoDetailProfile = {navController.navigate(route = Screens.HomeDetailProfileLocation ) },
-        onClickBanner = { navController.navigate(Screens.WebView(webViewUrl = it))},
-        onAction = { action ->
-            homeViewModel.onAction(action)
-        }
+        onGoPartyCreate = onGoPartyCreate,
+        onGotoDetailProfile = onGotoDetailProfile,
+        onClickBanner = onClickBanner,
+        onAction = { action -> homeViewModel.onAction(action) }
     )
 }
 
@@ -160,8 +164,6 @@ private fun HomeScreen(
     onClickBanner: (String) -> Unit,
     onAction: (HomeAction) -> Unit,
 ){
-    val bottomBarHeight = 56.dp // BottomNavigationBar 기본 높이
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -175,16 +177,6 @@ private fun HomeScreen(
             snackbarHost = {
                 SnackbarHost(
                     hostState = snackBarHostState,
-                )
-            },
-            bottomBar = {
-                BottomNavigationBar(
-                    context = context,
-                    navController = navController,
-                    isExpandedFloatingButton = homeState.isExpandedFloating,
-                    onResetHome = {
-                        onAction(HomeAction.OnTabClick(tabText = homeTopTabList[0]))
-                    }
                 )
             },
         ) {
@@ -259,7 +251,7 @@ private fun HomeScreen(
         HomeFloatingArea(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(bottom = bottomBarHeight + 20.dp, end = 20.dp)
+                .padding(bottom = 20.dp, end = 20.dp)
                 .zIndex(1f),
             isExpandedFloatingButton = homeState.isExpandedFloating,
             partyCreateFloating = {

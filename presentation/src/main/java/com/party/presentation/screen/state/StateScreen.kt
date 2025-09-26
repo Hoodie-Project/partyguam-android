@@ -1,6 +1,5 @@
 package com.party.presentation.screen.state
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,16 +16,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.party.common.Screens
-import com.party.common.component.BottomNavigationBar
 import com.party.common.component.floating.NavigateUpFloatingButton
 import com.party.common.component.floating.PartyCreateFloatingButton
 import com.party.common.component.stateTabList
@@ -55,7 +51,6 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun StateScreenRoute(
-    context: Context,
     navController: NavHostController,
     stateViewModel: StateViewModel = hiltViewModel(),
 ) {
@@ -63,7 +58,7 @@ fun StateScreenRoute(
         stateViewModel.getMyRecruitment(1, 50, SortType.CREATED_AT.type, OrderDescType.DESC.type)
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(key1 = Unit) {
         stateViewModel.successCancel.collectLatest {
             stateViewModel.getMyRecruitment(1, 50, SortType.CREATED_AT.type, OrderDescType.DESC.type)
         }
@@ -87,15 +82,13 @@ fun StateScreenRoute(
         stateViewModel.getMyParty(1, 50, SortType.CREATED_AT.type, OrderDescType.DESC.type, status = status)
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(key1 = Unit) {
         stateViewModel.scrollToUp.collectLatest {
             listState.animateScrollToItem(0)
         }
     }
 
     StateScreen(
-        context = context,
-        navController = navController,
         selectedTabText = myPartyState.selectedTabText,
         myPartyState = myPartyState,
         listState = listState,
@@ -112,8 +105,6 @@ fun StateScreenRoute(
 
 @Composable
 private fun StateScreen(
-    context: Context,
-    navController: NavHostController,
     selectedTabText: String,
     myPartyState: MyPartyState,
     listState: LazyListState,
@@ -124,8 +115,6 @@ private fun StateScreen(
     onNavigateUp: () -> Unit,
     onMyPartyCardClick: (Int) -> Unit,
 ) {
-    val bottomBarHeight = 56.dp // BottomNavigationBar 기본 높이
-
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -141,16 +130,9 @@ private fun StateScreen(
                     onGoToAlarm = onGotoNotification,
                 )
             },
-            bottomBar = {
-                BottomNavigationBar(
-                    context = context,
-                    navController = navController,
-                )
-            },
         ) {
             Column(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .background(WHITE)
                     .padding(it)
@@ -189,7 +171,7 @@ private fun StateScreen(
         StateFloatingArea(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(bottom = bottomBarHeight + 20.dp, end = 20.dp)
+                .padding(bottom = 20.dp, end = 20.dp)
                 .zIndex(1f),
             isExpandedFloatingButton = myPartyState.isExpandedFloating,
             partyCreateFloating = {
@@ -231,8 +213,6 @@ private fun StateScreen(
 private fun StateScreenContentPreview() {
     StateScreen(
         listState = LazyListState(),
-        context = LocalContext.current,
-        navController = rememberNavController(),
         selectedTabText = stateTabList[0],
         myPartyState = MyPartyState(
             isExpandedFloating = false,
@@ -273,8 +253,6 @@ private fun StateScreenContentPreview() {
 private fun StateScreenContentPreview2() {
     StateScreen(
         listState = LazyListState(),
-        context = LocalContext.current,
-        navController = rememberNavController(),
         selectedTabText = stateTabList[1],
         myPartyState = MyPartyState(
             isExpandedFloating = false,

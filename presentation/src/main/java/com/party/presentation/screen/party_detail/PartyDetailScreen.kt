@@ -1,6 +1,5 @@
 package com.party.presentation.screen.party_detail
 
-import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -22,12 +21,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.party.common.MainTab
 import com.party.common.Screens
 import com.party.common.component.BottomNavigationBar
 import com.party.common.component.bottomsheet.MoreBottomSheet
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.partyDetailTabList
+import com.party.common.component.toMainTab
 import com.party.common.utils.noRippleClickable
 import com.party.common.utils.snackBarMessage
 import com.party.domain.model.party.PartyDetail
@@ -43,17 +45,16 @@ import com.party.presentation.screen.party_detail.component.PartyDetailArea
 import com.party.presentation.screen.party_detail.component.PartyDetailScaffoldArea
 import com.party.presentation.screen.party_detail.component.RightModalDrawer
 import com.party.presentation.screen.party_detail.viewmodel.PartyViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
 fun PartyDetailRoute(
-    context: Context,
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
     partyViewModel: PartyViewModel = hiltViewModel(),
     partyId: Int,
+    onTabClick: (MainTab) -> Unit = {},
 ) {
     val context1 = LocalContext.current
     LaunchedEffect(Unit) {
@@ -80,7 +81,6 @@ fun PartyDetailRoute(
         drawerState = drawerState,
         content = {
             PartyDetailScreen(
-                context = context,
                 navController = navController,
                 snackBarHostState = snackBarHostState,
                 partyId = partyId,
@@ -108,7 +108,8 @@ fun PartyDetailRoute(
                 },
                 onReports = { userId -> navController.navigate(Screens.Reports(typeId = userId))},
                 onPartyReports = { partyId -> navController.navigate(Screens.Reports(typeId = partyId))},
-                onClickRecruitment = {partyRecruitmentId -> navController.navigate(Screens.RecruitmentDetail(partyId = partyId, partyRecruitmentId = partyRecruitmentId))}
+                onClickRecruitment = {partyRecruitmentId -> navController.navigate(Screens.RecruitmentDetail(partyId = partyId, partyRecruitmentId = partyRecruitmentId))},
+                onTabClick = onTabClick,
             )
         },
         onGotoPartyEdit = {
@@ -140,7 +141,6 @@ fun PartyDetailRoute(
 
 @Composable
 private fun PartyDetailScreen(
-    context: Context,
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
     partyId: Int,
@@ -153,7 +153,11 @@ private fun PartyDetailScreen(
     onReports: (Int) -> Unit,
     onPartyReports: (Int) -> Unit,
     onClickRecruitment: (Int) -> Unit,
+    onTabClick: (MainTab) -> Unit = {},
 ){
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentMainTab = backStackEntry.toMainTab()
+
     Scaffold(
         snackbarHost = {
             SnackbarHost(
@@ -162,8 +166,9 @@ private fun PartyDetailScreen(
         },
         bottomBar = {
             BottomNavigationBar(
-                context = context,
+                currentMainTab = currentMainTab,
                 navController = navController,
+                onTabClick = onTabClick
             )
         },
         topBar = {
@@ -245,7 +250,6 @@ private fun PartyDetailScreen(
 @Composable
 private fun PartyDetailScreenPreview() {
     PartyDetailScreen(
-        context = LocalContext.current,
         navController = rememberNavController(),
         snackBarHostState = SnackbarHostState(),
         partyId = 1,
@@ -277,7 +281,6 @@ private fun PartyDetailScreenPreview() {
 @Composable
 private fun PartyDetailScreenPreview2() {
     PartyDetailScreen(
-        context = LocalContext.current,
         navController = rememberNavController(),
         snackBarHostState = SnackbarHostState(),
         partyId = 1,
