@@ -26,6 +26,7 @@ import androidx.navigation.NavHostController
 import com.party.common.R
 import com.party.common.Screens
 import com.party.common.component.dialog.TwoButtonDialog
+import com.party.common.component.snackbar.CustomSnackBar
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.ProfileIndicatorArea
 import com.party.common.utils.ScreenExplainArea
@@ -106,7 +107,14 @@ private fun HomeDetailTraitScreen2(
 ) {
     Scaffold(
         snackbarHost = {
-            SnackbarHost(snackBarHostState)
+            SnackbarHost(
+                hostState = snackBarHostState,
+                snackbar = { data ->
+                    CustomSnackBar(
+                        message = data.visuals.message
+                    )
+                }
+            )
         },
         topBar = {
             SelectTendencyScaffoldArea(

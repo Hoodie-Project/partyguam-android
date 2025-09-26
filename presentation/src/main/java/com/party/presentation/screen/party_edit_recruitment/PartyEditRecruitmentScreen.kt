@@ -25,19 +25,19 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.party.common.utils.HeightSpacer
 import com.party.common.Screens
 import com.party.common.component.bottomsheet.RecruitmentCompletedAndDeleteBottomSheet
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.partyRecruitmentEditTabList
+import com.party.common.component.snackbar.CustomSnackBar
+import com.party.common.utils.HeightSpacer
 import com.party.common.utils.noRippleClickable
-import com.party.common.utils.snackBarMessage
+import com.party.domain.model.party.PartyRecruitment
+import com.party.domain.model.party.Position1
 import com.party.guam.design.BLACK
 import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.RED
 import com.party.guam.design.WHITE
-import com.party.domain.model.party.PartyRecruitment
-import com.party.domain.model.party.Position1
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.enum.SortType
 import com.party.presentation.screen.party_detail.component.RightModalDrawer
@@ -64,14 +64,14 @@ fun PartyEditRecruitmentScreenRoute(
 
     LaunchedEffect(key1 = Unit) {
         partyRecruitmentEditViewModel.completedSuccess.collectLatest {
-            snackBarMessage(snackBarHostState, "모집공고가 마감되었어요.")
+            snackBarHostState.showSnackbar("모집공고가 마감되었어요.")
             partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = SortType.CREATED_AT.type, order = OrderDescType.DESC.type, main = null)
         }
     }
 
     LaunchedEffect(key1 = Unit) {
         partyRecruitmentEditViewModel.deleteRecruitment.collectLatest {
-            snackBarMessage(snackBarHostState, "모집공고가 삭제되었어요.")
+            snackBarHostState.showSnackbar("모집공고가 삭제되었어요.")
             partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = SortType.CREATED_AT.type, order = OrderDescType.DESC.type, main = null)
         }
     }
@@ -172,6 +172,11 @@ private fun PartyEditRecruitmentScreen(
             snackbarHost = {
                 SnackbarHost(
                     hostState = snackBarHostState,
+                    snackbar = { data ->
+                        CustomSnackBar(
+                            message = data.visuals.message
+                        )
+                    }
                 )
             },
             topBar = {

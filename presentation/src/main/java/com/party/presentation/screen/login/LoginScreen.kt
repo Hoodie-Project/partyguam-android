@@ -24,12 +24,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
-import com.party.common.utils.HeightSpacer
 import com.party.common.R
-import com.party.common.utils.ScreenExplainArea
 import com.party.common.Screens
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.ScreenExplainArea
 import com.party.common.utils.makeAccessToken
-import com.party.common.utils.snackBarMessage
 import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.WHITE
 import com.party.presentation.screen.login.component.LoginButtonArea
@@ -41,13 +40,11 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun LoginScreenRoute(
     context: Context,
-    snackBarHostState: SnackbarHostState,
     navController: NavHostController,
     loginViewModel: LoginViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(key1 = Unit) {
         loginViewModel.nextScreen.collectLatest { loginFailure ->
-            //snackBarMessage(snackBarHostState, it.message)
 
             navController.navigate(
                 route = Screens.Join(
@@ -61,7 +58,6 @@ fun LoginScreenRoute(
     LaunchedEffect(key1 = Unit) {
         loginViewModel.goToHomeScreen.collectLatest {
             navController.navigate(Screens.Home)
-            //navController.navigate(Screens.SelectTendency1)
         }
     }
 

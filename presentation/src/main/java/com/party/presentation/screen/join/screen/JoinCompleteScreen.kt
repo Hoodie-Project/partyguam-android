@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.party.common.Screens
+import com.party.common.component.snackbar.CustomSnackBar
 import com.party.common.utils.HeightSpacer
 import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.T1
@@ -49,7 +50,16 @@ private fun JoinCompleteScreen(
         modifier = Modifier
             .fillMaxSize()
         ,
-        snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackBarHostState,
+                snackbar = { data ->
+                    CustomSnackBar(
+                        message = data.visuals.message
+                    )
+                }
+            )
+        },
     ){
         Column(
             modifier = Modifier

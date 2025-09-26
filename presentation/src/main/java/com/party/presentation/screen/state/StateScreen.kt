@@ -51,8 +51,11 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun StateScreenRoute(
-    navController: NavHostController,
     stateViewModel: StateViewModel = hiltViewModel(),
+    onGoToSearch: () -> Unit,
+    onGotoNotification: () -> Unit,
+    onGoPartyCreate: () -> Unit,
+    onGotoPartyDetail: (Int) -> Unit
 ) {
     LaunchedEffect(key1 = Unit) {
         stateViewModel.getMyRecruitment(1, 50, SortType.CREATED_AT.type, OrderDescType.DESC.type)
@@ -95,11 +98,11 @@ fun StateScreenRoute(
         onAction = { action ->
             stateViewModel.onAction(action = action)
         },
-        onGoToSearch = { navController.navigate(Screens.Search) },
-        onGotoNotification = { navController.navigate(Screens.Notification)},
-        onGoPartyCreate = { navController.navigate(Screens.PartyCreate) },
+        onGoToSearch = onGoToSearch,
+        onGotoNotification = onGotoNotification,
+        onGoPartyCreate = onGoPartyCreate,
         onNavigateUp = { stateViewModel.scrollToTopFun()},
-        onMyPartyCardClick = { navController.navigate(Screens.PartyDetail(partyId = it))}
+        onMyPartyCardClick = onGotoPartyDetail
     )
 }
 

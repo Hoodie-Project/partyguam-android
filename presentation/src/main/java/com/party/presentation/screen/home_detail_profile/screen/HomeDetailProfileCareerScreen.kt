@@ -19,21 +19,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.party.common.R
 import com.party.common.Screens
 import com.party.common.component.dialog.TwoButtonDialog
+import com.party.common.component.snackbar.CustomSnackBar
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.ProfileIndicatorArea
 import com.party.common.utils.ScreenExplainArea
 import com.party.common.utils.StepInfo
 import com.party.common.utils.StepStatus
 import com.party.common.utils.TextComponent
-import com.party.common.utils.snackBarMessage
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
-import com.party.guam.design.GRAY100
 import com.party.guam.design.GRAY400
 import com.party.guam.design.GRAY500
 import com.party.guam.design.LIGHT400
@@ -41,9 +39,7 @@ import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.PRIMARY
 import com.party.guam.design.WHITE
 import com.party.presentation.screen.detail.DetailProfileNextButton
-import com.party.presentation.screen.detail.ProfileIndicatorArea
 import com.party.presentation.screen.detail.detail_carrier.component.DetailCarrierScaffoldArea
-import com.party.presentation.screen.detail.detail_profile.SELECTED_LOCATION_COUNT
 import com.party.presentation.screen.home_detail_profile.action.HomeDetailProfileAction
 import com.party.presentation.screen.home_detail_profile.component.PositionSection
 import com.party.presentation.screen.home_detail_profile.state.HomeDetailProfileState
@@ -66,7 +62,7 @@ fun HomeDetailProfileCareerRoute(
 
     LaunchedEffect(key1 = Unit) {
         viewModel.existSavedData.collectLatest {
-            snackBarMessage(snackBarHostState, "이미 저장된 데이터가 있습니다.")
+            snackBarHostState.showSnackbar("이미 저장된 데이터가 있습니다.")
         }
     }
 
@@ -119,6 +115,11 @@ private fun HomeDetailProfileCareerScreen(
         snackbarHost = {
             SnackbarHost(
                 hostState = snackBarHostState,
+                snackbar = { data ->
+                    CustomSnackBar(
+                        message = data.visuals.message
+                    )
+                }
             )
         },
         topBar = {

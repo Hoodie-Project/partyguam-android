@@ -27,13 +27,13 @@ import androidx.navigation.NavHostController
 import com.party.common.R
 import com.party.common.Screens
 import com.party.common.component.dialog.TwoButtonDialog
+import com.party.common.component.snackbar.CustomSnackBar
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.ProfileIndicatorArea
 import com.party.common.utils.ScreenExplainArea
 import com.party.common.utils.StepInfo
 import com.party.common.utils.StepStatus
 import com.party.common.utils.TextComponent
-import com.party.common.utils.snackBarMessage
 import com.party.domain.model.user.detail.PersonalityList
 import com.party.domain.model.user.detail.PersonalityListOption
 import com.party.guam.design.B2
@@ -48,7 +48,6 @@ import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.PRIMARY
 import com.party.guam.design.WHITE
 import com.party.presentation.screen.detail.DetailProfileNextButton
-import com.party.presentation.screen.detail.ProfileIndicatorArea
 import com.party.presentation.screen.detail.select_tendency.component.SelectTendencyScaffoldArea
 import com.party.presentation.screen.home_detail_profile.action.HomeDetailProfileAction
 import com.party.presentation.screen.home_detail_profile.component.TraitCard
@@ -66,7 +65,7 @@ fun HomeDetailTraitRoute1(
 
     LaunchedEffect(key1 = Unit) {
         viewModel.traitLimitExceeded.collectLatest {
-            snackBarMessage(snackBarHostState, it )
+            snackBarHostState.showSnackbar(it)
         }
     }
 
@@ -115,7 +114,14 @@ private fun HomeDetailTraitScreen1(
 ) {
     Scaffold(
         snackbarHost = {
-            SnackbarHost(snackBarHostState)
+            SnackbarHost(
+                hostState = snackBarHostState,
+                snackbar = { data ->
+                    CustomSnackBar(
+                        message = data.visuals.message
+                    )
+                }
+            )
         },
         topBar = {
             SelectTendencyScaffoldArea(

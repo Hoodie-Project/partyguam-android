@@ -43,7 +43,11 @@ import com.party.presentation.screen.profile.viewmodel.ProfileViewModel
 @Composable
 fun ProfileScreenRoute(
     navController: NavHostController,
-    profileViewModel: ProfileViewModel = hiltViewModel()
+    profileViewModel: ProfileViewModel = hiltViewModel(),
+    onGotoNotification: () -> Unit,
+    onGoSetting: () -> Unit,
+    onGotoPartyDetail: (Int) -> Unit,
+    onGotoProfileEdit: () -> Unit,
 ) {
     LaunchedEffect(Unit) {
         profileViewModel.getUserProfile()
@@ -53,10 +57,10 @@ fun ProfileScreenRoute(
 
     ProfileScreen(
         userProfileState = userProfileState,
-        onGotoNotification = { navController.navigate(Screens.Notification)},
-        onGoSetting = { navController.navigate(Screens.ManageAuth) },
-        onMyPageCardClick = { partyId -> navController.navigate(Screens.PartyDetail(partyId)) },
-        onProfileEditClick = { navController.navigate(Screens.ProfileEdit) },
+        onGotoNotification = onGotoNotification,
+        onGoSetting = onGoSetting,
+        onMyPageCardClick = onGotoPartyDetail,
+        onProfileEditClick = onGotoProfileEdit,
         onClick = { screens -> navController.navigate(screens) }
     )
 }

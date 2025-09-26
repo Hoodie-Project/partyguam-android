@@ -33,6 +33,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.Screens
 import com.party.common.component.button.CustomButton
+import com.party.common.component.snackbar.CustomSnackBar
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.ScreenExplainArea
 import com.party.guam.design.B2
@@ -128,7 +129,16 @@ private fun JoinNickNameScreen(
 
     Scaffold(
         contentWindowInsets = WindowInsets(0),
-        snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackBarHostState,
+                snackbar = { data ->
+                    CustomSnackBar(
+                        message = data.visuals.message
+                    )
+                }
+            )
+        },
         topBar = {
             JoinTitleSection(
                 onNavigateBack = onNavigateBack,

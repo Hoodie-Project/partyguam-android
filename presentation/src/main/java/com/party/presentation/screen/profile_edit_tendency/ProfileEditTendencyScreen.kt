@@ -19,10 +19,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.party.common.utils.HeightSpacer
 import com.party.common.component.button.CustomButton
 import com.party.common.component.profileEditTendencyTabList
-import com.party.common.utils.snackBarMessage
+import com.party.common.component.snackbar.CustomSnackBar
+import com.party.common.utils.HeightSpacer
 import com.party.guam.design.BLACK
 import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.PRIMARY
@@ -46,19 +46,19 @@ fun ProfileEditTendencyScreenRoute(
 
     LaunchedEffect(key1 = Unit) {
         profileEditTendencyViewModel.twoOverWarning.collectLatest {
-            snackBarMessage(snackBarHostState, "최대 2개까지 선택 가능합니다.")
+            snackBarHostState.showSnackbar("최대 2개까지 선택 가능합니다.")
         }
     }
 
     LaunchedEffect(key1 = Unit) {
         profileEditTendencyViewModel.oneOverWarning.collectLatest {
-            snackBarMessage(snackBarHostState, "최대 1개까지 선택 가능합니다.")
+            snackBarHostState.showSnackbar("최대 1개까지 선택 가능합니다.")
         }
     }
 
     LaunchedEffect(key1 = Unit) {
         profileEditTendencyViewModel.modifySuccess.collectLatest {
-            snackBarMessage(snackBarHostState, "수정되었습니다.")
+            snackBarHostState.showSnackbar("수정되었습니다")
             navController.popBackStack()
         }
     }
@@ -97,6 +97,11 @@ private fun ProfileEditTendencyScreen(
         snackbarHost = {
             SnackbarHost(
                 hostState = snackBarHostState,
+                snackbar = { data ->
+                    CustomSnackBar(
+                        message = data.visuals.message
+                    )
+                }
             )
         },
         topBar = {

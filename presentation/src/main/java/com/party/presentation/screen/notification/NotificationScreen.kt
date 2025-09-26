@@ -14,7 +14,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.component.bottomsheet.NotificationDeleteBottomSheet
-import com.party.common.utils.snackBarMessage
 import com.party.guam.design.WHITE
 import com.party.presentation.screen.notification.component.NotificationDescriptionArea
 import com.party.presentation.screen.notification.component.NotificationListArea
@@ -38,7 +37,7 @@ fun NotificationScreenRoute(
                 type = if(state.selectedTab == "전체") null else if(state.selectedTab == "파티 활동") "party" else "recruit"
             )
 
-            snackBarMessage(snackBarHostState = snackBarHostState, message = "알림이 삭제되었어요.")
+            snackBarHostState.showSnackbar("알림이 삭제되었어요.")
         }
     }
 

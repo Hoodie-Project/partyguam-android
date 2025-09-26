@@ -166,7 +166,6 @@ fun AppNavHost() {
                 LoginScreenRoute(
                     navController = navController,
                     context = context,
-                    snackBarHostState = snackBarHostState
                 )
             }
             joinGraph(
@@ -241,7 +240,9 @@ fun AppNavHost() {
                     onGotoRecruitmentDetail = { partyId, partyRecruitmentId -> navController.navigate(Screens.RecruitmentDetail(partyId = partyId, partyRecruitmentId = partyRecruitmentId)) },
                     onGotoPartyDetail = { partyId -> navController.navigate(Screens.PartyDetail(partyId = partyId)) },
                     onGoPartyCreate = { navController.navigate(route = Screens.PartyCreate)},
-                    onGotoDetailProfile = { navController.navigate(route = Screens.HomeDetailProfile)}
+                    onGotoDetailProfile = { navController.navigate(route = Screens.HomeDetailProfile)},
+                    onGoSetting = { navController.navigate(route = Screens.ManageAuth) },
+                    onGotoProfileEdit = { navController.navigate(route = Screens.ProfileEdit)}
                 )
             }
             composable<Screens.RecruitmentDetail> { backStackEntry ->

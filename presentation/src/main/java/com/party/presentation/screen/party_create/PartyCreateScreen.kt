@@ -37,6 +37,7 @@ import com.party.common.component.bottomsheet.list.partyTypeList
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.MultiLineInputField
+import com.party.common.component.snackbar.CustomSnackBar
 import com.party.guam.design.BLACK
 import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.WHITE
@@ -145,6 +146,11 @@ private fun PartyCreateScreen(
         snackbarHost = {
             SnackbarHost(
                 hostState = snackBarHostState,
+                snackbar = { data ->
+                    CustomSnackBar(
+                        message = data.visuals.message
+                    )
+                }
             )
         },
         topBar = {

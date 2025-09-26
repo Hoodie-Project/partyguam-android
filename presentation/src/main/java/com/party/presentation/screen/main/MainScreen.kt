@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,8 +33,8 @@ import com.party.common.MainTab
 import com.party.common.Screens
 import com.party.common.component.BottomNavigationBar
 import com.party.common.component.homeTopTabList
+import com.party.common.component.snackbar.CustomSnackBar
 import com.party.common.component.toMainTab
-import com.party.common.utils.snackBarMessage
 import com.party.guam.design.WHITE
 import com.party.presentation.ANIMATION_DURATION
 import com.party.presentation.screen.home.HomeScreenRoute
@@ -54,6 +55,8 @@ fun MainScreen(
     onGotoPartyDetail: (Int) -> Unit,
     onGoPartyCreate: () -> Unit,
     onGotoDetailProfile: () -> Unit,
+    onGoSetting: () -> Unit,
+    onGotoProfileEdit: () -> Unit,
 ) {
     val context = LocalContext.current
     val navController = rememberNavController()
@@ -78,7 +81,7 @@ fun MainScreen(
             // 첫 번째 누름 - 스낵바 메시지 표시
             backPressedOnce = true
             coroutineScope.launch {
-                snackBarMessage(snackBarHostState, "한 번 더 누르면 앱이 종료됩니다.")
+                snackBarHostState.showSnackbar("한 번 더 누르면 앱이 종료됩니다.")
                 delay(2000) // 2초 후 상태 리셋
                 backPressedOnce = false
             }
@@ -94,8 +97,17 @@ fun MainScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(WHITE)
-
             ,
+            snackbarHost = {
+                SnackbarHost(
+                    hostState = snackBarHostState,
+                    snackbar = { data ->
+                        CustomSnackBar(
+                            message = data.visuals.message
+                        )
+                    }
+                )
+            },
             bottomBar = {
                 BottomNavigationBar(
                     currentMainTab = currentMainTab,
@@ -116,7 +128,6 @@ fun MainScreen(
                 context = context,
                 isFirstActiveFunc = isFirstActiveFunc,
                 onChangeFirstFunc = onChangeFirstFunc,
-                snackBarHostState = snackBarHostState,
                 tabName = tabName,
                 navController = navController,
                 paddingValues = paddingValues,
@@ -127,6 +138,8 @@ fun MainScreen(
                 onGotoPartyDetail = onGotoPartyDetail,
                 onGoPartyCreate = onGoPartyCreate,
                 onGotoDetailProfile = onGotoDetailProfile,
+                onGoSetting = onGoSetting,
+                onGotoProfileEdit = onGotoProfileEdit
             )
         }
     }
@@ -137,7 +150,6 @@ private fun BottomBarGraph(
     context: Context,
     isFirstActiveFunc: Boolean,
     onChangeFirstFunc: (Boolean) -> Unit,
-    snackBarHostState: SnackbarHostState,
     tabName: String,
     navController: NavHostController,
     paddingValues: PaddingValues,
@@ -148,6 +160,8 @@ private fun BottomBarGraph(
     onGotoPartyDetail: (Int) -> Unit,
     onGoPartyCreate: () -> Unit,
     onGotoDetailProfile: () -> Unit,
+    onGoSetting: () -> Unit,
+    onGotoProfileEdit: () -> Unit,
 ){
     LaunchedEffect(tabName) {
         val target = when (tabName) {
@@ -201,7 +215,6 @@ private fun BottomBarGraph(
             composable<Screens.Home> {
                 HomeScreenRoute(
                     context = context,
-                    snackBarHostState = snackBarHostState,
                     homeTopTabList = homeTopTabList,
                     isFirstActiveFunc = isFirstActiveFunc,
                     onChangeFirstFunc = { onChangeFirstFunc(false)},
@@ -216,12 +229,19 @@ private fun BottomBarGraph(
             }
             composable<Screens.State> {
                 StateScreenRoute(
-                    navController = navController,
+                    onGoToSearch = onGotoSearch,
+                    onGotoNotification = onGotoNotification,
+                    onGoPartyCreate = onGoPartyCreate,
+                    onGotoPartyDetail = onGotoPartyDetail,
                 )
             }
             composable<Screens.Profile> {
                 ProfileScreenRoute(
                     navController = navController,
+                    onGotoNotification = onGotoNotification,
+                    onGoSetting = onGoSetting,
+                    onGotoPartyDetail = onGotoPartyDetail,
+                    onGotoProfileEdit = onGotoProfileEdit
                 )
             }
         }

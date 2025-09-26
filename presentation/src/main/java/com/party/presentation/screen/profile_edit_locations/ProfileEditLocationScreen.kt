@@ -19,11 +19,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.component.button.ResetAndApplyButtonArea
-import com.party.guam.design.MEDIUM_PADDING_SIZE
-import com.party.guam.design.WHITE
+import com.party.common.component.snackbar.CustomSnackBar
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.ScreenExplainArea
-import com.party.common.utils.snackBarMessage
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.WHITE
 import com.party.presentation.screen.profile_edit_locations.component.ProfileEditLocationScaffoldArea
 import com.party.presentation.screen.profile_edit_locations.component.ProfileEditSelectLocationArea
 import com.party.presentation.screen.profile_edit_locations.component.SelectedProvinceAndLocationArea
@@ -38,7 +38,7 @@ fun ProfileEditLocationScreenRoute(
 ) {
     LaunchedEffect(key1 = Unit) {
         profileEditLocationViewModel.fourth.collectLatest {
-            snackBarMessage(snackBarHostState, "최대 3개까지 선택할 수 있어요.")
+            snackBarHostState.showSnackbar("최대 3개까지 선택할 수 있어요.")
         }
     }
 
@@ -74,7 +74,16 @@ private fun ProfileEditLocationScreen(
     onAction: (ProfileEditLocationAction) -> Unit,
 ) {
     Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackBarHostState,
+                snackbar = { data ->
+                    CustomSnackBar(
+                        message = data.visuals.message
+                    )
+                }
+            )
+        },
         topBar = {
             ProfileEditLocationScaffoldArea(
                 onNavigationClick = onNavigationClick

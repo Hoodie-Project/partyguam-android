@@ -15,8 +15,6 @@ import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -29,8 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
-import com.party.common.Screens
 import com.party.common.component.dialog.OneButtonDialog
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.floating.NavigateUpFloatingButton
@@ -56,7 +52,6 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun HomeScreenRoute(
     context: Context,
-    snackBarHostState: SnackbarHostState,
     homeTopTabList: List<String>,
     isFirstActiveFunc: Boolean,
     homeViewModel: HomeViewModel = hiltViewModel(),
@@ -123,7 +118,6 @@ fun HomeScreenRoute(
 
     HomeScreen(
         context = context,
-        snackBarHostState = snackBarHostState,
         listState = listState,
         gridState = gridState,
         homeState = homeState,
@@ -143,7 +137,6 @@ fun HomeScreenRoute(
 @Composable
 private fun HomeScreen(
     context: Context,
-    snackBarHostState: SnackbarHostState,
     listState: LazyListState,
     gridState: LazyGridState,
     homeState: HomeState,
@@ -168,11 +161,6 @@ private fun HomeScreen(
                     radiusX = if (homeState.isExpandedFloating || homeState.isShowForceUpdateDialog || homeState.isShowChoiceUpdateDialog) 10.dp else 0.dp,
                     radiusY = if (homeState.isExpandedFloating || homeState.isShowForceUpdateDialog || homeState.isShowChoiceUpdateDialog) 10.dp else 0.dp,
                 ),
-            snackbarHost = {
-                SnackbarHost(
-                    hostState = snackBarHostState,
-                )
-            },
         ) {
             Column(
                 modifier = Modifier

@@ -29,9 +29,9 @@ import com.party.common.component.BottomNavigationBar
 import com.party.common.component.bottomsheet.MoreBottomSheet
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.partyDetailTabList
+import com.party.common.component.snackbar.CustomSnackBar
 import com.party.common.component.toMainTab
 import com.party.common.utils.noRippleClickable
-import com.party.common.utils.snackBarMessage
 import com.party.domain.model.party.PartyDetail
 import com.party.domain.model.party.PartyType
 import com.party.domain.model.user.PartyAuthority
@@ -66,7 +66,7 @@ fun PartyDetailRoute(
 
     LaunchedEffect(key1 = Unit) {
         partyViewModel.successExitParty.collectLatest {
-            snackBarMessage(snackBarHostState, "파티를 떠났어요")
+            snackBarHostState.showSnackbar("파티를 떠났어요")
             navController.popBackStack()
         }
     }
@@ -162,6 +162,11 @@ private fun PartyDetailScreen(
         snackbarHost = {
             SnackbarHost(
                 hostState = snackBarHostState,
+                snackbar = { data ->
+                    CustomSnackBar(
+                        message = data.visuals.message
+                    )
+                }
             )
         },
         bottomBar = {

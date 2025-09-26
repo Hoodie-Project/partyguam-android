@@ -25,6 +25,7 @@ import androidx.navigation.NavController
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.LoadingProgressBar
 import com.party.common.component.dialog.TwoButtonDialog
+import com.party.common.component.snackbar.CustomSnackBar
 import com.party.guam.design.BLACK
 import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.WHITE
@@ -110,6 +111,11 @@ fun PartyApplyScreen(
         snackbarHost = {
             SnackbarHost(
                 hostState = snackBarHostState,
+                snackbar = { data ->
+                    CustomSnackBar(
+                        message = data.visuals.message
+                    )
+                }
             )
         },
         topBar = {

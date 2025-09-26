@@ -21,20 +21,20 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.party.common.utils.HeightSpacer
+import com.party.common.Screens
 import com.party.common.component.bottomsheet.NoButtonAndGotoScreenBottomSheet
 import com.party.common.component.bottomsheet.partyMasterManageList
 import com.party.common.component.bottomsheet.partyMemberManageList
 import com.party.common.component.dialog.TwoButtonDialog
+import com.party.common.component.snackbar.CustomSnackBar
+import com.party.common.utils.HeightSpacer
 import com.party.common.utils.noRippleClickable
-import com.party.common.utils.snackBarMessage
-import com.party.guam.design.BLACK
-import com.party.guam.design.MEDIUM_PADDING_SIZE
-import com.party.guam.design.WHITE
 import com.party.domain.model.party.PartyMemberInfo
 import com.party.domain.model.party.PartyMemberPosition
 import com.party.domain.model.party.PartyUserInfo
-import com.party.common.Screens
+import com.party.guam.design.BLACK
+import com.party.guam.design.MEDIUM_PADDING_SIZE
+import com.party.guam.design.WHITE
 import com.party.presentation.component.bottomsheet.OneSelectMainAndSubPositionBottomSheet
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.enum.PartyAuthorityType
@@ -70,28 +70,28 @@ fun PartyUserManageScreenRoute(
 
     LaunchedEffect(Unit) {
         partyUserViewModel.errorFlow.collectLatest { errorMessage ->
-            snackBarMessage(snackBarHostState, errorMessage)
+            snackBarHostState.showSnackbar(errorMessage)
         }
     }
 
     // 포지션 변경 성공
     LaunchedEffect(key1 = Unit) {
         partyUserViewModel.modifySuccessFlow.collectLatest {
-            snackBarMessage(snackBarHostState, "포지션이 변경되었어요.")
+            snackBarHostState.showSnackbar("포지션이 변경되었어요.")
         }
     }
 
     // 파티원 내보내기 성공
     LaunchedEffect(key1 = Unit) {
         partyUserViewModel.deleteSuccessFlow.collectLatest {
-            snackBarMessage(snackBarHostState, "파티원을 내보냈어요.")
+            snackBarHostState.showSnackbar("파티원을 내보냈어요.")
         }
     }
 
     // 파티장 위임하기 성공
     LaunchedEffect(key1 = Unit) {
         partyUserViewModel.delegateMasterSuccessFlow.collectLatest {
-            snackBarMessage(snackBarHostState, "파티장을 위임했어요.")
+            snackBarHostState.showSnackbar("파티장을 위임했어요.")
             navController.popBackStack()
         }
     }
@@ -165,6 +165,11 @@ private fun PartyUserManageScreen(
         snackbarHost = {
             SnackbarHost(
                 hostState = snackBarHostState,
+                snackbar = { data ->
+                    CustomSnackBar(
+                        message = data.visuals.message
+                    )
+                }
             )
         },
         topBar = {

@@ -29,6 +29,7 @@ import com.party.guam.design.WHITE
 import com.party.domain.model.party.PartyRecruitment
 import com.party.domain.model.party.Position1
 import com.party.common.Screens
+import com.party.common.component.snackbar.CustomSnackBar
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.enum.SortType
 import com.party.presentation.screen.manage_applicant.component.ManageApplicantChangeProgress
@@ -137,6 +138,11 @@ private fun ManageApplicantScreen(
         snackbarHost = {
             SnackbarHost(
                 hostState = snackBarHostState,
+                snackbar = { data ->
+                    CustomSnackBar(
+                        message = data.visuals.message
+                    )
+                }
             )
         },
         topBar = {

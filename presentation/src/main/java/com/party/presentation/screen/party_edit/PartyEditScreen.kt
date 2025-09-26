@@ -38,10 +38,10 @@ import com.party.common.component.button.CustomButton
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.input_field.MultiLineInputField
+import com.party.common.component.snackbar.CustomSnackBar
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.common.utils.noRippleClickable
-import com.party.common.utils.snackBarMessage
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.MEDIUM_PADDING_SIZE
@@ -78,7 +78,7 @@ fun PartyEditScreenRoute(
     LaunchedEffect(key1 = Unit) {
         partyEditViewModel.closeParty.collectLatest {
             navController.popBackStack()
-            snackBarMessage(snackBarHostState = snackBarHostState, "파티가 종료되었습니다.")
+            snackBarHostState.showSnackbar("파티가 종료되었습니다.")
         }
     }
 
@@ -86,7 +86,7 @@ fun PartyEditScreenRoute(
     LaunchedEffect(key1 = Unit) {
         partyEditViewModel.activeParty.collectLatest {
             navController.popBackStack()
-            snackBarMessage(snackBarHostState = snackBarHostState, "파티 정보가 수정되었습니다.")
+            snackBarHostState.showSnackbar("파티 정보가 수정되었습니다.")
         }
     }
 
@@ -101,7 +101,7 @@ fun PartyEditScreenRoute(
     // 파티 수정 완료되면 Snackbar Message
     LaunchedEffect(key1 = Unit) {
         partyEditViewModel.partyModifySuccess.collectLatest {
-            snackBarMessage(snackBarHostState = snackBarHostState, "파티 정보가 수정되었습니다.")
+            snackBarHostState.showSnackbar("파티 정보가 수정되었습니다.")
             navController.popBackStack()
         }
     }
@@ -218,6 +218,11 @@ private fun PartyEditScreen(
         snackbarHost = {
             SnackbarHost(
                 hostState = snackBarHostState,
+                snackbar = { data ->
+                    CustomSnackBar(
+                        message = data.visuals.message
+                    )
+                }
             )
         },
         topBar = {

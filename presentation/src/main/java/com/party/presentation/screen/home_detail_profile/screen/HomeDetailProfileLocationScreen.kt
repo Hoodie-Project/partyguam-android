@@ -21,13 +21,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.common.R
 import com.party.common.Screens
+import com.party.common.component.snackbar.CustomSnackBar
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.ProfileIndicatorArea
 import com.party.common.utils.ScreenExplainArea
 import com.party.common.utils.StepInfo
 import com.party.common.utils.StepStatus
 import com.party.common.utils.TextComponent
-import com.party.common.utils.snackBarMessage
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.GRAY400
@@ -58,7 +58,7 @@ fun HomeDetailProfileLocationScreenRoute(
     }
     LaunchedEffect(key1 = Unit) {
         viewModel.locationLimitExceeded.collectLatest {
-            snackBarMessage(snackBarHostState, it)
+            snackBarHostState.showSnackbar(it)
         }
     }
 
@@ -70,7 +70,7 @@ fun HomeDetailProfileLocationScreenRoute(
 
     LaunchedEffect(key1 = Unit) {
         viewModel.existSavedData.collectLatest {
-            snackBarMessage(snackBarHostState, "이미 저장된 데이터가 있습니다.")
+            snackBarHostState.showSnackbar("이미 저장된 데이터가 있습니다.")
         }
     }
 
@@ -101,6 +101,11 @@ private fun HomeDetailProfileLocationScreen(
         snackbarHost = {
             SnackbarHost(
                 hostState = snackBarHostState,
+                snackbar = { data ->
+                    CustomSnackBar(
+                        message = data.visuals.message
+                    )
+                }
             )
         },
         topBar = {

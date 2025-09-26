@@ -17,10 +17,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.party.common.component.button.ResetAndApplyButtonArea
+import com.party.common.component.snackbar.CustomSnackBar
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.ScreenExplainArea
-import com.party.common.component.button.ResetAndApplyButtonArea
-import com.party.common.utils.snackBarMessage
 import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.WHITE
 import com.party.presentation.screen.profile_edit_time.component.ProfileEditTimeScaffoldArea
@@ -40,7 +40,7 @@ fun ProfileEditTimeScreenRoute(
 
     LaunchedEffect(key1 = Unit) {
         profileEditTimeViewModel.twoOverWarning.collectLatest {
-            snackBarMessage(snackBarHostState, "최대 2개까지 선택 가능합니다.")
+            snackBarHostState.showSnackbar("최대 2개까지 선택 가능합니다.")
         }
     }
 
@@ -71,6 +71,11 @@ private fun ProfileEditTimeScreen(
         snackbarHost = {
             SnackbarHost(
                 hostState = snackBarHostState,
+                snackbar = { data ->
+                    CustomSnackBar(
+                        message = data.visuals.message
+                    )
+                }
             )
         },
         topBar = {
