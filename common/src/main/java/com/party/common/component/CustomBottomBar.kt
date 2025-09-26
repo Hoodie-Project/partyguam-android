@@ -30,6 +30,7 @@ import androidx.navigation.NavHostController
 import com.party.common.MainTab
 import com.party.common.Screens
 import com.party.common.component.icon.DrawableIcon
+import com.party.common.utils.noRippleClickable
 import com.party.guam.design.B3
 import com.party.guam.design.BOTTOM_NAVIGATION_SELECTED_TEXT
 import com.party.guam.design.BOTTOM_NAVIGATION_SELECTED_TINT
@@ -109,7 +110,7 @@ fun RowScope.AppBottomNavigationBarItem(
     Column(
         modifier = Modifier
             .weight(1f)
-            .clickable(
+            .noRippleClickable(
                 onClick = onTabClick,
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
