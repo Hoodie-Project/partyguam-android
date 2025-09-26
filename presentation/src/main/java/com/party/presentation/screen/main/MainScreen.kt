@@ -1,6 +1,8 @@
 package com.party.presentation.screen.main
 
+import android.app.Activity
 import android.content.Context
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -13,7 +15,10 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -28,11 +33,14 @@ import com.party.common.Screens
 import com.party.common.component.BottomNavigationBar
 import com.party.common.component.homeTopTabList
 import com.party.common.component.toMainTab
+import com.party.common.utils.snackBarMessage
 import com.party.guam.design.WHITE
 import com.party.presentation.ANIMATION_DURATION
 import com.party.presentation.screen.home.HomeScreenRoute
 import com.party.presentation.screen.profile.ProfileScreenRoute
 import com.party.presentation.screen.state.StateScreenRoute
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun MainScreen(
@@ -53,6 +61,29 @@ fun MainScreen(
 
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentMainTab = backStackEntry.toMainTab()
+
+    val coroutineScope = rememberCoroutineScope()
+
+    // 백버튼 두 번 누르기 위한 상태
+    var backPressedOnce by remember { mutableStateOf(false) }
+
+    // 홈 탭에서 백버튼 처리
+    BackHandler(
+        enabled = currentMainTab == MainTab.Home
+    ) {
+        if (backPressedOnce) {
+            // 두 번째 누름 - 앱 종료
+            (context as? Activity)?.finish()
+        } else {
+            // 첫 번째 누름 - 스낵바 메시지 표시
+            backPressedOnce = true
+            coroutineScope.launch {
+                snackBarMessage(snackBarHostState, "한 번 더 누르면 앱이 종료됩니다.")
+                delay(2000) // 2초 후 상태 리셋
+                backPressedOnce = false
+            }
+        }
+    }
 
     Box(
         modifier = Modifier
