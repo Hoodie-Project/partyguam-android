@@ -35,7 +35,7 @@ import com.party.presentation.screen.search.component.search.SearchedDataContent
 import com.party.presentation.screen.search.viewmodel.SearchViewModel
 
 @Composable
-fun SearchRoute(
+fun SearchScreenRoute(
     navController: NavHostController,
     searchViewModel: SearchViewModel = hiltViewModel(),
     onTabClick: (MainTab) -> Unit = {},
@@ -49,9 +49,7 @@ fun SearchRoute(
     SearchScreen(
         navController = navController,
         searchState = searchState,
-        onAction = { action ->
-            searchViewModel.onAction(action)
-        },
+        onAction = { action -> searchViewModel.onAction(action) },
         onTabClick = onTabClick,
     )
 }
@@ -118,7 +116,7 @@ fun SearchScreen(
                     onDelete = { position -> onAction(SearchAction.OnDelete(position)) },
                     onPositionApply = { onAction(SearchAction.OnPositionApply) },
                     onPartyClick = { partyId -> navController.navigate(Screens.PartyDetail(partyId = partyId))},
-                    onRecruitmentClick = { recruitmentId,  partyId -> navController.navigate(Screens.RecruitmentDetail(partyRecruitmentId = recruitmentId, partyId = partyId))}
+                    onRecruitmentClick = { partyId,recruitmentId -> navController.navigate(Screens.RecruitmentDetail(partyRecruitmentId = recruitmentId, partyId = partyId))}
                 )
             }
         }

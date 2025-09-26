@@ -171,11 +171,9 @@ private fun BottomBarGraph(
                 HomeScreenRoute(
                     context = context,
                     snackBarHostState = snackBarHostState,
-                    navController = navController,
                     homeTopTabList = homeTopTabList,
                     isFirstActiveFunc = isFirstActiveFunc,
                     onChangeFirstFunc = { onChangeFirstFunc(false)},
-                    onRecruitmentItemClick = { partyRecruitmentId, partyId -> navController.navigate(Screens.RecruitmentDetail(partyRecruitmentId = partyRecruitmentId, partyId = partyId)) },
                     onGotoSearch = onGotoSearch,
                     onGotoNotification = onGotoNotification,
                     onClickBanner = onClickBanner,

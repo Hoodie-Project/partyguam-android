@@ -62,7 +62,7 @@ import com.party.presentation.screen.recruitment_detail.RecruitmentDetailRoute
 import com.party.presentation.screen.recruitment_edit.RecruitmentEditRoute
 import com.party.presentation.screen.recruitment_preview.RecruitmentPreviewScreenRoute
 import com.party.presentation.screen.reports.ReportsScreenRoute
-import com.party.presentation.screen.search.SearchRoute
+import com.party.presentation.screen.search.SearchScreenRoute
 import com.party.presentation.screen.splash.SplashScreenRoute
 import com.party.presentation.screen.terms.CustomerInquiriesScreenRoute
 import com.party.presentation.screen.terms.PrivacyPolicyScreenRoute
@@ -304,7 +304,7 @@ fun AppNavHost() {
                 )
             }
             composable<Screens.Search> {
-                SearchRoute(
+                SearchScreenRoute(
                     navController = navController,
                     onTabClick = { selectedMainTab ->
                         navController.navigate(route = Screens.Main(tabName = selectedMainTab.name) ){

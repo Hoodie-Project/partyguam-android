@@ -51,7 +51,7 @@ fun RecruitmentListItem2(
     onClick: (Int, Int) -> Unit,
 ) {
     Card(
-        onClick = { onClick(id, partyId) },
+        onClick = { onClick(partyId, id) },
         modifier = Modifier
             .fillMaxWidth()
             .height(162.dp)
@@ -76,7 +76,7 @@ fun RecruitmentListItem2(
                 sub = sub,
                 recruitingCount = recruitingCount,
                 recruitedCount = recruitedCount,
-                onClick = { onClick(id, partyId)},
+                onClick = { onClick(partyId, id )},
             )
         }
     }
