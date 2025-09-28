@@ -24,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
+import com.party.common.MainTab
 import com.party.common.R
 import com.party.common.Screens
 import com.party.common.utils.HeightSpacer
@@ -57,7 +58,7 @@ fun LoginScreenRoute(
 
     LaunchedEffect(key1 = Unit) {
         loginViewModel.goToHomeScreen.collectLatest {
-            navController.navigate(Screens.Home)
+            navController.navigate(route = Screens.Main(tabName = MainTab.Home.name))
         }
     }
 
