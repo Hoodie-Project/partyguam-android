@@ -1,4 +1,4 @@
-package com.party.presentation.screen.terms.component
+package com.party.presentation.screen.info_center.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight

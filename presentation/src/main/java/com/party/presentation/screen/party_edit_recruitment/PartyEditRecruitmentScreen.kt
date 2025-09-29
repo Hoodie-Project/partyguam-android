@@ -49,6 +49,8 @@ import com.party.presentation.screen.party_edit_recruitment.component.PartyRecru
 import com.party.presentation.screen.party_edit_recruitment.component.PartyRecruitmentListArea
 import com.party.presentation.screen.party_edit_recruitment.viewmodel.PartyRecruitmentEditViewModel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.launch
 
 @Composable
@@ -63,18 +65,20 @@ fun PartyEditRecruitmentScreenRoute(
     }
 
     LaunchedEffect(key1 = Unit) {
-        partyRecruitmentEditViewModel.completedSuccess.collectLatest {
-            snackBarHostState.showSnackbar("모집공고가 마감되었어요.")
-            partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = SortType.CREATED_AT.type, order = OrderDescType.DESC.type, main = null)
+        merge(
+            partyRecruitmentEditViewModel.completedSuccess.map { "모집공고가 마감되었어요." },
+            partyRecruitmentEditViewModel.deleteRecruitment.map { "모집공고가 삭제되었어요." }
+        ).collectLatest { message ->
+            snackBarHostState.showSnackbar(message)
+            partyRecruitmentEditViewModel.getPartyRecruitment(
+                partyId = partyId,
+                sort = SortType.CREATED_AT.type,
+                order = OrderDescType.DESC.type,
+                main = null
+            )
         }
     }
 
-    LaunchedEffect(key1 = Unit) {
-        partyRecruitmentEditViewModel.deleteRecruitment.collectLatest {
-            snackBarHostState.showSnackbar("모집공고가 삭제되었어요.")
-            partyRecruitmentEditViewModel.getPartyRecruitment(partyId = partyId, sort = SortType.CREATED_AT.type, order = OrderDescType.DESC.type, main = null)
-        }
-    }
     val partyRecruitmentEditState by partyRecruitmentEditViewModel.state.collectAsStateWithLifecycle()
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -102,16 +106,7 @@ fun PartyEditRecruitmentScreenRoute(
                     )
                 },
                 onAction = { action ->
-                    when(action){
-                        is PartyRecruitmentEditAction.OnSelectedTabText -> partyRecruitmentEditViewModel.onAction(action)
-                        is PartyRecruitmentEditAction.OnShowHelpCard -> partyRecruitmentEditViewModel.onAction(action)
-                        is PartyRecruitmentEditAction.OnChangeOrderBy -> partyRecruitmentEditViewModel.onAction(action)
-                        is PartyRecruitmentEditAction.OnDeleteRecruitment -> partyRecruitmentEditViewModel.deleteRecruitment(action.partyId, action.partyRecruitmentId)
-                        is PartyRecruitmentEditAction.OnShowPartyRecruitmentCompletedDialog -> partyRecruitmentEditViewModel.onAction(action)
-                        is PartyRecruitmentEditAction.OnPartyRecruitmentCompleted -> partyRecruitmentEditViewModel.onAction(action)
-                        is PartyRecruitmentEditAction.OnShowPartyRecruitmentDeleteDialog -> partyRecruitmentEditViewModel.onAction(action)
-                        is PartyRecruitmentEditAction.OnShowBottomSheet -> partyRecruitmentEditViewModel.onAction(action)
-                    }
+                    partyRecruitmentEditViewModel.onAction(action = action)
                 },
                 onManageClick = { scope.launch { drawerState.open() } },
                 onClick = { partyRecruitmentId ->

@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -24,7 +23,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
-import com.party.common.MainTab
 import com.party.common.R
 import com.party.common.Screens
 import com.party.common.utils.HeightSpacer
@@ -46,7 +44,6 @@ fun LoginScreenRoute(
 ) {
     LaunchedEffect(key1 = Unit) {
         loginViewModel.nextScreen.collectLatest { loginFailure ->
-
             navController.navigate(
                 route = Screens.Join(
                     email = loginFailure.userEmail ?: "",
@@ -58,7 +55,7 @@ fun LoginScreenRoute(
 
     LaunchedEffect(key1 = Unit) {
         loginViewModel.goToHomeScreen.collectLatest {
-            navController.navigate(route = Screens.Main(tabName = MainTab.Home.name))
+            navController.navigate(route = Screens.Main)
         }
     }
 

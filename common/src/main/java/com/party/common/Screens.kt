@@ -10,6 +10,8 @@ sealed interface Screens {
     @Serializable
     data object Login: Screens
     @Serializable
+    data object UserLogin: Screens
+    @Serializable
     data class Join(
         val email: String,
         val signupAccessToken: String
@@ -41,7 +43,7 @@ sealed interface Screens {
     @Serializable
     data object SelectTendencyComplete: Screens
     @Serializable
-    data class Main(val tabName: String = MainTab.Home.name): Screens
+    data object Main: Screens
     @Serializable
     data object Home: Screens
     @Serializable
@@ -145,25 +147,24 @@ sealed interface Screens {
     data object TraitComplete: Screens
 }
 
-@Serializable
-enum class MainTab(
+sealed class BottomBarScreen (
     val screen: Screens,
-    val tabIcon: Int,
-    val tabName: String,
-) {
-    Home(
+    val name: String,
+    val icon: Int,
+){
+    data object Home: BottomBarScreen(
         screen = Screens.Home,
-        tabName = "홈",
-        tabIcon = R.drawable.icon_home,
-    ),
-    Active(
+        name = "홈",
+        icon = R.drawable.icon_home,
+    )
+    data object State: BottomBarScreen(
         screen = Screens.State,
-        tabName = "활동",
-        tabIcon = R.drawable.icon_state,
-    ),
-    Profile(
+        name = "활동",
+        icon = R.drawable.icon_state,
+    )
+    data object Profile: BottomBarScreen(
         screen = Screens.Profile,
-        tabName = "프로필",
-        tabIcon = R.drawable.icon_profile
+        name = "프로필",
+        icon = R.drawable.icon_profile
     )
 }

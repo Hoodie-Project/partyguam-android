@@ -51,16 +51,14 @@ import kotlinx.coroutines.flow.collectLatest
 fun AuthSettingScreenRoute(
     context: Context,
     navController: NavHostController,
+    onLogout: () -> Unit,
     authSettingViewModel: AuthSettingViewModel = hiltViewModel()
 ) {
     val authSettingState by authSettingViewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = Unit) {
         authSettingViewModel.successLogout.collectLatest {
-            navController.navigate(Screens.Login) {
-                popUpTo(0) { inclusive = true } // 백스택을 완전히 비움
-                launchSingleTop = true
-            }
+            onLogout()
         }
     }
 

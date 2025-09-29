@@ -1,4 +1,4 @@
-package com.party.presentation.screen.terms
+package com.party.presentation.screen.info_center
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -17,8 +17,8 @@ import com.party.common.utils.TextComponent
 import com.party.guam.design.B2
 import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.WHITE
-import com.party.presentation.screen.terms.component.DescriptionTitleArea
-import com.party.presentation.screen.terms.component.TermsScaffoldArea
+import com.party.presentation.screen.info_center.component.DescriptionTitleArea
+import com.party.presentation.screen.info_center.component.TermsScaffoldArea
 
 @Composable
 fun ServiceIntroduceScreenRoute(

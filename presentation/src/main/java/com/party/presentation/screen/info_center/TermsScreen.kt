@@ -1,4 +1,4 @@
-package com.party.presentation.screen.terms
+package com.party.presentation.screen.info_center
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -14,10 +14,10 @@ import androidx.navigation.NavHostController
 import com.party.common.utils.HeightSpacer
 import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.WHITE
-import com.party.presentation.screen.terms.component.TermsContent
-import com.party.presentation.screen.terms.component.TermsScaffoldArea
-import com.party.presentation.screen.terms.component.terms.TermsAreaItem
-import com.party.presentation.screen.terms.component.terms.TermsSecondArea
+import com.party.presentation.screen.info_center.component.TermsContent
+import com.party.presentation.screen.info_center.component.TermsScaffoldArea
+import com.party.presentation.screen.info_center.component.terms.TermsAreaItem
+import com.party.presentation.screen.info_center.component.terms.TermsSecondArea
 
 @Composable
 fun TermsScreenRoute(

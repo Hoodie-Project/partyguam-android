@@ -1,6 +1,5 @@
 package com.party.presentation.screen.join
 
-import android.content.Context
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -18,11 +17,9 @@ import com.party.presentation.screen.join.screen.JoinNickNameScreenRoute
 import com.party.presentation.screen.join.viewmodel.JoinViewModel
 
 fun NavGraphBuilder.joinGraph(
-    context: Context,
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
 ){
-
     navigation<Screens.Join>(
         startDestination = Screens.JoinEmail
     ){

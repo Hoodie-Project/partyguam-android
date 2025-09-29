@@ -1,6 +1,5 @@
 package com.party.common.component
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,16 +17,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
-import com.party.common.MainTab
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.party.common.BottomBarScreen
 import com.party.common.Screens
 import com.party.common.component.icon.DrawableIcon
 import com.party.common.utils.noRippleClickable
@@ -41,22 +40,22 @@ import com.party.guam.design.WHITE
 
 @Composable
 fun BottomNavigationBar(
-    currentMainTab: MainTab,
-    onTabClick: (MainTab) -> Unit,
     navController: NavHostController,
+    currentScreen: String,
+    onTabClick: (Screens) -> Unit,
     isExpandedFloatingButton: Boolean = false,
 ){
     AppBottomNavigationBar(
         isExpandedFloatingButton = isExpandedFloatingButton,
-        show = navController.shouldShowBottomBar,
+        show = shouldShowBottomBar(navController),
         modifier = Modifier.windowInsetsPadding(WindowInsets.navigationBars)
     ) {
-        bottomDestinations.forEach { mainTab ->
+        bottomDestinations.forEach { item ->
             AppBottomNavigationBarItem(
-                icon = mainTab.tabIcon,
-                label = mainTab.tabName,
-                selected = currentMainTab == mainTab,
-                onTabClick = { onTabClick(mainTab) },
+                icon = item.icon,
+                label = item.name,
+                selected = currentScreen == item::class.simpleName,
+                onTabClick = { onTabClick(item.screen) },
             )
         }
     }
@@ -69,14 +68,14 @@ fun AppBottomNavigationBar(
     isExpandedFloatingButton: Boolean,
     content: @Composable (RowScope.() -> Unit)
 ) {
-    Surface(
-        color = WHITE,
-        modifier = modifier
-            .fillMaxWidth()
-            .height(60.dp)
-            .windowInsetsPadding(BottomAppBarDefaults.windowInsets)
-    ) {
-        if (show) {
+    if(show){
+        Surface(
+            color = WHITE,
+            modifier = modifier
+                .fillMaxWidth()
+                .height(60.dp)
+                .windowInsetsPadding(BottomAppBarDefaults.windowInsets)
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -133,22 +132,33 @@ fun RowScope.AppBottomNavigationBarItem(
     }
 }
 
-fun NavBackStackEntry?.toMainTab(): MainTab = when {
-    this?.destination?.hasRoute<Screens.State>()  == true -> MainTab.Active
-    this?.destination?.hasRoute<Screens.Profile>() == true -> MainTab.Profile
-    else -> MainTab.Home
+@Composable
+fun shouldShowBottomBar(navController: NavHostController): Boolean {
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    return when {
+        backStackEntry?.destination?.hasRoute<Screens.Home>() == true -> true
+        backStackEntry?.destination?.hasRoute<Screens.State>() == true -> true
+        backStackEntry?.destination?.hasRoute<Screens.Profile>() == true -> true
+        backStackEntry?.destination?.hasRoute<Screens.Search>() == true -> true
+        backStackEntry?.destination?.hasRoute<Screens.PartyDetail>() == true -> true
+        backStackEntry?.destination?.hasRoute<Screens.RecruitmentDetail>() == true -> true
+        else -> false
+    }
 }
 
-private val NavController.shouldShowBottomBar
-    get() = when (this.currentBackStackEntry.toMainTab()) {
-        MainTab.Home,
-        MainTab.Active,
-        MainTab.Profile,
-            -> true
-    }
 
 val bottomDestinations = listOf(
-    MainTab.Home,
-    MainTab.Active,
-    MainTab.Profile
+    BottomBarScreen.Home,
+    BottomBarScreen.State,
+    BottomBarScreen.Profile,
 )
+
+@Composable
+fun getCurrentScreen(
+    navController: NavHostController,
+): String?{
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentScreen = backStackEntry?.destination?.route?.substringAfterLast(".")
+
+    return currentScreen
+}

@@ -1,4 +1,4 @@
-package com.party.presentation.screen.terms.component.terms
+package com.party.presentation.screen.info_center.component.terms
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
@@ -7,19 +7,20 @@ import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.guam.design.B2
 import com.party.guam.design.GRAY600
-import com.party.presentation.screen.terms.component.DescriptionTitleArea
+import com.party.presentation.screen.info_center.component.DescriptionTitleArea
+import com.party.presentation.screen.info_center.component.TermsContent
 
 @Composable
-fun TermsAreaItem(
-    title: String,
-    content: List<String>,
-) {
+fun TermsSecondArea() {
     Column {
         DescriptionTitleArea(
-            title = title
+            title = TermsContent.SECOND.title
         )
         HeightSpacer(heightDp = 20.dp)
-        content.forEachIndexed { index, s ->
+        TermsContent.SECOND.description.forEachIndexed { index, s ->
+            if(index == 1){
+                HeightSpacer(heightDp = 20.dp)
+            }
             TextComponent(
                 text = s,
                 fontSize = B2,

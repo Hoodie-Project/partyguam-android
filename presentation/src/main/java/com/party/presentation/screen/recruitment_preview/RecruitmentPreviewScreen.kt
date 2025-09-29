@@ -17,10 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
-import com.party.common.MainTab
-import com.party.common.component.BottomNavigationBar
-import com.party.common.component.toMainTab
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.convertToText
 import com.party.guam.design.GRAY100
@@ -41,7 +37,6 @@ fun RecruitmentPreviewScreenRoute(
     main: String,
     sub: String,
     recruitmentPreviewViewModel: RecruitmentPreviewViewModel = hiltViewModel(),
-    onTabClick: (MainTab) -> Unit = {},
 ) {
     LaunchedEffect(key1 = Unit) {
         recruitmentPreviewViewModel.getRecruitmentDetail(partyRecruitmentId = partyRecruitmentId)
@@ -56,23 +51,17 @@ fun RecruitmentPreviewScreenRoute(
     val state by recruitmentPreviewViewModel.recruitmentPreviewState.collectAsStateWithLifecycle()
 
     RecruitmentPreviewScreen(
-        navController = navController,
         state = state,
         onNavigationClick = { navController.popBackStack()},
-        onTabClick = onTabClick,
     )
 }
 
 @Composable
 private fun RecruitmentPreviewScreen(
-    navController: NavHostController,
     state: RecruitmentPreviewState,
     onNavigationClick: () -> Unit,
-    onTabClick: (MainTab) -> Unit = {},
 ) {
     val scrollState = rememberScrollState()
-    val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentMainTab = backStackEntry.toMainTab()
 
     Scaffold(
         topBar = {
@@ -80,13 +69,6 @@ private fun RecruitmentPreviewScreen(
                 onNavigationClick = onNavigationClick
             )
         },
-        bottomBar = {
-            BottomNavigationBar(
-                currentMainTab = currentMainTab,
-                navController = navController,
-                onTabClick = onTabClick
-            )
-        }
     ){
         Column(
             modifier = Modifier

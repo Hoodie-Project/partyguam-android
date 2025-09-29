@@ -18,12 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.party.common.MainTab
 import com.party.common.Screens
-import com.party.common.component.BottomNavigationBar
-import com.party.common.component.toMainTab
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.LoadingProgressBar
 import com.party.common.utils.convertToText
@@ -46,7 +42,6 @@ fun RecruitmentDetailRoute(
     partyId: Int,
     partyRecruitmentId: Int,
     recruitmentDetailViewModel: RecruitmentDetailViewModel = hiltViewModel(),
-    onTabClick: (MainTab) -> Unit = {},
 ) {
     LaunchedEffect(Unit) {
         recruitmentDetailViewModel.getRecruitmentDetail(partyRecruitmentId = partyRecruitmentId)
@@ -57,7 +52,6 @@ fun RecruitmentDetailRoute(
     val recruitmentDetailState by recruitmentDetailViewModel.recruitmentDetailState.collectAsStateWithLifecycle()
 
     RecruitmentDetailScreen(
-        navController = navController,
         recruitmentDetailState = recruitmentDetailState,
         onManageClick = {
             navController.navigate(Screens.RecruitmentEdit(partyId = partyId, partyRecruitmentId = partyRecruitmentId))
@@ -71,23 +65,17 @@ fun RecruitmentDetailRoute(
                 is RecruitmentDetailAction.OnApply -> { navController.navigate(Screens.PartyApply(partyId = partyId, partyRecruitmentId = partyRecruitmentId)) }
             }
         },
-        onTabClick = onTabClick,
     )
 }
 
 @Composable
 fun RecruitmentDetailScreen(
-    navController: NavHostController,
     recruitmentDetailState: RecruitmentDetailState,
     onManageClick: () -> Unit,
     onGotoPartyDetail: () -> Unit,
     onAction: (RecruitmentDetailAction) -> Unit,
-    onTabClick: (MainTab) -> Unit = {},
 ) {
     val scrollState = rememberScrollState()
-
-    val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentMainTab = backStackEntry.toMainTab()
 
     Scaffold(
         topBar = {
@@ -96,13 +84,6 @@ fun RecruitmentDetailScreen(
                 onNavigationClick = { onAction(RecruitmentDetailAction.OnNavigationBack) },
                 onSharedClick = {},
                 onManageClick = onManageClick,
-            )
-        },
-        bottomBar = {
-            BottomNavigationBar(
-                currentMainTab = currentMainTab,
-                navController = navController,
-                onTabClick = onTabClick
             )
         },
     ){
@@ -168,7 +149,6 @@ fun RecruitmentDetailScreen(
 @Composable
 fun RecruitmentDetailScreenPreview1() {
     RecruitmentDetailScreen(
-        navController = rememberNavController(),
         recruitmentDetailState = RecruitmentDetailState(
             partyAuthority = PartyAuthority(id = 0, authority = "member", position = PartyAuthorityPosition(0, "", ""))
         ),
@@ -182,7 +162,6 @@ fun RecruitmentDetailScreenPreview1() {
 @Composable
 fun RecruitmentDetailScreenPreview2() {
     RecruitmentDetailScreen(
-        navController = rememberNavController(),
         recruitmentDetailState = RecruitmentDetailState(
             partyAuthority = PartyAuthority(id = 0, authority = "", position = PartyAuthorityPosition(0, "", ""))
         ),

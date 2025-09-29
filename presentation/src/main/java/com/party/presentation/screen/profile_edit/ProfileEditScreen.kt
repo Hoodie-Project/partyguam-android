@@ -3,6 +3,7 @@ package com.party.presentation.screen.profile_edit
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -19,9 +20,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.party.common.utils.HeightSpacer
 import com.party.common.Screens
 import com.party.common.component.button.CustomButton
+import com.party.common.utils.HeightSpacer
 import com.party.guam.design.GRAY100
 import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.WHITE
@@ -63,12 +64,7 @@ fun ProfileEditScreenRoute(
         onGotoProfileEditPortfolio = { navController.navigate(Screens.ProfileEditPortfolio)},
         onGotoWebView = { webViewUrl -> navController.navigate(Screens.WebView(webViewUrl = webViewUrl))},
         onAction = { action ->
-            when(action){
-                is ProfileEditAction.OnChangeImage -> profileEditViewModel.onAction(action)
-                is ProfileEditAction.OnChangeGenderVisible -> profileEditViewModel.onAction(action)
-                is ProfileEditAction.OnChangeBirthVisible -> profileEditViewModel.onAction(action)
-                is ProfileEditAction.OnModify -> profileEditViewModel.onAction(action)
-            }
+            profileEditViewModel.onAction(action = action)
         }
     )
 }
@@ -102,7 +98,7 @@ private fun ProfileEditScreen(
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
                     .weight(1f)
                     .verticalScroll(scrollState)
             ) {

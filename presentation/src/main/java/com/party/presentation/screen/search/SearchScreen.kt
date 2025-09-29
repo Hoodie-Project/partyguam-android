@@ -13,12 +13,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.party.common.MainTab
 import com.party.common.Screens
-import com.party.common.component.BottomNavigationBar
-import com.party.common.component.toMainTab
 import com.party.domain.model.room.KeywordModel
 import com.party.domain.model.search.Party
 import com.party.domain.model.search.PartyType
@@ -38,7 +34,6 @@ import com.party.presentation.screen.search.viewmodel.SearchViewModel
 fun SearchScreenRoute(
     navController: NavHostController,
     searchViewModel: SearchViewModel = hiltViewModel(),
-    onTabClick: (MainTab) -> Unit = {},
 ) {
     LaunchedEffect(Unit) {
         searchViewModel.getKeywordList()
@@ -50,7 +45,6 @@ fun SearchScreenRoute(
         navController = navController,
         searchState = searchState,
         onAction = { action -> searchViewModel.onAction(action) },
-        onTabClick = onTabClick,
     )
 }
 
@@ -59,11 +53,7 @@ fun SearchScreen(
     navController: NavHostController,
     searchState: SearchState,
     onAction: (SearchAction) -> Unit,
-    onTabClick: (MainTab) -> Unit = {},
 ) {
-    val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentMainTab = backStackEntry.toMainTab()
-
     Scaffold(
         topBar = {
             SearchArea(
@@ -73,13 +63,6 @@ fun SearchScreen(
                 searchAction = { onAction(SearchAction.OnSearch) }
             )
         },
-        bottomBar = {
-            BottomNavigationBar(
-                currentMainTab = currentMainTab,
-                navController = navController,
-                onTabClick = onTabClick
-            )
-        }
     ) {
         Column(
             modifier = Modifier

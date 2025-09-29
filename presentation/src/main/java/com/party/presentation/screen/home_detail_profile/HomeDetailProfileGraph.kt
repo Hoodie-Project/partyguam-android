@@ -1,6 +1,5 @@
 package com.party.presentation.screen.home_detail_profile
 
-import android.content.Context
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel

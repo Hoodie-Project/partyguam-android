@@ -1,4 +1,4 @@
-package com.party.presentation.screen.terms.component.privacy_policy
+package com.party.presentation.screen.info_center.component.privacy_policy
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
@@ -9,7 +9,7 @@ import com.party.common.utils.TextComponent
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.GRAY600
-import com.party.presentation.screen.terms.component.DescriptionTitleArea
+import com.party.presentation.screen.info_center.component.DescriptionTitleArea
 
 @Composable
 fun PrivacyPolicyItem(
