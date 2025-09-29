@@ -44,16 +44,14 @@ import kotlinx.coroutines.flow.collectLatest
 fun UserDeleteScreenRoute(
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
+    onGotoLogin: () -> Unit,
     userDeleteViewModel: UserDeleteViewModel = hiltViewModel()
 ) {
     val userDeleteState by userDeleteViewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = Unit) {
         userDeleteViewModel.successSignOut.collectLatest {
-            navController.navigate(Screens.Login) {
-                popUpTo(0) { inclusive = true } // 백스택을 완전히 비움
-                launchSingleTop = true
-            }
+            onGotoLogin()
         }
     }
 

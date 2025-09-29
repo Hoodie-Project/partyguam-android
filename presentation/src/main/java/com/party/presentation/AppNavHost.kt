@@ -18,6 +18,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.party.common.ConnectivityObserver
 import com.party.common.NetworkConnectivityObserver
 import com.party.common.Screens
@@ -30,6 +31,7 @@ import com.party.presentation.screen.join.joinGraph
 import com.party.presentation.screen.login.LoginScreenRoute
 import com.party.presentation.screen.main.MainScreen
 import com.party.presentation.screen.no_internet.NoInternetScreenRoute
+import com.party.presentation.screen.recover_auth.RecoverAuthScreenRoute
 import com.party.presentation.screen.splash.SplashScreenRoute
 import kotlinx.coroutines.delay
 
@@ -149,12 +151,24 @@ fun AppNavHost() {
                     snackBarHostState = snackBarHostState,
                     isFirstActiveFunc = isFirstActiveFunc,
                     onChangeFirstFunc = { isFirstActiveFunc = it },
-                    onLogout = {
+                    onGotoLogin = {
                         navController.navigate(Screens.Login) {
                             popUpTo(0) { inclusive = true }
                             launchSingleTop = true
                         }
                     }
+                )
+            }
+
+            composable<Screens.RecoverAuth> { backStackEntry ->
+                val email = backStackEntry.toRoute<Screens.RecoverAuth>().email
+                val deletedAt = backStackEntry.toRoute<Screens.RecoverAuth>().deletedAt
+                val recoverAccessToken = backStackEntry.toRoute<Screens.RecoverAuth>().recoverAccessToken
+                RecoverAuthScreenRoute(
+                    navController = navController,
+                    email = email,
+                    deletedAt = deletedAt,
+                    recoverAccessToken = recoverAccessToken,
                 )
             }
         }

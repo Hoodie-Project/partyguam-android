@@ -12,8 +12,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.party.common.utils.HeightSpacer
 import com.party.common.Screens
+import com.party.common.utils.HeightSpacer
 import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.WHITE
 import com.party.presentation.screen.recover_auth.component.AuthInfoArea
@@ -33,7 +33,7 @@ fun RecoverAuthScreenRoute(
 ) {
     LaunchedEffect(key1 = Unit) {
         recoverViewModel.recoverAuthSuccess.collectLatest {
-            navController.navigate(Screens.Home) {
+            navController.navigate(Screens.Main) {
                 popUpTo(0) { inclusive = true }
                 launchSingleTop = true
             }
@@ -42,9 +42,7 @@ fun RecoverAuthScreenRoute(
 
     RecoverAuthScreen(
         onNavigationClick = { navController.popBackStack() },
-        onRecover = {
-            recoverViewModel.recoverAuth(recoverAccessToken = "Bearer $recoverAccessToken")
-        },
+        onRecover = { recoverViewModel.recoverAuth(recoverAccessToken = "Bearer $recoverAccessToken") },
         email = email,
         deletedAt = deletedAt,
     )
@@ -98,7 +96,7 @@ private fun RecoverAuthScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun RecoverAuthScreenPreview(modifier: Modifier = Modifier) {
+private fun RecoverAuthScreenPreview() {
     RecoverAuthScreen(
         email = "tmfrl1590@gmail.com",
         deletedAt = "",

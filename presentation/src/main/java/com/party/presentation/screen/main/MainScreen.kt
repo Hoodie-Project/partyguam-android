@@ -76,7 +76,7 @@ fun MainScreen(
     snackBarHostState: SnackbarHostState,
     isFirstActiveFunc: Boolean,
     onChangeFirstFunc: (Boolean) -> Unit,
-    onLogout: () -> Unit,
+    onGotoLogin: () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -157,7 +157,7 @@ fun MainScreen(
                 onGotoDetailProfile = { navController.navigate(route = Screens.HomeDetailProfile)},
                 onGoSetting = { navController.navigate(route = Screens.ManageAuth) },
                 onGotoProfileEdit = { navController.navigate(route = Screens.ProfileEdit)},
-                onLogout = onLogout
+                onGotoLogin = onGotoLogin,
             )
         }
     }
@@ -180,7 +180,7 @@ private fun BottomBarGraph(
     onGotoDetailProfile: () -> Unit,
     onGoSetting: () -> Unit,
     onGotoProfileEdit: () -> Unit,
-    onLogout: () -> Unit,
+    onGotoLogin: () -> Unit,
 ) {
     NavHost(
         modifier = Modifier
@@ -264,7 +264,7 @@ private fun BottomBarGraph(
                 AuthSettingScreenRoute(
                     context = context,
                     navController = navController,
-                    onLogout = onLogout,
+                    onLogout = onGotoLogin,
                 )
             }
             composable<Screens.ProfileEdit> {
@@ -367,6 +367,7 @@ private fun BottomBarGraph(
                 UserDeleteScreenRoute(
                     navController = navController,
                     snackBarHostState = snackBarHostState,
+                    onGotoLogin = onGotoLogin,
                 )
             }
             composable<Screens.ProfileEditCareer> {
@@ -452,17 +453,6 @@ private fun BottomBarGraph(
                     recruitingCount = recruitingCount,
                     main = main,
                     sub = sub,
-                )
-            }
-            composable<Screens.RecoverAuth> { backStackEntry ->
-                val email = backStackEntry.toRoute<Screens.RecoverAuth>().email
-                val deletedAt = backStackEntry.toRoute<Screens.RecoverAuth>().deletedAt
-                val recoverAccessToken = backStackEntry.toRoute<Screens.RecoverAuth>().recoverAccessToken
-                RecoverAuthScreenRoute(
-                    navController = navController,
-                    email = email,
-                    deletedAt = deletedAt,
-                    recoverAccessToken = recoverAccessToken,
                 )
             }
 
