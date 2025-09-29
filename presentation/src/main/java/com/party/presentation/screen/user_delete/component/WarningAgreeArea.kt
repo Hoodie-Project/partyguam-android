@@ -27,6 +27,7 @@ fun WarningAgreeArea(
     onCheckedChange: (Boolean) -> Unit
 ) {
     Card(
+        onClick = { onCheckedChange(!isChecked)},
         modifier = Modifier
             .fillMaxWidth()
             .height(44.dp),
@@ -54,7 +55,8 @@ fun WarningAgreeArea(
                 fontSize = B2,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier
-                    .offset(x = (-6).dp)
+                    .offset(x = (-6).dp),
+                onClick = { onCheckedChange(!isChecked) },
             )
         }
     }

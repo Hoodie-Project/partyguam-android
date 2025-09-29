@@ -65,12 +65,7 @@ fun UserDeleteScreenRoute(
         snackBarHostState = snackBarHostState,
         userDeleteState = userDeleteState,
         onNavigationBack = { navController.popBackStack() },
-        onAction = { action ->
-            when(action) {
-                is UserDeleteAction.OnShowDeleteDialog -> userDeleteViewModel.onAction(action)
-                is UserDeleteAction.OnDelete -> userDeleteViewModel.onAction(action)
-            }
-        }
+        onAction = { action -> userDeleteViewModel.onAction(action = action) }
     )
 }
 
