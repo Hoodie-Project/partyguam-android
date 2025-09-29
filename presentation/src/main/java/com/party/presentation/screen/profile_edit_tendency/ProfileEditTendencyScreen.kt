@@ -21,7 +21,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.party.common.component.button.CustomButton
 import com.party.common.component.profileEditTendencyTabList
-import com.party.common.component.snackbar.CustomSnackBar
 import com.party.common.utils.HeightSpacer
 import com.party.guam.design.BLACK
 import com.party.guam.design.MEDIUM_PADDING_SIZE
@@ -32,6 +31,8 @@ import com.party.presentation.screen.profile_edit_tendency.component.ProfileEdit
 import com.party.presentation.screen.profile_edit_tendency.component.TendencyArea
 import com.party.presentation.screen.profile_edit_tendency.viewmodel.ProfileEditTendencyViewModel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
 
 @Composable
 fun ProfileEditTendencyScreenRoute(
@@ -42,23 +43,18 @@ fun ProfileEditTendencyScreenRoute(
 ) {
     LaunchedEffect(key1 = Unit) {
         profileEditTendencyViewModel.getPersonalityList()
-    }
 
-    LaunchedEffect(key1 = Unit) {
-        profileEditTendencyViewModel.twoOverWarning.collectLatest {
-            snackBarHostState.showSnackbar("최대 2개까지 선택 가능합니다.")
-        }
-    }
-
-    LaunchedEffect(key1 = Unit) {
-        profileEditTendencyViewModel.oneOverWarning.collectLatest {
-            snackBarHostState.showSnackbar("최대 1개까지 선택 가능합니다.")
+        // 여러 Flow를 하나로 합치기
+        merge(
+            profileEditTendencyViewModel.twoOverWarning.map { "최대 2개까지 선택 가능합니다." },
+            profileEditTendencyViewModel.oneOverWarning.map { "최대 1개까지 선택 가능합니다." }
+        ).collectLatest { message ->
+            snackBarHostState.showSnackbar(message)
         }
     }
 
     LaunchedEffect(key1 = Unit) {
         profileEditTendencyViewModel.modifySuccess.collectLatest {
-            snackBarHostState.showSnackbar("수정되었습니다")
             navController.popBackStack()
         }
     }
@@ -70,18 +66,7 @@ fun ProfileEditTendencyScreenRoute(
         profileEditTendencyTabList = profileEditTendencyTabList,
         state = state,
         onNavigationClick = { navController.popBackStack() },
-        onAction = { action ->
-            when (action) {
-                is ProfileEditTendencyAction.OnChangeSelectedTab -> profileEditTendencyViewModel.action(action)
-                is ProfileEditTendencyAction.OnApply -> profileEditTendencyViewModel.action(action)
-                is ProfileEditTendencyAction.OnSelectTendency -> profileEditTendencyViewModel.action(action)
-                is ProfileEditTendencyAction.OnSelectConfidence -> profileEditTendencyViewModel.action(action)
-                is ProfileEditTendencyAction.OnSelectChallenge -> profileEditTendencyViewModel.action(action)
-                is ProfileEditTendencyAction.OnResetFirstArea -> profileEditTendencyViewModel.action(action)
-                is ProfileEditTendencyAction.OnResetSecondArea -> profileEditTendencyViewModel.action(action)
-                is ProfileEditTendencyAction.OnResetThirdArea -> profileEditTendencyViewModel.action(action)
-            }
-        }
+        onAction = { action -> profileEditTendencyViewModel.action(action = action)}
     )
 }
 
@@ -97,11 +82,6 @@ private fun ProfileEditTendencyScreen(
         snackbarHost = {
             SnackbarHost(
                 hostState = snackBarHostState,
-                snackbar = { data ->
-                    CustomSnackBar(
-                        message = data.visuals.message
-                    )
-                }
             )
         },
         topBar = {

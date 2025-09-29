@@ -99,21 +99,40 @@ class ProfileEditTendencyViewModel @Inject constructor(
         when(action){
             is ProfileEditTendencyAction.OnChangeSelectedTab -> _state.update { it.copy(selectedTab = action.selectedTab) }
             is ProfileEditTendencyAction.OnApply -> {
-                val personalitySaveRequest = PersonalitySaveRequest(
-                    personality = listOf(
+                val personalityRequests = mutableListOf<PersonalitySaveRequest2>()
+
+                // TENDENCY - 데이터가 있을 때만 추가
+                if (_state.value.selectedTendencyList.isNotEmpty()) {
+                    personalityRequests.add(
                         PersonalitySaveRequest2(
                             personalityQuestionId = PersonalityType.TENDENCY.id,
                             personalityOptionId = _state.value.selectedTendencyList.map { it.id }
-                        ),
+                        )
+                    )
+                }
+
+                // CONFIDENCE - 데이터가 있을 때만 추가
+                if (_state.value.selectedConfidenceList.isNotEmpty()) {
+                    personalityRequests.add(
                         PersonalitySaveRequest2(
                             personalityQuestionId = PersonalityType.CONFIDENCE.id,
                             personalityOptionId = _state.value.selectedConfidenceList.map { it.id }
-                        ),
+                        )
+                    )
+                }
+
+                // CHALLENGE - 데이터가 있을 때만 추가
+                if (_state.value.selectedChallengeList.isNotEmpty()) {
+                    personalityRequests.add(
                         PersonalitySaveRequest2(
                             personalityQuestionId = PersonalityType.CHALLENGE.id,
                             personalityOptionId = _state.value.selectedChallengeList.map { it.id }
-                        ),
+                        )
                     )
+                }
+
+                val personalitySaveRequest = PersonalitySaveRequest(
+                    personality = personalityRequests
                 )
 
                 deleteMultiplePersonalities(
@@ -124,8 +143,8 @@ class ProfileEditTendencyViewModel @Inject constructor(
                         PersonalityType.CHALLENGE.id
                     )
                 )
-
             }
+
             is ProfileEditTendencyAction.OnSelectTendency -> {
                 _state.update { state ->
                     val updatedList = state.selectedTendencyList.toMutableList()
