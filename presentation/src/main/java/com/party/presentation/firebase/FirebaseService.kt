@@ -78,7 +78,7 @@ class FirebaseService: FirebaseMessagingService() {
         val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(title)
             .setContentText(body)
-            .setSmallIcon(R.drawable.logo)
+            .setSmallIcon(R.drawable.image_logo)
             .setPriority(NotificationCompat.PRIORITY_HIGH) // 중요도 높게 설정
             .setDefaults(NotificationCompat.DEFAULT_ALL) // 기본 효과(소리, 진동 등) 추가
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC) // 잠금화면에서도 표시
