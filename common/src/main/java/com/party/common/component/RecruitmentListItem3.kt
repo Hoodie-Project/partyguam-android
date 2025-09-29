@@ -60,6 +60,7 @@ import com.party.common.utils.convertIsoToCustomDateFormat
 fun RecruitmentListItem3(
     date: String,
     status: String,
+    imageUrl: String? = null,
     activeOrComplete: String,
     statusColor: Color,
     partyType: String,
@@ -101,6 +102,7 @@ fun RecruitmentListItem3(
             HeightSpacer(heightDp = 12.dp)
             RecruitmentInfoArea(
                 activeOrComplete = activeOrComplete,
+                imageUrl = imageUrl,
                 partyType = partyType,
                 title = title,
                 main = main,

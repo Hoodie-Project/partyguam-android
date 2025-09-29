@@ -62,7 +62,6 @@ fun MyRecruitmentArea(
     onAccept: (Int, Int) -> Unit,
     onCancel: (Int, Int) -> Unit,
 ) {
-
     val filteredList = if (myPartyState.selectedRecruitmentStatus == "전체") {
         myPartyState.myRecruitmentList.partyApplications // 전체 리스트 반환
     } else {
@@ -141,6 +140,7 @@ private fun MyRecruitmentList(
             RecruitmentListItem3(
                 date = item.createdAt,
                 status = RecruitmentStatusType.fromStatus(item.status).toDisplayText(),
+                imageUrl = item.partyRecruitment.party.image,
                 activeOrComplete = item.partyRecruitment.status,
                 statusColor = RecruitmentStatusType.fromStatus(item.status).toColor(),
                 partyType = item.partyRecruitment.party.partyType.type,
