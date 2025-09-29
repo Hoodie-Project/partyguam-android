@@ -140,7 +140,7 @@ private fun ProfileEditCareerScreen(
                     .weight(1f)
             ) {
                 ScreenExplainArea(
-                    mainExplain = "***님의\n경력과 포지션을 입력해 주세요.",
+                    mainExplain = "${state.userNickName}님의\n경력과 포지션을 입력해 주세요",
                     subExplain = "경력과 포지션을 입력하고 파티를 추천받으세요."
                 )
 

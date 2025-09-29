@@ -35,4 +35,8 @@ class DataStoreRepositoryImpl @Inject constructor(
     override fun getFcmToken(): Flow<String> {
         return dataStoreLocalSource.getFcmToken()
     }
+
+    override fun getNickName(): Flow<String> {
+        return dataStoreLocalSource.getNickName()
+    }
 }

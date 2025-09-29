@@ -12,6 +12,7 @@ import com.party.domain.model.user.detail.PersonalitySaveRequest
 import com.party.domain.model.user.detail.PersonalitySaveRequest2
 import com.party.domain.model.user.detail.SaveCarrierList
 import com.party.domain.model.user.detail.SaveCarrierRequest
+import com.party.domain.usecase.datastore.GetNickNameUseCase
 import com.party.domain.usecase.user.detail.GetLocationListUseCaseV2
 import com.party.domain.usecase.user.detail.GetPersonalityUseCaseV2
 import com.party.domain.usecase.user.detail.GetPositionsUseCaseV2
@@ -28,6 +29,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -40,6 +42,7 @@ class HomeDetailProfileViewModel @Inject constructor(
     private val saveCareerUseCase: SaveCareerUseCase,
     private val getPersonalityUseCaseV2: GetPersonalityUseCaseV2,
     private val savePersonalityUseCase: SavePersonalityUseCaseV2,
+    private val getNickNameUseCase: GetNickNameUseCase,
 ): ViewModel() {
 
     private val _state = MutableStateFlow(HomeDetailProfileState())
@@ -62,6 +65,7 @@ class HomeDetailProfileViewModel @Inject constructor(
 
     init {
         getPersonalityList()
+        getNickName()
     }
 
 
@@ -193,6 +197,14 @@ class HomeDetailProfileViewModel @Inject constructor(
         }
     }
 
+    fun getNickName(){
+        viewModelScope.launch(Dispatchers.IO) {
+            val nickName = getNickNameUseCase().firstOrNull()
+            if(nickName != null){
+                _state.update { it.copy(userNickName = nickName) }
+            }
+        }
+    }
 
     fun onAction(action: HomeDetailProfileAction){
         when(action){

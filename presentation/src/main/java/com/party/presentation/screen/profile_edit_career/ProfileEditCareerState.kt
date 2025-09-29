@@ -19,4 +19,6 @@ data class ProfileEditCareerState(
 
     // 선택된 부포지션
     val getSubPosition: GetCarrier? = null,
+
+    val userNickName: String = "***",
 )

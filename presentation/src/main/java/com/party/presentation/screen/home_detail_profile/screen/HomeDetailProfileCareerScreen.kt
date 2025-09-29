@@ -149,7 +149,7 @@ private fun HomeDetailProfileCareerScreen(
                 ProfileIndicatorSection(steps = steps)
 
                 ScreenExplainArea(
-                    mainExplain = "***님의\n경력과 포지션을 입력해 주세요",
+                    mainExplain = "${state.userNickName}님의\n경력과 포지션을 입력해 주세요",
                     subExplain = stringResource(id = R.string.detail_carrier2),
                 )
 

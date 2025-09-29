@@ -17,4 +17,6 @@ interface DataStoreRepository {
     suspend fun saveFcmToken(token: String)
 
     fun getFcmToken(): Flow<String>
+
+    fun getNickName(): Flow<String>
 }

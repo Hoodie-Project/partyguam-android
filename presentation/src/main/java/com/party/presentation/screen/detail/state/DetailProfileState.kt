@@ -32,4 +32,6 @@ data class DetailProfileState(
     val selectedTraitList2: List<PersonalityListOption> = emptyList(),
     val selectedTraitList3: List<PersonalityListOption> = emptyList(),
     val selectedTraitList4: List<PersonalityListOption> = emptyList(),
+
+    val userNickName: String = "***",
 )

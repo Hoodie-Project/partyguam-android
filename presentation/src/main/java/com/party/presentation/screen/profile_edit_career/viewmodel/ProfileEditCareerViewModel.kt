@@ -8,6 +8,7 @@ import com.party.domain.model.user.detail.GetCarrierPosition
 import com.party.domain.model.user.detail.ModifyCarrierList
 import com.party.domain.model.user.detail.PositionList
 import com.party.domain.model.user.detail.SaveCarrierList
+import com.party.domain.usecase.datastore.GetNickNameUseCase
 import com.party.domain.usecase.user.detail.DeleteUserCareerUseCase
 import com.party.domain.usecase.user.detail.GetCarrierUseCase
 import com.party.domain.usecase.user.detail.GetPositionsUseCase
@@ -21,6 +22,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,6 +34,7 @@ class ProfileEditCareerViewModel @Inject constructor(
     private val deleteUserCareerUseCase: DeleteUserCareerUseCase,
     private val modifyCarrierUseCase: ModifyCarrierUseCase,
     private val getCarrierUseCase: GetCarrierUseCase,
+    private val getNickNameUseCase: GetNickNameUseCase,
 ): ViewModel(){
 
     private val _state = MutableStateFlow(ProfileEditCareerState())
@@ -42,6 +45,7 @@ class ProfileEditCareerViewModel @Inject constructor(
 
     init {
         getCarrier()
+        getNickName()
     }
 
     fun navigateScreen(){
@@ -165,6 +169,15 @@ class ProfileEditCareerViewModel @Inject constructor(
                     ),
                     isShowPrevScreen = true
                 )
+            }
+        }
+    }
+
+    fun getNickName(){
+        viewModelScope.launch(Dispatchers.IO) {
+            val nickName = getNickNameUseCase().firstOrNull()
+            if(nickName != null){
+                _state.update { it.copy(userNickName = nickName) }
             }
         }
     }

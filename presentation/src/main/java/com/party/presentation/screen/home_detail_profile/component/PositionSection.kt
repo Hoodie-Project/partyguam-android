@@ -1,6 +1,5 @@
 package com.party.presentation.screen.home_detail_profile.component
 
-import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -27,14 +26,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.party.common.DetailCarrierData.mainSelectedCarrier
-import com.party.common.DetailCarrierData.mainSelectedDetailPosition
-import com.party.common.DetailCarrierData.mainSelectedDetailPositionId
-import com.party.common.DetailCarrierData.mainSelectedMainPosition
-import com.party.common.DetailCarrierData.subSelectedCarrier
-import com.party.common.DetailCarrierData.subSelectedDetailPosition
-import com.party.common.DetailCarrierData.subSelectedDetailPositionId
-import com.party.common.DetailCarrierData.subSelectedMainPosition
 import com.party.common.R
 import com.party.common.component.icon.DrawableIcon
 import com.party.common.utils.HeightSpacer

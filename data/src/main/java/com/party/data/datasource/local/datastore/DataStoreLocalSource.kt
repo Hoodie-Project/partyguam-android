@@ -17,4 +17,8 @@ interface DataStoreLocalSource {
     suspend fun saveFcmToken(token: String)
 
     fun getFcmToken(): Flow<String>
+
+    suspend fun saveNickName(nickName: String)
+
+    fun getNickName(): Flow<String>
 }

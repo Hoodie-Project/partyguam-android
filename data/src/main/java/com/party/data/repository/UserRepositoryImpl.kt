@@ -235,6 +235,7 @@ class UserRepositoryImpl @Inject constructor(
             .onSuccess { result ->
                 val accessToken = result.accessToken
                 dataStoreLocalSource.saveAccessToken(accessToken)
+                dataStoreLocalSource.saveNickName(nickName = userSignUpRequest.nickname)
             }
     }
 
