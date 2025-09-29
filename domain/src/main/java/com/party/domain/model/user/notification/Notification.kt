@@ -10,7 +10,7 @@ data class NotificationData(
     val id: Int,
     val notificationType: NotificationType,
     val title: String,
-    val link: String,
+    val link: String?,
     val message: String,
     val image: String?,
     val isRead: Boolean,

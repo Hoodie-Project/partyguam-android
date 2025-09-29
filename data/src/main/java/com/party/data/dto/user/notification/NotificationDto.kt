@@ -13,7 +13,7 @@ data class NotificationDataDto(
     val id: Int,
     val notificationType: NotificationTypeDto,
     val title: String,
-    val link: String,
+    val link: String?,
     val message: String,
     val image: String?,
     val isRead: Boolean,
