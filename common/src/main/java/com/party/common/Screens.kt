@@ -10,8 +10,6 @@ sealed interface Screens {
     @Serializable
     data object Login: Screens
     @Serializable
-    data object UserLogin: Screens
-    @Serializable
     data class Join(
         val email: String,
         val signupAccessToken: String
@@ -27,21 +25,25 @@ sealed interface Screens {
     @Serializable
     data object JoinComplete: Screens
     @Serializable
-    data class DetailProfile(val userNickName: String): Screens
+    data object DetailProfile: Screens
     @Serializable
-    data class DetailCarrier(val userNickName: String): Screens
+    data object DetailProfileLocation: Screens
     @Serializable
-    data class ChoiceCarrierPosition(val isMain: Boolean): Screens
+    data object DetailProfileCareer: Screens
     @Serializable
-    data object SelectTendency1: Screens
+    data class DetailChoiceCarrierPosition(
+        val isMain: Boolean
+    ): Screens
     @Serializable
-    data object SelectTendency2: Screens
+    data object DetailTrait1: Screens
     @Serializable
-    data object SelectTendency3: Screens
+    data object DetailTrait2: Screens
     @Serializable
-    data object SelectTendency4: Screens
+    data object DetailTrait3: Screens
     @Serializable
-    data object SelectTendencyComplete: Screens
+    data object DetailTrait4: Screens
+    @Serializable
+    data object DetailTraitComplete: Screens
     @Serializable
     data object Main: Screens
     @Serializable

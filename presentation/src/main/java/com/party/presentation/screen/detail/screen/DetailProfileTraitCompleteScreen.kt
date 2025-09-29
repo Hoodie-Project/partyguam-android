@@ -1,4 +1,4 @@
-package com.party.presentation.screen.home_detail_profile.screen
+package com.party.presentation.screen.detail.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -23,25 +23,25 @@ import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.T1
 import com.party.guam.design.WHITE
 import com.party.presentation.screen.detail.component.FinishButtonArea
-import com.party.presentation.screen.home_detail_profile.viewmodel.HomeDetailProfileViewModel
+import com.party.presentation.screen.detail.viewmodel.DetailProfileViewModel
 
 @Composable
-fun HomeDetailProfileTraitCompleteRoute(
-    viewModel: HomeDetailProfileViewModel,
+fun DetailProfileTraitCompleteRoute(
+    viewModel: DetailProfileViewModel,
     navController: NavHostController,
 ) {
     LaunchedEffect(key1 = Unit) {
         viewModel.savePersonality()
     }
 
-    HomeDetailProfileTraitCompleteScreen(
-        onGoProfile = { navController.navigate(Screens.Profile) },
-        onGoHome = { navController.navigate(Screens.Home) }
+    DetailProfileTraitCompleteScreen(
+        onGoProfile = { navController.navigate(Screens.Main) },
+        onGoHome = { navController.navigate(Screens.Main) }
     )
 }
 
 @Composable
-private fun HomeDetailProfileTraitCompleteScreen(
+fun DetailProfileTraitCompleteScreen(
     onGoProfile: () -> Unit,
     onGoHome: () -> Unit,
 ) {

@@ -1,4 +1,4 @@
-package com.party.presentation.screen.detail.choice_carrier_position.component
+package com.party.presentation.screen.detail.component
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,25 +12,35 @@ import com.party.guam.design.BLACK
 import com.party.guam.design.T2
 
 @Composable
-fun ChoiceCarrierPositionScaffoldArea(
+fun SelectTendencyScaffoldArea(
     onNavigationClick: () -> Unit,
+    onClose: () -> Unit,
 ) {
     ScaffoldCenterBar(
         navigationIcon = {
+            DrawableIconButton(
+                icon = painterResource(id = R.drawable.icon_arrow_back),
+                iconColor = BLACK,
+                iconSize = 24.dp,
+                contentDescription = "back",
+                onClick = onNavigationClick
+            )
+        },
+        title = {
+            Text(
+                text = "세부프로필",
+                fontWeight = FontWeight.Bold,
+                fontSize = T2
+            )
+        },
+        actionIcons = {
             DrawableIconButton(
                 icon = painterResource(id = R.drawable.icon_close2),
                 iconColor = BLACK,
                 iconSize = 24.dp,
                 contentDescription = "back",
-                onClick = { onNavigationClick() }
+                onClick = onClose
             )
-        },
-        title = {
-            Text(
-                text = "경력/포지션 선택",
-                fontWeight = FontWeight.    Bold,
-                fontSize = T2
-            )
-        },
+        }
     )
 }

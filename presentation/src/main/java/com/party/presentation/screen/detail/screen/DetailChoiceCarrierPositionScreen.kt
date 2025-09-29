@@ -1,4 +1,4 @@
-package com.party.presentation.screen.home_detail_profile.screen
+package com.party.presentation.screen.detail.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -22,23 +22,23 @@ import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.PRIMARY
 import com.party.guam.design.WHITE
 import com.party.presentation.screen.detail.component.DetailProfileNextButton
+import com.party.presentation.screen.detail.action.DetailProfileAction
 import com.party.presentation.screen.detail.component.ChoiceCarrierPositionScaffoldArea
 import com.party.presentation.screen.detail.component.careerList
-import com.party.presentation.screen.home_detail_profile.action.HomeDetailProfileAction
+import com.party.presentation.screen.detail.state.DetailProfileState
+import com.party.presentation.screen.detail.viewmodel.DetailProfileViewModel
 import com.party.presentation.screen.home_detail_profile.component.SelectCareerSection
 import com.party.presentation.screen.home_detail_profile.component.SelectMainPositionSection
 import com.party.presentation.screen.home_detail_profile.component.SelectedSubPositionSection
-import com.party.presentation.screen.home_detail_profile.state.HomeDetailProfileState
-import com.party.presentation.screen.home_detail_profile.viewmodel.HomeDetailProfileViewModel
 
 @Composable
-fun HomeDetailChoiceCarrierPositionRoute(
-    viewModel: HomeDetailProfileViewModel,
+fun DetailChoiceCarrierPositionRoute(
+    viewModel: DetailProfileViewModel,
     navController: NavHostController,
     isMain: Boolean
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    HomeDetailChoiceCarrierPositionScreen(
+    DetailChoiceCarrierPositionScreen(
         isMain = isMain,
         state = state,
         onNavigationClick = { navController.popBackStack() },
@@ -48,11 +48,11 @@ fun HomeDetailChoiceCarrierPositionRoute(
 }
 
 @Composable
-private fun HomeDetailChoiceCarrierPositionScreen(
+private fun DetailChoiceCarrierPositionScreen(
     isMain: Boolean,
-    state: HomeDetailProfileState,
+    state: DetailProfileState,
     onNavigationClick: () -> Unit,
-    onAction: (HomeDetailProfileAction) -> Unit = {},
+    onAction: (DetailProfileAction) -> Unit = {},
     onAdd: () -> Unit,
 ) {
     Scaffold(
@@ -80,9 +80,9 @@ private fun HomeDetailChoiceCarrierPositionScreen(
                     selectedCareer = if(isMain) state.firstCareer else state.secondCareer,
                     onSelectCareer = {
                         if (isMain) {
-                            onAction(HomeDetailProfileAction.OnClickFirstCareer(career = it))
+                            onAction(DetailProfileAction.OnClickFirstCareer(career = it))
                         } else {
-                            onAction(HomeDetailProfileAction.OnClickSecondCareer(career = it))
+                            onAction(DetailProfileAction.OnClickSecondCareer(career = it))
                         }
                     }
                 )
@@ -93,9 +93,9 @@ private fun HomeDetailChoiceCarrierPositionScreen(
                     selectedPosition = if(isMain) state.firstMainPosition else state.secondMainPosition,
                     onSelectMainPosition = {
                         if (isMain) {
-                            onAction(HomeDetailProfileAction.OnClickFirstMainPosition(mainPosition = it))
+                            onAction(DetailProfileAction.OnClickFirstMainPosition(mainPosition = it))
                         } else {
-                            onAction(HomeDetailProfileAction.OnClickSecondMainPosition(mainPosition = it))
+                            onAction(DetailProfileAction.OnClickSecondMainPosition(mainPosition = it))
                         }
                     }
                 )
@@ -105,9 +105,9 @@ private fun HomeDetailChoiceCarrierPositionScreen(
                     selectedDetailPosition = if(isMain) state.firstSubPosition else state.secondSubPosition,
                     onClickSubPosition = {
                         if (isMain) {
-                            onAction(HomeDetailProfileAction.OnClickFirstSubPosition(positionList = it))
+                            onAction(DetailProfileAction.OnClickFirstSubPosition(positionList = it))
                         } else {
-                            onAction(HomeDetailProfileAction.OnClickSecondSubPosition(positionList = it))
+                            onAction(DetailProfileAction.OnClickSecondSubPosition(positionList = it))
                         }
                     }
                 )

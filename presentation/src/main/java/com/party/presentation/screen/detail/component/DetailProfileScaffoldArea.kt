@@ -1,4 +1,4 @@
-package com.party.presentation.screen.detail.detail_carrier.component
+package com.party.presentation.screen.detail.component
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,29 +12,10 @@ import com.party.guam.design.BLACK
 import com.party.guam.design.T2
 
 @Composable
-fun DetailCarrierScaffoldArea(
+fun DetailProfileScaffoldArea(
     onNavigationClick: () -> Unit,
-    onClose: () -> Unit = {},
 ) {
     ScaffoldCenterBar(
-        navigationIcon = {
-            DrawableIconButton(
-                icon = painterResource(id = R.drawable.icon_arrow_back),
-                iconColor = BLACK,
-                iconSize = 24.dp,
-                contentDescription = "back",
-                onClick = { onNavigationClick() }
-            )
-        },
-        actionIcons = {
-            DrawableIconButton(
-                icon = painterResource(id = R.drawable.icon_close2),
-                iconColor = BLACK,
-                iconSize = 24.dp,
-                contentDescription = "close",
-                onClick = onClose
-            )
-        },
         title = {
             Text(
                 text = "세부프로필",
@@ -42,5 +23,14 @@ fun DetailCarrierScaffoldArea(
                 fontSize = T2
             )
         },
+        actionIcons = {
+            DrawableIconButton(
+                icon = painterResource(id = R.drawable.icon_close2),
+                iconColor = BLACK,
+                iconSize = 24.dp,
+                contentDescription = "back",
+                onClick = { onNavigationClick() }
+            )
+        }
     )
 }

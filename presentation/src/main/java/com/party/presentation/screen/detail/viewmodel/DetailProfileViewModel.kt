@@ -1,8 +1,7 @@
-package com.party.presentation.screen.home_detail_profile.viewmodel
+package com.party.presentation.screen.detail.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.play.integrity.internal.s
 import com.party.core.domain.DataErrorRemote
 import com.party.core.domain.onError
 import com.party.core.domain.onSuccess
@@ -17,10 +16,9 @@ import com.party.domain.usecase.user.detail.GetPersonalityUseCaseV2
 import com.party.domain.usecase.user.detail.GetPositionsUseCaseV2
 import com.party.domain.usecase.user.detail.SaveCareerUseCase
 import com.party.domain.usecase.user.detail.SaveInterestLocationUseCaseV2
-import com.party.domain.usecase.user.detail.SavePersonalityUseCase
 import com.party.domain.usecase.user.detail.SavePersonalityUseCaseV2
-import com.party.presentation.screen.home_detail_profile.action.HomeDetailProfileAction
-import com.party.presentation.screen.home_detail_profile.state.HomeDetailProfileState
+import com.party.presentation.screen.detail.action.DetailProfileAction
+import com.party.presentation.screen.detail.state.DetailProfileState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -33,7 +31,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeDetailProfileViewModel @Inject constructor(
+class DetailProfileViewModel @Inject constructor(
     private val getLocationListUseCase: GetLocationListUseCaseV2,
     private val saveInterestLocationUseCase: SaveInterestLocationUseCaseV2,
     private val getPositionsUseCase: GetPositionsUseCaseV2,
@@ -42,8 +40,8 @@ class HomeDetailProfileViewModel @Inject constructor(
     private val savePersonalityUseCase: SavePersonalityUseCaseV2,
 ): ViewModel() {
 
-    private val _state = MutableStateFlow(HomeDetailProfileState())
-    val state: StateFlow<HomeDetailProfileState> = _state.asStateFlow()
+    private val _state = MutableStateFlow(DetailProfileState())
+    val state: StateFlow<DetailProfileState> = _state.asStateFlow()
 
     private val _existSavedData = MutableSharedFlow<Unit>()
     val existSavedData = _existSavedData.asSharedFlow()
@@ -194,11 +192,11 @@ class HomeDetailProfileViewModel @Inject constructor(
     }
 
 
-    fun onAction(action: HomeDetailProfileAction){
+    fun onAction(action: DetailProfileAction){
         when(action){
-            is HomeDetailProfileAction.OnShowFinishDialog -> _state.update { it.copy(isShowFinishDialog = action.isShow) }
-            is HomeDetailProfileAction.OnClickProvince -> _state.update { it.copy(selectedProvince = action.provinceName) }
-            is HomeDetailProfileAction.OnClickSubLocation -> {
+            is DetailProfileAction.OnShowFinishDialog -> _state.update { it.copy(isShowFinishDialog = action.isShow) }
+            is DetailProfileAction.OnClickProvince -> _state.update { it.copy(selectedProvince = action.provinceName) }
+            is DetailProfileAction.OnClickSubLocation -> {
                 _state.update {
                     val updatedList = it.selectedProvinceAndSubLocationList.toMutableList()
 
@@ -225,22 +223,22 @@ class HomeDetailProfileViewModel @Inject constructor(
                     it.copy(selectedProvinceAndSubLocationList = updatedList)
                 }
             }
-            is HomeDetailProfileAction.OnDeleteSelectedLocation -> {
+            is DetailProfileAction.OnDeleteSelectedLocation -> {
                 _state.update {
                     val updatedList = it.selectedProvinceAndSubLocationList.toMutableList()
                     updatedList.remove(action.locationPair)
                     it.copy(selectedProvinceAndSubLocationList = updatedList)
                 }
             }
-            is HomeDetailProfileAction.OnClickFirstCareer -> _state.update { it.copy(firstCareer = action.career) }
-            is HomeDetailProfileAction.OnClickFirstMainPosition -> {
+            is DetailProfileAction.OnClickFirstCareer -> _state.update { it.copy(firstCareer = action.career) }
+            is DetailProfileAction.OnClickFirstMainPosition -> {
                 _state.update { it.copy(firstMainPosition = action.mainPosition) }
                 getPositions(
                     main = action.mainPosition
                 )
             }
-            is HomeDetailProfileAction.OnClickFirstSubPosition -> _state.update { it.copy(firstSubPosition = action.positionList.sub, firstSubPositionId = action.positionList.id) }
-            is HomeDetailProfileAction.OnResetFirst -> {
+            is DetailProfileAction.OnClickFirstSubPosition -> _state.update { it.copy(firstSubPosition = action.positionList.sub, firstSubPositionId = action.positionList.id) }
+            is DetailProfileAction.OnResetFirst -> {
                 _state.update {
                     it.copy(
                         firstCareer = "",
@@ -251,15 +249,15 @@ class HomeDetailProfileViewModel @Inject constructor(
                 }
             }
 
-            is HomeDetailProfileAction.OnClickSecondCareer -> _state.update { it.copy(secondCareer = action.career) }
-            is HomeDetailProfileAction.OnClickSecondMainPosition -> {
+            is DetailProfileAction.OnClickSecondCareer -> _state.update { it.copy(secondCareer = action.career) }
+            is DetailProfileAction.OnClickSecondMainPosition -> {
                 _state.update { it.copy(secondMainPosition = action.mainPosition) }
                 getPositions(
                     main = action.mainPosition
                 )
             }
-            is HomeDetailProfileAction.OnClickSecondSubPosition -> _state.update { it.copy(secondSubPosition = action.positionList.sub, secondSubPositionId = action.positionList.id) }
-            is HomeDetailProfileAction.OnResetSecond -> {
+            is DetailProfileAction.OnClickSecondSubPosition -> _state.update { it.copy(secondSubPosition = action.positionList.sub, secondSubPositionId = action.positionList.id) }
+            is DetailProfileAction.OnResetSecond -> {
                 _state.update {
                     it.copy(
                         secondCareer = "",
@@ -270,7 +268,7 @@ class HomeDetailProfileViewModel @Inject constructor(
                 }
             }
 
-            is HomeDetailProfileAction.OnSelectTrait1 -> {
+            is DetailProfileAction.OnSelectTrait1 -> {
                 _state.update { state ->
                     val option = action.personalityListOption
                     val selectedList = state.selectedTraitList1
@@ -286,7 +284,7 @@ class HomeDetailProfileViewModel @Inject constructor(
                     }
                 }
             }
-            is HomeDetailProfileAction.OnSelectTrait2 -> {
+            is DetailProfileAction.OnSelectTrait2 -> {
                 _state.update { state ->
                     val option = action.personalityListOption
                     val selectedList = state.selectedTraitList2
@@ -301,7 +299,7 @@ class HomeDetailProfileViewModel @Inject constructor(
                     }
                 }
             }
-            is HomeDetailProfileAction.OnSelectTrait3 -> {
+            is DetailProfileAction.OnSelectTrait3 -> {
                 _state.update { state ->
                     val option = action.personalityListOption
                     val selectedList = state.selectedTraitList3
@@ -318,7 +316,7 @@ class HomeDetailProfileViewModel @Inject constructor(
                 }
             }
 
-            is HomeDetailProfileAction.OnSelectTrait4 -> {
+            is DetailProfileAction.OnSelectTrait4 -> {
                 _state.update { state ->
                     val option = action.personalityListOption
                     val selectedList = state.selectedTraitList4
@@ -354,4 +352,5 @@ class HomeDetailProfileViewModel @Inject constructor(
             else -> 0
         }
     }
+
 }

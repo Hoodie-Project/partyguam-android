@@ -1,4 +1,4 @@
-package com.party.presentation.screen.detail.select_tendency.component
+package com.party.presentation.screen.detail.component
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,9 +12,9 @@ import com.party.guam.design.BLACK
 import com.party.guam.design.T2
 
 @Composable
-fun SelectTendencyScaffoldArea(
+fun DetailCarrierScaffoldArea(
     onNavigationClick: () -> Unit,
-    onClose: () -> Unit,
+    onClose: () -> Unit = {},
 ) {
     ScaffoldCenterBar(
         navigationIcon = {
@@ -23,7 +23,16 @@ fun SelectTendencyScaffoldArea(
                 iconColor = BLACK,
                 iconSize = 24.dp,
                 contentDescription = "back",
-                onClick = onNavigationClick
+                onClick = { onNavigationClick() }
+            )
+        },
+        actionIcons = {
+            DrawableIconButton(
+                icon = painterResource(id = R.drawable.icon_close2),
+                iconColor = BLACK,
+                iconSize = 24.dp,
+                contentDescription = "close",
+                onClick = onClose
             )
         },
         title = {
@@ -33,14 +42,5 @@ fun SelectTendencyScaffoldArea(
                 fontSize = T2
             )
         },
-        actionIcons = {
-            DrawableIconButton(
-                icon = painterResource(id = R.drawable.icon_close2),
-                iconColor = BLACK,
-                iconSize = 24.dp,
-                contentDescription = "back",
-                onClick = onClose
-            )
-        }
     )
 }

@@ -1,4 +1,4 @@
-package com.party.presentation.screen.home_detail_profile.screen
+package com.party.presentation.screen.detail.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -37,18 +37,19 @@ import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.PRIMARY
 import com.party.guam.design.WHITE
 import com.party.presentation.screen.detail.component.DetailProfileNextButton
-import com.party.presentation.screen.detail.screen.SELECTED_LOCATION_COUNT
+import com.party.presentation.screen.detail.action.DetailProfileAction
 import com.party.presentation.screen.detail.component.DetailProfileScaffoldArea
-import com.party.presentation.screen.home_detail_profile.action.HomeDetailProfileAction
+import com.party.presentation.screen.detail.state.DetailProfileState
+import com.party.presentation.screen.detail.viewmodel.DetailProfileViewModel
 import com.party.presentation.screen.home_detail_profile.component.LocationSection
 import com.party.presentation.screen.home_detail_profile.component.SelectedProvinceAndSubLocationSection
-import com.party.presentation.screen.home_detail_profile.state.HomeDetailProfileState
-import com.party.presentation.screen.home_detail_profile.viewmodel.HomeDetailProfileViewModel
 import kotlinx.coroutines.flow.collectLatest
 
+const val SELECTED_LOCATION_COUNT = 3
+
 @Composable
-fun HomeDetailProfileLocationScreenRoute(
-    viewModel: HomeDetailProfileViewModel,
+fun DetailProfileLocationScreenRoute(
+    viewModel: DetailProfileViewModel,
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
 ) {
@@ -64,7 +65,7 @@ fun HomeDetailProfileLocationScreenRoute(
 
     LaunchedEffect(key1 = Unit) {
         viewModel.successSaveInterestLocation.collectLatest {
-            navController.navigate(Screens.HomeDetailProfileCareer)
+            navController.navigate(route = Screens.DetailProfileCareer)
         }
     }
 
@@ -74,7 +75,7 @@ fun HomeDetailProfileLocationScreenRoute(
         }
     }
 
-    HomeDetailProfileLocationScreen(
+    DetailProfileLocationScreen(
         snackBarHostState = snackBarHostState,
         state = state,
         onNavigationClick = { navController.popBackStack() },
@@ -84,16 +85,16 @@ fun HomeDetailProfileLocationScreenRoute(
         onGotoNext = {
             viewModel.saveInterestLocation()
         },
-        onSkip = { navController.navigate(route = Screens.HomeDetailProfileCareer)}
+        onSkip = { navController.navigate(route = Screens.DetailProfileCareer)}
     )
 }
 
 @Composable
-private fun HomeDetailProfileLocationScreen(
+private fun DetailProfileLocationScreen(
     snackBarHostState: SnackbarHostState,
-    state: HomeDetailProfileState,
+    state: DetailProfileState,
     onNavigationClick: () -> Unit = {},
-    onAction: (HomeDetailProfileAction) -> Unit,
+    onAction: (DetailProfileAction) -> Unit,
     onGotoNext: () -> Unit = {},
     onSkip: () -> Unit = {},
 ) {
@@ -141,17 +142,17 @@ private fun HomeDetailProfileLocationScreen(
                 HeightSpacer(heightDp = 46.dp)
                 LocationSection(
                     selectedProvince = state.selectedProvince,
-                    onClickProvince = { provinceName -> onAction(HomeDetailProfileAction.OnClickProvince(provinceName = provinceName))},
+                    onClickProvince = { provinceName -> onAction(DetailProfileAction.OnClickProvince(provinceName = provinceName))},
                     subLocationList = state.subLocationList,
                     selectedProvinceAndSubLocationList = state.selectedProvinceAndSubLocationList,
-                    onClickSubLocation = { selectedLocation -> onAction(HomeDetailProfileAction.OnClickSubLocation(location = selectedLocation))}
+                    onClickSubLocation = { selectedLocation -> onAction(DetailProfileAction.OnClickSubLocation(location = selectedLocation))}
                 )
             }
 
             HeightSpacer(heightDp = 16.dp)
             SelectedProvinceAndSubLocationSection(
                 selectedProvinceAndSubLocationList = state.selectedProvinceAndSubLocationList,
-                onDelete = { selectedProvinceAndSubLocation -> onAction(HomeDetailProfileAction.OnDeleteSelectedLocation(locationPair = selectedProvinceAndSubLocation))}
+                onDelete = { selectedProvinceAndSubLocation -> onAction(DetailProfileAction.OnDeleteSelectedLocation(locationPair = selectedProvinceAndSubLocation))}
             )
             HeightSpacer(heightDp = 16.dp)
 

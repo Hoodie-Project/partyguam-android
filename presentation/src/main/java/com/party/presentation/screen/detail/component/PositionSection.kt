@@ -1,6 +1,5 @@
-package com.party.presentation.screen.detail.detail_carrier.component
+package com.party.presentation.screen.detail.component
 
-import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -23,25 +22,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.party.common.DetailCarrierData.mainSelectedCarrier
-import com.party.common.DetailCarrierData.mainSelectedDetailPosition
-import com.party.common.DetailCarrierData.mainSelectedDetailPositionId
-import com.party.common.DetailCarrierData.mainSelectedMainPosition
-import com.party.common.DetailCarrierData.subSelectedCarrier
-import com.party.common.DetailCarrierData.subSelectedDetailPosition
-import com.party.common.DetailCarrierData.subSelectedDetailPositionId
-import com.party.common.DetailCarrierData.subSelectedMainPosition
-import com.party.common.utils.HeightSpacer
 import com.party.common.R
+import com.party.common.component.icon.DrawableIcon
+import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
-import com.party.common.component.icon.DrawableIcon
 import com.party.common.utils.noRippleClickable
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
@@ -52,51 +41,41 @@ import com.party.guam.design.LARGE_BUTTON_HEIGHT
 import com.party.guam.design.LARGE_CORNER_SIZE
 import com.party.guam.design.T3
 import com.party.guam.design.WHITE
+import com.party.presentation.screen.detail.state.DetailProfileState
 
 @Composable
-fun PositionArea(
-    context: Context,
+fun PositionSection(
+    state: DetailProfileState,
     onGoToChoiceCarrierPosition: (Boolean) -> Unit,
+    onFirstReset: () -> Unit,
+    onSecondReset: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        PositionAreaComponent(
-            context = context,
+        PositionAreaItem(
             title = stringResource(id = R.string.detail_carrier3),
-            selectedCarrier = mainSelectedCarrier,
-            selectedPosition = mainSelectedMainPosition,
-            selectedDetailPosition = mainSelectedDetailPosition,
+            selectedCarrier = state.firstCareer,
+            selectedPosition = state.firstMainPosition,
+            selectedDetailPosition = state.firstSubPosition,
             onGoToChoiceCarrierPosition = { onGoToChoiceCarrierPosition(true) },
-            onReset = {
-                mainSelectedCarrier = ""
-                mainSelectedMainPosition = ""
-                mainSelectedDetailPosition = ""
-                mainSelectedDetailPositionId = 0
-            }
+            onReset = onFirstReset
         )
         HeightSpacer(heightDp = 40.dp)
-        PositionAreaComponent(
-            context = context,
+        PositionAreaItem(
             title = stringResource(id = R.string.detail_carrier4),
-            selectedCarrier = subSelectedCarrier,
-            selectedPosition = subSelectedMainPosition,
-            selectedDetailPosition = subSelectedDetailPosition,
+            selectedCarrier = state.secondCareer,
+            selectedPosition = state.secondMainPosition,
+            selectedDetailPosition = state.secondSubPosition,
             onGoToChoiceCarrierPosition = { onGoToChoiceCarrierPosition(false) },
-            onReset = {
-                subSelectedCarrier = ""
-                subSelectedMainPosition = ""
-                subSelectedDetailPosition = ""
-                subSelectedDetailPositionId = 0
-            }
+            onReset = onSecondReset
         )
     }
 }
 
 @Composable
-fun PositionAreaComponent(
-    context: Context,
+private fun PositionAreaItem(
     title: String,
     selectedCarrier: String,
     selectedPosition: String,
@@ -116,7 +95,6 @@ fun PositionAreaComponent(
         )
         HeightSpacer(heightDp = 12.dp)
         AddCarrierCard(
-            context = context,
             selectedCarrier = selectedCarrier,
             selectedPosition = selectedPosition,
             selectedDetailPosition = selectedDetailPosition,
@@ -127,8 +105,7 @@ fun PositionAreaComponent(
 }
 
 @Composable
-fun AddCarrierCard(
-    context: Context,
+private fun AddCarrierCard(
     selectedCarrier: String,
     selectedPosition: String,
     selectedDetailPosition: String,
@@ -174,15 +151,11 @@ fun AddCarrierCard(
                         )
                         WidthSpacer(2.dp)
                         TextComponent(
-                            text = context.getString(R.string.detail_carrier5),
+                            text = "추가하기",
                             textColor = GRAY500,
                             fontSize = B2,
+                            onClick = onGoToChoiceCarrierPosition
                         )
-                        /*TextComponent(
-                            text = "+ ${context.getString(R.string.detail_carrier5)}",
-                            textColor = GRAY500,
-                            fontSize = B2,
-                        )*/
                     }else {
                         TextComponent(
                             text = selectedCarrier,
@@ -240,30 +213,4 @@ fun AddCarrierCard(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun AddCarrierCardPreview() {
-    AddCarrierCard(
-        context = LocalContext.current,
-        selectedPosition = "6년",
-        selectedCarrier = "개발자",
-        selectedDetailPosition = "Android",
-        onGoToChoiceCarrierPosition = {},
-        onReset = {}
-    )
-}
-
-@Preview
-@Composable
-fun AddCarrierCardPreview2() {
-    AddCarrierCard(
-        context = LocalContext.current,
-        selectedPosition = "",
-        selectedCarrier = "",
-        selectedDetailPosition = "",
-        onGoToChoiceCarrierPosition = {},
-        onReset = {}
-    )
 }

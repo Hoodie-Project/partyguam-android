@@ -1,4 +1,4 @@
-package com.party.presentation.screen.home_detail_profile.screen
+package com.party.presentation.screen.detail.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -48,16 +48,16 @@ import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.PRIMARY
 import com.party.guam.design.WHITE
 import com.party.presentation.screen.detail.component.DetailProfileNextButton
+import com.party.presentation.screen.detail.action.DetailProfileAction
 import com.party.presentation.screen.detail.component.SelectTendencyScaffoldArea
-import com.party.presentation.screen.home_detail_profile.action.HomeDetailProfileAction
+import com.party.presentation.screen.detail.state.DetailProfileState
+import com.party.presentation.screen.detail.viewmodel.DetailProfileViewModel
 import com.party.presentation.screen.home_detail_profile.component.TraitCard
-import com.party.presentation.screen.home_detail_profile.state.HomeDetailProfileState
-import com.party.presentation.screen.home_detail_profile.viewmodel.HomeDetailProfileViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun HomeDetailTraitRoute4(
-    viewModel: HomeDetailProfileViewModel,
+fun DetailTraitRoute4(
+    viewModel: DetailProfileViewModel,
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
 ) {
@@ -80,9 +80,9 @@ fun HomeDetailTraitRoute4(
                 description = "입력한 내용들이 모두 초기화됩니다.\n나가시겠습니까?",
                 cancelButtonText = "취소",
                 confirmButtonText = "나가기",
-                onCancel = { viewModel.onAction(action = HomeDetailProfileAction.OnShowFinishDialog(isShow = false)) },
+                onCancel = { viewModel.onAction(action = DetailProfileAction.OnShowFinishDialog(isShow = false)) },
                 onConfirm = {
-                    navController.navigate(Screens.Home) {
+                    navController.navigate(Screens.Main) {
                         popUpTo(navController.graph.startDestinationId) { inclusive = true } // 모든 백 스택 제거
                         launchSingleTop = true // 중복 방지
                     }
@@ -91,23 +91,23 @@ fun HomeDetailTraitRoute4(
         }
     }
 
-    HomeDetailTraitScreen4(
+    DetailTraitScreen4(
         snackBarHostState = snackBarHostState,
         onNavigationClick = { navController.popBackStack() },
         state = state,
         onAction = { action -> viewModel.onAction(action = action)},
-        onGotoNext = { navController.navigate(route = Screens.TraitComplete)},
-        onClose = { viewModel.onAction(action = HomeDetailProfileAction.OnShowFinishDialog(isShow = true))},
-        onSkip = { navController.navigate(route = Screens.TraitComplete)}
+        onGotoNext = { navController.navigate(route = Screens.DetailTraitComplete)},
+        onClose = { viewModel.onAction(action = DetailProfileAction.OnShowFinishDialog(isShow = true))},
+        onSkip = { navController.navigate(route = Screens.DetailTraitComplete)}
     )
 }
 
 @Composable
-private fun HomeDetailTraitScreen4(
+private fun DetailTraitScreen4(
     snackBarHostState: SnackbarHostState,
     onNavigationClick: () -> Unit = {},
-    state: HomeDetailProfileState,
-    onAction: (HomeDetailProfileAction) -> Unit,
+    state: DetailProfileState,
+    onAction: (DetailProfileAction) -> Unit,
     onGotoNext: () -> Unit = {},
     onClose: () -> Unit = {},
     onSkip: () -> Unit = {},
@@ -162,7 +162,7 @@ private fun HomeDetailTraitScreen4(
                     ,
                     selectedTraitList4 = state.selectedTraitList4,
                     traitList = state.personalityList.filter { it.id == 4 },
-                    onSelect = { onAction(HomeDetailProfileAction.OnSelectTrait4(it))}
+                    onSelect = { onAction(DetailProfileAction.OnSelectTrait4(it))}
                 )
             }
 

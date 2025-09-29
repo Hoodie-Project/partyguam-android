@@ -2,7 +2,6 @@ package com.party.presentation.screen.join.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,7 +24,6 @@ import com.party.common.utils.HeightSpacer
 import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.T1
 import com.party.guam.design.WHITE
-import com.party.presentation.screen.join.component.JoinTitleSection
 import com.party.presentation.screen.join.component.RowButtonArea
 
 @Composable
@@ -35,8 +33,8 @@ fun JoinCompleteScreenRoute(
 ){
     JoinCompleteScreen(
         snackBarHostState = snackBarHostState,
-        onGotoHome = { navController.navigate(Screens.Home)},
-        onGotoDetailProfile = {}
+        onGotoHome = { navController.navigate(route = Screens.Main)},
+        onGotoDetailProfile = { navController.navigate(route = Screens.DetailProfile)}
     )
 }
 

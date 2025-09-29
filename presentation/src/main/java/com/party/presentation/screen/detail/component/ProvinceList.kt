@@ -1,4 +1,4 @@
-package com.party.presentation.screen.detail.detail_profile
+package com.party.presentation.screen.detail.component
 
 enum class ProvinceList(
     val city: String,

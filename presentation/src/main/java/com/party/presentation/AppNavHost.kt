@@ -18,20 +18,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
 import com.party.common.ConnectivityObserver
 import com.party.common.NetworkConnectivityObserver
 import com.party.common.Screens
 import com.party.common.hasInternetConnection
 import com.party.guam.design.WHITE
-import com.party.presentation.screen.detail.choice_carrier_position.ChoiceCarrierPositionScreen
-import com.party.presentation.screen.detail.detail_carrier.DetailCarrierScreen
-import com.party.presentation.screen.detail.detail_profile.DetailProfileScreen
-import com.party.presentation.screen.detail.select_tendency.SelectTendencyCompleteScreen
-import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen1
-import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen2
-import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen3
-import com.party.presentation.screen.detail.select_tendency.SelectTendencyScreen4
+import com.party.presentation.screen.detail.detailProfileGraph
 import com.party.presentation.screen.guide_permission.GuidePermissionScreenRoute
 import com.party.presentation.screen.info_center.infoCenterGraph
 import com.party.presentation.screen.join.joinGraph
@@ -90,7 +82,7 @@ fun AppNavHost() {
     } else {
         NavHost(
             navController = navController,
-            startDestination = Screens.Splash,
+            startDestination = Screens.DetailProfile,
             modifier = Modifier
                 .fillMaxSize()
                 .background(WHITE)
@@ -146,60 +138,11 @@ fun AppNavHost() {
                 navController = navController,
                 snackBarHostState = snackBarHostState,
             )
-            composable<Screens.DetailProfile> { backStackEntry ->
-                val userNickName = backStackEntry.toRoute<Screens.DetailProfile>().userNickName
-                DetailProfileScreen(
-                    context = context,
-                    snackBarHostState = snackBarHostState,
-                    navController = navController,
-                    userNickName = userNickName,
-                )
-            }
-            composable<Screens.DetailCarrier> { backStackEntry ->
-                val userNickName = backStackEntry.toRoute<Screens.DetailCarrier>().userNickName
-                DetailCarrierScreen(
-                    context = context,
-                    snackBarHostState = snackBarHostState,
-                    navController = navController,
-                    userNickName = userNickName,
-                )
-            }
-            composable<Screens.ChoiceCarrierPosition> { backStackEntry ->
-                val isMain = backStackEntry.toRoute<Screens.ChoiceCarrierPosition>().isMain
-                ChoiceCarrierPositionScreen(
-                    navController = navController,
-                    isMain = isMain,
-                )
-            }
-            composable<Screens.SelectTendency1> {
-                SelectTendencyScreen1(
-                    navController = navController,
-                    snackBarHostState = snackBarHostState
-                )
-            }
-            composable<Screens.SelectTendency2> {
-                SelectTendencyScreen2(
-                    navController = navController,
-                    snackBarHostState = snackBarHostState,
-                )
-            }
-            composable<Screens.SelectTendency3> {
-                SelectTendencyScreen3(
-                    navController = navController,
-                    snackBarHostState = snackBarHostState,
-                )
-            }
-            composable<Screens.SelectTendency4> {
-                SelectTendencyScreen4(
-                    navController = navController,
-                    snackBarHostState = snackBarHostState,
-                )
-            }
-            composable<Screens.SelectTendencyComplete> {
-                SelectTendencyCompleteScreen(
-                    navController = navController,
-                )
-            }
+
+            detailProfileGraph(
+                navController = navController,
+                snackBarHostState = snackBarHostState,
+            )
 
             composable<Screens.Main> {
                 MainScreen(
@@ -214,7 +157,6 @@ fun AppNavHost() {
                     }
                 )
             }
-
         }
     }
 }

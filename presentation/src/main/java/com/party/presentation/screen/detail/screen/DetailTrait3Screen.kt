@@ -1,4 +1,4 @@
-package com.party.presentation.screen.home_detail_profile.screen
+package com.party.presentation.screen.detail.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -48,16 +48,16 @@ import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.PRIMARY
 import com.party.guam.design.WHITE
 import com.party.presentation.screen.detail.component.DetailProfileNextButton
+import com.party.presentation.screen.detail.action.DetailProfileAction
 import com.party.presentation.screen.detail.component.SelectTendencyScaffoldArea
-import com.party.presentation.screen.home_detail_profile.action.HomeDetailProfileAction
+import com.party.presentation.screen.detail.state.DetailProfileState
+import com.party.presentation.screen.detail.viewmodel.DetailProfileViewModel
 import com.party.presentation.screen.home_detail_profile.component.TraitCard
-import com.party.presentation.screen.home_detail_profile.state.HomeDetailProfileState
-import com.party.presentation.screen.home_detail_profile.viewmodel.HomeDetailProfileViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun HomeDetailTraitRoute4(
-    viewModel: HomeDetailProfileViewModel,
+fun DetailTraitRoute3(
+    viewModel: DetailProfileViewModel,
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
 ) {
@@ -80,9 +80,9 @@ fun HomeDetailTraitRoute4(
                 description = "입력한 내용들이 모두 초기화됩니다.\n나가시겠습니까?",
                 cancelButtonText = "취소",
                 confirmButtonText = "나가기",
-                onCancel = { viewModel.onAction(action = HomeDetailProfileAction.OnShowFinishDialog(isShow = false)) },
+                onCancel = { viewModel.onAction(action = DetailProfileAction.OnShowFinishDialog(isShow = false)) },
                 onConfirm = {
-                    navController.navigate(Screens.Home) {
+                    navController.navigate(Screens.Main) {
                         popUpTo(navController.graph.startDestinationId) { inclusive = true } // 모든 백 스택 제거
                         launchSingleTop = true // 중복 방지
                     }
@@ -96,9 +96,9 @@ fun HomeDetailTraitRoute4(
         onNavigationClick = { navController.popBackStack() },
         state = state,
         onAction = { action -> viewModel.onAction(action = action)},
-        onGotoNext = { navController.navigate(route = Screens.TraitComplete)},
-        onClose = { viewModel.onAction(action = HomeDetailProfileAction.OnShowFinishDialog(isShow = true))},
-        onSkip = { navController.navigate(route = Screens.TraitComplete)}
+        onGotoNext = { navController.navigate(route = Screens.DetailTrait4)},
+        onClose = { viewModel.onAction(action = DetailProfileAction.OnShowFinishDialog(isShow = true))},
+        onSkip = { navController.navigate(route = Screens.DetailTrait4)}
     )
 }
 
@@ -106,8 +106,8 @@ fun HomeDetailTraitRoute4(
 private fun HomeDetailTraitScreen4(
     snackBarHostState: SnackbarHostState,
     onNavigationClick: () -> Unit = {},
-    state: HomeDetailProfileState,
-    onAction: (HomeDetailProfileAction) -> Unit,
+    state: DetailProfileState,
+    onAction: (DetailProfileAction) -> Unit,
     onGotoNext: () -> Unit = {},
     onClose: () -> Unit = {},
     onSkip: () -> Unit = {},
@@ -144,32 +144,32 @@ private fun HomeDetailTraitScreen4(
                 val steps = listOf(
                     StepInfo("1", "관심지역", StepStatus.COMPLETED),
                     StepInfo("2", "경력/포지션", StepStatus.COMPLETED),
-                    StepInfo("3", "성향선택(4/4)", StepStatus.CURRENT)
+                    StepInfo("3", "성향선택(3/4)", StepStatus.CURRENT)
                 )
 
                 ProfileIndicatorSection(steps = steps)
 
                 ScreenExplainArea(
-                    mainExplain = stringResource(id = R.string.select_tendency7),
-                    subExplain = stringResource(id = R.string.select_tendency2),
+                    mainExplain = stringResource(id = R.string.select_tendency5),
+                    subExplain = stringResource(id = R.string.select_tendency6),
                 )
 
                 HeightSpacer(heightDp = 40.dp)
 
-                Trait4Section(
+                Trait3Section(
                     modifier = Modifier
                         .weight(1f)
                     ,
-                    selectedTraitList4 = state.selectedTraitList4,
-                    traitList = state.personalityList.filter { it.id == 4 },
-                    onSelect = { onAction(HomeDetailProfileAction.OnSelectTrait4(it))}
+                    selectedTraitList3 = state.selectedTraitList3,
+                    traitList = state.personalityList.filter { it.id == 3 },
+                    onSelect = { onAction(DetailProfileAction.OnSelectTrait3(it))}
                 )
             }
 
             DetailProfileNextButton(
                 text = stringResource(id = R.string.common1),
-                textColor = if(state.selectedTraitList4.isNotEmpty()) BLACK else GRAY400,
-                containerColor = if(state.selectedTraitList4.isNotEmpty()) PRIMARY else LIGHT400,
+                textColor = if(state.selectedTraitList3.isNotEmpty()) BLACK else GRAY400,
+                containerColor = if(state.selectedTraitList3.isNotEmpty()) PRIMARY else LIGHT400,
                 onClick = onGotoNext
             )
 
@@ -192,13 +192,13 @@ private fun HomeDetailTraitScreen4(
 }
 
 @Composable
-private fun Trait4Section(
+private fun Trait3Section(
     modifier: Modifier,
-    selectedTraitList4: List<PersonalityListOption>,
+    selectedTraitList3: List<PersonalityListOption>,
     traitList: List<PersonalityList>,
     onSelect: (PersonalityListOption) -> Unit,
 ) {
-    val trait1Options = traitList.find { it.id == 4 }?.personalityOptions ?: emptyList()
+    val trait1Options = traitList.find { it.id == 3 }?.personalityOptions ?: emptyList()
 
     LazyColumn(
         modifier = modifier.fillMaxWidth(),
@@ -208,7 +208,7 @@ private fun Trait4Section(
             items = trait1Options,
             key = { _, item -> item.id }
         ) { index, option ->
-            val isSelected = selectedTraitList4.any { it.id == option.id }
+            val isSelected = selectedTraitList3.any { it.id == option.id }
 
             TraitCard(
                 containerColor = if(isSelected) LIGHT300 else WHITE,

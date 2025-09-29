@@ -35,7 +35,7 @@ import com.party.guam.design.WHITE
 import com.party.common.utils.WidthSpacer
 import com.party.common.utils.noRippleClickable
 import com.party.domain.model.user.detail.Location
-import com.party.presentation.screen.detail.detail_profile.ProvinceList
+import com.party.presentation.screen.detail.component.ProvinceList
 
 @Composable
 fun ProfileEditSelectLocationArea(

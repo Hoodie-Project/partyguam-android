@@ -29,7 +29,6 @@ import com.party.guam.design.BLACK
 import com.party.guam.design.LARGE_CORNER_SIZE
 import com.party.guam.design.PRIMARY
 import com.party.guam.design.WHITE
-import com.party.presentation.screen.detail.detail_profile.component.SelectLocationComponent
 
 @Composable
 fun SelectedProvinceAndSubLocationSection(

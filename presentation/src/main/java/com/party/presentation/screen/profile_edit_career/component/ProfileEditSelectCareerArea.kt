@@ -31,7 +31,7 @@ import com.party.guam.design.LIGHT100
 import com.party.guam.design.LIGHT300
 import com.party.guam.design.T3
 import com.party.guam.design.WHITE
-import com.party.presentation.screen.detail.choice_carrier_position.component.carrierList
+import com.party.presentation.screen.detail.component.careerList
 
 @Composable
 fun ProfileEditSelectCareerArea(
@@ -55,7 +55,7 @@ fun ProfileEditSelectCareerArea(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             itemsIndexed(
-                items = carrierList,
+                items = careerList,
                 key = { index, _ ->
                     index
                 }

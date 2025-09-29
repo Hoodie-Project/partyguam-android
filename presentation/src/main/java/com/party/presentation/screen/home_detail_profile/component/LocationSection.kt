@@ -36,7 +36,7 @@ import com.party.guam.design.LIGHT400
 import com.party.guam.design.PRIMARY
 import com.party.guam.design.T3
 import com.party.guam.design.WHITE
-import com.party.presentation.screen.detail.detail_profile.provinceList
+import com.party.presentation.screen.detail.component.provinceList
 
 @Composable
 fun LocationSection(

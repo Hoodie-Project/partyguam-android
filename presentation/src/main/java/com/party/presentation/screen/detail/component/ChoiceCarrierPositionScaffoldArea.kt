@@ -1,4 +1,4 @@
-package com.party.presentation.screen.detail.detail_profile.component
+package com.party.presentation.screen.detail.component
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,18 +12,11 @@ import com.party.guam.design.BLACK
 import com.party.guam.design.T2
 
 @Composable
-fun DetailProfileScaffoldArea(
+fun ChoiceCarrierPositionScaffoldArea(
     onNavigationClick: () -> Unit,
 ) {
     ScaffoldCenterBar(
-        title = {
-            Text(
-                text = "세부프로필",
-                fontWeight = FontWeight.Bold,
-                fontSize = T2
-            )
-        },
-        actionIcons = {
+        navigationIcon = {
             DrawableIconButton(
                 icon = painterResource(id = R.drawable.icon_close2),
                 iconColor = BLACK,
@@ -31,6 +24,13 @@ fun DetailProfileScaffoldArea(
                 contentDescription = "back",
                 onClick = { onNavigationClick() }
             )
-        }
+        },
+        title = {
+            Text(
+                text = "경력/포지션 선택",
+                fontWeight = FontWeight.    Bold,
+                fontSize = T2
+            )
+        },
     )
 }

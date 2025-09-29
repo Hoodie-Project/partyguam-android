@@ -1,6 +1,6 @@
-package com.party.presentation.screen.detail.choice_carrier_position.component
+package com.party.presentation.screen.detail.component
 
-val carrierList = listOf(
+val careerList = listOf(
     "신입",
     "1년",
     "2년",

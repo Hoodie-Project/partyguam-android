@@ -1,4 +1,4 @@
-package com.party.presentation.screen.home_detail_profile.state
+package com.party.presentation.screen.detail.state
 
 import com.party.domain.model.user.detail.Location
 import com.party.domain.model.user.detail.PersonalityList
@@ -6,7 +6,7 @@ import com.party.domain.model.user.detail.PersonalityListOption
 import com.party.domain.model.user.detail.PositionList
 import com.party.presentation.screen.detail.component.provinceList
 
-data class HomeDetailProfileState(
+data class DetailProfileState(
     val isShowFinishDialog: Boolean = false,
 
     val selectedProvince: String = provinceList[0], // 선택된 메인 지역 (서울)
@@ -32,5 +32,4 @@ data class HomeDetailProfileState(
     val selectedTraitList2: List<PersonalityListOption> = emptyList(),
     val selectedTraitList3: List<PersonalityListOption> = emptyList(),
     val selectedTraitList4: List<PersonalityListOption> = emptyList(),
-
 )
