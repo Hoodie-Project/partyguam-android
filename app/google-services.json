@@ -1,32 +1,13 @@
 {
   "project_info": {
-    "project_number": "969352360034",
-    "project_id": "guam-6b56b",
-    "storage_bucket": "guam-6b56b.firebasestorage.app"
+    "project_number": "969455474836",
+    "project_id": "guam-dev",
+    "storage_bucket": "guam-dev.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:969352360034:android:3e85b6380e9fa83e4d613b",
-        "android_client_info": {
-          "package_name": "com.party.guam"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyD8AlqcsGP-cb10uJ3bV8bR1rrpwvPIqnQ"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:969352360034:android:177214739f6f6a7b4d613b",
+        "mobilesdk_app_id": "1:969455474836:android:8e3a8e1e08fc649eaffc81",
         "android_client_info": {
           "package_name": "com.party.guham2"
         }
@@ -34,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyD8AlqcsGP-cb10uJ3bV8bR1rrpwvPIqnQ"
+          "current_key": "AIzaSyDxYMx6PMe2Mo6zjMrCq04LiFSMXpqJj0w"
         }
       ],
       "services": {
