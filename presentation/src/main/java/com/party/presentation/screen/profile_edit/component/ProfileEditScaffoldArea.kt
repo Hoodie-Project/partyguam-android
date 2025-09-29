@@ -1,9 +1,7 @@
 package com.party.presentation.screen.profile_edit.component
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -11,9 +9,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.scaffold.ScaffoldCenterBar
-import com.party.guam.design.B2
 import com.party.guam.design.BLACK
-import com.party.guam.design.DARK100
 import com.party.guam.design.T2
 
 @Composable
@@ -37,7 +33,7 @@ fun ProfileEditScaffoldArea(
                 fontSize = T2
             )
         },
-        actionIcons = {
+        /*actionIcons = {
             Text(
                 text = "미리보기",
                 fontWeight = FontWeight.Bold,
@@ -45,8 +41,11 @@ fun ProfileEditScaffoldArea(
                 color = DARK100,
                 modifier = Modifier
                     .padding(end = 20.dp)
+                    .clickable {
+                        onGotoProfileEditPreview()
+                    }
             )
-        }
+        }*/
     )
 }
 
