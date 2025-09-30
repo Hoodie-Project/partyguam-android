@@ -67,6 +67,8 @@ import com.party.domain.model.party.User
 import com.party.domain.model.party.UserCareer
 import com.party.domain.model.user.PartyAuthority
 import com.party.domain.model.user.PartyAuthorityPosition
+import com.party.data.BuildConfig
+import com.party.data.util.convertToPartyImage
 
 object PartyMapper {
     fun mapperPersonalRecruitmentResponse(personalRecruitmentListDto: PersonalRecruitmentListDto): PersonalRecruitmentList{
@@ -113,7 +115,7 @@ object PartyMapper {
                     party = RecruitmentParty(
                         id = it.party.id,
                         title = it.party.title,
-                        image = convertToImageUrl(it.party.image),
+                        image = convertToPartyImage(it.party.image),
                         partyType = RecruitmentPartyType(
                             id = it.party.partyType.id,
                             type = it.party.partyType.type
@@ -141,7 +143,7 @@ object PartyMapper {
                     ),
                     title = it.title,
                     content = it.content,
-                    image = convertToImageUrl(it.image),
+                    image = convertToPartyImage(it.image),
                     status = it.status,
                     createdAt = it.createdAt,
                     updatedAt = it.updatedAt,
@@ -155,7 +157,7 @@ object PartyMapper {
         return RecruitmentDetail(
             party = RecruitmentDetailParty(
                 title = recruitmentDetailDto.party.title,
-                image = convertToImageUrl(recruitmentDetailDto.party.image),
+                image = convertToPartyImage(recruitmentDetailDto.party.image),
                 status = recruitmentDetailDto.party.status,
                 partyType = RecruitmentDetailPartyType(
                     type = recruitmentDetailDto.party.partyType.type
@@ -180,7 +182,7 @@ object PartyMapper {
             partyType = mapperPartyType(partyDetailDto.partyType),
             title = partyDetailDto.title,
             content = partyDetailDto.content,
-            image = convertToImageUrl(partyDetailDto.image),
+            image = convertToPartyImage(partyDetailDto.image),
             status = partyDetailDto.status,
             createdAt = partyDetailDto.createdAt,
             updatedAt = partyDetailDto.updatedAt,

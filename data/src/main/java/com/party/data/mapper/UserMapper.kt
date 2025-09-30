@@ -32,6 +32,7 @@ import com.party.data.dto.user.profile.UserProfilePositionDto
 import com.party.data.dto.user.recruitment.MyRecruitmentDto
 import com.party.data.dto.user.recruitment.PartyApplicationDto
 import com.party.data.util.convertToImageUrl
+import com.party.data.util.convertToPartyImage
 import com.party.domain.model.user.CheckVersion
 import com.party.domain.model.user.LinkGoogle
 import com.party.domain.model.user.LinkKakao
@@ -185,7 +186,7 @@ object UserMapper {
             party = Party(
                 id = partyUserDto.party.id,
                 title = partyUserDto.party.title,
-                image = convertToImageUrl(partyUserDto.party.image),
+                image = convertToPartyImage(partyUserDto.party.image),
                 status = partyUserDto.party.status,
                 partyType = PartyType(
                     type = partyUserDto.party.partyType.type
@@ -218,7 +219,7 @@ object UserMapper {
                 party = com.party.domain.model.user.recruitment.Party(
                     id = partyApplicationDto.partyRecruitment.party.id,
                     title = partyApplicationDto.partyRecruitment.party.title,
-                    image = convertToImageUrl(partyApplicationDto.partyRecruitment.party.image),
+                    image = convertToPartyImage(partyApplicationDto.partyRecruitment.party.image),
                     partyType = com.party.domain.model.user.recruitment.PartyType(
                         type = partyApplicationDto.partyRecruitment.party.partyType.type
                     )

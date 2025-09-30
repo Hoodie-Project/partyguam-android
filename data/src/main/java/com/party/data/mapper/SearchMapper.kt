@@ -9,6 +9,7 @@ import com.party.data.dto.search.SearchedPartyDto
 import com.party.data.dto.search.SearchedPartyRecruitmentDto
 import com.party.data.dto.search.SearchedRecruitmentDataDto
 import com.party.data.util.convertToImageUrl
+import com.party.data.util.convertToPartyImage
 import com.party.domain.model.search.Party
 import com.party.domain.model.search.PartyType
 import com.party.domain.model.search.Position
@@ -46,7 +47,7 @@ object SearchMapper {
             partyType = mapperPartyType(searchedPartyDataDto.partyType),
             title = searchedPartyDataDto.title,
             content = searchedPartyDataDto.content,
-            image = convertToImageUrl(searchedPartyDataDto.image),
+            image = convertToPartyImage(searchedPartyDataDto.image),
             status = searchedPartyDataDto.status,
             createdAt = searchedPartyDataDto.createdAt,
             updatedAt = searchedPartyDataDto.updatedAt,
@@ -86,7 +87,7 @@ object SearchMapper {
         return Party(
             id = partyDto.id,
             title = partyDto.title,
-            image = convertToImageUrl(partyDto.image),
+            image = convertToPartyImage(partyDto.image),
             status = partyDto.status,
             partyType = mapperPartyType(partyDto.partyType)
         )

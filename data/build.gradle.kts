@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -5,6 +7,9 @@ plugins {
     alias(libs.plugins.ksp)
     id("kotlinx-serialization")
 }
+
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
     namespace = "com.party.data"
@@ -15,6 +20,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField("String", "DEFAULT_IMAGE", "\"${properties.getProperty("DEFAULT_IMAGE")}\"")
     }
 
     buildTypes {
