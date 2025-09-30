@@ -12,8 +12,6 @@ data class MyPartyState(
     val isMyPartyLoading: Boolean = true,
     val myPartyList: MyParty = MyParty(total = 0, partyUsers = emptyList()),
     val orderByDesc: Boolean = true,
-    val isExpandedFloating: Boolean = false,
-    var isMyPartyScroll: Boolean = false,
 
     // 내 지원목록
     val selectedRecruitmentStatus: String = "전체",

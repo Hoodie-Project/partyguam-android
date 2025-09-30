@@ -1,7 +1,6 @@
 package com.party.presentation.screen.home
 
 sealed interface HomeAction {
-    data class OnTabClick(val tabText: String) : HomeAction
     data object OnPersonalRecruitmentReload : HomeAction
 
     data class OnPartyTypeSheetOpen(val isVisibleModal: Boolean) : HomeAction
@@ -27,7 +26,6 @@ sealed interface HomeAction {
     data object OnSelectedPartyTypeResetRecruitmentReset : HomeAction
     data object OnPartyTypeApplyRecruitment : HomeAction
 
-    data class OnExpandedFloating(val isExpandedFloating: Boolean): HomeAction
 
     // 앱버전 체크 Dialog
     data class OnShowForceUpdateDialog(val isShow: Boolean): HomeAction

@@ -39,9 +39,6 @@ class StateViewModel @Inject constructor(
     private val _successCancel = MutableSharedFlow<Unit>()
     val successCancel = _successCancel.asSharedFlow()
 
-    private val _scrollToUp = MutableSharedFlow<Unit>()
-    val scrollToUp = _scrollToUp.asSharedFlow()
-
     private fun cancelRecruitment(partyId: Int, partyApplicationId: Int){
         viewModelScope.launch(Dispatchers.IO) {
             when(val result = cancelRecruitmentUseCase(partyId = partyId, partyApplicationId = partyApplicationId)){
@@ -141,17 +138,19 @@ class StateViewModel @Inject constructor(
                 }
             }
             is MyPartyAction.OnShowHelpCard -> _myPartyState.update { it.copy(isShowHelpCard = action.isShowHelpCard) }
-            is MyPartyAction.OnExpandedFloating -> _myPartyState.update { it.copy(isExpandedFloating = action.isExpandedFloating) }
             is MyPartyAction.OnSelectStatus -> _myPartyState.update { currentState -> currentState.copy(selectedStatus = action.selectedStatus) }
             is MyPartyAction.OnCancelRecruitment -> cancelRecruitment(partyId = action.partyId, partyApplicationId = action.partyApplicationId)
             is MyPartyAction.OnApprovalParty -> approvalParty(partyId = action.partyId, partyApplicationId = action.partyApplicationId)
             is MyPartyAction.OnRejectionParty -> rejectionParty(partyId = action.partyId, partyApplicationId = action.partyApplicationId)
         }
     }
+}
 
-    fun scrollToTopFun(){
-        viewModelScope.launch(Dispatchers.Main) {
-            _scrollToUp.emit(Unit)
-        }
+object StateEvent {
+    private val _scrollToUp = MutableSharedFlow<Unit>(replay = 1)
+    val scrollToUp = _scrollToUp.asSharedFlow()
+
+    fun scrollToUp(){
+        _scrollToUp.tryEmit(Unit)
     }
 }

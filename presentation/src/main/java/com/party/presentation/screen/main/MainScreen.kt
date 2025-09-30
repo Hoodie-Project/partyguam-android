@@ -14,6 +14,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,16 +33,16 @@ import androidx.navigation.toRoute
 import com.party.common.Screens
 import com.party.common.component.BottomNavigationBar
 import com.party.common.component.getCurrentScreen
-import com.party.common.component.homeTopTabList
 import com.party.common.component.profileEditTendencyTabList
 import com.party.common.component.snackbar.CustomSnackBar
 import com.party.guam.design.WHITE
 import com.party.presentation.ANIMATION_DURATION
+import com.party.presentation.screen.app.AppState
 import com.party.presentation.screen.auth_setting.AuthSettingScreenRoute
-import com.party.presentation.screen.home.HomeScreenRoute
 import com.party.presentation.screen.home_detail_profile.homeDetailProfileGraph
 import com.party.presentation.screen.info_center.ServiceIntroduceScreenRoute
 import com.party.presentation.screen.info_center.infoCenterGraph
+import com.party.presentation.screen.main.event.MainEvent
 import com.party.presentation.screen.manage_applicant.ManageApplicantScreenRoute
 import com.party.presentation.screen.notification.NotificationScreenRoute
 import com.party.presentation.screen.party_apply.PartyApplyRoute
@@ -50,7 +51,6 @@ import com.party.presentation.screen.party_detail.PartyDetailRoute
 import com.party.presentation.screen.party_edit.PartyEditScreenRoute
 import com.party.presentation.screen.party_edit_recruitment.PartyEditRecruitmentScreenRoute
 import com.party.presentation.screen.party_user_manage.PartyUserManageScreenRoute
-import com.party.presentation.screen.profile.ProfileScreenRoute
 import com.party.presentation.screen.profile_edit.ProfileEditScreenRoute
 import com.party.presentation.screen.profile_edit_career.ProfileEditCareerScreenRoute
 import com.party.presentation.screen.profile_edit_locations.ProfileEditLocationScreenRoute
@@ -64,7 +64,6 @@ import com.party.presentation.screen.recruitment_edit.RecruitmentEditRoute
 import com.party.presentation.screen.recruitment_preview.RecruitmentPreviewScreenRoute
 import com.party.presentation.screen.reports.ReportsScreenRoute
 import com.party.presentation.screen.search.SearchScreenRoute
-import com.party.presentation.screen.state.StateScreenRoute
 import com.party.presentation.screen.user_delete.UserDeleteScreenRoute
 import com.party.presentation.screen.webview.WebViewScreenRoute
 import kotlinx.coroutines.delay
@@ -73,15 +72,25 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainScreen(
     snackBarHostState: SnackbarHostState,
+    state: AppState,
     isFirstVersionCheck: Boolean,
     onChangeFirstVersionCheck: (Boolean) -> Unit,
-    onGotoLogin: () -> Unit
+    onGotoLogin: () -> Unit,
+    onTabClick: (String) -> Unit,
+    onCurrentScreen: (String?) -> Unit,
+    onStartScrollParty: (Boolean) -> Unit,
+    onStartScrollRecruitment: (Boolean) -> Unit,
+    onStartScroll: (Boolean) -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
     val navController = rememberNavController()
 
     val currentScreen = getCurrentScreen(navController)
+
+    LaunchedEffect(key1 = currentScreen) {
+        onCurrentScreen(currentScreen)
+    }
 
     // 백버튼 두 번 누르기 위한 상태
     var backPressedOnce by remember { mutableStateOf(false) }
@@ -143,6 +152,7 @@ fun MainScreen(
             BottomBarGraph(
                 context = context,
                 snackBarHostState = snackBarHostState,
+                state = state,
                 isFirstVersionCheck = isFirstVersionCheck,
                 onChangeFirstVersionCheck = onChangeFirstVersionCheck,
                 navController = navController,
@@ -152,13 +162,17 @@ fun MainScreen(
                 onClickBanner = { navController.navigate(route = Screens.WebView(webViewUrl = it))},
                 onGotoRecruitmentDetail = { partyId, partyRecruitmentId -> navController.navigate(Screens.RecruitmentDetail(partyId = partyId, partyRecruitmentId = partyRecruitmentId)) },
                 onGotoPartyDetail = { navController.navigate(Screens.PartyDetail(it))},
-                onGoPartyCreate = { navController.navigate(route = Screens.PartyCreate)},
                 onGotoDetailProfile = { navController.navigate(route = Screens.HomeDetailProfile)},
                 onGoSetting = { navController.navigate(route = Screens.ManageAuth) },
                 onGotoProfileEdit = { navController.navigate(route = Screens.ProfileEdit)},
                 onGotoLogin = onGotoLogin,
+                onTabClick = onTabClick,
+                onStartScrollParty = onStartScrollParty,
+                onStartScrollRecruitment = onStartScrollRecruitment,
+                onStartScroll = onStartScroll
             )
         }
+
     }
 }
 
@@ -166,6 +180,7 @@ fun MainScreen(
 private fun BottomBarGraph(
     context: Context,
     snackBarHostState: SnackbarHostState,
+    state: AppState,
     isFirstVersionCheck: Boolean,
     onChangeFirstVersionCheck: (Boolean) -> Unit,
     navController: NavHostController,
@@ -175,12 +190,19 @@ private fun BottomBarGraph(
     onClickBanner: (String) -> Unit,
     onGotoRecruitmentDetail: (Int, Int) -> Unit,
     onGotoPartyDetail: (Int) -> Unit,
-    onGoPartyCreate: () -> Unit,
     onGotoDetailProfile: () -> Unit,
     onGoSetting: () -> Unit,
     onGotoProfileEdit: () -> Unit,
     onGotoLogin: () -> Unit,
+    onTabClick: (String) -> Unit,
+    onStartScrollParty: (Boolean) -> Unit,
+    onStartScrollRecruitment: (Boolean) -> Unit,
+    onStartScroll: (Boolean) -> Unit,
 ) {
+    LaunchedEffect(key1 = Unit) {
+        MainEvent.goToPartyCreate.collect { navController.navigate(route = Screens.PartyCreate) }
+    }
+
     NavHost(
         modifier = Modifier
             .background(WHITE)
@@ -216,38 +238,26 @@ private fun BottomBarGraph(
         navigation<Screens.Main>(
             startDestination = Screens.Home,
         ){
-            composable<Screens.Home> {
-                HomeScreenRoute(
-                    context = context,
-                    homeTopTabList = homeTopTabList,
-                    isFirstVersionCheck = isFirstVersionCheck,
-                    onChangeFirstVersionCheck = { onChangeFirstVersionCheck(false)},
-                    onGotoSearch = onGotoSearch,
-                    onGotoNotification = onGotoNotification,
-                    onClickBanner = onClickBanner,
-                    onGotoRecruitmentDetail = onGotoRecruitmentDetail,
-                    onGotoPartyDetail = onGotoPartyDetail,
-                    onGoPartyCreate = onGoPartyCreate,
-                    onGotoDetailProfile = onGotoDetailProfile,
-                )
-            }
-            composable<Screens.State> {
-                StateScreenRoute(
-                    onGoToSearch = onGotoSearch,
-                    onGotoNotification = onGotoNotification,
-                    onGoPartyCreate = onGoPartyCreate,
-                    onGotoPartyDetail = onGotoPartyDetail,
-                )
-            }
-            composable<Screens.Profile> {
-                ProfileScreenRoute(
-                    navController = navController,
-                    onGotoNotification = onGotoNotification,
-                    onGoSetting = onGoSetting,
-                    onGotoPartyDetail = onGotoPartyDetail,
-                    onGotoProfileEdit = onGotoProfileEdit
-                )
-            }
+            mainGraph(
+                context = context,
+                navController = navController,
+                state = state,
+                isFirstVersionCheck = isFirstVersionCheck,
+                onChangeFirstVersionCheck = onChangeFirstVersionCheck,
+                onGotoProfileEdit = onGotoProfileEdit,
+                onGotoPartyDetail = onGotoPartyDetail,
+                onGotoSearch = onGotoSearch,
+                onGotoNotification = onGotoNotification,
+                onGoSetting = onGoSetting,
+                onGotoDetailProfile = onGotoDetailProfile,
+                onGotoRecruitmentDetail = onGotoRecruitmentDetail,
+                onClickBanner = onClickBanner,
+                onTabClick = onTabClick,
+                onStartScrollParty = onStartScrollParty,
+                onStartScrollRecruitment = onStartScrollRecruitment,
+                onStartScroll = onStartScroll
+            )
+
             composable<Screens.Search> {
                 SearchScreenRoute(
                     navController = navController,

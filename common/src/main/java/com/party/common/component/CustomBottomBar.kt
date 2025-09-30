@@ -45,6 +45,7 @@ fun BottomNavigationBar(
     onTabClick: (Screens) -> Unit,
     isExpandedFloatingButton: Boolean = false,
 ){
+
     AppBottomNavigationBar(
         isExpandedFloatingButton = isExpandedFloatingButton,
         show = shouldShowBottomBar(navController),

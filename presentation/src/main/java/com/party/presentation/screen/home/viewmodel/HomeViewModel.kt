@@ -3,7 +3,6 @@ package com.party.presentation.screen.home.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.party.common.ServerApiResponse
-import com.party.common.component.homeTopTabList
 import com.party.domain.model.banner.Banner
 import com.party.domain.model.party.PartyList
 import com.party.domain.model.party.PersonalRecruitmentList
@@ -25,7 +24,6 @@ import com.party.presentation.enum.SortType
 import com.party.presentation.screen.home.HomeAction
 import com.party.presentation.screen.home.HomeState
 import com.party.presentation.screen.home.compareAppVersions
-import com.party.presentation.screen.home.getAppVersion
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -52,28 +50,10 @@ class HomeViewModel @Inject constructor(
     private val _state = MutableStateFlow(HomeState())
     val state: StateFlow<HomeState> = _state
 
-    private val _scrollToUpParty = MutableSharedFlow<Unit>()
-    val scrollToUpParty = _scrollToUpParty.asSharedFlow()
-
-    private val _scrollToUpRecruitment = MutableSharedFlow<Unit>()
-    val scrollToUpRecruitment = _scrollToUpRecruitment.asSharedFlow()
-
     init {
         getBannerList()
         getPersonalRecruitmentList(1, 50, SortType.CREATED_AT.type, OrderDescType.DESC.type)
         saveUserFcmToken()
-    }
-
-    fun updateFabVisibleParty(isScrollParty: Boolean){
-        viewModelScope.launch {
-            _state.update { it.copy(isScrollParty = isScrollParty) }
-        }
-    }
-
-    fun updateFabVisibleRecruitment(isScrollRecruitment: Boolean){
-        viewModelScope.launch {
-            _state.update { it.copy(isScrollRecruitment = isScrollRecruitment) }
-        }
     }
 
     private fun getPersonalRecruitmentList(
@@ -239,7 +219,6 @@ class HomeViewModel @Inject constructor(
 
     fun onAction(action: HomeAction) {
         when(action){
-            is HomeAction.OnTabClick -> _state.update { it.copy(selectedTabText = action.tabText) }
             is HomeAction.OnPersonalRecruitmentReload -> getPersonalRecruitmentList(1, 50, SortType.CREATED_AT.type, OrderDescType.DESC.type)
             is HomeAction.OnPartyTypeSheetOpen -> _state.update { it.copy(isPartyTypeSheetOpen = action.isVisibleModal) }
 
@@ -439,18 +418,24 @@ class HomeViewModel @Inject constructor(
                     }
                 )
             }
-            is HomeAction.OnExpandedFloating -> _state.update { it.copy(isExpandedFloating = action.isExpandedFloating) }
             is HomeAction.OnShowForceUpdateDialog -> _state.update { it.copy(isShowForceUpdateDialog = action.isShow) }
             is HomeAction.OnShowChoiceUpdateDialog -> _state.update { it.copy(isShowChoiceUpdateDialog = action.isShow) }
         }
     }
+}
 
-    fun scrollToTop(){
-        viewModelScope.launch(Dispatchers.Main) {
-            when (_state.value.selectedTabText) {
-                homeTopTabList[1] -> _scrollToUpParty.emit(Unit)
-                homeTopTabList[2] -> _scrollToUpRecruitment.emit(Unit)
-            }
-        }
+object HomeEvent {
+    private val _scrollToUpParty = MutableSharedFlow<Unit>(replay = 1)
+    val scrollToUpParty = _scrollToUpParty.asSharedFlow()
+
+    private val _scrollToUpRecruitment = MutableSharedFlow<Unit>(replay = 1)
+    val scrollToUpRecruitment = _scrollToUpRecruitment.asSharedFlow()
+
+    fun scrollToUpParty(){
+        _scrollToUpParty.tryEmit(Unit)
+    }
+
+    fun scrollToUpRecruitment(){
+        _scrollToUpRecruitment.tryEmit(Unit)
     }
 }

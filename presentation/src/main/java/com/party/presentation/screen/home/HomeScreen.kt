@@ -20,17 +20,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.party.common.component.dialog.OneButtonDialog
 import com.party.common.component.dialog.TwoButtonDialog
-import com.party.common.component.floating.NavigateUpFloatingButton
-import com.party.common.component.floating.PartyCreateFloatingButton
 import com.party.common.utils.noRippleClickable
 import com.party.guam.design.BLACK
 import com.party.guam.design.MEDIUM_PADDING_SIZE
@@ -39,12 +35,13 @@ import com.party.guam.firebase.FirebaseAnalyticsHelper
 import com.party.presentation.BuildConfig
 import com.party.presentation.enum.OrderDescType
 import com.party.presentation.enum.SortType
-import com.party.presentation.screen.home.component.HomeFloatingArea
+import com.party.presentation.screen.app.AppState
 import com.party.presentation.screen.home.component.HomeTopBar
 import com.party.presentation.screen.home.component.HomeTopTabArea
 import com.party.presentation.screen.home.tab_main.MainArea
 import com.party.presentation.screen.home.tab_party.PartyArea
 import com.party.presentation.screen.home.tab_recruitment.RecruitmentArea
+import com.party.presentation.screen.home.viewmodel.HomeEvent
 import com.party.presentation.screen.home.viewmodel.HomeViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -52,6 +49,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun HomeScreenRoute(
     context: Context,
+    state: AppState,
     homeTopTabList: List<String>,
     isFirstVersionCheck: Boolean,
     homeViewModel: HomeViewModel = hiltViewModel(),
@@ -61,8 +59,10 @@ fun HomeScreenRoute(
     onClickBanner: (String) -> Unit,
     onGotoRecruitmentDetail: (Int, Int) -> Unit,
     onGotoPartyDetail: (Int) -> Unit,
-    onGoPartyCreate: () -> Unit,
     onGotoDetailProfile: () -> Unit,
+    onTabClick: (String) -> Unit,
+    onStartScrollParty: (Boolean) -> Unit,
+    onStartScrollRecruitment: (Boolean) -> Unit
 ) {
     // 릴리즈 빌드일 경우만 적용
     if (!BuildConfig.DEBUG) {
@@ -76,31 +76,26 @@ fun HomeScreenRoute(
     val gridState = rememberLazyGridState()
     val listState = rememberLazyListState()
 
-    val isFabVisibleParty = remember { derivedStateOf { gridState.firstVisibleItemIndex > 0}}
-    val isFabVisibleRecruitment = remember { derivedStateOf { listState.firstVisibleItemIndex > 0}}
+    val isFabVisibleParty by remember { derivedStateOf { gridState.firstVisibleItemIndex > 0}}
+    val isFabVisibleRecruitment by remember { derivedStateOf { listState.firstVisibleItemIndex > 0}}
+    onStartScrollParty(isFabVisibleParty)
+    onStartScrollRecruitment(isFabVisibleRecruitment)
 
-    LaunchedEffect(key1 = isFabVisibleParty.value) {
-        homeViewModel.updateFabVisibleParty(isScrollParty = isFabVisibleParty.value)
-    }
-
-    LaunchedEffect(key1 = isFabVisibleRecruitment.value) {
-        homeViewModel.updateFabVisibleRecruitment(isScrollRecruitment = isFabVisibleRecruitment.value)
-    }
 
     LaunchedEffect(Unit) {
-        homeViewModel.scrollToUpParty.collectLatest {
+        HomeEvent.scrollToUpParty.collectLatest {
             gridState.animateScrollToItem(0)
         }
     }
     LaunchedEffect(key1 = Unit) {
-        homeViewModel.scrollToUpRecruitment.collectLatest {
+        HomeEvent.scrollToUpRecruitment.collectLatest {
             listState.animateScrollToItem(0)
         }
     }
 
     LaunchedEffect(key1 = Unit) {
-        homeViewModel.getPartyList(page = 1, size = 5, sort = SortType.CREATED_AT.type, order = OrderDescType.DESC.type, titleSearch = null, status = if(homeState.isActivePartyToggle) "active" else "archived")
-        homeViewModel.getRecruitmentList(page = 1, size = 8, sort = SortType.CREATED_AT.type, order = OrderDescType.DESC.type, titleSearch = null)
+        homeViewModel.getPartyList(page = 1, size = 10, sort = SortType.CREATED_AT.type, order = OrderDescType.DESC.type, titleSearch = null, status = if(homeState.isActivePartyToggle) "active" else "archived")
+        homeViewModel.getRecruitmentList(page = 1, size = 10, sort = SortType.CREATED_AT.type, order = OrderDescType.DESC.type, titleSearch = null)
     }
 
     LaunchedEffect(key1 = homeState.selectedMainPosition) {
@@ -118,6 +113,7 @@ fun HomeScreenRoute(
 
     HomeScreen(
         context = context,
+        state = state,
         listState = listState,
         gridState = gridState,
         homeState = homeState,
@@ -126,17 +122,17 @@ fun HomeScreenRoute(
         onGotoNotification = onGotoNotification,
         onGotoRecruitmentDetail = onGotoRecruitmentDetail,
         onGotoPartyDetail = onGotoPartyDetail,
-        onNavigateUp = { homeViewModel.scrollToTop() },
-        onGoPartyCreate = onGoPartyCreate,
         onGotoDetailProfile = onGotoDetailProfile,
         onClickBanner = onClickBanner,
-        onAction = { action -> homeViewModel.onAction(action) }
+        onAction = { action -> homeViewModel.onAction(action) },
+        onTabClick = onTabClick,
     )
 }
 
 @Composable
 private fun HomeScreen(
     context: Context,
+    state: AppState,
     listState: LazyListState,
     gridState: LazyGridState,
     homeState: HomeState,
@@ -145,11 +141,10 @@ private fun HomeScreen(
     onGotoNotification: () -> Unit,
     onGotoRecruitmentDetail: (Int, Int) -> Unit,
     onGotoPartyDetail: (Int) -> Unit,
-    onNavigateUp: () -> Unit,
-    onGoPartyCreate: () -> Unit,
     onGotoDetailProfile: () -> Unit,
     onClickBanner: (String) -> Unit,
     onAction: (HomeAction) -> Unit,
+    onTabClick: (String) -> Unit,
 ){
     Box(
         modifier = Modifier
@@ -158,8 +153,8 @@ private fun HomeScreen(
         Scaffold(
             modifier = Modifier
                 .blur(
-                    radiusX = if (homeState.isExpandedFloating || homeState.isShowForceUpdateDialog || homeState.isShowChoiceUpdateDialog) 10.dp else 0.dp,
-                    radiusY = if (homeState.isExpandedFloating || homeState.isShowForceUpdateDialog || homeState.isShowChoiceUpdateDialog) 10.dp else 0.dp,
+                    radiusX = if (homeState.isShowForceUpdateDialog || homeState.isShowChoiceUpdateDialog) 10.dp else 0.dp,
+                    radiusY = if (homeState.isShowForceUpdateDialog || homeState.isShowChoiceUpdateDialog) 10.dp else 0.dp,
                 ),
         ) {
             Column(
@@ -176,16 +171,16 @@ private fun HomeScreen(
 
                 HomeTopTabArea(
                     homeTopTabList = homeTopTabList,
-                    selectedTabText = homeState.selectedTabText,
-                    onTabClick = { selectedTabText -> onAction(HomeAction.OnTabClick(tabText = selectedTabText)) }
+                    selectedTabText = state.selectedTabText,
+                    onTabClick = onTabClick
                 )
-                when (homeState.selectedTabText) {
+                when (state.selectedTabText) {
                     homeTopTabList[0] -> {
                         MainArea(
                             homeState = homeState,
                             onReload = { onAction(HomeAction.OnPersonalRecruitmentReload) },
-                            onGoRecruitment = { onAction(HomeAction.OnTabClick(tabText = homeTopTabList[2])) },
-                            onGoParty = { onAction(HomeAction.OnTabClick(tabText = homeTopTabList[1])) },
+                            onGoRecruitment = { onTabClick(homeTopTabList[2]) },
+                            onGoParty = { onTabClick(homeTopTabList[1]) },
                             onGotoRecruitmentDetail = onGotoRecruitmentDetail,
                             onGotoPartyDetail = onGotoPartyDetail,
                             onGotoDetailProfile = onGotoDetailProfile,
@@ -228,48 +223,6 @@ private fun HomeScreen(
                     }
                 }
             }
-        }
-
-        HomeFloatingArea(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(bottom = 20.dp, end = 20.dp)
-                .zIndex(1f),
-            isExpandedFloatingButton = homeState.isExpandedFloating,
-            partyCreateFloating = {
-                when(homeState.selectedTabText){
-                    homeTopTabList[0], homeTopTabList[1] -> {
-                        PartyCreateFloatingButton(
-                            isExpandedFloatingButton = homeState.isExpandedFloating,
-                            onClick = {
-                                onAction(HomeAction.OnExpandedFloating(!homeState.isExpandedFloating))
-                            }
-                        )
-                    }
-                }
-            },
-            navigateUpFloating = {
-                NavigateUpFloatingButton(
-                    isShowNavigateUpFloatingButton = if(homeState.selectedTabText == homeTopTabList[1]) homeState.isScrollParty else if(homeState.selectedTabText == homeTopTabList[2]) homeState.isScrollRecruitment else false,
-                    isExpandedFloatingButton = homeState.isExpandedFloating,
-                    onClick = onNavigateUp
-                )
-            },
-            onGoPartyCreate = {
-                onGoPartyCreate()
-                onAction(HomeAction.OnExpandedFloating(false)) // PartyCreate 화면으로 이동하면 현재 플로팅은 닫아줌
-            }
-        )
-
-        // 플로팅이 Expand 됐을 때 검은 배경을 깔아줌
-        if(homeState.isExpandedFloating){
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(BLACK.copy(alpha = 0.7f))
-                    .noRippleClickable { onAction(HomeAction.OnExpandedFloating(false)) }
-                    .zIndex(0f)
-            )
         }
 
         // 강제업데이트

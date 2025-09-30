@@ -1,7 +1,6 @@
 package com.party.presentation.screen.home
 
 import com.party.common.component.bottomsheet.list.positionList
-import com.party.common.component.homeTopTabList
 import com.party.domain.model.banner.Banner
 import com.party.domain.model.party.PartyList
 import com.party.domain.model.party.PersonalRecruitmentList
@@ -12,10 +11,7 @@ data class HomeState(
 
     var isScrollParty: Boolean = false,
     var isScrollRecruitment: Boolean = false,
-    val isExpandedFloating: Boolean = false,
-
-    // 메인 / 파티 / 모집공고 탭
-    val selectedTabText: String = homeTopTabList[0],
+    //val isExpandedFloating: Boolean = false,
 
     // Main Banner
     val isLoadingBanner: Boolean = false,
