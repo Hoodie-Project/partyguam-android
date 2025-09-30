@@ -1,6 +1,6 @@
 [versions]
-agp = "8.10.1"
-kotlin = "2.1.0"
+agp = "8.12.1"
+kotlin = "2.2.0"
 coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
@@ -17,21 +17,21 @@ coreSplashscreen = "1.0.1" # Splash
 materialIconsExtended = "1.7.8" # Material Icons Extended
 navigationCompose = "2.9.3" # Navigation
 coilCompose = "2.7.0" # Coil
-hiltAndroid = "2.51.1" # Hilt
+hiltAndroid = "2.57" # Hilt
 hiltNavigationCompose = "1.2.0"
 okhttp = "4.12.0" # OkHttp
 retrofit = "3.0.0" # Retrofit
 sandwichRetrofit = "2.1.2" # Sandwich Retrofit
 retrofit2KotlinxSerializationConverter = "1.0.0" # Retrofit2 Kotlinx Serialization Converter
 gson = "2.13.1" # Gson
-kotlinxSerializationJson = "1.8.1" # Kotlinx Serialization
+kotlinxSerializationJson = "1.9.0" # Kotlinx Serialization
 datastorePreferences = "1.1.7" # Datastore Preferences
 roomRuntime = "2.7.2"
 activity = "1.10.1"
 constraintlayout = "2.2.1"
 
 
-ksp = "2.0.20-1.0.24" # KSP
+ksp = "2.2.0-2.0.2" # KSP
 material = "1.12.0" # Google Services
 
 # Google Play services
