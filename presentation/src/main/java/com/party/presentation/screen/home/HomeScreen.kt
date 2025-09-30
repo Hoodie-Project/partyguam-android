@@ -53,9 +53,9 @@ import kotlinx.coroutines.flow.collectLatest
 fun HomeScreenRoute(
     context: Context,
     homeTopTabList: List<String>,
-    isFirstActiveFunc: Boolean,
+    isFirstVersionCheck: Boolean,
     homeViewModel: HomeViewModel = hiltViewModel(),
-    onChangeFirstFunc: () -> Unit,
+    onChangeFirstVersionCheck: () -> Unit,
     onGotoSearch: () -> Unit,
     onGotoNotification: () -> Unit,
     onClickBanner: (String) -> Unit,
@@ -108,11 +108,11 @@ fun HomeScreenRoute(
     }
 
     LaunchedEffect(key1 = Unit) {
-        if(isFirstActiveFunc){
+        if(isFirstVersionCheck){
             val localAppVersion = getAppVersion(context = context)
             delay(500L)
             homeViewModel.checkAppVersion(localAppVersion = localAppVersion ?: "1.0.0")
-            onChangeFirstFunc()
+            onChangeFirstVersionCheck()
         }
     }
 

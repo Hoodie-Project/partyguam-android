@@ -31,15 +31,16 @@ import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
 import com.party.common.Screens
 import com.party.common.component.BottomNavigationBar
+import com.party.common.component.getCurrentScreen
 import com.party.common.component.homeTopTabList
 import com.party.common.component.profileEditTendencyTabList
 import com.party.common.component.snackbar.CustomSnackBar
-import com.party.common.component.getCurrentScreen
 import com.party.guam.design.WHITE
 import com.party.presentation.ANIMATION_DURATION
 import com.party.presentation.screen.auth_setting.AuthSettingScreenRoute
 import com.party.presentation.screen.home.HomeScreenRoute
 import com.party.presentation.screen.home_detail_profile.homeDetailProfileGraph
+import com.party.presentation.screen.info_center.ServiceIntroduceScreenRoute
 import com.party.presentation.screen.info_center.infoCenterGraph
 import com.party.presentation.screen.manage_applicant.ManageApplicantScreenRoute
 import com.party.presentation.screen.notification.NotificationScreenRoute
@@ -56,7 +57,6 @@ import com.party.presentation.screen.profile_edit_locations.ProfileEditLocationS
 import com.party.presentation.screen.profile_edit_portfolio.ProfileEditPortfolioScreenRoute
 import com.party.presentation.screen.profile_edit_tendency.ProfileEditTendencyScreenRoute
 import com.party.presentation.screen.profile_edit_time.ProfileEditTimeScreenRoute
-import com.party.presentation.screen.recover_auth.RecoverAuthScreenRoute
 import com.party.presentation.screen.recruitment_create.RecruitmentCreateScreenRoute
 import com.party.presentation.screen.recruitment_create_preview.RecruitmentCreatePreviewScreenRoute
 import com.party.presentation.screen.recruitment_detail.RecruitmentDetailRoute
@@ -65,7 +65,6 @@ import com.party.presentation.screen.recruitment_preview.RecruitmentPreviewScree
 import com.party.presentation.screen.reports.ReportsScreenRoute
 import com.party.presentation.screen.search.SearchScreenRoute
 import com.party.presentation.screen.state.StateScreenRoute
-import com.party.presentation.screen.info_center.ServiceIntroduceScreenRoute
 import com.party.presentation.screen.user_delete.UserDeleteScreenRoute
 import com.party.presentation.screen.webview.WebViewScreenRoute
 import kotlinx.coroutines.delay
@@ -74,8 +73,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainScreen(
     snackBarHostState: SnackbarHostState,
-    isFirstActiveFunc: Boolean,
-    onChangeFirstFunc: (Boolean) -> Unit,
+    isFirstVersionCheck: Boolean,
+    onChangeFirstVersionCheck: (Boolean) -> Unit,
     onGotoLogin: () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -144,8 +143,8 @@ fun MainScreen(
             BottomBarGraph(
                 context = context,
                 snackBarHostState = snackBarHostState,
-                isFirstActiveFunc = isFirstActiveFunc,
-                onChangeFirstFunc = onChangeFirstFunc,
+                isFirstVersionCheck = isFirstVersionCheck,
+                onChangeFirstVersionCheck = onChangeFirstVersionCheck,
                 navController = navController,
                 paddingValues = paddingValues,
                 onGotoSearch = { navController.navigate(Screens.Search)},
@@ -167,8 +166,8 @@ fun MainScreen(
 private fun BottomBarGraph(
     context: Context,
     snackBarHostState: SnackbarHostState,
-    isFirstActiveFunc: Boolean,
-    onChangeFirstFunc: (Boolean) -> Unit,
+    isFirstVersionCheck: Boolean,
+    onChangeFirstVersionCheck: (Boolean) -> Unit,
     navController: NavHostController,
     paddingValues: PaddingValues,
     onGotoSearch: () -> Unit,
@@ -221,8 +220,8 @@ private fun BottomBarGraph(
                 HomeScreenRoute(
                     context = context,
                     homeTopTabList = homeTopTabList,
-                    isFirstActiveFunc = isFirstActiveFunc,
-                    onChangeFirstFunc = { onChangeFirstFunc(false)},
+                    isFirstVersionCheck = isFirstVersionCheck,
+                    onChangeFirstVersionCheck = { onChangeFirstVersionCheck(false)},
                     onGotoSearch = onGotoSearch,
                     onGotoNotification = onGotoNotification,
                     onClickBanner = onClickBanner,

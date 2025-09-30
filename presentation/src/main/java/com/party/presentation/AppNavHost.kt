@@ -46,7 +46,8 @@ fun AppNavHost() {
     val statusFlow = NetworkConnectivityObserver(context).getFlow()
     val status: ConnectivityObserver.Status by statusFlow.collectAsStateWithLifecycle(ConnectivityObserver.Status.Init)
 
-    var isFirstActiveFunc by remember { mutableStateOf(true) }
+    // 앱이 처음 실행되었는지를 추적하여 앱 버전 체크를 한 번만 수행하기 위한 플래그
+    var isFirstVersionCheck by remember { mutableStateOf(true) }
 
     var showNoInternet by remember { mutableStateOf(false) }
     LaunchedEffect(status) {
@@ -149,8 +150,8 @@ fun AppNavHost() {
             composable<Screens.Main> {
                 MainScreen(
                     snackBarHostState = snackBarHostState,
-                    isFirstActiveFunc = isFirstActiveFunc,
-                    onChangeFirstFunc = { isFirstActiveFunc = it },
+                    isFirstVersionCheck = isFirstVersionCheck,
+                    onChangeFirstVersionCheck = { isFirstVersionCheck = it },
                     onGotoLogin = {
                         navController.navigate(Screens.Login) {
                             popUpTo(0) { inclusive = true }
