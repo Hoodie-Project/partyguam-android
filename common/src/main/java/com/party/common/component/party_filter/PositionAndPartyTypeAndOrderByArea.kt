@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.chip.OrderByCreateDtChip
+import com.party.common.utils.fs
 import com.party.guam.design.B2
 import com.party.guam.design.GRAY200
 import com.party.guam.design.GRAY400
@@ -103,13 +104,13 @@ private fun SelectFilterItem(
             Text(
                 text = filterName,
                 color = GRAY500,
-                fontSize = B2
+                fontSize = fs(B2)
             )
             if(number > 0){
                 Text(
                     text = number.toString(),
                     color = PRIMARY,
-                    fontSize = B2,
+                    fontSize = fs(B2),
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.offset(x = (2).dp, y = (1).dp),
                 )

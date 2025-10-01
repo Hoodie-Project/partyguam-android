@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.party.common.component.button.CustomButton
+import com.party.common.utils.fs
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.PRIMARY
@@ -21,7 +22,7 @@ fun GuidePermissionConfirmButton(
             .height(48.dp),
         buttonText = "확인",
         textWeight = FontWeight.Bold,
-        textSize = B2,
+        textSize = fs(B2),
         containerColor = PRIMARY,
         contentColor = BLACK,
         onClick = onClick

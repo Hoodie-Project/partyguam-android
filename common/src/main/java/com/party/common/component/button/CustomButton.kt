@@ -13,6 +13,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import com.party.common.utils.fs
+import com.party.guam.design.B1
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.LARGE_CORNER_SIZE
@@ -22,7 +24,7 @@ import com.party.guam.design.PRIMARY
 fun CustomButton(
     modifier: Modifier = Modifier,
     buttonText: String = "지원하기",
-    textSize: TextUnit = B2,
+    textSize: TextUnit = fs(B2),
     textWeight: FontWeight = FontWeight.Normal,
     onClick: () -> Unit,
     containerColor: Color = PRIMARY,

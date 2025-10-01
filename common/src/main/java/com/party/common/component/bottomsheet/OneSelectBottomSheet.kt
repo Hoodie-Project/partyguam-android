@@ -32,8 +32,10 @@ import com.party.common.utils.WidthSpacer
 import com.party.common.component.bottomsheet.component.ApplyButton
 import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
 import com.party.common.component.bottomsheet.list.partyTypeList
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
 import com.party.guam.design.B1
+import com.party.guam.design.B3
 
 /*
     단일 선택 바텀시트
@@ -145,7 +147,7 @@ private fun PartyTypeBottomSheetContentItem(
         Text(
             text = text,
             fontWeight = if(selectedPartyType.contains(text)) FontWeight.Bold else FontWeight.Normal,
-            fontSize = B1,
+            fontSize = fs(B1),
         )
     }
 }

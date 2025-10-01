@@ -94,7 +94,7 @@ fun TabAreaItem(
     ) {
         TextComponent(
             text = text,
-            fontSize = 16.sp,
+            fontSize = 16,
             textColor = textColor,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier

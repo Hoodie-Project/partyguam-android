@@ -45,6 +45,7 @@ import com.party.guam.design.GRAY600
 import com.party.guam.design.LARGE_CORNER_SIZE
 import com.party.guam.design.WHITE
 import com.party.common.utils.convertIsoToCustomDateFormat
+import com.party.common.utils.fs
 
 @Composable
 fun RecruitmentListItem6(
@@ -140,7 +141,7 @@ private fun CancelAndApplyButtonArea(
             textWeight = FontWeight.SemiBold,
             containerColor = WHITE,
             onClick = onRefusal,
-            textSize = B3
+            textSize = fs(B3)
         )
         WidthSpacer(widthDp = 8.dp)
         CustomButton(
@@ -150,7 +151,7 @@ private fun CancelAndApplyButtonArea(
             buttonText = "수락하기",
             textWeight = FontWeight.SemiBold,
             onClick = onAccept,
-            textSize = B3,
+            textSize = fs(B3),
         )
     }
 }

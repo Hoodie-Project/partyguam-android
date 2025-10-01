@@ -22,12 +22,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.WidthSpacer
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
 import com.party.guam.design.COMPONENT_AREA_HEIGHT
 import com.party.guam.design.GRAY200
 import com.party.guam.design.LARGE_CORNER_SIZE
 import com.party.guam.design.T3
 import com.party.domain.model.user.detail.PersonalityListOption
+import com.party.guam.design.B2
 
 @Composable
 fun SelectTendencyItem(
@@ -73,7 +75,7 @@ fun SelectTendencyItem(
                 Text(
                     text = item.content,
                     fontWeight = fontWeight,
-                    fontSize = T3,
+                    fontSize = fs(T3),
                     color = textColor
                 )
             }

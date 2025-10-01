@@ -21,6 +21,8 @@ import androidx.navigation.NavHostController
 import com.party.common.Screens
 import com.party.common.component.snackbar.CustomSnackBar
 import com.party.common.utils.HeightSpacer
+import com.party.common.utils.fs
+import com.party.guam.design.B2
 import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.T1
 import com.party.guam.design.WHITE
@@ -77,7 +79,7 @@ private fun JoinCompleteScreen(
                 Text(
                     text = "가입을 축하합니다!\n세부 프로필을 작성해 볼까요?",
                     fontWeight = FontWeight.Bold,
-                    fontSize = T1,
+                    fontSize = fs(T1),
                     textAlign = TextAlign.Center
                 )
             }

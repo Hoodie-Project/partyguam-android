@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.utils.WidthSpacer
+import com.party.common.utils.fs
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.LARGE_BUTTON_HEIGHT
@@ -88,7 +89,7 @@ fun TendencyNextButton(
         Text(
             text = text,
             color = textColor,
-            fontSize = B2,
+            fontSize = fs(B2),
             fontWeight = FontWeight.Bold,
         )
     }

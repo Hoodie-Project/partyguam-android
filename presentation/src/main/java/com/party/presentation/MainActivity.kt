@@ -20,6 +20,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.party.common.ConnectivityObserver
 import com.party.common.NetworkConnectivityObserver
+import com.party.common.utils.NoFontScale
 import com.party.guam.design.GuamTheme
 import com.party.presentation.firebase.initFcm
 import com.party.presentation.screen.no_internet.NoInternetScreenRoute
@@ -69,9 +70,11 @@ class MainActivity : ComponentActivity() {
         )
 
         setContent {
-            GuamTheme {
-                NetworkStatusWrapper {
-                    AppNavHost()
+            NoFontScale {
+                GuamTheme {
+                    NetworkStatusWrapper {
+                        AppNavHost()
+                    }
                 }
             }
         }

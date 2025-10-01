@@ -23,11 +23,13 @@ import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.bottomsheet.list.positionList
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
 import com.party.guam.design.B1
 import com.party.guam.design.BLACK
 import com.party.guam.design.LIGHT400
 import com.party.domain.model.user.detail.PositionList
+import com.party.guam.design.B2
 
 @Composable
 fun PositionSelectArea(
@@ -108,7 +110,7 @@ private fun SubPositionListItem(
             text = item.sub,
             color = BLACK,
             fontWeight = if (selectedSubPosition.sub == item.sub) FontWeight.Bold else FontWeight.Normal,
-            fontSize = B1,
+            fontSize = fs(B1),
         )
     }
 }

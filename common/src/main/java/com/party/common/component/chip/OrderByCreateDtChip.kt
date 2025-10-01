@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.R
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
@@ -38,7 +39,7 @@ fun OrderByCreateDtChip(
         Text(
             text = text,
             color = BLACK,
-            fontSize = B2
+            fontSize = fs(B2)
         )
         Icon(
             modifier = Modifier.size(16.dp),

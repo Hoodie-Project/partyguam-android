@@ -41,6 +41,7 @@ import com.party.common.component.input_field.MultiLineInputField
 import com.party.common.component.snackbar.CustomSnackBar
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
@@ -390,7 +391,7 @@ private fun PartyEditScreen(
                     .height(48.dp),
                 onClick = { onAction(PartyEditAction.OnPartyModify(partyId = partyId)) },
                 textWeight = FontWeight.Bold,
-                textSize = B2,
+                textSize = fs(B2),
                 buttonText = "수정 완료",
                 containerColor = PRIMARY
             )

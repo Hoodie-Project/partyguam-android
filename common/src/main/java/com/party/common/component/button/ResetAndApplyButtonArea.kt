@@ -10,6 +10,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.WidthSpacer
+import com.party.common.utils.fs
+import com.party.guam.design.B1
 import com.party.guam.design.B2
 import com.party.guam.design.PRIMARY
 import com.party.guam.design.WHITE
@@ -31,7 +33,7 @@ fun ResetAndApplyButtonArea(
             onClick = onReset,
             buttonText = "초기화",
             textWeight = FontWeight.Bold,
-            textSize = B2,
+            textSize = fs(B2),
             containerColor = WHITE,
             borderColor = PRIMARY
         )
@@ -43,7 +45,7 @@ fun ResetAndApplyButtonArea(
             onClick = onApply,
             buttonText = "적용하기",
             textWeight = FontWeight.Bold,
-            textSize = B2,
+            textSize = fs(B2),
             containerColor = PRIMARY,
             borderColor = PRIMARY
         )

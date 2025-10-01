@@ -33,6 +33,7 @@ import com.party.guam.design.GRAY500
 import com.party.guam.design.PRIMARY
 import com.party.guam.design.WHITE
 import com.party.common.utils.WidthSpacer
+import com.party.common.utils.fs
 
 @Composable
 fun SelectFilterArea(
@@ -121,13 +122,13 @@ fun SelectFilterItem(
             Text(
                 text = filterName,
                 color = fontColor,
-                fontSize = B2
+                fontSize = fs(B2)
             )
             if(number > 0 && !isShowNumber){
                 Text(
                     text = number.toString(),
                     color = PRIMARY,
-                    fontSize = B2,
+                    fontSize = fs(B2),
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.offset(x = (2).dp, y = (1).dp),
                 )

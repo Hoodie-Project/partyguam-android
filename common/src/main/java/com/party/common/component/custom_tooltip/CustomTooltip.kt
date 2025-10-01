@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.icon.DrawableIconButton
+import com.party.common.utils.fs
 import com.party.guam.design.B2
 import com.party.guam.design.GRAY500
 import com.party.guam.design.LARGE_CORNER_SIZE
@@ -89,13 +90,13 @@ fun CustomTooltip(
                     color = PRIMARY,
                     modifier = Modifier
                         .padding(start = 12.dp),
-                    fontSize = B2
+                    fontSize = fs(B2)
                 )
                 Text(
                     text = "이 가장 예뻐요",
                     textAlign = TextAlign.Center,
                     color = Color.White,
-                    fontSize = B2
+                    fontSize = fs(B2)
                 )
                 WidthSpacer(widthDp = 4.dp)
                 DrawableIconButton(

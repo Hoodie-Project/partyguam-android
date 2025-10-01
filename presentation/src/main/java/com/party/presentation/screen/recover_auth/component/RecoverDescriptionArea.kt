@@ -15,6 +15,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
+import com.party.common.utils.fs
+import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.PRIMARY
 import com.party.guam.design.T1
@@ -84,7 +86,7 @@ private fun RecoverDescription2(
                 }
                 append(" 버튼을 눌러주세요!")
             },
-            fontSize = T3,
+            fontSize = fs(T3),
             color = BLACK
         )
     }

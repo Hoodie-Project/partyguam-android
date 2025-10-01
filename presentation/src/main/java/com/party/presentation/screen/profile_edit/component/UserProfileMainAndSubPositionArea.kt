@@ -14,11 +14,13 @@ import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.chip.Chip
+import com.party.common.utils.fs
 import com.party.guam.design.B1
 import com.party.guam.design.GRAY100
 import com.party.guam.design.LIGHT400
 import com.party.guam.design.T3
 import com.party.domain.model.user.profile.UserCareer
+import com.party.guam.design.B2
 
 @Composable
 fun UserProfileMainAndSubPositionArea(
@@ -68,7 +70,7 @@ private fun UserProfileMainAndSubPositionAreaItem(
         Chip(
             text = yearsText,
             containerColor = containerColor,
-            fontSize = T3,
+            fontSize = fs(T3),
             fontWeight = FontWeight.Normal,
         )
 
@@ -79,7 +81,7 @@ private fun UserProfileMainAndSubPositionAreaItem(
         Chip(
             text = "$main | $sub",
             containerColor = containerColor,
-            fontSize = T3,
+            fontSize = fs(T3),
             fontWeight = FontWeight.Normal,
         )
     }

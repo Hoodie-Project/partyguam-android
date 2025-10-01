@@ -39,6 +39,7 @@ import com.party.guam.design.BLACK
 import com.party.guam.design.GRAY100
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.WidthSpacer
+import com.party.common.utils.fs
 import com.party.domain.model.user.detail.PositionList
 import com.party.presentation.screen.party_create.component.bottomsheet.PositionSelectArea
 
@@ -184,7 +185,7 @@ private fun SelectedPositionItem(
             Text(
                 text = "$main | ${sub.sub}",
                 color = BLACK,
-                fontSize = B2,
+                fontSize = fs(B2),
             )
             WidthSpacer(widthDp = 4.dp)
             IconButton(

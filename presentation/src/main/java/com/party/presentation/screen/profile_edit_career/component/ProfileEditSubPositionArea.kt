@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.WidthSpacer
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
@@ -73,7 +74,7 @@ private fun SubPositionAreaItem(
         WidthSpacer(widthDp = 6.dp)
         Text(
             text = item.sub,
-            fontSize = B2,
+            fontSize = fs(B2),
             color = BLACK
         )
     }

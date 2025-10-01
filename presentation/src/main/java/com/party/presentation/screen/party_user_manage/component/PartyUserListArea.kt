@@ -34,6 +34,7 @@ import com.party.guam.design.GRAY400
 import com.party.guam.design.GRAY600
 import com.party.guam.design.LARGE_CORNER_SIZE
 import com.party.common.utils.convertIsoToCustomDateFormat
+import com.party.common.utils.fs
 import com.party.domain.model.party.PartyMemberInfo
 import com.party.domain.model.party.PartyMemberPosition
 import com.party.domain.model.party.PartyUserInfo
@@ -143,7 +144,7 @@ private fun PartyAuthorityAndPosition(
             text = getPartyRole(PartyAuthorityType.fromAuthority(authority)),
             color = getPartyAuthorityColor(PartyAuthorityType.fromAuthority(authority)),
             fontWeight = FontWeight.SemiBold,
-            fontSize = B3
+            fontSize = fs(B3)
         )
         WidthSpacer(6.dp)
         Text(
@@ -153,12 +154,12 @@ private fun PartyAuthorityAndPosition(
         WidthSpacer(6.dp)
         Text(
             text = main,
-            fontSize = B3
+            fontSize = fs(B3)
         )
         WidthSpacer(6.dp)
         Text(
             text = sub,
-            fontSize = B3
+            fontSize = fs(B3)
         )
     }
 }

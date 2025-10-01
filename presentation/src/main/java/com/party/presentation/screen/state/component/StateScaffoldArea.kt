@@ -28,7 +28,7 @@ fun StateScaffoldArea(
         navigationIcon = {
             TextComponent(
                 text = "활동",
-                fontSize = T1,
+                fontSize = 20,
                 fontWeight = FontWeight.Bold,
             )
         },

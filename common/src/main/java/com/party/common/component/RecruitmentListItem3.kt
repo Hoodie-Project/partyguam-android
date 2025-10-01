@@ -55,6 +55,7 @@ import com.party.guam.design.TYPE_COLOR_TEXT
 import com.party.guam.design.WHITE
 import com.party.guam.design.YELLOW
 import com.party.common.utils.convertIsoToCustomDateFormat
+import com.party.common.utils.fs
 
 @Composable
 fun RecruitmentListItem3(
@@ -129,7 +130,7 @@ fun RecruitmentListItem3(
                             text = "모집 마감된 공고에요.",
                             fontWeight = FontWeight.SemiBold,
                             color = GRAY600,
-                            fontSize = B3
+                            fontSize = fs(B3)
                         )
                     }
                 }
@@ -385,7 +386,7 @@ private fun CancelButton(
         textWeight = FontWeight.SemiBold,
         containerColor = WHITE,
         onClick = onCancel,
-        textSize = B3,
+        textSize = fs(B3),
     )
 }
 
@@ -410,7 +411,7 @@ private fun CancelAndApplyButtonArea(
             textWeight = FontWeight.SemiBold,
             containerColor = WHITE,
             onClick = onRefusal,
-            textSize = B3
+            textSize = fs(B3)
         )
         WidthSpacer(widthDp = 8.dp)
         CustomButton(
@@ -420,7 +421,7 @@ private fun CancelAndApplyButtonArea(
             buttonText = "수락하기",
             textWeight = FontWeight.SemiBold,
             onClick = onAccept,
-            textSize = B3,
+            textSize = fs(B3),
         )
     }
 }

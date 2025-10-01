@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.party.common.component.button.CustomButton
+import com.party.common.utils.fs
 import com.party.guam.design.B2
 import com.party.guam.design.GRAY300
 import com.party.guam.design.MEDIUM_PADDING_SIZE
@@ -24,7 +25,7 @@ fun RecruitmentButton(
         buttonText = if(isRecruitment) "지원완료" else "지원하기",
         containerColor = if(isRecruitment) GRAY300 else PRIMARY,
         borderColor = if(isRecruitment) GRAY300 else PRIMARY,
-        textSize = B2,
+        textSize = fs(B2),
         textWeight = FontWeight.Bold,
         onClick = { if(!isRecruitment) onClick() }
     )

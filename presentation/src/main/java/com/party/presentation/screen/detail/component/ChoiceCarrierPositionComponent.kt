@@ -15,7 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
+import com.party.guam.design.B2
 import com.party.guam.design.LARGE_BUTTON_HEIGHT
 import com.party.guam.design.LARGE_CORNER_SIZE
 import com.party.guam.design.T3
@@ -46,7 +48,7 @@ fun SelectCarrierAndPositionComponent(
             Text(
                 text = text,
                 fontWeight = fontWeight,
-                fontSize = T3,
+                fontSize = fs(T3),
             )
         }
     }

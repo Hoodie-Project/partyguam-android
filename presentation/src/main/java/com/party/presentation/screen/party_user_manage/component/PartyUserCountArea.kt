@@ -10,6 +10,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.WidthSpacer
+import com.party.common.utils.fs
+import com.party.guam.design.B2
 import com.party.guam.design.GRAY500
 import com.party.guam.design.PRIMARY
 import com.party.guam.design.T1
@@ -29,25 +31,25 @@ fun PartyUserCountArea(
         Text(
             text = "파티원",
             fontWeight = FontWeight.Bold,
-            fontSize = T2
+            fontSize = fs(T2)
         )
         WidthSpacer(6.dp)
         Text(
             text = searchedListSize.toString(),
             fontWeight = FontWeight.Bold,
-            fontSize = T1,
+            fontSize = fs(T1),
             color = PRIMARY
         )
         Text(
             text = "/",
             fontWeight = FontWeight.Bold,
-            fontSize = T3,
+            fontSize = fs(T1),
             color = GRAY500
         )
         Text(
             text = userListSize.toString(),
             fontWeight = FontWeight.Bold,
-            fontSize = T3,
+            fontSize = fs(T3),
             color = GRAY500
         )
     }

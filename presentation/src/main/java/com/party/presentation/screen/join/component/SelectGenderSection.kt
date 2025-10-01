@@ -18,7 +18,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.WidthSpacer
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
+import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.GRAY200
 import com.party.guam.design.LARGE_CORNER_SIZE
@@ -95,7 +97,7 @@ private fun GenderCard(
         ){
             Text(
                 text = text,
-                fontSize = T3,
+                fontSize = fs(T3),
                 color = BLACK,
                 fontWeight = fontWeight
             )

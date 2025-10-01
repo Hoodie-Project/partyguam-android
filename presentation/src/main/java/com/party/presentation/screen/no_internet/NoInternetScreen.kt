@@ -29,6 +29,7 @@ import com.party.guam.design.T2
 import com.party.guam.design.T3
 import com.party.guam.design.WHITE
 import com.party.common.utils.calculateLetterSpacing
+import com.party.common.utils.fs
 
 @Composable
 fun NoInternetScreenRoute() {
@@ -81,7 +82,7 @@ private fun NoInternetScreen(){
                         fontSize = B2,
                         fontWeight = FontWeight.SemiBold,
                         textColor = Color(0xFF111111),
-                        letterSpacing = calculateLetterSpacing(B2, (-2.5f))
+                        letterSpacing = calculateLetterSpacing(fs(B2), (-2.5f))
                     )
                 }
             }

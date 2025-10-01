@@ -39,6 +39,7 @@ import com.party.common.utils.WidthSpacer
 import com.party.common.component.bottomsheet.component.BottomSheetButtonArea
 import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
 import com.party.common.component.bottomsheet.list.positionList
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
 import com.party.guam.design.B1
 import com.party.guam.design.B2
@@ -213,7 +214,7 @@ private fun SubPositionListItem(
             text = sub,
             color = BLACK,
             fontWeight = if (selectedSubPositionList.any { it.first == sub }) FontWeight.Bold else FontWeight.Normal,
-            fontSize = B1,
+            fontSize = fs(B1),
         )
     }
 }
@@ -300,7 +301,7 @@ private fun SelectedPositionItem(
             Text(
                 text = "${selectedPosition.first} | ${selectedPosition.second}",
                 color = BLACK,
-                fontSize = B2,
+                fontSize = fs(B2),
             )
             WidthSpacer(widthDp = 4.dp)
             IconButton(

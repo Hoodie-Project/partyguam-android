@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.scaffold.ScaffoldCenterBar
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
@@ -35,14 +36,14 @@ fun RecruitmentEditScaffoldArea(
             Text(
                 text = "모집 수정",
                 fontWeight = FontWeight.Bold,
-                fontSize = T2
+                fontSize = fs(T2)
             )
         },
         actionIcons = {
             Text(
                 text = "미리보기",
                 fontWeight = FontWeight.Bold,
-                fontSize = B2,
+                fontSize = fs(B2),
                 color = PRIMARY,
                 modifier = Modifier
                     .padding(end = 20.dp)

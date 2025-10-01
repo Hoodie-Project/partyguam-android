@@ -38,6 +38,7 @@ import com.party.common.component.NetworkImageLoad
 import com.party.common.component.chip.Chip
 import com.party.common.component.chip.MainAndSubAndImageChip
 import com.party.common.component.icon.DrawableIcon
+import com.party.common.utils.fs
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.GRAY100
@@ -272,7 +273,7 @@ private fun UserCareerAreaItem(
             containerColor = containerColor,
             fontWeight = FontWeight.Normal,
             contentColor = BLACK,
-            fontSize = B2,
+            fontSize = fs(B2),
         )
         WidthSpacer(widthDp = 8.dp)
 

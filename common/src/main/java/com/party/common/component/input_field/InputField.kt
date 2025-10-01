@@ -33,6 +33,8 @@ import com.party.common.R
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.icon.DrawableIcon
 import com.party.common.component.icon.DrawableIconButton
+import com.party.common.utils.fs
+import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.GRAY200
 import com.party.guam.design.GRAY400
@@ -94,7 +96,7 @@ fun InputField(
             singleLine = false,
             textStyle = TextStyle(
                 color = inputTextColor,
-                fontSize = T3,
+                fontSize = fs(T3),
             ),
             cursorBrush = SolidColor(Color.Black),
             decorationBox = { innerTextField ->
@@ -118,7 +120,7 @@ fun InputField(
                         if(inputText.isEmpty()){
                             Text(
                                 text = placeHolder,
-                                fontSize = T3,
+                                fontSize = fs(T3),
                                 color = placeHolderColor,
                             )
                         }

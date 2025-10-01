@@ -10,12 +10,12 @@ val COMPONENT_AREA_HEIGHT = 48.dp
 val INPUT_FIELD_HEIGHT = 52.dp
 
 // Font size
-val T1 = 20.sp
-val T2 = 18.sp
-val T3 = 16.sp
-val B1 = 16.sp
-val B2 = 14.sp
-val B3 = 12.sp
+val T1 = 20
+val T2 = 18
+val T3 = 16
+val B1 = 16
+val B2 = 14
+val B3 = 12
 
 // Corner size
 val LARGE_CORNER_SIZE = 16.dp

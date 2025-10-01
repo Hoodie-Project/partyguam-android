@@ -41,6 +41,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.WidthSpacer
+import com.party.common.utils.fs
+import com.party.guam.design.B2
 import com.party.guam.design.EXTRA_LARGE_BUTTON_HEIGHT2
 import com.party.guam.design.GRAY100
 import com.party.guam.design.GRAY200
@@ -128,7 +130,7 @@ fun JoinScreenInputField(
             singleLine = true,
             textStyle = TextStyle(
                 color = textColor,
-                fontSize = T3,
+                fontSize = fs(T3),
             ),
             cursorBrush = SolidColor(Color.Black),
             decorationBox = { innerTextField ->
@@ -148,7 +150,7 @@ fun JoinScreenInputField(
                         if (inputText.isEmpty()) {
                             Text(
                                 text = placeHolder,
-                                fontSize = T3,
+                                fontSize = fs(T3),
                                 color = GRAY400,
                             )
                         }

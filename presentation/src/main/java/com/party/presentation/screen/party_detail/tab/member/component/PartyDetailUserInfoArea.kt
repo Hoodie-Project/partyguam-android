@@ -23,6 +23,7 @@ import com.party.common.utils.HeightSpacer
 import com.party.common.R
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
+import com.party.common.utils.fs
 import com.party.guam.design.B1
 import com.party.guam.design.B2
 import com.party.guam.design.B3
@@ -77,7 +78,7 @@ private fun PointMe() {
         Text(
             text = "나",
             color = WHITE,
-            fontSize = B3,
+            fontSize = fs(B3),
             fontWeight = FontWeight.Bold,
         )
     }

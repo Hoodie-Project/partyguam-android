@@ -19,17 +19,22 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -71,6 +76,31 @@ fun AnnotatedTextComponent(
 }
 
 @Composable
+fun NoFontScale(content: @Composable () -> Unit) {
+    val d = LocalDensity.current
+    CompositionLocalProvider(
+        LocalDensity provides Density(density = d.density, fontScale = 1f)
+    ) {
+        content()
+    }
+}
+
+@Composable
+@ReadOnlyComposable
+fun DpAsFixedSp(dp: Dp): TextUnit {
+    val sys = LocalDensity.current
+    // fontScale=1f 로 고정 → 사용자 설정 글자 크기 무시
+    return with(Density(density = sys.density, fontScale = 1f)) { dp.toSp() }
+}
+
+// 편의 함수들 (정수 dp 입력)
+@Composable @ReadOnlyComposable
+fun fs(dp: Int): TextUnit = DpAsFixedSp(dp.dp)
+
+@Composable @ReadOnlyComposable
+fun lh(dp: Int, ratio: Float = 1.35f): TextUnit = DpAsFixedSp((dp.dp * ratio))
+
+@Composable
 fun TextComponent(
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start,
@@ -78,7 +108,7 @@ fun TextComponent(
     textColor: Color = Color.Black,
     align: Alignment = Alignment.CenterStart,
     fontWeight: FontWeight = FontWeight.Normal,
-    fontSize: TextUnit,
+    fontSize: Int,
     textDecoration: TextDecoration? = null,
     overflow: TextOverflow = TextOverflow.Visible,
     maxLines: Int = Int.MAX_VALUE,
@@ -94,7 +124,7 @@ fun TextComponent(
             color = textColor,
             textAlign = textAlign,
             fontWeight = fontWeight,
-            fontSize = fontSize,
+            fontSize = fs(fontSize), // 직접 fontSize 파라미터 사용
             textDecoration = textDecoration,
             overflow = overflow,
             maxLines = maxLines,

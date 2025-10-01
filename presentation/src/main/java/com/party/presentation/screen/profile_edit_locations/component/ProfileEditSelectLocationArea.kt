@@ -33,8 +33,10 @@ import com.party.guam.design.PRIMARY
 import com.party.guam.design.T3
 import com.party.guam.design.WHITE
 import com.party.common.utils.WidthSpacer
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
 import com.party.domain.model.user.detail.Location
+import com.party.guam.design.B2
 import com.party.presentation.screen.detail.component.ProvinceList
 
 @Composable
@@ -123,7 +125,7 @@ private fun SelectProvinceItem(
             Text(
                 text = text,
                 color = textColor,
-                fontSize = T3,
+                fontSize = fs(T3),
                 fontWeight = FontWeight.Bold,
             )
         }
@@ -183,7 +185,7 @@ private fun LocationComponent(
             Text(
                 text = text,
                 color = textColor,
-                fontSize = T3,
+                fontSize = fs(T3),
             )
         }
     }

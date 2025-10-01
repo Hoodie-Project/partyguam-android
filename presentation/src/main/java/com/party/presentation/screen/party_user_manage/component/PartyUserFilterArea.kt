@@ -28,6 +28,7 @@ import com.party.common.R
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.bottomsheet.MainPositionBottomSheet
 import com.party.common.component.chip.OrderByCreateDtChip
+import com.party.common.utils.fs
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.GRAY200
@@ -105,7 +106,7 @@ private fun SelectFilterItem(
             Text(
                 text = filterName,
                 color = if(filterName == "전체") GRAY500 else BLACK,
-                fontSize = B2
+                fontSize = fs(B2)
             )
             WidthSpacer(widthDp = 2.dp)
             Icon(

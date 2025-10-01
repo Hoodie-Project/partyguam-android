@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.sp
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.common.utils.calculateLetterSpacing
+import com.party.common.utils.fs
 import com.party.guam.design.B2
 
 @Composable
@@ -23,7 +24,7 @@ fun DialogDescription(
         modifier = modifier
             .fillMaxWidth(),
         text = description,
-        fontSize = 16.sp,
+        fontSize = 16,
         textAlign = TextAlign.Center,
         align = Alignment.Center,
         letterSpacing = calculateLetterSpacing(16.sp, (-2.5f))

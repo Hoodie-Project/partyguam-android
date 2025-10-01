@@ -10,12 +10,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.party.common.utils.HeightSpacer
 import com.party.common.R
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
 import com.party.common.utils.calculateLetterSpacing
 import com.party.common.component.icon.DrawableIcon
+import com.party.common.utils.fs
 import com.party.guam.design.B2
 
 @Composable
@@ -58,7 +60,7 @@ private fun RecoverBottomDescriptionAreaItem(
         TextComponent(
             text = text,
             fontSize = B2,
-            letterSpacing = calculateLetterSpacing(B2, (-2.5f))
+            letterSpacing = calculateLetterSpacing(B2.sp, (-2.5f))
         )
     }
 }

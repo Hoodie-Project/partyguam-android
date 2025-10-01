@@ -25,8 +25,10 @@ import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.bottomsheet.list.partyTypeList2
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
 import com.party.guam.design.B1
+import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.PRIMARY
 import com.party.guam.design.WHITE
@@ -132,7 +134,7 @@ fun ModalCheckListItem(
         Text(
             text = text.first,
             fontWeight = if(selectedPartyType.contains(text.first)) FontWeight.Bold else FontWeight.Normal,
-            fontSize = B1,
+            fontSize = fs(B1),
         )
     }
 }

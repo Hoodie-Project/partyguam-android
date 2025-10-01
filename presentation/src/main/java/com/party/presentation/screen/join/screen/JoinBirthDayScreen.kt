@@ -45,6 +45,7 @@ import com.party.common.Screens
 import com.party.common.component.snackbar.CustomSnackBar
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.ScreenExplainArea
+import com.party.common.utils.fs
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.GRAY400
@@ -103,7 +104,7 @@ private fun JoinBirthDayScreen(
                 actionIcon = {
                     Text(
                         text = "3/4",
-                        fontSize = B2,
+                        fontSize = fs(B2),
                         color = GRAY500,
                         modifier = Modifier.padding(end = 20.dp),
                     )
@@ -150,7 +151,7 @@ private fun JoinBirthDayScreen(
                 buttonTextColor = BLACK,
                 buttonContainerColor = PRIMARY,
                 buttonBorderColor = PRIMARY,
-                fontSize = B2,
+                fontSize = fs(B2),
                 fontWeight = FontWeight.Bold,
                 onClick = onGotoJoinGender
             )

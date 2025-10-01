@@ -8,6 +8,8 @@ import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.scaffold.ScaffoldCenterBar
+import com.party.common.utils.fs
+import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.T2
 
@@ -29,7 +31,7 @@ fun ReportsScaffoldArea(
             Text(
                 text = "신고",
                 fontWeight = FontWeight.Bold,
-                fontSize = T2
+                fontSize = fs(T2)
             )
         },
     )

@@ -13,12 +13,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.party.common.R
 import com.party.common.Screens
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.common.utils.calculateLetterSpacing
+import com.party.common.utils.fs
+import com.party.guam.design.B2
 import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.T1
 import com.party.guam.design.WHITE
@@ -61,10 +64,10 @@ fun DetailProfileTraitCompleteScreen(
                     modifier = Modifier.fillMaxSize(),
                     text = stringResource(id = R.string.select_tendency8),
                     fontWeight = FontWeight.Bold,
-                    fontSize = T1,
+                    fontSize = 20,
                     align = Alignment.Center,
                     textAlign = TextAlign.Center,
-                    letterSpacing = calculateLetterSpacing(T1, (-2.5f))
+                    letterSpacing = calculateLetterSpacing(20.sp, (-2.5f))
                 )
             }
 

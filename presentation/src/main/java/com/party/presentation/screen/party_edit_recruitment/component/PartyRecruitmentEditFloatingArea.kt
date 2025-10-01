@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.HeightSpacer
+import com.party.common.utils.fs
 import com.party.guam.design.B2
 import com.party.guam.design.PRIMARY
 import com.party.guam.design.WHITE
@@ -48,7 +49,7 @@ fun PartyRecruitmentEditFloatingArea(
                 Text(
                     text = "모집",
                     fontWeight = FontWeight.Bold,
-                    fontSize = B2
+                    fontSize = fs(B2)
                 )
                 HeightSpacer(4.dp)
                 Icon(

@@ -34,6 +34,7 @@ import com.party.common.utils.LoadingProgressBar
 import com.party.common.R
 import com.party.common.utils.TextComponent
 import com.party.common.component.ImageLoading
+import com.party.common.utils.fs
 import com.party.guam.design.B2
 import com.party.guam.design.GRAY100
 import com.party.guam.design.LARGE_CORNER_SIZE
@@ -299,7 +300,7 @@ fun NotInputProfileInformation(
                     Text(
                         text = "세부프로필 설정하기",
                         fontWeight = FontWeight.SemiBold,
-                        fontSize = B2,
+                        fontSize = fs(B2),
                     )
                     Image(
                         painter = painterResource(id = R.drawable.icon_arrow_right),

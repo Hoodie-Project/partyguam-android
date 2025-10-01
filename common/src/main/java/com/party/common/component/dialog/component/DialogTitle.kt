@@ -16,7 +16,7 @@ fun DialogTitle(
     TextComponent(
         modifier = Modifier.fillMaxWidth(),
         text = dialogTitle,
-        fontSize = 18.sp,
+        fontSize = 18,
         align = Alignment.Center,
         fontWeight = FontWeight.Bold,
         letterSpacing = calculateLetterSpacing(18.sp, (-2.5f))

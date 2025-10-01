@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
+import com.party.common.utils.fs
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.LARGE_CORNER_SIZE
@@ -124,7 +125,7 @@ fun ModalBottomAreaItem(
         Text(
             text = buttonText,
             fontWeight = FontWeight.Bold,
-            fontSize = B2,
+            fontSize = fs(B2),
             color = buttonTextColor,
         )
     }

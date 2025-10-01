@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.WidthSpacer
 import com.party.common.utils.calculateLetterSpacing
+import com.party.common.utils.fs
 import com.party.guam.design.B2
 import com.party.guam.design.T3
 
@@ -60,9 +61,9 @@ private fun DescriptionText(description: Description) {
                 WidthSpacer(widthDp = 4.dp)
                 Text(
                     text = annotatedString,
-                    fontSize = B2,
+                    fontSize = fs(B2),
                     modifier = Modifier.padding(bottom = 8.dp),  // 각 설명 간 간격 추가
-                    letterSpacing = calculateLetterSpacing(B2, (-2.5f))
+                    letterSpacing = calculateLetterSpacing(fs(B2), (-2.5f))
                 )
             }
         }
@@ -76,9 +77,9 @@ private fun WarningAreaItemTitle(
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = text,
-        fontSize = T3,
+        fontSize = fs(T3),
         fontWeight = FontWeight.Bold,
-        letterSpacing = calculateLetterSpacing(T3, (-2.5f))
+        letterSpacing = calculateLetterSpacing(fs(T3), (-2.5f))
     )
 }
 

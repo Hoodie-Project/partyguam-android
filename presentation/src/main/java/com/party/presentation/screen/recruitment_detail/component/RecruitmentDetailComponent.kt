@@ -43,7 +43,9 @@ import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
 import com.party.common.utils.convertIsoToCustomDateFormat
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
+import com.party.guam.design.B2
 import com.party.presentation.enum.StatusType
 
 @Composable
@@ -72,7 +74,7 @@ fun RecruitmentCategory(
         ){
             Text(
                 text = title,
-                fontSize = B3,
+                fontSize = fs(B3),
                 fontWeight = FontWeight.SemiBold
             )
         }

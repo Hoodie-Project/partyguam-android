@@ -7,10 +7,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.chip.Chip
+import com.party.common.utils.fs
 import com.party.guam.design.LIGHT400
 import com.party.guam.design.T3
 import com.party.domain.model.user.profile.UserLocation
 import com.party.domain.model.user.profile.UserProfileLocation
+import com.party.guam.design.B2
 
 @Composable
 fun UserLocationArea(
@@ -22,7 +24,7 @@ fun UserLocationArea(
                 text = "${userLocation.location.province} ${userLocation.location.city}",
                 containerColor = LIGHT400,
                 fontWeight = FontWeight.Normal,
-                fontSize = T3,
+                fontSize = fs(T3),
             )
             WidthSpacer(widthDp = 8.dp)
         }

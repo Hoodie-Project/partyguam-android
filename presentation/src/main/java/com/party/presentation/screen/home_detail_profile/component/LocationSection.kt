@@ -23,8 +23,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.WidthSpacer
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
 import com.party.domain.model.user.detail.Location
+import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.DARK200
 import com.party.guam.design.EXTRA_LARGE_BUTTON_HEIGHT2
@@ -122,7 +124,7 @@ private fun ProvinceCard(
             Text(
                 text = text,
                 color = textColor,
-                fontSize = T3,
+                fontSize = fs(T3),
                 fontWeight = fontWeight
             )
         }
@@ -188,7 +190,7 @@ private fun SubLocationCard(
             Text(
                 text = subLocationName,
                 color = textColor,
-                fontSize = T3,
+                fontSize = fs(T3),
                 fontWeight = FontWeight.Bold,
             )
         }

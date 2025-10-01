@@ -21,6 +21,7 @@ import com.party.common.utils.HeightSpacer
 import com.party.common.component.dialog.component.DialogButton
 import com.party.common.component.dialog.component.DialogDescription
 import com.party.common.component.dialog.component.DialogTitle
+import com.party.common.utils.NoFontScale
 import com.party.guam.design.LARGE_CORNER_SIZE
 import com.party.guam.design.LIGHT400
 import com.party.guam.design.PRIMARY
@@ -44,43 +45,45 @@ fun TwoButtonDialog(
             dismissOnClickOutside = true,
         ),
     ) {
-        Card(
-            modifier = Modifier
-                .width(312.dp)
-                .wrapContentHeight(),
-            shape = RoundedCornerShape(LARGE_CORNER_SIZE),
-            colors = CardDefaults.cardColors(
-                containerColor = WHITE
-            ),
-        ) {
-            Column(
+        NoFontScale {
+            Card(
                 modifier = Modifier
+                    .width(312.dp)
                     .wrapContentHeight(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                shape = RoundedCornerShape(LARGE_CORNER_SIZE),
+                colors = CardDefaults.cardColors(
+                    containerColor = WHITE
+                ),
             ) {
                 Column(
                     modifier = Modifier
                         .wrapContentHeight(),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    HeightSpacer(heightDp = 32.dp)
-                    DialogTitle(
-                        dialogTitle = dialogTitle
-                    )
-                    DialogDescription(
-                        description = description
+                    Column(
+                        modifier = Modifier
+                            .wrapContentHeight(),
+                    ) {
+                        HeightSpacer(heightDp = 32.dp)
+                        DialogTitle(
+                            dialogTitle = dialogTitle
+                        )
+                        DialogDescription(
+                            description = description
+                        )
+                    }
+
+                    //HeightSpacer(heightDp = 32.dp)
+                    DialogButtonArea(
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(top = 32.dp),
+                        cancelButtonText = cancelButtonText,
+                        confirmButtonText = confirmButtonText,
+                        onCancel = onCancel,
+                        onConfirm = onConfirm
                     )
                 }
-
-                //HeightSpacer(heightDp = 32.dp)
-                DialogButtonArea(
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(top = 32.dp),
-                    cancelButtonText = cancelButtonText,
-                    confirmButtonText = confirmButtonText,
-                    onCancel = onCancel,
-                    onConfirm = onConfirm
-                )
             }
         }
     }

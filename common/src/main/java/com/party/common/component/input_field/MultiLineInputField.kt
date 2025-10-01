@@ -32,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
+import com.party.common.utils.fs
+import com.party.guam.design.B2
 import com.party.guam.design.B3
 import com.party.guam.design.BLACK
 import com.party.guam.design.EXTRA_LARGE_BUTTON_HEIGHT2
@@ -82,7 +84,7 @@ fun MultiLineInputField(
                 singleLine = false,
                 textStyle = TextStyle(
                     color = BLACK,
-                    fontSize = T3,
+                    fontSize = fs(T3),
                 ),
                 cursorBrush = SolidColor(Color.Black),
                 decorationBox = { innerTextField ->
@@ -95,7 +97,7 @@ fun MultiLineInputField(
                         if(inputText.isEmpty()){
                             Text(
                                 text = placeHolder,
-                                fontSize = T3,
+                                fontSize = fs(T3),
                                 color = GRAY400,
                             )
                         }

@@ -36,6 +36,7 @@ import com.party.common.component.button.CustomButton
 import com.party.common.component.snackbar.CustomSnackBar
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.ScreenExplainArea
+import com.party.common.utils.fs
 import com.party.guam.design.B2
 import com.party.guam.design.B3
 import com.party.guam.design.BLACK
@@ -94,7 +95,7 @@ private fun JoinNickNameWarningSection(
                 .weight(0.8f)
                 .padding(start = 6.dp),
             text = warningText,
-            fontSize = B3,
+            fontSize = fs(B3),
             color = RED,
         )
 
@@ -145,7 +146,7 @@ private fun JoinNickNameScreen(
                 actionIcon = {
                     Text(
                         text = "2/4",
-                        fontSize = B2,
+                        fontSize = fs(B2),
                         color = GRAY500,
                         modifier = Modifier.padding(end = 20.dp),
                     )
@@ -223,7 +224,7 @@ private fun JoinNickNameScreen(
                         contentColor = if (joinState.userNickName.isNotEmpty()) BLACK else GRAY400,
                         containerColor = if (joinState.userNickName.isNotEmpty()) PRIMARY else LIGHT400,
                         borderColor = if (joinState.userNickName.isNotEmpty()) PRIMARY else LIGHT200,
-                        textSize = B2,
+                        textSize = fs(B2),
                         textWeight = FontWeight.Bold,
                         onClick = {
                             onAction(JoinAction.OnCheckNickName)

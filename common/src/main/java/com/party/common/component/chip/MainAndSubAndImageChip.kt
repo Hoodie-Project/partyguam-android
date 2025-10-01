@@ -24,6 +24,8 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.utils.WidthSpacer
+import com.party.common.utils.fs
+import com.party.guam.design.B1
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.GRAY100
@@ -37,7 +39,7 @@ fun MainAndSubAndImageChip(
     roundedCornerShape: Dp,
     main: String,
     sub: String,
-    fontSize: TextUnit = B2,
+    fontSize: TextUnit = fs(B2),
     image: Painter,
 ) {
     Card(

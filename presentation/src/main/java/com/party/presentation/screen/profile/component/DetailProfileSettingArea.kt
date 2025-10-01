@@ -42,6 +42,7 @@ import com.party.guam.design.WHITE
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.common.utils.WidthSpacer
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
 import com.party.domain.model.user.profile.PersonalityOption
 import com.party.domain.model.user.profile.PersonalityQuestion
@@ -147,7 +148,7 @@ private fun DetailProfileSettingAreaTitle(
         if(countNotEmpty in 0..3){
             Text(
                 text = annotatedString,
-                fontSize = T3,
+                fontSize = fs(T3),
                 fontWeight = FontWeight.SemiBold,
             )
         }

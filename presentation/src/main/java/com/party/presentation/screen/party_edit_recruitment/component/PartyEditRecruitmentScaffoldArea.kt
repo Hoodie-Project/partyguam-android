@@ -14,7 +14,9 @@ import com.party.common.utils.WidthSpacer
 import com.party.common.component.icon.DrawableIcon
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.scaffold.ScaffoldCenterBar
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
+import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.T2
 
@@ -41,7 +43,7 @@ fun PartyEditRecruitmentScaffoldArea(
                 Text(
                     text = "모집 편집",
                     fontWeight = FontWeight.Bold,
-                    fontSize = T2
+                    fontSize = fs(T2)
                 )
                 WidthSpacer(widthDp = 4.dp)
                 DrawableIcon(

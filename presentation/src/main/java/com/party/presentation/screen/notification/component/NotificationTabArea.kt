@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.notificationTabList
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
@@ -68,7 +69,7 @@ fun NotificationTabChip(
     borderColor: Color,
     roundedCornerShape: Dp = 999.dp,
     text: String,
-    fontSize: TextUnit = B2,
+    fontSize: TextUnit = fs(B2),
     fontWeight: FontWeight,
     onSelectTab: () -> Unit,
 ) {

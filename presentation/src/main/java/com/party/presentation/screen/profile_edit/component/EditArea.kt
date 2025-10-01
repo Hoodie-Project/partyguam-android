@@ -25,7 +25,9 @@ import com.party.guam.design.PRIMARY
 import com.party.guam.design.T2
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
+import com.party.guam.design.B2
 import com.party.presentation.enum.PersonalityType
 import com.party.presentation.screen.profile.UserProfileState
 
@@ -124,7 +126,7 @@ fun EditArea(
         }
         Text(
             text = text,
-            fontSize = T2,
+            fontSize = fs(T2),
             fontWeight = FontWeight.SemiBold
         )
 

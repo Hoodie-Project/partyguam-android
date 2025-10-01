@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.WidthSpacer
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
 import com.party.domain.model.user.detail.Location
 import com.party.guam.design.B2
@@ -79,7 +80,7 @@ private fun SelectedProvinceAndSubLocationCard(
             Text(
                 text = "$selectedProvinceName ${item.second.city}",
                 color = BLACK,
-                fontSize = B2,
+                fontSize = fs(B2),
             )
             WidthSpacer(4.dp)
             Icon(

@@ -15,7 +15,9 @@ import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.scaffold.ScaffoldCenterBar
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
+import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.T2
 
@@ -45,7 +47,7 @@ fun JoinTitleSection(
         title = {
             Text(
                 text = title,
-                fontSize = T2,
+                fontSize = fs(T2),
                 fontWeight = FontWeight.Bold
             )
         },

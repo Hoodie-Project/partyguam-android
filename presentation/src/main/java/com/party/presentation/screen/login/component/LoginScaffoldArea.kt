@@ -5,6 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.party.common.component.scaffold.ScaffoldCenterBar
+import com.party.common.utils.fs
+import com.party.guam.design.B2
 import com.party.guam.design.T2
 
 @Composable
@@ -14,7 +16,7 @@ fun LoginScaffoldArea() {
             Text(
                 text = "로그인",
                 fontWeight = FontWeight.Bold,
-                fontSize = T2
+                fontSize = fs(T2)
             )
         },
     )

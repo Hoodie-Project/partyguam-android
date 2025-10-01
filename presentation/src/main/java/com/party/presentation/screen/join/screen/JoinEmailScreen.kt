@@ -24,6 +24,7 @@ import com.party.common.Screens
 import com.party.common.component.dialog.TwoButtonDialog
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.ScreenExplainArea
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
@@ -80,7 +81,7 @@ fun JoinEmailScreen(
                 actionIcon = {
                     Text(
                         text = "1/4",
-                        fontSize = B2,
+                        fontSize = fs(B2),
                         color = GRAY500,
                         modifier = Modifier.padding(end = 20.dp),
                     )
@@ -132,7 +133,7 @@ fun JoinEmailScreen(
                 buttonTextColor = BLACK,
                 buttonContainerColor = PRIMARY,
                 buttonBorderColor = PRIMARY,
-                fontSize = B2,
+                fontSize = fs(B2),
                 fontWeight = FontWeight.Bold,
                 onClick = onGotoJoinNickName
             )
@@ -184,7 +185,7 @@ private fun JoinEmailScreenButtonValidPreview(){
         buttonTextColor = if(email.isNotEmpty()) BLACK else GRAY400,
         buttonContainerColor = if(email.isNotEmpty()) PRIMARY else LIGHT400,
         buttonBorderColor = if(email.isNotEmpty()) PRIMARY else  LIGHT200,
-        fontSize = B2,
+        fontSize = fs(B2),
         fontWeight = FontWeight.Bold,
         onClick = {
 
@@ -202,7 +203,7 @@ private fun JoinEmailScreenButtonInvalidPreview(){
         buttonTextColor = if(email.isNotEmpty()) BLACK else GRAY400,
         buttonContainerColor = if(email.isNotEmpty()) PRIMARY else LIGHT400,
         buttonBorderColor = if(email.isNotEmpty()) PRIMARY else  LIGHT200,
-        fontSize = B2,
+        fontSize = fs(B2),
         fontWeight = FontWeight.Bold,
         onClick = {
 

@@ -27,7 +27,9 @@ import androidx.compose.ui.unit.dp
 import com.party.common.utils.TextComponent
 import com.party.common.component.bottomsheet.component.ApplyButton
 import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
+import com.party.common.utils.fs
 import com.party.guam.design.B2
+import com.party.guam.design.B3
 import com.party.guam.design.BLACK
 import com.party.guam.design.GRAY500
 import com.party.guam.design.T2
@@ -118,7 +120,7 @@ private fun OneSelectPickerContent(
 @Composable
 private fun OneSelectPickerContentItem(
     text: String,
-    fontSize: TextUnit,
+    fontSize: Int,
     fontWeight: FontWeight,
     textColor: Color,
     onClick: (String) -> Unit,

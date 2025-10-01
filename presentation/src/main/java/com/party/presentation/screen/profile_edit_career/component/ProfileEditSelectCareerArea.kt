@@ -23,7 +23,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
+import com.party.guam.design.B2
 import com.party.guam.design.GRAY200
 import com.party.guam.design.LARGE_BUTTON_HEIGHT
 import com.party.guam.design.LARGE_CORNER_SIZE
@@ -97,7 +99,7 @@ private fun SelectCareerItem(
         ){
             Text(
                 text = text,
-                fontSize = T3,
+                fontSize = fs(T3),
                 fontWeight = fontWeight,
             )
         }

@@ -32,6 +32,8 @@ import com.party.guam.design.LIGHT300
 import com.party.guam.design.T3
 import com.party.guam.design.WHITE
 import com.party.common.R
+import com.party.common.utils.fs
+import com.party.guam.design.B2
 
 @Composable
 fun SelectGenderArea(
@@ -102,7 +104,7 @@ private fun GenderComponent(
         ){
             Text(
                 text = text,
-                fontSize = T3,
+                fontSize = fs(T3),
                 color = BLACK,
                 fontWeight = fontWeight
             )

@@ -19,7 +19,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
+import com.party.guam.design.B1
 import com.party.guam.design.B2
 import com.party.guam.design.GRAY200
 import com.party.guam.design.GRAY500
@@ -36,7 +38,7 @@ fun BorderChip(
     roundedCornerShape: Dp = LARGE_CORNER_SIZE,
     text: String,
     textColor: Color,
-    fontSize: TextUnit = B2,
+    fontSize: TextUnit = fs(B2),
     fontWeight: FontWeight = FontWeight.SemiBold,
     onClick: () -> Unit = {},
 ) {

@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import com.party.common.utils.fs
 import com.party.guam.design.B2
 import com.party.guam.design.LARGE_BUTTON_HEIGHT
 import com.party.guam.design.LARGE_CORNER_SIZE
@@ -34,7 +35,7 @@ fun DetailProfileNextButton(
         Text(
             text = text,
             color = textColor,
-            fontSize = B2,
+            fontSize = fs(B2),
             fontWeight = FontWeight.Bold,
         )
     }

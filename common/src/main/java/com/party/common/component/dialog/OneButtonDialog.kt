@@ -20,6 +20,7 @@ import com.party.common.utils.HeightSpacer
 import com.party.common.component.dialog.component.DialogButton
 import com.party.common.component.dialog.component.DialogDescription
 import com.party.common.component.dialog.component.DialogTitle
+import com.party.common.utils.NoFontScale
 import com.party.guam.design.GRAY400
 import com.party.guam.design.LARGE_CORNER_SIZE
 import com.party.guam.design.PRIMARY
@@ -42,38 +43,40 @@ fun OneButtonDialog(
             dismissOnClickOutside = true,
         ),
     ) {
-        Card(
-            modifier = Modifier
-                .width(312.dp)
-                .wrapContentHeight(),
-            shape = RoundedCornerShape(LARGE_CORNER_SIZE),
-            colors = CardDefaults.cardColors(
-                containerColor = WHITE
-            ),
-            border = BorderStroke(1.dp, GRAY400)
-        ) {
-            Column(
+        NoFontScale {
+            Card(
                 modifier = Modifier
+                    .width(312.dp)
                     .wrapContentHeight(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                shape = RoundedCornerShape(LARGE_CORNER_SIZE),
+                colors = CardDefaults.cardColors(
+                    containerColor = WHITE
+                ),
+                border = BorderStroke(1.dp, GRAY400)
             ) {
-                HeightSpacer(heightDp = 32.dp)
-                DialogTitle(
-                    dialogTitle = dialogTitle
-                )
-                DialogDescription(
+                Column(
                     modifier = Modifier
-                        .padding(horizontal = 16.dp),
-                    description = description
-                )
-                HeightSpacer(heightDp = 32.dp)
-                DialogButton(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    buttonText = buttonText,
-                    containerColor = PRIMARY,
-                    onClick = onConfirm
-                )
+                        .wrapContentHeight(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    HeightSpacer(heightDp = 32.dp)
+                    DialogTitle(
+                        dialogTitle = dialogTitle
+                    )
+                    DialogDescription(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp),
+                        description = description
+                    )
+                    HeightSpacer(heightDp = 32.dp)
+                    DialogButton(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        buttonText = buttonText,
+                        containerColor = PRIMARY,
+                        onClick = onConfirm
+                    )
+                }
             }
         }
     }

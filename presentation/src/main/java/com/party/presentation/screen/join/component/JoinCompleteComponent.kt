@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.utils.WidthSpacer
+import com.party.common.utils.fs
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.PRIMARY
@@ -34,7 +35,7 @@ fun RowButtonArea(
             buttonTextColor = BLACK,
             buttonContainerColor = WHITE,
             buttonBorderColor = PRIMARY,
-            fontSize = B2,
+            fontSize = fs(B2),
             fontWeight = FontWeight.Bold,
             onClick = onGotoHome
         )
@@ -47,7 +48,7 @@ fun RowButtonArea(
             buttonTextColor = BLACK ,
             buttonContainerColor = PRIMARY,
             buttonBorderColor = PRIMARY,
-            fontSize = B2,
+            fontSize = fs(B2),
             fontWeight = FontWeight.Bold,
             onClick = onGotoDetailProfile
         )

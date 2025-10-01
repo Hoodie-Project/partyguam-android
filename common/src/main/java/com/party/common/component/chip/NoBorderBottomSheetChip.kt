@@ -15,7 +15,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.utils.WidthSpacer
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
+import com.party.guam.design.B1
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 
@@ -40,7 +42,7 @@ fun NoBorderBottomSheetChip(
         Text(
             text = chipName,
             color = BLACK,
-            fontSize = B2
+            fontSize = fs(B2)
         )
         WidthSpacer(widthDp = spacer)
         Icon(

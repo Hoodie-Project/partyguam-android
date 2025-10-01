@@ -23,6 +23,7 @@ import com.party.common.Screens
 import com.party.common.component.snackbar.CustomSnackBar
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.ScreenExplainArea
+import com.party.common.utils.fs
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.GRAY500
@@ -83,7 +84,7 @@ private fun JoinGenderScreen(
                 actionIcon = {
                     Text(
                         text = "4/4",
-                        fontSize = B2,
+                        fontSize = fs(B2),
                         color = GRAY500,
                         modifier = Modifier.padding(end = 20.dp),
                     )
@@ -126,7 +127,7 @@ private fun JoinGenderScreen(
                 buttonTextColor = BLACK,
                 buttonContainerColor = PRIMARY,
                 buttonBorderColor = PRIMARY,
-                fontSize = B2,
+                fontSize = fs(B2),
                 fontWeight = FontWeight.Bold,
                 onClick = { onAction(JoinAction.OnJoinComplete) }
             )

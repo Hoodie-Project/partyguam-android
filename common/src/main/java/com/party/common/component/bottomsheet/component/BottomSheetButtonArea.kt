@@ -15,6 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.WidthSpacer
+import com.party.common.utils.fs
+import com.party.guam.design.B1
 import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.GRAY400
@@ -76,7 +78,7 @@ fun ResetButton(
         Text(
             text = "초기화",
             fontWeight = FontWeight.Bold,
-            fontSize = B2,
+            fontSize = fs(B2),
             color = textColor,
         )
     }
@@ -106,7 +108,7 @@ fun ApplyButton(
         Text(
             text = buttonText,
             fontWeight = FontWeight.Bold,
-            fontSize = B2,
+            fontSize = fs(B2),
             color = textColor,
         )
     }

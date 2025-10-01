@@ -29,6 +29,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.party.common.BottomBarScreen
 import com.party.common.Screens
 import com.party.common.component.icon.DrawableIcon
+import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
 import com.party.guam.design.B3
 import com.party.guam.design.BOTTOM_NAVIGATION_SELECTED_TEXT
@@ -125,7 +126,7 @@ fun RowScope.AppBottomNavigationBarItem(
 
         Text(
             text = label,
-            fontSize = B3,
+            fontSize = fs(B3),
             fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
             color = if (selected) BOTTOM_NAVIGATION_SELECTED_TEXT else BOTTOM_NAVIGATION_UNSELECTED_TEXT,
             style = MaterialTheme.typography.bodyMedium
