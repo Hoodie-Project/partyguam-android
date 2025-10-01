@@ -23,31 +23,39 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.party.common.utils.HeightSpacer
-import com.party.common.utils.LoadingProgressBar
 import com.party.common.R
-import com.party.common.utils.TextComponent
-import com.party.common.utils.WidthSpacer
 import com.party.common.component.RecruitmentListItem3
 import com.party.common.component.chip.OrderByCreateDtChip
 import com.party.common.component.custom_tooltip.TriangleEdge
 import com.party.common.component.icon.DrawableIcon
 import com.party.common.component.icon.DrawableIconButton
 import com.party.common.component.no_data.NoDataColumn
+import com.party.common.utils.HeightSpacer
+import com.party.common.utils.LoadingProgressBar
+import com.party.common.utils.TextComponent
+import com.party.common.utils.WidthSpacer
 import com.party.common.utils.noRippleClickable
+import com.party.domain.model.user.recruitment.PartyApplication
 import com.party.guam.design.B2
 import com.party.guam.design.GRAY500
 import com.party.guam.design.LARGE_CORNER_SIZE
 import com.party.guam.design.PRIMARY
 import com.party.guam.design.T3
 import com.party.guam.design.WHITE
-import com.party.domain.model.user.recruitment.PartyApplication
 import com.party.presentation.enum.RecruitmentStatusType
 import com.party.presentation.screen.state.MyPartyState
 
@@ -69,6 +77,10 @@ fun MyRecruitmentArea(
             it.status == RecruitmentStatusType.fromDisplayText(myPartyState.selectedRecruitmentStatus)
         }
     }
+
+    var recruitmentStateTextPosition by remember { mutableStateOf(IntOffset.Zero) }
+    var recruitmentStateTextWidth by remember { mutableStateOf(0) }
+
     Column(
         modifier = Modifier.fillMaxWidth(),
     ) {
@@ -82,6 +94,10 @@ fun MyRecruitmentArea(
             orderByDesc = myPartyState.orderByRecruitmentDateDesc,
             onShowHelpCard = { onShowHelpCard(true) },
             onChangeOrderBy = onChangeOrderBy,
+            onTextPositioned = { position, width ->
+                recruitmentStateTextPosition = position
+                recruitmentStateTextWidth = width
+            }
         )
 
         HeightSpacer(heightDp = 4.dp)
@@ -110,6 +126,8 @@ fun MyRecruitmentArea(
 
             if(myPartyState.isShowHelpCard){
                 StateHelpCard(
+                    textPosition = recruitmentStateTextPosition,
+                    textWidth = recruitmentStateTextWidth,
                     onCloseHelpCard = { onShowHelpCard(false) }
                 )
             }
@@ -162,6 +180,7 @@ private fun RecruitmentStateAndOrderByArea(
     orderByDesc: Boolean,
     onShowHelpCard: () -> Unit,
     onChangeOrderBy: (Boolean) -> Unit,
+    onTextPositioned: (IntOffset, Int) -> Unit, // 추가
 ) {
     Row(
         modifier =
@@ -172,6 +191,7 @@ private fun RecruitmentStateAndOrderByArea(
     ) {
         RecruitmentState(
             onShowHelpCard = onShowHelpCard,
+            onTextPositioned = onTextPositioned // 추가
         )
 
         OrderByCreateDtChip(
@@ -184,7 +204,8 @@ private fun RecruitmentStateAndOrderByArea(
 
 @Composable
 private fun RecruitmentState(
-    onShowHelpCard: () -> Unit
+    onShowHelpCard: () -> Unit,
+    onTextPositioned: (IntOffset, Int) -> Unit, // 추가
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -195,9 +216,17 @@ private fun RecruitmentState(
             icon = painterResource(id = R.drawable.icon_help),
             contentDescription = "help",
             tintColor = GRAY500,
-            modifier =
-            Modifier
+            modifier = Modifier
                 .size(16.dp)
+                .onGloballyPositioned { coordinates ->
+                    val position = IntOffset(
+                        x = coordinates.positionInParent().x.toInt(),
+                        y = coordinates.positionInParent().y.toInt()
+                    )
+                    val width = coordinates.size.width
+                    // 헬프 아이콘의 위치와 크기를 전달
+                    onTextPositioned(position, width)
+                }
                 .noRippleClickable { onShowHelpCard() },
         )
     }
@@ -205,15 +234,23 @@ private fun RecruitmentState(
 
 @Composable
 private fun StateHelpCard(
+    textPosition: IntOffset,
+    textWidth: Int,
     onCloseHelpCard: () -> Unit,
 ) {
+    val density = LocalDensity.current
+    // 텍스트 중앙 위치 계산 (dp로 변환)
+    val triangleOffsetX = with(density) {
+        (textPosition.x + textWidth / 2).toDp() - 5.dp
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth(),
     ) {
         Box(
             modifier = Modifier
-                .offset(x = 66.dp)
+                .offset(x = triangleOffsetX)
                 .width(10.dp)
                 .height(5.dp)
                 .background(color = GRAY500, shape = TriangleEdge()),
@@ -309,13 +346,5 @@ private fun MyRecruitmentAreaPreview() {
         onRefusal = {_, _ ->},
         onAccept = {_, _ ->},
         onCancel = { _, _ -> },
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun StateHelpCardPreview() {
-    StateHelpCard(
-        onCloseHelpCard = {},
     )
 }
