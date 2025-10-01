@@ -206,7 +206,11 @@ fun AppNavHost() {
             },
             navigateUpFloating = {
                 val shouldShowButton = when(state.currentScreen) {
-                    "Home" -> (state.selectedTabText == homeTopTabList[1] || state.selectedTabText == homeTopTabList[2]) && state.isScrollStart || state.isScrollStartParty || state.isScrollStartRecruitment
+                    "Home" -> when(state.selectedTabText) {
+                        homeTopTabList[1] -> state.isScrollStartParty
+                        homeTopTabList[2] -> state.isScrollStartRecruitment
+                        else -> false
+                    }
                     "State" -> state.isScrollStart
                     else -> false
                 }
