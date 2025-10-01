@@ -360,7 +360,7 @@ object UserMapper {
             message = notificationDataDto.message,
             isRead = notificationDataDto.isRead,
             createdAt = notificationDataDto.createdAt,
-            image = convertToImageUrl(notificationDataDto.image)
+            image = convertToPartyImage(notificationDataDto.image),
         )
     }
 
