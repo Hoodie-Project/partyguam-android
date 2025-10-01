@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.utils.TextComponent
 import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
+import com.party.common.utils.NoFontScale
 import com.party.guam.design.B1
 import com.party.guam.design.BLACK
 import com.party.guam.design.RED
@@ -47,22 +48,25 @@ fun NoButtonAndGotoScreenBottomSheet(
         containerColor = White,
         dragHandle = null,
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(horizontal = 20.dp)
-        ) {
-            BottomSheetTitleArea(
-                titleText = bottomSheetTitle,
-                onSheetClose = onBottomSheetClose
-            )
+        NoFontScale {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(horizontal = 20.dp)
+            ) {
+                BottomSheetTitleArea(
+                    titleText = bottomSheetTitle,
+                    onSheetClose = onBottomSheetClose
+                )
 
-            ContentArea(
-                contentList = contentList,
-                onClick = onClick
-            )
+                ContentArea(
+                    contentList = contentList,
+                    onClick = onClick
+                )
+            }
         }
+
     }
 }
 

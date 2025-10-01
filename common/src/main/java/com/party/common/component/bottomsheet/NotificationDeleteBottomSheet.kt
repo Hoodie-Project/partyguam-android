@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.utils.HeightSpacer
 import com.party.common.utils.TextComponent
 import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
+import com.party.common.utils.NoFontScale
 import com.party.guam.design.B1
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,29 +39,32 @@ fun NotificationDeleteBottomSheet(
         containerColor = White,
         dragHandle = null,
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(horizontal = 20.dp)
-        ) {
-            BottomSheetTitleArea(
-                titleText = "",
-                onSheetClose = onBottomSheetClose
-            )
-
-            TextComponent(
-                text = "삭제하기",
-                fontSize = B1,
-                align = Alignment.Center,
-                fontWeight = FontWeight.Medium,
-                onClick = onDeleteNotification,
+        NoFontScale {
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(52.dp)
-            )
-            HeightSpacer(heightDp = 34.dp)
+                    .wrapContentHeight()
+                    .padding(horizontal = 20.dp)
+            ) {
+                BottomSheetTitleArea(
+                    titleText = "",
+                    onSheetClose = onBottomSheetClose
+                )
+
+                TextComponent(
+                    text = "삭제하기",
+                    fontSize = B1,
+                    align = Alignment.Center,
+                    fontWeight = FontWeight.Medium,
+                    onClick = onDeleteNotification,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp)
+                )
+                HeightSpacer(heightDp = 34.dp)
+            }
         }
+
     }
 }
 

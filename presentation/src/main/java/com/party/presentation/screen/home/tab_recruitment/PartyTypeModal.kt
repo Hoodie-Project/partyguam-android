@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.R
 import com.party.common.utils.WidthSpacer
 import com.party.common.component.bottomsheet.list.partyTypeList2
+import com.party.common.utils.NoFontScale
 import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
 import com.party.guam.design.B1
@@ -55,32 +56,34 @@ fun PartyTypeModal(
         containerColor = Color.White,
         dragHandle = null,
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(20.dp)
-        ) {
-            ModalTitleArea(
-                titleText = titleText,
-                onModelClose = onModelClose,
-            )
-            ModelCheckListArea(
-                selectedPartyType = selectedPartyType,
-                onClick = onClick,
-            )
-            ModalBottomArea(
-                buttonText1 = stringResource(id = R.string.recruitment_modal1),
-                buttonTextColor1 = BLACK,
-                buttonContainerColor1 = WHITE,
-                buttonBorderColor1 = PRIMARY,
-                buttonText2 = stringResource(id = R.string.recruitment_modal2),
-                buttonTextColor2 = BLACK,
-                buttonContainerColor2 = PRIMARY,
-                buttonBorderColor2 = PRIMARY,
-                onReset = onReset,
-                onApply = onApply,
-            )
+        NoFontScale {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(20.dp)
+            ) {
+                ModalTitleArea(
+                    titleText = titleText,
+                    onModelClose = onModelClose,
+                )
+                ModelCheckListArea(
+                    selectedPartyType = selectedPartyType,
+                    onClick = onClick,
+                )
+                ModalBottomArea(
+                    buttonText1 = stringResource(id = R.string.recruitment_modal1),
+                    buttonTextColor1 = BLACK,
+                    buttonContainerColor1 = WHITE,
+                    buttonBorderColor1 = PRIMARY,
+                    buttonText2 = stringResource(id = R.string.recruitment_modal2),
+                    buttonTextColor2 = BLACK,
+                    buttonContainerColor2 = PRIMARY,
+                    buttonBorderColor2 = PRIMARY,
+                    onReset = onReset,
+                    onApply = onApply,
+                )
+            }
         }
     }
 }

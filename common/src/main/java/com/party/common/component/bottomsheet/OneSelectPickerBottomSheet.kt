@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.utils.TextComponent
 import com.party.common.component.bottomsheet.component.ApplyButton
 import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
+import com.party.common.utils.NoFontScale
 import com.party.common.utils.fs
 import com.party.guam.design.B2
 import com.party.guam.design.B3
@@ -58,34 +59,37 @@ fun OneSelectPickerBottomSheet(
         containerColor = White,
         dragHandle = null,
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(horizontal = 20.dp)
-        ) {
-            BottomSheetTitleArea(
-                titleText = bottomSheetTitle,
-                onSheetClose = onBottomSheetClose
-            )
-
-            OneSelectPickerContent(
-                selectedText = selectedItem,
-                peopleCountList = peopleCountList,
-                onClick = {
-                    selectedItem = it
-                }
-            )
-
-            ApplyButton(
-                buttonText = "선택 완료",
+        NoFontScale {
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp),
-                isActive = true,
-                onClick = {onApply(selectedItem)}
-            )
+                    .wrapContentHeight()
+                    .padding(horizontal = 20.dp)
+            ) {
+                BottomSheetTitleArea(
+                    titleText = bottomSheetTitle,
+                    onSheetClose = onBottomSheetClose
+                )
+
+                OneSelectPickerContent(
+                    selectedText = selectedItem,
+                    peopleCountList = peopleCountList,
+                    onClick = {
+                        selectedItem = it
+                    }
+                )
+
+                ApplyButton(
+                    buttonText = "선택 완료",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp),
+                    isActive = true,
+                    onClick = {onApply(selectedItem)}
+                )
+            }
         }
+
     }
 }
 

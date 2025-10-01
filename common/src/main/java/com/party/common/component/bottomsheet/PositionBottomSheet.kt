@@ -39,6 +39,7 @@ import com.party.common.utils.WidthSpacer
 import com.party.common.component.bottomsheet.component.BottomSheetButtonArea
 import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
 import com.party.common.component.bottomsheet.list.positionList
+import com.party.common.utils.NoFontScale
 import com.party.common.utils.fs
 import com.party.common.utils.noRippleClickable
 import com.party.guam.design.B1
@@ -71,41 +72,44 @@ fun PositionBottomSheet(
         containerColor = White,
         dragHandle = null,
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.8f)
-        ) {
+        NoFontScale {
             Column(
                 modifier = Modifier
-                    .weight(1f)
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.8f)
             ) {
-                BottomSheetTitleArea(
-                    titleText = "직무",
-                    onSheetClose = onSheetClose
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                ) {
+                    BottomSheetTitleArea(
+                        titleText = "직무",
+                        onSheetClose = onSheetClose
+                    )
+
+                    PositionSelectArea(
+                        selectedMainPosition = selectedMainPosition,
+                        getSubPositionList = getSubPositionList,
+                        selectedSubPositionList = selectedSubPositionList,
+                        onMainPositionClick = onMainPositionClick,
+                        onSubPositionClick = onSubPositionClick
+                    )
+                }
+
+                SelectedPositionArea(
+                    selectedPositionList = selectedMainAndSubPositionList,
+                    onDelete = onDelete,
                 )
 
-                PositionSelectArea(
-                    selectedMainPosition = selectedMainPosition,
-                    getSubPositionList = getSubPositionList,
-                    selectedSubPositionList = selectedSubPositionList,
-                    onMainPositionClick = onMainPositionClick,
-                    onSubPositionClick = onSubPositionClick
+                BottomSheetButtonArea(
+                    isActiveApplyButton = selectedMainAndSubPositionList.isNotEmpty(),
+                    isActiveResetButton = selectedMainAndSubPositionList.isNotEmpty(),
+                    onReset = onReset,
+                    onApply = onApply,
                 )
             }
-
-            SelectedPositionArea(
-                selectedPositionList = selectedMainAndSubPositionList,
-                onDelete = onDelete,
-            )
-
-            BottomSheetButtonArea(
-                isActiveApplyButton = selectedMainAndSubPositionList.isNotEmpty(),
-                isActiveResetButton = selectedMainAndSubPositionList.isNotEmpty(),
-                onReset = onReset,
-                onApply = onApply,
-            )
         }
+
     }
 }
 

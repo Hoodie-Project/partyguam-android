@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.party.common.utils.TextComponent
 import com.party.common.component.bottomsheet.component.BottomSheetButtonArea
 import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
+import com.party.common.utils.NoFontScale
 import com.party.guam.design.B1
 import com.party.guam.design.GRAY100
 
@@ -58,32 +59,34 @@ fun MainPositionBottomSheet(
         containerColor = White,
         dragHandle = null,
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(400.dp)
-        ) {
+        NoFontScale {
             Column(
                 modifier = Modifier
-                    .weight(1f)
+                    .fillMaxWidth()
+                    .height(400.dp)
             ) {
-                BottomSheetTitleArea(
-                    titleText = "모집공고",
-                    onSheetClose = onBottomSheetClose
-                )
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                ) {
+                    BottomSheetTitleArea(
+                        titleText = "모집공고",
+                        onSheetClose = onBottomSheetClose
+                    )
 
-                MainPositionBottomSheetContent(
-                    selectedPosition = selectedPosition,
-                    onClick = onPositionClick
+                    MainPositionBottomSheetContent(
+                        selectedPosition = selectedPosition,
+                        onClick = onPositionClick
+                    )
+                }
+
+                BottomSheetButtonArea(
+                    isActiveApplyButton = true,
+                    isActiveResetButton = true,
+                    onReset = onReset,
+                    onApply = onApply,
                 )
             }
-
-            BottomSheetButtonArea(
-                isActiveApplyButton = true,
-                isActiveResetButton = true,
-                onReset = onReset,
-                onApply = onApply,
-            )
         }
     }
 }

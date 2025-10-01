@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.party.common.component.bottomsheet.component.BottomSheetTitleArea
+import com.party.common.utils.NoFontScale
 import com.party.common.utils.TextComponent
 import com.party.guam.design.B1
 import com.party.guam.design.BLACK
@@ -47,30 +48,33 @@ fun MoreBottomSheet(
         containerColor = White,
         dragHandle = null,
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(horizontal = 20.dp)
-        ) {
-            BottomSheetTitleArea(
-                titleText = "더보기",
-                onSheetClose = onBottomSheetClose
-            )
+        NoFontScale {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(horizontal = 20.dp)
+            ) {
+                BottomSheetTitleArea(
+                    titleText = "더보기",
+                    onSheetClose = onBottomSheetClose
+                )
 
-            ContentArea(
-                isShowPartyExit = isShowPartyExit,
-                selectContent = selectContent,
-                onReport = {
-                    selectContent = it
-                    onReport()
-                },
-                onExitParty = {
-                    selectContent = it
-                    onExitParty()
-                }
-            )
+                ContentArea(
+                    isShowPartyExit = isShowPartyExit,
+                    selectContent = selectContent,
+                    onReport = {
+                        selectContent = it
+                        onReport()
+                    },
+                    onExitParty = {
+                        selectContent = it
+                        onExitParty()
+                    }
+                )
+            }
         }
+
     }
 }
 

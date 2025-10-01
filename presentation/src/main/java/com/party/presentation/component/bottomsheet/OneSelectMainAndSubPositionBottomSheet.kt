@@ -38,6 +38,7 @@ import com.party.guam.design.B2
 import com.party.guam.design.BLACK
 import com.party.guam.design.GRAY100
 import com.party.common.utils.HeightSpacer
+import com.party.common.utils.NoFontScale
 import com.party.common.utils.WidthSpacer
 import com.party.common.utils.fs
 import com.party.domain.model.user.detail.PositionList
@@ -78,58 +79,61 @@ fun OneSelectMainAndSubPositionBottomSheet(
         containerColor = White,
         dragHandle = null,
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.8f)
-        ) {
+        NoFontScale {
             Column(
                 modifier = Modifier
-                    .weight(1f)
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.8f)
             ) {
-                BottomSheetTitleArea(
-                    titleText = bottomSheetTitle,
-                    onSheetClose = onModelClose
-                )
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                ) {
+                    BottomSheetTitleArea(
+                        titleText = bottomSheetTitle,
+                        onSheetClose = onModelClose
+                    )
 
-                PositionSelectArea(
-                    subPositionList = subPositionList,
-                    selectedMainPosition = inModalSelectedMainPosition,
-                    selectedSubPosition = inModalSelectedSubPosition,
-                    onMainPositionClick = {
-                        onClickMainPosition(it)
-                        inModalSelectedMainPosition = it
-                        inModalSelectedSubPosition = PositionList(0, "", "")
-                    },
-                    onSelectSubPosition = {
-                        inModalSelectedSubPosition = it
-                    },
-                )
-            }
+                    PositionSelectArea(
+                        subPositionList = subPositionList,
+                        selectedMainPosition = inModalSelectedMainPosition,
+                        selectedSubPosition = inModalSelectedSubPosition,
+                        onMainPositionClick = {
+                            onClickMainPosition(it)
+                            inModalSelectedMainPosition = it
+                            inModalSelectedSubPosition = PositionList(0, "", "")
+                        },
+                        onSelectSubPosition = {
+                            inModalSelectedSubPosition = it
+                        },
+                    )
+                }
 
-            if(inModalSelectedSubPosition.sub.isNotEmpty()){
-                SelectedPositionArea(
-                    main = inModalSelectedMainPosition,
-                    sub = inModalSelectedSubPosition,
-                    onDelete = {
-                        inModalSelectedSubPosition = PositionList(0, "", "")
-                        inModalSelectedMainPosition = ""
+                if(inModalSelectedSubPosition.sub.isNotEmpty()){
+                    SelectedPositionArea(
+                        main = inModalSelectedMainPosition,
+                        sub = inModalSelectedSubPosition,
+                        onDelete = {
+                            inModalSelectedSubPosition = PositionList(0, "", "")
+                            inModalSelectedMainPosition = ""
+                        }
+                    )
+                }
+
+                ApplyButton(
+                    buttonText = buttonText,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp),
+                    isActive = if(inModalSelectedMainPosition.isNotEmpty() && inModalSelectedSubPosition.sub.isNotEmpty()) true else false,
+                    onClick = {
+                        onApply(inModalSelectedMainPosition, inModalSelectedSubPosition)
+                        onModelClose()
                     }
                 )
             }
-
-            ApplyButton(
-                buttonText = buttonText,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp),
-                isActive = if(inModalSelectedMainPosition.isNotEmpty() && inModalSelectedSubPosition.sub.isNotEmpty()) true else false,
-                onClick = {
-                    onApply(inModalSelectedMainPosition, inModalSelectedSubPosition)
-                    onModelClose()
-                }
-            )
         }
+
     }
 }
 

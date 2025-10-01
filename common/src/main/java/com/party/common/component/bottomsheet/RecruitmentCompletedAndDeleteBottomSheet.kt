@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.party.common.utils.NoFontScale
 import com.party.common.utils.TextComponent
 import com.party.guam.design.B1
 
@@ -49,54 +50,57 @@ fun RecruitmentCompletedAndDeleteBottomSheet(
         containerColor = Color.White,
         dragHandle = null,
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(20.dp)
-        ) {
-            Row(
+        NoFontScale {
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(20.dp)
             ) {
-                Icon(
-                    imageVector = Icons.Default.Close,
-                    contentDescription = "close",
+                Row(
                     modifier = Modifier
-                        .padding(end = 16.dp)
-                        .size(24.dp)
-                        .clickable { onModelClose() }
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = "close",
+                        modifier = Modifier
+                            .padding(end = 16.dp)
+                            .size(24.dp)
+                            .clickable { onModelClose() }
+                    )
+                }
+
+                TextComponent(
+                    text = "미리보기",
+                    align = Alignment.Center,
+                    fontSize = B1,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp),
+                    onClick = onPreview
+                )
+
+                TextComponent(
+                    text = text,
+                    align = Alignment.Center,
+                    textColor = textColor,
+                    fontSize = B1,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp),
+                    onClick = {
+                        if(status == "completed"){
+                            onPartyRecruitmentDeleted()
+                        }else {
+                            onPartyRecruitmentCompleted()
+                        }
+                    }
                 )
             }
-
-            TextComponent(
-                text = "미리보기",
-                align = Alignment.Center,
-                fontSize = B1,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp),
-                onClick = onPreview
-            )
-
-            TextComponent(
-                text = text,
-                align = Alignment.Center,
-                textColor = textColor,
-                fontSize = B1,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp),
-                onClick = {
-                    if(status == "completed"){
-                        onPartyRecruitmentDeleted()
-                    }else {
-                        onPartyRecruitmentCompleted()
-                    }
-                }
-            )
         }
+
     }
 }
 
