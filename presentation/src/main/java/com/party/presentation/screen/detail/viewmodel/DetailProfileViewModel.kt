@@ -66,6 +66,14 @@ class DetailProfileViewModel @Inject constructor(
         getNickName()
     }
 
+    fun onResetMainPosition(){
+        _state.update { it.copy(firstCareer = "", firstMainPosition = "", firstSubPosition = "", firstSubPositionId = 0) }
+    }
+
+    fun onResetSubPosition(){
+        _state.update { it.copy(secondCareer = "", secondMainPosition = "", secondSubPosition = "", secondSubPositionId = 0) }
+    }
+
     fun onResetSubPositionList(isMain: Boolean){
         if(isMain){
             if(_state.value.firstMainPosition.isEmpty()){

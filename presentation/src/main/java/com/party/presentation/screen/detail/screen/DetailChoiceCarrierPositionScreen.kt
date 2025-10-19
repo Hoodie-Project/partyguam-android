@@ -41,7 +41,14 @@ fun DetailChoiceCarrierPositionRoute(
     DetailChoiceCarrierPositionScreen(
         isMain = isMain,
         state = state,
-        onNavigationClick = { navController.popBackStack() },
+        onNavigationClick = {
+            if(isMain){
+                viewModel.onResetMainPosition()
+            } else {
+                viewModel.onResetSubPosition()
+            }
+            navController.popBackStack()
+        },
         onAction = { action -> viewModel.onAction(action) },
         onAdd = { navController.popBackStack() },
     )
