@@ -2,7 +2,7 @@ package com.party.presentation.enum
 
 enum class GenderType(val type: String) {
     MAN("M"),
-    WOMAN("W");
+    WOMAN("F");
 
     companion object {
         fun fromType(type: String): GenderType {
