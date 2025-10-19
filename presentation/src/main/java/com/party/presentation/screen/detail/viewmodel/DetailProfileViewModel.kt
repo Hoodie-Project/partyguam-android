@@ -210,30 +210,50 @@ class DetailProfileViewModel @Inject constructor(
             is DetailProfileAction.OnShowFinishDialog -> _state.update { it.copy(isShowFinishDialog = action.isShow) }
             is DetailProfileAction.OnClickProvince -> _state.update { it.copy(selectedProvince = action.provinceName) }
             is DetailProfileAction.OnClickSubLocation -> {
-                _state.update {
-                    val updatedList = it.selectedProvinceAndSubLocationList.toMutableList()
+                _state.update { currentState ->
+                    val currentProvince = currentState.selectedProvince
+                    val isWhole = action.location.city == "전체"
+                    val updatedList = currentState.selectedProvinceAndSubLocationList.toMutableList()
 
-                    // 이미 같은 location이 있는지 확인
-                    val existingIndex = updatedList.indexOfFirst { pair -> pair.second == action.location }
+                    if (isWhole) {
+                        // 현재 도/시의 모든 선택 제거 후 전체 토글
+                        // 먼저 현재 province의 선택들을 제거
+                        updatedList.removeAll { it.first == currentProvince }
 
-                    if (existingIndex != -1) {
-                        // 이미 있으면 제거 (해제)
-                        updatedList.removeAt(existingIndex)
+                        // 이미 해당 province의 전체가 선택되어 있었는지 확인
+                        val alreadyWholeSelected = currentState.selectedProvinceAndSubLocationList.any {
+                            it.first == currentProvince && it.second.city == "전체"
+                        }
+
+                        if (!alreadyWholeSelected) {
+                            // 전체가 선택되어 있지 않았다면 전체를 추가
+                            updatedList.add(Pair(currentProvince, action.location))
+                        }
+
+                        return@update currentState.copy(selectedProvinceAndSubLocationList = updatedList)
                     } else {
-                        // 없으면 추가 (단, 최대 3개까지)
+                        // 특정 구/군 선택: 현재 province의 전체를 해제하고 해당 구/군을 토글
+                        // 현재 province의 전체 선택 제거
+                        updatedList.removeAll { it.first == currentProvince && it.second.city == "전체" }
+
+                        // 동일 항목이 이미 있는지 확인 (토글)
+                        val existingIndex = updatedList.indexOfFirst { pair -> pair.first == currentProvince && pair.second == action.location }
+                        if (existingIndex != -1) {
+                            updatedList.removeAt(existingIndex)
+                            return@update currentState.copy(selectedProvinceAndSubLocationList = updatedList)
+                        }
+
+                        // 새 항목 추가 (글로벌 최대 3개 제한)
                         if (updatedList.size >= 3) {
-                            // 최대 3개 초과 시 알림
                             viewModelScope.launch {
                                 _locationLimitExceeded.emit("최대 3개까지만 선택 가능합니다.")
                             }
-                            return@update it // 상태 변경 없이 현재 상태 유지
-                        } else {
-                            val newPair = Pair(it.selectedProvince, action.location)
-                            updatedList.add(newPair)
+                            return@update currentState
                         }
-                    }
 
-                    it.copy(selectedProvinceAndSubLocationList = updatedList)
+                        updatedList.add(Pair(currentProvince, action.location))
+                        return@update currentState.copy(selectedProvinceAndSubLocationList = updatedList)
+                    }
                 }
             }
             is DetailProfileAction.OnDeleteSelectedLocation -> {

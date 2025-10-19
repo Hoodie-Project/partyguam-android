@@ -63,6 +63,7 @@ fun LocationSection(
             modifier = Modifier.weight(2f),
             subLocationList = subLocationList,
             selectedProvinceAndSubLocationList = selectedProvinceAndSubLocationList,
+            selectedProvince = selectedProvince,
             onClickSubLocation = onClickSubLocation
         )
     }
@@ -136,6 +137,7 @@ private fun SubLocationSection(
     modifier: Modifier = Modifier,
     subLocationList: List<Location>,
     selectedProvinceAndSubLocationList: List<Pair<String, Location>>,
+    selectedProvince: String,
     onClickSubLocation: (Location) -> Unit,
 ) {
     LazyVerticalGrid(
@@ -155,8 +157,8 @@ private fun SubLocationSection(
         ) { _, item ->
             SubLocationCard(
                 subLocationName = item.city,
-                textColor = selectedLocationColor(selectedProvinceAndSubLocationList, item.city),
-                border = if (selectedLocationColor(selectedProvinceAndSubLocationList, item.city) == DARK200) BorderStroke(1.dp, PRIMARY) else null,
+                textColor = selectedLocationColor(selectedProvinceAndSubLocationList, selectedProvince, item.city),
+                border = if (selectedLocationColor(selectedProvinceAndSubLocationList, selectedProvince, item.city) == DARK200) BorderStroke(1.dp, PRIMARY) else null,
                 onClickSubLocation = { onClickSubLocation(item) }
             )
         }
@@ -197,7 +199,7 @@ private fun SubLocationCard(
     }
 }
 
-private fun selectedLocationColor(selectedLocationList: List<Pair<String, Location>>, selectedSubLocation: String): Color{
-    val isContain = selectedLocationList.any { it.second.city.contains(selectedSubLocation) }
+private fun selectedLocationColor(selectedLocationList: List<Pair<String, Location>>, selectedProvince: String, selectedSubLocation: String): Color{
+    val isContain = selectedLocationList.any { it.first == selectedProvince && it.second.city.contains(selectedSubLocation) }
     return if(isContain) DARK200 else GRAY600
 }
