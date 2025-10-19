@@ -38,10 +38,10 @@ import com.party.guam.design.LIGHT400
 import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.PRIMARY
 import com.party.guam.design.WHITE
-import com.party.presentation.screen.detail.component.DetailProfileNextButton
 import com.party.presentation.screen.detail.action.DetailProfileAction
-import com.party.presentation.screen.detail.component.PositionSection
 import com.party.presentation.screen.detail.component.DetailCarrierScaffoldArea
+import com.party.presentation.screen.detail.component.DetailProfileNextButton
+import com.party.presentation.screen.detail.component.PositionSection
 import com.party.presentation.screen.detail.state.DetailProfileState
 import com.party.presentation.screen.detail.viewmodel.DetailProfileViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -93,7 +93,10 @@ fun DetailProfileCareerRoute(
         state = state,
         onNavigationClick = { navController.popBackStack() },
         onClose = { viewModel.onAction(action = DetailProfileAction.OnShowFinishDialog(isShow = true))},
-        onGoToChoiceCarrierPosition = { navController.navigate(route = Screens.DetailChoiceCarrierPosition(isMain = it))},
+        onGoToChoiceCarrierPosition = {
+            navController.navigate(route = Screens.DetailChoiceCarrierPosition(isMain = it))
+            viewModel.onResetSubPositionList(isMain = it)
+        },
         onAction = { action ->  viewModel.onAction(action = action)},
         onGotoNext = { viewModel.saveCareer() },
         onSkip = { navController.navigate(route = Screens.DetailTrait1) }

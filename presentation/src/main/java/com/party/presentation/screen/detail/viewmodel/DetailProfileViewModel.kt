@@ -66,6 +66,17 @@ class DetailProfileViewModel @Inject constructor(
         getNickName()
     }
 
+    fun onResetSubPositionList(isMain: Boolean){
+        if(isMain){
+            if(_state.value.firstMainPosition.isEmpty()){
+                _state.update { it.copy(subPositionListFirst = emptyList()) }
+            }
+        } else {
+            if(_state.value.secondMainPosition.isEmpty()){
+                _state.update { it.copy(subPositionListSecond = emptyList()) }
+            }
+        }
+    }
 
     // 서브 지역 리스트 조회
     fun getLocationList(){
@@ -100,13 +111,18 @@ class DetailProfileViewModel @Inject constructor(
     }
 
     // 서브 포지션 조회
-    fun getPositions(main: String){
+    fun getPositions(main: String, isMain: Boolean){
         viewModelScope.launch(Dispatchers.IO) {
             getPositionsUseCase(
                 main = main
             )
                 .onSuccess { result ->
-                    _state.update { it.copy(subPositionList = result) }
+                    if(isMain){
+                        _state.update { it.copy(subPositionListFirst = result) }
+                    } else {
+                        _state.update { it.copy(subPositionListSecond = result) }
+                    }
+
                 }
                 .onError {
 
@@ -267,7 +283,8 @@ class DetailProfileViewModel @Inject constructor(
             is DetailProfileAction.OnClickFirstMainPosition -> {
                 _state.update { it.copy(firstMainPosition = action.mainPosition) }
                 getPositions(
-                    main = action.mainPosition
+                    main = action.mainPosition,
+                    isMain = true,
                 )
             }
             is DetailProfileAction.OnClickFirstSubPosition -> _state.update { it.copy(firstSubPosition = action.positionList.sub, firstSubPositionId = action.positionList.id) }
@@ -286,7 +303,8 @@ class DetailProfileViewModel @Inject constructor(
             is DetailProfileAction.OnClickSecondMainPosition -> {
                 _state.update { it.copy(secondMainPosition = action.mainPosition) }
                 getPositions(
-                    main = action.mainPosition
+                    main = action.mainPosition,
+                    isMain = false,
                 )
             }
             is DetailProfileAction.OnClickSecondSubPosition -> _state.update { it.copy(secondSubPosition = action.positionList.sub, secondSubPositionId = action.positionList.id) }

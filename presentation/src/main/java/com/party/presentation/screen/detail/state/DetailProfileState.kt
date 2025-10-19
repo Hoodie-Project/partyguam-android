@@ -23,7 +23,8 @@ data class DetailProfileState(
     val secondSubPosition: String = "",
     val secondSubPositionId: Int = 0,
 
-    val subPositionList: List<PositionList> = emptyList(),
+    val subPositionListFirst: List<PositionList> = emptyList(),
+    val subPositionListSecond: List<PositionList> = emptyList(),
 
     // 전체 성향 질문 리스트
     val personalityList: List<PersonalityList> = emptyList(),

@@ -21,9 +21,9 @@ import com.party.guam.design.LIGHT200
 import com.party.guam.design.MEDIUM_PADDING_SIZE
 import com.party.guam.design.PRIMARY
 import com.party.guam.design.WHITE
-import com.party.presentation.screen.detail.component.DetailProfileNextButton
 import com.party.presentation.screen.detail.action.DetailProfileAction
 import com.party.presentation.screen.detail.component.ChoiceCarrierPositionScaffoldArea
+import com.party.presentation.screen.detail.component.DetailProfileNextButton
 import com.party.presentation.screen.detail.component.careerList
 import com.party.presentation.screen.detail.state.DetailProfileState
 import com.party.presentation.screen.detail.viewmodel.DetailProfileViewModel
@@ -101,7 +101,7 @@ private fun DetailChoiceCarrierPositionScreen(
                 )
                 HeightSpacer(heightDp = 20.dp)
                 SelectedSubPositionSection(
-                    subPositionList = state.subPositionList,
+                    subPositionList = if(isMain) state.subPositionListFirst else state.subPositionListSecond,
                     selectedDetailPosition = if(isMain) state.firstSubPosition else state.secondSubPosition,
                     onClickSubPosition = {
                         if (isMain) {
