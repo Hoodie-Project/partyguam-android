@@ -150,7 +150,7 @@ class HomeViewModel @Inject constructor(
     fun getSubPositionList(main: String) {
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = getPositionsUseCase(main = main)) {
-                is ServerApiResponse.SuccessResponse<List<PositionList>> -> { _state.update { state -> state.copy(selectedMainPosition = main, getSubPositionList = result.data ?: emptyList()) } }
+                is ServerApiResponse.SuccessResponse<List<PositionList>> -> { _state.update { state -> state.copy(selectedMainPosition = main, getSubPositionList = listOf(PositionList(0, "", "전체")) + result.data.orEmpty()) } }
                 is ServerApiResponse.ErrorResponse<List<PositionList>> -> {}
                 is ServerApiResponse.ExceptionResponse -> {}
             }
@@ -306,33 +306,87 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.OnMainPositionClick -> {
-                _state.update { it.copy(selectedMainPosition = action.mainPosition) }
+                _state.update { 
+                    it.copy(selectedMainPosition = action.mainPosition)
+                }
                 //getSubPositionList(action.mainPosition)
             }
             is HomeAction.OnSubPositionClick -> {
                 _state.update { currentState ->
-                    val updatedSubPositionList = currentState.selectedSubPositionList.toMutableList().apply {
-                        if (any { it.sub == action.subPosition }) {
-                            // 이미 선택된 서브 포지션을 제거
-                            removeIf { it.sub == action.subPosition }
+                    if (action.subPosition == "전체") {
+                        // "전체" 클릭 시 - 토글 동작
+                        val currentMainPosition = currentState.selectedMainPosition
+                        val isCurrentMainWholeSelected = currentState.selectedMainAndSubPosition.any { 
+                            it.first == currentMainPosition && it.second == "전체" 
+                        }
+                        
+                        if (isCurrentMainWholeSelected) {
+                            // 현재 메인 포지션의 "전체"가 이미 선택되어 있으면 현재 메인 포지션의 선택만 초기화
+                            val updatedMainAndSubPosition = currentState.selectedMainAndSubPosition.filter { 
+                                it.first != currentMainPosition 
+                            }
+                            val updatedSubPositionList = currentState.selectedSubPositionList.filter { 
+                                !updatedMainAndSubPosition.any { pair -> pair.second == it.sub }
+                            }
+                            
+                            currentState.copy(
+                                selectedSubPositionList = updatedSubPositionList,
+                                selectedMainAndSubPosition = updatedMainAndSubPosition
+                            )
                         } else {
-                            // 새로운 서브 포지션을 추가
-                            currentState.getSubPositionList.find { it.sub == action.subPosition }?.let { add(it) }
+                            // 현재 메인 포지션의 "전체"가 선택되어 있지 않으면 현재 메인 포지션의 다른 선택 제거하고 "전체"만 선택
+                            val updatedMainAndSubPosition = currentState.selectedMainAndSubPosition.filter { 
+                                it.first != currentMainPosition 
+                            }.toMutableList().apply {
+                                add(Pair(currentMainPosition, "전체"))
+                            }
+                            
+                            val updatedSubPositionList = currentState.selectedSubPositionList.filter { 
+                                !currentState.selectedMainAndSubPosition.any { pair -> 
+                                    pair.first == currentMainPosition && pair.second == it.sub 
+                                }
+                            }.toMutableList().apply {
+                                val wholePosition = currentState.getSubPositionList.find { it.sub == "전체" } ?: PositionList(0, "", "전체")
+                                add(wholePosition)
+                            }
+                            
+                            currentState.copy(
+                                selectedSubPositionList = updatedSubPositionList,
+                                selectedMainAndSubPosition = updatedMainAndSubPosition
+                            )
                         }
-                    }
-
-                    val updatedMainAndSubPosition = currentState.selectedMainAndSubPosition.toMutableList().apply {
-                        // 서브 포지션 클릭으로 업데이트된 조합을 반영
-                        removeIf { pair -> pair.first == currentState.selectedMainPosition && pair.second == action.subPosition } // 중복 제거
-                        updatedSubPositionList.find { it.sub == action.subPosition }?.let {
-                            add(Pair(currentState.selectedMainPosition, it.sub))
+                    } else {
+                        // 다른 서브 포지션 클릭 시
+                        val currentMainPosition = currentState.selectedMainPosition
+                        val updatedMainAndSubPosition = currentState.selectedMainAndSubPosition.toMutableList().apply {
+                            // 현재 메인 포지션의 "전체" 선택 제거
+                            removeIf { pair -> pair.first == currentMainPosition && pair.second == "전체" }
+                            
+                            // 현재 메인 포지션의 해당 서브 포지션 토글
+                            if (any { pair -> pair.first == currentMainPosition && pair.second == action.subPosition }) {
+                                removeIf { pair -> pair.first == currentMainPosition && pair.second == action.subPosition }
+                            } else {
+                                add(Pair(currentMainPosition, action.subPosition))
+                            }
                         }
-                    }
+                        
+                        val updatedSubPositionList = currentState.selectedSubPositionList.toMutableList().apply {
+                            // 현재 메인 포지션의 "전체" 제거
+                            removeIf { it.sub == "전체" }
+                            
+                            // 현재 메인 포지션의 해당 서브 포지션 토글
+                            if (any { it.sub == action.subPosition }) {
+                                removeIf { it.sub == action.subPosition }
+                            } else {
+                                currentState.getSubPositionList.find { it.sub == action.subPosition }?.let { add(it) }
+                            }
+                        }
 
-                    currentState.copy(
-                        selectedSubPositionList = updatedSubPositionList,
-                        selectedMainAndSubPosition = updatedMainAndSubPosition
-                    )
+                        currentState.copy(
+                            selectedSubPositionList = updatedSubPositionList,
+                            selectedMainAndSubPosition = updatedMainAndSubPosition
+                        )
+                    }
                 }
             }
             is HomeAction.OnDelete -> {
